@@ -1,0 +1,45 @@
+# Python bytecode and local test/tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environments and secrets
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Large or generated experiment artifacts
+data/
+datasets/
+models/
+checkpoints/
+runs/
+outputs/
+cache/
+teacher_cache/
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.ckpt
+*.npz
+*.npy
+*.arrow
+*.parquet
+*.tar
+*.tar.gz
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini
