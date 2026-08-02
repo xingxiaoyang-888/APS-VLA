@@ -3,6 +3,9 @@
 torch==2.2.0
 torchvision==0.17.0
 torchaudio==2.2.0
+# PyTorch 2.2.0 wheels were built against the NumPy 1.x C-API; NumPy 2.x
+# emits _ARRAY_API warnings and can make torchvision/processor imports unsafe.
+numpy==1.26.4
 accelerate==0.29.3
 peft==0.11.1
 timm==0.9.10
