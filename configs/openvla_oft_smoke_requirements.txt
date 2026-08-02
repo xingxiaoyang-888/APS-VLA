@@ -17,4 +17,15 @@ huggingface-hub==0.23.4
 einops==0.7.0
 packaging==24.0
 ninja==1.11.1.1
+# Lightweight upstream OpenVLA runtime/processor utilities. TensorFlow, TFDS,
+# dlimp/RLDS and wandb remain intentionally outside this checkpoint smoke env.
+draccus==0.8.0
+json-numpy==2.1.1
+jsonlines==4.0.0
+matplotlib==3.10.9
+protobuf==7.35.1
+rich==15.0.0
+imageio==2.37.4
+uvicorn==0.52.1
+fastapi==0.141.1
 git+https://github.com/moojink/transformers-openvla-oft.git@bc339d9ad707454c0c115970db43c260067c61ab
