@@ -1,5 +1,7 @@
 import hashlib
 import json
+import subprocess
+import sys
 
 import pytest
 
@@ -87,3 +89,23 @@ def test_checkpoint_manifest_rejects_path_traversal(tmp_path):
                 [{"path": "../weights.bin", "size": 1, "sha256": "0" * 64}],
             )
         )
+
+
+def test_checkpoint_verifier_import_does_not_require_torch():
+    script = """
+import builtins
+import sys
+
+real_import = builtins.__import__
+
+def guarded_import(name, *args, **kwargs):
+    if name == "torch" or name.startswith("torch."):
+        raise RuntimeError("checkpoint verifier imported torch")
+    return real_import(name, *args, **kwargs)
+
+builtins.__import__ = guarded_import
+from diwa.evaluation.checkpoint_manifest import verify_checkpoint_directory
+assert "torch" not in sys.modules
+assert callable(verify_checkpoint_directory)
+"""
+    subprocess.run([sys.executable, "-c", script], check=True)
