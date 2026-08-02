@@ -6,7 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
-from diwa.data.robotwin import RobotTwinHDF5Adapter
+from .robotwin import RobotTwinHDF5Adapter
 
 
 def main() -> None:

@@ -1,5 +1,9 @@
 import io
 import json
+import os
+from pathlib import Path
+import subprocess
+import sys
 
 import numpy as np
 import pytest
@@ -86,3 +90,26 @@ def test_native_contract_and_libero_policy_gate_are_separate():
     validate_robotwin_native_contract(action_dim=14, proprio_dim=14, num_images=2)
     with pytest.raises(RuntimeError, match="RoboTwin-trained policy"):
         reject_libero_openvla_oft_for_robotwin()
+
+
+def test_robotwin_audit_module_runs_from_clean_checkout(tmp_path):
+    dataset_root, _ = make_episode(tmp_path)
+    environment = dict(os.environ)
+    environment["PYTHONPATH"] = str(Path(__file__).resolve().parents[1])
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "diwa.data.audit_robotwin",
+            str(dataset_root),
+            "--max-episodes-per-task",
+            "1",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+        env=environment,
+    )
+    payload = json.loads(result.stdout)
+    assert payload["episodes_checked"] == 1
+    assert payload["action_dim"] == 14
