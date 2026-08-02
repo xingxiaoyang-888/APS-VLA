@@ -16,6 +16,7 @@ from .libero import (
     load_manifest,
     save_manifest,
 )
+from .tfrecord import TFRecordSummary, verify_tfrecord
 from .robotwin import (
     ROBOTWIN_ACTION_DIM,
     ROBOTWIN_ACTION_REPRESENTATION,
@@ -70,4 +71,6 @@ __all__ = [
     "build_pilot_manifest",
     "load_manifest",
     "save_manifest",
+    "TFRecordSummary",
+    "verify_tfrecord",
 ]
