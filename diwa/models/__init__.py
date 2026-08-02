@@ -12,6 +12,12 @@ from .influence import (
     compute_coverage_audit,
 )
 from .oft_adapter import OFTPackedPrefixAdapter, OFTPackedPrefixOutput
+from .openvla_oft_loader import (
+    OpenVLAOFTComponents,
+    OpenVLAOFTL1ActionHead,
+    OpenVLAOFTProprioProjector,
+    load_openvla_oft_components,
+)
 from .openvla_oft_policy import OpenVLAOFTTokenPolicy
 
 __all__ = [
@@ -22,11 +28,15 @@ __all__ = [
     "DecisionInfluenceEstimator",
     "OFTPackedPrefixAdapter",
     "OFTPackedPrefixOutput",
+    "OpenVLAOFTComponents",
+    "OpenVLAOFTL1ActionHead",
+    "OpenVLAOFTProprioProjector",
     "OpenVLAOFTTokenPolicy",
     "PackedPatches",
     "TeacherCandidateSampler",
     "TeacherTargets",
     "compute_coverage_audit",
     "deterministic_topk_mask",
+    "load_openvla_oft_components",
     "pack_equal_length",
 ]
