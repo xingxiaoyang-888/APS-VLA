@@ -10,7 +10,14 @@ import shutil
 import urllib.request
 
 
-def download(url: str, output: Path, expected_size: int, expected_sha256: str, chunk_size: int) -> None:
+def download(
+    url: str,
+    output: Path,
+    expected_size: int,
+    expected_sha256: str,
+    chunk_size: int,
+    max_ranges: int | None = None,
+) -> None:
     if expected_size <= 0 or chunk_size <= 0:
         raise ValueError("expected_size and chunk_size must be positive")
     if len(expected_sha256) != 64 or any(char not in "0123456789abcdefABCDEF" for char in expected_sha256):
@@ -24,7 +31,11 @@ def download(url: str, output: Path, expected_size: int, expected_sha256: str, c
     if current > expected_size:
         raise ValueError(f"partial file is larger than expected object: {current}>{expected_size}")
 
+    ranges_done = 0
     while current < expected_size:
+        if max_ranges is not None and ranges_done >= max_ranges:
+            print(f"partial_saved={partial} size={current}", flush=True)
+            return
         end = min(expected_size - 1, current + chunk_size - 1)
         request = urllib.request.Request(url, headers={"Range": f"bytes={current}-{end}"})
         with urllib.request.urlopen(request, timeout=120) as response:
@@ -39,6 +50,7 @@ def download(url: str, output: Path, expected_size: int, expected_sha256: str, c
         if after <= before or after != end + 1:
             raise RuntimeError(f"range made invalid progress: before={before}, after={after}, end={end}")
         current = after
+        ranges_done += 1
         print(f"range_complete={current}/{expected_size}", flush=True)
 
     digest = hashlib.sha256()
@@ -59,8 +71,9 @@ def main() -> None:
     parser.add_argument("expected_size", type=int)
     parser.add_argument("expected_sha256")
     parser.add_argument("--chunk-size", type=int, default=8 * 1024 * 1024)
+    parser.add_argument("--max-ranges", type=int, default=None)
     args = parser.parse_args()
-    download(args.url, args.output, args.expected_size, args.expected_sha256, args.chunk_size)
+    download(args.url, args.output, args.expected_size, args.expected_sha256, args.chunk_size, args.max_ranges)
 
 
 if __name__ == "__main__":
