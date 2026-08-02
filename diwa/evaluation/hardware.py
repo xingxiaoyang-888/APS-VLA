@@ -62,6 +62,7 @@ class ComputeValidation:
 
 CPU_WORKLOADS = {"data_preprocess", "cache_verify", "analysis"}
 A100_WORKLOADS = {"checkpoint_smoke", "teacher_pilot", "stage_a", "ablation"}
+A800_VALIDATION_WORKLOADS = {"checkpoint_smoke", "teacher_pilot"}
 A800_WORKLOADS = {"final_profile", "final_scale"}
 
 
@@ -103,14 +104,18 @@ def validate_compute_environment(
         return ComputeValidation("2xa100", workload, "bf16", True)
 
     if accelerator == "a800":
+        if requested_precision != "bf16" or not environment.bf16_supported:
+            raise RuntimeError("A800 runs require native bf16")
+        if environment.memory_gib_per_device < 79:
+            raise RuntimeError("the A800 tier requires a nominal 80GB device (at least 79 GiB reported)")
+        if environment.device_count == 2:
+            if workload not in A800_VALIDATION_WORKLOADS:
+                raise RuntimeError("2xA800 is validation-only and limited to checkpoint/teacher smoke tests")
+            return ComputeValidation("2xa800-validation", workload, "bf16", False)
+        if environment.device_count != 4:
+            raise RuntimeError("A800 runs require exactly two validation or four final devices; 8xA800 is unsupported")
         if workload not in A800_WORKLOADS:
             raise RuntimeError("4xA800 is reserved for final profiling or final-scale runs")
-        if environment.device_count != 4:
-            raise RuntimeError("A800 runs require exactly four devices; 8xA800 is unsupported")
-        if environment.memory_gib_per_device < 80:
-            raise RuntimeError("the A800 tier requires at least 80 GiB per device")
-        if requested_precision != "bf16" or not environment.bf16_supported:
-            raise RuntimeError("primary A800 runs require native bf16")
         return ComputeValidation("4xa800", workload, "bf16", True)
 
     raise RuntimeError(f"unsupported accelerator: {environment.accelerator}")

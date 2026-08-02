@@ -18,10 +18,17 @@
     "precision": "fp16",
     "primary": false
   },
+  "2xa800-validation": {
+    "allowed_workloads": ["checkpoint_smoke", "teacher_pilot"],
+    "device_count": 2,
+    "min_memory_gib_per_device": 79,
+    "precision": "bf16",
+    "primary": false
+  },
   "4xa800": {
     "allowed_workloads": ["final_profile", "final_scale"],
     "device_count": 4,
-    "min_memory_gib_per_device": 80,
+    "min_memory_gib_per_device": 79,
     "precision": "bf16",
     "primary": true
   }

@@ -32,12 +32,25 @@ def test_four_a800_is_burst_tier_and_eight_is_rejected():
         requested_precision="bf16",
     )
     assert result.tier == "4xa800"
-    with pytest.raises(RuntimeError, match="exactly four"):
+    with pytest.raises(RuntimeError, match="8xA800 is unsupported"):
         validate_compute_environment(
             ComputeEnvironment("NVIDIA A800 80GB", 8, 80, True),
             "final_scale",
             requested_precision="bf16",
         )
+
+
+def test_two_a800_is_validation_only():
+    environment = ComputeEnvironment("NVIDIA A800-SXM4-80GB", 2, 79.318, True)
+    result = validate_compute_environment(
+        environment,
+        "checkpoint_smoke",
+        requested_precision="bf16",
+    )
+    assert result.tier == "2xa800-validation"
+    assert not result.primary_result_allowed
+    with pytest.raises(RuntimeError, match="validation-only"):
+        validate_compute_environment(environment, "stage_a", requested_precision="bf16")
 
 
 def test_cpu_tier_requires_requested_core_range():
