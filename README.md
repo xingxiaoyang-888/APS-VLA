@@ -1,6 +1,10 @@
-# DIWA
+# CTI-VLA
 
-Decision-Influential World Abstraction for OpenVLA-OFT.
+Counterfactual Token Influence for Efficient Vision-Language-Action Policies.
+
+`CTI-VLA` is the public project/paper name. The Python package and existing
+server/repository paths remain `diwa`/`DIWA` for backward compatibility during
+the migration.
 
 ## Current scope
 
