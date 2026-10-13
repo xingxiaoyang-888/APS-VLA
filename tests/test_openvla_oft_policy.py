@@ -5,10 +5,7 @@ import pytest
 import torch
 from torch import nn
 
-from diwa.data.contracts import TokenBatch
-from diwa.data.interventions import MatchedMeanBaseline
-from diwa.models.influence.teacher import CounterfactualTeacher
-from diwa.models.openvla_oft_policy import OpenVLAOFTTokenPolicy
+from cti_vla.models.openvla_oft_policy import OpenVLAOFTTokenPolicy
 
 
 @dataclass
@@ -109,7 +106,7 @@ def test_forward_from_tokens_uses_official_oft_l1_boundary():
 
     assert actions.shape == (2, 2, 2)
     assert actions.device == tokens.device
-    assert actions.requires_grad
+    assert not actions.requires_grad
     assert head.last_hidden.shape == (2, 4, 4)
     assert backbone.last_call["use_cache"] is False
     assert backbone.last_call["output_hidden_states"] is False
@@ -198,26 +195,104 @@ def test_official_assistant_empty_token_is_appended_before_action_placeholders()
     assert backbone.last_call["inputs_embeds"].shape[1] == 13
 
 
-def test_counterfactual_teacher_integrates_with_dense_oft_token_policy():
-    policy, _, _, _, tokens, proprio, input_ids, attention, _ = make_policy_inputs(keep=5)
-    batch = TokenBatch(
-        z=tokens + 1.0,
-        token_type=torch.tensor([[0, 0, 1, 1, 1], [0, 0, 1, 1, 1]]),
-        frame_id=torch.tensor([[0, 0, 0, 1, 1], [0, 0, 0, 1, 1]]),
-        camera_id=torch.tensor([[0, 0, 0, 1, 1], [0, 0, 0, 1, 1]]),
-        valid=torch.ones(2, 5, dtype=torch.bool),
-        query=torch.ones(2, 4),
-        proprio=proprio,
+def test_policy_remains_frozen_eval_and_never_backpropagates_to_input_features():
+    policy, vla, backbone, _, tokens, proprio, input_ids, attention, keep_mask = make_policy_inputs()
+    policy.train()
+    assert not policy.training
+    assert not backbone.training
+    assert not any(parameter.requires_grad for parameter in policy.parameters())
+    assert not any(parameter.requires_grad for parameter in vla.parameters())
+    tokens.requires_grad_(True)
+    proprio.requires_grad_(True)
+    output = policy.forward_from_tokens(
+        tokens, proprio, input_ids=input_ids, attention_mask=attention, patch_keep_mask=keep_mask,
     )
-    baseline = MatchedMeanBaseline()(batch.z, batch.token_type, batch.frame_id, batch.camera_id)
-    candidate = torch.zeros_like(batch.valid)
-    candidate[:, 0] = True
-    targets = CounterfactualTeacher(policy.eval(), action_chunk_shape=(2, 2)).estimate(
-        batch,
-        baseline,
-        torch.zeros_like(batch.valid),
-        candidate,
-        policy_inputs={"input_ids": input_ids, "attention_mask": attention},
+    assert not output.requires_grad
+
+
+def test_full_token_callback_and_prepacked_boundary_have_identical_actions_and_layout():
+    policy, _, backbone, _, full, proprio, input_ids, attention, keep_mask = make_policy_inputs(keep=5)
+    indices = torch.tensor([[0, 2, 4], [1, 2, 3]])
+    from_full = policy.forward_from_full_tokens(
+        full, proprio, input_ids=input_ids, attention_mask=attention, retained_indices=indices,
     )
-    assert targets.influence.shape == (2,)
-    assert not targets.influence.requires_grad
+    from_full_embeds = backbone.last_call["inputs_embeds"].clone()
+    from_full_positions = backbone.last_call["position_ids"].clone()
+    packed = full.gather(1, indices.unsqueeze(-1).expand(-1, -1, full.shape[-1]))
+    from_packed = policy.forward_from_tokens(
+        packed, proprio, input_ids=input_ids, attention_mask=attention, patch_keep_mask=keep_mask,
+    )
+    assert torch.equal(from_full, from_packed)
+    assert torch.equal(from_full_embeds, backbone.last_call["inputs_embeds"])
+    assert torch.equal(from_full_positions, backbone.last_call["position_ids"])
+    assert torch.equal(backbone.last_call["inputs_embeds"][:, 1:4], packed)
+
+
+def test_dense_callback_and_explicit_full_set_agree():
+    policy, _, backbone, _, tokens, proprio, input_ids, attention, _ = make_policy_inputs(keep=5)
+    dense = policy.forward_from_full_tokens(tokens, proprio, input_ids=input_ids, attention_mask=attention)
+    explicit = policy.forward_from_full_tokens(
+        tokens, proprio, input_ids=input_ids, attention_mask=attention,
+        retained_indices=torch.arange(5).expand(2, -1),
+    )
+    assert torch.equal(dense, explicit)
+    assert torch.equal(backbone.last_call["position_ids"], torch.arange(14).expand(2, -1))
+
+
+def test_language_and_normalized_proprio_are_preserved_under_deletion():
+    policy, _, backbone, _, tokens, proprio, input_ids, attention, _ = make_policy_inputs(keep=5)
+    policy.forward_from_full_tokens(tokens, proprio, input_ids=input_ids, attention_mask=attention)
+    dense_inputs = backbone.last_call["inputs_embeds"].clone()
+    dense_positions = backbone.last_call["position_ids"].clone()
+    policy.forward_from_full_tokens(
+        tokens, proprio, input_ids=input_ids, attention_mask=attention,
+        retained_indices=torch.tensor([[1, 3], [0, 4]]),
+    )
+    sparse_inputs = backbone.last_call["inputs_embeds"]
+    # After BOS and visual tokens, proprio and every language/action token agree.
+    assert torch.equal(dense_inputs[:, 6:], sparse_inputs[:, 3:])
+    assert torch.equal(dense_positions[:, 6:], backbone.last_call["position_ids"][:, 3:])
+    assert torch.equal(sparse_inputs[:, 3], policy.proprio_projector(proprio))
+
+
+class ContextBackbone(FakeLanguageBackbone):
+    """Small deterministic contextual model for deletion/condition behavior only."""
+
+    def forward(self, **kwargs):
+        self.last_call = kwargs
+        x = kwargs["inputs_embeds"]
+        # Prefix sums stand in for causal contextual mixing; this is not a VLA.
+        context = x.cumsum(1)
+        return FakeBackboneOutput(context + kwargs["position_ids"].unsqueeze(-1) / 10)
+
+
+def test_actual_removal_and_both_conditions_can_affect_contextual_actions():
+    torch.manual_seed(41)
+    backbone = ContextBackbone(32, 4)
+    vla = FakeVLA(backbone)
+    policy = OpenVLAOFTTokenPolicy(
+        vla, FakeL1ActionHead(2, 2), FakeProprioProjector(3, 4), num_patches_full=5,
+        action_chunk_size=2, action_dim=2, assistant_empty_token_id=None,
+    )
+    tokens = torch.ones(1, 5, 4)
+    proprio = torch.ones(1, 3)
+    ids = torch.tensor([[3, 4, 5]])
+    attention = torch.ones_like(ids)
+    def run(visual, state, prompt, selection=None):
+        return policy.forward_from_full_tokens(
+            visual, state, input_ids=prompt, attention_mask=attention, retained_indices=selection,
+        )
+    full = run(tokens, proprio, ids)
+    sparse = run(tokens, proprio, ids, torch.tensor([[0, 2, 4]]))
+    assert backbone.last_call["inputs_embeds"].shape[1] == 12
+    assert not torch.equal(full, sparse)
+    assert not torch.equal(full, run(tokens, proprio * 2, ids))
+    assert not torch.equal(full, run(tokens, proprio, torch.tensor([[3, 9, 5]])))
+
+
+def test_assistant_empty_token_is_not_duplicated():
+    policy, _, backbone, _, tokens, proprio, ids, attention, keep = make_policy_inputs()
+    policy.assistant_empty_token_id = 9
+    ids[:, -1] = 9
+    policy.forward_from_tokens(tokens, proprio, input_ids=ids, attention_mask=attention, patch_keep_mask=keep)
+    assert backbone.last_call["inputs_embeds"].shape[1] == 12

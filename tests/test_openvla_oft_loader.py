@@ -3,18 +3,19 @@ from collections import OrderedDict
 import pytest
 import torch
 
-from diwa.models.openvla_oft_loader import (
+from cti_vla.models.openvla_oft_loader import (
     OpenVLAOFTL1ActionHead,
     OpenVLAOFTProprioProjector,
     remove_uniform_ddp_prefix,
 )
-from diwa.models.openvla_oft_runtime_compat import (
+from cti_vla.models.openvla_oft_runtime_compat import (
     ACTION_DIM,
     ACTION_TOKEN_BEGIN_IDX,
     IGNORE_INDEX,
     get_current_action_mask,
     get_next_actions_mask,
     install_prismatic_runtime_compat,
+    validate_oft_sdpa_runtime,
 )
 
 
@@ -69,3 +70,16 @@ def test_minimal_runtime_refuses_to_override_imported_prismatic(monkeypatch):
     monkeypatch.setitem(__import__("sys").modules, "prismatic", object())
     with pytest.raises(RuntimeError, match="before any prismatic import"):
         install_prismatic_runtime_compat(use_minimal_compat=True)
+
+
+def test_runtime_rejects_a_different_same_named_sdpa_implementation(monkeypatch):
+    import sys
+    from types import ModuleType
+    module = ModuleType("transformers.models.llama.modeling_llama")
+    class UnverifiedSdpa:
+        def forward(self, value):
+            return value
+    module.LlamaSdpaAttention = UnverifiedSdpa
+    monkeypatch.setitem(sys.modules, module.__name__, module)
+    with pytest.raises(RuntimeError, match="audited non-causal SDPA fork"):
+        validate_oft_sdpa_runtime()

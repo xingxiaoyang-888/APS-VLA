@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-14",
+  "ssh_alias": "tongji-cvpr",
+  "project_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+  "checkpoint": {
+    "status": "25_of_25_files_hash_verified",
+    "server_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-spatial-6d0231a",
+    "receipt": "results/assets/server_model.json",
+    "transport": "Reused existing historical local snapshot and uploaded to server; no new local weight copy."
+  },
+  "data": {
+    "status": "18_of_18_files_hash_verified_and_432_episodes_decoded",
+    "server_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/data/modified_libero_rlds",
+    "local_root": "data/modified_libero_rlds",
+    "local_receipt": "results/migration/local_dataset.json",
+    "server_receipt": "results/assets/server_dataset.json",
+    "splits": "configs/manifests/spatial_v1"
+  },
+  "runtime": {
+    "python": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "python_version": "3.11.7",
+    "torch": "2.2.0+cu121",
+    "transformers": "4.40.1 (pinned OFT fork)",
+    "freeze": "results/assets/environment_freeze.txt"
+  }
+}

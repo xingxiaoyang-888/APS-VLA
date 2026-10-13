@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-14",
+  "scope": "audited code migration and asset preparation, not research efficacy",
+  "local_root": "F:/CTI-VLA",
+  "historical_source": "F:/DIWA (read-only)",
+  "base_commit": "f9c358c015bb314dddddefd98b81b8852e787512",
+  "cpu_tests": {
+    "passed": 94,
+    "failed": 0,
+    "artifact": "results/migration/cpu_tests.xml"
+  },
+  "gpu_smoke": {
+    "job_id": 2987244,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:03:35",
+    "gpu": "NVIDIA L40",
+    "dense_max_abs_error": 0.0,
+    "budgets": [
+      512,
+      256,
+      128,
+      64
+    ],
+    "teacher_policy_calls": 7,
+    "temporary_scorer_steps": 1,
+    "final_selected_policy_calls": 1,
+    "policy_gradients": false,
+    "artifact": "results/smoke/openvla_2987244.json",
+    "source_inventory": "results/migration/source_snapshot_gpu2987244.json",
+    "source_archive_local_ignored": ".local/source_gpu2987244.tar",
+    "note": "Single observation with processor-only RLDS preprocessing. Source inventory preserves the exact pre-LF-normalization file hashes. No trained model or research gain is claimed."
+  },
+  "assets": {
+    "model_files_verified": 25,
+    "model_bytes": 15939159216,
+    "dataset_files_verified": 18,
+    "dataset_bytes": 1914636675,
+    "unique_episodes": 432,
+    "tasks": 10,
+    "train_validation_test_episodes": [
+      302,
+      64,
+      66
+    ],
+    "episode_intersections": 0,
+    "registered_in": "configs/assets/availability.json"
+  },
+  "remaining_research_work": [
+    "validated closed-loop observation/action preprocessing and evaluation",
+    "set/candidate sampling and production labeling schedule",
+    "scorer training jobs, checkpoint resume and multiple seeds",
+    "mechanism diagnostics and matched baselines",
+    "observation-to-action benchmark and full cost accounting"
+  ]
+}

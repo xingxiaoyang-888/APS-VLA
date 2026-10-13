@@ -5,7 +5,7 @@ import sys
 
 import pytest
 
-from diwa.evaluation.checkpoint_manifest import (
+from cti_vla.evaluation.checkpoint_manifest import (
     load_checkpoint_manifest,
     verify_checkpoint_directory,
 )
@@ -104,7 +104,7 @@ def guarded_import(name, *args, **kwargs):
     return real_import(name, *args, **kwargs)
 
 builtins.__import__ = guarded_import
-from diwa.evaluation.checkpoint_manifest import verify_checkpoint_directory
+from cti_vla.evaluation.checkpoint_manifest import verify_checkpoint_directory
 assert "torch" not in sys.modules
 assert callable(verify_checkpoint_directory)
 """

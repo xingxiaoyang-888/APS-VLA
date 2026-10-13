@@ -1,0 +1,74 @@
+{
+  "dataset": "libero_spatial_no_noops",
+  "source_signature": "sha256:b48c4fc655dd60b70d66987290642c4744039dff136a3d20afe13a69b0b8222a",
+  "source_episode_count": 432,
+  "source_task_count": 10,
+  "seed": 17,
+  "phase_definition": "temporal thirds, not semantic phases",
+  "purpose": "offline teacher/selector development; closed-loop evaluation uses held-out simulator initial states",
+  "splits": {
+    "train": {
+      "episodes": 302,
+      "observations": 906,
+      "stages": {
+        "early": 302,
+        "middle": 302,
+        "late": 302
+      },
+      "task_episode_counts": {
+        "pick up the black bowl next to the plate and place it on the plate": 33,
+        "pick up the black bowl on the cookie box and place it on the plate": 30,
+        "pick up the black bowl on the stove and place it on the plate": 25,
+        "pick up the black bowl next to the cookie box and place it on the plate": 32,
+        "pick up the black bowl from table center and place it on the plate": 32,
+        "pick up the black bowl next to the ramekin and place it on the plate": 31,
+        "pick up the black bowl on the ramekin and place it on the plate": 27,
+        "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 30,
+        "pick up the black bowl on the wooden cabinet and place it on the plate": 31,
+        "pick up the black bowl between the plate and the ramekin and place it on the plate": 31
+      }
+    },
+    "validation": {
+      "episodes": 64,
+      "observations": 192,
+      "stages": {
+        "early": 64,
+        "middle": 64,
+        "late": 64
+      },
+      "task_episode_counts": {
+        "pick up the black bowl on the wooden cabinet and place it on the plate": 6,
+        "pick up the black bowl from table center and place it on the plate": 7,
+        "pick up the black bowl between the plate and the ramekin and place it on the plate": 7,
+        "pick up the black bowl next to the ramekin and place it on the plate": 7,
+        "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 6,
+        "pick up the black bowl on the ramekin and place it on the plate": 6,
+        "pick up the black bowl on the stove and place it on the plate": 5,
+        "pick up the black bowl next to the plate and place it on the plate": 7,
+        "pick up the black bowl on the cookie box and place it on the plate": 6,
+        "pick up the black bowl next to the cookie box and place it on the plate": 7
+      }
+    },
+    "test": {
+      "episodes": 66,
+      "observations": 198,
+      "stages": {
+        "early": 66,
+        "middle": 66,
+        "late": 66
+      },
+      "task_episode_counts": {
+        "pick up the black bowl on the ramekin and place it on the plate": 6,
+        "pick up the black bowl next to the cookie box and place it on the plate": 7,
+        "pick up the black bowl on the stove and place it on the plate": 5,
+        "pick up the black bowl from table center and place it on the plate": 7,
+        "pick up the black bowl between the plate and the ramekin and place it on the plate": 7,
+        "pick up the black bowl on the wooden cabinet and place it on the plate": 7,
+        "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 6,
+        "pick up the black bowl next to the plate and place it on the plate": 7,
+        "pick up the black bowl on the cookie box and place it on the plate": 7,
+        "pick up the black bowl next to the ramekin and place it on the plate": 7
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "status": "verified_data_manifests_not_policy_results",
+  "date": "2026-10-14",
+  "command": "python scripts/build_manifests.py --data-directory data/modified_libero_rlds/libero_spatial_no_noops/1.0.0 --output-directory configs/manifests/spatial_v1 --seed 17",
+  "source_repository": "openvla/modified_libero_rlds",
+  "source_revision": "6ce6aaaaabdbe590b1eef5cd29c0d33f14a08551",
+  "source_signature": "sha256:b48c4fc655dd60b70d66987290642c4744039dff136a3d20afe13a69b0b8222a",
+  "download_receipt_sha256": "11f8602dd6581c698fa50dc92dc48814296ef519da9806530eb6a1bea6303d4f",
+  "all_16_shards_crc_and_fields_checked": true,
+  "episode_count": 432,
+  "unique_content_episode_ids": 432,
+  "task_count": 10,
+  "shard_count": 16,
+  "episodes_per_shard": 27,
+  "episode_length_min": 75,
+  "episode_length_max": 193,
+  "split_episode_intersections": {
+    "train/validation": 0,
+    "train/test": 0,
+    "validation/test": 0
+  },
+  "deterministic_regeneration_verified": true,
+  "seed": 17,
+  "sampling": "Three observations per episode: first, temporal middle, last; temporal thirds are not semantic action phases.",
+  "splits": {
+    "train": {
+      "episodes": 302,
+      "observations": 906,
+      "tasks": 10,
+      "stages": {
+        "early": 302,
+        "middle": 302,
+        "late": 302
+      },
+      "manifest_sha256": "6d0d5938b65f07e83ba6eee105492d4575abb4aa96264d16a2eda26dfc54b175"
+    },
+    "validation": {
+      "episodes": 64,
+      "observations": 192,
+      "tasks": 10,
+      "stages": {
+        "early": 64,
+        "middle": 64,
+        "late": 64
+      },
+      "manifest_sha256": "5fb04cbd5e958f77443d00aa79ed4c8526cc1f4ef0d01dc6f8518185846dc011"
+    },
+    "test": {
+      "episodes": 66,
+      "observations": 198,
+      "tasks": 10,
+      "stages": {
+        "early": 66,
+        "middle": 66,
+        "late": 66
+      },
+      "manifest_sha256": "2c813837b2a47967c3d224f39b47b618a64f75281cf4f419a77c4582029b525d"
+    }
+  },
+  "limits": [
+    "No CTI deletion labels or model accuracy/latency results were generated in this check.",
+    "Offline test episodes are reserved; closed-loop simulator initial states require a separate evaluation protocol."
+  ],
+  "manifest_line_endings": "LF on all platforms"
+}

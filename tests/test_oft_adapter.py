@@ -4,9 +4,11 @@ import pytest
 import torch
 from torch import nn
 
-from diwa.data.contracts import OFTPackedBatch
-from diwa.models.abstraction.packing import deterministic_topk_mask, pack_equal_length
-from diwa.models.oft_adapter import OFTPackedPrefixAdapter
+from cti_vla.models.abstraction.packing import OFTPackedBatch
+from cti_vla.models.abstraction.packing import (
+    PACKING_VERSION, PackedPatches, deterministic_topk_mask, mask_from_indices, pack_equal_length,
+)
+from cti_vla.models.oft_adapter import OFTPackedPrefixAdapter
 
 
 @dataclass
@@ -95,9 +97,11 @@ def test_oft_adapter_slices_exact_action_tokens_without_all_layer_states():
 def test_oft_adapter_rejects_wrong_prompt_count():
     embeddings, attention, action_mask, packed_batch = make_oft_inputs()
     packed_batch.num_prompt_tokens.fill_(1)
-    adapter = OFTPackedPrefixAdapter(FakeLanguageBackbone(), action_chunk_size=2, action_dim=2)
+    backbone = FakeLanguageBackbone()
+    adapter = OFTPackedPrefixAdapter(backbone, action_chunk_size=2, action_dim=2)
     with pytest.raises(ValueError, match="disagree"):
         adapter(embeddings, packed_batch, attention, action_mask)
+    assert backbone.last_call is None
 
 
 def test_oft_adapter_rejects_wrong_action_count_before_forward():
@@ -108,3 +112,72 @@ def test_oft_adapter_rejects_wrong_action_count_before_forward():
     with pytest.raises(ValueError, match="exactly 4"):
         adapter(embeddings, packed_batch, attention, action_mask)
     assert backbone.last_call is None
+
+
+def test_sparse_positions_preserve_visual_proprio_and_text_original_ids():
+    embeddings, attention, action_mask, packed_batch = make_oft_inputs()
+    backbone = FakeLanguageBackbone()
+    output = OFTPackedPrefixAdapter(backbone, action_chunk_size=2, action_dim=2)(
+        embeddings, packed_batch, attention, action_mask,
+    )
+    # Full layout: BOS=0, visuals=1..6, proprio=7, original text=8..15.
+    # Different selections share the exact same proprio/text/action IDs.
+    expected = torch.tensor([
+        [0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        [0, 2, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    ])
+    assert torch.equal(output.position_ids, expected)
+    assert torch.equal(backbone.last_call["position_ids"], expected)
+    assert output.multimodal_attention_mask.shape == expected.shape
+    assert bool(output.multimodal_attention_mask.all())
+    # Action readout uses physical offsets 6..9, not semantic IDs 9..12.
+    assert torch.equal(output.action_hidden_states[:, 0], embeddings[:, 2] + 10)
+    assert PACKING_VERSION == "oft-original-positions-v1"
+
+
+def test_dense_positions_are_contiguous_and_compatible_with_default_rope():
+    embeddings, attention, action_mask, sample = make_oft_inputs()
+    dense = OFTPackedBatch(
+        torch.ones(2, 6, 4), sample.proprio_token,
+        torch.ones(2, 6, dtype=torch.bool), 6, torch.full((2,), 6),
+        sample.num_prompt_tokens, sample.action_chunk_shape,
+    )
+    output = OFTPackedPrefixAdapter(
+        FakeLanguageBackbone(), action_chunk_size=2, action_dim=2, require_shortened_prefix=False,
+    )(embeddings, dense, attention, action_mask)
+    assert torch.equal(output.position_ids, torch.arange(16).expand(2, -1))
+
+
+@pytest.mark.parametrize("bad_mask", [0, 2, -1])
+def test_adapter_rejects_nonbinary_or_padded_prompts_before_forward(bad_mask):
+    embeddings, attention, action_mask, sample = make_oft_inputs()
+    attention[0, -1] = bad_mask
+    backbone = FakeLanguageBackbone()
+    with pytest.raises(ValueError, match="padded or nonbinary"):
+        OFTPackedPrefixAdapter(backbone, action_chunk_size=2, action_dim=2)(
+            embeddings, sample, attention, action_mask,
+        )
+    assert backbone.last_call is None
+
+
+@pytest.mark.parametrize("indices", [torch.tensor([[1, 1]]), torch.tensor([[3, 1]]), torch.tensor([[0, 6]]), torch.tensor([[-1, 1]])])
+def test_original_indices_reject_duplicates_reordering_and_out_of_range(indices):
+    with pytest.raises(ValueError):
+        mask_from_indices(indices, 6)
+
+
+def test_packed_metadata_rejects_false_source_indices():
+    patches = torch.ones(1, 2, 3)
+    mask = torch.tensor([[True, False, True]])
+    with pytest.raises(ValueError, match="source_indices"):
+        PackedPatches(patches, mask, torch.tensor([[0, 1]]), 3)
+
+
+def test_full_teacher_packing_is_explicit_and_sparse_values_remain_original():
+    patches = torch.arange(18, dtype=torch.float32).reshape(1, 6, 3)
+    dense = pack_equal_length(patches, torch.ones(1, 6, dtype=torch.bool), allow_dense=True)
+    assert torch.equal(dense.patches, patches)
+    mask = mask_from_indices(torch.tensor([[1, 4]]), 6)
+    sparse = pack_equal_length(patches, mask)
+    assert torch.equal(sparse.patches, patches[:, [1, 4]])
+    assert torch.equal(sparse.source_indices, torch.tensor([[1, 4]]))
