@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-14T06:16:29.238679+00:00",
+  "status": "rendered_from_existing_G1_observation_results",
+  "visual_token_budget": 128,
+  "n_observations": 12,
+  "n_episode_clusters": 4,
+  "n_tasks": 4,
+  "observations_per_episode": 3,
+  "stage_counts": {
+    "early": 4,
+    "middle": 4,
+    "late": 4
+  },
+  "error_definition": "FP32 absolute difference from same-observation full512 teacher normalized actions; E averages 8 chunk steps x 7 action dimensions.",
+  "dimension_order": [
+    "position_x",
+    "position_y",
+    "position_z",
+    "rotation_component_1",
+    "rotation_component_2",
+    "rotation_component_3",
+    "gripper"
+  ],
+  "chunk_step_axis": "1-based, steps1..8",
+  "aggregation": "Arithmetic mean over12 observations; equal to mean of4 episode means because each episode has3 observations. Dimension panel averages8 chunk steps first; chunk panel averages7 action dimensions first.",
+  "uncertainty": "Mean only, no confidence intervals;12 observations form4 episode clusters, not12 independent episodes.",
+  "late_frame_note": "All4 late observations are final frames.",
+  "methods": {
+    "teacher_staged": {
+      "label": "Teacher staged",
+      "mean_l1": 0.0646395181150486,
+      "by_action_dimension_mean_l1": [
+        0.06803003946940105,
+        0.05235417683919271,
+        0.08010176817576091,
+        0.05932299296061198,
+        0.08108711242675781,
+        0.038726806640625,
+        0.07285372416178386
+      ],
+      "by_chunk_step_mean_l1": [
+        0.05856632092036307,
+        0.05670093419030309,
+        0.057757241457390286,
+        0.07146794348955154,
+        0.0900942503164212,
+        0.06813884976630409,
+        0.06052071717567742,
+        0.0538698824432989
+      ]
+    },
+    "full_loo_static": {
+      "label": "Static full-LOO",
+      "mean_l1": 0.037123538088053465,
+      "by_action_dimension_mean_l1": [
+        0.04240608215332031,
+        0.03259468078613281,
+        0.041439334551493325,
+        0.039558092753092446,
+        0.05769952138264974,
+        0.023056983947753906,
+        0.023110071818033855
+      ],
+      "by_chunk_step_mean_l1": [
+        0.037859417110060654,
+        0.04726773298655947,
+        0.0382637744769454,
+        0.03329172606269518,
+        0.04204668244346976,
+        0.034484499832615256,
+        0.0324648905855914,
+        0.0313095822930336
+      ]
+    },
+    "uniform": {
+      "label": "Uniform",
+      "mean_l1": 0.09268073303004105,
+      "by_action_dimension_mean_l1": [
+        0.09893798828125,
+        0.10815095901489258,
+        0.09230061372121175,
+        0.09645827611287434,
+        0.15470377604166666,
+        0.06177202860514323,
+        0.03644148508707682
+      ],
+      "by_chunk_step_mean_l1": [
+        0.09284210205078125,
+        0.1018987378726403,
+        0.09748894814401865,
+        0.09633173296848933,
+        0.09571125265210867,
+        0.08447683556005359,
+        0.08260617995013793,
+        0.0900900699198246
+      ]
+    }
+  },
+  "source_run": "results/g1_20261014_v1",
+  "source_observation_sha256": {
+    "1383568076259036788": "d5c9628ac56ae171d21c5193cefa742472a99d62ef26d340beef41d17e9926aa",
+    "1602995049568869675": "7720b9543967103477c3ca0a0357e51217fc1587bc3fb0fd7954644a26a8cec1",
+    "3109064030613564253": "213b6c47d5ea7256b93d8b15495aa8b788e5830dd7aadfb225e38c96210a3bfa",
+    "3244922072381086711": "9024becc9af18b90260c212f4822c0a84966f715da6d63ed9dd988951e959683",
+    "3399709827307319297": "11135a7513553b82e0b1dbb2cb45e5a9e0d2b0b958d4df223cb7fd80ac5db6b4",
+    "4231800877142443125": "a3b97aaaa26c2b8c6ecc0b20dec98822ea08de29084308f854c176ac196c6d3e",
+    "5018323033991223877": "0995a8bbe4cf251430e6d4c3119ba0e9eb1c0aae075a8233c5c03b074965a82e",
+    "5255765869814492326": "53686cd02761d16152b73d899d4f8dec1f9b5b8b6bd00a7722b27a703f1ec958",
+    "5306709786799343592": "a55bb7374cc711f88883d8696156a5df66693c894c9fc93a40378cb3059db830",
+    "7605784223314304513": "506f69cbe1673f01d929277b2f2e7f02daeca019739639b92fdc45d1b0412800",
+    "7832060677625451964": "07d7cc3dd0af76a83ecac311ca03e66c45891ae5ab03fc9ba5e84b88e319828d",
+    "7836379267827386910": "8e25505a5beec6e42f4b76f0e0dde5db1d8b75c75054e7a68a4e1ddad01babb5"
+  },
+  "source_finalization_file_sha256": "24a0b9db060de4aefb655c72a77a8ab798427f753dc1d8714b42f3d5f5ab780b",
+  "config_file_sha256": "473a67299133693b19e14631f9f5b46a847c7401c090572e3afbd45d58e4f49c",
+  "config_identity_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2",
+  "protected_inputs_unchanged": {
+    "results\\g1_20261014_v1\\summary.json": "e602bf7a4c3f6cf86e02daca1cf1751bf91e7df570233ec0dedbb6d59f5157ea",
+    "results\\g1_20261014_v1\\config.json": "473a67299133693b19e14631f9f5b46a847c7401c090572e3afbd45d58e4f49c",
+    "results\\g1_20261014_v1\\finalization.json": "24a0b9db060de4aefb655c72a77a8ab798427f753dc1d8714b42f3d5f5ab780b",
+    "results\\g1_analysis\\g1_20261014_v1\\summary.json": "fe727c6705625a5c29521baecf47de79054ba99737e9369291d3d5a28dde3fe3",
+    "results\\g1_analysis\\g1_20261014_v1\\action_dimension_and_chunk.png": "1657c6b68455f028135b84749cb4ed428593eb912b5769eab73462fe1b5d6a2c",
+    "results\\g1_analysis\\g1_20261014_v1\\action_dimension_and_chunk.pdf": "0db319873f5ce293e72b6c84b9257197dbc668b879d374b831f2585616d2e9be"
+  },
+  "rendering": {
+    "library": "matplotlib",
+    "version": "3.10.8",
+    "figure_inches": [
+      13,
+      5.6
+    ],
+    "png_dpi": 200,
+    "pdf_fonttype": 42
+  },
+  "outputs": {
+    "png": {
+      "path": "results\\g1_analysis\\g1_20261014_v1\\action_dimension_and_chunk_k128.png",
+      "sha256": "7b591d065e33ae62cc5ac3213290814829ce188def9185b42696704e59635d3e"
+    },
+    "pdf": {
+      "path": "results\\g1_analysis\\g1_20261014_v1\\action_dimension_and_chunk_k128.pdf",
+      "sha256": "ff4cc6f1e2ce807d4c92e4a154f5c4c20ab5937e37e7fee97a40c9fb7390d70c"
+    }
+  },
+  "gpu_calls": 0,
+  "D4_rerun": false,
+  "scientific_gate_modified": false,
+  "interpretation": "Descriptive plot only; no additional hypothesis or efficacy claim.",
+  "visual_inspection": {
+    "tool": "view_image",
+    "artifact": "action_dimension_and_chunk_k128.png",
+    "passed": true,
+    "checks": [
+      "No text or axis labels clipped",
+      "Seven action dimensions and all eight chunk steps visible",
+      "Legend colors consistent across both panels",
+      "12 observations / 4 episodes and normalized L1 scope visible"
+    ]
+  }
+}

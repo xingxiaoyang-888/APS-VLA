@@ -10,14 +10,15 @@
   "engineering_integrity": "passed_for_checked_recorded_outputs",
   "source": {
     "run_directory": "results/g1_20261014_v1",
-    "config_sha256": "473a67299133693b19e14631f9f5b46a847c7401c090572e3afbd45d58e4f49c",
     "summary_sha256": "e602bf7a4c3f6cf86e02daca1cf1751bf91e7df570233ec0dedbb6d59f5157ea",
     "finalization_sha256": "24a0b9db060de4aefb655c72a77a8ab798427f753dc1d8714b42f3d5f5ab780b",
     "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
     "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
     "packing_version": "oft-original-positions-v1",
     "checkpoint_unchanged_recorded": true,
-    "artifact_hashes_verified": 180
+    "artifact_hashes_verified": 180,
+    "config_file_sha256": "473a67299133693b19e14631f9f5b46a847c7401c090572e3afbd45d58e4f49c",
+    "config_identity_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2"
   },
   "verification": {
     "raw_journal_event_counts": {
@@ -34,7 +35,9 @@
     "label_definition": "E(S without i) - E(S); replacement uses recorded same-S fixed-full-camera-mean intervention",
     "topk_definition": "Retain highest signed marginal per camera; original token index breaks ties; gather in original order",
     "gpu_calls": 0,
-    "formal_gate_writes": 0
+    "formal_gate_writes": 0,
+    "D2_D3_correlations_and_sign_counts_independently_recomputed": 810,
+    "repeat_pairs_verified_from_raw_journal": 10
   },
   "repeatability": {
     "observations": 10,
