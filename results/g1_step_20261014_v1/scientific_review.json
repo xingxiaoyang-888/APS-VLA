@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "stage": "G1_optional_step_diagnostic",
+  "status": "no_go",
+  "decision": "retain_main_no_go_do_not_expand_G2_G3",
+  "reviewed_by": "root with independent numerical reviews by packing_migration and conditional_method",
+  "reviewed_utc": "2026-10-14T06:25:27.946472+00:00",
+  "config_identity_sha256": "db01445d4f31e96a509b8b4e6a451cbfe7549f98122f8dbc673a594c0841d244",
+  "summary_file_sha256": "1d9fa14752e1478ca2de3792c7ca07b8d0935174d5d7b5927e366371e7e4052d",
+  "finalization_file_sha256": "8cc56444df8c8403036822f83e961bfbd85ad900ce6fb7c085f5329769adb46e",
+  "primary_keep_count": 128,
+  "sample_size": 3,
+  "mean_errors_by_budget": {
+    "256": {
+      "teacher_staged": {
+        "main": 0.025691577699035406,
+        "followup": 0.08571652167787154
+      },
+      "full_loo_static": {
+        "main": 0.025691577699035406,
+        "followup": 0.025691577699035406
+      },
+      "uniform": {
+        "main": 0.04056685355802377,
+        "followup": 0.04056685355802377
+      }
+    },
+    "128": {
+      "teacher_staged": {
+        "main": 0.0965708786000808,
+        "followup": 0.04978915676474571
+      },
+      "full_loo_static": {
+        "main": 0.04390634844700495,
+        "followup": 0.04390634844700495
+      },
+      "uniform": {
+        "main": 0.06932826216022174,
+        "followup": 0.06932826216022174
+      }
+    },
+    "64": {
+      "teacher_staged": {
+        "main": 0.061976294964551926,
+        "followup": 0.0542626827955246
+      },
+      "full_loo_static": {
+        "main": 0.06506479283173879,
+        "followup": 0.06506479283173879
+      },
+      "uniform": {
+        "main": 0.14218666404485703,
+        "followup": 0.14218666404485703
+      }
+    }
+  },
+  "primary_followup_vs_static": {
+    "wins": 2,
+    "losses": 1,
+    "mean_difference": 0.005882808317740761
+  },
+  "primary_followup_vs_original": {
+    "wins": 1,
+    "losses": 2
+  },
+  "reason": "Smaller steps reduce worst terminal-case error but worsen other two observations. Mean primary128 error remains above static full-LOO. No stable advantage or automatic gate activation.",
+  "limitations": [
+    "Three observations with task/phase confounding; no full-suite inference or success/speed claim",
+    "Do not compare this three-observation mean directly with main12 mean",
+    "64-token finding is secondary; do not switch primary budget after observing results"
+  ],
+  "integrity": {
+    "finalized": true,
+    "checkpoint_unchanged": true,
+    "finalized_file_hashes_verified": true,
+    "full_reference_max_abs_difference": 0.0
+  },
+  "cost": {
+    "sample_forwards_completed": 4812,
+    "failed": 0,
+    "unknown": 0,
+    "allocated_l40_seconds": 586,
+    "allocated_l40_hours": 0.16277777777777777,
+    "cached_feature_policy_seconds": 298.1465460546315
+  },
+  "next_action": "No further step-size search on these observations. A method revision requires a new version, fixed budget/comparisons and independent episode protocol before any pilot."
+}

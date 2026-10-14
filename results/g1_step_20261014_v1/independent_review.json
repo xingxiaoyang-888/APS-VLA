@@ -1,0 +1,2054 @@
+{
+  "schema_version": 1,
+  "stage": "G1_optional_step_independent_review",
+  "reviewer": "packing_migration",
+  "reviewed_utc": "2026-10-14T06:27:01.472445+00:00",
+  "status": "review_completed",
+  "source_evidence": {
+    "main_directory": "results/g1_20261014_v1",
+    "followup_directory": "results/g1_step_20261014_v1",
+    "main_config_identity_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2",
+    "main_finalization_sha256": "24a0b9db060de4aefb655c72a77a8ab798427f753dc1d8714b42f3d5f5ab780b",
+    "followup_config_sha256": "6766745c69ae40eeeaece3d239dc8f41e8ae521d40d7fc2b9071bc7b05e4cc91",
+    "followup_config_identity_sha256": "db01445d4f31e96a509b8b4e6a451cbfe7549f98122f8dbc673a594c0841d244",
+    "followup_finalization_sha256": "8cc56444df8c8403036822f83e961bfbd85ad900ce6fb7c085f5329769adb46e",
+    "followup_summary_sha256": "1d9fa14752e1478ca2de3792c7ca07b8d0935174d5d7b5927e366371e7e4052d",
+    "registration_sha256": "8ab85ba783030a632ac4063e006fe202b56747face18aa3230cc9a6f672d475b",
+    "d4_summary_sha256": "fe727c6705625a5c29521baecf47de79054ba99737e9369291d3d5a28dde3fe3",
+    "activation_receipt_sha256": "c86a462088115a3d29eefcb11e11c1c999b5831274f8a4ac06ffd1ef2a003516",
+    "activation_receipt_path": "results/g1_analysis/g1_20261014_v1/step_activation.json",
+    "runner_sha256": "fda15db26ab9d0cb1117db77a6abe52b355aea81f226d56c6f91cf46406f3c9c",
+    "d4_replay_sha256": "09829925f0f1806c998b778c94431c662e6cc69d0a067194c94e8bd55e472420"
+  },
+  "validation": {
+    "main_finalization_all90_observation_and_query_hashes_verified": true,
+    "followup_finalization_all3_observation_and_query_hashes_verified": true,
+    "checkpoint_final_receipt_matches_frozen_asset": true,
+    "model_checkpoint_bytes_rehashed_locally": false,
+    "exact_main_and_smaller_step_replays_match": [
+      5306709786799343592,
+      1383568076259036788,
+      7836379267827386910
+    ],
+    "same_actual_input_and_visual_hashes": true,
+    "full_reference_comparisons": [
+      {
+        "sample_id": 5306709786799343592,
+        "input_sha256": "fc2ec48ca6dc6cf6e5c9af5dbe745529bb8275d9be4aeb4372eb61259851478f",
+        "visual_sha256": "bd3311df7da45bc9cbbc6f0e8f3cb9e18a3f7b0b250e00c944c6d9951b1e468c",
+        "full_action_max_abs_difference": 0.0
+      },
+      {
+        "sample_id": 1383568076259036788,
+        "input_sha256": "f2d5cf97babe4bc9ae8bab2dd4801eded475a0fc47d9397d50d1b83727b3b562",
+        "visual_sha256": "b59e7c2d6a9316e950187e06546f87dbcdb13746a51df8c406883d3df8e3dc3f",
+        "full_action_max_abs_difference": 0.0
+      },
+      {
+        "sample_id": 7836379267827386910,
+        "input_sha256": "28ebb500e8ecee0ef5c7aaa2a07968bcd81e76c83eb62feeb1c9943c8cc910b4",
+        "visual_sha256": "248490ba36e3a470203e1f405d8e2cfd9e6b985424dbf00da1fd4e76419e83f1",
+        "full_action_max_abs_difference": 0.0
+      }
+    ],
+    "shared_control_action_checks": {
+      "count": 45,
+      "all_same_retained_indices": true,
+      "max_abs_action_difference": 0.0,
+      "methods": [
+        "full_loo_static",
+        "uniform",
+        "random_seed_17",
+        "random_seed_23",
+        "random_seed_41"
+      ],
+      "budgets": [
+        256,
+        128,
+        64
+      ]
+    },
+    "summary_paired_results_recomputed": true,
+    "cost_recomputed_from_query_and_attempt_journals": true,
+    "gpu_calls_by_review": 0,
+    "raw_results_modified": false,
+    "summarize_or_finalization_writer_called": false
+  },
+  "cost": {
+    "api_calls_attempted": 4812,
+    "sample_forwards_attempted": 4812,
+    "sample_forwards_completed": 4812,
+    "unique_cached_actions": 4812,
+    "cache_hits": 24,
+    "failed_calls": 0,
+    "interrupted_calls_unknown_completion": 0,
+    "known_policy_seconds": 298.1465460546315,
+    "journal_bytes": 13815917,
+    "policy_seconds_total": 298.1465460546315,
+    "by_visual_length": {
+      "64": {
+        "api_calls_attempted": 18,
+        "sample_forwards_attempted": 18,
+        "sample_forwards_completed": 18,
+        "known_policy_seconds": 0.6436106786131859
+      },
+      "95": {
+        "api_calls_attempted": 288,
+        "sample_forwards_attempted": 288,
+        "sample_forwards_completed": 288,
+        "known_policy_seconds": 10.658067651093006
+      },
+      "96": {
+        "api_calls_attempted": 18,
+        "sample_forwards_attempted": 18,
+        "sample_forwards_completed": 18,
+        "known_policy_seconds": 0.6861589923501015
+      },
+      "127": {
+        "api_calls_attempted": 384,
+        "sample_forwards_attempted": 384,
+        "sample_forwards_completed": 384,
+        "known_policy_seconds": 14.61909618228674
+      },
+      "128": {
+        "api_calls_attempted": 18,
+        "sample_forwards_attempted": 18,
+        "sample_forwards_completed": 18,
+        "known_policy_seconds": 0.6512186713516712
+      },
+      "191": {
+        "api_calls_attempted": 576,
+        "sample_forwards_attempted": 576,
+        "sample_forwards_completed": 576,
+        "known_policy_seconds": 28.129451114684343
+      },
+      "192": {
+        "api_calls_attempted": 18,
+        "sample_forwards_attempted": 18,
+        "sample_forwards_completed": 18,
+        "known_policy_seconds": 0.8964455742388964
+      },
+      "255": {
+        "api_calls_attempted": 768,
+        "sample_forwards_attempted": 768,
+        "sample_forwards_completed": 768,
+        "known_policy_seconds": 39.04240502603352
+      },
+      "256": {
+        "api_calls_attempted": 18,
+        "sample_forwards_attempted": 18,
+        "sample_forwards_completed": 18,
+        "known_policy_seconds": 1.0062545612454414
+      },
+      "383": {
+        "api_calls_attempted": 1152,
+        "sample_forwards_attempted": 1152,
+        "sample_forwards_completed": 1152,
+        "known_policy_seconds": 72.20384776964784
+      },
+      "384": {
+        "api_calls_attempted": 15,
+        "sample_forwards_attempted": 15,
+        "sample_forwards_completed": 15,
+        "known_policy_seconds": 1.080631410703063
+      },
+      "511": {
+        "api_calls_attempted": 1536,
+        "sample_forwards_attempted": 1536,
+        "sample_forwards_completed": 1536,
+        "known_policy_seconds": 126.44155265577137
+      },
+      "512": {
+        "api_calls_attempted": 3,
+        "sample_forwards_attempted": 3,
+        "sample_forwards_completed": 3,
+        "known_policy_seconds": 2.0878057666122913
+      }
+    },
+    "attempts": {
+      "count": 1,
+      "unfinalized": 0,
+      "recorded_wall_seconds_lower_bound": 571.1698232796043,
+      "recorded_cpu_seconds_lower_bound": 392.820392851,
+      "recorded_preflight_seconds_lower_bound": 18.843538496643305,
+      "recorded_preprocessing_seconds_lower_bound": 0.0,
+      "recorded_vision_seconds_lower_bound": 0.0,
+      "recorded_checkpoint_verification_seconds_lower_bound": 32.955951964482665,
+      "recorded_model_loading_seconds_lower_bound": 110.37928063981235,
+      "wall_seconds_total": 571.1698232796043,
+      "cpu_seconds_total": 392.820392851
+    },
+    "observation_attempts": {
+      "count": 3,
+      "unfinalized": 0,
+      "recorded_wall_seconds_lower_bound": 318.555081339553,
+      "recorded_cpu_seconds_lower_bound": 300.12185702700003,
+      "recorded_preflight_seconds_lower_bound": 0.0,
+      "recorded_preprocessing_seconds_lower_bound": 7.128332143649459,
+      "recorded_vision_seconds_lower_bound": 3.3591847624629736,
+      "recorded_checkpoint_verification_seconds_lower_bound": 0.0,
+      "recorded_model_loading_seconds_lower_bound": 0.0,
+      "wall_seconds_total": 318.555081339553,
+      "cpu_seconds_total": 300.12185702700003
+    },
+    "scope": "Run attempts include Python run-entry preflight, model load, checkpoint verification, decoding and all observation work until the final cost receipt; final summary serialization is excluded. Observation/policy fields are nested breakdowns and must not be added again. Unfinalized attempts require scheduler reconciliation; unknown cost remains null. Not deployment latency.",
+    "by_observation": [
+      {
+        "sample_id": 5306709786799343592,
+        "attempted": 1604,
+        "completed": 1604,
+        "unique_successful_queries": 1604,
+        "failed": 0,
+        "unknown": 0,
+        "unique_upper_bound": 1604,
+        "attempt_cap": 2000
+      },
+      {
+        "sample_id": 1383568076259036788,
+        "attempted": 1604,
+        "completed": 1604,
+        "unique_successful_queries": 1604,
+        "failed": 0,
+        "unknown": 0,
+        "unique_upper_bound": 1604,
+        "attempt_cap": 2000
+      },
+      {
+        "sample_id": 7836379267827386910,
+        "attempted": 1604,
+        "completed": 1604,
+        "unique_successful_queries": 1604,
+        "failed": 0,
+        "unknown": 0,
+        "unique_upper_bound": 1604,
+        "attempt_cap": 2000
+      }
+    ]
+  },
+  "shared_budget_comparisons": {
+    "256": {
+      "mean_l1": {
+        "smaller_teacher": 0.08571652167787154,
+        "main_teacher": 0.025691577699035406,
+        "static": 0.025691577699035406,
+        "uniform": 0.04056685355802377
+      },
+      "versus_main_teacher": {
+        "mean_difference": 0.06002494397883614,
+        "wins": 0,
+        "ties": 0,
+        "losses": 3,
+        "per_observation_differences": [
+          0.011185101233422756,
+          0.0019032615236938,
+          0.16698646917939186
+        ]
+      },
+      "versus_static": {
+        "mean_difference": 0.06002494397883614,
+        "wins": 0,
+        "ties": 0,
+        "losses": 3,
+        "per_observation_differences": [
+          0.011185101233422756,
+          0.0019032615236938,
+          0.16698646917939186
+        ]
+      },
+      "versus_uniform": {
+        "mean_difference": 0.045149668119847775,
+        "wins": 2,
+        "ties": 0,
+        "losses": 1,
+        "per_observation_differences": [
+          -0.0018291473388671875,
+          -0.02023043017834425,
+          0.15750858187675476
+        ]
+      }
+    },
+    "128": {
+      "mean_l1": {
+        "smaller_teacher": 0.04978915676474571,
+        "main_teacher": 0.0965708786000808,
+        "static": 0.04390634844700495,
+        "uniform": 0.06932826216022174
+      },
+      "versus_main_teacher": {
+        "mean_difference": -0.0467817218353351,
+        "wins": 1,
+        "ties": 0,
+        "losses": 2,
+        "per_observation_differences": [
+          0.0018520355224609375,
+          0.0434973556548357,
+          -0.18569455668330193
+        ]
+      },
+      "versus_static": {
+        "mean_difference": 0.005882808317740758,
+        "wins": 2,
+        "ties": 0,
+        "losses": 1,
+        "per_observation_differences": [
+          -0.0018337778747081757,
+          0.04989514872431755,
+          -0.0304129458963871
+        ]
+      },
+      "versus_uniform": {
+        "mean_difference": -0.019539105395476025,
+        "wins": 2,
+        "ties": 0,
+        "losses": 1,
+        "per_observation_differences": [
+          -0.017665181308984756,
+          0.0025397688150405884,
+          -0.0434919036924839
+        ]
+      }
+    },
+    "64": {
+      "mean_l1": {
+        "smaller_teacher": 0.0542626827955246,
+        "main_teacher": 0.061976294964551926,
+        "static": 0.06506479283173879,
+        "uniform": 0.14218666404485703
+      },
+      "versus_main_teacher": {
+        "mean_difference": -0.0077136121690273285,
+        "wins": 2,
+        "ties": 0,
+        "losses": 1,
+        "per_observation_differences": [
+          0.0072718337178230286,
+          -0.015370503067970276,
+          -0.015042167156934738
+        ]
+      },
+      "versus_static": {
+        "mean_difference": -0.010802110036214193,
+        "wins": 2,
+        "ties": 0,
+        "losses": 1,
+        "per_observation_differences": [
+          -0.003563404083251953,
+          0.035429272800683975,
+          -0.0642721988260746
+        ]
+      },
+      "versus_uniform": {
+        "mean_difference": -0.08792398124933243,
+        "wins": 3,
+        "ties": 0,
+        "losses": 0,
+        "per_observation_differences": [
+          -0.05772243067622185,
+          -0.10324778407812119,
+          -0.10280172899365425
+        ]
+      }
+    }
+  },
+  "all_smaller_step_budget_means": {
+    "384": {
+      "teacher_staged": 0.009756156476214528,
+      "full_loo_static": 0.009756156476214528,
+      "uniform": 0.07741555695732434,
+      "random_seed_17": 0.026862462672094505,
+      "random_seed_23": 0.06975510033468406,
+      "random_seed_41": 0.017156691911319893
+    },
+    "256": {
+      "teacher_staged": 0.08571652167787154,
+      "full_loo_static": 0.025691577699035406,
+      "uniform": 0.04056685355802377,
+      "random_seed_17": 0.06038692966103554,
+      "random_seed_23": 0.056805201495687165,
+      "random_seed_41": 0.03187324913839499
+    },
+    "192": {
+      "teacher_staged": 0.04080663435161114,
+      "full_loo_static": 0.03347969024131695,
+      "uniform": 0.062081292271614075,
+      "random_seed_17": 0.05196162685751915,
+      "random_seed_23": 0.07330168038606644,
+      "random_seed_41": 0.07788703590631485
+    },
+    "128": {
+      "teacher_staged": 0.04978915676474571,
+      "full_loo_static": 0.04390634844700495,
+      "uniform": 0.06932826216022174,
+      "random_seed_17": 0.059034074346224465,
+      "random_seed_23": 0.10497765243053436,
+      "random_seed_41": 0.0725691666205724
+    },
+    "96": {
+      "teacher_staged": 0.0526567871371905,
+      "full_loo_static": 0.049569606160124145,
+      "uniform": 0.08843040466308594,
+      "random_seed_17": 0.10980896651744843,
+      "random_seed_23": 0.10130818684895833,
+      "random_seed_41": 0.09582964703440666
+    },
+    "64": {
+      "teacher_staged": 0.0542626827955246,
+      "full_loo_static": 0.06506479283173879,
+      "uniform": 0.14218666404485703,
+      "random_seed_17": 0.1459358756740888,
+      "random_seed_23": 0.11052494992812474,
+      "random_seed_41": 0.12495431055625279
+    }
+  },
+  "paired_observation_results": [
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 256,
+      "smaller_teacher": {
+        "mean_l1": 0.024154391139745712,
+        "position_mean_l1": 0.025161108002066612,
+        "rotation_mean_l1": 0.030548095703125,
+        "gripper_mean_l1": 0.001953125
+      },
+      "main_teacher": {
+        "mean_l1": 0.012969289906322956,
+        "position_mean_l1": 0.017785072326660156,
+        "rotation_mean_l1": 0.011988322250545025,
+        "gripper_mean_l1": 0.00146484375
+      },
+      "static": {
+        "mean_l1": 0.012969289906322956,
+        "position_mean_l1": 0.017785072326660156,
+        "rotation_mean_l1": 0.011988322250545025,
+        "gripper_mean_l1": 0.00146484375
+      },
+      "uniform": {
+        "mean_l1": 0.0259835384786129,
+        "position_mean_l1": 0.030696868896484375,
+        "rotation_mean_l1": 0.029280344024300575,
+        "gripper_mean_l1": 0.001953125
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 128,
+      "smaller_teacher": {
+        "mean_l1": 0.0336696095764637,
+        "by_chunk_step": [
+          0.01787458173930645,
+          0.0438188835978508,
+          0.0527692511677742,
+          0.0533796027302742,
+          0.04095458984375,
+          0.014225550927221775,
+          0.02413504384458065,
+          0.0221993587911129
+        ],
+        "by_action_dimension": [
+          0.062255859375,
+          0.048618316650390625,
+          0.009853363037109375,
+          0.0344390869140625,
+          0.0511474609375,
+          0.0279083251953125,
+          0.00146484375
+        ],
+        "position_mean_l1": 0.0402425117790699,
+        "rotation_mean_l1": 0.0378316231071949,
+        "gripper_mean_l1": 0.00146484375
+      },
+      "main_teacher": {
+        "mean_l1": 0.03181757405400276,
+        "by_chunk_step": [
+          0.03107125498354435,
+          0.0511213019490242,
+          0.0386178158223629,
+          0.0416673943400383,
+          0.0434919074177742,
+          0.02060372568666935,
+          0.008265904150903225,
+          0.0197012759745121
+        ],
+        "by_action_dimension": [
+          0.058349609375,
+          0.0218353271484375,
+          0.017164230346679688,
+          0.040557861328125,
+          0.06841278076171875,
+          0.0124969482421875,
+          0.00390625
+        ],
+        "position_mean_l1": 0.03244972229003906,
+        "rotation_mean_l1": 0.04048919677734375,
+        "gripper_mean_l1": 0.00390625
+      },
+      "static": {
+        "mean_l1": 0.035503387451171875,
+        "by_chunk_step": [
+          0.0341230109333992,
+          0.03000313974916935,
+          0.0434744693338871,
+          0.0371616892516613,
+          0.0442112497985363,
+          0.0324489064514637,
+          0.0292837955057621,
+          0.0333208367228508
+        ],
+        "by_action_dimension": [
+          0.0697021484375,
+          0.034732818603515625,
+          0.01291656494140625,
+          0.05242919921875,
+          0.05733489990234375,
+          0.0199432373046875,
+          0.00146484375
+        ],
+        "position_mean_l1": 0.039117176085710526,
+        "rotation_mean_l1": 0.04323577880859375,
+        "gripper_mean_l1": 0.00146484375
+      },
+      "uniform": {
+        "mean_l1": 0.051334790885448456,
+        "by_chunk_step": [
+          0.0542384572327137,
+          0.0672825425863266,
+          0.0776715949177742,
+          0.06816264241933823,
+          0.043138232082128525,
+          0.02684674970805645,
+          0.0372270867228508,
+          0.0361110158264637
+        ],
+        "by_action_dimension": [
+          0.1195068359375,
+          0.0453033447265625,
+          0.025298118591308594,
+          0.05908203125,
+          0.075897216796875,
+          0.0323028564453125,
+          0.001953125
+        ],
+        "position_mean_l1": 0.06336943060159683,
+        "rotation_mean_l1": 0.0557607002556324,
+        "gripper_mean_l1": 0.001953125
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 64,
+      "smaller_teacher": {
+        "mean_l1": 0.05161496624350548,
+        "position_mean_l1": 0.048207443207502365,
+        "rotation_mean_l1": 0.07059987634420395,
+        "gripper_mean_l1": 0.0048828125
+      },
+      "main_teacher": {
+        "mean_l1": 0.04434313252568245,
+        "position_mean_l1": 0.04777781292796135,
+        "rotation_mean_l1": 0.0535736083984375,
+        "gripper_mean_l1": 0.00634765625
+      },
+      "static": {
+        "mean_l1": 0.05517837032675743,
+        "position_mean_l1": 0.05908425524830818,
+        "rotation_mean_l1": 0.06868871301412582,
+        "gripper_mean_l1": 0.0029296875
+      },
+      "uniform": {
+        "mean_l1": 0.10933739691972733,
+        "position_mean_l1": 0.11885961145162582,
+        "rotation_mean_l1": 0.1334940642118454,
+        "gripper_mean_l1": 0.00830078125
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 256,
+      "smaller_teacher": {
+        "mean_l1": 0.0066427504643797874,
+        "position_mean_l1": 0.0054117836989462376,
+        "rotation_mean_l1": 0.00984064768999815,
+        "gripper_mean_l1": 0.0007419586181640625
+      },
+      "main_teacher": {
+        "mean_l1": 0.0047394889406859875,
+        "position_mean_l1": 0.00390625,
+        "rotation_mean_l1": 0.0069643654860556126,
+        "gripper_mean_l1": 0.0005645751953125
+      },
+      "static": {
+        "mean_l1": 0.0047394889406859875,
+        "position_mean_l1": 0.00390625,
+        "rotation_mean_l1": 0.0069643654860556126,
+        "gripper_mean_l1": 0.0005645751953125
+      },
+      "uniform": {
+        "mean_l1": 0.026873180642724037,
+        "position_mean_l1": 0.02239990234375,
+        "rotation_mean_l1": 0.039872486144304276,
+        "gripper_mean_l1": 0.0012950897216796875
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 128,
+      "smaller_teacher": {
+        "mean_l1": 0.061289649456739426,
+        "by_chunk_step": [
+          0.1206316277384758,
+          0.0421949103474617,
+          0.0352783203125,
+          0.0432543084025383,
+          0.0473349429666996,
+          0.0539071224629879,
+          0.0600782111287117,
+          0.0876377671957016
+        ],
+        "by_action_dimension": [
+          0.0987548828125,
+          0.0408935546875,
+          0.061767578125,
+          0.06428146362304688,
+          0.107421875,
+          0.054962158203125,
+          0.000946044921875
+        ],
+        "position_mean_l1": 0.067138671875,
+        "rotation_mean_l1": 0.07555516809225082,
+        "gripper_mean_l1": 0.000946044921875
+      },
+      "main_teacher": {
+        "mean_l1": 0.017792293801903725,
+        "by_chunk_step": [
+          0.01490129716694355,
+          0.02008492685854435,
+          0.01099286787211895,
+          0.011919294483959675,
+          0.02594648115336895,
+          0.015492030419409275,
+          0.01930890791118145,
+          0.02369253896176815
+        ],
+        "by_action_dimension": [
+          0.0079345703125,
+          0.0234375,
+          0.010498046875,
+          0.036785125732421875,
+          0.02685546875,
+          0.0176544189453125,
+          0.00138092041015625
+        ],
+        "position_mean_l1": 0.013956706039607525,
+        "rotation_mean_l1": 0.027098337188363075,
+        "gripper_mean_l1": 0.00138092041015625
+      },
+      "static": {
+        "mean_l1": 0.011394500732421875,
+        "by_chunk_step": [
+          0.012141636572778225,
+          0.008937290869653225,
+          0.004970005713403225,
+          0.008898054249584675,
+          0.01075090654194355,
+          0.00865827314555645,
+          0.01548113115131855,
+          0.0213187076151371
+        ],
+        "by_action_dimension": [
+          0.01361083984375,
+          0.00341796875,
+          0.009033203125,
+          0.017757415771484375,
+          0.0244140625,
+          0.010894775390625,
+          0.00063323974609375
+        ],
+        "position_mean_l1": 0.008687336929142475,
+        "rotation_mean_l1": 0.017688751220703125,
+        "gripper_mean_l1": 0.00063323974609375
+      },
+      "uniform": {
+        "mean_l1": 0.05874988064169884,
+        "by_chunk_step": [
+          0.0473502017557621,
+          0.0372597835958004,
+          0.0354505255818367,
+          0.0349796824157238,
+          0.0362200066447258,
+          0.0559605173766613,
+          0.0774884894490242,
+          0.1452898234128952
+        ],
+        "by_action_dimension": [
+          0.071533203125,
+          0.02362060546875,
+          0.049560546875,
+          0.047336578369140625,
+          0.166748046875,
+          0.0511474609375,
+          0.0013027191162109375
+        ],
+        "position_mean_l1": 0.0482381172478199,
+        "rotation_mean_l1": 0.08841069787740707,
+        "gripper_mean_l1": 0.0013027191162109375
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 64,
+      "smaller_teacher": {
+        "mean_l1": 0.059692926704883575,
+        "position_mean_l1": 0.0612386055290699,
+        "rotation_mean_l1": 0.07752609252929688,
+        "gripper_mean_l1": 0.001556396484375
+      },
+      "main_teacher": {
+        "mean_l1": 0.07506342977285385,
+        "position_mean_l1": 0.08135986328125,
+        "rotation_mean_l1": 0.09317652136087418,
+        "gripper_mean_l1": 0.001834869384765625
+      },
+      "static": {
+        "mean_l1": 0.0242636539041996,
+        "position_mean_l1": 0.015146891586482525,
+        "rotation_mean_l1": 0.040724437683820724,
+        "gripper_mean_l1": 0.002231597900390625
+      },
+      "uniform": {
+        "mean_l1": 0.16294071078300476,
+        "position_mean_l1": 0.13381576538085938,
+        "rotation_mean_l1": 0.24527104198932648,
+        "gripper_mean_l1": 0.0033245086669921875
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 256,
+      "smaller_teacher": {
+        "mean_l1": 0.22635242342948914,
+        "position_mean_l1": 0.11044947057962418,
+        "rotation_mean_l1": 0.18714268505573273,
+        "gripper_mean_l1": 0.6916904449462891
+      },
+      "main_teacher": {
+        "mean_l1": 0.059365954250097275,
+        "position_mean_l1": 0.035210926085710526,
+        "rotation_mean_l1": 0.04358863830566406,
+        "gripper_mean_l1": 0.17916297912597656
+      },
+      "static": {
+        "mean_l1": 0.059365954250097275,
+        "position_mean_l1": 0.035210926085710526,
+        "rotation_mean_l1": 0.04358863830566406,
+        "gripper_mean_l1": 0.17916297912597656
+      },
+      "uniform": {
+        "mean_l1": 0.06884384155273438,
+        "position_mean_l1": 0.0396575927734375,
+        "rotation_mean_l1": 0.03709157183766365,
+        "gripper_mean_l1": 0.2516593933105469
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 128,
+      "smaller_teacher": {
+        "mean_l1": 0.05440821126103401,
+        "by_chunk_step": [
+          0.0881914421916008,
+          0.0537588931620121,
+          0.12554931640625,
+          0.02326311357319355,
+          0.02515520341694355,
+          0.0347137451171875,
+          0.0415540412068367,
+          0.0430799201130867
+        ],
+        "by_action_dimension": [
+          0.027099609375,
+          0.06195068359375,
+          0.043994903564453125,
+          0.00499725341796875,
+          0.0908203125,
+          0.07669448852539062,
+          0.07530021667480469
+        ],
+        "position_mean_l1": 0.044348400086164474,
+        "rotation_mean_l1": 0.057504016906023026,
+        "gripper_mean_l1": 0.07530021667480469
+      },
+      "main_teacher": {
+        "mean_l1": 0.24010276794433594,
+        "by_chunk_step": [
+          0.1252485066652298,
+          0.1745736300945282,
+          0.2488839328289032,
+          0.3271658718585968,
+          0.3027431070804596,
+          0.2881273627281189,
+          0.2610146701335907,
+          0.1930650919675827
+        ],
+        "by_action_dimension": [
+          0.147216796875,
+          0.03997802734375,
+          0.2641487121582031,
+          0.12877655029296875,
+          0.2999267578125,
+          0.11337661743164062,
+          0.6872959136962891
+        ],
+        "position_mean_l1": 0.15044784545898438,
+        "rotation_mean_l1": 0.18069331347942352,
+        "gripper_mean_l1": 0.6872959136962891
+      },
+      "static": {
+        "mean_l1": 0.08482115715742111,
+        "by_chunk_step": [
+          0.1010262593626976,
+          0.2268807590007782,
+          0.1393236368894577,
+          0.0401785708963871,
+          0.0441349558532238,
+          0.0516226626932621,
+          0.0496455617249012,
+          0.0257568359375
+        ],
+        "by_action_dimension": [
+          0.05224609375,
+          0.0404052734375,
+          0.07547378540039062,
+          0.05582427978515625,
+          0.12717437744140625,
+          0.049259185791015625,
+          0.19336509704589844
+        ],
+        "position_mean_l1": 0.056041717529296875,
+        "rotation_mean_l1": 0.07741928100585938,
+        "gripper_mean_l1": 0.19336509704589844
+      },
+      "uniform": {
+        "mean_l1": 0.09790011495351791,
+        "by_chunk_step": [
+          0.2523367702960968,
+          0.2216600626707077,
+          0.1257869154214859,
+          0.0251486636698246,
+          0.0348968505859375,
+          0.0414014533162117,
+          0.0458047054708004,
+          0.0361655093729496
+        ],
+        "by_action_dimension": [
+          0.076171875,
+          0.03668212890625,
+          0.08649063110351562,
+          0.03518486022949219,
+          0.0992431640625,
+          0.036869049072265625,
+          0.31465911865234375
+        ],
+        "position_mean_l1": 0.06644821166992188,
+        "rotation_mean_l1": 0.05709902569651604,
+        "gripper_mean_l1": 0.31465911865234375
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 64,
+      "smaller_teacher": {
+        "mean_l1": 0.05148015543818474,
+        "position_mean_l1": 0.047417957335710526,
+        "rotation_mean_l1": 0.049315135926008224,
+        "gripper_mean_l1": 0.07016181945800781
+      },
+      "main_teacher": {
+        "mean_l1": 0.06652232259511948,
+        "position_mean_l1": 0.06362152099609375,
+        "rotation_mean_l1": 0.051542919129133224,
+        "gripper_mean_l1": 0.1201629638671875
+      },
+      "static": {
+        "mean_l1": 0.11575235426425934,
+        "position_mean_l1": 0.09199905395507812,
+        "rotation_mean_l1": 0.11350885778665543,
+        "gripper_mean_l1": 0.1937427520751953
+      },
+      "uniform": {
+        "mean_l1": 0.154281884431839,
+        "position_mean_l1": 0.14878208935260773,
+        "rotation_mean_l1": 0.13604100048542023,
+        "gripper_mean_l1": 0.22550392150878906
+      }
+    }
+  ],
+  "all_smaller_step_observation_results": [
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 384,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.005909510888159275,
+          "position_mean_l1": 0.008514404296875,
+          "rotation_mean_l1": 0.0051116943359375,
+          "gripper_mean_l1": 0.00048828125
+        },
+        "full_loo_static": {
+          "mean_l1": 0.005909510888159275,
+          "position_mean_l1": 0.008514404296875,
+          "rotation_mean_l1": 0.0051116943359375,
+          "gripper_mean_l1": 0.00048828125
+        },
+        "uniform": {
+          "mean_l1": 0.021259307861328125,
+          "position_mean_l1": 0.02641805075109005,
+          "rotation_mean_l1": 0.021396636962890625,
+          "gripper_mean_l1": 0.00537109375
+        },
+        "random_seed_17": {
+          "mean_l1": 0.010449545457959175,
+          "position_mean_l1": 0.013308207504451275,
+          "rotation_mean_l1": 0.0107485456392169,
+          "gripper_mean_l1": 0.0009765625
+        },
+        "random_seed_23": {
+          "mean_l1": 0.0195802953094244,
+          "position_mean_l1": 0.0264307651668787,
+          "rotation_mean_l1": 0.01795450784265995,
+          "gripper_mean_l1": 0.00390625
+        },
+        "random_seed_41": {
+          "mean_l1": 0.012278965674340725,
+          "position_mean_l1": 0.011998494155704975,
+          "rotation_mean_l1": 0.016326904296875,
+          "gripper_mean_l1": 0.0009765625
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 256,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.024154391139745712,
+          "position_mean_l1": 0.025161108002066612,
+          "rotation_mean_l1": 0.030548095703125,
+          "gripper_mean_l1": 0.001953125
+        },
+        "full_loo_static": {
+          "mean_l1": 0.012969289906322956,
+          "position_mean_l1": 0.017785072326660156,
+          "rotation_mean_l1": 0.011988322250545025,
+          "gripper_mean_l1": 0.00146484375
+        },
+        "uniform": {
+          "mean_l1": 0.0259835384786129,
+          "position_mean_l1": 0.030696868896484375,
+          "rotation_mean_l1": 0.029280344024300575,
+          "gripper_mean_l1": 0.001953125
+        },
+        "random_seed_17": {
+          "mean_l1": 0.05731310322880745,
+          "position_mean_l1": 0.06970977783203125,
+          "rotation_mean_l1": 0.0627187117934227,
+          "gripper_mean_l1": 0.00390625
+        },
+        "random_seed_23": {
+          "mean_l1": 0.02809579111635685,
+          "position_mean_l1": 0.0327199287712574,
+          "rotation_mean_l1": 0.0320231132209301,
+          "gripper_mean_l1": 0.00244140625
+        },
+        "random_seed_41": {
+          "mean_l1": 0.029605865478515625,
+          "position_mean_l1": 0.040579479187726974,
+          "rotation_mean_l1": 0.0273615512996912,
+          "gripper_mean_l1": 0.00341796875
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.012969289906322956,
+        "position_mean_l1": 0.017785072326660156,
+        "rotation_mean_l1": 0.011988322250545025,
+        "gripper_mean_l1": 0.00146484375
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 192,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.02445547841489315,
+          "position_mean_l1": 0.0274937953799963,
+          "rotation_mean_l1": 0.0285924281924963,
+          "gripper_mean_l1": 0.0029296875
+        },
+        "full_loo_static": {
+          "mean_l1": 0.01958465576171875,
+          "position_mean_l1": 0.0241521205753088,
+          "rotation_mean_l1": 0.02089436911046505,
+          "gripper_mean_l1": 0.001953125
+        },
+        "uniform": {
+          "mean_l1": 0.049448829144239426,
+          "position_mean_l1": 0.050902049988508224,
+          "rotation_mean_l1": 0.0636647567152977,
+          "gripper_mean_l1": 0.00244140625
+        },
+        "random_seed_17": {
+          "mean_l1": 0.06766782701015472,
+          "position_mean_l1": 0.07978439331054688,
+          "rotation_mean_l1": 0.07696787267923355,
+          "gripper_mean_l1": 0.00341796875
+        },
+        "random_seed_23": {
+          "mean_l1": 0.056640081107616425,
+          "position_mean_l1": 0.06928888708353043,
+          "rotation_mean_l1": 0.0617319755256176,
+          "gripper_mean_l1": 0.00341796875
+        },
+        "random_seed_41": {
+          "mean_l1": 0.0968497171998024,
+          "position_mean_l1": 0.0863901749253273,
+          "rotation_mean_l1": 0.1387786865234375,
+          "gripper_mean_l1": 0.00244140625
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 128,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.0336696095764637,
+          "position_mean_l1": 0.0402425117790699,
+          "rotation_mean_l1": 0.0378316231071949,
+          "gripper_mean_l1": 0.00146484375
+        },
+        "full_loo_static": {
+          "mean_l1": 0.035503387451171875,
+          "position_mean_l1": 0.039117176085710526,
+          "rotation_mean_l1": 0.04323577880859375,
+          "gripper_mean_l1": 0.00146484375
+        },
+        "uniform": {
+          "mean_l1": 0.051334790885448456,
+          "position_mean_l1": 0.06336943060159683,
+          "rotation_mean_l1": 0.0557607002556324,
+          "gripper_mean_l1": 0.001953125
+        },
+        "random_seed_17": {
+          "mean_l1": 0.061714716255664825,
+          "position_mean_l1": 0.08411788940429688,
+          "rotation_mean_l1": 0.05890655517578125,
+          "gripper_mean_l1": 0.0029296875
+        },
+        "random_seed_23": {
+          "mean_l1": 0.08700234442949295,
+          "position_mean_l1": 0.1195068359375,
+          "rotation_mean_l1": 0.08235931396484375,
+          "gripper_mean_l1": 0.00341796875
+        },
+        "random_seed_41": {
+          "mean_l1": 0.08085577934980392,
+          "position_mean_l1": 0.07616806030273438,
+          "rotation_mean_l1": 0.11103057861328125,
+          "gripper_mean_l1": 0.00439453125
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.03181757405400276,
+        "position_mean_l1": 0.03244972229003906,
+        "rotation_mean_l1": 0.04048919677734375,
+        "gripper_mean_l1": 0.00390625
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 96,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.0439741276204586,
+          "position_mean_l1": 0.04450591281056404,
+          "rotation_mean_l1": 0.0566355399787426,
+          "gripper_mean_l1": 0.00439453125
+        },
+        "full_loo_static": {
+          "mean_l1": 0.041035719215869904,
+          "position_mean_l1": 0.04596058651804924,
+          "rotation_mean_l1": 0.0489756278693676,
+          "gripper_mean_l1": 0.00244140625
+        },
+        "uniform": {
+          "mean_l1": 0.07663945108652115,
+          "position_mean_l1": 0.09349314123392105,
+          "rotation_mean_l1": 0.0845184326171875,
+          "gripper_mean_l1": 0.00244140625
+        },
+        "random_seed_17": {
+          "mean_l1": 0.08572987467050552,
+          "position_mean_l1": 0.12149938195943832,
+          "rotation_mean_l1": 0.0772349014878273,
+          "gripper_mean_l1": 0.00390625
+        },
+        "random_seed_23": {
+          "mean_l1": 0.052871160209178925,
+          "position_mean_l1": 0.060189563781023026,
+          "rotation_mean_l1": 0.0618743896484375,
+          "gripper_mean_l1": 0.00390625
+        },
+        "random_seed_41": {
+          "mean_l1": 0.0495888851583004,
+          "position_mean_l1": 0.0590871162712574,
+          "rotation_mean_l1": 0.0558064766228199,
+          "gripper_mean_l1": 0.00244140625
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "keep_count": 64,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.05161496624350548,
+          "position_mean_l1": 0.048207443207502365,
+          "rotation_mean_l1": 0.07059987634420395,
+          "gripper_mean_l1": 0.0048828125
+        },
+        "full_loo_static": {
+          "mean_l1": 0.05517837032675743,
+          "position_mean_l1": 0.05908425524830818,
+          "rotation_mean_l1": 0.06868871301412582,
+          "gripper_mean_l1": 0.0029296875
+        },
+        "uniform": {
+          "mean_l1": 0.10933739691972733,
+          "position_mean_l1": 0.11885961145162582,
+          "rotation_mean_l1": 0.1334940642118454,
+          "gripper_mean_l1": 0.00830078125
+        },
+        "random_seed_17": {
+          "mean_l1": 0.11221150308847427,
+          "position_mean_l1": 0.12340418249368668,
+          "rotation_mean_l1": 0.1358184814453125,
+          "gripper_mean_l1": 0.0078125
+        },
+        "random_seed_23": {
+          "mean_l1": 0.0881718248128891,
+          "position_mean_l1": 0.1254475861787796,
+          "rotation_mean_l1": 0.0749155655503273,
+          "gripper_mean_l1": 0.01611328125
+        },
+        "random_seed_41": {
+          "mean_l1": 0.09345027059316635,
+          "position_mean_l1": 0.1270548552274704,
+          "rotation_mean_l1": 0.08774057775735855,
+          "gripper_mean_l1": 0.009765625
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.04434313252568245,
+        "position_mean_l1": 0.04777781292796135,
+        "rotation_mean_l1": 0.0535736083984375,
+        "gripper_mean_l1": 0.00634765625
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 384,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.0023531231563538313,
+          "position_mean_l1": 0.00177001953125,
+          "rotation_mean_l1": 0.0035387675743550062,
+          "gripper_mean_l1": 0.000545501708984375
+        },
+        "full_loo_static": {
+          "mean_l1": 0.0023531231563538313,
+          "position_mean_l1": 0.00177001953125,
+          "rotation_mean_l1": 0.0035387675743550062,
+          "gripper_mean_l1": 0.000545501708984375
+        },
+        "uniform": {
+          "mean_l1": 0.0454951710999012,
+          "position_mean_l1": 0.0438435859978199,
+          "rotation_mean_l1": 0.061850231140851974,
+          "gripper_mean_l1": 0.001384735107421875
+        },
+        "random_seed_17": {
+          "mean_l1": 0.011684144847095013,
+          "position_mean_l1": 0.012227375991642475,
+          "rotation_mean_l1": 0.014842987060546875,
+          "gripper_mean_l1": 0.0005779266357421875
+        },
+        "random_seed_23": {
+          "mean_l1": 0.027990613132715225,
+          "position_mean_l1": 0.0301513671875,
+          "rotation_mean_l1": 0.034826915711164474,
+          "gripper_mean_l1": 0.00099945068359375
+        },
+        "random_seed_41": {
+          "mean_l1": 0.00965009443461895,
+          "position_mean_l1": 0.008056640625,
+          "rotation_mean_l1": 0.0141690568998456,
+          "gripper_mean_l1": 0.000873565673828125
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 256,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.0066427504643797874,
+          "position_mean_l1": 0.0054117836989462376,
+          "rotation_mean_l1": 0.00984064768999815,
+          "gripper_mean_l1": 0.0007419586181640625
+        },
+        "full_loo_static": {
+          "mean_l1": 0.0047394889406859875,
+          "position_mean_l1": 0.00390625,
+          "rotation_mean_l1": 0.0069643654860556126,
+          "gripper_mean_l1": 0.0005645751953125
+        },
+        "uniform": {
+          "mean_l1": 0.026873180642724037,
+          "position_mean_l1": 0.02239990234375,
+          "rotation_mean_l1": 0.039872486144304276,
+          "gripper_mean_l1": 0.0012950897216796875
+        },
+        "random_seed_17": {
+          "mean_l1": 0.06031472235918045,
+          "position_mean_l1": 0.06414794921875,
+          "rotation_mean_l1": 0.07615789026021957,
+          "gripper_mean_l1": 0.001285552978515625
+        },
+        "random_seed_23": {
+          "mean_l1": 0.05708640068769455,
+          "position_mean_l1": 0.0504557304084301,
+          "rotation_mean_l1": 0.08201217651367188,
+          "gripper_mean_l1": 0.002201080322265625
+        },
+        "random_seed_41": {
+          "mean_l1": 0.035384587943553925,
+          "position_mean_l1": 0.02419026754796505,
+          "rotation_mean_l1": 0.057778675109148026,
+          "gripper_mean_l1": 0.0017852783203125
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.0047394889406859875,
+        "position_mean_l1": 0.00390625,
+        "rotation_mean_l1": 0.0069643654860556126,
+        "gripper_mean_l1": 0.0005645751953125
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 192,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.019737515598535538,
+          "position_mean_l1": 0.01750691793859005,
+          "rotation_mean_l1": 0.028278350830078125,
+          "gripper_mean_l1": 0.0008068084716796875
+        },
+        "full_loo_static": {
+          "mean_l1": 0.006625584326684475,
+          "position_mean_l1": 0.0059000649489462376,
+          "rotation_mean_l1": 0.00933074951171875,
+          "gripper_mean_l1": 0.0006866455078125
+        },
+        "uniform": {
+          "mean_l1": 0.039155688136816025,
+          "position_mean_l1": 0.043701171875,
+          "rotation_mean_l1": 0.047135669738054276,
+          "gripper_mean_l1": 0.00157928466796875
+        },
+        "random_seed_17": {
+          "mean_l1": 0.03354862704873085,
+          "position_mean_l1": 0.02483113668859005,
+          "rotation_mean_l1": 0.053145091980695724,
+          "gripper_mean_l1": 0.000911712646484375
+        },
+        "random_seed_23": {
+          "mean_l1": 0.08520262688398361,
+          "position_mean_l1": 0.0960286483168602,
+          "rotation_mean_l1": 0.10224024206399918,
+          "gripper_mean_l1": 0.0016117095947265625
+        },
+        "random_seed_41": {
+          "mean_l1": 0.10525812208652496,
+          "position_mean_l1": 0.0986328125,
+          "rotation_mean_l1": 0.14628474414348602,
+          "gripper_mean_l1": 0.0020542144775390625
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 128,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.061289649456739426,
+          "position_mean_l1": 0.067138671875,
+          "rotation_mean_l1": 0.07555516809225082,
+          "gripper_mean_l1": 0.000946044921875
+        },
+        "full_loo_static": {
+          "mean_l1": 0.011394500732421875,
+          "position_mean_l1": 0.008687336929142475,
+          "rotation_mean_l1": 0.017688751220703125,
+          "gripper_mean_l1": 0.00063323974609375
+        },
+        "uniform": {
+          "mean_l1": 0.05874988064169884,
+          "position_mean_l1": 0.0482381172478199,
+          "rotation_mean_l1": 0.08841069787740707,
+          "gripper_mean_l1": 0.0013027191162109375
+        },
+        "random_seed_17": {
+          "mean_l1": 0.0540444515645504,
+          "position_mean_l1": 0.0562744140625,
+          "rotation_mean_l1": 0.06912866979837418,
+          "gripper_mean_l1": 0.002101898193359375
+        },
+        "random_seed_23": {
+          "mean_l1": 0.11381639540195465,
+          "position_mean_l1": 0.0995279923081398,
+          "rotation_mean_l1": 0.16508610546588898,
+          "gripper_mean_l1": 0.002872467041015625
+        },
+        "random_seed_41": {
+          "mean_l1": 0.06475312262773514,
+          "position_mean_l1": 0.0512288399040699,
+          "rotation_mean_l1": 0.09904607385396957,
+          "gripper_mean_l1": 0.0024471282958984375
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.017792293801903725,
+        "position_mean_l1": 0.013956706039607525,
+        "rotation_mean_l1": 0.027098337188363075,
+        "gripper_mean_l1": 0.00138092041015625
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 96,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.06287956237792969,
+          "position_mean_l1": 0.0678304061293602,
+          "rotation_mean_l1": 0.07846196740865707,
+          "gripper_mean_l1": 0.0012798309326171875
+        },
+        "full_loo_static": {
+          "mean_l1": 0.016566140577197075,
+          "position_mean_l1": 0.011210124008357525,
+          "rotation_mean_l1": 0.026915231719613075,
+          "gripper_mean_l1": 0.0015869140625
+        },
+        "uniform": {
+          "mean_l1": 0.10383006185293198,
+          "position_mean_l1": 0.093994140625,
+          "rotation_mean_l1": 0.14753086864948273,
+          "gripper_mean_l1": 0.00223541259765625
+        },
+        "random_seed_17": {
+          "mean_l1": 0.13827840983867645,
+          "position_mean_l1": 0.1180521622300148,
+          "rotation_mean_l1": 0.20412318408489227,
+          "gripper_mean_l1": 0.001422882080078125
+        },
+        "random_seed_23": {
+          "mean_l1": 0.15198244154453278,
+          "position_mean_l1": 0.1597493439912796,
+          "rotation_mean_l1": 0.19414646923542023,
+          "gripper_mean_l1": 0.00218963623046875
+        },
+        "random_seed_41": {
+          "mean_l1": 0.1430710405111313,
+          "position_mean_l1": 0.1196695938706398,
+          "rotation_mean_l1": 0.21349716186523438,
+          "gripper_mean_l1": 0.0019969940185546875
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "keep_count": 64,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.059692926704883575,
+          "position_mean_l1": 0.0612386055290699,
+          "rotation_mean_l1": 0.07752609252929688,
+          "gripper_mean_l1": 0.001556396484375
+        },
+        "full_loo_static": {
+          "mean_l1": 0.0242636539041996,
+          "position_mean_l1": 0.015146891586482525,
+          "rotation_mean_l1": 0.040724437683820724,
+          "gripper_mean_l1": 0.002231597900390625
+        },
+        "uniform": {
+          "mean_l1": 0.16294071078300476,
+          "position_mean_l1": 0.13381576538085938,
+          "rotation_mean_l1": 0.24527104198932648,
+          "gripper_mean_l1": 0.0033245086669921875
+        },
+        "random_seed_17": {
+          "mean_l1": 0.19282232224941254,
+          "position_mean_l1": 0.16949462890625,
+          "rotation_mean_l1": 0.2798703610897064,
+          "gripper_mean_l1": 0.0016613006591796875
+        },
+        "random_seed_23": {
+          "mean_l1": 0.14056886732578278,
+          "position_mean_l1": 0.1285807341337204,
+          "rotation_mean_l1": 0.19873683154582977,
+          "gripper_mean_l1": 0.0020294189453125
+        },
+        "random_seed_41": {
+          "mean_l1": 0.17618505656719208,
+          "position_mean_l1": 0.1583251953125,
+          "rotation_mean_l1": 0.25138983130455017,
+          "gripper_mean_l1": 0.004150390625
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.07506342977285385,
+        "position_mean_l1": 0.08135986328125,
+        "rotation_mean_l1": 0.09317652136087418,
+        "gripper_mean_l1": 0.001834869384765625
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 384,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.021005835384130478,
+          "position_mean_l1": 0.01065556239336729,
+          "rotation_mean_l1": 0.016124725341796875,
+          "gripper_mean_l1": 0.06669998168945312
+        },
+        "full_loo_static": {
+          "mean_l1": 0.021005835384130478,
+          "position_mean_l1": 0.01065556239336729,
+          "rotation_mean_l1": 0.016124725341796875,
+          "gripper_mean_l1": 0.06669998168945312
+        },
+        "uniform": {
+          "mean_l1": 0.1654921919107437,
+          "position_mean_l1": 0.06637191772460938,
+          "rotation_mean_l1": 0.0903523787856102,
+          "gripper_mean_l1": 0.6882724761962891
+        },
+        "random_seed_17": {
+          "mean_l1": 0.058453697711229324,
+          "position_mean_l1": 0.040088653564453125,
+          "rotation_mean_l1": 0.03314208984375,
+          "gripper_mean_l1": 0.189483642578125
+        },
+        "random_seed_23": {
+          "mean_l1": 0.16169439256191254,
+          "position_mean_l1": 0.053188323974609375,
+          "rotation_mean_l1": 0.09320958703756332,
+          "gripper_mean_l1": 0.6926670074462891
+        },
+        "random_seed_41": {
+          "mean_l1": 0.029541015625,
+          "position_mean_l1": 0.024331411346793175,
+          "rotation_mean_l1": 0.0215937290340662,
+          "gripper_mean_l1": 0.06901168823242188
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 256,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.22635242342948914,
+          "position_mean_l1": 0.11044947057962418,
+          "rotation_mean_l1": 0.18714268505573273,
+          "gripper_mean_l1": 0.6916904449462891
+        },
+        "full_loo_static": {
+          "mean_l1": 0.059365954250097275,
+          "position_mean_l1": 0.035210926085710526,
+          "rotation_mean_l1": 0.04358863830566406,
+          "gripper_mean_l1": 0.17916297912597656
+        },
+        "uniform": {
+          "mean_l1": 0.06884384155273438,
+          "position_mean_l1": 0.0396575927734375,
+          "rotation_mean_l1": 0.03709157183766365,
+          "gripper_mean_l1": 0.2516593933105469
+        },
+        "random_seed_17": {
+          "mean_l1": 0.06353296339511871,
+          "position_mean_l1": 0.050955455750226974,
+          "rotation_mean_l1": 0.032998401671648026,
+          "gripper_mean_l1": 0.1928691864013672
+        },
+        "random_seed_23": {
+          "mean_l1": 0.0852334126830101,
+          "position_mean_l1": 0.0459035225212574,
+          "rotation_mean_l1": 0.048496246337890625,
+          "gripper_mean_l1": 0.3134346008300781
+        },
+        "random_seed_41": {
+          "mean_l1": 0.030629293993115425,
+          "position_mean_l1": 0.024542490020394325,
+          "rotation_mean_l1": 0.0236358642578125,
+          "gripper_mean_l1": 0.0698699951171875
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.059365954250097275,
+        "position_mean_l1": 0.035210926085710526,
+        "rotation_mean_l1": 0.04358863830566406,
+        "gripper_mean_l1": 0.17916297912597656
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 192,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.07822690904140472,
+          "position_mean_l1": 0.06931432336568832,
+          "rotation_mean_l1": 0.04909006878733635,
+          "gripper_mean_l1": 0.19237518310546875
+        },
+        "full_loo_static": {
+          "mean_l1": 0.07422883063554764,
+          "position_mean_l1": 0.048453014343976974,
+          "rotation_mean_l1": 0.0609232597053051,
+          "gripper_mean_l1": 0.19147300720214844
+        },
+        "uniform": {
+          "mean_l1": 0.09763935953378677,
+          "position_mean_l1": 0.0906473770737648,
+          "rotation_mean_l1": 0.07260767370462418,
+          "gripper_mean_l1": 0.1937103271484375
+        },
+        "random_seed_17": {
+          "mean_l1": 0.054668426513671875,
+          "position_mean_l1": 0.037799835205078125,
+          "rotation_mean_l1": 0.030976613983511925,
+          "gripper_mean_l1": 0.17634963989257812
+        },
+        "random_seed_23": {
+          "mean_l1": 0.07806233316659927,
+          "position_mean_l1": 0.031223297119140625,
+          "rotation_mean_l1": 0.045291900634765625,
+          "gripper_mean_l1": 0.3168907165527344
+        },
+        "random_seed_41": {
+          "mean_l1": 0.03155326843261719,
+          "position_mean_l1": 0.034974414855241776,
+          "rotation_mean_l1": 0.019775390625,
+          "gripper_mean_l1": 0.05662345886230469
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 128,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.05440821126103401,
+          "position_mean_l1": 0.044348400086164474,
+          "rotation_mean_l1": 0.057504016906023026,
+          "gripper_mean_l1": 0.07530021667480469
+        },
+        "full_loo_static": {
+          "mean_l1": 0.08482115715742111,
+          "position_mean_l1": 0.056041717529296875,
+          "rotation_mean_l1": 0.07741928100585938,
+          "gripper_mean_l1": 0.19336509704589844
+        },
+        "uniform": {
+          "mean_l1": 0.09790011495351791,
+          "position_mean_l1": 0.06644821166992188,
+          "rotation_mean_l1": 0.05709902569651604,
+          "gripper_mean_l1": 0.31465911865234375
+        },
+        "random_seed_17": {
+          "mean_l1": 0.061343055218458176,
+          "position_mean_l1": 0.05453236773610115,
+          "rotation_mean_l1": 0.02283732034265995,
+          "gripper_mean_l1": 0.19729232788085938
+        },
+        "random_seed_23": {
+          "mean_l1": 0.11411421746015549,
+          "position_mean_l1": 0.0955403670668602,
+          "rotation_mean_l1": 0.10127004235982895,
+          "gripper_mean_l1": 0.20836830139160156
+        },
+        "random_seed_41": {
+          "mean_l1": 0.07209859788417816,
+          "position_mean_l1": 0.048376720398664474,
+          "rotation_mean_l1": 0.049325305968523026,
+          "gripper_mean_l1": 0.21158409118652344
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.24010276794433594,
+        "position_mean_l1": 0.15044784545898438,
+        "rotation_mean_l1": 0.18069331347942352,
+        "gripper_mean_l1": 0.6872959136962891
+      }
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 96,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.05111667141318321,
+          "position_mean_l1": 0.047906238585710526,
+          "rotation_mean_l1": 0.047468822449445724,
+          "gripper_mean_l1": 0.07169151306152344
+        },
+        "full_loo_static": {
+          "mean_l1": 0.09110695868730545,
+          "position_mean_l1": 0.06525293737649918,
+          "rotation_mean_l1": 0.08210945129394531,
+          "gripper_mean_l1": 0.1956615447998047
+        },
+        "uniform": {
+          "mean_l1": 0.08482170104980469,
+          "position_mean_l1": 0.07922998815774918,
+          "rotation_mean_l1": 0.042201995849609375,
+          "gripper_mean_l1": 0.22945594787597656
+        },
+        "random_seed_17": {
+          "mean_l1": 0.1054186150431633,
+          "position_mean_l1": 0.06572341918945312,
+          "rotation_mean_l1": 0.07332229614257812,
+          "gripper_mean_l1": 0.32079315185546875
+        },
+        "random_seed_23": {
+          "mean_l1": 0.0990709587931633,
+          "position_mean_l1": 0.07562001794576645,
+          "rotation_mean_l1": 0.049587249755859375,
+          "gripper_mean_l1": 0.3178749084472656
+        },
+        "random_seed_41": {
+          "mean_l1": 0.0948290154337883,
+          "position_mean_l1": 0.054693859070539474,
+          "rotation_mean_l1": 0.0634053573012352,
+          "gripper_mean_l1": 0.3095054626464844
+        }
+      },
+      "main_teacher": null
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "keep_count": 64,
+      "methods": {
+        "teacher_staged": {
+          "mean_l1": 0.05148015543818474,
+          "position_mean_l1": 0.047417957335710526,
+          "rotation_mean_l1": 0.049315135926008224,
+          "gripper_mean_l1": 0.07016181945800781
+        },
+        "full_loo_static": {
+          "mean_l1": 0.11575235426425934,
+          "position_mean_l1": 0.09199905395507812,
+          "rotation_mean_l1": 0.11350885778665543,
+          "gripper_mean_l1": 0.1937427520751953
+        },
+        "uniform": {
+          "mean_l1": 0.154281884431839,
+          "position_mean_l1": 0.14878208935260773,
+          "rotation_mean_l1": 0.13604100048542023,
+          "gripper_mean_l1": 0.22550392150878906
+        },
+        "random_seed_17": {
+          "mean_l1": 0.13277380168437958,
+          "position_mean_l1": 0.12748336791992188,
+          "rotation_mean_l1": 0.11823145300149918,
+          "gripper_mean_l1": 0.19227218627929688
+        },
+        "random_seed_23": {
+          "mean_l1": 0.10283415764570236,
+          "position_mean_l1": 0.059449512511491776,
+          "rotation_mean_l1": 0.07455316931009293,
+          "gripper_mean_l1": 0.31783103942871094
+        },
+        "random_seed_41": {
+          "mean_l1": 0.10522760450839996,
+          "position_mean_l1": 0.1018218994140625,
+          "rotation_mean_l1": 0.0850728377699852,
+          "gripper_mean_l1": 0.17590904235839844
+        }
+      },
+      "main_teacher": {
+        "mean_l1": 0.06652232259511948,
+        "position_mean_l1": 0.06362152099609375,
+        "rotation_mean_l1": 0.051542919129133224,
+        "gripper_mean_l1": 0.1201629638671875
+      }
+    }
+  ],
+  "limitations": [
+    "Three preregistered observations from3 different episodes/tasks, with one early, one middle and one late; task and stage effects cannot be separated.",
+    "Main12-observation G1 remains primary. Supplementary results cannot automatically reopenG2/G3 or justify a revised schedule.",
+    "Normalized action discrepancy is not closed-loop reward/success or latency.",
+    "GPU weights remain on server; thisCPU review verifies the producer final checkpoint receipt and immutable evidence, without reloadingweights."
+  ],
+  "recommendation": {
+    "decision": "no_go_for_training_under_current_or_smaller_step_hypothesis",
+    "is_root_authorization": false,
+    "authorizes_G2_or_G3": false,
+    "step_or_path_sensitivity_supported": true,
+    "consistent_smaller_step_improvement_supported": false,
+    "sufficient_to_continue_step_hypothesis_into_training": false,
+    "rationale_zh": [
+      "128主预算小步长平均E下降，但相对原链只有1/3观测改善；另两个观测均变差，平均收益来自原先最差的late观测。",
+      "128小步长平均E仍高于静态LOO，middle观测同时差于原链、静态LOO和均匀，未出现跨观测一致改善。",
+      "256小步长在3/3观测均差于原链/静态LOO，说明缩小删除步长不保证更好或单调的集合质量。",
+      "64仅有3观测的局部收益，不能据此改主预算或推翻主G1的12观测no-go。"
+    ],
+    "interpretation_zh": "支持选择路径和步长会影响结果；不支持较小步长已稳定修复教师选择。保留主G1和全部补充预算/失败信息，不继续在这3观测上调步长挑最优。",
+    "next_step_zh": "当前不启动正式标注或训练。若重新研究集合目标、删除交互或路径设计，应先登记新的方法假设和开发验证协议；该补充结果本身不构成继续许可。"
+  },
+  "main128_diagnostic_interpretation": {
+    "smaller_vs_main_relative_mean_change": -0.4844288724871967,
+    "smaller_vs_static_relative_mean_change": 0.1339853694470019,
+    "early_middle_teacher_minus_main_mean": 0.02267469558864832,
+    "early_middle_teacher_minus_static_mean": 0.024030685424804688,
+    "note": "Early/middle subset is explanatory only; all3 observations remain in the primary supplement comparison. No new statistical test or pass threshold is introduced.",
+    "action_dimensions_mean": {
+      "smaller_teacher": {
+        "position_mean_l1": 0.05057652791341146,
+        "rotation_mean_l1": 0.056963602701822914,
+        "gripper_mean_l1": 0.025903701782226562
+      },
+      "main_teacher": {
+        "position_mean_l1": 0.06561809126287699,
+        "rotation_mean_l1": 0.08276028248171012,
+        "gripper_mean_l1": 0.23086102803548178
+      },
+      "static": {
+        "position_mean_l1": 0.03461541018138329,
+        "rotation_mean_l1": 0.046114603678385414,
+        "gripper_mean_l1": 0.06515439351399739
+      },
+      "uniform": {
+        "position_mean_l1": 0.059351919839779534,
+        "rotation_mean_l1": 0.06709014127651851,
+        "gripper_mean_l1": 0.10597165425618489
+      }
+    }
+  }
+}

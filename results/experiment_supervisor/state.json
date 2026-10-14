@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_no_go_optional_step_running",
+  "stage": "G1_main_and_optional_no_go_method_revision_required",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -73,12 +73,15 @@
       "job_id": "2990393",
       "name": "cti-g1-step",
       "mode": "preregistered_three_observations",
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_step_20261014_v1",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_step_20261014_v1",
       "source_sha256": "a1b1f0d4723dabe093bbe0b7ce2fb9d770a44fe93b027971afa0dd86c8b4cc71",
       "purpose": "Bounded optional small-step teacher diagnosis after main G1 no-go; 3 train observations,4812 unique upper bound,6000 total attempt cap; no automatic G2 activation",
-      "node": "gpu4026"
+      "node": "gpu4026",
+      "exit_code": 0,
+      "elapsed": "00:09:46",
+      "elapsed_seconds": 586
     }
   ],
   "pending_submission": null,
@@ -120,6 +123,15 @@
       "failed_queries": 0,
       "report": "results/d1_20261014_v2/review.json",
       "interpretation": "One-case teacher language sensitivity only"
+    },
+    {
+      "stage": "G1_optional_step_diagnostic",
+      "status": "completed_no_go",
+      "observations": 3,
+      "queries": 4812,
+      "failed_queries": 0,
+      "report": "results/g1_step_20261014_v1/scientific_review.json",
+      "interpretation": "Smaller-step128 mean.049789 remains above static.043906; only worst terminal observation improved vs main"
     }
   ],
   "deadline": {
@@ -165,20 +177,27 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "Full G1/D4 completed and reviewed no-go",
-    "Optional preregistered3-observation small-step diagnosis job2990393 submitted",
-    "Formal G2/G3 and final test remain closed"
+    "G0 passed; full G1 and preregistered optional diagnosis completed, scientific no-go retained",
+    "All registered CTI jobs completed; results archived and independently reviewed",
+    "Method candidates documented; no formal G2/G3, further searches or final test until revised method/protocol frozen and scientifically reviewed"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
     "Root submits and registers GPU jobs; other projects are unrelated",
-    "Weights and training checkpoints stay on server"
+    "Weights and training checkpoints stay on server",
+    "G1 scientific no-go: do not submit G2/G3 or repeat optional diagnosis automatically; require a separately reviewed versioned method and independent-episode protocol"
   ],
   "last_observed_G1_progress": {
     "completed_observations": 90,
     "expected_observations": 90,
     "completed_teacher_queries": 25634,
+    "failed_queries": 0,
+    "scientific_status": "no_go"
+  },
+  "last_observed_optional_progress": {
+    "completed_observations": 3,
+    "completed_teacher_queries": 4812,
     "failed_queries": 0,
     "scientific_status": "no_go"
   }
