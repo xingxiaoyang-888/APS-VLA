@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F02_matched_seed17_training_running",
+  "stage": "G1_F03_paired_closed_loop_and_latency_running",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -105,8 +105,11 @@
       "source_sha256": "4438625a8b99e0342bfd9d2dbf1f6ac30718c2a91e3bf752f26bac3f8b096848",
       "job_id": "2992193",
       "name": "cti-g1f",
-      "status": "SUBMITTED",
-      "purpose": "G1-F02 matched seed17 A/B;90train60val windows;100updates each;effectivebatch8;hard128 checkpoint selection;server-only checkpoints"
+      "status": "COMPLETED",
+      "purpose": "G1-F02 matched seed17 A/B;90train60val windows;100updates each;effectivebatch8;hard128 checkpoint selection;server-only checkpoints",
+      "exit_code": 0,
+      "elapsed_seconds": 938,
+      "node": "gpu4041"
     },
     {
       "stage": "G1-F03-profile-data",
@@ -116,8 +119,37 @@
       "source_sha256": "30084b8cbc298b5f678a125eb083676fddd58549ead7532720f68b31840c21ef",
       "job_id": "2992210",
       "name": "cti-g1f-eval",
+      "status": "COMPLETED",
+      "purpose": "Three preregistered dense development trajectories for full O2A profiling;task0/3/5 minimum development source index;steps0/80/160;no final-frame padding",
+      "exit_code": 0,
+      "elapsed_seconds": 283,
+      "node": "gpu4026",
+      "observations": 5
+    },
+    {
+      "stage": "G1-F03",
+      "mode": "closed_loop",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1",
+      "source_sha256": "30084b8cbc298b5f678a125eb083676fddd58549ead7532720f68b31840c21ef",
+      "job_id": "2992255",
+      "name": "cti-g1f-eval",
       "status": "SUBMITTED",
-      "purpose": "Three preregistered dense development trajectories for full O2A profiling;task0/3/5 minimum development source index;steps0/80/160;no final-frame padding"
+      "purpose": "G1-F03 all30 independent development states paired A/B+dense+uniform128;120trials;no test"
+    },
+    {
+      "stage": "G1-F03-latency",
+      "mode": "profile",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1",
+      "source_sha256": "30084b8cbc298b5f678a125eb083676fddd58549ead7532720f68b31840c21ef",
+      "job_id": "2992258",
+      "name": "cti-g1f-eval",
+      "status": "COMPLETED",
+      "purpose": "G1-F03 full raw-observation-to-CPU-action latency;5fixeddevobservations;4methods;440calls;head removed;no language/visual cache",
+      "exit_code": 0,
+      "elapsed_seconds": 223,
+      "node": "gpu4041"
     }
   ],
   "agents": {
@@ -230,11 +262,11 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "G1-F A action-only versus B action+future auxiliary is the user-authorized current method; old G1 no-go preserved",
-    "F00:150 same-episode h8 windows frozen;90train60validation;test sealed",
-    "F01 job2992158 passed real L40 input gradients, frozen parameter bytes, hard128/dense exact parity; first operator window only",
-    "F02 job2992193 submitted;100 identical updates per arm,effbatch8,server-only checkpoints;evaluate hard128 validation0/25/50/75/100",
-    "After completed A/B training,paired30 development states on tasks0/3/5 and complete observation-to-action latency;no expansion without closed-loop benefit"
+    "G1-F seed17 A/B completed100updates each;matched initial scorer/sample order and VLA byte hashes verified",
+    "Hard validation teacher L1:A.0297141054 B.0297940155;no offline improvement evidence",
+    "Job2992255 running120paired development trials across30states,task0/3/5;no test",
+    "Latency job2992258 completed440/440calls on5fixedraw observations;A/B median near83ms;tail noise under independent audit",
+    "No expanded seeds/budgets without closed-loop benefit;old deletion-label/staged-rescoring work remains suspended"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -277,6 +309,19 @@
     "unique_tests": 75,
     "scope": "45 ACL/future/windows +27runtime +3runner;CPU only;F01 real evidence separately linked",
     "audit": "results/g1_future/code_audit_training.json"
+  },
+  "last_observed_G1_F_progress": {
+    "train_windows_cached": 90,
+    "validation_windows_cached": 60,
+    "A_updates": 100,
+    "A_hard_teacher_L1_best": 0.0297141054024299,
+    "B_updates_at_least": 26,
+    "profiling_observations": 5,
+    "profiling_missing_predeclared_steps": 4,
+    "no_result_based_panel_changes": true,
+    "B_updates": 100,
+    "B_hard_teacher_L1_best": 0.02979401547151307,
+    "training_finalization": "verified"
   },
   "pending_submission": null
 }

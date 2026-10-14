@@ -1,0 +1,34 @@
+{
+  "jobs": [
+    {
+      "job_id": "2992158",
+      "state": "COMPLETED",
+      "elapsed_seconds": 267,
+      "allocated_gpus": 1,
+      "scope": "F01 acceptance"
+    },
+    {
+      "job_id": "2992193",
+      "state": "COMPLETED",
+      "elapsed_seconds": 938,
+      "allocated_gpus": 1,
+      "scope": "cache+A/Btrain+validation"
+    },
+    {
+      "job_id": "2992210",
+      "state": "COMPLETED",
+      "elapsed_seconds": 283,
+      "allocated_gpus": 1,
+      "scope": "fixeddevprofilecollection"
+    },
+    {
+      "job_id": "2992258",
+      "state": "COMPLETED",
+      "elapsed_seconds": 223,
+      "allocated_gpus": 1,
+      "scope": "full observation-to-action latency440calls"
+    }
+  ],
+  "source": "sacct --parsable2 JobID,State,ExitCode,ElapsedRaw,AllocTRES,NodeList;allocation rows only",
+  "prior_v1_jobs_not_in_this_total": true
+}
