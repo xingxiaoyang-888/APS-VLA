@@ -188,10 +188,10 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "G0 passed; full G1 and preregistered optional diagnosis completed, scientific no-go retained",
-    "All6 registered jobs completed exit0; results archived and independently reviewed",
-    "Existing fixed candidate pool coverage checked with0newqueries; next version must separately address candidate quality and learned scoring",
-    "No formal G2/G3, further searches or final test until revised method/protocol frozen and scientifically reviewed"
+    "G0 passed; main G1 and bounded smaller-step diagnosis retain scientific no-go",
+    "All6 registered jobs completed exit0; GitHub and archived outputs synchronized",
+    "G1R anchor-neighborhood candidate-coverage draft reviewed, not activated; no new sample IDs, queries or training",
+    "Next permissible work is proposal implementation/CPU audit and protocol freezing; no G2/G3 or new GPU pilot without separate reviewed activation"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -213,5 +213,13 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T07:08:33.473005+00:00"
+  "last_supervision_utc": "2026-10-14T08:09:45.751977+00:00",
+  "method_revision": {
+    "proposal_id": "g1r-anchor-swap-v0",
+    "status": "design_reviewed_draft_not_activated",
+    "document": "docs/G1R锚定候选诊断草案.md",
+    "review": "results/method_revision/g1r_design_review_v0.json",
+    "new_queries": 0,
+    "new_jobs": []
+  }
 }

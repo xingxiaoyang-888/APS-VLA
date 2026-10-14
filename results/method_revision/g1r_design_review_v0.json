@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "proposal_id": "g1r-anchor-swap-v0",
+  "status": "design_reviewed_draft_not_activated",
+  "reviewed_utc": "2026-10-14T08:09:45.751977+00:00",
+  "document": "docs/G1R锚定候选诊断草案.md",
+  "document_sha256": "27ce3754c2eb95407b454862628b4a532f121f25f250aca903712cd599baf34e",
+  "root_decision": "Retain G1 no-go. This draft authorizes no experiment and grants no G2/G3 access.",
+  "reviewers": [
+    "packing_migration: packing, nesting, query arithmetic",
+    "data_migration: candidate-coverage interpretation and selection rules",
+    "root: integrated revisions and checked arithmetic against current data code"
+  ],
+  "incorporated_points": [
+    "Temporary A and all candidate128 sets stay within P256; no committed128 add-back",
+    "Actual joint swaps and127/129 singleton interventions are distinguished",
+    "Signed additive proxy includes zero-delta anchor and records degradation",
+    "Oracle anchor containment is not efficacy evidence",
+    "Noise tolerance uses repeated A/C1 errors and is not a global bound",
+    "Absolute gain and group-relative5percent screen explicitly defined",
+    "Only actual candidate singleton union queried;48 maximum, not full64 boundary pool"
+  ],
+  "proposed_sample_count": 36,
+  "actual_new_sample_ids_selected": 0,
+  "query_arithmetic": {
+    "unique_upper_per_observation": 569,
+    "unique_upper_36": 20484,
+    "extra_repeat_successful_forwards": 9,
+    "all_attempts_cap_per_observation": 600,
+    "all_attempts_cap_total": 21600,
+    "fresh_run_successful_forward_upper_total": 20493
+  },
+  "execution": {
+    "gpu_queries": 0,
+    "training_runs": 0,
+    "test_access": false,
+    "new_jobs": [],
+    "scientific_gate_changes": 0
+  },
+  "remaining_before_any_execution": [
+    "Freeze candidate RNG implementation and actual independent train panel with provenance hashes",
+    "Implement and audit runner,127/129/128 packing,duplicate/failure/resume handling and cost cap",
+    "Freeze complete config/source and repeatability selection",
+    "Separate root scientific activation receipt for new protocol; original G1 gate remains no-go"
+  ]
+}
