@@ -26,30 +26,30 @@
     },
     {
       "job_id": "2993645",
-      "state": "RUNNING",
+      "state": "COMPLETED",
       "exit_code": "0:0",
-      "elapsed_seconds": 22,
+      "elapsed_seconds": 1008,
       "allocated_gpus": 1,
       "node": "gpu4012",
       "start": "2026-10-15T01:42:53",
-      "end": "Unknown",
+      "end": "2026-10-15T01:59:41",
       "scope": "closed_loop",
       "training_seed": 23
     },
     {
       "job_id": "2993646",
-      "state": "RUNNING",
+      "state": "COMPLETED",
       "exit_code": "0:0",
-      "elapsed_seconds": 19,
+      "elapsed_seconds": 940,
       "allocated_gpus": 1,
       "node": "gpu4016",
       "start": "2026-10-15T01:42:56",
-      "end": "Unknown",
+      "end": "2026-10-15T01:58:36",
       "scope": "closed_loop",
       "training_seed": 41
     }
   ],
   "source": "sacct -X -P; registered multiseed allocations only",
-  "queried_utc": "2026-10-14T17:43:15.328130+00:00",
+  "queried_utc": "2026-10-14T18:00:07.434131+00:00",
   "parent_jobs_excluded": true
 }

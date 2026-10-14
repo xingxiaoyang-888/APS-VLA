@@ -1,0 +1,131 @@
+{
+  "schema": "G1_F_Long_three_seed_scientific_review_v1",
+  "status": "completed_no_automatic_expansion",
+  "reviewed_utc": "2026-10-14T18:08:39.487281+00:00",
+  "scientific_decision": "direction_consistent_small_positive_closed_loop_effect_on_fixed_development_panel",
+  "interpretation": "All17/23/41 B rates exceed A by1/1/2 outcomes. Mean gain4.44 percentage points on the same30 development states. Offline teacher/GT L1 is slightly worse for B in every seed. This is conditional development evidence, not broad significance or a task-difficulty mechanism proof.",
+  "training_seeds": [
+    17,
+    23,
+    41
+  ],
+  "new_training_arms": 4,
+  "updates_per_arm": 100,
+  "new_closed_loop_trials": 120,
+  "all_AB_seed_state_pairs": 90,
+  "unique_initial_states": 30,
+  "dense_reference_trials": 30,
+  "dense_successes": 29,
+  "successes_by_seed": {
+    "17": {
+      "A": 26,
+      "B": 27
+    },
+    "23": {
+      "A": 26,
+      "B": 27
+    },
+    "41": {
+      "A": 27,
+      "B": 29
+    }
+  },
+  "mean_success_rates": {
+    "A": 0.8777777777777778,
+    "B": 0.9222222222222223
+  },
+  "B_minus_A": {
+    "mean": 0.044444444444444446,
+    "ci95_percentile": [
+      0.01111111111111111,
+      0.07777777777777778
+    ],
+    "unique_initial_states": 30,
+    "training_seeds": [
+      17,
+      23,
+      41
+    ],
+    "paired_seed_state_cells": 90,
+    "repeats": 2000,
+    "bootstrap_seed": 1517,
+    "resampling_unit": "state_trial_id with complete3-seed vector",
+    "stratified_by": "task_id",
+    "per_training_seed_mean": {
+      "17": 0.03333333333333333,
+      "23": 0.03333333333333333,
+      "41": 0.06666666666666667
+    },
+    "training_seed_mean_sample_sd": 0.019245008972987525,
+    "training_seed_mean_range": [
+      0.03333333333333333,
+      0.06666666666666667
+    ],
+    "interpretation": "Descriptive interval conditional on these3 trained seeds and3 tasks; training seeds are not resampled. Three seeds do not establish broad population generalization."
+  },
+  "offline_by_seed": {
+    "17": {
+      "A": {
+        "teacher_l1": 0.02527241363810996,
+        "demonstration_l1": 0.025999743475889167,
+        "selected_update": 100
+      },
+      "B": {
+        "teacher_l1": 0.025616790028288962,
+        "demonstration_l1": 0.026413999156405528,
+        "selected_update": 100
+      },
+      "intersection_over128": 0.9822916666666667
+    },
+    "23": {
+      "A": {
+        "teacher_l1": 0.02384604150429368,
+        "demonstration_l1": 0.024684188406293592,
+        "selected_update": 100
+      },
+      "B": {
+        "teacher_l1": 0.024365265062078832,
+        "demonstration_l1": 0.025161732640117406,
+        "selected_update": 100
+      },
+      "intersection_over128": 0.973828125
+    },
+    "41": {
+      "A": {
+        "teacher_l1": 0.02548378660964469,
+        "demonstration_l1": 0.026319869328290224,
+        "selected_update": 100
+      },
+      "B": {
+        "teacher_l1": 0.02574088585873445,
+        "demonstration_l1": 0.02651443222227196,
+        "selected_update": 100
+      },
+      "intersection_over128": 0.984375
+    }
+  },
+  "mean_intersection_over128": 0.9801649305555555,
+  "cost": {
+    "new_gpu_seconds": 3316,
+    "new_gpu_hours": 0.9211111111111111,
+    "new_training_gpu_seconds": 1368,
+    "new_closed_loop_gpu_seconds": 1948,
+    "parent_gpu_seconds_excluded_from_increment": 3241,
+    "total_long_both_rounds_gpu_seconds": 6557,
+    "failed_or_retried_jobs": 0
+  },
+  "test_opened": false,
+  "further_experiments_authorized": false,
+  "next_action": "Report this completed bounded round and await any new user instruction; no automatic expansion.",
+  "checkpoint_location": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/g1_future_long_multiseed_v1/seed{23,41}/{A,B}/best.pt",
+  "evidence_sha256": {
+    "configs/experiments/g1_future_long_multiseed_v1.json": "e8d3b874642760c0204ddf531563eb983584056a64c9ea8e0c17a13da4f66463",
+    "results/g1_future_long_multiseed_v1/source_g1_future_long_multiseed_v1.json": "b001ae047ab3f92ad36412b633d36a3cfef0c9d678482b6b94b7476925bb1839",
+    "results/g1_future_long_multiseed_v1/analysis/summary.json": "f37cda43a4273483f802ade27309ab6d1517fdeade8cfe314aa167afa06f8ff6",
+    "results/g1_future_long_multiseed_v1/analysis/tables.md": "184cf688e33e2427b63068ffcb3ebcdd7bd30c105b291b0899568dc84a34445f",
+    "results/g1_future_long_multiseed_v1/analysis/independent_closed_loop_review.json": "ed8a6cef7fafa5e40360a7c309908ccef77a749f88b2a24ab76e15bf5e480514",
+    "results/g1_future_long_multiseed_v1/report_review.json": "1eda62e6f7f96e3d942c44e1c11bc021c53cfb012ff255cb3d774dbe293ecdda",
+    "results/g1_future_long_multiseed_v1/slurm_accounting.json": "25e48b6c30f9d4f3b1ee48fff97fde3436bfcdf306422467fa0d6ede57ae011b",
+    "results/g1_future_long_multiseed_v1/slurm_accounting.txt": "95bcdb810b679685ffaddbc5141c4be58caa4fb5f3a9d29f9277e1b002650b8c"
+  }
+}
