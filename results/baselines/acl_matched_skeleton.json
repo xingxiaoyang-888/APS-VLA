@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-14",
+  "method_id": "acl-matched-teacher-cti-conditions-staged-adaptation-v1",
+  "status": "sealed_cpu_skeleton_not_native_reproduced_not_trained",
+  "source_commit": "40b7a7a17f2f5a15acab0564ba1e304bcf6d150d",
+  "source_file": "external/VLA-ACL/src/openvla-oft/prismatic/training/scorer_train_utils.py",
+  "source_file_sha256": "67cbf356a5f9fc1df14ada698760d6d66574f539307ba374e8cb9411e96aa282",
+  "source_checkout_clean": true,
+  "implementation": "src/cti_vla_baselines/acl_matched.py",
+  "documentation": "docs/ACL_matched实现范围.md",
+  "tests": "tests/test_acl_matched_skeleton.py",
+  "cpu_result": "9 passed in 7.18 seconds; one Torch TypedStorage deprecation warning",
+  "gpu_calls": 0,
+  "model_weights_downloaded_or_created": false,
+  "native_reproduction": false,
+  "adaptations": [
+    "CTI projected-feature condition scorer instead of author raw-feature Transformer",
+    "Current-set gate and staged half-budget schedule",
+    "Teacher-only normalized L1 instead of default mixed GT/teacher",
+    "Common original-position packing and action slice"
+  ],
+  "preserved_math": [
+    "Author LapSum threshold and vector-Jacobian product",
+    "Raw-feature black-image gate with detached square-root coefficient"
+  ],
+  "blockers": [
+    "Server raw/black feature producer and semantic black-image verification",
+    "Real frozen BF16 OFT gradient/parity/peak-memory checks",
+    "Complete immutable server-only training/checkpoint/resume driver and preregistered schedule",
+    "Durable full cost ledger and end-to-end deployment adapter",
+    "Separate native ACL source/weight/environment reproduction"
+  ],
+  "cost_scope": "In-process skeleton counters only, no GPU timing or deployment latency claim",
+  "artifact_sha256": {
+    "src/cti_vla_baselines/acl_matched.py": "3a0bf46a2f688beb654ba725ebfc75cf36594dfda72d1f2e4b5dc5e2235c48a3",
+    "docs/ACL_matched实现范围.md": "f454b2d8f5b52f86929609bbfc0ad39d215a0c115d795044bf0bc8bd839e6ea7",
+    "tests/test_acl_matched_skeleton.py": "fc2ca673f6abe152997b91e89294f0681a181c30d7bf6bbf0aa1611baddc1076"
+  }
+}

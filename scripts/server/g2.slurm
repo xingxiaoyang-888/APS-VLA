@@ -28,6 +28,9 @@ for g2_path in "$SOURCE_ROOT" "$RUN_ROOT" "$G1_REPORT"; do
 done
 if [[ "$RUN_ROOT" == "$SOURCE_ROOT" || "$RUN_ROOT" == "$SOURCE_ROOT/"* ]]; then exit 2; fi
 mkdir -p "$RUN_ROOT"
+# Nonblocking lock prevents duplicate submissions from racing the cache index.
+exec 9>"$RUN_ROOT/.writer.lock"
+flock -n 9 || { printf 'G2 output already has an active writer\n' >&2; exit 3; }
 cd "$SOURCE_ROOT"
 source /share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/activate
 export PYTHONPATH="$SOURCE_ROOT/src" PYTHONDONTWRITEBYTECODE=1

@@ -36,6 +36,14 @@ done
 if [[ "$CHECKPOINT_DIRECTORY" != "$MODEL_ROOT/checkpoints/"* ]]; then exit 2; fi
 if [[ "$RUN_ROOT" == "$SOURCE_ROOT" || "$RUN_ROOT" == "$SOURCE_ROOT/"* ]]; then exit 2; fi
 mkdir -p "$RUN_ROOT" "$CHECKPOINT_DIRECTORY"
+exec 9>"$RUN_ROOT/.writer.lock"
+flock -n 9 || { printf 'G3 report directory already has an active writer\n' >&2; exit 3; }
+exec 8>"$CHECKPOINT_DIRECTORY/.writer.lock"
+flock -n 8 || { printf 'G3 checkpoint directory already has an active writer\n' >&2; exit 3; }
+if [[ "$RESUME" == 0 && -e "$RUN_ROOT/training_report.json" ]]; then
+  printf 'Use a new report directory for a fresh training run\n' >&2
+  exit 3
+fi
 cd "$SOURCE_ROOT"
 source "$MODEL_ROOT/venv/bin/activate"
 export PYTHONPATH="$SOURCE_ROOT/src" PYTHONDONTWRITEBYTECODE=1
