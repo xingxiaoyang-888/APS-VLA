@@ -1,0 +1,331 @@
+{
+  "exclusions": [],
+  "gpu_calls": 0,
+  "limitations": "Released RLDS has no raw-demo timestamps or original demo index; alignment audited from pinned upstream source, not independently regenerated simulation",
+  "manifest_sha256": "e63a30e4c0f63dd7008241f828cab794628be5268f38bd641ce75a12eb6ea66b",
+  "manifest_signature": "sha256:70d12e3b90ebd5d43e1dac54856847acd5c9b403d918fb70ed9512d79725aa60",
+  "raw_data_scope": "Only the 30 train and 20 effective-validation episodes decoded; no test observations/model inputs",
+  "schema_version": 1,
+  "source_files": {
+    "libero_spatial-train.tfrecord-00000-of-00016": {
+      "bytes": 118202941,
+      "sha256": "6d6360559a4b71df3bcabd9b55a75451f04375449ca5267616cbc1c21528eac5"
+    },
+    "libero_spatial-train.tfrecord-00001-of-00016": {
+      "bytes": 117638784,
+      "sha256": "9b0c706e9796304dbc40be5f0ccf6a407a471cd3aecbecfc3baab2af26a2a631"
+    },
+    "libero_spatial-train.tfrecord-00002-of-00016": {
+      "bytes": 124105247,
+      "sha256": "e2be727ff29840040cecbce68ee17d7118129cc64d58c2a60ea38967a7482456"
+    },
+    "libero_spatial-train.tfrecord-00003-of-00016": {
+      "bytes": 114001484,
+      "sha256": "ca5c55cef57390f3e3c8a4ef0cbfe8b155b9f7e5a8b37c993f676faecbe25a3a"
+    },
+    "libero_spatial-train.tfrecord-00004-of-00016": {
+      "bytes": 123511634,
+      "sha256": "c29887f8cee8d761439ec865884b8ba1877a3c3d2d886f1f0e802b93b863f268"
+    },
+    "libero_spatial-train.tfrecord-00005-of-00016": {
+      "bytes": 119156456,
+      "sha256": "58dddf6a314a3c2fa6db405bf185313f0984f1778db84bcc9799279fbf5cca26"
+    },
+    "libero_spatial-train.tfrecord-00006-of-00016": {
+      "bytes": 125554213,
+      "sha256": "2dfaef9cfc3786ca2b99124f220bb883c654e173fd77a1da2d77d6ae50a16373"
+    },
+    "libero_spatial-train.tfrecord-00007-of-00016": {
+      "bytes": 116016812,
+      "sha256": "e86de6f6a090f7abe323debf91a04f6e19e4b22a8fe87ca40a244b4f3304fd28"
+    },
+    "libero_spatial-train.tfrecord-00008-of-00016": {
+      "bytes": 115049321,
+      "sha256": "7d787a79b404b65b8cd213e004359908c2a00473531992abec7d580efce6d722"
+    },
+    "libero_spatial-train.tfrecord-00009-of-00016": {
+      "bytes": 123912982,
+      "sha256": "917d05bb4c3f9938b75e08c7344e2282f72d1be97a6b20ea9938dc25ef573612"
+    },
+    "libero_spatial-train.tfrecord-00010-of-00016": {
+      "bytes": 125254897,
+      "sha256": "ffa2df4872379462dcbb76e79fb79eb14770530ccfdad0ba2f676f80ed583cff"
+    },
+    "libero_spatial-train.tfrecord-00011-of-00016": {
+      "bytes": 115996912,
+      "sha256": "561b132619aa8980d125ee4bac6543e1ad3f1fee4bfe9b2a81877bcb2dab829a"
+    },
+    "libero_spatial-train.tfrecord-00012-of-00016": {
+      "bytes": 120268059,
+      "sha256": "d7bf2ea3e7f42a4b942d1661fad0160745062627cedb9f7e94f06c809e2fb3af"
+    },
+    "libero_spatial-train.tfrecord-00013-of-00016": {
+      "bytes": 119776671,
+      "sha256": "ba8aafffa7d4bd741f21b1fca95ebf952b201f2b8440a8e140fab00dd82494b0"
+    },
+    "libero_spatial-train.tfrecord-00014-of-00016": {
+      "bytes": 116903288,
+      "sha256": "6c432441521c78f87ce61e5886faa563b48869410c3d38d82b21f0de8e1a98b2"
+    },
+    "libero_spatial-train.tfrecord-00015-of-00016": {
+      "bytes": 119276849,
+      "sha256": "d58bd00542030bf10bafe262d7e294b36f8347f70a783d83bce14ef6375b953c"
+    }
+  },
+  "status": "verified_real_rlds_windows_no_training",
+  "summary": {
+    "train": {
+      "by_task": {
+        "pick up the black bowl between the plate and the ramekin and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 244,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl from table center and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 337,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 424,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl next to the cookie box and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 342,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl next to the plate and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 352,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl next to the ramekin and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 354,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl on the cookie box and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 283,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl on the ramekin and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 269,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl on the stove and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 404,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        },
+        "pick up the black bowl on the wooden cabinet and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 3,
+            "late": 3,
+            "middle": 3
+          },
+          "possible_future_start_count": 433,
+          "selected_episodes": 3,
+          "tail_starts_without_future": 24,
+          "windows": 9
+        }
+      },
+      "episodes": 30,
+      "windows": 90
+    },
+    "validation": {
+      "by_task": {
+        "pick up the black bowl between the plate and the ramekin and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 175,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl from table center and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 192,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 298,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl next to the cookie box and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 230,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl next to the plate and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 234,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl next to the ramekin and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 238,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl on the cookie box and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 180,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl on the ramekin and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 238,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl on the stove and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 257,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        },
+        "pick up the black bowl on the wooden cabinet and place it on the plate": {
+          "episodes_without_three_starts": 0,
+          "phase_counts": {
+            "early": 2,
+            "late": 2,
+            "middle": 2
+          },
+          "possible_future_start_count": 266,
+          "selected_episodes": 2,
+          "tail_starts_without_future": 16,
+          "windows": 6
+        }
+      },
+      "episodes": 20,
+      "windows": 60
+    }
+  },
+  "wall_seconds": 225.81682569999975
+}

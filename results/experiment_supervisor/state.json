@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_main_and_optional_no_go_method_revision_required",
+  "stage": "G1_F_future_auxiliary_implementation_and_acceptance",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -86,9 +86,9 @@
   ],
   "pending_submission": null,
   "agents": {
-    "packing_migration": "independent raw-result replay and scientific review",
-    "conditional_method": "independent method review and bounded revision candidates",
-    "data_migration": "optional diagnostic input integrity review"
+    "data_migration": "future window alignment and split audit",
+    "conditional_method": "soft gating and future loss implementation",
+    "packing_migration": "single Top-k deployment and paired development evaluation"
   },
   "verified_gates": [
     {
@@ -221,5 +221,12 @@
     "review": "results/method_revision/g1r_design_review_v0.json",
     "new_queries": 0,
     "new_jobs": []
-  }
+  },
+  "current_method": "configs/experiments/g1_future_v1.json",
+  "current_authorization": "2026-10-14 user explicitly requests seed17 matched A action-only versus B action+future supervision; previous G1 no-go remains historical and does not activate old G2/G3",
+  "suspended_work": [
+    "G1R anchor candidate diagnostics",
+    "expanded token deletion labeling",
+    "staged rescoring"
+  ]
 }
