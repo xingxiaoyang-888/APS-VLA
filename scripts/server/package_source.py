@@ -15,6 +15,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, default=Path(".local/source-sync.tar"))
     parser.add_argument("--inventory", type=Path, default=Path("results/migration/source_snapshot.json"))
+    parser.add_argument("--tracked-only", action="store_true", help="Exclude parallel in-progress files not yet reviewed and committed")
     args = parser.parse_args()
     output = (root / args.archive).resolve()
     record = (root / args.inventory).resolve()
@@ -25,10 +26,13 @@ def main() -> None:
     for directory in ("src", "scripts", "configs", "tests", "docs"):
         included.extend(p for p in (root / directory).rglob("*")
                         if p.is_file() and "__pycache__" not in p.parts and p.suffix in {".py", ".md", ".json", ".txt", ".yaml", ".yml", ".slurm", ".sh"})
+    if args.tracked_only:
+        tracked = set(subprocess.run(["git", "ls-files", "-z"], cwd=root, capture_output=True, check=True).stdout.decode("utf-8").split("\0"))
+        included = [p for p in included if p.relative_to(root).as_posix() in tracked]
     hashes = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(included)}
     result = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, text=True, capture_output=True, check=True)
     status = subprocess.run(["git", "status", "--porcelain"], cwd=root, text=True, capture_output=True, check=True)
-    snapshot = {"base_or_current_commit": result.stdout.strip(), "dirty": bool(status.stdout.strip()), "files": hashes,
+    snapshot = {"base_or_current_commit": result.stdout.strip(), "dirty": bool(status.stdout.strip()), "tracked_only": args.tracked_only, "files": hashes,
                 "source_sha256": hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest()}
     record.parent.mkdir(parents=True, exist_ok=True)
     record.write_text(json.dumps(snapshot, indent=2) + "\n", encoding="utf-8", newline="\n")

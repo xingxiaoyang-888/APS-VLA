@@ -1,0 +1,37 @@
+{
+  "audit_date": "2026-10-14",
+  "scope": [
+    "scripts/build_training_cache.py",
+    "scripts/train_selector.py",
+    "src/cti_vla/training/offline.py"
+  ],
+  "status": "read_only_cross_review_completed_after_fixes",
+  "actual_gpu_experiments": 0,
+  "verified": [
+    "Authoritative episode split and effective validation exclusion; train302/906, validation63/189, no test optimizer or model selection.",
+    "Previous index SHA256 and prepublication independent cache receipts bind file bytes, metadata, detached features and policy prompt.",
+    "Seven label provenance versions bind index build config, source dataset, model, runtime input/packing and normalization.",
+    "Frozen assignment agrees with index metadata, then retained sets and candidate indices are recomputed.",
+    "Teacher query journals include retries and interrupted attempts; fixed 1% recomputation audit is additionally charged.",
+    "G3 validation started/completed counters are durable; CUDA synchronizes before completed counts.",
+    "Validation selection is equal-weight task and early/middle/late macro packed error; earlier epoch wins ties.",
+    "Detached scorer/condition training only, frozen VLA validation and immutable checkpoint verification.",
+    "Formal Windows CLI refuses checkpoint training; configured server outputs remain outside immutable VLA weights."
+  ],
+  "tests": {
+    "command": "python -m pytest tests/test_offline_training.py tests/test_teacher_diagnostics.py -q --basetemp F:/CTI-VLA/.local/test-artifacts/g2g3-cross-final",
+    "result": "25 passed in 9.01 seconds; one Torch TypedStorage deprecation warning",
+    "interpretation": "CPU synthetic behavior checks; not research training or GPU validation"
+  },
+  "remaining_conditions": [
+    "Scientific G1 go and complete version-matched G2 train/validation caches are required before formal G3.",
+    "Scheduler usage must reconcile model load, shard decoding and hard-kill time; unknown costs must remain unknown.",
+    "Formal weights and selector checkpoints remain on the server; no real local model/checkpoint was created by this audit.",
+    "Actual accelerator numerical consistency, memory, speed and closed-loop quality remain untested by these CPU checks."
+  ],
+  "source_sha256": {
+    "scripts/build_training_cache.py": "b04952f0d246c7bd9b0d20de2bf0a7eaec558dcb738a646464ef0ab25538968a",
+    "scripts/train_selector.py": "a47d03f0cdb5d33ac1e95aeae71d84c4af4f5b27c3a366e2c179fc546b1757be",
+    "src/cti_vla/training/offline.py": "a9ea3f98c52a15da31c645601a7a83cd3f4d40a28762325f3233b15f98d731d8"
+  }
+}
