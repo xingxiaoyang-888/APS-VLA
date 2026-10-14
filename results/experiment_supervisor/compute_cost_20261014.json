@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "source": "Slurm sacct original job records only; .batch/.extern/steps excluded to avoid double count",
+  "scope": "Completed jobs captured before full G1 job finishes; includes G0 engineering, G1pilot and D1. Does not represent total project or training cost.",
+  "jobs": [
+    {
+      "job_id": "2989099",
+      "name": "cti-g0",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "start_cluster_local": "2026-10-14T12:46:41",
+      "end_cluster_local": "2026-10-14T12:59:07",
+      "elapsed_seconds": 746,
+      "allocated_cpus": 7,
+      "allocated_gpus": 1,
+      "gpu_type": "L40",
+      "allocated_gpu_hours": 0.20722222222222222,
+      "node": "gpu4009"
+    },
+    {
+      "job_id": "2989156",
+      "name": "cti-g0",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "start_cluster_local": "2026-10-14T12:59:52",
+      "end_cluster_local": "2026-10-14T13:10:34",
+      "elapsed_seconds": 642,
+      "allocated_cpus": 7,
+      "allocated_gpus": 1,
+      "gpu_type": "L40",
+      "allocated_gpu_hours": 0.17833333333333334,
+      "node": "gpu4009"
+    },
+    {
+      "job_id": "2989257",
+      "name": "cti-g1",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "start_cluster_local": "2026-10-14T13:13:27",
+      "end_cluster_local": "2026-10-14T13:17:22",
+      "elapsed_seconds": 235,
+      "allocated_cpus": 7,
+      "allocated_gpus": 1,
+      "gpu_type": "L40",
+      "allocated_gpu_hours": 0.06527777777777778,
+      "node": "gpu4009"
+    },
+    {
+      "job_id": "2990203",
+      "name": "cti-d1",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "start_cluster_local": "2026-10-14T13:22:02",
+      "end_cluster_local": "2026-10-14T13:26:06",
+      "elapsed_seconds": 244,
+      "allocated_cpus": 7,
+      "allocated_gpus": 1,
+      "gpu_type": "L40",
+      "allocated_gpu_hours": 0.06777777777777778,
+      "node": "gpu4004"
+    }
+  ],
+  "captured_completed_allocated_l40_hours": 0.5186111111111111,
+  "groups": {
+    "cti-d1": 0.06777777777777778,
+    "cti-g0": 0.38555555555555554,
+    "cti-g1": 0.06527777777777778
+  }
+}

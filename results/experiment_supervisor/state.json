@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_full_running_D1_submitted",
+  "stage": "G1_full_running_D1_completed",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -57,11 +57,14 @@
       "job_id": "2990203",
       "name": "cti-d1",
       "mode": "one_legal_instruction_pair",
-      "status": "submitted",
+      "status": "COMPLETED",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/d1_20261014_v2",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/d1_20261014_v2",
       "source_sha256": "8bcbd70b53b14ad47caadd5e1dff7618a2e4cf21f7bd3f81b217d01ea5faad56",
-      "purpose": "One preregistered valid instruction pair; 18 unique forwards, 24 maximum attempts"
+      "purpose": "One preregistered valid instruction pair; 18 unique forwards, 24 maximum attempts",
+      "exit_code": 0,
+      "node": "gpu4004",
+      "elapsed": "00:04:04"
     }
   ],
   "pending_submission": null,
@@ -89,6 +92,14 @@
       "max_abs_error": 0.0,
       "report": "results/g0_20261014_v1/observations/observation_report.json",
       "checkpoint_unchanged": true
+    },
+    {
+      "stage": "D1",
+      "pairs": 1,
+      "queries": 18,
+      "failed_queries": 0,
+      "report": "results/d1_20261014_v2/review.json",
+      "interpretation": "One-case teacher language sensitivity only"
     }
   ],
   "deadline": {
@@ -133,7 +144,7 @@
   },
   "current_work": [
     "G1 full diagnostics job 2990197 after pilot 165/165 successful queries; no scientific go yet",
-    "D1 job2990203 submitted after 18-file evidence verification and 46 relevant CPU tests",
+    "D1 completed18/18 and independently reconciled; one legal pair only",
     "Full G1 then D4 scientific review before G2/G3",
     "Parallel development: selector closed-loop adapter, complete latency profiling, ACL matched scaffolding"
   ],
