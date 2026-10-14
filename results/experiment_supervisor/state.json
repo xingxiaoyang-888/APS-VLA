@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated_date": "2026-10-14",
-  "status": "completed_current_authorized_round",
+  "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F03_completed_no_go_expansion",
+  "stage": "G1_F_Long_assets_and_protocol_preparation",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -261,6 +261,15 @@
       "manifest": "configs/assets/vla_acl_spatial_scorers.json",
       "receipt": "results/assets/vla_acl_spatial_scorers.json",
       "log": "results/assets/vla_acl_download_mirror.log"
+    },
+    {
+      "asset": "LIBERO-Long OFT and RLDS",
+      "status": "started",
+      "model_manifest": "configs/assets/openvla_oft_libero_long.json",
+      "data_manifest": "configs/assets/libero_long_rlds.json",
+      "result_root": "results/g1_future_long/assets",
+      "weights_local": false,
+      "gpu_jobs": 0
     }
   ],
   "source_snapshot": {
@@ -288,11 +297,10 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "G1-F bounded round completed:all6 registered jobs COMPLETED exit0;3502L40GPUseconds total",
-    "A28/30 B27/30 dense28/30 uniform22/30;pair counts Aonly1 Bonly0 both27 neither2",
-    "Two latency runs kept intact:880calls;A/B typical83-84ms;no claim B deploys faster",
-    "No further seeds,budgets,heads or test access;old deletion-label/staged-rescoring scope stays suspended",
-    "Nonweight evidence returned locally;checkpoints remain only on server;existing automation PAUSED preserved"
+    "Pin Long model95220f9 and RLDS6ce6aaa;download25model and34data files on server only",
+    "Freeze Long taskindices0/3/5 and10development initial states each before outcomes;520step official horizon",
+    "Independent Long episode split and90train/60val windows;quantify actual8action state change;test sealed",
+    "Implement explicit suite guards and independent Long dense/F01 acceptance before matched seed17 training"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -314,7 +322,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T12:36:05.998594+00:00",
+  "last_supervision_utc": "2026-10-14T15:07:51.759432+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -323,8 +331,8 @@
     "new_queries": 0,
     "new_jobs": []
   },
-  "current_method": "configs/experiments/g1_future_v1.json",
-  "current_authorization": "2026-10-14 user explicitly requests seed17 matched A action-only versus B action+future supervision; previous G1 no-go remains historical and does not activate old G2/G3",
+  "current_method": "configs/experiments/g1_future_long_v1.json",
+  "current_authorization": "User explicitly requests one bounded LIBERO-Long G1-F round;new Long model/data and newly initialized matched A/B;report after first round and do not automatically expand",
   "suspended_work": [
     "G1R anchor candidate diagnostics",
     "expanded token deletion labeling",
@@ -360,7 +368,7 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Review a separately defined research revision;no automatic GPU experiments for this configuration",
+  "next_allowed_action": "Finish registered Long assets/protocol/input+F01 acceptance,then bounded100update matched training and90development trials;stop after report",
   "current_round_cost": {
     "registered_jobs": 6,
     "allocated_gpu_seconds": 3502,
