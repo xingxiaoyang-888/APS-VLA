@@ -151,6 +151,18 @@
       "exit_code": 0,
       "elapsed_seconds": 223,
       "node": "gpu4041"
+    },
+    {
+      "job_id": "2992331",
+      "name": "cti-g1f-profile-repeat1",
+      "stage": "G1-F03-latency-repeat",
+      "mode": "profile_repeat1",
+      "status": "SUBMITTED",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1/latency_repeat1",
+      "source_sha256": "30084b8cbc298b5f678a125eb083676fddd58549ead7532720f68b31840c21ef",
+      "registration": "results/g1_future_v1/latency_repeat1_registration.json",
+      "purpose": "Sole fixed-configuration latency replication after cross-method spikes;440calls;same5observations;retain first run and all spikes;no auto retry"
     }
   ],
   "agents": {
@@ -289,7 +301,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T12:20:12.262510+00:00",
+  "last_supervision_utc": "2026-10-14T12:23:23.159033+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -322,7 +334,7 @@
     "B_updates": 100,
     "B_hard_teacher_L1_best": 0.02979401547151307,
     "training_finalization": "verified",
-    "closed_loop_completed_trials": 66,
+    "closed_loop_completed_trials": 86,
     "closed_loop_expected_trials": 120
   },
   "pending_submission": null
