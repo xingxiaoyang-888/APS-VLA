@@ -1,0 +1,303 @@
+{
+  "base_frozen": true,
+  "checkpoint_sha256": "f2bd41225681fe0a1df1b3b8231b7ffe67c27fc40e54a7480a2ede9e41f18df6",
+  "checkpoint_unchanged": true,
+  "completed_updates": 100,
+  "evaluations": [
+    {
+      "update": 0,
+      "validation_metric": 0.08444879449283084
+    },
+    {
+      "update": 25,
+      "validation_metric": 0.03604023028165102
+    },
+    {
+      "update": 50,
+      "validation_metric": 0.030163650571679076
+    },
+    {
+      "update": 75,
+      "validation_metric": 0.027510914377247293
+    },
+    {
+      "update": 100,
+      "validation_metric": 0.02574088585873445
+    }
+  ],
+  "f01_report_sha256": "fe4f86e0807fd85844bd4ab673364b6fa50bbd055ed7b6896e7689e58a4515bb",
+  "kind": "deployment_receipt",
+  "metadata": {
+    "arm": "B",
+    "base_frozen": true,
+    "checkpoint_unchanged": true,
+    "config_sha256": "65d12bc613455ffec4ca9d5e55a8dba45a083e817fc546712190ae03d34f8119",
+    "input_acceptance_sha256": "43a094489cc884813c9889104b4ef706f6050c7242dc48fd22ede264757e7def",
+    "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+    "model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+    "packing_version": "oft-original-positions-v1",
+    "pair_id": "0bce5c3a2f43b05a83fc4fbed388d1a9b2b735c2cdf56a076ae237554e7e4e21",
+    "schema": "g1_future_v1",
+    "scorer_dimensions": {
+      "hidden_dim": 256,
+      "language_dim": 4096,
+      "max_instruction_tokens": 128,
+      "num_cameras": 2,
+      "patches_per_camera": 256,
+      "proprio_dim": 8,
+      "token_dim": 4096
+    },
+    "seed": 41,
+    "selection_metric": "hard_validation_teacher_l1",
+    "stats_key": "libero_10_no_noops",
+    "suite": "libero_10",
+    "training_complete": false,
+    "training_source_files": {
+      "scripts/run_g1_future.py": "f4b73b44a466f8793dd38c662eaa90bc8a84f398baf1dc88b2b17f9e4f7d633d",
+      "src/cti_vla/__init__.py": "87c57d36dbb197ab4f3fce8a04ba4210ce59db2aeaff25ea4426436c21238511",
+      "src/cti_vla/data/__init__.py": "488a6651949594b79df67ab5bbdc2453119fe7230efd542ec6dafc2bd590c86d",
+      "src/cti_vla/data/experiment_protocol.py": "6a58b2393db41bc401a87e24ded424b7316846bae93660cb2d34a6dc4a3a2334",
+      "src/cti_vla/data/future_windows.py": "4bf5592d6d2c5675ea6b4b7f1b7e68c659d9d41e8b9e5e862a26fab3e2e4553e",
+      "src/cti_vla/data/identity.py": "c785ecca08cfff340c71cb4bf1cc9236c78f1c1d7e868e9308f96e263040cb5d",
+      "src/cti_vla/data/initial_states.py": "34b73213fce668575b29a3fb52a63fee0b8914c8ef3eba04466dda8de9703383",
+      "src/cti_vla/data/libero.py": "b2b9599f9fbb407aa69f008fb679f2d8b04855ab63c9b7e866c1d8f046d8fde2",
+      "src/cti_vla/data/long_future_windows.py": "8844ad4cecb190a31186f609f033d41abeb7efac21cb9ba5b55342cdc2c54b11",
+      "src/cti_vla/data/long_initial_states.py": "972a8257320d9c2f080fe999e19eac784340bfc21dd8d2b17baca25ebb2e5d22",
+      "src/cti_vla/data/sequence_example.py": "136f246fc5b8cc5fccc9323ad5a1e8529f225e4e5447a494e3fda12d8d5fd101",
+      "src/cti_vla/data/tfrecord.py": "56c2ebf85d4745497f7047360ff1584c731630d594d55e469a54a27155abca5f",
+      "src/cti_vla/evaluation/__init__.py": "9eb6f1c2d411a1b0b2a7f36cbd48190da76b750ef033909169370b43e8211913",
+      "src/cti_vla/evaluation/checkpoint_manifest.py": "6bad8f22b9b683de4785a3f05827f6383759a5689ca178efe71ea078211f368a",
+      "src/cti_vla/evaluation/condition_diagnostics.py": "5f93c34de5c503584c3fc081b17e8034d7a292152fb371bb382777b840ac2555",
+      "src/cti_vla/evaluation/conditional_smoke.py": "543574dec07ba7c89c858168b4910a2d18acd76260a7c59c20441c1adf6b6a37",
+      "src/cti_vla/evaluation/future_dense_reuse.py": "ab678423315530b5a38b7f7df41e55ea1abf3a3e05bc423e3c49d05c09d82d6c",
+      "src/cti_vla/evaluation/future_input_acceptance.py": "3b0b841d1960486750e2d3ef53ea64b3bafbe04b7b51d48f93b280ae54a8f640",
+      "src/cti_vla/evaluation/future_multiseed.py": "f5d75c685c5d9ff2ba907387248120094b2ebdb2d0022257625d9193ac735580",
+      "src/cti_vla/evaluation/future_profiling.py": "6c3c47c4110fe56191e98e9b5302c9fcc3a265f84937101019e65afe18b11c31",
+      "src/cti_vla/evaluation/future_runtime.py": "549dfa90f9fc6610ce87e12416fc6b5fa179ac0673eed1172f8be0827cc9d874",
+      "src/cti_vla/evaluation/future_seed_reuse.py": "64f73dbc5de822c242963800db6b461e396c8a1a3f965e03ab55f9119d4292b6",
+      "src/cti_vla/evaluation/future_trials.py": "7f3c6e8a2a7c937e7e8a2d2bc7aae70c66676d9d15bdec013cfa0c37df168bf6",
+      "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+      "src/cti_vla/evaluation/profiling.py": "648cf11400b0d70f2e4ee99fd8d4c26f917b38957b546ad5bfc578915d1d0404",
+      "src/cti_vla/evaluation/selector_runtime.py": "67c5915c20b39ea41f533e8c4f7eeb5ef32343a37f71b0e681d72ae0d9ae1086",
+      "src/cti_vla/evaluation/selector_trials.py": "fb543fc494f0da3d0420960be19e3b3a7417e2a12ae389d7ebce2cd585e3096f",
+      "src/cti_vla/evaluation/teacher_diagnostics.py": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd",
+      "src/cti_vla/labeling/__init__.py": "5fb5e4c95e5b5101b90ae1c8cf132db259737884fe828c48d37ac088f3a1c1b9",
+      "src/cti_vla/labeling/cache.py": "42584ece20fb45a3186f05ecf890d89c1d4ae78c7b13f3fb4a65764e3268676c",
+      "src/cti_vla/labeling/deletion.py": "51f1f0d8aa793bdf727e1f4a92c39f1bf873a74328181f631fba239e8836171a",
+      "src/cti_vla/labeling/sampling.py": "81e8a6f63f8ce8da74aa5001efbfc05b0b2fc41df49bdec51c1dfa5c90517f04",
+      "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+      "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+      "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+      "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+      "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+      "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+      "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+      "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb",
+      "src/cti_vla/selection/__init__.py": "2a05c0aa803c280c1308d8fe0c538faa29e21acbb13ecc2c915251e352360385",
+      "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+      "src/cti_vla/training/__init__.py": "2e724e5b30883dfa7d96acb58aa9501200f91d1341414f8492788c8d916b5a6f",
+      "src/cti_vla/training/conditional.py": "354e014a5076543bab9046e9987e691d450ae6db7b48c043685a27303aa6a31c",
+      "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+      "src/cti_vla/training/offline.py": "a9ea3f98c52a15da31c645601a7a83cd3f4d40a28762325f3233b15f98d731d8",
+      "src/cti_vla_baselines/__init__.py": "435007c8a55697835a0db104f9d53617ec6caddfa56414b67fd0c87d148e6ca1",
+      "src/cti_vla_baselines/acl_matched.py": "3a0bf46a2f688beb654ba725ebfc75cf36594dfda72d1f2e4b5dc5e2235c48a3"
+    },
+    "training_source_sha256": "592294ab2384ace2ddefbca056e25bee5290b32a0e0247f7a5ba83455d982350",
+    "update": 100,
+    "validation_metric": 0.02574088585873445,
+    "window_manifest_sha256": "707b9daf18827c41f4470bf163528a6f626c95e297e0e38c673792959fef4c28"
+  },
+  "metadata_sha256": "c9a3393bd5b83d055ebb81f6a1c05bbaf1513d9d9454e0eae58b95730b340109",
+  "pair_config": {
+    "action_loss": {
+      "demonstration_l1_weight": 0.5,
+      "space": "checkpoint-normalized action8x7",
+      "teacher_l1_weight": 0.5
+    },
+    "arms": [
+      "A",
+      "B"
+    ],
+    "future": {
+      "deployment": "head and executed-action inputs removed",
+      "head": "Linear(512+8*7,256),SiLU,Linear(256,512)",
+      "head_inputs": [
+        "gated current visual representation",
+        "normalized actually executed demonstration actions[t:t+8]"
+      ],
+      "horizon": 8,
+      "layer_norm_eps": 1e-05,
+      "loss": "mean squared error over all512 features",
+      "projection_scale": "1/sqrt(4096)",
+      "projection_seed": 917,
+      "representation": "Frozen OFT projected visual tokens, each 16x16 camera pooled to 2x2, shared fixed Gaussian projection to64 per cell, per-cell parameter-free LayerNorm, flatten512",
+      "target": "detached visual representation of observation[t+8] from same episode",
+      "weight_A": 0.0,
+      "weight_B": 0.1
+    },
+    "gate": {
+      "alpha_end": 0.1,
+      "alpha_start": 2.0,
+      "method": "ACL LapSum per camera; raw-feature black-image mixing with detached sqrt stabilizer",
+      "schedule": "cosine across100updates"
+    },
+    "limits": {
+      "allow_hyperparameter_search": false,
+      "automatic_expansion": false,
+      "expand_only_after_closed_loop_benefit": true,
+      "first_gpu_job": "Long-specific raw-input official dense parity and F01 acceptance;no training before successful acceptance",
+      "old_deletion_label_expansion": false,
+      "staged_rescoring": false,
+      "stop_after_first_round": true
+    },
+    "model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+    "panels": {
+      "closed_loop": "libero_10,task indices0/3/5 selected before results;10registered development states each;paired dense,A,B;official520control-step limit",
+      "test": "sealed",
+      "train": "3 episodes per each of10 Long tasks,seed117 selection from seed17 whole-episode train split;3valid starts each",
+      "validation": "2 episodes per each of10 Long tasks from validation,seed517;3valid starts each",
+      "window_phases": "first,middle,last valid start within same episode"
+    },
+    "question": "Does adding future visual-state supervision improve matched hard token pruning on this bounded LIBERO-Long development experiment?",
+    "run_id": "g1_future_long_seed41_v1",
+    "schema": "g1_future_v1",
+    "scorer_dimensions": {
+      "hidden_dim": 256,
+      "language_dim": 4096,
+      "max_instruction_tokens": 128,
+      "num_cameras": 2,
+      "patches_per_camera": 256,
+      "proprio_dim": 8,
+      "token_dim": 4096
+    },
+    "seed": 41,
+    "selection": {
+      "future_loss_used": false,
+      "metric": "hard_validation_teacher_l1",
+      "tie_break": "earliest_update",
+      "updates": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "stats_key": "libero_10_no_noops",
+    "suite": "libero_10",
+    "tokens_per_camera": 64,
+    "training": {
+      "dtype_scorer": "float32",
+      "dtype_vla": "bfloat16",
+      "effective_batch": 8,
+      "gradient_clip_norm": 1.0,
+      "gradient_through_vla": true,
+      "learning_rate": 0.0001,
+      "micro_batch": 1,
+      "optimizer": "AdamW",
+      "order": "identical seeded shuffled windows, cycling through epochs",
+      "same_initial_scorer": true,
+      "updates": 100,
+      "vla_frozen": true,
+      "weight_decay": 0.01
+    }
+  },
+  "planned_updates": 100,
+  "schema": "g1_future_v1",
+  "training_complete": true,
+  "training_config": {
+    "action_loss": {
+      "demonstration_l1_weight": 0.5,
+      "space": "checkpoint-normalized action8x7",
+      "teacher_l1_weight": 0.5
+    },
+    "arm": "B",
+    "arms": [
+      "A",
+      "B"
+    ],
+    "future": {
+      "deployment": "head and executed-action inputs removed",
+      "head": "Linear(512+8*7,256),SiLU,Linear(256,512)",
+      "head_inputs": [
+        "gated current visual representation",
+        "normalized actually executed demonstration actions[t:t+8]"
+      ],
+      "horizon": 8,
+      "layer_norm_eps": 1e-05,
+      "loss": "mean squared error over all512 features",
+      "projection_scale": "1/sqrt(4096)",
+      "projection_seed": 917,
+      "representation": "Frozen OFT projected visual tokens, each 16x16 camera pooled to 2x2, shared fixed Gaussian projection to64 per cell, per-cell parameter-free LayerNorm, flatten512",
+      "target": "detached visual representation of observation[t+8] from same episode",
+      "weight_A": 0.0,
+      "weight_B": 0.1
+    },
+    "gate": {
+      "alpha_end": 0.1,
+      "alpha_start": 2.0,
+      "method": "ACL LapSum per camera; raw-feature black-image mixing with detached sqrt stabilizer",
+      "schedule": "cosine across100updates"
+    },
+    "limits": {
+      "allow_hyperparameter_search": false,
+      "automatic_expansion": false,
+      "expand_only_after_closed_loop_benefit": true,
+      "first_gpu_job": "Long-specific raw-input official dense parity and F01 acceptance;no training before successful acceptance",
+      "old_deletion_label_expansion": false,
+      "staged_rescoring": false,
+      "stop_after_first_round": true
+    },
+    "model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+    "panels": {
+      "closed_loop": "libero_10,task indices0/3/5 selected before results;10registered development states each;paired dense,A,B;official520control-step limit",
+      "test": "sealed",
+      "train": "3 episodes per each of10 Long tasks,seed117 selection from seed17 whole-episode train split;3valid starts each",
+      "validation": "2 episodes per each of10 Long tasks from validation,seed517;3valid starts each",
+      "window_phases": "first,middle,last valid start within same episode"
+    },
+    "question": "Does adding future visual-state supervision improve matched hard token pruning on this bounded LIBERO-Long development experiment?",
+    "run_id": "g1_future_long_seed41_v1",
+    "schema": "g1_future_v1",
+    "scorer_dimensions": {
+      "hidden_dim": 256,
+      "language_dim": 4096,
+      "max_instruction_tokens": 128,
+      "num_cameras": 2,
+      "patches_per_camera": 256,
+      "proprio_dim": 8,
+      "token_dim": 4096
+    },
+    "seed": 41,
+    "selection": {
+      "future_loss_used": false,
+      "metric": "hard_validation_teacher_l1",
+      "tie_break": "earliest_update",
+      "updates": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ]
+    },
+    "stats_key": "libero_10_no_noops",
+    "suite": "libero_10",
+    "tokens_per_camera": 64,
+    "training": {
+      "dtype_scorer": "float32",
+      "dtype_vla": "bfloat16",
+      "effective_batch": 8,
+      "gradient_clip_norm": 1.0,
+      "gradient_through_vla": true,
+      "learning_rate": 0.0001,
+      "micro_batch": 1,
+      "optimizer": "AdamW",
+      "order": "identical seeded shuffled windows, cycling through epochs",
+      "same_initial_scorer": true,
+      "updates": 100,
+      "vla_frozen": true,
+      "weight_decay": 0.01
+    }
+  }
+}

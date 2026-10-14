@@ -2,30 +2,54 @@
   "jobs": [
     {
       "job_id": "2993590",
-      "state": "PENDING",
+      "state": "COMPLETED",
       "exit_code": "0:0",
-      "elapsed_seconds": 4,
-      "allocated_gpus": 0,
+      "elapsed_seconds": 685,
+      "allocated_gpus": 1,
       "node": "gpu4012",
       "start": "2026-10-15T01:29:35",
-      "end": "Unknown",
+      "end": "2026-10-15T01:41:00",
       "scope": "train",
       "training_seed": 23
     },
     {
       "job_id": "2993591",
-      "state": "PENDING",
+      "state": "COMPLETED",
       "exit_code": "0:0",
-      "elapsed_seconds": 2,
-      "allocated_gpus": 0,
+      "elapsed_seconds": 683,
+      "allocated_gpus": 1,
       "node": "gpu4016",
       "start": "2026-10-15T01:29:37",
-      "end": "Unknown",
+      "end": "2026-10-15T01:41:00",
       "scope": "train",
+      "training_seed": 41
+    },
+    {
+      "job_id": "2993645",
+      "state": "RUNNING",
+      "exit_code": "0:0",
+      "elapsed_seconds": 22,
+      "allocated_gpus": 1,
+      "node": "gpu4012",
+      "start": "2026-10-15T01:42:53",
+      "end": "Unknown",
+      "scope": "closed_loop",
+      "training_seed": 23
+    },
+    {
+      "job_id": "2993646",
+      "state": "RUNNING",
+      "exit_code": "0:0",
+      "elapsed_seconds": 19,
+      "allocated_gpus": 1,
+      "node": "gpu4016",
+      "start": "2026-10-15T01:42:56",
+      "end": "Unknown",
+      "scope": "closed_loop",
       "training_seed": 41
     }
   ],
   "source": "sacct -X -P; registered multiseed allocations only",
-  "queried_utc": "2026-10-14T17:29:39.249339+00:00",
+  "queried_utc": "2026-10-14T17:43:15.328130+00:00",
   "parent_jobs_excluded": true
 }

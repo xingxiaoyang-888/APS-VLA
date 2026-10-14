@@ -1,0 +1,118 @@
+{
+  "schema": "long-g1f-training-independent-review-v1",
+  "status": "passed",
+  "training_seed": 23,
+  "job_id": "2993590",
+  "reviewed_utc": "2026-10-14T17:42:09.845775+00:00",
+  "source_snapshot_identity_sha256": "868616d1724d86d1b43b29798632beccbc6a1e8a349b26d27cdfc98d8312a5c5",
+  "scope": "Completed training evidence only; not new F01, closed-loop result or permission to expand experiments.",
+  "checks": {
+    "matched100updates800samples": true,
+    "fresh_seed_initialization": true,
+    "same_seed_AB_initialization_order": true,
+    "all_three_seed_initialization_hashes_distinct": true,
+    "earliest_best_validation_rule": true,
+    "new_checkpoint_receipt_identity": true,
+    "parent_engineering_and_readonly_cache_identity": true,
+    "no_cache_reproduction_events": true,
+    "frozen_VLA_parameter_SHA": true,
+    "all_numeric_values_finite": true,
+    "only_registered_new_job_in_cost": true
+  },
+  "initial_scorer_sha256_by_seed": {
+    "17": "96f168f4e756e775fa6e60f71ae137d65f93466ef0a9794eb8cd329e5b3d8b17",
+    "23": "0b5afb698921d8d3fd10c42b15c5a178eb6a666c32df187f4961a98bab98c051",
+    "41": "d62b454c4ca888f19c0d0153bad58620f4f6b0c4e1364cd963515bab634aed94"
+  },
+  "sample_order_sha256": "66ad2011bfd7e8f9126dfce10ed714e1b7234269eae93d9d14511b2b5f4c2ee3",
+  "arms": {
+    "A": {
+      "best_update": 100,
+      "teacher_l1": 0.02384604150429368,
+      "demonstration_l1": 0.024684188406293592,
+      "best_checkpoint_sha256": "745f7578290d35d4cd03b972763ad28366b7254dae1310e3f58a2f2cbfd1f2e6",
+      "future_mse": null
+    },
+    "B": {
+      "best_update": 100,
+      "teacher_l1": 0.024365265062078832,
+      "demonstration_l1": 0.025161732640117406,
+      "best_checkpoint_sha256": "0267e56cb52d43ca6011b27bd78c961f377ef4267cca6d500c0c8c5cfba2e5b5",
+      "future_mse": 0.36839762578407925
+    }
+  },
+  "mean_best_hard_intersection_over128": 0.973828125,
+  "cost": {
+    "A": {
+      "update_pairs": 100,
+      "forward_backward_samples": 800,
+      "saved_validation_calls": 300,
+      "update_seconds": 162.8512071892619,
+      "validation_seconds": 17.04967801645398,
+      "wall_seconds_this_attempt": 215.52835219539702
+    },
+    "B": {
+      "update_pairs": 100,
+      "forward_backward_samples": 800,
+      "saved_validation_calls": 300,
+      "update_seconds": 164.1734298337251,
+      "validation_seconds": 18.689550356939435,
+      "wall_seconds_this_attempt": 218.62770489230752
+    },
+    "new_job_id": "2993590",
+    "allocated_gpu_seconds": 685,
+    "allocated_gpu_hours": 0.19027777777777777,
+    "new_cache_teacher_forwards": 0,
+    "new_vision_backbone_forwards": 0,
+    "source_derived_logical_action_forwards": 2200,
+    "shared_parent_cache_forwards_not_recharged": 150,
+    "scope": "Only the new registered training job; no parent F00/F01/cache bill is added. Nested timers are not summed with Slurm allocation. Validation has complete saved rows, not per-forward durable starts.",
+    "slurm_accounting_row": {
+      "job_id": "2993590",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 685,
+      "allocated_gpus": 1,
+      "node": "gpu4012",
+      "start": "2026-10-15T01:29:35",
+      "end": "2026-10-15T01:41:00",
+      "scope": "train",
+      "training_seed": 23
+    }
+  },
+  "evidence_sha256": {
+    "results/g1_future_long_multiseed_v1/seed23/training/A/cost_events.jsonl": "c7e311be71eb2724edb2ab6e9e04f96571e54fc1baf82dee917dd8b91180ae24",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/deployment_receipt.json": "44fbf815c71aaec0adbe711c55fa35e661026e8d31f00cb0e11d5e0183551de1",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/training_report.json": "01cf3c3f6ccd9daa40d6a39617a9747cb168111978fc4c587ee0d5dd5dc4f122",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/validation_0000.json": "f095285d5be09be04a5ce18c9f7270bf9779cd8a646209dfce66290580602cd2",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/validation_0025.json": "1bba378791dd625028283187f8089e87428b68c4ae5265c8bff1290a59124179",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/validation_0050.json": "7d493276c220160fbaeaebc62681c1dcc0489ab286efe1622ffb625c2fc7fdfd",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/validation_0075.json": "e843201f18ac33d7d483bd5742a5b01a28ec5cfdad0d1d37fb366222125d0c74",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/validation_0100.json": "ebb190c40dd01f39b34cb83dd865d8d6148eb01eaccb24076c34e08d206d5573",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/cost_events.jsonl": "d762b4ef98962fb5be412739522c28408ba6951553b87c56989f43c672556503",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/deployment_receipt.json": "dd482f09c03c7403d3863d757a6d098098c3e5054e7e6ab4c5d20a216f96dca1",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/training_report.json": "2895a8ad2f7c9698ab7372c70919605db90bebee113070c586c7593f78d22975",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/validation_0000.json": "fc2803bfb1539384737f7163f059d3e8f03f100aaf26f83de5c61ad8adb825bd",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/validation_0025.json": "ff197db8eae877c304fddd9ee00c8f985e10360c32cb9d32394072b325e650dc",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/validation_0050.json": "df398411acfe370c0c7fe617c0ccad8ee7d4a2df5822795d12bdd055f5a9dd61",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/validation_0075.json": "1655ed04e13787b93215af7c11e5248a3156f92a51cd9107d5a05c0dcd61606b",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/validation_0100.json": "657390721ce4ddb8897cff110828a4bd94fbac9827a2b7703f946ea0d3e66957",
+    "results/g1_future_long_multiseed_v1/seed23/training/cache_index.json": "4ed339aabfc527f5da8e374504c45dea41312865296b67a376edc06f89411d2b",
+    "results/g1_future_long_multiseed_v1/seed23/training/engineering_reuse_receipt.json": "36247d9425ed38799e67e11ee46a25bc60dd16312091ca84a14b4c418f51bca3",
+    "results/g1_future_long_multiseed_v1/seed23/training/registered_config.json": "13d2d2e88259f7b68adcdd5d666bc826db33c0034b2a9969ee7566c885d52deb",
+    "results/g1_future_long_multiseed_v1/seed23/training/registered_windows.json": "707b9daf18827c41f4470bf163528a6f626c95e297e0e38c673792959fef4c28",
+    "results/g1_future_long_multiseed_v1/seed23/training/train_finalization.json": "e1e1e2186ecb6742922db27a9927f21eeeda79c0a6a0812fdd7d0c6884d9d245",
+    "results/g1_future_long_multiseed_v1/seed23/training/training_order.json": "91c453dbe4c9713a9c4a344687ee154131b6f735d6ac2da743d45cec5abaa1bd",
+    "results/g1_future_long_multiseed_v1/seed23/training/training_summary.json": "4e72b13676d905c077dafa6972dd874f4787a3fe090cea5b01ce374ec4d5f044",
+    "results/g1_future_long_multiseed_v1/seed23/reuse_registration.json": "3547934d13fbbdf2436b555f4d7307f9db1cc0977010482cf368487b167893cf",
+    "results/g1_future_long_multiseed_v1/seed23/submission_train.json": "70c5f51145eafe8a73e712b78e61366c11e4d62a750befea4c11a3b53301b5e7",
+    "configs/experiments/g1_future_long_seed23_v1.json": "7dbf07bdec267fd7071e52e7ab70eb8f72f67ec0f435b94e44bb3b17eaf77156"
+  },
+  "review_script_sha256": "a5bc4b2a1738bac529b12e52fa8461538f957a5eb30d4236a2596ccaba80bfd2",
+  "limitations": [
+    "Local non-weight evidence review; server-only cache/checkpoint tensors are not reloaded or rehashed locally.",
+    "Base/cache immutability derives from completed frozen producer checks and exact receipts, with source/config identities rechecked here.",
+    "Teacher/GT arrays are absent locally: reported per-window L1 values are reaggregated, not independently recalculated from references.",
+    "Offline results are development-set descriptions, not paired closed-loop evidence."
+  ]
+}
