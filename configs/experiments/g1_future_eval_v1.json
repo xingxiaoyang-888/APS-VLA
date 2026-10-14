@@ -1,0 +1,8 @@
+{
+  "stage": "G1-F03",
+  "method_config": "configs/experiments/g1_future_v1.json",
+  "closed_loop": {"split": "development", "tasks": [0, 3, 5], "states_per_task": 10, "methods": ["dense", "uniform128", "future_A", "future_B"], "paired_trials": 30, "total_episodes": 120, "seed": 17, "future_head_deployed": false},
+  "latency_collection": {"policy": "dense", "state_rule": "minimum registered development source_state_index per task0/3/5", "trajectories": 3, "control_steps": [0, 80, 160], "maximum_observations": 9, "early_termination": "explicit missing step; no last-frame substitution", "test_opened": false},
+  "timing": {"methods": ["dense", "uniform128", "future_A", "future_B"], "warmup_calls_per_method": 50, "main_rounds": 5, "component_rounds": 1, "order_seed": 1017, "instruction_modes": ["cold", "hot"], "language_cache": false, "instruction_mode_note": "Both labels run the same uncached path; no caching benefit claimed", "boundary": "raw simulator observation to CPU physical action chunk, including preprocessing,vision,DIE,packing,VLA,postprocessing", "synchronization": "CUDA synchronize before and after full pipeline", "hooks_in_main_pass": false, "maximum_pipeline_calls": 632, "claims": "development measurement, not final test or population claim"},
+  "cost": "All registered Slurm allocation seconds, preprocessing/cache/acceptance/training/validation/rollout/collection/timing and any failed retries are charged; unknown partial query counts remain unknown"
+}

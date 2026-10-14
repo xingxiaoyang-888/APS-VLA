@@ -153,6 +153,7 @@ def future_deployment_source_hashes(source_root):
     paths = [*sorted((root / "src/cti_vla/models").rglob("*.py")),
              *sorted((root / "src/cti_vla/selection").rglob("*.py")),
              root / "src/cti_vla/training/future_auxiliary.py",
+             root / "src/cti_vla_baselines/acl_matched.py",
              root / "src/cti_vla/evaluation/libero_runtime.py"]
     if any(not path.is_file() for path in paths):
         raise ValueError("G1-F shared deployment source is incomplete")
