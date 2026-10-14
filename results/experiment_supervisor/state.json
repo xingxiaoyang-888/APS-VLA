@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated_date": "2026-10-15",
-  "status": "completed",
+  "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_completed_first_round_no_automatic_expansion",
+  "stage": "G1_F_Long_multiseed_registration",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -364,7 +364,11 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": [],
+  "current_work": [
+    "Register seed23/41 configurations and explicit parent evidence/cache reuse contracts",
+    "Train fresh matchedA/B for both seeds,verify then evaluate120new paired trials",
+    "Report all3seeds with repeated-state clustering and incremental GPU costs;stop"
+  ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -385,7 +389,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T16:50:39.826720+00:00",
+  "last_supervision_utc": "2026-10-14T17:11:10.408235+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -394,8 +398,8 @@
     "new_queries": 0,
     "new_jobs": []
   },
-  "current_method": "configs/experiments/g1_future_long_v1.json",
-  "current_authorization": "User explicitly requests one bounded LIBERO-Long G1-F round;new Long model/data and newly initialized matched A/B;report after first round and do not automatically expand",
+  "current_method": "configs/experiments/g1_future_long_multiseed_v1.json",
+  "current_authorization": "User explicitly requests only fresh training seeds23/41 and120additional A/B development trials,then report and stop.",
   "suspended_work": [
     "G1R anchor candidate diagnostics",
     "expanded token deletion labeling",
@@ -431,15 +435,13 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Report the completed bounded Long round; await separately authorized future work. No automatic expansion or test.",
+  "next_allowed_action": "Freeze and audit registered seed23/41 source/reuse identities,then root submits bounded training and120A/B development trials;no test or further expansion",
   "current_round_cost": {
-    "registered_jobs": 4,
-    "allocated_gpu_seconds": 3241,
-    "allocated_gpu_hours": 0.9002777777777777,
-    "acceptance_cache_training_validation_gpu_seconds": 1767,
-    "closed_loop_gpu_seconds": 1474,
-    "historical_jobs_excluded": true,
-    "accounting": "results/g1_future_long_v1/slurm_accounting.json"
+    "registered_jobs": 0,
+    "allocated_gpu_seconds": 0,
+    "allocated_gpu_hours": 0,
+    "accounting": "results/g1_future_long_multiseed_v1/slurm_accounting.json",
+    "historical_jobs_excluded": true
   },
   "last_observed_G1_F_Long_progress": {
     "model_verified": true,
@@ -499,6 +501,28 @@
       "acceptance_cache_training_validation_gpu_seconds": 1205,
       "historical_jobs_excluded": true,
       "accounting": "results/g1_future_v1/slurm_accounting.json"
+    },
+    {
+      "registered_jobs": 4,
+      "allocated_gpu_seconds": 3241,
+      "allocated_gpu_hours": 0.9002777777777777,
+      "acceptance_cache_training_validation_gpu_seconds": 1767,
+      "closed_loop_gpu_seconds": 1474,
+      "historical_jobs_excluded": true,
+      "accounting": "results/g1_future_long_v1/slurm_accounting.json"
     }
-  ]
+  ],
+  "long_multiseed_registration": "configs/experiments/g1_future_long_multiseed_v1.json",
+  "last_observed_G1_F_Long_multiseed_progress": {
+    "new_training_seeds": [
+      23,
+      41
+    ],
+    "A_B_updates_per_arm": 100,
+    "expected_new_closed_loop_trials": 120,
+    "completed_new_closed_loop_trials": 0,
+    "unique_initial_states": 30,
+    "gpu_jobs": 0,
+    "test_opened": false
+  }
 }

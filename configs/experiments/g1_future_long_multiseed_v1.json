@@ -1,0 +1,104 @@
+{
+  "schema": "g1_future_long_multiseed_v1",
+  "registered_utc": "2026-10-14T17:11:10.408235+00:00",
+  "registered_date_Asia_Shanghai": "2026-10-15",
+  "authorization": "User explicitly requests only fresh training seeds23/41 and120additional A/B development trials,then report and stop.",
+  "all_training_seeds": [
+    17,
+    23,
+    41
+  ],
+  "new_training_seeds": [
+    23,
+    41
+  ],
+  "parent_config": "configs/experiments/g1_future_long_v1.json",
+  "config_differences_allowed": [
+    "seed",
+    "run_id"
+  ],
+  "new_configs": {
+    "23": {
+      "path": "configs/experiments/g1_future_long_seed23_v1.json",
+      "sha256": "7dbf07bdec267fd7071e52e7ab70eb8f72f67ec0f435b94e44bb3b17eaf77156",
+      "run_id": "g1_future_long_seed23_v1",
+      "result_root": "results/g1_future_long_multiseed_v1/seed23"
+    },
+    "41": {
+      "path": "configs/experiments/g1_future_long_seed41_v1.json",
+      "sha256": "e05207c479a79a217226e8386c30751b9eb1ed546a9e12b31fe4f646636b4bbe",
+      "run_id": "g1_future_long_seed41_v1",
+      "result_root": "results/g1_future_long_multiseed_v1/seed41"
+    }
+  },
+  "fixed": {
+    "train_windows": 90,
+    "validation_windows": 60,
+    "updates": 100,
+    "effective_batch": 8,
+    "tokens_per_camera": 64,
+    "total_tokens": 128,
+    "horizon_executed_actions": 8,
+    "future_weight_B": 0.1,
+    "future_projection_seed": 917
+  },
+  "evaluation": {
+    "panel": "configs/manifests/long_initial_states_v1/development_panel_30.json",
+    "task_ids": [
+      0,
+      3,
+      5
+    ],
+    "states_per_task": 10,
+    "environment_seed": 0,
+    "runtime_seed": 17,
+    "max_control_steps": 520,
+    "wait_steps": 10,
+    "action_chunk": 8,
+    "new_methods": [
+      "future_A",
+      "future_B"
+    ],
+    "new_trials_per_seed": 60,
+    "new_trials_total": 120,
+    "unique_initial_states": 30,
+    "dense_reference": "results/g1_future_long_v1/closed_loop",
+    "dense_reference_unique_trials": 30,
+    "reuse_requires_environment_model_input_and_panel_identity": true
+  },
+  "analysis": {
+    "report_all_seeds": true,
+    "primary": "equal-seed mean within each paired initial state,then equal-task mean",
+    "bootstrap_repeats": 2000,
+    "bootstrap_seed": 1517,
+    "bootstrap_unit": "state_trial_id with complete 3-seed A/B vector",
+    "stratify_by": "task_id",
+    "training_seed_variation": "report sample SD and range separately;3 seeds insufficient for broad population inference",
+    "reference_dense_not_duplicated_as_independent_trials": true
+  },
+  "artifacts": {
+    "parent_source_inventory": "results/g1_future_long/source_g1_future_long_v1.json",
+    "source_snapshot_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_multiseed_v1",
+    "checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/g1_future_long_multiseed_v1",
+    "result_root": "results/g1_future_long_multiseed_v1"
+  },
+  "limits": {
+    "test_authorized": false,
+    "hyperparameter_search": false,
+    "automatic_expansion": false,
+    "new_tasks": false,
+    "new_ablations": false,
+    "new_budgets": false,
+    "fresh_DIE_no_resume": true
+  },
+  "frozen_evidence_sha256": {
+    "configs/experiments/g1_future_long_v1.json": "be6c2c235c7caf3ca5a05892e8da3b22b71605be5fa42fa9c209219c26f5e990",
+    "configs/manifests/long_future_v1/protocol.json": "228f4942c85ce00cbd4c8f2915802b1453c7b8b735a13f44870956d69dfd7e6f",
+    "configs/manifests/long_future_v1/windows.json": "707b9daf18827c41f4470bf163528a6f626c95e297e0e38c673792959fef4c28",
+    "configs/manifests/long_initial_states_v1/development_panel_30.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long_v1/closed_loop/config.json": "1d9fb2c974105656f3a9909b13ac4dff1aed347f680b108df5793582195f17ea",
+    "results/g1_future_long_v1/closed_loop/closed_loop_report.json": "b54ea4fa2755317e9a71b1d566694e2ddcc0bb2267087ab16d5e34eb6ba85611",
+    "results/g1_future_long_v1/closed_loop/trials.jsonl": "ff68b045e16c7e96ee2205471112e68c8596526b32ebef753db653a46e0bcad0",
+    "results/g1_future_long_v1/training/cache_index.json": "4ed339aabfc527f5da8e374504c45dea41312865296b67a376edc06f89411d2b"
+  }
+}
