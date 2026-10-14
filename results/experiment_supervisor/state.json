@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "updated_date": "2026-10-14",
+  "updated_date": "2026-10-15",
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_train",
+  "stage": "G1_F_Long_closed_loop",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -203,7 +203,7 @@
       "job_id": "2993307",
       "name": "cti-g1f-long",
       "mode": "train",
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_v1",
       "source_sha256": "bcf9b24c15325b75aa3f35162d96f50a3de1f7e9aa1fc0f3155952924b0e73f5",
@@ -211,8 +211,20 @@
       "submitted_utc": "2026-10-14T15:55:30.323722+00:00",
       "purpose": "User-authorized bounded Long G1-F train",
       "exit_code": "0:0",
-      "elapsed_seconds": 18,
+      "elapsed_seconds": 1177,
       "node": "gpu4001"
+    },
+    {
+      "job_id": "2993338",
+      "name": "cti-g1f-long",
+      "mode": "closed_loop",
+      "status": "SUBMITTED",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_v1",
+      "source_sha256": "bcf9b24c15325b75aa3f35162d96f50a3de1f7e9aa1fc0f3155952924b0e73f5",
+      "suite": "libero_10",
+      "submitted_utc": "2026-10-14T16:15:42.716640+00:00",
+      "purpose": "User-authorized bounded Long G1-F closed_loop"
     }
   ],
   "agents": {
@@ -342,9 +354,9 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "Long input/F01 real acceptance passed; completed allocations294+296s",
-    "Job2993307 producing remaining148feature windows and matched A/B100updates",
-    "Then fixed90paired developmenttrials; test remains sealed, no automatic expansion"
+    "MatchedLongA/B100updates complete,initialization+order+VLAhash verified;both selectedupdate100",
+    "Job2993338 evaluating fixed30states paired dense/A/B,90trials; no selection or horizon changes",
+    "Report actual success,actionerror,overlap and all4GPUallocation costs then stop"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -366,7 +378,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T15:55:49.652743+00:00",
+  "last_supervision_utc": "2026-10-14T16:17:29.975962+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -425,7 +437,7 @@
     "model_verified": true,
     "dataset_verified_files": 34,
     "dataset_bytes": 3656815424,
-    "gpu_jobs": 3,
+    "gpu_jobs": 4,
     "cpu_tests_passed": 174,
     "development_states": 30,
     "expected_trials": 90,
@@ -440,7 +452,15 @@
     "hard_packing_max_abs": 0.0,
     "action_gradient_norm": 0.1473465422125156,
     "future_gradient_norm": 0.006381744764954129,
-    "vla_parameters_unchanged": true
+    "vla_parameters_unchanged": true,
+    "cached_windows_observed": 150,
+    "A_updates": 100,
+    "B_updates": 100,
+    "A_hard_teacher_L1": 0.02527241363810996,
+    "B_hard_teacher_L1": 0.025616790028288962,
+    "training_finalization": "verified",
+    "closed_loop_completed_trials": 0,
+    "closed_loop_expected_trials": 90
   },
   "long_checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-10-95220f9",
   "long_source_snapshot": {
