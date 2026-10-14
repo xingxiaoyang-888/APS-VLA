@@ -1,13 +1,12 @@
 {
   "schema_version": 1,
-  "status": "implementation_only_no_formal_G1_results",
+  "status": "implemented_formal_G1_in_progress",
   "created_date": "2026-10-14",
-  "formal_gpu_queries_by_this_implementation": 0,
-  "gate": "Formal G1 is blocked until a passed matching G0 report exists. A completed diagnostic run is not a scientific go decision.",
+  "gate": "G0 passed. Formal G1 pilot completed; full90 and D1 submitted. Completion is not a scientific go.",
   "D1_condition_changes": {
-    "implemented": false,
-    "missing": "Registration of up to ten observations supporting two legitimate task instructions, condition-specific full teachers, and eight fixed full-deletion candidates per condition. If no valid pairs exist, explicitly record that D1 is not applicable.",
-    "language_vs_proprio_note": "Current G1 uses the real original instruction and normalized proprio unchanged. Selector language/proprio ablations belong to post-training A1; this code does not implement or claim them. Arbitrary mismatched instructions or proprio are not valid substitute evidence."
+    "implemented": true,
+    "language_vs_proprio_note": "Current G1 uses the real original instruction and normalized proprio unchanged. Selector language/proprio ablations belong to post-training A1; this code does not implement or claim them. Arbitrary mismatched instructions or proprio are not valid substitute evidence.",
+    "coverage": "Separate audited condition_diagnostics and run_condition_diagnostics; one preregistered legal pair with 18-file visual evidence, 18 unique queries and bounded24 attempts; three cropped candidates excluded. No language/proprio selector ablation yet."
   },
   "D2_set_changes": {
     "implemented": true,
@@ -20,9 +19,9 @@
     "not_claimed": "Not historical full-length complement replacement; not a trained 2x2 ablation."
   },
   "D4_stage_and_action_dimension": {
-    "implemented_partially": true,
     "available": "Every observation retains task, early/middle/late and final-frame flag. Raw action errors include position/rotation/gripper, all seven dimensions and all eight chunk steps. Exact-teacher comparison summary has task, temporal-stage and final/nonfinal groups.",
-    "missing": "Paper-ready plots; complete D2/D3 label/disagreement aggregates by task, temporal stage and final/nonfinal frame; paired cross-method differences and uncertainty analysis. Temporal thirds are not semantic manipulation phases."
+    "implemented": true,
+    "analysis": "scripts/analyze_g1_d4.py replays authoritative query journals, then episode-cluster bootstrap, JSON/CSV and PNG/PDF figures. Requires completed90/12."
   },
   "exact_teacher_12": {
     "implemented": true,
@@ -39,5 +38,6 @@
     "automatic_pass": false,
     "remaining": "Review numerical/packing correctness, completed D1 applicability, D4 stage/frame analysis and teacher-vs-static/uniform packedE at main128 across tasks/stages. Root must issue a separate reviewed G1 passed/go report before G2 generation; CLI status completed alone is insufficient."
   },
-  "scientific_status": "D2/D3 plus teacher12 implementation is a subset of the full G1 plan, not completed G1 experiments or evidence of method benefit."
+  "scientific_status": "Implementation and finite one-observation pilot verified. Full G1 scientific outcome remains pending.",
+  "updated_date": "2026-10-14"
 }

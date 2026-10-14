@@ -4,50 +4,138 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G0_passed_G1_preparing",
+  "stage": "G1_full_running_D1_submitted",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
   "checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-spatial-6d0231a",
-  "registered_jobs": [{
-    "job_id": "2989099", "name": "cti-g0", "mode": "initial", "status": "COMPLETED", "exit_code": 0, "node": "gpu4009",
-    "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g0_20261014_v1",
-    "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g0_20261014_v1",
-    "purpose": "90 train observations plus first 3 paired development trials"
-  }, {
-    "job_id": "2989156", "name": "cti-g0", "mode": "closed_loop", "status": "COMPLETED", "exit_code": 0, "node": "gpu4009",
-    "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g0_20261014_v1",
-    "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g0_20261014_v1",
-    "dependency": "afterok:2989099", "purpose": "Resume remaining 42 of 45 development trials with identical frozen configuration"
-  }],
+  "registered_jobs": [
+    {
+      "job_id": "2989099",
+      "name": "cti-g0",
+      "mode": "initial",
+      "status": "COMPLETED",
+      "exit_code": 0,
+      "node": "gpu4009",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g0_20261014_v1",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g0_20261014_v1",
+      "purpose": "90 train observations plus first 3 paired development trials"
+    },
+    {
+      "job_id": "2989156",
+      "name": "cti-g0",
+      "mode": "closed_loop",
+      "status": "COMPLETED",
+      "exit_code": 0,
+      "node": "gpu4009",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g0_20261014_v1",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g0_20261014_v1",
+      "dependency": "afterok:2989099",
+      "purpose": "Resume remaining 42 of 45 development trials with identical frozen configuration"
+    },
+    {
+      "job_id": "2989257",
+      "name": "cti-g1",
+      "mode": "pilot",
+      "status": "COMPLETED",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_20261014_v1",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_20261014_v1",
+      "purpose": "One registered observation for G1 cost and numerical pilot; then resume same frozen 90 panel",
+      "exit_code": 0,
+      "elapsed": "00:03:55"
+    },
+    {
+      "job_id": "2990197",
+      "name": "cti-g1",
+      "mode": "full",
+      "status": "RUNNING",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_20261014_v1",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_20261014_v1",
+      "purpose": "Resume frozen 90 observations and 12 exact teacher trajectories after successful pilot"
+    },
+    {
+      "job_id": "2990203",
+      "name": "cti-d1",
+      "mode": "one_legal_instruction_pair",
+      "status": "submitted",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/d1_20261014_v2",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/d1_20261014_v2",
+      "source_sha256": "8bcbd70b53b14ad47caadd5e1dff7618a2e4cf21f7bd3f81b217d01ea5faad56",
+      "purpose": "One preregistered valid instruction pair; 18 unique forwards, 24 maximum attempts"
+    }
+  ],
   "pending_submission": null,
   "agents": {
-    "packing_migration": "G0 observation/action adapter and paired closed-loop runner",
-    "data_migration": "split guard, engineering exposure quarantine, fixed offline and simulator panels",
-    "conditional_method": "G1 teacher diagnostics, sampling and query accounting"
+    "packing_migration": "trained selector development closed-loop adapter",
+    "conditional_method": "complete observation-to-action latency profiler",
+    "data_migration": "ACL matched baseline scaffold and fidelity audit"
   },
-  "verified_gates": [{"stage": "G0", "status": "passed", "report": "results/g0_20261014_v1/g0_acceptance.json", "observations": 90, "closed_loop_trials": 45, "exact_dense_pairs": 15}],
-  "verified_substeps": [{"stage": "G0_observation_parity", "observations": 90, "tasks": 10, "per_phase": 30, "max_abs_error": 0.0, "report": "results/g0_20261014_v1/observations/observation_report.json", "checkpoint_unchanged": true}],
-  "deadline": {"conference": "CVPR 2027", "paper_registration_aoe": "2026-11-10", "submission_aoe": "2026-11-16", "supplementary_aoe": "2026-11-23", "source": "https://cvpr.thecvf.com/Conferences/2027/Dates", "checked_date": "2026-10-14"},
-  "asset_transfers": [{"asset": "VLA-ACL native Spatial scorers", "status": "verified_2_files_260905572_bytes", "server_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/vla-acl-spatial-e8d3009", "manifest": "configs/assets/vla_acl_spatial_scorers.json", "receipt": "results/assets/vla_acl_spatial_scorers.json", "log": "results/assets/vla_acl_download_mirror.log"}],
+  "verified_gates": [
+    {
+      "stage": "G0",
+      "status": "passed",
+      "report": "results/g0_20261014_v1/g0_acceptance.json",
+      "observations": 90,
+      "closed_loop_trials": 45,
+      "exact_dense_pairs": 15
+    }
+  ],
+  "verified_substeps": [
+    {
+      "stage": "G0_observation_parity",
+      "observations": 90,
+      "tasks": 10,
+      "per_phase": 30,
+      "max_abs_error": 0.0,
+      "report": "results/g0_20261014_v1/observations/observation_report.json",
+      "checkpoint_unchanged": true
+    }
+  ],
+  "deadline": {
+    "conference": "CVPR 2027",
+    "paper_registration_aoe": "2026-11-10",
+    "submission_aoe": "2026-11-16",
+    "supplementary_aoe": "2026-11-23",
+    "source": "https://cvpr.thecvf.com/Conferences/2027/Dates",
+    "checked_date": "2026-10-14"
+  },
+  "asset_transfers": [
+    {
+      "asset": "VLA-ACL native Spatial scorers",
+      "status": "verified_2_files_260905572_bytes",
+      "server_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/vla-acl-spatial-e8d3009",
+      "manifest": "configs/assets/vla_acl_spatial_scorers.json",
+      "receipt": "results/assets/vla_acl_spatial_scorers.json",
+      "log": "results/assets/vla_acl_download_mirror.log"
+    }
+  ],
   "source_snapshot": {
-    "server_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g0_20261014_v1",
-    "source_sha256": "fc7ca0c1438638352930a2048f12360c0eba4945bb4a780986347b820841c30f",
-    "inventory": "results/g0_implementation/source_g0_v1.json",
-    "verified_files": 101
+    "server_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_20261014_v1",
+    "source_sha256": "57040ce5406a139df281b4a4c3e510cb303ed21c0ca395e78e65a4b821cf12f4",
+    "inventory": "results/g1_preflight/source_g1_v1.json",
+    "verified_files": 109
   },
-  "local_cpu_verification": {"passed": 173, "skipped": 1, "junit": "results/g0_implementation/cpu_tests_g1_g2.xml"},
+  "local_cpu_verification": {
+    "passed": 173,
+    "skipped": 1,
+    "junit": "results/g0_implementation/cpu_tests_g1_g2.xml"
+  },
   "setup": {
     "installation_log_server": "results/setup/install_libero_local_attempt4.log",
     "exit_receipt_server": "results/setup/install_runtime_local.exit",
     "status": "installed_and_imports_passed_exit_0",
     "warning": "Earlier download-only attempts were interrupted; current attempt directly installs verified transferred bulk packages. Check this log and receipt before starting GPU work."
   },
-  "server_cpu_verification": {"passed": 19, "skipped": 0, "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"},
+  "server_cpu_verification": {
+    "passed": 19,
+    "skipped": 0,
+    "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
+  },
   "current_work": [
-    "Freeze committed G1 D2/D3/teacher code, run bounded pilot then resume all90 after checking costs and finite values",
-    "Finish independent D1 recovery audit and source/evidence freeze; only one visually valid alternative-instruction pair",
-    "After full G1 run, execute D4 and review teacher advantage across tasks/stages before issuing any G2/G3 go"
+    "G1 full diagnostics job 2990197 after pilot 165/165 successful queries; no scientific go yet",
+    "D1 job2990203 submitted after 18-file evidence verification and 46 relevant CPU tests",
+    "Full G1 then D4 scientific review before G2/G3",
+    "Parallel development: selector closed-loop adapter, complete latency profiling, ACL matched scaffolding"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",

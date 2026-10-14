@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "status": "prospective_optional_registration_not_executed",
+  "created_utc": "2026-10-14T05:24:04.311541+00:00",
+  "parent_panel": "configs/manifests/spatial_g0g1_v1/teacher_12.json",
+  "parent_sha256": "b12f4a896efad1f7523e79620c48e4de7d5d2331130fcfd06509517cd55cb92c",
+  "registration_timing": "After one non-teacher G1 pilot and full G1 submission; before root inspection of any 12-observation exact-teacher result. Selection uses membership/stage only.",
+  "activation": "Only if full G1 fails to show consistent teacher advantage at128; supplementary step-size diagnosis, not a retrospective replacement of main G1.",
+  "selection_rule": "random.Random(717).sample(sorted(parent episode IDs),3), paired in order with early/middle/late",
+  "seed": 717,
+  "samples": [
+    {
+      "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+      "sample_id": 5306709786799343592,
+      "stage": "early",
+      "step_index": 0,
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+      "record_index": 9
+    },
+    {
+      "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+      "sample_id": 1383568076259036788,
+      "stage": "middle",
+      "step_index": 54,
+      "task_name": "pick up the black bowl on the ramekin and place it on the plate",
+      "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+      "record_index": 24
+    },
+    {
+      "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+      "sample_id": 7836379267827386910,
+      "stage": "late",
+      "step_index": 172,
+      "task_name": "pick up the black bowl next to the plate and place it on the plate",
+      "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+      "record_index": 23
+    }
+  ],
+  "main_total_token_schedule": [
+    512,
+    256,
+    128,
+    64
+  ],
+  "followup_total_token_schedule": [
+    512,
+    384,
+    256,
+    192,
+    128,
+    96,
+    64
+  ],
+  "followup_per_camera_budgets": [
+    192,
+    128,
+    96,
+    64,
+    48,
+    32
+  ],
+  "oracle": "Exhaustive signed actual deletion marginal within currentS; retain highest per-camera scores; original index breaks ties. Frozen reference/error/packing/input rules unchanged.",
+  "methods": [
+    "teacher_staged",
+    "full_loo_static",
+    "uniform",
+    "random_seed_17",
+    "random_seed_23",
+    "random_seed_41"
+  ],
+  "comparison_seed": 517,
+  "cost_bound": {
+    "fresh_unique_query_upper_bound_per_observation": 1604,
+    "attempt_cap_per_observation": 2000,
+    "plan_maximum_per_observation": 5000,
+    "calculation": "1 full + (512+384+256+192+128+96) deletions + 6 stage evaluations + 30 controls - first static/teacher overlap =1604; further cache overlap can reduce actual count"
+  },
+  "interpretation": "Only three preregistered observations across three tasks/phases. Report all and original main-schedule results, including failures; cannot justify general improvement or automatically unlock G2. If benefit only at64 or this different schedule, freeze a revised hypothesis and validate a new matched schedule before training.",
+  "content_signature": "sha256:cdc2274e35e8c519eea32fbb4c0815dc2de02df20ef13c6c65fdff9ca446a4cd"
+}
