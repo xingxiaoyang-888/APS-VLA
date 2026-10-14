@@ -10,9 +10,31 @@
       "start": "2026-10-14T23:43:00",
       "end": "2026-10-14T23:47:54",
       "scope": "inputs"
+    },
+    {
+      "job_id": "2993299",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 296,
+      "allocated_gpus": 1,
+      "node": "gpu4001",
+      "start": "2026-10-14T23:49:06",
+      "end": "2026-10-14T23:54:02",
+      "scope": "acceptance"
+    },
+    {
+      "job_id": "2993307",
+      "state": "RUNNING",
+      "exit_code": "0:0",
+      "elapsed_seconds": 18,
+      "allocated_gpus": 1,
+      "node": "gpu4001",
+      "start": "2026-10-14T23:55:31",
+      "end": "Unknown",
+      "scope": "train"
     }
   ],
   "source": "sacct -X -P; registered Long allocation rows only",
-  "queried_utc": "2026-10-14T15:48:23.225831+00:00",
+  "queried_utc": "2026-10-14T15:55:49.652743+00:00",
   "previous_experiments_excluded": true
 }
