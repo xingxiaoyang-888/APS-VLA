@@ -1,0 +1,1438 @@
+{
+  "schema_version": 1,
+  "diagnostic_version": "existing-four-candidate-final-budget-oracle-v1",
+  "created_utc": "2026-10-14T07:05:42.567446+00:00",
+  "status": "completed_bounded_CPU_post_hoc_diagnostic",
+  "scientific_authority": "Descriptive feasibility diagnostic only; no gate change or training authorization.",
+  "purpose": "Rough coverage check for the existing fixed uniform/random pool, not a test of a learned set scorer or the proposed learned-static plus perturbation pool.",
+  "post_hoc": true,
+  "reuses_exposed_train": true,
+  "source_panel": {
+    "n_observations": 12,
+    "n_episodes": 4,
+    "n_tasks": 4,
+    "stage_counts": {
+      "early": 4,
+      "middle": 4,
+      "late": 4
+    },
+    "split": "train",
+    "previously_inspected": true,
+    "late_equals_final_frame": true
+  },
+  "candidate_pool": [
+    "uniform",
+    "random_seed_17",
+    "random_seed_23",
+    "random_seed_41"
+  ],
+  "excluded_from_candidate_pool": [
+    "full_loo_static",
+    "teacher_staged"
+  ],
+  "excluded_reason": "These recorded teacher-derived controls require expensive policy queries to construct; they are comparison references, not deployable pool candidates.",
+  "budget_semantics": "Each final budget is analyzed independently. Uniform/random sets were constructed from the full token grid; random construction includes budget in its seed. They are not a validated nested stage candidate tree or an implemented staged method.",
+  "candidate_same_method_nested_counts_out_of_12": {
+    "uniform": {
+      "256_to_128": 12,
+      "128_to_64": 0
+    },
+    "random_seed_17": {
+      "256_to_128": 0,
+      "128_to_64": 0
+    },
+    "random_seed_23": {
+      "256_to_128": 0,
+      "128_to_64": 0
+    },
+    "random_seed_41": {
+      "256_to_128": 0,
+      "128_to_64": 0
+    }
+  },
+  "oracle_definition": "For each observation and each final budget separately, min of its four recorded candidate E values. No best seed is selected globally across observations.",
+  "containment_warning": "The pool includes uniform, so oracle E <= uniform E is guaranteed by construction. This is not evidence of learnability, closed-loop success, or deployable oracle selection.",
+  "E_definition": "FP32 mean absolute error over8x7 normalized actions against the same-observation full512 teacher reference. Values are read from per-observation exact results, not an aggregate summary.",
+  "aggregation": "Arithmetic mean across observations. Overall12-observation means equal4 episode means because each episode contributes3 stages. Candidate count and stages are not independent replication. No confidence intervals or significance claims.",
+  "tie_policy": {
+    "oracle_value": "Exact minimum of recorded unrounded FP32-derived E values; no tolerance-based replacement of the minimum.",
+    "all_winners": "Record all candidates with E exactly equal to the minimum.",
+    "deterministic_winner_order": [
+      "uniform",
+      "random_seed_17",
+      "random_seed_23",
+      "random_seed_41"
+    ],
+    "counts": "Report deterministic first-in-order winner and equal fractional credit to all exact winners. Exact comparisons also determine reference/oracle wins.",
+    "observations_with_exact_ties_across_all_budgets": 0
+  },
+  "budget_table": [
+    {
+      "keep_count": 256,
+      "n_observations": 12,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.03391412893931071,
+        "uniform": 0.05610347352921963,
+        "static_full_LOO": 0.01686128550985207,
+        "original_teacher": 0.01686128550985207
+      },
+      "pool_gap": {
+        "uniform": {
+          "mean_oracle_minus_reference_E": -0.022189344589908917,
+          "relative_gap_to_reference_mean": -0.39550750058910944
+        },
+        "static_full_LOO": {
+          "mean_oracle_minus_reference_E": 0.017052843429458637,
+          "relative_gap_to_reference_mean": 1.0113608134738385
+        },
+        "original_teacher": {
+          "mean_oracle_minus_reference_E": 0.017052843429458637,
+          "relative_gap_to_reference_mean": 1.0113608134738385
+        }
+      },
+      "paired_counts": {
+        "uniform": {
+          "reference_strictly_better": 0,
+          "oracle_strictly_better": 9,
+          "exact_ties": 3
+        },
+        "static_full_LOO": {
+          "reference_strictly_better": 10,
+          "oracle_strictly_better": 2,
+          "exact_ties": 0
+        },
+        "original_teacher": {
+          "reference_strictly_better": 10,
+          "oracle_strictly_better": 2,
+          "exact_ties": 0
+        }
+      },
+      "static_strictly_better_fraction": 0.8333333333333334,
+      "winner_counts_fixed_order_tiebreak": {
+        "uniform": 3,
+        "random_seed_17": 4,
+        "random_seed_23": 1,
+        "random_seed_41": 4
+      },
+      "winner_counts_fractional_credit": {
+        "uniform": 3.0,
+        "random_seed_17": 4.0,
+        "random_seed_23": 1.0,
+        "random_seed_41": 4.0
+      },
+      "observations_with_multiple_exact_winners": 0
+    },
+    {
+      "keep_count": 128,
+      "n_observations": 12,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.07166567910462618,
+        "uniform": 0.09268073303004105,
+        "static_full_LOO": 0.037123538088053465,
+        "original_teacher": 0.0646395181150486
+      },
+      "pool_gap": {
+        "uniform": {
+          "mean_oracle_minus_reference_E": -0.02101505392541488,
+          "relative_gap_to_reference_mean": -0.22674673838200188
+        },
+        "static_full_LOO": {
+          "mean_oracle_minus_reference_E": 0.034542141016572714,
+          "relative_gap_to_reference_mean": 0.9304646807812896
+        },
+        "original_teacher": {
+          "mean_oracle_minus_reference_E": 0.007026160989577572,
+          "relative_gap_to_reference_mean": 0.10869760781743552
+        }
+      },
+      "paired_counts": {
+        "uniform": {
+          "reference_strictly_better": 0,
+          "oracle_strictly_better": 8,
+          "exact_ties": 4
+        },
+        "static_full_LOO": {
+          "reference_strictly_better": 10,
+          "oracle_strictly_better": 2,
+          "exact_ties": 0
+        },
+        "original_teacher": {
+          "reference_strictly_better": 7,
+          "oracle_strictly_better": 5,
+          "exact_ties": 0
+        }
+      },
+      "static_strictly_better_fraction": 0.8333333333333334,
+      "winner_counts_fixed_order_tiebreak": {
+        "uniform": 4,
+        "random_seed_17": 6,
+        "random_seed_23": 1,
+        "random_seed_41": 1
+      },
+      "winner_counts_fractional_credit": {
+        "uniform": 4.0,
+        "random_seed_17": 6.0,
+        "random_seed_23": 1.0,
+        "random_seed_41": 1.0
+      },
+      "observations_with_multiple_exact_winners": 0
+    },
+    {
+      "keep_count": 64,
+      "n_observations": 12,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.12287873371193807,
+        "uniform": 0.1612967411056161,
+        "static_full_LOO": 0.06493323110044003,
+        "original_teacher": 0.07236602048700054
+      },
+      "pool_gap": {
+        "uniform": {
+          "mean_oracle_minus_reference_E": -0.03841800739367803,
+          "relative_gap_to_reference_mean": -0.23818216741603082
+        },
+        "static_full_LOO": {
+          "mean_oracle_minus_reference_E": 0.057945502611498036,
+          "relative_gap_to_reference_mean": 0.8923859421359576
+        },
+        "original_teacher": {
+          "mean_oracle_minus_reference_E": 0.05051271322493752,
+          "relative_gap_to_reference_mean": 0.6980170097098453
+        }
+      },
+      "paired_counts": {
+        "uniform": {
+          "reference_strictly_better": 0,
+          "oracle_strictly_better": 11,
+          "exact_ties": 1
+        },
+        "static_full_LOO": {
+          "reference_strictly_better": 11,
+          "oracle_strictly_better": 1,
+          "exact_ties": 0
+        },
+        "original_teacher": {
+          "reference_strictly_better": 9,
+          "oracle_strictly_better": 3,
+          "exact_ties": 0
+        }
+      },
+      "static_strictly_better_fraction": 0.9166666666666666,
+      "winner_counts_fixed_order_tiebreak": {
+        "uniform": 1,
+        "random_seed_17": 2,
+        "random_seed_23": 4,
+        "random_seed_41": 5
+      },
+      "winner_counts_fractional_credit": {
+        "uniform": 1.0,
+        "random_seed_17": 2.0,
+        "random_seed_23": 4.0,
+        "random_seed_41": 5.0
+      },
+      "observations_with_multiple_exact_winners": 0
+    }
+  ],
+  "task_and_stage_table": [
+    {
+      "keep_count": 256,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.03722942372163137,
+        "uniform": 0.057809807981053986,
+        "static_full_LOO": 0.016178834872941177,
+        "original_teacher": 0.016178834872941177
+      },
+      "oracle_minus_static_mean_E": 0.021050588848690193,
+      "oracle_relative_gap_to_static_mean": 1.301118962768879,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 2,
+        "oracle_strictly_better": 1,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 0.6666666666666666
+    },
+    {
+      "keep_count": 256,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl next to the cookie box and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.03133328755696615,
+        "uniform": 0.05927231162786484,
+        "static_full_LOO": 0.01610651488105456,
+        "original_teacher": 0.01610651488105456
+      },
+      "oracle_minus_static_mean_E": 0.015226772675911585,
+      "oracle_relative_gap_to_static_mean": 0.9453797291568158,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 3,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 256,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl next to the plate and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.026909873510400455,
+        "uniform": 0.044552575796842575,
+        "static_full_LOO": 0.02540906270345052,
+        "original_teacher": 0.02540906270345052
+      },
+      "oracle_minus_static_mean_E": 0.0015008108069499333,
+      "oracle_relative_gap_to_static_mean": 0.059065964945890156,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 2,
+        "oracle_strictly_better": 1,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 0.6666666666666666
+    },
+    {
+      "keep_count": 256,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl on the ramekin and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.04018393096824487,
+        "uniform": 0.0627791987111171,
+        "static_full_LOO": 0.009750729581962029,
+        "original_teacher": 0.009750729581962029
+      },
+      "oracle_minus_static_mean_E": 0.030433201386282843,
+      "oracle_relative_gap_to_static_mean": 3.1211204382676683,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 3,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 256,
+      "group_kind": "stage",
+      "group": "early",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.04796435125172138,
+        "uniform": 0.07266485691070557,
+        "static_full_LOO": 0.011140772374346852,
+        "original_teacher": 0.011140772374346852
+      },
+      "oracle_minus_static_mean_E": 0.03682357887737453,
+      "oracle_relative_gap_to_static_mean": 3.3052985592063475,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 4,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 256,
+      "group_kind": "stage",
+      "group": "late",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.03044605255126953,
+        "uniform": 0.04836300481110811,
+        "static_full_LOO": 0.03214904246851802,
+        "original_teacher": 0.03214904246851802
+      },
+      "oracle_minus_static_mean_E": -0.0017029899172484875,
+      "oracle_relative_gap_to_static_mean": -0.05297171506479989,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 2,
+        "oracle_strictly_better": 2,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 0.5
+    },
+    {
+      "keep_count": 256,
+      "group_kind": "stage",
+      "group": "middle",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.023331983014941216,
+        "uniform": 0.0472825588658452,
+        "static_full_LOO": 0.007294041686691344,
+        "original_teacher": 0.007294041686691344
+      },
+      "oracle_minus_static_mean_E": 0.01603794132824987,
+      "oracle_relative_gap_to_static_mean": 2.198772918656687,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 4,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 128,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.09261183689037959,
+        "uniform": 0.10745373368263245,
+        "static_full_LOO": 0.03525250218808651,
+        "original_teacher": 0.06612984463572502
+      },
+      "oracle_minus_static_mean_E": 0.057359334702293076,
+      "oracle_relative_gap_to_static_mean": 1.6270996707200407,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 3,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 128,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl next to the cookie box and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.05860751122236252,
+        "uniform": 0.08745234459638596,
+        "static_full_LOO": 0.03508122762044271,
+        "original_teacher": 0.04720115754753351
+      },
+      "oracle_minus_static_mean_E": 0.02352628360191981,
+      "oracle_relative_gap_to_static_mean": 0.6706231565343072,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 3,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 128,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl next to the plate and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.06092952440182368,
+        "uniform": 0.0752627042432626,
+        "static_full_LOO": 0.04375303412477175,
+        "original_teacher": 0.0977928526699543
+      },
+      "oracle_minus_static_mean_E": 0.017176490277051926,
+      "oracle_relative_gap_to_static_mean": 0.39257826618536323,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 2,
+        "oracle_strictly_better": 1,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 0.6666666666666666
+    },
+    {
+      "keep_count": 128,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl on the ramekin and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.07451384390393893,
+        "uniform": 0.10055414959788322,
+        "static_full_LOO": 0.03440738841891289,
+        "original_teacher": 0.0474342176069816
+      },
+      "oracle_minus_static_mean_E": 0.04010645548502604,
+      "oracle_relative_gap_to_static_mean": 1.1656349792296505,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 2,
+        "oracle_strictly_better": 1,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 0.6666666666666666
+    },
+    {
+      "keep_count": 128,
+      "group_kind": "stage",
+      "group": "early",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.10320780985057354,
+        "uniform": 0.12317230179905891,
+        "static_full_LOO": 0.038052132818847895,
+        "original_teacher": 0.04017807776108384
+      },
+      "oracle_minus_static_mean_E": 0.06515567703172565,
+      "oracle_relative_gap_to_static_mean": 1.7122739832194869,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 4,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 128,
+      "group_kind": "stage",
+      "group": "late",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.062443120405077934,
+        "uniform": 0.0856779646128416,
+        "static_full_LOO": 0.05692359386011958,
+        "original_teacher": 0.12065220065414906
+      },
+      "oracle_minus_static_mean_E": 0.005519526544958353,
+      "oracle_relative_gap_to_static_mean": 0.09696377495984682,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 2,
+        "oracle_strictly_better": 2,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 0.5
+    },
+    {
+      "keep_count": 128,
+      "group_kind": "stage",
+      "group": "middle",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.04934610705822706,
+        "uniform": 0.06919193267822266,
+        "static_full_LOO": 0.01639488758519292,
+        "original_teacher": 0.033088275929912925
+      },
+      "oracle_minus_static_mean_E": 0.03295121947303414,
+      "oracle_relative_gap_to_static_mean": 2.009847234499742,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 4,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 64,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.1398031823337078,
+        "uniform": 0.18760388220349947,
+        "static_full_LOO": 0.07275696968038876,
+        "original_teacher": 0.06710159157713254
+      },
+      "oracle_minus_static_mean_E": 0.06704621265331905,
+      "oracle_relative_gap_to_static_mean": 0.9215091412938681,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 3,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 64,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl next to the cookie box and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.10259383171796799,
+        "uniform": 0.1359783336520195,
+        "static_full_LOO": 0.05432496716578802,
+        "original_teacher": 0.06819897579650085
+      },
+      "oracle_minus_static_mean_E": 0.04826886455217997,
+      "oracle_relative_gap_to_static_mean": 0.8885208233053112,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 3,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 64,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl next to the plate and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.09251512835423152,
+        "uniform": 0.13056325912475586,
+        "static_full_LOO": 0.06587698310613632,
+        "original_teacher": 0.07193898906310399
+      },
+      "oracle_minus_static_mean_E": 0.026638145248095196,
+      "oracle_relative_gap_to_static_mean": 0.4043619484695847,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 2,
+        "oracle_strictly_better": 1,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 0.6666666666666666
+    },
+    {
+      "keep_count": 64,
+      "group_kind": "task_name",
+      "group": "pick up the black bowl on the ramekin and place it on the plate",
+      "n_observations": 3,
+      "n_episode_clusters": 1,
+      "mean_E": {
+        "pool_oracle": 0.15660279244184494,
+        "uniform": 0.19104148944218954,
+        "static_full_LOO": 0.06677400444944699,
+        "original_teacher": 0.0822245255112648
+      },
+      "oracle_minus_static_mean_E": 0.08982878799239795,
+      "oracle_relative_gap_to_static_mean": 1.345265852078786,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 3,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 64,
+      "group_kind": "stage",
+      "group": "early",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.1614695955067873,
+        "uniform": 0.18655664287507534,
+        "static_full_LOO": 0.07399429567158222,
+        "original_teacher": 0.08201445732265711
+      },
+      "oracle_minus_static_mean_E": 0.08747529983520508,
+      "oracle_relative_gap_to_static_mean": 1.1821897761343283,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 4,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    },
+    {
+      "keep_count": 64,
+      "group_kind": "stage",
+      "group": "late",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.11685432866215706,
+        "uniform": 0.17400523647665977,
+        "static_full_LOO": 0.08516679238528013,
+        "original_teacher": 0.08733503986150026
+      },
+      "oracle_minus_static_mean_E": 0.031687536276876926,
+      "oracle_relative_gap_to_static_mean": 0.37206445598570725,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 3,
+        "oracle_strictly_better": 1,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 0.75
+    },
+    {
+      "keep_count": 64,
+      "group_kind": "stage",
+      "group": "middle",
+      "n_observations": 4,
+      "n_episode_clusters": 4,
+      "mean_E": {
+        "pool_oracle": 0.09031227696686983,
+        "uniform": 0.12332834396511316,
+        "static_full_LOO": 0.03563860524445772,
+        "original_teacher": 0.04774856427684426
+      },
+      "oracle_minus_static_mean_E": 0.05467367172241211,
+      "oracle_relative_gap_to_static_mean": 1.5341136766544643,
+      "static_vs_oracle_counts": {
+        "reference_strictly_better": 4,
+        "oracle_strictly_better": 0,
+        "exact_ties": 0
+      },
+      "static_strictly_better_fraction": 1.0
+    }
+  ],
+  "observation_metadata": {
+    "1383568076259036788": {
+      "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+      "task_name": "pick up the black bowl on the ramekin and place it on the plate",
+      "stage": "middle",
+      "step_index": 54,
+      "is_last_step": false
+    },
+    "1602995049568869675": {
+      "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+      "task_name": "pick up the black bowl next to the plate and place it on the plate",
+      "stage": "early",
+      "step_index": 0,
+      "is_last_step": false
+    },
+    "3109064030613564253": {
+      "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+      "task_name": "pick up the black bowl next to the plate and place it on the plate",
+      "stage": "middle",
+      "step_index": 86,
+      "is_last_step": false
+    },
+    "3244922072381086711": {
+      "episode_id": "libero-episode-sha256:7226134d970ff5581560a7049f0d114d856b48564d346942668fb6e89562db65",
+      "task_name": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+      "stage": "early",
+      "step_index": 0,
+      "is_last_step": false
+    },
+    "3399709827307319297": {
+      "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+      "task_name": "pick up the black bowl on the ramekin and place it on the plate",
+      "stage": "late",
+      "step_index": 108,
+      "is_last_step": true
+    },
+    "4231800877142443125": {
+      "episode_id": "libero-episode-sha256:7226134d970ff5581560a7049f0d114d856b48564d346942668fb6e89562db65",
+      "task_name": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+      "stage": "middle",
+      "step_index": 79,
+      "is_last_step": false
+    },
+    "5018323033991223877": {
+      "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+      "task_name": "pick up the black bowl on the ramekin and place it on the plate",
+      "stage": "early",
+      "step_index": 0,
+      "is_last_step": false
+    },
+    "5255765869814492326": {
+      "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "stage": "late",
+      "step_index": 105,
+      "is_last_step": true
+    },
+    "5306709786799343592": {
+      "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "stage": "early",
+      "step_index": 0,
+      "is_last_step": false
+    },
+    "7605784223314304513": {
+      "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate",
+      "stage": "middle",
+      "step_index": 53,
+      "is_last_step": false
+    },
+    "7832060677625451964": {
+      "episode_id": "libero-episode-sha256:7226134d970ff5581560a7049f0d114d856b48564d346942668fb6e89562db65",
+      "task_name": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+      "stage": "late",
+      "step_index": 157,
+      "is_last_step": true
+    },
+    "7836379267827386910": {
+      "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+      "task_name": "pick up the black bowl next to the plate and place it on the plate",
+      "stage": "late",
+      "step_index": 172,
+      "is_last_step": true
+    }
+  },
+  "per_observation_candidate_table": [
+    {
+      "sample_id": 1383568076259036788,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.026873180642724037,
+        "random_seed_17": 0.06031472235918045,
+        "random_seed_23": 0.05708640068769455,
+        "random_seed_41": 0.035384587943553925
+      },
+      "oracle_min_E": 0.026873180642724037,
+      "exact_tied_winners": [
+        "uniform"
+      ],
+      "deterministic_winner": "uniform",
+      "static_full_LOO_E": 0.0047394889406859875,
+      "original_teacher_E": 0.0047394889406859875
+    },
+    {
+      "sample_id": 1383568076259036788,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.05874988064169884,
+        "random_seed_17": 0.0540444515645504,
+        "random_seed_23": 0.11381639540195465,
+        "random_seed_41": 0.06475312262773514
+      },
+      "oracle_min_E": 0.0540444515645504,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.011394500732421875,
+      "original_teacher_E": 0.017792293801903725
+    },
+    {
+      "sample_id": 1383568076259036788,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.16294071078300476,
+        "random_seed_17": 0.19282232224941254,
+        "random_seed_23": 0.14056886732578278,
+        "random_seed_41": 0.17618505656719208
+      },
+      "oracle_min_E": 0.14056886732578278,
+      "exact_tied_winners": [
+        "random_seed_23"
+      ],
+      "deterministic_winner": "random_seed_23",
+      "static_full_LOO_E": 0.0242636539041996,
+      "original_teacher_E": 0.07506342977285385
+    },
+    {
+      "sample_id": 1602995049568869675,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.032377514988183975,
+        "random_seed_17": 0.02906036376953125,
+        "random_seed_23": 0.0370461605489254,
+        "random_seed_41": 0.03191811591386795
+      },
+      "oracle_min_E": 0.02906036376953125,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.005795069970190525,
+      "original_teacher_E": 0.005795069970190525
+    },
+    {
+      "sample_id": 1602995049568869675,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.0737195685505867,
+        "random_seed_17": 0.06727708876132965,
+        "random_seed_23": 0.09323664754629135,
+        "random_seed_41": 0.0898241326212883
+      },
+      "oracle_min_E": 0.06727708876132965,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.02588326670229435,
+      "original_teacher_E": 0.02918134443461895
+    },
+    {
+      "sample_id": 1602995049568869675,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.13273723423480988,
+        "random_seed_17": 0.12131718546152115,
+        "random_seed_23": 0.1188911721110344,
+        "random_seed_41": 0.10605403035879135
+      },
+      "oracle_min_E": 0.10605403035879135,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.0415065623819828,
+      "original_teacher_E": 0.1152021512389183
+    },
+    {
+      "sample_id": 3109064030613564253,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.032436370849609375,
+        "random_seed_17": 0.021039962768554688,
+        "random_seed_23": 0.03459903225302696,
+        "random_seed_41": 0.025512967258691788
+      },
+      "oracle_min_E": 0.021039962768554688,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.011066163890063763,
+      "original_teacher_E": 0.011066163890063763
+    },
+    {
+      "sample_id": 3109064030613564253,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.05416842922568321,
+        "random_seed_17": 0.058153968304395676,
+        "random_seed_23": 0.0906873419880867,
+        "random_seed_41": 0.0863538458943367
+      },
+      "oracle_min_E": 0.05416842922568321,
+      "exact_tied_winners": [
+        "uniform"
+      ],
+      "deterministic_winner": "uniform",
+      "static_full_LOO_E": 0.0205546785145998,
+      "original_teacher_E": 0.024094445630908012
+    },
+    {
+      "sample_id": 3109064030613564253,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.10467065870761871,
+        "random_seed_17": 0.14826011657714844,
+        "random_seed_23": 0.08232470601797104,
+        "random_seed_41": 0.06865719705820084
+      },
+      "oracle_min_E": 0.06865719705820084,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.040372032672166824,
+      "original_teacher_E": 0.0340924933552742
+    },
+    {
+      "sample_id": 3244922072381086711,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.10831717401742935,
+        "random_seed_17": 0.08061810582876205,
+        "random_seed_23": 0.1446494311094284,
+        "random_seed_41": 0.0859052762389183
+      },
+      "oracle_min_E": 0.08061810582876205,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.017487049102783203,
+      "original_teacher_E": 0.017487049102783203
+    },
+    {
+      "sample_id": 3244922072381086711,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.1819441020488739,
+        "random_seed_17": 0.1861402690410614,
+        "random_seed_23": 0.2191929817199707,
+        "random_seed_41": 0.21793630719184875
+      },
+      "oracle_min_E": 0.1819441020488739,
+      "exact_tied_winners": [
+        "uniform"
+      ],
+      "deterministic_winner": "uniform",
+      "static_full_LOO_E": 0.058532100170850754,
+      "original_teacher_E": 0.05626944079995155
+    },
+    {
+      "sample_id": 3244922072381086711,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.24820974469184875,
+        "random_seed_17": 0.2460942268371582,
+        "random_seed_23": 0.21679189801216125,
+        "random_seed_41": 0.21735212206840515
+      },
+      "oracle_min_E": 0.21679189801216125,
+      "exact_tied_winners": [
+        "random_seed_23"
+      ],
+      "deterministic_winner": "random_seed_23",
+      "static_full_LOO_E": 0.1134321317076683,
+      "original_teacher_E": 0.09526872634887695
+    },
+    {
+      "sample_id": 3399709827307319297,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.03748321533203125,
+        "random_seed_17": 0.046486444771289825,
+        "random_seed_23": 0.04381915554404259,
+        "random_seed_41": 0.04317910224199295
+      },
+      "oracle_min_E": 0.03748321533203125,
+      "exact_tied_winners": [
+        "uniform"
+      ],
+      "deterministic_winner": "uniform",
+      "static_full_LOO_E": 0.016201019287109375,
+      "original_teacher_E": 0.016201019287109375
+    },
+    {
+      "sample_id": 3399709827307319297,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.05722182244062424,
+        "random_seed_17": 0.07919393479824066,
+        "random_seed_23": 0.12197794020175934,
+        "random_seed_41": 0.07867594808340073
+      },
+      "oracle_min_E": 0.05722182244062424,
+      "exact_tied_winners": [
+        "uniform"
+      ],
+      "deterministic_winner": "uniform",
+      "static_full_LOO_E": 0.05953788757324219,
+      "original_teacher_E": 0.08106640726327896
+    },
+    {
+      "sample_id": 3399709827307319297,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.15424156188964844,
+        "random_seed_17": 0.1834346204996109,
+        "random_seed_23": 0.11199569702148438,
+        "random_seed_41": 0.09437888115644455
+      },
+      "oracle_min_E": 0.09437888115644455,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.09019824117422104,
+      "original_teacher_E": 0.09836632758378983
+    },
+    {
+      "sample_id": 4231800877142443125,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.019358770921826363,
+        "random_seed_17": 0.03584698215126991,
+        "random_seed_23": 0.023600442335009575,
+        "random_seed_41": 0.0151203703135252
+      },
+      "oracle_min_E": 0.0151203703135252,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.008357456885278225,
+      "original_teacher_E": 0.008357456885278225
+    },
+    {
+      "sample_id": 4231800877142443125,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.04496574401855469,
+        "random_seed_17": 0.053892407566308975,
+        "random_seed_23": 0.03892054036259651,
+        "random_seed_41": 0.04076821357011795
+      },
+      "oracle_min_E": 0.03892054036259651,
+      "exact_tied_winners": [
+        "random_seed_23"
+      ],
+      "deterministic_winner": "random_seed_23",
+      "static_full_LOO_E": 0.016821179538965225,
+      "original_teacher_E": 0.07849638909101486
+    },
+    {
+      "sample_id": 4231800877142443125,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.060133252292871475,
+        "random_seed_17": 0.0934862419962883,
+        "random_seed_23": 0.08756392449140549,
+        "random_seed_41": 0.1495710164308548
+      },
+      "oracle_min_E": 0.060133252292871475,
+      "exact_tied_winners": [
+        "uniform"
+      ],
+      "deterministic_winner": "uniform",
+      "static_full_LOO_E": 0.0426679328083992,
+      "original_teacher_E": 0.052376337349414825
+    },
+    {
+      "sample_id": 5018323033991223877,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.12398120015859604,
+        "random_seed_17": 0.1505981832742691,
+        "random_seed_23": 0.20337404310703278,
+        "random_seed_41": 0.056195396929979324
+      },
+      "oracle_min_E": 0.056195396929979324,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.008311680518090725,
+      "original_teacher_E": 0.008311680518090725
+    },
+    {
+      "sample_id": 5018323033991223877,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.1856907457113266,
+        "random_seed_17": 0.11227525770664215,
+        "random_seed_23": 0.21157611906528473,
+        "random_seed_41": 0.18916265666484833
+      },
+      "oracle_min_E": 0.11227525770664215,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.0322897769510746,
+      "original_teacher_E": 0.0434439517557621
+    },
+    {
+      "sample_id": 5018323033991223877,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.2559421956539154,
+        "random_seed_17": 0.2348606288433075,
+        "random_seed_23": 0.2385450154542923,
+        "random_seed_41": 0.2498542219400406
+      },
+      "oracle_min_E": 0.2348606288433075,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.08586011826992035,
+      "original_teacher_E": 0.07324381917715073
+    },
+    {
+      "sample_id": 5255765869814492326,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.041371483355760574,
+        "random_seed_17": 0.12359074503183365,
+        "random_seed_23": 0.0377219058573246,
+        "random_seed_41": 0.07818058878183365
+      },
+      "oracle_min_E": 0.0377219058573246,
+      "exact_tied_winners": [
+        "random_seed_23"
+      ],
+      "deterministic_winner": "random_seed_23",
+      "static_full_LOO_E": 0.030337197706103325,
+      "original_teacher_E": 0.030337197706103325
+    },
+    {
+      "sample_id": 5255765869814492326,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.09213856607675552,
+        "random_seed_17": 0.08572060614824295,
+        "random_seed_23": 0.12808990478515625,
+        "random_seed_41": 0.07423673570156097
+      },
+      "oracle_min_E": 0.07423673570156097,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.052931103855371475,
+      "original_teacher_E": 0.09781592339277267
+    },
+    {
+      "sample_id": 5255765869814492326,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.13302884995937347,
+        "random_seed_17": 0.12771987915039062,
+        "random_seed_23": 0.13571874797344208,
+        "random_seed_41": 0.12978199124336243
+      },
+      "oracle_min_E": 0.12771987915039062,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.07254572957754135,
+      "original_teacher_E": 0.1307917982339859
+    },
+    {
+      "sample_id": 5306709786799343592,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.0259835384786129,
+        "random_seed_17": 0.05731310322880745,
+        "random_seed_23": 0.02809579111635685,
+        "random_seed_41": 0.029605865478515625
+      },
+      "oracle_min_E": 0.0259835384786129,
+      "exact_tied_winners": [
+        "uniform"
+      ],
+      "deterministic_winner": "uniform",
+      "static_full_LOO_E": 0.012969289906322956,
+      "original_teacher_E": 0.012969289906322956
+    },
+    {
+      "sample_id": 5306709786799343592,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.051334790885448456,
+        "random_seed_17": 0.061714716255664825,
+        "random_seed_23": 0.08700234442949295,
+        "random_seed_41": 0.08085577934980392
+      },
+      "oracle_min_E": 0.051334790885448456,
+      "exact_tied_winners": [
+        "uniform"
+      ],
+      "deterministic_winner": "uniform",
+      "static_full_LOO_E": 0.035503387451171875,
+      "original_teacher_E": 0.03181757405400276
+    },
+    {
+      "sample_id": 5306709786799343592,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.10933739691972733,
+        "random_seed_17": 0.11221150308847427,
+        "random_seed_23": 0.0881718248128891,
+        "random_seed_41": 0.09345027059316635
+      },
+      "oracle_min_E": 0.0881718248128891,
+      "exact_tied_winners": [
+        "random_seed_23"
+      ],
+      "deterministic_winner": "random_seed_23",
+      "static_full_LOO_E": 0.05517837032675743,
+      "original_teacher_E": 0.04434313252568245
+    },
+    {
+      "sample_id": 7605784223314304513,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.11046191304922104,
+        "random_seed_17": 0.06764303147792816,
+        "random_seed_23": 0.05043601989746094,
+        "random_seed_41": 0.030294418334960938
+      },
+      "oracle_min_E": 0.030294418334960938,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.0050130570307374,
+      "original_teacher_E": 0.0050130570307374
+    },
+    {
+      "sample_id": 7605784223314304513,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.11888367682695389,
+        "random_seed_17": 0.050251007080078125,
+        "random_seed_23": 0.11747223883867264,
+        "random_seed_41": 0.08923203498125076
+      },
+      "oracle_min_E": 0.050251007080078125,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.016809191554784775,
+      "original_teacher_E": 0.0119699751958251
+    },
+    {
+      "sample_id": 7605784223314304513,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.1655687540769577,
+        "random_seed_17": 0.1567668914794922,
+        "random_seed_23": 0.17012105882167816,
+        "random_seed_41": 0.09188979119062424
+      },
+      "oracle_min_E": 0.09188979119062424,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.03525080159306526,
+      "original_teacher_E": 0.029461996629834175
+    },
+    {
+      "sample_id": 7832060677625451964,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.04575347900390625,
+        "random_seed_17": 0.01594979502260685,
+        "random_seed_23": 0.0754961296916008,
+        "random_seed_41": 0.03442709892988205
+      },
+      "oracle_min_E": 0.01594979502260685,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.0226919986307621,
+      "original_teacher_E": 0.0226919986307621
+    },
+    {
+      "sample_id": 7832060677625451964,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.09545135498046875,
+        "random_seed_17": 0.05697086825966835,
+        "random_seed_23": 0.0940006822347641,
+        "random_seed_41": 0.10680607706308365
+      },
+      "oracle_min_E": 0.05697086825966835,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.03040422685444355,
+      "original_teacher_E": 0.06362370401620865
+    },
+    {
+      "sample_id": 7832060677625451964,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.2544686496257782,
+        "random_seed_17": 0.19315555691719055,
+        "random_seed_23": 0.1439056396484375,
+        "random_seed_41": 0.1424843966960907
+      },
+      "oracle_min_E": 0.1424843966960907,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.0621708445250988,
+      "original_teacher_E": 0.05365971103310585
+    },
+    {
+      "sample_id": 7836379267827386910,
+      "keep_count": 256,
+      "candidate_E": {
+        "uniform": 0.06884384155273438,
+        "random_seed_17": 0.06353296339511871,
+        "random_seed_23": 0.0852334126830101,
+        "random_seed_41": 0.030629293993115425
+      },
+      "oracle_min_E": 0.030629293993115425,
+      "exact_tied_winners": [
+        "random_seed_41"
+      ],
+      "deterministic_winner": "random_seed_41",
+      "static_full_LOO_E": 0.059365954250097275,
+      "original_teacher_E": 0.059365954250097275
+    },
+    {
+      "sample_id": 7836379267827386910,
+      "keep_count": 128,
+      "candidate_E": {
+        "uniform": 0.09790011495351791,
+        "random_seed_17": 0.061343055218458176,
+        "random_seed_23": 0.11411421746015549,
+        "random_seed_41": 0.07209859788417816
+      },
+      "oracle_min_E": 0.061343055218458176,
+      "exact_tied_winners": [
+        "random_seed_17"
+      ],
+      "deterministic_winner": "random_seed_17",
+      "static_full_LOO_E": 0.08482115715742111,
+      "original_teacher_E": 0.24010276794433594
+    },
+    {
+      "sample_id": 7836379267827386910,
+      "keep_count": 64,
+      "candidate_E": {
+        "uniform": 0.154281884431839,
+        "random_seed_17": 0.13277380168437958,
+        "random_seed_23": 0.10283415764570236,
+        "random_seed_41": 0.10522760450839996
+      },
+      "oracle_min_E": 0.10283415764570236,
+      "exact_tied_winners": [
+        "random_seed_23"
+      ],
+      "deterministic_winner": "random_seed_23",
+      "static_full_LOO_E": 0.11575235426425934,
+      "original_teacher_E": 0.06652232259511948
+    }
+  ],
+  "source": {
+    "run_directory": "results/g1_20261014_v1",
+    "config_file_sha256": "473a67299133693b19e14631f9f5b46a847c7401c090572e3afbd45d58e4f49c",
+    "config_identity_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2",
+    "finalization_file_sha256": "24a0b9db060de4aefb655c72a77a8ab798427f753dc1d8714b42f3d5f5ab780b",
+    "teacher_panel_file_sha256": "b12f4a896efad1f7523e79620c48e4de7d5d2331130fcfd06509517cd55cb92c",
+    "source_observation_sha256": {
+      "1383568076259036788": "d5c9628ac56ae171d21c5193cefa742472a99d62ef26d340beef41d17e9926aa",
+      "1602995049568869675": "7720b9543967103477c3ca0a0357e51217fc1587bc3fb0fd7954644a26a8cec1",
+      "3109064030613564253": "213b6c47d5ea7256b93d8b15495aa8b788e5830dd7aadfb225e38c96210a3bfa",
+      "3244922072381086711": "9024becc9af18b90260c212f4822c0a84966f715da6d63ed9dd988951e959683",
+      "3399709827307319297": "11135a7513553b82e0b1dbb2cb45e5a9e0d2b0b958d4df223cb7fd80ac5db6b4",
+      "4231800877142443125": "a3b97aaaa26c2b8c6ecc0b20dec98822ea08de29084308f854c176ac196c6d3e",
+      "5018323033991223877": "0995a8bbe4cf251430e6d4c3119ba0e9eb1c0aae075a8233c5c03b074965a82e",
+      "5255765869814492326": "53686cd02761d16152b73d899d4f8dec1f9b5b8b6bd00a7722b27a703f1ec958",
+      "5306709786799343592": "a55bb7374cc711f88883d8696156a5df66693c894c9fc93a40378cb3059db830",
+      "7605784223314304513": "506f69cbe1673f01d929277b2f2e7f02daeca019739639b92fdc45d1b0412800",
+      "7832060677625451964": "07d7cc3dd0af76a83ecac311ca03e66c45891ae5ab03fc9ba5e84b88e319828d",
+      "7836379267827386910": "8e25505a5beec6e42f4b76f0e0dde5db1d8b75c75054e7a68a4e1ddad01babb5"
+    },
+    "all_checked_source_file_sha256": {
+      "results/g1_20261014_v1/config.json": "473a67299133693b19e14631f9f5b46a847c7401c090572e3afbd45d58e4f49c",
+      "results/g1_20261014_v1/finalization.json": "24a0b9db060de4aefb655c72a77a8ab798427f753dc1d8714b42f3d5f5ab780b",
+      "results/g1_20261014_v1/summary.json": "e602bf7a4c3f6cf86e02daca1cf1751bf91e7df570233ec0dedbb6d59f5157ea",
+      "results/g1_analysis/g1_20261014_v1/summary.json": "fe727c6705625a5c29521baecf47de79054ba99737e9369291d3d5a28dde3fe3",
+      "configs/manifests/spatial_g0g1_v1/teacher_12.json": "b12f4a896efad1f7523e79620c48e4de7d5d2331130fcfd06509517cd55cb92c",
+      "results/g1_20261014_v1/observations/1383568076259036788.json": "d5c9628ac56ae171d21c5193cefa742472a99d62ef26d340beef41d17e9926aa",
+      "results/g1_20261014_v1/observations/1602995049568869675.json": "7720b9543967103477c3ca0a0357e51217fc1587bc3fb0fd7954644a26a8cec1",
+      "results/g1_20261014_v1/observations/3109064030613564253.json": "213b6c47d5ea7256b93d8b15495aa8b788e5830dd7aadfb225e38c96210a3bfa",
+      "results/g1_20261014_v1/observations/3244922072381086711.json": "9024becc9af18b90260c212f4822c0a84966f715da6d63ed9dd988951e959683",
+      "results/g1_20261014_v1/observations/3399709827307319297.json": "11135a7513553b82e0b1dbb2cb45e5a9e0d2b0b958d4df223cb7fd80ac5db6b4",
+      "results/g1_20261014_v1/observations/4231800877142443125.json": "a3b97aaaa26c2b8c6ecc0b20dec98822ea08de29084308f854c176ac196c6d3e",
+      "results/g1_20261014_v1/observations/5018323033991223877.json": "0995a8bbe4cf251430e6d4c3119ba0e9eb1c0aae075a8233c5c03b074965a82e",
+      "results/g1_20261014_v1/observations/5255765869814492326.json": "53686cd02761d16152b73d899d4f8dec1f9b5b8b6bd00a7722b27a703f1ec958",
+      "results/g1_20261014_v1/observations/5306709786799343592.json": "a55bb7374cc711f88883d8696156a5df66693c894c9fc93a40378cb3059db830",
+      "results/g1_20261014_v1/observations/7605784223314304513.json": "506f69cbe1673f01d929277b2f2e7f02daeca019739639b92fdc45d1b0412800",
+      "results/g1_20261014_v1/observations/7832060677625451964.json": "07d7cc3dd0af76a83ecac311ca03e66c45891ae5ab03fc9ba5e84b88e319828d",
+      "results/g1_20261014_v1/observations/7836379267827386910.json": "8e25505a5beec6e42f4b76f0e0dde5db1d8b75c75054e7a68a4e1ddad01babb5"
+    },
+    "original_source_files_unchanged_verified": true
+  },
+  "findings": [
+    "At128 the best of the four existing candidates still has meanE0.0716656791 versus static0.0371235381: absolute gap+0.0345421410, relative gapabout+93.05%. Static is strictly better on10/12 observations.",
+    "At128 static also has lower meanE in all4 task groups and all3 temporal-stage groups. The two oracle wins over static are both late/final observations.",
+    "At256/128/64 static is strictly better on10/12,10/12,11/12 observations respectively. The fixed pool therefore lacks coverage needed to match static meanE on this exposed panel, even with perfect selection among its members.",
+    "This does not rule out a different candidate generator. In particular, the proposed learned-static plus perturbation pool has not been generated or tested here."
+  ],
+  "execution": {
+    "GPU_calls": 0,
+    "new_teacher_queries": 0,
+    "new_samples": 0,
+    "training_runs": 0,
+    "parameter_searches": 0,
+    "gate_changes": 0,
+    "original_file_writes": 0
+  }
+}

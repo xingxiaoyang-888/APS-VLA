@@ -132,6 +132,17 @@
       "failed_queries": 0,
       "report": "results/g1_step_20261014_v1/scientific_review.json",
       "interpretation": "Smaller-step128 mean.049789 remains above static.043906; only worst terminal observation improved vs main"
+    },
+    {
+      "stage": "existing_candidate_pool_post_hoc",
+      "status": "completed_cpu_diagnostic",
+      "observations": 12,
+      "episodes": 4,
+      "new_teacher_queries": 0,
+      "primary128_pool_best_mean_E": 0.07166567910462618,
+      "primary128_static_teacher_mean_E": 0.037123538088053465,
+      "report": "results/g1_analysis/g1_20261014_v1/existing_candidate_pool_diagnostic.json",
+      "interpretation": "Uniform plus three random sets cannot match static teacher average error even under per-observation perfect selection on this exposed panel; does not test proposed learned candidate generator or establish generalization"
     }
   ],
   "deadline": {
@@ -178,8 +189,9 @@
   },
   "current_work": [
     "G0 passed; full G1 and preregistered optional diagnosis completed, scientific no-go retained",
-    "All registered CTI jobs completed; results archived and independently reviewed",
-    "Method candidates documented; no formal G2/G3, further searches or final test until revised method/protocol frozen and scientifically reviewed"
+    "All6 registered jobs completed exit0; results archived and independently reviewed",
+    "Existing fixed candidate pool coverage checked with0newqueries; next version must separately address candidate quality and learned scoring",
+    "No formal G2/G3, further searches or final test until revised method/protocol frozen and scientifically reviewed"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -200,5 +212,6 @@
     "completed_teacher_queries": 4812,
     "failed_queries": 0,
     "scientific_status": "no_go"
-  }
+  },
+  "last_supervision_utc": "2026-10-14T07:08:33.473005+00:00"
 }
