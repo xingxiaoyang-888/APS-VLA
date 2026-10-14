@@ -279,14 +279,23 @@ def analyze_closed_loop(directory, reports, evidence, *, repeats=2000, seed=1517
     if any(e.get("run_signature") != run_signature for e in events):
         raise ValueError("closed-loop events belong to another frozen run")
     from cti_vla.evaluation.future_trials import validate_future_trial_identities, summarize_future_trials, load_future_development_panel
+    dense_reference = None
     if suite == "libero_10":
         from cti_vla.data.long_initial_states import load_long_development_panel
         if panel_path is None:
             raise ValueError("Long analysis requires its explicit frozen development panel")
         evidence.read(panel_path)
         frozen_panel = load_long_development_panel(panel_path)
-        if config.get("suite") != suite or config.get("max_steps") != 520 or config.get("methods") != ["dense", "future_A", "future_B"]:
+        dense_reference = config.get("dense_reference")
+        expected_methods = ["future_A", "future_B"] if dense_reference is not None else ["dense", "future_A", "future_B"]
+        if config.get("suite") != suite or config.get("max_steps") != 520 or config.get("methods") != expected_methods:
             raise ValueError("Long closed-loop config differs from its suite/horizon/three-method protocol")
+        if dense_reference is not None:
+            from cti_vla.evaluation.future_dense_reuse import require_dense_compatibility
+            require_dense_compatibility(dense_reference, frozen_panel, config)
+            if config.get("training_seed") not in (23, 41) or any(
+                    config["selectors"][arm]["seed"] != config["training_seed"] for arm in ("A", "B")):
+                raise ValueError("reused dense requires the new registered training seed, distinct from evaluation seed17")
     elif suite == "libero_spatial":
         state_root = ROOT / "configs/manifests/spatial_initial_states_v1"
         frozen_panel = load_future_development_panel(state_root / "init_states_development.json", state_root / "g0_development_15.json")
@@ -301,11 +310,14 @@ def analyze_closed_loop(directory, reports, evidence, *, repeats=2000, seed=1517
                 raise ValueError("duplicate/invalid completed trial")
             completed[event["trial_id"]] = event
     ledger = SimpleNamespace(events=events, completed=lambda: completed, path=directory / "trials.jsonl")
-    validate_future_trial_identities(panel, config["methods"], ledger)
-    rebuilt = summarize_future_trials(panel, config["methods"], ledger, provenance=summary["provenance"], checkpoint_unchanged=True)
+    validate_future_trial_identities(panel, config["methods"], ledger, dense_reference=dense_reference)
+    rebuilt = summarize_future_trials(panel, config["methods"], ledger, provenance=summary["provenance"], checkpoint_unchanged=True,
+        dense_reference=dense_reference)
     for key in ("status", "expected_trials", "completed_trials", "methods", "paired_AB", "cost"):
         if summary.get(key) != rebuilt[key]:
             raise ValueError("closed-loop summary differs from actual paired trials")
+    if dense_reference is not None and any(summary.get(k) != rebuilt[k] for k in ("dense_reference_signature", "reused_dense_trials")):
+        raise ValueError("closed-loop reused dense evidence differs from config")
     if reports:
         for arm in ("A", "B"):
             if config["selectors"][arm]["selector_checkpoint_sha256"] != reports[arm]["best_checkpoint_sha256"]:
@@ -325,10 +337,14 @@ def analyze_closed_loop(directory, reports, evidence, *, repeats=2000, seed=1517
     if suite == "libero_10":
         result["limits"] = "Only30 preregistered Long development states across3 tasks; intervals are conditional on one trained seed and these tasks, not across-seed generalization or final-test evidence."
         result["paired_vs_dense"] = {}
+        if dense_reference is not None:
+            dense_rows = {r["state_trial_id"]: r for r in dense_reference["dense_results"]}
+            result["dense_reference"] = {"signature": dense_reference["signature"], "trials": 30,
+                "successes": sum(r["success"] for r in dense_rows.values()), "new_inferences": 0, "new_gpu_seconds": 0}
         for arm in ("A", "B"):
             rows = []
             for state in panel["states"]:
-                dense = completed[state["trial_id"] + ":dense"]
+                dense = dense_rows[state["trial_id"]] if dense_reference is not None else completed[state["trial_id"] + ":dense"]
                 selected = completed[state["trial_id"] + ":future_" + arm]
                 rows.append({"state_trial_id": state["trial_id"], "task_id": state["task_id"],
                     "dense_success": dense["success"], "selector_success": selected["success"],

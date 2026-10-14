@@ -42,7 +42,7 @@ def resolve_suite_arguments(args):
         "protocol": ROOT / ("configs/manifests/long_future_v1/protocol.json" if long else "configs/manifests/spatial_g0g1_v1/protocol.json"),
         "asset_manifest": ROOT / f"configs/assets/openvla_oft_libero_{'long' if long else 'spatial'}.json",
         "stats_key": "libero_10_no_noops" if long else "libero_spatial_no_noops",
-        "controls": ["dense"] if long else ["dense", "uniform128"]}
+        "controls": ([] if getattr(args, "dense_reference", None) else ["dense"]) if long else ["dense", "uniform128"]}
     for key, value in defaults.items():
         if getattr(args, key, None) is None:
             setattr(args, key, value)
@@ -92,21 +92,32 @@ def run(args):
     controls = tuple(args.controls)
     if len(set(controls)) != len(controls) or set(controls) - {"dense", "uniform128"}:
         raise ValueError("controls may contain dense and uniform128 once each")
-    if suite == "libero_10" and controls != ("dense",):
-        raise ValueError("Long preregistration fixes dense/A/B only, exactly90 trials")
+    reference_path = getattr(args, "dense_reference", None)
+    dense_reference = None
+    if reference_path is not None:
+        if suite != "libero_10" or controls or _read(args.config).get("seed") not in (23, 41) or getattr(args, "seed", 17) != 17:
+            raise ValueError("dense reuse is only for Long training seeds23/41, A/B-only, evaluation seed17")
+        from cti_vla.evaluation.future_dense_reuse import load_dense_reference
+        dense_reference = load_dense_reference(reference_path, panel)
+    elif suite == "libero_10" and (controls != ("dense",) or _read(args.config).get("seed", 17) != 17):
+        raise ValueError("Long seed17 fixes dense/A/B90; seeds23/41 require explicit dense reference and60 A/B trials")
     methods = tuple(m for m in METHOD_ORDER if m in controls or m in ("future_A", "future_B"))
     if args.prepare_only:
         return {"stage": "G1-F_Long_development" if suite == "libero_10" else "G1-F_development",
             "status": "panel_prepared_only", "gpu_calls": 0,
             "tasks": [0, 3, 5], "states": 30, "expected_trials": 30 * len(methods), "methods": methods,
             "panel_signature": panel["panel_signature"], "test_opened": False,
-            "checkpoint_validated": False, "f01_accepted": False}
+            "checkpoint_validated": False, "f01_accepted": False,
+            **({"dense_reference_signature": dense_reference["signature"], "training_seed": _read(args.config)["seed"],
+                "evaluation_runtime_seed": 17, "reused_dense_trials": 30} if dense_reference else {})}
     required = ("f01_report", "checkpoint_a", "checkpoint_b", "receipt_a", "receipt_b", "checkpoint",
                 "cache_directory", "output_directory")
     if any(getattr(args, key) is None for key in required):
         raise ValueError("G1-F execution requires F01, both checkpoint/receipt pairs, frozen base, cache and output")
     if suite == "libero_10" and getattr(args, "input_acceptance_report", None) is None:
         raise ValueError("Long requires its own official input/action acceptance receipt, not Spatial G0")
+    if dense_reference is not None and getattr(args, "engineering_reuse_registration", None) is None:
+        raise ValueError("new Long training seeds require explicit parent engineering evidence reuse")
     if os.name == "nt" or (suite == "libero_10" and not os.environ.get("SLURM_JOB_ID")):
         raise RuntimeError("real G1-F checkpoints and GPU rollouts remain on the server")
     validate_output_paths(args)
@@ -123,10 +134,15 @@ def _execute(args, panel, methods):
     from cti_vla.evaluation.teacher_diagnostics import atomic_json, json_signature
     from cti_vla.models.abstraction.packing import PACKING_VERSION
     long = args.suite == "libero_10"
+    dense_reference = None
     watched_paths = [args.config, args.window_manifest, args.f01_report, args.receipt_a, args.receipt_b,
                      args.checkpoint_a, args.checkpoint_b, args.asset_manifest]
     if long:
         watched_paths.extend([args.protocol, args.panel, args.input_acceptance_report])
+    if getattr(args, "dense_reference", None) is not None:
+        from cti_vla.evaluation.future_dense_reuse import load_dense_reference, SOURCE_FILES
+        dense_reference = load_dense_reference(args.dense_reference, panel)
+        watched_paths.extend(args.dense_reference / name for name in SOURCE_FILES)
     watched = {str(p.resolve()): file_sha256(p) for p in watched_paths}
     def unchanged():
         if any(file_sha256(path) != digest for path, digest in watched.items()):
@@ -143,8 +159,20 @@ def _execute(args, panel, methods):
         windows = load_future_windows(args.window_manifest, protocol)
     asset = load_checkpoint_manifest(args.asset_manifest)
     f01 = _read(args.f01_report)
+    pair_for_acceptance = json_signature(common_config)
+    if getattr(args, "engineering_reuse_registration", None) is not None:
+        from cti_vla.evaluation.future_seed_reuse import load_long_seed_reuse
+        contract = load_long_seed_reuse(args.engineering_reuse_registration, config=common_config,
+            project_root=args.project_root, source_root=ROOT,
+            expected_paths={"input_acceptance": args.input_acceptance_report, "f01_acceptance": args.f01_report,
+                "windows": args.window_manifest, "protocol": args.protocol, "asset_manifest": args.asset_manifest})
+        if (contract.f01_report_sha256 != watched[str(args.f01_report.resolve())]
+                or contract.input_acceptance_sha256 != watched[str(args.input_acceptance_report.resolve())]):
+            raise ValueError("engineering reuse registration differs from supplied parent F00/F01")
+        pair_for_acceptance = contract.parent_pair_id
+        watched.update({str(Path(p).resolve()): digest for p, digest in contract.watched_files.items()})
     acceptance_kwargs = {"suite": args.suite} if long else {}
-    future_runtime.require_future_f01(f01, pair_id=json_signature(common_config),
+    future_runtime.require_future_f01(f01, pair_id=pair_for_acceptance,
         window_manifest_sha256=watched[str(args.window_manifest.resolve())], model_revision=asset.revision,
         **acceptance_kwargs)
     expected = {"model_revision": asset.revision, "input_version": libero_runtime.INPUTS_VERSION,
@@ -222,6 +250,12 @@ def _execute(args, panel, methods):
         config.update(suite=args.suite, input_acceptance_sha256=expected["input_acceptance_sha256"])
         for relative in ("src/cti_vla/data/long_initial_states.py", "src/cti_vla/data/long_future_windows.py"):
             config["source_hashes"][relative] = file_sha256(ROOT / relative)
+    if dense_reference is not None:
+        from cti_vla.evaluation.future_dense_reuse import require_dense_compatibility
+        config.update(training_seed=common_config["seed"], dense_reference=dense_reference,
+            engineering_reuse_registration_sha256=file_sha256(args.engineering_reuse_registration))
+        config["source_hashes"]["src/cti_vla/evaluation/future_dense_reuse.py"] = file_sha256(ROOT / "src/cti_vla/evaluation/future_dense_reuse.py")
+        require_dense_compatibility(dense_reference, panel, config)
     signature = json_signature(config)
     write_frozen_json(args.output_directory / "config.json", config)
     write_frozen_json(args.output_directory / "panel.json", panel)
@@ -241,7 +275,7 @@ def _execute(args, panel, methods):
         return env, task.language
     def report(checkpoint_unchanged=None):
         result = future_trials.summarize_future_trials(panel, methods, ledger, provenance=provenance,
-            checkpoint_unchanged=checkpoint_unchanged)
+            checkpoint_unchanged=checkpoint_unchanged, dense_reference=dense_reference)
         atomic_json(args.output_directory / "closed_loop_report.json", result)
         return result
     def on_result(row):
@@ -249,7 +283,8 @@ def _execute(args, panel, methods):
         print(json.dumps({"trial_id": row["trial_id"], "status": row["status"], "success": row["success"]}), flush=True)
     try:
         future_trials.evaluate_future_trials(panel, policies, ledger, create_environment, reseed=reseed,
-            policy_watchdog_seconds=args.policy_watchdog_seconds, stop_after=args.stop_after, on_result=on_result)
+            policy_watchdog_seconds=args.policy_watchdog_seconds, stop_after=args.stop_after, on_result=on_result,
+            dense_reference=dense_reference)
         after = verify_checkpoint_directory(args.checkpoint, asset)
         unchanged()
         if before != after:
@@ -277,6 +312,8 @@ def main():
     for name in ("f01-report", "checkpoint-a", "checkpoint-b", "receipt-a", "receipt-b", "checkpoint", "cache-directory", "output-directory"):
         parser.add_argument("--" + name, type=Path)
     parser.add_argument("--input-acceptance-report", type=Path, help="Required Long frame-chain parity receipt; never Spatial G0")
+    parser.add_argument("--dense-reference", type=Path, help="Long seeds23/41 only: immutable seed17 closed_loop directory")
+    parser.add_argument("--engineering-reuse-registration", type=Path, help="Explicit parent F00/F01/cache evidence contract for new training seeds")
     parser.add_argument("--project-root", type=Path, default=ROOT)
     parser.add_argument("--controls", nargs="*", choices=("dense", "uniform128"))
     parser.add_argument("--stats-key")

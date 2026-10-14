@@ -85,8 +85,8 @@ def test_runner_validation_consumes_shared_hard_indices_and_future_head_api(exam
     assert all(p.grad is None for p in example.student.parameters())
 
 
-@pytest.mark.parametrize("suite", [None, "libero_10"])
-def test_runner_resumes_after_validation_zero_without_duplicate_history(example, monkeypatch, tmp_path, suite):
+@pytest.mark.parametrize("suite,seed", [(None,17),("libero_10",17),("libero_10",23),("libero_10",41)])
+def test_runner_pair_initialization_order_and_legacy_resume(example, monkeypatch, tmp_path, suite, seed):
     """Exercise real two-update A/B loops and actual tiny checkpoint serialization.
 
     Ninety/sixty distinct synthetic window IDs satisfy the runner's panel size;
@@ -114,7 +114,7 @@ def test_runner_resumes_after_validation_zero_without_duplicate_history(example,
     monkeypatch.setattr("cti_vla.evaluation.checkpoint_manifest.verify_checkpoint_directory", lambda *a: None)
     writes = []
     monkeypatch.setattr("cti_vla.evaluation.teacher_diagnostics.atomic_json", lambda path, value: writes.append((path, value)))
-    config = {"seed": 17, "model_revision": "synthetic-model", "stats_key": "synthetic-stats", "arms": ["A", "B"],
+    config = {"seed": seed, "model_revision": "synthetic-model", "stats_key": "synthetic-stats", "arms": ["A", "B"],
               "scorer_dimensions": {"token_dim": 8, "language_dim": 8, "proprio_dim": 8, "hidden_dim": 16,
                                     "num_cameras": 2, "patches_per_camera": 256, "max_instruction_tokens": 128},
               "training": {"updates": 2, "effective_batch": 1, "learning_rate": 1e-4, "weight_decay": .01,
@@ -132,23 +132,29 @@ def test_runner_resumes_after_validation_zero_without_duplicate_history(example,
 
     def interrupt_once(path, row):
         events.append((path, row))
-        if row["event"] == "update_start" and not interrupted[0]:
+        if seed==17 and row["event"] == "update_start" and not interrupted[0]:
             interrupted[0] = True
             raise RuntimeError("synthetic interruption after validation0 checkpoint")
 
     monkeypatch.setattr(runner, "append_json", interrupt_once)
-    with pytest.raises(RuntimeError, match="synthetic interruption"):
-        runner.train_pair(args, config, index, components, example.teacher, example.student)
-    resume = original_load(args.training_checkpoints / "A/resume.pt")
-    assert resume["completed_update"] == 0
-    assert [r["update"] for r in resume["evaluations"]] == [0]
-    if suite is not None:
-        assert resume["suite"]==suite and resume["input_acceptance_sha256"]=="0"*64
-        assert resume["f01_report_sha256"]=="0"*64
-        runner.save_torch(args.training_checkpoints / "A/resume.pt",{**resume,"input_acceptance_sha256":"f"*64})
-        with pytest.raises(ValueError,match="another suite/input/F01"):
+    if seed==17:
+        with pytest.raises(RuntimeError, match="synthetic interruption"):
             runner.train_pair(args,config,index,components,example.teacher,example.student)
-        runner.save_torch(args.training_checkpoints / "A/resume.pt",resume)
+        resume = original_load(args.training_checkpoints / "A/resume.pt")
+        assert resume["completed_update"] == 0
+        assert [r["update"] for r in resume["evaluations"]] == [0]
+        if suite is not None:
+            assert resume["suite"]==suite and resume["input_acceptance_sha256"]=="0"*64
+            assert resume["f01_report_sha256"]=="0"*64
+            runner.save_torch(args.training_checkpoints / "A/resume.pt",{**resume,"input_acceptance_sha256":"f"*64})
+            with pytest.raises(ValueError,match="another suite/input/F01"):
+                runner.train_pair(args,config,index,components,example.teacher,example.student)
+            runner.save_torch(args.training_checkpoints / "A/resume.pt",resume)
+    else:
+        # The registered extension enters the same training core from empty
+        # directories. Its public runner forbids resume before reaching here.
+        from cti_vla.evaluation.future_seed_reuse import require_fresh_seed_destinations
+        require_fresh_seed_destinations(args.output,args.training_checkpoints)
     report = runner.train_pair(args, config, index, components, example.teacher, example.student)
     assert report["status"] == "completed"
     for arm in ("A", "B"):
@@ -158,3 +164,8 @@ def test_runner_resumes_after_validation_zero_without_duplicate_history(example,
     assert report["arms"]["A"]["initial_scorer_sha256"] == report["arms"]["B"]["initial_scorer_sha256"]
     assert report["arms"]["A"]["sample_order_sha256"] == report["arms"]["B"]["sample_order_sha256"]
     assert sum(row["event"] == "update_end" for _, row in events) == 4
+    from cti_vla.evaluation.teacher_diagnostics import tensor_signature
+    with torch.random.fork_rng():
+        torch.manual_seed(seed)
+        expected=ConditionalInfluenceEstimator(**config["scorer_dimensions"]).state_dict()
+    assert report["arms"]["A"]["initial_scorer_sha256"]==tensor_signature(expected)

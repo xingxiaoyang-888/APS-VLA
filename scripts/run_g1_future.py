@@ -53,7 +53,8 @@ def resolve_suite(args, config, asset):
     if suite == "libero_10":
         if getattr(args, "stats_key", None) != FUTURE_SUITES[suite]:
             raise ValueError("Long requires explicit --stats-key libero_10_no_noops")
-        exact = {"seed": 17, "arms": ["A", "B"], "tokens_per_camera": 64,
+        authorized_seed = config.get("seed") in (23, 41) and getattr(args, "engineering_reuse_registration", None) is not None
+        exact = {"seed": config["seed"] if authorized_seed else 17, "arms": ["A", "B"], "tokens_per_camera": 64,
             "scorer_dimensions": dict(token_dim=4096, language_dim=4096, proprio_dim=8,
                 hidden_dim=256, num_cameras=2, patches_per_camera=256, max_instruction_tokens=128)}
         if any(config.get(k) != v for k, v in exact.items()):
@@ -101,6 +102,19 @@ def require_input_gate(args, config, asset, protocol, manifest):
         if path is None or getattr(args, "g0_report", None) is not None:
             raise ValueError("Long requires its own --input-acceptance-report, never a Spatial G0")
         report = read_json(path)
+        reuse_path = getattr(args, "engineering_reuse_registration", None)
+        if reuse_path is not None:
+            from cti_vla.evaluation.future_seed_reuse import load_long_seed_reuse
+            if args.mode != "train":
+                raise ValueError("seed engineering inheritance is train-only, not a new F01")
+            contract = load_long_seed_reuse(reuse_path, config=config,
+                project_root=args.project_root, source_root=ROOT,
+                expected_paths={"input_acceptance":path, "f01_acceptance":args.acceptance_report,
+                    "windows":args.windows, "protocol":args.protocol, "asset_manifest":args.asset_manifest})
+            if report.get("dataset_statistics_sha256") != file_hash(args.checkpoint / "dataset_statistics.json"):
+                raise ValueError("reused Long normalization statistics changed")
+            args._engineering_reuse = contract
+            return contract.input_acceptance_sha256
         require_long_input_acceptance(report, config=config,
             window_manifest_sha256=file_hash(args.windows), protocol_sha256=file_hash(args.protocol),
             asset_manifest_sha256=file_hash(args.asset_manifest), source_files=source_hashes(),
@@ -545,11 +559,21 @@ def run(args):
     asset = load_checkpoint_manifest(args.asset_manifest)
     suite, protocol, manifest, _ = data_registration(args, config, asset)
     input_acceptance_sha = require_input_gate(args, config, asset, protocol, manifest)
+    reuse = getattr(args, "_engineering_reuse", None)
     long_sources = source_hashes() if suite == "libero_10" else None
     long_watched = ({str(p.resolve()): file_hash(p) for p in (args.config, args.windows,
         args.protocol, args.asset_manifest, args.input_acceptance_report, args.input_acceptance_report.parent / "calls.jsonl",
         ROOT / "scripts/verify_long_inputs.py", *([args.acceptance_report] if args.mode == "train" else []))}
         if suite == "libero_10" else {})
+    if reuse is not None:
+        from cti_vla.evaluation.future_seed_reuse import require_fresh_seed_destinations, verify_reused_cache
+        require_fresh_seed_destinations(args.output, args.training_checkpoints)
+        long_watched.update(reuse.watched_files)
+        reused_index = verify_reused_cache(reuse, args.feature_cache)
+        for entry in reused_index:
+            path = Path(entry["path"])
+            long_watched[str(path.resolve())] = entry["cache_sha256"]
+            long_watched[str(path.with_suffix(".json").resolve())] = file_hash(path.with_suffix(".json"))
     base = args.checkpoint.resolve()
     project = Path("/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA")
     weight_root = Path("/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints")
@@ -561,13 +585,16 @@ def run(args):
     args.output.mkdir(parents=True, exist_ok=True)
     write_frozen_json(args.output / "registered_config.json", config)
     write_frozen_json(args.output / "registered_windows.json", manifest)
+    if reuse is not None:
+        atomic_json(args.output / "engineering_reuse_receipt.json", reuse.receipt)
     if args.mode == "train":
         from cti_vla.evaluation.future_runtime import require_future_f01
         passed = read_json(args.acceptance_report)
-        require_future_f01(passed, pair_id=json_signature(config), window_manifest_sha256=file_hash(args.windows),
+        require_future_f01(passed, pair_id=reuse.parent_pair_id if reuse is not None else json_signature(config), window_manifest_sha256=file_hash(args.windows),
             model_revision=asset.revision, suite=suite, input_acceptance_sha256=input_acceptance_sha)
         finalized = read_json(args.acceptance_report.parent / "acceptance_finalization.json")
-        if passed["source_files"] != source_hashes() or finalized.get("status") != "verified" or finalized.get("checkpoint_unchanged") is not True or finalized.get("result_sha256") != file_hash(args.acceptance_report):
+        expected_parent_sources = read_json(args.input_acceptance_report)["source_files"] if reuse is not None else source_hashes()
+        if passed["source_files"] != expected_parent_sources or finalized.get("status") != "verified" or finalized.get("checkpoint_unchanged") is not True or finalized.get("result_sha256") != file_hash(args.acceptance_report):
             raise ValueError("training requires finalized F01 evidence from this exact implementation")
     for folder in (args.cache_directory, args.cache_directory / "hub", args.cache_directory / "modules"):
         folder.mkdir(parents=True, exist_ok=True)
@@ -585,8 +612,12 @@ def run(args):
     processor = AutoProcessor.from_pretrained(base, trust_remote_code=True, local_files_only=True)
     policy = OpenVLAOFTTokenPolicy(components.vla, components.action_head, components.proprio_projector, num_patches_full=512)
     student = FrozenDifferentiableOFTPolicy(policy, components.vla.projector, model_revision=asset.revision, input_version=INPUTS_VERSION)
-    index = cache_records(args, config, manifest, protocol, components, processor, policy,
-        limit=2 if args.mode == "acceptance" else None)
+    if reuse is not None:
+        index = reused_index
+        atomic_json(args.output / "cache_index.json", index)
+    else:
+        index = cache_records(args, config, manifest, protocol, components, processor, policy,
+            limit=2 if args.mode == "acceptance" else None)
     if args.mode == "acceptance":
         report = acceptance(args, config, index, components, policy, student)
     else:
@@ -611,6 +642,8 @@ def main():
     parser.add_argument("--input-acceptance-report", type=Path)
     parser.add_argument("--suite", choices=("libero_spatial", "libero_10"), default="libero_spatial")
     parser.add_argument("--stats-key")
+    parser.add_argument("--engineering-reuse-registration", "--reuse-registration", type=Path)
+    parser.add_argument("--project-root", type=Path, default=Path("/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"))
     parser.add_argument("--mode", choices=("acceptance", "train"), required=True)
     args = parser.parse_args()
     started = time.perf_counter()

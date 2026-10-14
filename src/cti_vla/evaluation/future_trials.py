@@ -56,9 +56,15 @@ def _validate_panel(panel):
         raise ValueError("G1-F development source identities changed")
 
 
-def _methods(methods, *, suite="libero_spatial"):
+def _methods(methods, *, suite="libero_spatial", dense_reference=None, panel=None):
     methods = tuple(methods)
     if suite == "libero_10":
+        if dense_reference is not None:
+            from cti_vla.evaluation.future_dense_reuse import validate_dense_reference
+            validate_dense_reference(dense_reference, panel)
+            if len(methods) != 2 or set(methods) != {"future_A", "future_B"}:
+                raise ValueError("dense reuse requires exactly A/B new trials")
+            return ("future_A", "future_B")
         expected = ("dense", "future_A", "future_B")
         if len(methods) != 3 or set(methods) != set(expected):
             raise ValueError("Long preregistration requires exactly dense/A/B, without uniform")
@@ -80,9 +86,9 @@ def _identity(panel, state, method):
         "environment_seed": panel["environment_seed"]}
 
 
-def validate_future_trial_identities(panel, methods, ledger):
+def validate_future_trial_identities(panel, methods, ledger, *, dense_reference=None):
     _validate_panel(panel)
-    expected = {row["trial_id"]: row for state in panel["states"] for m in _methods(methods, suite=panel["suite"])
+    expected = {row["trial_id"]: row for state in panel["states"] for m in _methods(methods, suite=panel["suite"], dense_reference=dense_reference, panel=panel)
                 for row in [_identity(panel, state, m)]}
     for event in ledger.events:
         if "trial_id" not in event:
@@ -93,9 +99,9 @@ def validate_future_trial_identities(panel, methods, ledger):
 
 
 def evaluate_future_trials(panel, policies, ledger, environment_factory, *, reseed,
-        policy_watchdog_seconds=60., stop_after=None, on_result=None):
-    methods = _methods(policies, suite=panel["suite"])
-    validate_future_trial_identities(panel, methods, ledger)
+        policy_watchdog_seconds=60., stop_after=None, on_result=None, dense_reference=None):
+    methods = _methods(policies, suite=panel["suite"], dense_reference=dense_reference, panel=panel)
+    validate_future_trial_identities(panel, methods, ledger, dense_reference=dense_reference)
     if stop_after is not None and (type(stop_after) is not int or stop_after <= 0):
         raise ValueError("stop_after must be a positive trial count")
     ran = 0
@@ -134,9 +140,9 @@ def evaluate_future_trials(panel, policies, ledger, environment_factory, *, rese
     return ran
 
 
-def summarize_future_trials(panel, methods, ledger, *, provenance, checkpoint_unchanged=None):
-    methods = _methods(methods, suite=panel["suite"])
-    validate_future_trial_identities(panel, methods, ledger)
+def summarize_future_trials(panel, methods, ledger, *, provenance, checkpoint_unchanged=None, dense_reference=None):
+    methods = _methods(methods, suite=panel["suite"], dense_reference=dense_reference, panel=panel)
+    validate_future_trial_identities(panel, methods, ledger, dense_reference=dense_reference)
     completed = ledger.completed()
     summaries = {}
     for method in methods:
@@ -171,7 +177,7 @@ def summarize_future_trials(panel, methods, ledger, *, provenance, checkpoint_un
     unknown_starts += len(active)
     attempts = [r for r in ledger.events if r.get("event") == "result"]
     done = len(completed) == 30 * len(methods)
-    return {"stage": "G1-F_Long_development" if panel["suite"] == "libero_10" else "G1-F_development",
+    result = {"stage": "G1-F_Long_development" if panel["suite"] == "libero_10" else "G1-F_development",
         "status": "completed" if done and checkpoint_unchanged is True else "incomplete",
         "expected_trials": 30 * len(methods), "completed_trials": len(completed), "methods": summaries,
         "paired_AB": {"completed_pairs": len(paired), "results": paired,
@@ -186,3 +192,7 @@ def summarize_future_trials(panel, methods, ledger, *, provenance, checkpoint_un
         "provenance": provenance,
         "limitations": ("Fixed Long task0,3,5 development panel, official520-step horizon and dense/A/B only; no sealed-final evaluation or population claim."
             if panel["suite"] == "libero_10" else "Fixed three-task development panel, including prior G0 states; no test evaluation, population inference or benchmark claim.")}
+    if dense_reference is not None:
+        result.update(dense_reference_signature=dense_reference["signature"], reused_dense_trials=30,
+            limitations="60 new A/B trials on the fixed30 Long development states; seed17 dense reference reused without new inference or cost. No final-test or population claim.")
+    return result

@@ -1,0 +1,296 @@
+{
+  "AST_review": {
+    "evaluate_future_trials_equal_after_only_dense_reference_plumbing": true,
+    "parent_commit": "fb2568a96083fc53f768c3a87e4d1af07df7eb32",
+    "parent_file_bytes_matched_archived_SHA_with_original_line_endings": true,
+    "protected_non_orchestration_runner_functions": [
+      "acceptance",
+      "append_json",
+      "cache_records",
+      "data_registration",
+      "file_hash",
+      "load_torch",
+      "make_batch",
+      "module_hash",
+      "read_json",
+      "save_torch",
+      "source_hashes",
+      "train_pair",
+      "training_order",
+      "validate_hard"
+    ],
+    "removed_evaluation_keywords": [
+      "_methods.dense_reference",
+      "_methods.panel",
+      "validate_future_trial_identities.dense_reference"
+    ],
+    "runner_imports_globals_and_top_level_AST_unchanged": true,
+    "simulator_loop_reseed_run_episode_action_queue_failure_semantics_unchanged": true
+  },
+  "authorization_scope": "Only seed23/41 matched training and120 additional A/B development trials. No new data/windows/projection/ablation/budget/tasks/test or automatic expansion.",
+  "cache_audit": {
+    "all_metadata_identities_verified": true,
+    "all_tensor_bytes_verified_locally": false,
+    "dataset_statistics_sha256": "dbe516987e8124416af39c32d3f39ce2137ccb4e282adc590bb4bcede09fb5e1",
+    "index_sha256": "4ed339aabfc527f5da8e374504c45dea41312865296b67a376edc06f89411d2b",
+    "model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+    "referenced_bytes": 1335413760,
+    "server_required": "verify_reused_cache checks every.pt byte length/SHA and matching original.json before model load, then runner rechecks all watched files at finalization. Actual tensors remain server-only.",
+    "unique_records": 150
+  },
+  "config_comparison": {
+    "23": {
+      "only_differences": {
+        "run_id": {
+          "new": "g1_future_long_seed23_v1",
+          "parent": "g1_future_long_v1"
+        },
+        "seed": {
+          "new": 23,
+          "parent": 17
+        }
+      },
+      "path": "configs/experiments/g1_future_long_seed23_v1.json",
+      "sha256": "7dbf07bdec267fd7071e52e7ab70eb8f72f67ec0f435b94e44bb3b17eaf77156"
+    },
+    "41": {
+      "only_differences": {
+        "run_id": {
+          "new": "g1_future_long_seed41_v1",
+          "parent": "g1_future_long_v1"
+        },
+        "seed": {
+          "new": 41,
+          "parent": 17
+        }
+      },
+      "path": "configs/experiments/g1_future_long_seed41_v1.json",
+      "sha256": "e05207c479a79a217226e8386c30751b9eb1ed546a9e12b31fe4f646636b4bbe"
+    }
+  },
+  "cpu_checks": {
+    "independently_recomputed_training_order": {
+      "draws_per_seed": 800,
+      "seed17_matches_archived_order": true,
+      "seed23_sha256": "66ad2011bfd7e8f9126dfce10ed714e1b7234269eae93d9d14511b2b5f4c2ee3",
+      "seed41_sha256": "8064a044c57d4268c682ca851fc6351486766f3cdf6b4f56001c2199d5235a34",
+      "updates_per_seed": 100
+    },
+    "passed": 33,
+    "pytest_command": "python -m pytest tests/test_future_seed_reuse.py tests/test_future_multiseed.py -q",
+    "seconds": 12.47,
+    "synthetic_projection_test": {
+      "global_rng_unchanged": true,
+      "global_seeds": [
+        17,
+        23,
+        41
+      ],
+      "no_model_weights_loaded": true,
+      "projected_dim": 32,
+      "projection_and_target_bitwise_equal": true,
+      "projection_seed": 917
+    }
+  },
+  "data_reuse": {
+    "horizon": 8,
+    "protocol_sha256": "228f4942c85ce00cbd4c8f2915802b1453c7b8b735a13f44870956d69dfd7e6f",
+    "same_windows_for_all_training_seeds": true,
+    "selected_test_overlap": 0,
+    "split_overlap": 0,
+    "split_seed": 17,
+    "train_episodes": 30,
+    "train_selection_seed": 117,
+    "train_windows": 90,
+    "validation_episodes": 20,
+    "validation_selection_seed": 517,
+    "validation_windows": 60,
+    "windows_sha256": "707b9daf18827c41f4470bf163528a6f626c95e297e0e38c673792959fef4c28"
+  },
+  "dense_reuse": {
+    "identity": {
+      "action_chunk": 8,
+      "action_version": "libero-oft-boundsq99-gripper-sign-invert-chunk8-v1",
+      "asset_manifest_sha256": "90f366c593ae62862e95b2114de3878b499074b9f4db6eb8671e7d4f1103fcae",
+      "base_model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+      "environment_seed": 0,
+      "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+      "max_steps": 520,
+      "packing_version": "oft-original-positions-v1",
+      "panel_signature": "d6135205703e081bbc2bc99461670458101cd5bb4d5fd10d3f3865c5d5f8909f",
+      "policy_source_hashes": {
+        "scripts/eval_libero.py": "e87825393086eb544c75d12dbf9fa22298e09ef5d8a6aeb90a3f51cf7dba2cde",
+        "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+        "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+        "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+        "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+        "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+        "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+        "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+        "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+        "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb"
+      },
+      "policy_watchdog_seconds": 60.0,
+      "runtime_seed": 17,
+      "runtime_semantics": {
+        "attention": "sdpa",
+        "cuda": "12.1",
+        "dtype": "bfloat16",
+        "gpu": "NVIDIA L40",
+        "mujoco_gl": "egl",
+        "packages": {
+          "gym": "0.25.2",
+          "mujoco": "2.3.7",
+          "numpy": "1.26.4",
+          "robosuite": "1.4.1",
+          "tensorflow-cpu": "2.15.1",
+          "timm": "0.9.10",
+          "torch": "2.2.0",
+          "transformers": "4.40.1"
+        },
+        "python": "3.11.7"
+      },
+      "source_verification": {
+        "libero": {
+          "archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+          "file_count": 1116,
+          "inventory_sha256": "9e8bda25148b1258fb569ae81fbb2b2a858c570ad5b7e884082b7df24f8ab0d8",
+          "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+          "verification": "archive_all_files_sha256"
+        },
+        "openvla_oft": {
+          "archive_sha256": "b3c1d3ae654393c13e2eb8006bb68ea9854ec33a7306663455c94838858e5fd7",
+          "file_count": 112,
+          "inventory_sha256": "01b233e95f4ff1d6f839b690ba8aa96e4aa65366c78adc638e76907953762e68",
+          "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+          "verification": "archive_all_files_sha256"
+        }
+      },
+      "stats_key": "libero_10_no_noops",
+      "suite": "libero_10",
+      "wait_steps": 10
+    },
+    "new_inferences": 0,
+    "receipt_signature": "9af54766a03d820ee2d2969a4f346e7032b40545123678fd3b46ec7f39cb94ef",
+    "successes": 29,
+    "unique_reference_trials": 30
+  },
+  "dependency_matrix": [
+    {
+      "artifact": "episode split/windows/panel",
+      "constraints": "Original byte-pinned protocol/windows/panel and raw source identities unchanged. Never redraw for seed23/41.",
+      "depends_on_training_seed": false
+    },
+    {
+      "artifact": "raw/visual/black/language/proprio/GT/teacher/future cache tensors",
+      "constraints": "Frozen eval-mode model/processor/stats, h8 input ordering, packing/action normalization, BF16/FP32 production semantics and private projection seed917 unchanged.",
+      "depends_on_training_seed": false
+    },
+    {
+      "artifact": "old cache receipt/full config hash",
+      "constraints": "Original seed17 receipt retained unchanged. New explicit reuse registration binds parent index and every original per-file receipt/hash; not a new producer claim.",
+      "depends_on_training_seed": true
+    },
+    {
+      "artifact": "F00 official dense input parity",
+      "constraints": "Its physical computation is seed-independent fixed model inference with runtime seed17, but the receipt binds original full config/source. Reuse only as inherited evidence.",
+      "depends_on_training_seed": false
+    },
+    {
+      "artifact": "F01 gradients/updated scorer hard128 check",
+      "constraints": "Measured at seed17 initialization. Historical operator evidence is inherited explicitly; never claim target-seed gradients were remeasured.",
+      "depends_on_training_seed": true
+    },
+    {
+      "artifact": "DIE initialization/training order/B head initialization",
+      "constraints": "New empty output/checkpoint roots, no resume/previous DIE weights, shared fresh A/B initial scorer and order per seed; head uses seed+10000; fixed target projection remains917.",
+      "depends_on_training_seed": true
+    },
+    {
+      "artifact": "dense closed-loop reference",
+      "constraints": "Exactly original30 trials, with environment/runtime seed0/17, model/stats/source/CPU-package/CUDA/GPU/panel/horizon/input/packing identity matched; zero new inference attribution.",
+      "depends_on_training_seed": false
+    }
+  ],
+  "evidence_sha256": {
+    "configs/experiments/g1_future_long_multiseed_v1.json": "e8d3b874642760c0204ddf531563eb983584056a64c9ea8e0c17a13da4f66463",
+    "configs/experiments/g1_future_long_seed23_v1.json": "7dbf07bdec267fd7071e52e7ab70eb8f72f67ec0f435b94e44bb3b17eaf77156",
+    "configs/experiments/g1_future_long_seed41_v1.json": "e05207c479a79a217226e8386c30751b9eb1ed546a9e12b31fe4f646636b4bbe",
+    "configs/experiments/g1_future_long_v1.json": "be6c2c235c7caf3ca5a05892e8da3b22b71605be5fa42fa9c209219c26f5e990",
+    "configs/manifests/long_future_v1/protocol.json": "228f4942c85ce00cbd4c8f2915802b1453c7b8b735a13f44870956d69dfd7e6f",
+    "configs/manifests/long_future_v1/windows.json": "707b9daf18827c41f4470bf163528a6f626c95e297e0e38c673792959fef4c28",
+    "configs/manifests/long_initial_states_v1/development_panel_30.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long/source_g1_future_long_v1.json": "46fa4266a0abef2ea6697c69c1a63851fcbb065e7979a14cadc6a434928441c2",
+    "results/g1_future_long_v1/acceptance/acceptance_finalization.json": "aedef9a6c4169b6867726fd4e6b4586c17f2c28237b65799eeac3cc398380c5b",
+    "results/g1_future_long_v1/acceptance/f01_acceptance.json": "fe4f86e0807fd85844bd4ab673364b6fa50bbd055ed7b6896e7689e58a4515bb",
+    "results/g1_future_long_v1/inputs/calls.jsonl": "e85c56a5059a4836bb2d5abba74bc81bdde02f7ad8f6568844a8ea5c8e8366f7",
+    "results/g1_future_long_v1/inputs/input_acceptance.json": "43a094489cc884813c9889104b4ef706f6050c7242dc48fd22ede264757e7def",
+    "results/g1_future_long_v1/training/cache_index.json": "4ed339aabfc527f5da8e374504c45dea41312865296b67a376edc06f89411d2b",
+    "scripts/analyze_g1_future_multiseed.py": "ecf3b18f60a68288cc83640e428a566f47faecfb0cdf95fab2ec4ee4e1c3bc40",
+    "scripts/eval_future_selector_libero.py": "709163ffa66d51ea2f0269551fbbdfb3727c62678f0a319891fcc2940cdb2615",
+    "scripts/register_long_seed_reuse.py": "4ca2edb9a6cbcac02e234cab4220419425243a1d918e0d59eff768c784906613",
+    "scripts/run_g1_future.py": "f4b73b44a466f8793dd38c662eaa90bc8a84f398baf1dc88b2b17f9e4f7d633d",
+    "src/cti_vla/evaluation/future_dense_reuse.py": "ab678423315530b5a38b7f7df41e55ea1abf3a3e05bc423e3c49d05c09d82d6c",
+    "src/cti_vla/evaluation/future_multiseed.py": "f5d75c685c5d9ff2ba907387248120094b2ebdb2d0022257625d9193ac735580",
+    "src/cti_vla/evaluation/future_seed_reuse.py": "64f73dbc5de822c242963800db6b461e396c8a1a3f965e03ab55f9119d4292b6",
+    "src/cti_vla/evaluation/future_trials.py": "7f3c6e8a2a7c937e7e8a2d2bc7aae70c66676d9d15bdec013cfa0c37df168bf6"
+  },
+  "gpu_calls": 0,
+  "parent_engineering_evidence": {
+    "f00_sha256": "43a094489cc884813c9889104b4ef706f6050c7242dc48fd22ede264757e7def",
+    "f00_six_call_journal_verified": true,
+    "f01_finalization_verified": true,
+    "f01_sha256": "fe4f86e0807fd85844bd4ab673364b6fa50bbd055ed7b6896e7689e58a4515bb",
+    "inherited_not_new_F01": true
+  },
+  "pending_execution_checks": [
+    "Root final integration test and immutable snapshot/registration creation.",
+    "Server actual old150 tensor/receipt hashes and base checkpoint validation must pass before training.",
+    "New server initial DIE/order hashes must match fresh seed-specific run and agree within A/B; never infer completion from this audit."
+  ],
+  "reuse_guard_review": {
+    "added_source_files": [
+      "src/cti_vla/evaluation/future_dense_reuse.py",
+      "src/cti_vla/evaluation/future_multiseed.py",
+      "src/cti_vla/evaluation/future_seed_reuse.py"
+    ],
+    "all_parent_producer_sources_preserved_except_reviewed_wrapper_and_evaluation_leaf": true,
+    "cold_start_requires_empty_output_and_checkpoint_dirs": true,
+    "current_source_differences": {
+      "scripts/run_g1_future.py": {
+        "current": "f4b73b44a466f8793dd38c662eaa90bc8a84f398baf1dc88b2b17f9e4f7d633d",
+        "parent": "dbdd56fbdc541171b4cb298838b6747df791e99c1439d72925181d5de70e5126"
+      },
+      "src/cti_vla/evaluation/future_trials.py": {
+        "current": "7f3c6e8a2a7c937e7e8a2d2bc7aae70c66676d9d15bdec013cfa0c37df168bf6",
+        "parent": "793a90aeca14f5e0f5c81caa72d177fe05abca76de9cf51cea870f01d40b0f2a"
+      }
+    },
+    "independent_preregistration_anchors_parent_cache_and_F00_F01": true,
+    "old_results_and_cache_receipts_not_rewritten": true,
+    "server_rechecks_base_weights_before_after": true,
+    "source_root_reg_and_RLDS_registration_pinned": true,
+    "target_config_file_sha_bound": true
+  },
+  "reviewed_at_utc": "2026-10-14T17:25:47.445665+00:00",
+  "schema_version": 1,
+  "scope": "Local CPU audit of frozen metadata/evidence and source; no new model result or GPU acceptance is generated.",
+  "statistics_review": {
+    "bootstrap": "2000 draws, seed1517, task-stratified state clusters carrying all3 seed outcomes together.",
+    "cost": "Union of new submitted/accounted job IDs includes failures/retries; parent cache/F00/F01/dense allocations counted only historically, never added to new totals. Nested timers remain separate from allocation hours.",
+    "dense_reference_not_tripled": true,
+    "new_AB_trials": 120,
+    "paired_seed_state_cells": 90,
+    "primary": "Equal-seed mean within each state, then equal-task mean; all seeds retained.",
+    "seed_variance": "Report3-seed sample SD/range separately; state bootstrap CI is conditional on the fixed3 trained seeds and3 tasks, not seed-population inference.",
+    "training_seeds": [
+      17,
+      23,
+      41
+    ],
+    "unique_initial_states": 30
+  },
+  "status": "ready_cpu_protocol_and_reuse_implementation_audit",
+  "test_pixels_read": false,
+  "unresolved_code_or_data_blockers": []
+}
