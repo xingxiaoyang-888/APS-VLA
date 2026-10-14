@@ -93,13 +93,27 @@ def _official_normalized(components, projected, inputs):
 
 
 def run(args: argparse.Namespace) -> dict:
+    from cti_vla.data.experiment_protocol import load_experiment_protocol, select_train_observation
+    from cti_vla.data.sequence_example import iter_libero_examples
+
+    # Resolve against all pinned splits before loading a model or allocating CUDA.
+    # An input string saying "train" is not evidence of training membership.
+    data_protocol = load_experiment_protocol(args.experiment_protocol)
+    expected_episode, sample = select_train_observation(
+        data_protocol, args.shard, record_index=args.record_index, step_index=args.step_index,
+    )
+    args.record_index, args.step_index = expected_episode.record_index, sample.step_index
+    episode = next((item for item in iter_libero_examples(args.shard) if item.record_index == args.record_index), None)
+    if episode is None or episode.episode_id != expected_episode.episode_id or episode.num_steps != expected_episode.num_steps:
+        raise ValueError("actual RLDS content differs from the frozen train manifest")
+    _, verified_sample = data_protocol.require_sample(episode.episode_id, args.step_index, split="train")
+    actual_split = data_protocol.manifests["train"].split
     configure_cache(args.cache_directory, args.checkpoint)
     import numpy as np
     import torch
     import transformers
     from transformers import AutoProcessor
 
-    from cti_vla.data.sequence_example import iter_libero_examples
     from cti_vla.evaluation.checkpoint_manifest import load_checkpoint_manifest, verify_checkpoint_directory
     from cti_vla.evaluation.conditional_smoke import run_conditional_smoke
     from cti_vla.labeling import LabelProvenance
@@ -120,9 +134,6 @@ def run(args: argparse.Namespace) -> dict:
     manifest = load_checkpoint_manifest(args.manifest)
     print("Verifying checkpoint hashes before model load...", flush=True)
     before = verify_checkpoint_directory(args.checkpoint, manifest)
-    episode = next((item for item in iter_libero_examples(args.shard) if item.record_index == args.record_index), None)
-    if episode is None or args.step_index >= episode.num_steps:
-        raise ValueError("requested RLDS episode/observation was not found")
     components = load_openvla_oft_components(
         args.checkpoint, device=device, use_minimal_prismatic_compat=True,
     )
@@ -177,9 +188,9 @@ def run(args: argparse.Namespace) -> dict:
     # optimization uses autograd. It does not save a trained model.
     shard_sha256 = _sha256(args.shard)
     condition_provenance = LabelProvenance(
-        sample_ids=(f"{episode.episode_id}:step-{args.step_index}",), episode_ids=(episode.episode_id,),
-        split="train", model_revision=manifest.revision,
-        dataset_version=f"engineering-smoke-shard-sha256:{shard_sha256}",
+        sample_ids=(str(verified_sample.sample_id),), episode_ids=(episode.episode_id,),
+        split=actual_split, model_revision=manifest.revision,
+        dataset_version=f"{data_protocol.payload['protocol_version']}:{data_protocol.payload['source_signature']}",
         preprocessing_version=inputs["inputs_version"], packing_version=PACKING_VERSION,
         condition_version=f"{inputs['inputs_version']}:{stats_key}:frozen-prompt-embeddings",
         action_version="normalized-l1-8x7-v1",
@@ -207,6 +218,9 @@ def run(args: argparse.Namespace) -> dict:
             "shard": str(args.shard.resolve()), "shard_sha256": shard_sha256,
             "record_index": args.record_index, "step_index": args.step_index,
             "episode_id": episode.episode_id, "num_steps": episode.num_steps,
+            "sample_id": verified_sample.sample_id, "split": actual_split,
+            "experiment_protocol_sha256": _sha256(args.experiment_protocol),
+            "experiment_protocol_signature": data_protocol.payload["content_signature"],
             "episode_file_path": getattr(episode, "episode_file_path", None),
             "prompt": inputs["prompt"], "image_sizes": inputs["image_sizes"], "stats_key": stats_key,
         },
@@ -228,8 +242,10 @@ def main() -> None:
     parser.add_argument("manifest", type=Path)
     parser.add_argument("--cache-directory", type=Path, required=True)
     parser.add_argument("--shard", type=Path, required=True)
-    parser.add_argument("--record-index", type=int, default=0)
-    parser.add_argument("--step-index", type=int, default=0)
+    parser.add_argument("--experiment-protocol", type=Path,
+                        default=Path(__file__).resolve().parents[1] / "configs/manifests/spatial_g0g1_v1/protocol.json")
+    parser.add_argument("--record-index", type=int, help="With --step-index, select a frozen train sample; otherwise use first train sample in shard")
+    parser.add_argument("--step-index", type=int)
     parser.add_argument("--stats-key")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--scorer-hidden-dim", type=int, default=64, help="Temporary scorer width for engineering integration only")

@@ -1,0 +1,85 @@
+{
+  "cpu_verification": {
+    "command": "python -m pytest tests/test_data_experiment_protocol.py tests/test_data_libero.py tests/test_data_sequence_example.py tests/test_data_tfrecord.py -q --basetemp F:/CTI-VLA/.test-tmp/data-protocol-final",
+    "failed": 0,
+    "new_test_cases": 10,
+    "new_test_file": "tests/test_data_experiment_protocol.py",
+    "passed": 32,
+    "reported_seconds": 8.32
+  },
+  "effective_validation": {
+    "episodes": 63,
+    "excluded_episode_ids": [
+      "libero-episode-sha256:58121c87d2d470ed04f09a954d0f5ecaf0fd3b50752c21641f6020b9fa7df6f5"
+    ],
+    "observations": 189,
+    "original_manifests_preserved": true
+  },
+  "frozen_files_sha256": {
+    "configs/manifests/spatial_g0g1_v1/development_tasks.json": "9a0daacc0c1909c81bed865cedfc67dc4944ba6e5aa62d1cb00a6a2be0dcbeca",
+    "configs/manifests/spatial_g0g1_v1/diagnostic_90.json": "f455f756a0be4c9cd665bccf7042c606e4d5786e7cca67725307238509e3d289",
+    "configs/manifests/spatial_g0g1_v1/exposure_exclusions.json": "69584f252c2c4382ad212d6dfc9444f088ddf40b76f75ad3e3b2c4f8d3e21fd6",
+    "configs/manifests/spatial_g0g1_v1/protocol.json": "38a8d34b78d3d04e31e80aeae5804c4abc41ffcc00195bfc1a66946167ecd12a",
+    "configs/manifests/spatial_g0g1_v1/teacher_12.json": "b12f4a896efad1f7523e79620c48e4de7d5d2331130fcfd06509517cd55cb92c",
+    "configs/manifests/spatial_g0g1_v1/validation_effective.json": "e544e0071ae223af61e10bc57569c34dcfe269332df8f43bdd10191d432f2d37",
+    "configs/manifests/spatial_initial_states_v1/g0_development_15.json": "632ccaad8a2d44892d7f4aa1cd6cf6880fd16da8eb99e0792acb8eed142cff5b",
+    "configs/manifests/spatial_initial_states_v1/init_states_development.json": "d06a3d76fdf577f023ff29cf1088f73fc514cb20c549c97d000a8bb4ff724f9e",
+    "configs/manifests/spatial_initial_states_v1/init_states_test.json": "12b01b70693c8b2ab580ffaf44c2f089db195abba5c7255b52794325fca556aa",
+    "configs/manifests/spatial_initial_states_v1/initial_state_inventory.json": "b0af0d1b3dcc97bf7c40a2fd6489de9f7ced7723233314280baa190f121b111f"
+  },
+  "gpu_calls": 0,
+  "initial_states": {
+    "cross_split_content_hash_intersection": 0,
+    "development_count": 100,
+    "dimensions": 92,
+    "g0_count": 15,
+    "g0_official_task_ids": [
+      0,
+      3,
+      5
+    ],
+    "official_asset_revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+    "source_extension": ".pruned_init",
+    "states_per_task": 50,
+    "task_count": 10,
+    "test_count": 400
+  },
+  "limitations": [
+    "Official numeric initial states and all hashes validated; simulator restoration and legality still require G0.",
+    "Frozen diagnostic panels are preregistration, not completed teacher or closed-loop results.",
+    "The historical exposed validation episode is engineering-only; official final test metrics remain unopened."
+  ],
+  "panels": {
+    "diagnostic_90": {
+      "episodes": 30,
+      "observations": 90,
+      "selection_seed": 117
+    },
+    "teacher_12": {
+      "episodes": 4,
+      "observations": 12,
+      "selection_seed": 217
+    },
+    "validation_effective": {
+      "episodes": 63,
+      "observations": 189,
+      "selection_seed": 17
+    }
+  },
+  "protocol": {
+    "content_signature": "sha256:498c250fd2ec890bb567d8ed3a68f46a0361604f8b38602157988779c3102a79",
+    "path": "configs/manifests/spatial_g0g1_v1/protocol.json"
+  },
+  "schema_version": 1,
+  "source_episode_counts": {
+    "test": 66,
+    "train": 302,
+    "validation": 64
+  },
+  "source_observation_counts": {
+    "test": 198,
+    "train": 906,
+    "validation": 192
+  },
+  "status": "prepared_and_cpu_verified"
+}

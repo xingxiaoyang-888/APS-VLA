@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "updated_date": "2026-10-14",
+  "status": "active",
+  "automation_id": "cti-vla",
+  "supervision_interval_minutes": 30,
+  "stage": "G0_initial_running",
+  "plan": "docs/完整实验计划.md",
+  "baseline_commit": "fb4de67",
+  "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+  "checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-spatial-6d0231a",
+  "registered_jobs": [{
+    "job_id": "2989099", "name": "cti-g0", "mode": "initial", "status": "RUNNING", "node": "gpu4009",
+    "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g0_20261014_v1",
+    "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g0_20261014_v1",
+    "purpose": "90 train observations plus first 3 paired development trials"
+  }],
+  "pending_submission": null,
+  "agents": {
+    "packing_migration": "G0 observation/action adapter and paired closed-loop runner",
+    "data_migration": "split guard, engineering exposure quarantine, fixed offline and simulator panels",
+    "conditional_method": "G1 teacher diagnostics, sampling and query accounting"
+  },
+  "verified_gates": [],
+  "source_snapshot": {
+    "server_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g0_20261014_v1",
+    "source_sha256": "fc7ca0c1438638352930a2048f12360c0eba4945bb4a780986347b820841c30f",
+    "inventory": "results/g0_implementation/source_g0_v1.json",
+    "verified_files": 101
+  },
+  "local_cpu_verification": {"passed": 152, "skipped": 1, "junit": "results/g0_implementation/cpu_tests_current.xml"},
+  "setup": {
+    "installation_log_server": "results/setup/install_libero_local_attempt4.log",
+    "exit_receipt_server": "results/setup/install_runtime_local.exit",
+    "status": "installed_and_imports_passed_exit_0",
+    "warning": "Earlier download-only attempts were interrupted; current attempt directly installs verified transferred bulk packages. Check this log and receipt before starting GPU work."
+  },
+  "server_cpu_verification": {"passed": 19, "skipped": 0, "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"},
+  "current_work": [
+    "Monitor registered G0 job 2989099; inspect 90-observation parity and first paired rollout before continuing",
+    "Complete G1 D1 applicability and D4 analysis plan; do not confuse D2/D3 implementation with all G1 results",
+    "Cross-audit G2/G3 detached cache and resumable training before formal go decision"
+  ],
+  "restrictions": [
+    "No formal G1 labels before G0 acceptance",
+    "Do not access offline/final closed-loop test for development",
+    "Root submits and registers GPU jobs; other projects are unrelated",
+    "Weights and training checkpoints stay on server"
+  ]
+}

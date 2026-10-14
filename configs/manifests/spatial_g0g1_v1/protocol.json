@@ -1,0 +1,102 @@
+{
+  "content_signature": "sha256:498c250fd2ec890bb567d8ed3a68f46a0361604f8b38602157988779c3102a79",
+  "development_tasks": {
+    "path": "development_tasks.json",
+    "sha256": "9a0daacc0c1909c81bed865cedfc67dc4944ba6e5aa62d1cb00a6a2be0dcbeca"
+  },
+  "exclusions": {
+    "path": "exposure_exclusions.json",
+    "sha256": "69584f252c2c4382ad212d6dfc9444f088ddf40b76f75ad3e3b2c4f8d3e21fd6"
+  },
+  "initial_state_seed": 417,
+  "panels": {
+    "diagnostic_90": {
+      "episodes": 30,
+      "observations": 90,
+      "path": "diagnostic_90.json",
+      "selection_seed": 117,
+      "sha256": "f455f756a0be4c9cd665bccf7042c606e4d5786e7cca67725307238509e3d289"
+    },
+    "teacher_12": {
+      "episodes": 4,
+      "observations": 12,
+      "path": "teacher_12.json",
+      "selection_seed": 217,
+      "sha256": "b12f4a896efad1f7523e79620c48e4de7d5d2331130fcfd06509517cd55cb92c"
+    },
+    "validation_effective": {
+      "episodes": 63,
+      "observations": 189,
+      "path": "validation_effective.json",
+      "selection_seed": 17,
+      "sha256": "e544e0071ae223af61e10bc57569c34dcfe269332df8f43bdd10191d432f2d37"
+    }
+  },
+  "protocol_version": "spatial-g0g1-v1",
+  "rules": {
+    "diagnostic": "sort content IDs within each task; independently seeded sample of three episodes; retain all three stages",
+    "formal_validation": "exclude entire registered engineering episode; preserve original manifests",
+    "initial_states": "inventory official states only; if all tasks have >=60 use 10 development + 50 final; otherwise require exactly 50 per task for 10+40",
+    "teacher": "sort task instructions; seeded sample of four tasks then one diagnostic-panel episode per task; retain all three stages",
+    "test": "never use for engineering training, mechanism selection or tuning"
+  },
+  "schema_version": 1,
+  "source_manifests": {
+    "test": {
+      "path": "../spatial_v1/test.json",
+      "sha256": "2c813837b2a47967c3d224f39b47b618a64f75281cf4f419a77c4582029b525d"
+    },
+    "train": {
+      "path": "../spatial_v1/train.json",
+      "sha256": "6d0d5938b65f07e83ba6eee105492d4575abb4aa96264d16a2eda26dfc54b175"
+    },
+    "validation": {
+      "path": "../spatial_v1/validation.json",
+      "sha256": "5fb04cbd5e958f77443d00aa79ed4c8526cc1f4ef0d01dc6f8518185846dc011"
+    }
+  },
+  "source_signature": "sha256:b48c4fc655dd60b70d66987290642c4744039dff136a3d20afe13a69b0b8222a",
+  "suite": "libero_spatial",
+  "task_catalog": [
+    {
+      "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl from table center and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_in_the_top_drawer_of_the_wooden_cabinet_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl next to the cookie box and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl next to the plate and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl next to the ramekin and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl on the cookie box and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl on the ramekin and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl on the stove and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_on_the_stove_and_place_it_on_the_plate"
+    },
+    {
+      "instruction": "pick up the black bowl on the wooden cabinet and place it on the plate",
+      "task_name": "pick_up_the_black_bowl_on_the_wooden_cabinet_and_place_it_on_the_plate"
+    }
+  ]
+}

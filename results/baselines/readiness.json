@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-10-14",
+  "status": "source_audit_only_not_reproduced",
+  "gpu_calls": 0,
+  "baseline_weights_downloaded": false,
+  "current_target": {
+    "model_repository": "moojink/openvla-7b-oft-finetuned-libero-spatial",
+    "revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+    "asset_manifest": "configs/assets/openvla_oft_libero_spatial.json",
+    "input": "2 camera-major views x 256 patches; normalized proprio(8); continuous 8x7 action chunk",
+    "packing": "Original positions preserved; language/proprio/action tokens protected; OFT fork SDPA",
+    "offline_protocol": "configs/manifests/spatial_g0g1_v1/protocol.json",
+    "development_states": "configs/manifests/spatial_initial_states_v1/g0_development_15.json"
+  },
+  "global_rules": [
+    "Keep author-native and matched-CTI experiments in separate method IDs, dependency locks, configs and results. No paper metric is a reproduced result.",
+    "Debug only on frozen development states. Native all-50-per-task evaluation overlaps our final states and must not be run during development.",
+    "Both native loaders update_auto_map and copy modeling code into checkpoint directories. Use isolated metadata/code overlays with immutable weight files; never invoke these helpers on the shared checkpoint.",
+    "Pin transitive Git dependencies, simulator and preprocessing. Measure full observation-to-action wall latency including selection/history/extra policy calls; preserve native CUDA-only timing separately."
+  ],
+  "baselines": [
+    {
+      "name": "VLA-ACL",
+      "status": "source_and_weight_metadata_verified_not_reproduced",
+      "priority": 1,
+      "paper": "https://arxiv.org/abs/2610.08133v2",
+      "source": {
+        "url": "https://github.com/du-owen/VLA-ACL",
+        "commit": "40b7a7a17f2f5a15acab0564ba1e304bcf6d150d",
+        "local_source": "external/VLA-ACL",
+        "clean": true
+      },
+      "license": {
+        "root": "Apache-2.0: LICENSE",
+        "embedded_oft": "MIT: src/openvla-oft/LICENSE",
+        "weight_card": "No license field in inspected HF metadata; record separately from code license."
+      },
+      "weights": {
+        "repository": "owendudu/VLA-ACL",
+        "revision": "e8d30096b49184d2d4bb259240319a4f1c55919b",
+        "metadata_source": "https://huggingface.co/api/models/owendudu/VLA-ACL/tree/e8d30096b49184d2d4bb259240319a4f1c55919b?recursive=false&expand=false",
+        "public": true,
+        "gated": false,
+        "downloaded": false,
+        "files": [
+          {
+            "name": "scorer-libero-spatial-k32.pt",
+            "bytes": 130452786,
+            "lfs_sha256": "924498646146656791304760045eb7d09c35b652da8715060f047a66fa1c8c08"
+          },
+          {
+            "name": "scorer-libero-spatial-k64.pt",
+            "bytes": 130452786,
+            "lfs_sha256": "c8d061a5a8bdb07727cd87faf0deb883ea85afdc9c93a9de2b332982e5d0e468"
+          }
+        ]
+      },
+      "native_contract": {
+        "base": "Fine-tuned OpenVLA-OFT, continuous L1 action head; diffusion pruning explicitly unsupported",
+        "views": 2,
+        "patches_per_view": 256,
+        "proprio_dim": 8,
+        "action_chunk": [
+          8,
+          7
+        ],
+        "scorer_input": "Raw fused vision-backbone patches BEFORE LLM projection; no explicit language/proprio scorer input with default use_film=False",
+        "scorer": "5-layer bidirectional Transformer, hidden1024, heads16, dropout0; independently sorted top-K per view; released K32/K64 means64/128 total",
+        "gradient": "Only scorer weights train; student gradients traverse frozen projector/LLM/action head. Features and teacher are no_grad. LLM gradient checkpointing is used.",
+        "soft_gate": "LapSum soft top-K; s*X+sqrt(1-s^2)*black-image features, black coefficient detached",
+        "loss": "0.5 normalized action L1 to demonstration +0.5 L1 to full-context teacher",
+        "defaults": {
+          "batch_size": 8,
+          "steps": 5000,
+          "learning_rate": 0.0001,
+          "temperature": [
+            2.0,
+            0.1
+          ],
+          "image_augmentation": true
+        },
+        "attention": "OFT bidirectional action-decoding fork required; scorer does not require attention maps. Inference preserves original visual/tail positions.",
+        "spatial_horizon": 220,
+        "open_loop_steps": 8,
+        "latency_warmup_queries": 10
+      },
+      "dependencies": {
+        "python_setup": "3.10",
+        "torch": "2.2.0",
+        "torchvision": "0.17.0",
+        "tokenizers": "0.19.1",
+        "timm": "0.9.10",
+        "tensorflow": "2.15.0",
+        "unpinned_git": [
+          "moojink/transformers-openvla-oft",
+          "moojink/dlimp_openvla"
+        ],
+        "setup_note": "Install inspected ACL subtree in an isolated environment; SETUP's generic upstream clone would omit ACL changes."
+      },
+      "compatibility_obstacles": [
+        "CTI caches projected LLM tokens; released ACL scorer expects pre-projection features. Expose both from one vision pass and validate native indices/positions.",
+        "CTI detached/no_grad teacher wrapper cannot train ACL's soft student. A separate differentiable frozen-policy adapter must prove scorer gradients and no base-weight gradients.",
+        "Author RLDS loader uses dataset split=train, covering our validation/test episodes. Released scorer training membership is unrecorded. Strict matched comparison must retrain on our train302 manifest; released weights are author-native only.",
+        "Native visual-only5x1024 scorer, feature space and gates differ from CTI conditions/capacity. Keep native row; define matched supervision ablation with identical conditions, capacity, data, budgets and packing.",
+        "Demonstration supervision requires normalized8-step action chunks with faithful endpoint padding/masks. The90/12 diagnostic panels are not an ACL training dataset."
+      ],
+      "minimum_reproduction_steps": [
+        "Freeze source/transitive dependencies in separate server environment; create read-only-weight metadata overlay.",
+        "Download only pinned SpatialK32/K64 scorer on server, verify sizes/SHA256, and record unknown episode-level training membership.",
+        "On registered train observations verify dense parity, native raw-feature scorer, per-camera top-K and original positions.",
+        "Run native inference only on frozen development states with its horizon/open-loop and full timing explicitly recorded.",
+        "For matched supervision implement differentiable adapter and manifest-filtered chunks; freeze train budget/seeds, retrain train302, and evaluate through common runtime."
+      ],
+      "evidence_files": [
+        "LICENSE",
+        "src/openvla-oft/LICENSE",
+        "src/openvla-oft/pyproject.toml",
+        "src/openvla-oft/prismatic/models/patch_scorer.py",
+        "src/openvla-oft/prismatic/training/scorer_train_utils.py",
+        "src/openvla-oft/vla-scripts/train_scorer.py",
+        "src/openvla-oft/prismatic/extern/hf/modeling_prismatic.py",
+        "src/openvla-oft/prismatic/vla/datasets/rlds/dataset.py",
+        "src/openvla-oft/experiments/robot/libero/run_libero_eval.py"
+      ],
+      "evidence_file_sha256": {
+        "LICENSE": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+        "src/openvla-oft/LICENSE": "8ecea39a33861be0af5888bd73ac0a6464c693448e0908c73089c8bfcc4a1428",
+        "src/openvla-oft/pyproject.toml": "47d55a09df36cfe359735d4d088b997092d74b56f67dcd84bf71f59c41475f91",
+        "src/openvla-oft/prismatic/models/patch_scorer.py": "64348d1c4568245095e30fb68cfcba0853bfad33ecbeeddf61defab3104b706d",
+        "src/openvla-oft/prismatic/training/scorer_train_utils.py": "67cbf356a5f9fc1df14ada698760d6d66574f539307ba374e8cb9411e96aa282",
+        "src/openvla-oft/vla-scripts/train_scorer.py": "7b0694549154d588e9568e0c8898dc57a2fb2e132d9e6cc80a82c9a463c212e8",
+        "src/openvla-oft/prismatic/extern/hf/modeling_prismatic.py": "dbfe8850a9d0aa937d4576af77d1301a8119451fb5ba4c18f9810cdb959aec95",
+        "src/openvla-oft/prismatic/vla/datasets/rlds/dataset.py": "b6cf53d8a8964b6a542c9b8a8f9bde68c4f4f2cff41243b7c4de6323a0c978a4",
+        "src/openvla-oft/experiments/robot/libero/run_libero_eval.py": "9959a2dfc4c46cc2be69883414121511f41afafef67339a738f125ff87342814"
+      }
+    },
+    {
+      "name": "SpecPrune-VLA",
+      "status": "source_verified_native_adapter_required_not_reproduced",
+      "priority": 2,
+      "paper": "https://proceedings.mlr.press/v306/wang26jj.html",
+      "official_link_verified": "PMLR Software link resolves to the inspected repository",
+      "source": {
+        "url": "https://github.com/alexwhz-sjtu/SpecPrune-VLA",
+        "commit": "8091adc4b574ce9008d49a1dc9a210f4eec314c1",
+        "local_source": "external/SpecPrune-VLA",
+        "clean": true
+      },
+      "license": {
+        "embedded_oft": "MIT: openvla-oft/LICENSE; preserve inherited attribution and file headers",
+        "root": "README advertises MIT but root LICENSE target is absent; inspected runtime is inside licensed openvla-oft subtree"
+      },
+      "weights": {
+        "learned_pruning_weights_required": false,
+        "base": "OFT suite checkpoint/action/proprio heads",
+        "downloaded": false
+      },
+      "native_contract": {
+        "base": "OpenVLA-OFT with repository-local modified LlamaForCausalLM/LlamaModel",
+        "views": 2,
+        "patches_per_view": 256,
+        "proprio_dim": 8,
+        "action_chunk": [
+          8,
+          7
+        ],
+        "batch_assumption": 1,
+        "attention": "Decoder unconditionally constructs manual LlamaAttention and returns maps; attn_implementation alone cannot switch it to CTI's SDPA path",
+        "mechanism": "Early frame-change/local attention pruning; prior-query important-token reuse; layer-wise pruning; motion-sensitive profile and action requery controller",
+        "static_ratio": 0.8,
+        "dynamic_ratio": 0.9,
+        "dynamic_prune_layers": [
+          10,
+          15,
+          20,
+          25
+        ],
+        "importance_update_layers": [
+          14,
+          19,
+          24
+        ],
+        "min_visual_tokens": 60,
+        "layer_skip_default": false,
+        "action_adapter_default": true,
+        "spatial_horizon": 240,
+        "nominal_open_loop_steps": 8
+      },
+      "dependencies": {
+        "python_setup": "3.10",
+        "torch": "2.2.0",
+        "torchvision": "0.17.0",
+        "tokenizers": "0.19.1",
+        "transformers": "Unpinned OFT Git fork plus local modified modeling_llama.py",
+        "missing_declaration": "spec_prune_vla imports skimage.util but scikit-image is not listed in subtree pyproject dependencies"
+      },
+      "compatibility_obstacles": [
+        "Scheduler: run_libero_eval.py:7 overwrites CUDA_VISIBLE_DEVICES=4. Replace in a recorded isolated launcher adapter before any GPU execution.",
+        "Interface: pruning is inside LLM layers and consumes prior frames/actions/attention. A one-time input gather cannot implement it; use separate runtime with history reset per trial and original IDs throughout layers.",
+        "Controller: default action_adapter=True consumes actions/increments t without env.step for acting_steps<10 (run_libero_eval.py:436). Later precise-mode changes may clear queued actions. Resolve warm-start accounting before claiming reproduction; separate native requery from matched fixed8-step execution.",
+        "Prompt: historical vlm_layer_attn hardcodes text start513 and length34. Validate variable prompt/proprio/action boundaries; any corrected masks must be a versioned adapter.",
+        "Compute: per-layer retention, manual attention, frame similarity, history extraction and adaptive query count cannot be represented by a single finalK. Log layer token counts and actual queries; separate native and matched-budget curves.",
+        "Timing: native CUDA event excludes initial image/frame-similarity processing and subsequent attention-to-history extraction. It is not full observation-to-action latency.",
+        "Implementation review: first dynamic prune layer10 precedes first importance update14; scores start at zero. Validate intended tie behavior and dense-disabled parity before using this schedule."
+      ],
+      "minimum_reproduction_steps": [
+        "Freeze isolated source/dependencies, add skimage, preserve read-only weights through metadata overlay, and remove GPU4 override in recorded launcher adapter.",
+        "Test controller warm-start/env.step counts, prompt/proprio/action ranges, per-episode history reset and dense-disabled action parity; keep patch list explicit.",
+        "Run native full mechanism on development states with author ratios/schedule; record actual simulator steps, query counts, per-layer tokens and full wall latency.",
+        "For matched protocol freeze common horizon/states/preprocessing/action execution while retaining temporal/layer pruning; label controller/attention changes as variants.",
+        "Choose budget mapping using development measurements and freeze before final tests. Never call a single attention-topK replacement SpecPrune-VLA."
+      ],
+      "evidence_files": [
+        "openvla-oft/LICENSE",
+        "openvla-oft/SETUP.md",
+        "openvla-oft/pyproject.toml",
+        "openvla-oft/experiments/robot/libero/run_libero_eval.py",
+        "openvla-oft/experiments/robot/spec_prune_constants.py",
+        "openvla-oft/experiments/robot/spec_prune_vla.py",
+        "openvla-oft/prismatic/extern/hf/modeling_llama.py",
+        "openvla-oft/experiments/robot/openvla_utils.py"
+      ],
+      "evidence_file_sha256": {
+        "openvla-oft/LICENSE": "8ecea39a33861be0af5888bd73ac0a6464c693448e0908c73089c8bfcc4a1428",
+        "openvla-oft/SETUP.md": "c2b5a217711734af40fc343cf940ea764370f0a89eb4839bfde74098cb190224",
+        "openvla-oft/pyproject.toml": "8eb016abbe7833008d0fb099b070f32a7a215253c58e4b3746e84b8654eddd8c",
+        "openvla-oft/experiments/robot/libero/run_libero_eval.py": "9c9e1e432a8423c23a0b118bfd4cc8e9dfb39514b00f5e28665eacdbfe2c0edc",
+        "openvla-oft/experiments/robot/spec_prune_constants.py": "262060ba61534a033e8babe538741eb97849c35f7ee3df7f8c92f1af0f0bf857",
+        "openvla-oft/experiments/robot/spec_prune_vla.py": "7c1073866575d56ae90331d6498a7d513bdf35ded2d0428db52affb2a2680dd6",
+        "openvla-oft/prismatic/extern/hf/modeling_llama.py": "2a7b47687d966545c23f2b8ef69d3d754e1a8d234c90e16ae856c52c9684e9f6",
+        "openvla-oft/experiments/robot/openvla_utils.py": "97bb123319ef7c225c13219f8c6e8028349607f7d60f4691b8359964329ae805"
+      }
+    },
+    {
+      "name": "Action-JND",
+      "status": "paper_verified_official_code_not_found_in_bounded_search_not_reproduced",
+      "priority": 3,
+      "paper": "https://arxiv.org/abs/2608.21247v2",
+      "full_text": "https://arxiv.org/html/2608.21247v2",
+      "code_repository": null,
+      "code_commit": null,
+      "code_license": null,
+      "weight_revision": null,
+      "source_availability": "Official arXiv abstract/full text plus exact-title/Action-JND/arXiv-ID GitHub searches identified no author-linked Action-JND implementation/checkpoint on audit date. This is not proof none exists.",
+      "paper_contract": "OpenVLA and OpenVLA-OFT; OFT primary/wrist views and continuous chunks, with separate per-view JND estimators. Code-level proprio/packing/attention compatibility unverified.",
+      "not_substituted": "Author ruizhao26/FeatJND repository is a different deep-feature JND paper, not Action-JND VLA reproduction.",
+      "minimum_reproduction_steps": [
+        "Obtain author-linked source/checkpoint; pin license, commit and training provenance.",
+        "Audit per-view estimator, action discrepancy, perturbation objective, pruning versus KV reuse, and action-chunk interface.",
+        "Run parity and development validation before matched comparison; otherwise explicitly report unavailable reproduction instead of paper metrics."
+      ]
+    }
+  ]
+}

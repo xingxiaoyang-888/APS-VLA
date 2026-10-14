@@ -24,5 +24,5 @@ srun python scripts/smoke_openvla.py \
   configs/assets/openvla_oft_libero_spatial.json \
   --cache-directory .local/huggingface \
   --shard data/modified_libero_rlds/libero_spatial_no_noops/1.0.0/libero_spatial-train.tfrecord-00000-of-00016 \
-  --record-index 0 --step-index 0 --seed 17 \
+  --seed 17 \
   --output "results/smoke/openvla_${SLURM_JOB_ID}.json"
