@@ -1,0 +1,81 @@
+{
+  "schema": "g1-f-training-code-audit-v1",
+  "created_utc": "2026-10-14T11:45:03.889961+00:00",
+  "reviewer": "conditional_method",
+  "status": "cpu_contracts_passed_real_model_pending",
+  "scope": {
+    "execution": "CPU synthetic tiny frozen VLA with actual shared selection, packing, differentiable policy, auxiliary loss and runner loops",
+    "gpu_executed": false,
+    "real_vla_acceptance_passed": false,
+    "changes_experiment_gate": false,
+    "server_submission": false
+  },
+  "tested": {
+    "command": "python -m pytest tests/test_future_auxiliary.py tests/test_future_auxiliary_runner.py -q",
+    "passed": 19,
+    "failed": 0,
+    "seconds": 9.34,
+    "warnings": [
+      "PyTorch TypedStorage deprecation from optimizer-state checkpoint load"
+    ],
+    "runtime": {
+      "python": "3.10.11",
+      "torch": "2.0.1+cpu"
+    }
+  },
+  "verified_contracts": [
+    "A = 0.5 normalized action L1 to frozen full teacher + 0.5 L1 to normalized executed demonstration; B adds 0.1 future target MSE.",
+    "Single full512 score; per-camera differentiable soft mass64; same shared hard function selects sorted original128 indices with64 per camera.",
+    "Action loss and future MSE independently produce nonzero DIE gradients. Future head gradients are nonzero. Frozen VLA/projector/head parameter bytes are unchanged after optimizer steps.",
+    "A/B cloned scorer initialization produces identical scores, gates and action outputs before training. Future/GT mutations do not enter the DIE input.",
+    "Future target uses detached future projected features, camera2x2 pooling, private CPU Gaussian seed917/sqrt(D) projection64 per cell, per-cell LayerNorm eps1e-5, FP32 target512.",
+    "Future head receives only gated current projected bins512 and executed normalized demonstration8x7; no ungated vision, language or proprio bypass.",
+    "Runner acceptance and validation APIs execute against real shared classes on CPU toy tensors; report writes were intercepted in memory and no real-model F01 gate was produced.",
+    "Actual tiny A/B train_pair serialization: interruption after persisted update0, resume, two updates per arm, evaluations exactly[0,2], equal initial scorer and sample-order hashes, frozen-base check passes."
+  ],
+  "findings_fixed_by_root": [
+    {
+      "issue": "Resume at completed_update0 repeated validation0 because next_update>1 was false.",
+      "resolution": "Explicit had_resume skips the persisted boundary; covered by actual interrupted runner regression."
+    },
+    {
+      "issue": "Training gate could accept incomplete acceptance checks and lacked implementation/finalization binding.",
+      "resolution": "Read-only verification of require_future_f01 plus exact source_files equality and finalized acceptance result SHA before loading the real model."
+    },
+    {
+      "issue": "Feature cache identity was insufficiently bound to current producer and normalization.",
+      "resolution": "Read-only verification of producer source_files, checkpoint asset manifest and actual dataset_statistics file hash; derived producer-specific cache directory."
+    }
+  ],
+  "remaining_limitations": [
+    {
+      "scope": "real_model",
+      "detail": "No real BF16 VLA forward/backward, CUDA memory/OOM, dataset-window producer or real rollout/latency result is established by these CPU tests. F01 must verify these separately."
+    },
+    {
+      "scope": "F02_cost_accounting",
+      "detail": "validate_hard currently has no durable per-forward start/complete journal. Hard interruption during a60-window validation leaves unknown partial policy-forward cost, not zero. Training update_start/end records update attempts but final arm wall_seconds_this_attempt excludes earlier attempts; aggregate actual server/job receipts before total-cost claims."
+    },
+    {
+      "scope": "resume",
+      "detail": "Resume checkpoints preserve scorer/head/optimizer/validation state and fixed deterministic sample schedule, but do not serialize global RNG states. Current shared modules have no stochastic forward/dropout; future stochastic changes require explicit RNG persistence and equivalence tests."
+    },
+    {
+      "scope": "method_claim",
+      "detail": "This is CTI-DIE matched ACL adaptation, not native ACL reproduction. CPU correctness does not establish learned benefit or scientific go."
+    }
+  ],
+  "source_file_sha256": {
+    "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+    "src/cti_vla_baselines/acl_matched.py": "3a0bf46a2f688beb654ba725ebfc75cf36594dfda72d1f2e4b5dc5e2235c48a3",
+    "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+    "src/cti_vla/evaluation/future_runtime.py": "d87f2b4d0a825b1aab665cb17556a29cd31b405d8da734e93419466d646527cc",
+    "scripts/run_g1_future.py": "1213feb240cc17add7339ebd76e9e18f798048a049f276297ff83974bc39fdf6",
+    "tests/test_future_auxiliary.py": "af78e792c881f9287900b2fc01eed7e6ae8a94d532d2c52020b74e731d97d9cc",
+    "tests/test_future_auxiliary_runner.py": "8b285e95688832ebad7d8cb525ed7037c5e7ab0124e0ecb0e9eb1f9fc4791868"
+  },
+  "execution_notes": {
+    "f01_windows": "acceptance cache may contain two validated data windows; acceptance() runs gradient, optimizer and hard-packing checks only on index[0]. The accepted_training_windows list must not be read as two operator-tested windows.",
+    "cost_mitigation_agreed": "Parent records all Slurm job occupancy as charged cost. Completed validation wall times may be summed; interrupted validation forward count remains explicitly unknown rather than zero. No F01 rerun solely to add per-query logging."
+  }
+}

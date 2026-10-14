@@ -118,7 +118,8 @@ def test_runner_resumes_after_validation_zero_without_duplicate_history(example,
                                     "num_cameras": 2, "patches_per_camera": 256, "max_instruction_tokens": 128},
               "training": {"updates": 2, "effective_batch": 1, "learning_rate": 1e-4, "weight_decay": .01,
                            "gradient_clip_norm": 1.},
-              "selection": {"updates": [0, 2]}, "future": {"weight_A": 0., "weight_B": .1}}
+              "selection": {"updates": [0, 2], "metric": "hard_validation_teacher_l1"},
+              "future": {"weight_A": 0., "weight_B": .1}}
     args = SimpleNamespace(output=tmp_path / "synthetic-output", training_checkpoints=tmp_path / "synthetic-checkpoints",
                            windows=tmp_path / "synthetic-windows", checkpoint=tmp_path / "synthetic-base",
                            asset_manifest=tmp_path / "synthetic-assets", acceptance_report=tmp_path / "synthetic-F01")

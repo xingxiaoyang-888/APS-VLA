@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "stage": "G1-F00",
+  "status": "data_cpu_verified_no_model_execution",
+  "gpu_calls": 0,
+  "pinned_source_audit": {
+    "external/openvla-oft": {
+      "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+      "files": {
+        "experiments/robot/libero/regenerate_libero_dataset.py": "165fd2c08a6d29306de53b3ea9a0fbaf4a7e3d533d82464f21a38f2909ac0dd8",
+        "prismatic/vla/datasets/rlds/oxe/transforms.py": "7644f1b4fa0badab70f9924de68eeb9d94b41c82bf6d8dbc776e58677adae485",
+        "prismatic/vla/datasets/rlds/utils/data_utils.py": "4f7a36c6713e6c28a7237ec7ae1325abd47a1f0c921164fc5548ce4c81340d44",
+        "prismatic/vla/datasets/rlds/oxe/materialize.py": "375c8117e02fec5ff5971d1d9c1fb021ec2e615aa357be21bbb3d5e5d5001496",
+        "prismatic/vla/datasets/rlds/traj_transforms.py": "1ade02497222b16f74da1a005a2d22829d109e3c1855c14b078dc5cbdb799566",
+        "prismatic/vla/constants.py": "53c8f72aff465cd49f23745eed3122a9ab81df9818a112744b02e6cf4091f3c6"
+      }
+    },
+    "external/rlds_dataset_builder_future": {
+      "revision": "6174b0b6bb69df6361f1117944952bf14afb0cc3",
+      "files": {
+        "LIBERO_Spatial/LIBERO_Spatial_dataset_builder.py": "86005a5d337b8935ec87df262495559ee89c34920dd751d208a86f99047dc7ea"
+      }
+    }
+  },
+  "dataset": {
+    "repository": "openvla/modified_libero_rlds",
+    "revision": "6ce6aaaaabdbe590b1eef5cd29c0d33f14a08551",
+    "asset_sha256": "fa806dd3d03d6894f0ef9225b962e7b8c4e8506e2776edc1b1c43c20f3cc619d"
+  },
+  "window_manifest": {
+    "path": "configs/manifests/spatial_future_v1/windows.json",
+    "sha256": "e63a30e4c0f63dd7008241f828cab794628be5268f38bd641ce75a12eb6ea66b",
+    "content_signature": "sha256:70d12e3b90ebd5d43e1dac54856847acd5c9b403d918fb70ed9512d79725aa60",
+    "train_windows": 90,
+    "validation_windows": 60,
+    "train_episodes": 30,
+    "validation_episodes": 20,
+    "exclusions": []
+  },
+  "real_data_receipt": {
+    "path": "results/g1_future/data_window_audit.json",
+    "sha256": "c10a2bfa2205d0def676dbd474c19dc60fa7d3ac407620e99517abf70b30eae5"
+  },
+  "implementation_sha256": {
+    "src/cti_vla/data/future_windows.py": "4bf5592d6d2c5675ea6b4b7f1b7e68c659d9d41e8b9e5e862a26fab3e2e4553e",
+    "scripts/data/build_future_windows.py": "5e1a484d809f78f3ed44ba418e21cf101f1ea5e6b6aff7e868c62f4de8452cd2",
+    "tests/test_data_future_windows.py": "be2d8b5eec1485d3c963af0a7b20896ec79b1184beee859236ca69322d95008f"
+  },
+  "cpu_verification": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_data_future_windows.py",
+      "-q",
+      "--basetemp",
+      ".local/test-artifacts/future-windows"
+    ],
+    "exit_code": 0,
+    "stdout": "....................                                                     [100%]\n20 passed in 1.56s",
+    "tensorflow_pipeline_run": false,
+    "native_function_comparison": "Pinned official function AST executed with NumPy equivalents for its TF primitive operations"
+  },
+  "alignment": {
+    "current_step": "t",
+    "actual_demo_actions": "[t,t+8)",
+    "future_step": "t+8",
+    "padding": false,
+    "index_semantics": "regenerated control steps; no original demo timestamps",
+    "terminal_semantics": "last saved observation precedes outgoing final action"
+  },
+  "remaining_model_checks": [
+    "Bind immutable checkpoint action statistics and cache producer source",
+    "CUDA frozen-model input/gradient acceptance",
+    "Full observation-to-action deployment and paired development rollouts"
+  ],
+  "limitations": [
+    "Released HF metadata does not pin generation commit",
+    "No independent full simulator regeneration",
+    "No new model weights or training checkpoints stored locally",
+    "No test observations decoded or used as model inputs"
+  ]
+}

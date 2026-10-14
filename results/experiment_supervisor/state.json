@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_future_auxiliary_implementation_and_acceptance",
+  "stage": "G1_F01_real_model_acceptance_running",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -82,9 +82,19 @@
       "exit_code": 0,
       "elapsed": "00:09:46",
       "elapsed_seconds": 586
+    },
+    {
+      "stage": "G1-F01",
+      "mode": "acceptance",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_v1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1/acceptance",
+      "source_sha256": "4438625a8b99e0342bfd9d2dbf1f6ac30718c2a91e3bf752f26bac3f8b096848",
+      "job_id": "2992158",
+      "name": "cti-g1f",
+      "status": "SUBMITTED",
+      "purpose": "G1-F01 real frozen VLA action/future gradients, no leakage, dense/hard128 packing and immutable parameter acceptance; no formal training"
     }
   ],
-  "pending_submission": null,
   "agents": {
     "data_migration": "future window alignment and split audit",
     "conditional_method": "soft gating and future loss implementation",
@@ -228,5 +238,6 @@
     "G1R anchor candidate diagnostics",
     "expanded token deletion labeling",
     "staged rescoring"
-  ]
+  ],
+  "pending_submission": null
 }
