@@ -1,0 +1,86 @@
+{
+  "stage": "G1-F02_independent_CPU_review",
+  "status": "evidence_consistent",
+  "checks": {
+    "shared_initialization_order_frozen_vla_source_windows": true,
+    "actual_order_matches_seed17_train90": true,
+    "actual_order_hash_matches_both_reports": true,
+    "initial_hash_matches_order_receipt": true,
+    "acceptance_source_and_frozen_vla_match": true,
+    "source_files_match_fixed_snapshot": true,
+    "cache_contains_exact150_registered_windows": true,
+    "cache_producer_source_and_guards": true,
+    "analysis_finalization_verified": true,
+    "A_actual_complete100_same_order": true,
+    "A_deployment_receipt_matches_training": true,
+    "B_actual_complete100_same_order": true,
+    "B_deployment_receipt_matches_training": true
+  },
+  "update_logs": {
+    "A": {
+      "update_starts": 100,
+      "update_ends": 100,
+      "forward_backward_samples": 800,
+      "best_update": 100
+    },
+    "B": {
+      "update_starts": 100,
+      "update_ends": 100,
+      "forward_backward_samples": 800,
+      "best_update": 100
+    }
+  },
+  "source_snapshot_commit": "bac2acd7e06d814bd411edbdef8551a20e9b74ca",
+  "shared_hashes": {
+    "initial_scorer_sha256": "96f168f4e756e775fa6e60f71ae137d65f93466ef0a9794eb8cd329e5b3d8b17",
+    "sample_order_sha256": "eda4d0c9e0071ae96a49b00eb3e745164b812beb53ead746c60bbf79ef89d1c1",
+    "vla_parameter_sha256": "719b8fa843efb217d4010b9b58f5668f025f2d68b654e2ffd931e8440bd24fc7",
+    "window_manifest_sha256": "e63a30e4c0f63dd7008241f828cab794628be5268f38bd641ce75a12eb6ea66b"
+  },
+  "hard_set_diagnostic": {
+    "windows": 60,
+    "identical_sets": 17,
+    "intersection_over_128": {
+      "count": 60,
+      "mean": 0.9919270833333333,
+      "p95": 1.0
+    },
+    "jaccard": {
+      "count": 60,
+      "mean": 0.9840703971256076,
+      "p95": 1.0
+    },
+    "AB_output_l1": {
+      "count": 60,
+      "mean": 0.001440201486860003,
+      "p95": 0.0044956207275390625
+    }
+  },
+  "scientific_interpretation": "A/B final offline teacher and demo L1 are close; B mean is slightly higher. B future MSE reduction and zero-visual sensitivity do not establish improved control. Action reversal effect is small and cannot establish action-agnostic behavior. Await paired development rollouts and full latency; no expanded seed or test authorization.",
+  "limits": [
+    "CPU audit of saved records and hashes; model/checkpoint tensor bytes remain on server and were not independently reloaded here",
+    "Best selected using the same60 validation windows; episode intervals are descriptive",
+    "Costs still pending for running closed-loop/latency jobs"
+  ],
+  "evidence_sha256": {
+    "results/g1_future_v1/training/A/training_report.json": "ea48d5f290e182d9ef8de95692108cfa57d9a0b9cd9a3c744af9996f3f01ce23",
+    "results/g1_future_v1/training/B/training_report.json": "10d73cf79aa23933a23dd44d3519fb1134fc44d7e8d8dec22771de46210ad242",
+    "results/g1_future_v1/training/training_order.json": "9c31eb6eab5c41a18b3e0bf92680e3396850fb9fd93df14ab582b913cefaaf93",
+    "results/g1_future_v1/acceptance/f01_acceptance.json": "9fa75f9241b414cb35e8080e88b385b99f2fdc2734e041c54b26fdf16a1b7c52",
+    "results/g1_future/source_g1_future_v1.json": "23f8f9b195d395e469ddc2875919b2f671626c6f97c7a07d690a02756da70aff",
+    "configs/manifests/spatial_future_v1/windows.json": "e63a30e4c0f63dd7008241f828cab794628be5268f38bd641ce75a12eb6ea66b",
+    "results/g1_future_v1/training/cache_index.json": "9ae8600c48c66fc56b3d2bf0398a2321cd06f0b2dde9d24d752aca6212694477",
+    "results/g1_future_v1/analysis/summary.json": "1d2d8eaa5bcf211221f6929f682b692b73c32a3cceb2641c0ba88fa695a78a15",
+    "results/g1_future_v1/training/A/cost_events.jsonl": "23279be6c1d0a6613f07aae493fe7f66e3b73418948f9d0481f9eada37fed3c1",
+    "results/g1_future_v1/training/A/deployment_receipt.json": "26a78e3de076a5509925bb675627d7382483ecee6d9453e2aae87eb9f3aa120e",
+    "results/g1_future_v1/training/B/cost_events.jsonl": "6555ee1bef360a472d651842ef0b26ad32108012cfe8c30da09dabb7460ecbc2",
+    "results/g1_future_v1/training/B/deployment_receipt.json": "633c7ee7c1a712ce1e9e5717c474558c4dcefccb271a56e42fe9371765805092"
+  },
+  "gpu_calls": 0,
+  "source_results_modified": false,
+  "tests": {
+    "file": "tests/test_future_analysis.py",
+    "passed": 23,
+    "seconds": 8.62
+  }
+}

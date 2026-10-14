@@ -166,6 +166,31 @@ def paired_windows(a, b, *, repeats, seed):
     return output
 
 
+def hard_selection_comparison(a, b):
+    """Compare saved hard sets and outputs; this is not teacher/GT recomputation."""
+    if set(a) != set(b) or any(a[k]["window"] != b[k]["window"] for k in a):
+        raise ValueError("hard-set comparison requires identical registered window IDs")
+    rows = []
+    for wid in sorted(a):
+        left, right = set(a[wid]["retained_indices"]), set(b[wid]["retained_indices"])
+        if len(left) != 128 or len(right) != 128:
+            raise ValueError("hard-set overlap denominator is the fixed128-token budget")
+        intersection, union = len(left & right), len(left | right)
+        delta = np.abs(np.asarray(a[wid]["normalized_actions"], dtype=np.float64) -
+                       np.asarray(b[wid]["normalized_actions"], dtype=np.float64))
+        rows.append({"window": a[wid]["window"], "intersection_count": intersection,
+                     "intersection_over_128": intersection / 128, "jaccard": intersection / union,
+                     "sets_identical": left == right, "AB_output_l1": float(delta.mean())})
+    metrics = ("intersection_over_128", "jaccard", "AB_output_l1")
+    def group(values):
+        return {"windows": len(values), "identical_sets": sum(r["sets_identical"] for r in values),
+                **{key: stats([r[key] for r in values]) for key in metrics}}
+    return {"overall": group(rows), "by_task": {task: group([r for r in rows if r["window"]["task_name"] == task])
+            for task in sorted({r["window"]["task_name"] for r in rows})},
+        "by_phase": {phase: group([r for r in rows if r["window"]["phase"] == phase]) for phase in ("early", "middle", "late")},
+        "rows": rows, "limits": "Saved A/B hard sets and saved normalized output differences only. Overlap does not establish causal utility; AB output L1 is not teacher/GT error."}
+
+
 def analyze_training(directory, windows, window_sha, config, evidence, *, repeats=2000, seed=1517):
     if directory is None:
         return {"status": "pending", "reason": "training directory not supplied"}, {}
@@ -213,7 +238,8 @@ def analyze_training(directory, windows, window_sha, config, evidence, *, repeat
                  "delta": r[key] - r["future_mse"]} for r in bbest.values()]
         interventions[key + "_minus_original"] = clustered_interval(rows, repeats=repeats, seed=seed)
     finalized = False
-    final_path, summary_path = directory / "training_finalization.json", directory / "training_summary.json"
+    # run_g1_future.py uses args.mode='train', hence train_finalization.json.
+    final_path, summary_path = directory / "train_finalization.json", directory / "training_summary.json"
     if final_path.is_file() and summary_path.is_file():
         final, summary = evidence.read(final_path), evidence.read(summary_path)
         if (summary.get("arms") != reports or summary.get("status") != "completed" or final.get("status") != "verified"
@@ -222,6 +248,7 @@ def analyze_training(directory, windows, window_sha, config, evidence, *, repeat
         finalized = True
     return {"status": "analyzed" if finalized else "awaiting_finalization", "finalization_verified": finalized,
         "arms": analysis, "paired_windows": pairs, "B_readout_interventions": interventions,
+        "best_hard_selection_comparison": hard_selection_comparison(histories["A"][reports["A"]["best_update"]], bbest),
         "limitations": ["Best checkpoint selected on these same validation windows; intervals are descriptive, not independent test evidence.",
                          "Future/zero-visual/reversed-action losses are interventions on the trained readout, not separately trained controls.",
                          "L1 rows are audited reported errors; raw teacher/GT arrays are absent here, so those L1 values cannot be independently recomputed."]}, reports
@@ -419,6 +446,10 @@ def markdown(summary):
         future = offline["arms"]["B"]["best"]["overall"]
         lines += ["B 未来 MSE：原读出 / zero-visual / reversed-actions = " +
                   " / ".join(f"{future[k]['mean']:.6g}" for k in FUTURE) + "。", ""]
+        sets = offline["best_hard_selection_comparison"]["overall"]
+        lines += [f"硬集合完全相同 {sets['identical_sets']}/{sets['windows']} 窗；交集/128 均值 {sets['intersection_over_128']['mean']:.4f}，"
+                  f"Jaccard 均值 {sets['jaccard']['mean']:.4f}；保存的 A/B 输出 L1 为 {sets['AB_output_l1']['mean']:.6g}。",
+                  "集合变化或未来误差下降均不直接证明 B 改善控制。", ""]
     if loop["status"] == "analyzed":
         p = loop["paired_counts"]
         lines += [f"30 个同初态配对：仅 A 成功 {p['A_only']}，仅 B 成功 {p['B_only']}，共同成功 {p['both']}，共同失败 {p['neither']}。",

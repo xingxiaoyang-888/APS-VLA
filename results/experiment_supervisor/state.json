@@ -134,8 +134,9 @@
       "source_sha256": "30084b8cbc298b5f678a125eb083676fddd58549ead7532720f68b31840c21ef",
       "job_id": "2992255",
       "name": "cti-g1f-eval",
-      "status": "SUBMITTED",
-      "purpose": "G1-F03 all30 independent development states paired A/B+dense+uniform128;120trials;no test"
+      "status": "RUNNING",
+      "purpose": "G1-F03 all30 independent development states paired A/B+dense+uniform128;120trials;no test",
+      "node": "gpu4026"
     },
     {
       "stage": "G1-F03-latency",
@@ -262,10 +263,10 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "G1-F seed17 A/B completed100updates each;matched initial scorer/sample order and VLA byte hashes verified",
-    "Hard validation teacher L1:A.0297141054 B.0297940155;no offline improvement evidence",
-    "Job2992255 running120paired development trials across30states,task0/3/5;no test",
-    "Latency job2992258 completed440/440calls on5fixedraw observations;A/B median near83ms;tail noise under independent audit",
+    "G1-F seed17 A/B completed100updates each;matched initial scorer/sample order and unchanged VLA hashes verified",
+    "Hard validation teacher L1:A.0297141054 B.0297940155;mean set overlap99.19%;no offline improvement evidence",
+    "Registered job2992255 running120paired development trials;66observed complete;no test",
+    "Primary latency440/440 calls verified;cross-method tail spikes not attributed;one fixed-config repeat being prepared without model/data changes",
     "No expanded seeds/budgets without closed-loop benefit;old deletion-label/staged-rescoring work remains suspended"
   ],
   "restrictions": [
@@ -288,7 +289,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T11:48:40.328958+00:00",
+  "last_supervision_utc": "2026-10-14T12:20:12.262510+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -315,13 +316,14 @@
     "validation_windows_cached": 60,
     "A_updates": 100,
     "A_hard_teacher_L1_best": 0.0297141054024299,
-    "B_updates_at_least": 26,
     "profiling_observations": 5,
     "profiling_missing_predeclared_steps": 4,
     "no_result_based_panel_changes": true,
     "B_updates": 100,
     "B_hard_teacher_L1_best": 0.02979401547151307,
-    "training_finalization": "verified"
+    "training_finalization": "verified",
+    "closed_loop_completed_trials": 66,
+    "closed_loop_expected_trials": 120
   },
   "pending_submission": null
 }

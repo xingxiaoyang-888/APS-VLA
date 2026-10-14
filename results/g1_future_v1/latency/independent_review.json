@@ -1,0 +1,422 @@
+{
+  "cost": {
+    "cpu_seconds": 111.369958451,
+    "execution_wall_seconds_including_model_loading": 198.69839818403125,
+    "wall_seconds_including_measurement_overhead": 81.271294567734
+  },
+  "created_utc": "2026-10-14T12:21:09.937038+00:00",
+  "integrity": {
+    "calls": {
+      "api_calls_attempted": 440,
+      "attempts_by_pass": {
+        "components": 40,
+        "main": 200,
+        "warmup": 200
+      },
+      "completed": 440,
+      "failed": 0,
+      "sample_policy_forwards_attempted": 440,
+      "scope": "Batch1 full-pipeline policy attempts; includes warmup/component passes. Hard-kill total wall/GPU cost requires scheduler accounting.",
+      "unknown_completion": 0
+    },
+    "config_journal_measurement_identity_equal": true,
+    "current_runtime_sources_equal_recorded": true,
+    "journal_verified": true,
+    "summary_recomputed_equal": true
+  },
+  "interpretation": {
+    "candidate_cause_not_proven": "Temporally clustered runtime/host scheduling jitter; GC and CPU contention remain unobserved hypotheses.",
+    "not_supported": [
+      "Future auxiliary supervision causes B to deploy faster than A.",
+      "Cold/hot differences are cache speedups.",
+      "Stable mean or tail latency advantage, or a final benchmark claim from five development observations.",
+      "Episode-only bootstrap intervals cover across-time/host scheduling uncertainty."
+    ],
+    "usable": [
+      "First-run descriptive full observation-to-CPU-action median/mean/p95 including all spikes.",
+      "Reduced-token policy phases are shorter in the independent component pass; A/B have the same deployment structure."
+    ]
+  },
+  "job_id": "2992258",
+  "limitations": "Median is a descriptive statistic, not permission to discard slow calls. Repeat outcome is not yet known.",
+  "main_by_round": {
+    "dense": [
+      {
+        "mean_ms": 123.7905495,
+        "median_ms": 123.835466,
+        "round": 0
+      },
+      {
+        "mean_ms": 123.1610155,
+        "median_ms": 123.04499050000001,
+        "round": 1
+      },
+      {
+        "mean_ms": 123.90705409999998,
+        "median_ms": 123.977709,
+        "round": 2
+      },
+      {
+        "mean_ms": 141.4024645,
+        "median_ms": 131.37080550000002,
+        "round": 3
+      },
+      {
+        "mean_ms": 169.0823071,
+        "median_ms": 123.36316,
+        "round": 4
+      }
+    ],
+    "future_A": [
+      {
+        "mean_ms": 83.74135849999999,
+        "median_ms": 83.58460550000001,
+        "round": 0
+      },
+      {
+        "mean_ms": 87.2801704,
+        "median_ms": 82.87187,
+        "round": 1
+      },
+      {
+        "mean_ms": 97.479345,
+        "median_ms": 84.40963049999999,
+        "round": 2
+      },
+      {
+        "mean_ms": 170.2841496,
+        "median_ms": 84.2565185,
+        "round": 3
+      },
+      {
+        "mean_ms": 132.85643190000002,
+        "median_ms": 86.938614,
+        "round": 4
+      }
+    ],
+    "future_B": [
+      {
+        "mean_ms": 82.8625448,
+        "median_ms": 82.8461605,
+        "round": 0
+      },
+      {
+        "mean_ms": 84.67202689999999,
+        "median_ms": 83.12800849999999,
+        "round": 1
+      },
+      {
+        "mean_ms": 93.1217444,
+        "median_ms": 84.49251699999999,
+        "round": 2
+      },
+      {
+        "mean_ms": 115.6844384,
+        "median_ms": 85.22154549999999,
+        "round": 3
+      },
+      {
+        "mean_ms": 85.9402359,
+        "median_ms": 82.61039099999999,
+        "round": 4
+      }
+    ],
+    "uniform128": [
+      {
+        "mean_ms": 261.8542189,
+        "median_ms": 84.07529,
+        "round": 0
+      },
+      {
+        "mean_ms": 80.03794359999999,
+        "median_ms": 79.802592,
+        "round": 1
+      },
+      {
+        "mean_ms": 80.6922889,
+        "median_ms": 80.1633335,
+        "round": 2
+      },
+      {
+        "mean_ms": 219.92481829999997,
+        "median_ms": 238.14888100000002,
+        "round": 3
+      },
+      {
+        "mean_ms": 79.5943652,
+        "median_ms": 79.3053285,
+        "round": 4
+      }
+    ]
+  },
+  "observations": {
+    "episodes": 3,
+    "missing": [
+      {
+        "control_step": 80,
+        "reason": "dense_trajectory_ended_before_query",
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "termination": "environment_success"
+      },
+      {
+        "control_step": 160,
+        "reason": "dense_trajectory_ended_before_query",
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "termination": "environment_success"
+      },
+      {
+        "control_step": 160,
+        "reason": "dense_trajectory_ended_before_query",
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0",
+        "termination": "environment_success"
+      },
+      {
+        "control_step": 160,
+        "reason": "dense_trajectory_ended_before_query",
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "termination": "environment_success"
+      }
+    ],
+    "repeated_calls_are_not_independent_new_observations": true,
+    "target_observations": 9,
+    "unique_raw_observations": 5
+  },
+  "observed_evidence": [
+    "15/200 primary calls exceed300ms; nine are in round3 across adjacent method blocks.",
+    "All40 separate component calls are below200ms; this does not localize the earlier spikes.",
+    "A/B allocated and peak memory ranges are identical.",
+    "Block-boundary GPU temperatures39-52C, SM clocks2235-2490MHz and stable reserved memory do not show an obvious persistent fault.",
+    "No per-call CPU scheduling, context-switch or Python GC trace exists; a specific cause cannot be established."
+  ],
+  "pooled_main_descriptive_ms": {
+    "dense": {
+      "count": 50,
+      "max_ms": 361.166122,
+      "mean_ms": 136.26867814000002,
+      "median_ms": 123.90780050000001,
+      "p95_ms": 188.1240767
+    },
+    "future_A": {
+      "count": 50,
+      "max_ms": 366.300713,
+      "mean_ms": 114.32829108,
+      "median_ms": 84.03848550000001,
+      "p95_ms": 336.93545559999984
+    },
+    "future_B": {
+      "count": 50,
+      "max_ms": 304.912848,
+      "mean_ms": 92.45619808,
+      "median_ms": 83.12800849999999,
+      "p95_ms": 139.07672544999988
+    },
+    "uniform128": {
+      "count": 50,
+      "max_ms": 1070.124257,
+      "mean_ms": 144.42072698,
+      "median_ms": 80.429735,
+      "p95_ms": 363.37817905
+    }
+  },
+  "recommendation": {
+    "keep_original_and_repeat_side_by_side": true,
+    "maximum_additional_attempts": 1,
+    "other_node_jobs_are_not_a_prerequisite": true,
+    "pick_faster_run": false,
+    "remove_spikes": false,
+    "same_source_checkpoints_panel_threads_order_seed_and_measurement_counts": true,
+    "timing_hooks_added": false
+  },
+  "reviewer": "packing_migration",
+  "schema": "g1f-independent-latency-review-v1",
+  "scope": "CPU replay and read-only audit; not experiment permission or a scientific gate",
+  "separate_component_host_medians_ms": {
+    "dense": {
+      "condition_selection": 0.001022,
+      "policy": 78.82397549999999,
+      "postprocess": 0.14613900000000002,
+      "preprocess": 16.4821295,
+      "vision": 27.303768
+    },
+    "future_A": {
+      "condition_selection": 3.485135,
+      "policy": 35.046341999999996,
+      "postprocess": 0.165479,
+      "preprocess": 16.986173,
+      "vision": 27.9412695
+    },
+    "future_B": {
+      "condition_selection": 3.4407275,
+      "policy": 35.0123175,
+      "postprocess": 0.1481355,
+      "preprocess": 16.591248,
+      "vision": 27.482778
+    },
+    "uniform128": {
+      "condition_selection": 0.3798205,
+      "policy": 35.0385695,
+      "postprocess": 0.1419645,
+      "preprocess": 16.505540500000002,
+      "vision": 27.348931999999998
+    }
+  },
+  "source_files": {
+    "calls.jsonl": "148aba4255de10b4e55b02945e3ef20e14e68ce53b31f3633ec8fdd7707c80e0",
+    "config.json": "808522465d3ffacdc2ae631d1fe0a2d9901864d353081431fb71de61ef5f65d0",
+    "measurements.json": "a0ef3375c4f71fe45e8fe52d4e6da9bae068fc8e175a074cf960fb66a9eea85c",
+    "summary.json": "0c3133235300aac69385caa10638895ddfc01cfc8fa65ddd9963aef1e445867f"
+  },
+  "spikes_by_round": {
+    "0": 3,
+    "1": 0,
+    "2": 0,
+    "3": 9,
+    "4": 3
+  },
+  "spikes_over_300ms": [
+    {
+      "call_id": 112,
+      "elapsed_ms": 1070.124257,
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0:control_step_80",
+      "phase": "control_step_80",
+      "round": 0
+    },
+    {
+      "call_id": 113,
+      "elapsed_ms": 573.176327,
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 0
+    },
+    {
+      "call_id": 115,
+      "elapsed_ms": 362.505191,
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 0
+    },
+    {
+      "call_id": 326,
+      "elapsed_ms": 304.912848,
+      "instruction_mode": "hot",
+      "method": "future_B",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 3
+    },
+    {
+      "call_id": 331,
+      "elapsed_ms": 359.689974,
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 3
+    },
+    {
+      "call_id": 332,
+      "elapsed_ms": 328.732184,
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0:control_step_80",
+      "phase": "control_step_80",
+      "round": 3
+    },
+    {
+      "call_id": 334,
+      "elapsed_ms": 344.185689,
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:control_step_80",
+      "phase": "control_step_80",
+      "round": 3
+    },
+    {
+      "call_id": 335,
+      "elapsed_ms": 364.092442,
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 3
+    },
+    {
+      "call_id": 336,
+      "elapsed_ms": 301.372883,
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 3
+    },
+    {
+      "call_id": 340,
+      "elapsed_ms": 366.300713,
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 3
+    },
+    {
+      "call_id": 341,
+      "elapsed_ms": 364.67767,
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 3
+    },
+    {
+      "call_id": 342,
+      "elapsed_ms": 364.079812,
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0:control_step_80",
+      "phase": "control_step_80",
+      "round": 3
+    },
+    {
+      "call_id": 368,
+      "elapsed_ms": 303.75902,
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 4
+    },
+    {
+      "call_id": 377,
+      "elapsed_ms": 339.073415,
+      "instruction_mode": "cold",
+      "method": "dense",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0:control_step_80",
+      "phase": "control_step_80",
+      "round": 4
+    },
+    {
+      "call_id": 378,
+      "elapsed_ms": 361.166122,
+      "instruction_mode": "cold",
+      "method": "dense",
+      "observation_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:control_step_0",
+      "phase": "control_step_0",
+      "round": 4
+    }
+  ],
+  "timing_boundary_audit": {
+    "both_ends_cuda_synchronized": true,
+    "cold_hot_are_identical_uncached_paths": true,
+    "component_pass_separate": true,
+    "future_head_deployed": false,
+    "language_cache_enabled": false,
+    "loader_hashing_explicit_gc_journal_telemetry_outside_main_timer": true,
+    "main_pass_without_stage_hooks": true
+  }
+}

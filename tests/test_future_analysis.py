@@ -147,7 +147,7 @@ def training_fixture(tmp_path, validation_rows):
             "trainable_parameters": 100, "future_head_parameters": 0 if arm == "A" else 20, "peak_memory_allocated_bytes": 300}
         write(tmp_path / arm / "training_report.json", reports[arm])
     s = write(tmp_path / "training_summary.json", {"status": "completed", "arms": reports})
-    write(tmp_path / "training_finalization.json", {"status": "verified", "checkpoint_unchanged": True, "result_sha256": a.digest(s)})
+    write(tmp_path / "train_finalization.json", {"status": "verified", "checkpoint_unchanged": True, "result_sha256": a.digest(s)})
     return tmp_path, windows, config, reports
 
 
@@ -180,9 +180,39 @@ def test_training_rejects_unmatched_or_self_inconsistent_evidence(training_fixtu
 
 def test_absent_finalization_keeps_analysis_unverified(training_fixture):
     directory, windows, config, _ = training_fixture
-    (directory / "training_finalization.json").unlink()
+    (directory / "train_finalization.json").unlink()
     result, _ = a.analyze_training(directory, windows, "window-hash", config, a.Evidence(), repeats=100)
     assert result["status"] == "awaiting_finalization" and not result["finalization_verified"]
+
+
+def test_producer_train_mode_receipt_name_required_and_hash_checked(training_fixture):
+    directory, windows, config, _ = training_fixture
+    real = directory / "train_finalization.json"
+    receipt = json.loads(real.read_text())
+    real.unlink()
+    write(directory / "training_finalization.json", receipt)
+    result, _ = a.analyze_training(directory, windows, "window-hash", config, a.Evidence(), repeats=100)
+    assert not result["finalization_verified"]  # A similarly named file is not the producer's receipt.
+    receipt["result_sha256"] = "wrong"
+    write(real, receipt)
+    with pytest.raises(ValueError, match="finalization"):
+        a.analyze_training(directory, windows, "window-hash", config, a.Evidence(), repeats=100)
+
+
+def test_hard_set_overlap_and_saved_action_difference_have_separate_meaning(validation_rows):
+    _, _, rows = validation_rows
+    left = {r["window"]["window_id"]: r for r in rows}
+    right = deepcopy(left)
+    first = next(iter(right.values()))
+    first["retained_indices"] = [1, *range(2, 65), *range(256, 320)]
+    first["normalized_actions"][0][0] = 56.
+    result = a.hard_selection_comparison(left, right)
+    assert result["overall"]["identical_sets"] == 59
+    changed = next(r for r in result["rows"] if not r["sets_identical"])
+    assert changed["intersection_over_128"] == 127 / 128
+    assert changed["jaccard"] == 127 / 129
+    assert changed["AB_output_l1"] == 1
+    assert result["overall"]["AB_output_l1"]["mean"] == pytest.approx(1 / 60)
 
 
 @pytest.fixture
