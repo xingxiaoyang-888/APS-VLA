@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated_date": "2026-10-15",
-  "status": "active",
+  "status": "completed",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_closed_loop",
+  "stage": "G1_F_Long_completed_first_round_no_automatic_expansion",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -218,13 +218,16 @@
       "job_id": "2993338",
       "name": "cti-g1f-long",
       "mode": "closed_loop",
-      "status": "SUBMITTED",
+      "status": "COMPLETED",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_v1",
       "source_sha256": "bcf9b24c15325b75aa3f35162d96f50a3de1f7e9aa1fc0f3155952924b0e73f5",
       "suite": "libero_10",
       "submitted_utc": "2026-10-14T16:15:42.716640+00:00",
-      "purpose": "User-authorized bounded Long G1-F closed_loop"
+      "purpose": "User-authorized bounded Long G1-F closed_loop",
+      "exit_code": "0:0",
+      "elapsed_seconds": 1474,
+      "node": "gpu4001"
     }
   ],
   "agents": {
@@ -260,6 +263,14 @@
       "report": "results/g1_future_v1/scientific_review.json",
       "reason": "B teacherL1.029794 versus A.029714;paired development B27/30 versus A28/30;no future supervision increment observed at seed17,100updates,k128",
       "scope": "Current registered bounded configuration only;not universal rejection of future supervision",
+      "test_opened": false
+    },
+    {
+      "stage": "G1-F-Long",
+      "status": "completed_no_automatic_expansion",
+      "report": "results/g1_future_long_v1/scientific_review.json",
+      "reason": "B27/30,A26/30,dense29/30;net+1 with interval crossing zero and slightly worse offline action error;one bounded round completed per user instruction.",
+      "scope": "Current Long seed17,100 updates,3 fixed development tasks only; not a causal difficulty claim.",
       "test_opened": false
     }
   ],
@@ -353,11 +364,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": [
-    "MatchedLongA/B100updates complete,initialization+order+VLAhash verified;both selectedupdate100",
-    "Job2993338 evaluating fixed30states paired dense/A/B,90trials; no selection or horizon changes",
-    "Report actual success,actionerror,overlap and all4GPUallocation costs then stop"
-  ],
+  "current_work": [],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -378,7 +385,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T16:17:29.975962+00:00",
+  "last_supervision_utc": "2026-10-14T16:50:39.826720+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -424,14 +431,15 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Finish registered Long assets/protocol/input+F01 acceptance,then bounded100update matched training and90development trials;stop after report",
+  "next_allowed_action": "Report the completed bounded Long round; await separately authorized future work. No automatic expansion or test.",
   "current_round_cost": {
-    "registered_jobs": 6,
-    "allocated_gpu_seconds": 3502,
-    "allocated_gpu_hours": 0.9727777777777777,
-    "acceptance_cache_training_validation_gpu_seconds": 1205,
+    "registered_jobs": 4,
+    "allocated_gpu_seconds": 3241,
+    "allocated_gpu_hours": 0.9002777777777777,
+    "acceptance_cache_training_validation_gpu_seconds": 1767,
+    "closed_loop_gpu_seconds": 1474,
     "historical_jobs_excluded": true,
-    "accounting": "results/g1_future_v1/slurm_accounting.json"
+    "accounting": "results/g1_future_long_v1/slurm_accounting.json"
   },
   "last_observed_G1_F_Long_progress": {
     "model_verified": true,
@@ -459,8 +467,22 @@
     "A_hard_teacher_L1": 0.02527241363810996,
     "B_hard_teacher_L1": 0.025616790028288962,
     "training_finalization": "verified",
-    "closed_loop_completed_trials": 0,
-    "closed_loop_expected_trials": 90
+    "closed_loop_completed_trials": 90,
+    "closed_loop_expected_trials": 90,
+    "closed_loop_checkpoint_unchanged": true,
+    "closed_loop_successes": {
+      "dense": 29,
+      "A": 26,
+      "B": 27
+    },
+    "closed_loop_trials_per_method": 30,
+    "closed_loop_policy_errors": 0,
+    "closed_loop_infrastructure_errors": 0,
+    "closed_loop_unfinished_attempts": 0,
+    "closed_loop_independent_review": "results/g1_future_long_v1/closed_loop/independent_review.json",
+    "mean_hard_set_intersection_over_128": 0.9822916666666667,
+    "scientific_status": "weak_positive_development_point_estimate_not_established_benefit",
+    "scientific_review": "results/g1_future_long_v1/scientific_review.json"
   },
   "long_checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-10-95220f9",
   "long_source_snapshot": {
@@ -468,5 +490,15 @@
     "source_sha256": "bcf9b24c15325b75aa3f35162d96f50a3de1f7e9aa1fc0f3155952924b0e73f5",
     "inventory": "results/g1_future_long/source_g1_future_long_v1.json",
     "verified_files": 195
-  }
+  },
+  "previous_round_costs": [
+    {
+      "registered_jobs": 6,
+      "allocated_gpu_seconds": 3502,
+      "allocated_gpu_hours": 0.9727777777777777,
+      "acceptance_cache_training_validation_gpu_seconds": 1205,
+      "historical_jobs_excluded": true,
+      "accounting": "results/g1_future_v1/slurm_accounting.json"
+    }
+  ]
 }

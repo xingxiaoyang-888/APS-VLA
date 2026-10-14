@@ -32,9 +32,20 @@
       "start": "2026-10-14T23:55:31",
       "end": "2026-10-15T00:15:08",
       "scope": "train"
+    },
+    {
+      "job_id": "2993338",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 1474,
+      "allocated_gpus": 1,
+      "node": "gpu4001",
+      "start": "2026-10-15T00:15:44",
+      "end": "2026-10-15T00:40:18",
+      "scope": "closed_loop"
     }
   ],
   "source": "sacct -X -P; registered Long allocation rows only",
-  "queried_utc": "2026-10-14T16:15:12.548940+00:00",
+  "queried_utc": "2026-10-14T16:41:20.690617+00:00",
   "previous_experiments_excluded": true
 }

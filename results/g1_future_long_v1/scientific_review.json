@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "stage": "G1-F-Long",
+  "status": "completed_first_round_no_automatic_expansion",
+  "reviewed_utc": "2026-10-14T16:50:39.826720+00:00",
+  "decision": "Report this completed bounded Long round and stop. Do not automatically expand seeds, data, budgets, modules or test.",
+  "authorization_boundary": "User explicitly limited Long to one completed round regardless of outcome.",
+  "scientific_interpretation": "Weak positive development point estimate (+1/30 for B), not established stable benefit or evidence that Spatial was limited by task difficulty.",
+  "setting": {
+    "suite": "libero_10",
+    "seed": 17,
+    "updates_per_arm": 100,
+    "effective_batch": 8,
+    "train_windows": 90,
+    "validation_windows": 60,
+    "new_Long_DIE_initialization": true,
+    "shared_initialization_and_order_verified": true,
+    "retained_tokens": 128,
+    "per_view": 64,
+    "future_horizon_retained_control_steps": 8,
+    "future_loss_weight": 0.1,
+    "entire_vla_frozen": true,
+    "gradients_through_frozen_vla": true,
+    "future_head_removed_at_deployment": true,
+    "hyperparameter_search": false
+  },
+  "offline": {
+    "A_teacher_L1": 0.02527241363810996,
+    "B_teacher_L1": 0.025616790028288962,
+    "A_demonstration_L1": 0.025999743475889167,
+    "B_demonstration_L1": 0.026413999156405528,
+    "best_update": {
+      "A": 100,
+      "B": 100
+    },
+    "mean_hard_set_intersection_over_128": 0.9822916666666667,
+    "limits": "60 identical validation observations also used for checkpoint selection; descriptive single-seed comparison."
+  },
+  "closed_loop": {
+    "tasks": [
+      0,
+      3,
+      5
+    ],
+    "states_per_task": 10,
+    "completed_trials": 90,
+    "trials_per_method": 30,
+    "successes": {
+      "dense": 29,
+      "future_A": 26,
+      "future_B": 27
+    },
+    "paired_counts": {
+      "A_only": 1,
+      "B_only": 2,
+      "both": 25,
+      "neither": 2
+    },
+    "paired_B_minus_A": {
+      "mean": 0.03333333333333333,
+      "ci95_percentile": [
+        -0.06666666666666667,
+        0.13333333333333333
+      ],
+      "observations": 30,
+      "clusters": 30,
+      "strata": {
+        "0": 10,
+        "3": 10,
+        "5": 10
+      },
+      "repeats": 2000,
+      "seed": 1517,
+      "resampling_unit": "state_trial_id",
+      "stratified_by": "task_id",
+      "interpretation": "Exploratory fixed-development-panel interval; small n, post-selection, no significance or population claim."
+    },
+    "policy_errors": 0,
+    "infrastructure_errors": 0,
+    "unfinished_attempts": 0,
+    "all_failures_counted": true,
+    "test_opened": false
+  },
+  "engineering_acceptance": {
+    "local_cpu_tests_passed": 174,
+    "data_alignment_and_isolation_independently_verified": true,
+    "Long_input_dense_parity_max_abs_error": 0.0,
+    "Long_F01_hard128_parity_max_abs_error": 0.0,
+    "action_and_future_gradients_verified": true,
+    "frozen_VLA_bytes_unchanged": true,
+    "matched_training_independently_verified": true,
+    "closed_loop_independent_review_passed": true,
+    "scope": "F00 three fixed training frames; F01 operator proof one training window. Separate full audit of all150 data windows and all90 development rollouts."
+  },
+  "latency": {
+    "status": "not_registered_in_this_bounded_Long_round",
+    "speedup_claim": false,
+    "scope": "Episode wall times include simulator work and are not observation-to-action latency."
+  },
+  "cost": {
+    "registered_jobs": [
+      "2993273",
+      "2993299",
+      "2993307",
+      "2993338"
+    ],
+    "allocated_gpu_seconds": 3241,
+    "allocated_gpu_hours": 0.9002777777777777,
+    "acceptance_cache_training_validation_gpu_seconds": 1767,
+    "closed_loop_gpu_seconds": 1474,
+    "data_build_cpu_wall_seconds": 779.79755,
+    "local_audit_cpu_total_known": false,
+    "all_registered_jobs_reconciled": true,
+    "nested_timers_not_added": true,
+    "historical_jobs_excluded": true
+  },
+  "limitations": [
+    "One training seed,100 updates,30 states from3 fixed development tasks; no final test or population claim.",
+    "B gains2 paired initial states and loses1; the exploratory interval crosses zero. Both selectors remain below dense.",
+    "B offline teacher and demonstration action errors are slightly higher. Future MSE reduction alone does not establish useful token selection.",
+    "Action reversal is a readout diagnostic, not a separately trained ablation or proof of causal action understanding.",
+    "h8 changes robot/image values but does not establish semantic subtask transitions or explain the small control difference.",
+    "Suite, base model and demonstration data differ from Spatial, so task difficulty is not an isolated causal variable."
+  ],
+  "evidence_sha256": {
+    "configs/experiments/g1_future_long_v1.json": "be6c2c235c7caf3ca5a05892e8da3b22b71605be5fa42fa9c209219c26f5e990",
+    "configs/manifests/long_future_v1/windows.json": "707b9daf18827c41f4470bf163528a6f626c95e297e0e38c673792959fef4c28",
+    "configs/manifests/long_future_v1/protocol.json": "228f4942c85ce00cbd4c8f2915802b1453c7b8b735a13f44870956d69dfd7e6f",
+    "configs/manifests/long_initial_states_v1/development_panel_30.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long/data/independent_review.json": "58047aeab0ad7afd8e51c55422af825029050cb97bcfa4929c30223c0333c4ae",
+    "results/g1_future_long/data/h8_endpoint_changes.json": "fe93afc9212aa44fa87930c10467b93d1cde63f38d373ab886974184cdb08290",
+    "results/g1_future_long/source_g1_future_long_v1.json": "46fa4266a0abef2ea6697c69c1a63851fcbb065e7979a14cadc6a434928441c2",
+    "results/g1_future_long_v1/inputs/independent_review.json": "3e63e97862defdafceda58cdc7edd8b154b908f050e751bfd9c17a354886f52c",
+    "results/g1_future_long_v1/acceptance/independent_review.json": "72f38625080dd65837e2876ff06b8718258ab871753de21289d0da95e3875466",
+    "results/g1_future_long_v1/training/independent_review.json": "4fb4595c39eae7afff7983804cacd41046c93c445e789c66a17d53e3301560c8",
+    "results/g1_future_long_v1/training/train_finalization.json": "0be5fd02a582e78b63ac8b117ab0d1fe1b53839f04b35636f8143c928f21404f",
+    "results/g1_future_long_v1/closed_loop/independent_review.json": "5336488aa7ee3c7eac7be0b1563edc27208611dbc4d78fe075af76fe9b6c8123",
+    "results/g1_future_long_v1/closed_loop/closed_loop_report.json": "b54ea4fa2755317e9a71b1d566694e2ddcc0bb2267087ab16d5e34eb6ba85611",
+    "results/g1_future_long_v1/closed_loop/trials.jsonl": "ff68b045e16c7e96ee2205471112e68c8596526b32ebef753db653a46e0bcad0",
+    "results/g1_future_long_v1/analysis/summary.json": "ea8bedb1c58d810c5ad8d01c7b9206acab6bf6db567cbf429145173e48c20768",
+    "results/g1_future_long_v1/slurm_accounting.json": "74147213ba01e95d9c5e6478eb6bac5bcd9fcaf1ca6b2030ecffc109ce89b8cf",
+    "results/g1_future_long_v1/slurm/archive_receipt.json": "319ac4bc548e499786daa945199fdb02c43d5db20859125b17b63c2d50790d7a"
+  },
+  "report": "docs/G1-F-Long首轮实验结论.md",
+  "test_authorized": false,
+  "expanded_seed_authorized": false,
+  "no_further_jobs_submitted": true
+}

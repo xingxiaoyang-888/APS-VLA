@@ -21601,8 +21601,823 @@
     ]
   },
   "closed_loop": {
-    "status": "pending",
-    "reason": "closed-loop directory not supplied"
+    "status": "analyzed",
+    "training_checkpoint_link_verified": true,
+    "paired_counts": {
+      "A_only": 1,
+      "B_only": 2,
+      "both": 25,
+      "neither": 2
+    },
+    "methods": {
+      "dense": {
+        "trials": 30,
+        "successes": 29,
+        "policy_failures": 0,
+        "per_task": {
+          "0": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "3": {
+            "trials": 10,
+            "successes": 9,
+            "success_rate": 0.9
+          },
+          "5": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          }
+        },
+        "task_macro_success_rate": 0.9666666666666667
+      },
+      "future_A": {
+        "trials": 30,
+        "successes": 26,
+        "policy_failures": 0,
+        "per_task": {
+          "0": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "3": {
+            "trials": 10,
+            "successes": 7,
+            "success_rate": 0.7
+          },
+          "5": {
+            "trials": 10,
+            "successes": 9,
+            "success_rate": 0.9
+          }
+        },
+        "task_macro_success_rate": 0.8666666666666667
+      },
+      "future_B": {
+        "trials": 30,
+        "successes": 27,
+        "policy_failures": 0,
+        "per_task": {
+          "0": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "3": {
+            "trials": 10,
+            "successes": 7,
+            "success_rate": 0.7
+          },
+          "5": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          }
+        },
+        "task_macro_success_rate": 0.9
+      }
+    },
+    "pairs": [
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+        "task_id": 3,
+        "A_success": false,
+        "B_success": true,
+        "B_minus_A": 1,
+        "delta": 1
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": false,
+        "B_minus_A": -1,
+        "delta": -1
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+        "task_id": 3,
+        "A_success": false,
+        "B_success": false,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+        "task_id": 3,
+        "A_success": false,
+        "B_success": false,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+        "task_id": 5,
+        "A_success": false,
+        "B_success": true,
+        "B_minus_A": 1,
+        "delta": 1
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      }
+    ],
+    "paired_B_minus_A": {
+      "mean": 0.03333333333333333,
+      "ci95_percentile": [
+        -0.06666666666666667,
+        0.13333333333333333
+      ],
+      "observations": 30,
+      "clusters": 30,
+      "strata": {
+        "0": 10,
+        "3": 10,
+        "5": 10
+      },
+      "repeats": 2000,
+      "seed": 1517,
+      "resampling_unit": "state_trial_id",
+      "stratified_by": "task_id",
+      "interpretation": "Exploratory fixed-development-panel interval; small n, post-selection, no significance or population claim."
+    },
+    "cost": {
+      "recorded_result_attempts": 90,
+      "unfinished_attempts_unknown_cost": 0,
+      "known_policy_calls": 2881,
+      "policy_calls_total": 2881,
+      "known_wall_seconds": 981.6874489970505,
+      "scope": "Episode attempts include simulator work; interrupted attempts require scheduler reconciliation. Not deployment latency."
+    },
+    "limits": "Only30 preregistered Long development states across3 tasks; intervals are conditional on one trained seed and these tasks, not across-seed generalization or final-test evidence.",
+    "paired_vs_dense": {
+      "A": {
+        "pairs": [
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": false,
+            "delta": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": false,
+            "delta": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+            "task_id": 3,
+            "dense_success": false,
+            "selector_success": true,
+            "delta": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": false,
+            "delta": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": false,
+            "delta": -1
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          }
+        ],
+        "selector_minus_dense": {
+          "mean": -0.1,
+          "ci95_percentile": [
+            -0.23333333333333334,
+            0.03333333333333333
+          ],
+          "observations": 30,
+          "clusters": 30,
+          "strata": {
+            "0": 10,
+            "3": 10,
+            "5": 10
+          },
+          "repeats": 2000,
+          "seed": 1517,
+          "resampling_unit": "state_trial_id",
+          "stratified_by": "task_id",
+          "interpretation": "Exploratory fixed-development-panel interval; small n, post-selection, no significance or population claim."
+        }
+      },
+      "B": {
+        "pairs": [
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+            "task_id": 0,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": false,
+            "delta": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": false,
+            "delta": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+            "task_id": 3,
+            "dense_success": false,
+            "selector_success": true,
+            "delta": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": false,
+            "delta": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+            "task_id": 3,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+            "task_id": 5,
+            "dense_success": true,
+            "selector_success": true,
+            "delta": 0
+          }
+        ],
+        "selector_minus_dense": {
+          "mean": -0.06666666666666667,
+          "ci95_percentile": [
+            -0.2,
+            0.06666666666666667
+          ],
+          "observations": 30,
+          "clusters": 30,
+          "strata": {
+            "0": 10,
+            "3": 10,
+            "5": 10
+          },
+          "repeats": 2000,
+          "seed": 1517,
+          "resampling_unit": "state_trial_id",
+          "stratified_by": "task_id",
+          "interpretation": "Exploratory fixed-development-panel interval; small n, post-selection, no significance or population claim."
+        }
+      }
+    }
   },
   "latency": {
     "status": "pending",
@@ -21706,15 +22521,22 @@
           "exit_code": "0:0",
           "elapsed_seconds": 1177.0,
           "allocated_gpus": 1.0
+        },
+        {
+          "job_id": "2993338",
+          "state": "COMPLETED",
+          "exit_code": "0:0",
+          "elapsed_seconds": 1474.0,
+          "allocated_gpus": 1.0
         }
       ],
       "missing_requested_jobs": [],
       "excluded_steps_or_unrequested_jobs": [],
       "states": {
-        "COMPLETED": 3
+        "COMPLETED": 4
       },
-      "known_allocated_gpu_hours": 0.49083333333333334,
-      "allocated_gpu_hours_total": 0.49083333333333334,
+      "known_allocated_gpu_hours": 0.9002777777777777,
+      "allocated_gpu_hours_total": 0.9002777777777777,
       "unfinished_jobs": [],
       "scope": "Allocation wall time × allocated GPUs; includes failed/retried jobs. Never add this to overlapping instrumented durations."
     },
@@ -21747,11 +22569,16 @@
     "F:\\CTI-VLA\\results\\g1_future_long_v1\\training\\B\\validation_0100.json": "b2dded11a6e86bb7cbcefecd27320c6bc3d6bc16a36785042de09353cf83baa0",
     "F:\\CTI-VLA\\results\\g1_future_long_v1\\training\\train_finalization.json": "0be5fd02a582e78b63ac8b117ab0d1fe1b53839f04b35636f8143c928f21404f",
     "F:\\CTI-VLA\\results\\g1_future_long_v1\\training\\training_summary.json": "d94b9b7974832668b5bcaf9d5968b71777930031d80f8c0cbfa0b1665570be4e",
+    "F:\\CTI-VLA\\results\\g1_future_long_v1\\closed_loop\\panel.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "F:\\CTI-VLA\\results\\g1_future_long_v1\\closed_loop\\config.json": "1d9fb2c974105656f3a9909b13ac4dff1aed347f680b108df5793582195f17ea",
+    "F:\\CTI-VLA\\results\\g1_future_long_v1\\closed_loop\\closed_loop_report.json": "b54ea4fa2755317e9a71b1d566694e2ddcc0bb2267087ab16d5e34eb6ba85611",
+    "F:\\CTI-VLA\\results\\g1_future_long_v1\\closed_loop\\trials.jsonl": "ff68b045e16c7e96ee2205471112e68c8596526b32ebef753db653a46e0bcad0",
+    "F:\\CTI-VLA\\configs\\manifests\\long_initial_states_v1\\development_panel_30.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
     "F:\\CTI-VLA\\results\\g1_future_long_v1\\acceptance\\cost_events.jsonl": "a1198c299b3b2520c731324f64851ab015f6eeb0ca4345a7b6845f4a423b9638",
     "F:\\CTI-VLA\\results\\g1_future_long_v1\\training\\A\\cost_events.jsonl": "98bf1f0f4aaad770ecbacbd84764c3afa044192e172fe53bbf0bdf0ae7028988",
     "F:\\CTI-VLA\\results\\g1_future_long_v1\\training\\B\\cost_events.jsonl": "a80ce4c9192a7a579187e09bc3de495b57bff9d7518bdb367ad3dc2bcd9e45f8",
     "F:\\CTI-VLA\\results\\g1_future_long_v1\\training\\cost_events.jsonl": "16ebf064d313b584b4e54876ed4e453a707c6eab82e25446a6902aefde31b6f9",
-    "F:\\CTI-VLA\\results\\g1_future_long_v1\\slurm_accounting.json": "2c8c9d6d6b9dcbc51a4681da4cdddb2f38f8e54a95f20e69be6b870ad9d3fc05"
+    "F:\\CTI-VLA\\results\\g1_future_long_v1\\slurm_accounting.json": "74147213ba01e95d9c5e6478eb6bac5bcd9fcaf1ca6b2030ecffc109ce89b8cf"
   },
   "analyzer_sha256": "973fa1714396b9f3ae3a92f537389150ebae3342aa43047b48e810a9e77e4ee6",
   "suite": "libero_10"
