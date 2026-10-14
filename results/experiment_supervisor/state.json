@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_real_data_audit",
+  "stage": "G1_F_Long_inputs",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -168,6 +168,18 @@
       "exit_code": 0,
       "elapsed_seconds": 238,
       "node": "gpu4041"
+    },
+    {
+      "job_id": "2993273",
+      "name": "cti-g1f-long",
+      "mode": "inputs",
+      "status": "SUBMITTED",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_v1",
+      "source_sha256": "bcf9b24c15325b75aa3f35162d96f50a3de1f7e9aa1fc0f3155952924b0e73f5",
+      "suite": "libero_10",
+      "submitted_utc": "2026-10-14T15:42:58.336908+00:00",
+      "purpose": "User-authorized bounded Long G1-F inputs"
     }
   ],
   "agents": {
@@ -264,7 +276,7 @@
     },
     {
       "asset": "LIBERO-Long OFT and RLDS",
-      "status": "dataset_verified_model_downloading",
+      "status": "verified_model25_dataset34",
       "model_manifest": "configs/assets/openvla_oft_libero_long.json",
       "data_manifest": "configs/assets/libero_long_rlds.json",
       "result_root": "results/g1_future_long/assets",
@@ -321,7 +333,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T15:29:25.821426+00:00",
+  "last_supervision_utc": "2026-10-14T15:42:58.336908+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -377,14 +389,23 @@
     "accounting": "results/g1_future_v1/slurm_accounting.json"
   },
   "last_observed_G1_F_Long_progress": {
-    "model_verified": false,
+    "model_verified": true,
     "dataset_verified_files": 34,
     "dataset_bytes": 3656815424,
     "gpu_jobs": 0,
     "cpu_tests_passed": 174,
     "development_states": 30,
     "expected_trials": 90,
-    "test_opened": false
+    "test_opened": false,
+    "train_windows_verified": 90,
+    "validation_windows_verified": 60,
+    "data_independent_review": "results/g1_future_long/data/independent_review.json"
   },
-  "long_checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-10-95220f9"
+  "long_checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-10-95220f9",
+  "long_source_snapshot": {
+    "server_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_v1",
+    "source_sha256": "bcf9b24c15325b75aa3f35162d96f50a3de1f7e9aa1fc0f3155952924b0e73f5",
+    "inventory": "results/g1_future_long/source_g1_future_long_v1.json",
+    "verified_files": 195
+  }
 }
