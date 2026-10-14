@@ -1,0 +1,51 @@
+{
+  "content_signature": "f1f8cf30eb45fb572f4ca675460f4c689617e0cd2c107ba4cd1ff7b68b2c0d0a",
+  "development_states_per_task": 10,
+  "display_name": "LIBERO-Long",
+  "environment_seed": 0,
+  "expected_development_trials": 90,
+  "horizon": {
+    "action_chunk": 8,
+    "file": "experiments/robot/libero/run_libero_eval.py",
+    "file_sha256": "61221d0ac03f8f5f8c3dd9264df529fdcb6daaace4ff8ce3808af29f4d374f1f",
+    "max_steps": 520,
+    "note": "Pinned official LIBERO_10 horizon is520, not700; wait steps are separate.",
+    "repository": "moojink/openvla-oft",
+    "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+    "source_line": 67,
+    "wait_steps": 10
+  },
+  "initial_state_split_seed": 417,
+  "methods": [
+    "dense",
+    "future_A",
+    "future_B"
+  ],
+  "schema_version": 1,
+  "sealed_final_states_per_task": 40,
+  "selection_rule": "task_order_index0 IDs0,3,5 fixed before Long state inventory, data or results; same index rule as Spatial",
+  "source": {
+    "benchmark_source_sha256": "b1c7bcbe75150e123c2d250cf455c7ed7333b76d21c78ec122a5c02544d19b83",
+    "repository": "Lifelong-Robot-Learning/LIBERO",
+    "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+    "task_map_sha256": "dc644c34987f6e0e4dc5320e5168cd2ee170cb8520f6a9344d2cd6d50f2c55fc",
+    "task_order_index": 0
+  },
+  "split_namespace": "cti-vla:init-state-split:v1",
+  "status": "preregistered_indices_only_before_state_inventory",
+  "suite": "libero_10",
+  "tasks": [
+    {
+      "task_id": 0,
+      "task_name": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket"
+    },
+    {
+      "task_id": 3,
+      "task_name": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it"
+    },
+    {
+      "task_id": 5,
+      "task_name": "STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy"
+    }
+  ]
+}
