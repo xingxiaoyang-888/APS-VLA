@@ -127,9 +127,11 @@
     "verified_files": 109
   },
   "local_cpu_verification": {
-    "passed": 173,
+    "passed": 239,
     "skipped": 1,
-    "junit": "results/g0_implementation/cpu_tests_g1_g2.xml"
+    "junit": "results/experiment_supervisor/cpu_suite_20261014.xml",
+    "scope": "All tests tracked at6184e25; excludes concurrently developed profiler and optional step diagnostic",
+    "skip_resolution": "TensorFlow reference absent locally; matching server runtime19 tests passed with0skips inG0"
   },
   "setup": {
     "installation_log_server": "results/setup/install_libero_local_attempt4.log",
@@ -153,5 +155,12 @@
     "Do not access offline/final closed-loop test for development",
     "Root submits and registers GPU jobs; other projects are unrelated",
     "Weights and training checkpoints stay on server"
-  ]
+  ],
+  "last_observed_G1_progress": {
+    "completed_observations": 54,
+    "expected_observations": 90,
+    "completed_teacher_queries": 13405,
+    "failed_queries": 0,
+    "scientific_status": "pending_complete_analysis"
+  }
 }
