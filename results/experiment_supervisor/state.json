@@ -107,6 +107,17 @@
       "name": "cti-g1f",
       "status": "SUBMITTED",
       "purpose": "G1-F02 matched seed17 A/B;90train60val windows;100updates each;effectivebatch8;hard128 checkpoint selection;server-only checkpoints"
+    },
+    {
+      "stage": "G1-F03-profile-data",
+      "mode": "collect",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1",
+      "source_sha256": "30084b8cbc298b5f678a125eb083676fddd58549ead7532720f68b31840c21ef",
+      "job_id": "2992210",
+      "name": "cti-g1f-eval",
+      "status": "SUBMITTED",
+      "purpose": "Three preregistered dense development trajectories for full O2A profiling;task0/3/5 minimum development source index;steps0/80/160;no final-frame padding"
     }
   ],
   "agents": {
@@ -261,11 +272,11 @@
     "expanded token deletion labeling",
     "staged rescoring"
   ],
-  "pending_submission": null,
   "new_method_cpu_verification": {
     "status": "passed",
     "unique_tests": 75,
     "scope": "45 ACL/future/windows +27runtime +3runner;CPU only;F01 real evidence separately linked",
     "audit": "results/g1_future/code_audit_training.json"
-  }
+  },
+  "pending_submission": null
 }
