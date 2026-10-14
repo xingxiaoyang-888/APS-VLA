@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_multiseed_registration",
+  "stage": "G1_F_Long_multiseed_train",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -228,6 +228,42 @@
       "exit_code": "0:0",
       "elapsed_seconds": 1474,
       "node": "gpu4001"
+    },
+    {
+      "job_id": "2993590",
+      "name": "cti-g1f-long-seeds",
+      "mode": "train",
+      "training_seed": 23,
+      "status": "PENDING",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_multiseed_v1/seed23",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_multiseed_v1",
+      "suite": "libero_10",
+      "experiment": "g1_future_long_multiseed_v1",
+      "source_sha256": "868616d1724d86d1b43b29798632beccbc6a1e8a349b26d27cdfc98d8312a5c5",
+      "reuse_registration_sha256": "3547934d13fbbdf2436b555f4d7307f9db1cc0977010482cf368487b167893cf",
+      "submitted_utc": "2026-10-14T17:29:34.289776+00:00",
+      "purpose": "Explicitly authorized Long seed23 train; fixed settings, no test",
+      "exit_code": "0:0",
+      "elapsed_seconds": 4,
+      "node": "gpu4012"
+    },
+    {
+      "job_id": "2993591",
+      "name": "cti-g1f-long-seeds",
+      "mode": "train",
+      "training_seed": 41,
+      "status": "PENDING",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_multiseed_v1/seed41",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_multiseed_v1",
+      "suite": "libero_10",
+      "experiment": "g1_future_long_multiseed_v1",
+      "source_sha256": "868616d1724d86d1b43b29798632beccbc6a1e8a349b26d27cdfc98d8312a5c5",
+      "reuse_registration_sha256": "e649987996ad680d420c3d3c24a2461f99d6a141abe11f1445fdbaee2032786b",
+      "submitted_utc": "2026-10-14T17:29:36.404091+00:00",
+      "purpose": "Explicitly authorized Long seed41 train; fixed settings, no test",
+      "exit_code": "0:0",
+      "elapsed_seconds": 2,
+      "node": "gpu4016"
     }
   ],
   "agents": {
@@ -389,7 +425,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T17:29:08.918669+00:00",
+  "last_supervision_utc": "2026-10-14T17:29:39.249339+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -437,11 +473,12 @@
   "pending_submission": null,
   "next_allowed_action": "Freeze and audit registered seed23/41 source/reuse identities,then root submits bounded training and120A/B development trials;no test or further expansion",
   "current_round_cost": {
-    "registered_jobs": 0,
+    "registered_jobs": 2,
     "allocated_gpu_seconds": 0,
-    "allocated_gpu_hours": 0,
+    "allocated_gpu_hours": 0.0,
     "accounting": "results/g1_future_long_multiseed_v1/slurm_accounting.json",
-    "historical_jobs_excluded": true
+    "historical_jobs_excluded": true,
+    "final": false
   },
   "last_observed_G1_F_Long_progress": {
     "model_verified": true,
@@ -522,7 +559,7 @@
     "expected_new_closed_loop_trials": 120,
     "completed_new_closed_loop_trials": 0,
     "unique_initial_states": 30,
-    "gpu_jobs": 0,
+    "gpu_jobs": 2,
     "test_opened": false,
     "cpu_tests_passed": 209,
     "preflight_data_review": "results/g1_future_long_multiseed_v1/preflight_data_review.json",
