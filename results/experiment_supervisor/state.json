@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated_date": "2026-10-14",
-  "status": "active",
+  "status": "completed_current_authorized_round",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F03_paired_closed_loop_and_latency_running",
+  "stage": "G1_F03_completed_no_go_expansion",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -134,9 +134,11 @@
       "source_sha256": "30084b8cbc298b5f678a125eb083676fddd58549ead7532720f68b31840c21ef",
       "job_id": "2992255",
       "name": "cti-g1f-eval",
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "purpose": "G1-F03 all30 independent development states paired A/B+dense+uniform128;120trials;no test",
-      "node": "gpu4026"
+      "node": "gpu4026",
+      "exit_code": 0,
+      "elapsed_seconds": 1553
     },
     {
       "stage": "G1-F03-latency",
@@ -157,12 +159,15 @@
       "name": "cti-g1f-profile-repeat1",
       "stage": "G1-F03-latency-repeat",
       "mode": "profile_repeat1",
-      "status": "SUBMITTED",
+      "status": "COMPLETED",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1/latency_repeat1",
       "source_sha256": "30084b8cbc298b5f678a125eb083676fddd58549ead7532720f68b31840c21ef",
       "registration": "results/g1_future_v1/latency_repeat1_registration.json",
-      "purpose": "Sole fixed-configuration latency replication after cross-method spikes;440calls;same5observations;retain first run and all spikes;no auto retry"
+      "purpose": "Sole fixed-configuration latency replication after cross-method spikes;440calls;same5observations;retain first run and all spikes;no auto retry",
+      "exit_code": 0,
+      "elapsed_seconds": 238,
+      "node": "gpu4041"
     }
   ],
   "agents": {
@@ -191,6 +196,14 @@
       "report": "results/g1_future_v1/acceptance/f01_acceptance.json",
       "scope": "real L40 action/future gradients and hard128 parity on one registered training window; two cache windows aligned; all150 data windows audited separately",
       "no_scientific_benefit_claim": true
+    },
+    {
+      "stage": "G1-F03",
+      "status": "no_go_expansion",
+      "report": "results/g1_future_v1/scientific_review.json",
+      "reason": "B teacherL1.029794 versus A.029714;paired development B27/30 versus A28/30;no future supervision increment observed at seed17,100updates,k128",
+      "scope": "Current registered bounded configuration only;not universal rejection of future supervision",
+      "test_opened": false
     }
   ],
   "verified_substeps": [
@@ -275,11 +288,11 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "G1-F seed17 A/B completed100updates each;matched initial scorer/sample order and unchanged VLA hashes verified",
-    "Hard validation teacher L1:A.0297141054 B.0297940155;mean set overlap99.19%;no offline improvement evidence",
-    "Registered job2992255 running120paired development trials;66observed complete;no test",
-    "Primary latency440/440 calls verified;cross-method tail spikes not attributed;one fixed-config repeat being prepared without model/data changes",
-    "No expanded seeds/budgets without closed-loop benefit;old deletion-label/staged-rescoring work remains suspended"
+    "G1-F bounded round completed:all6 registered jobs COMPLETED exit0;3502L40GPUseconds total",
+    "A28/30 B27/30 dense28/30 uniform22/30;pair counts Aonly1 Bonly0 both27 neither2",
+    "Two latency runs kept intact:880calls;A/B typical83-84ms;no claim B deploys faster",
+    "No further seeds,budgets,heads or test access;old deletion-label/staged-rescoring scope stays suspended",
+    "Nonweight evidence returned locally;checkpoints remain only on server;existing automation PAUSED preserved"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -301,7 +314,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T12:23:23.159033+00:00",
+  "last_supervision_utc": "2026-10-14T12:36:05.998594+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -334,8 +347,26 @@
     "B_updates": 100,
     "B_hard_teacher_L1_best": 0.02979401547151307,
     "training_finalization": "verified",
-    "closed_loop_completed_trials": 86,
-    "closed_loop_expected_trials": 120
+    "closed_loop_completed_trials": 120,
+    "closed_loop_expected_trials": 120,
+    "closed_loop_checkpoint_unchanged": true,
+    "closed_loop_successes": {
+      "dense": 28,
+      "uniform128": 22,
+      "A": 28,
+      "B": 27
+    },
+    "closed_loop_trials_per_method": 30,
+    "latency_replication_calls": 440
   },
-  "pending_submission": null
+  "pending_submission": null,
+  "next_allowed_action": "Review a separately defined research revision;no automatic GPU experiments for this configuration",
+  "current_round_cost": {
+    "registered_jobs": 6,
+    "allocated_gpu_seconds": 3502,
+    "allocated_gpu_hours": 0.9727777777777777,
+    "acceptance_cache_training_validation_gpu_seconds": 1205,
+    "historical_jobs_excluded": true,
+    "accounting": "results/g1_future_v1/slurm_accounting.json"
+  }
 }

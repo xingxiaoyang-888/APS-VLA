@@ -21601,13 +21601,378 @@
     ]
   },
   "closed_loop": {
-    "status": "pending",
-    "missing": [
-      "results\\g1_future_v1\\closed_loop\\panel.json",
-      "results\\g1_future_v1\\closed_loop\\config.json",
-      "results\\g1_future_v1\\closed_loop\\trials.jsonl",
-      "results\\g1_future_v1\\closed_loop\\closed_loop_report.json"
-    ]
+    "status": "analyzed",
+    "training_checkpoint_link_verified": true,
+    "paired_counts": {
+      "A_only": 1,
+      "B_only": 0,
+      "both": 27,
+      "neither": 2
+    },
+    "methods": {
+      "dense": {
+        "trials": 30,
+        "successes": 28,
+        "policy_failures": 0,
+        "per_task": {
+          "0": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "3": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "5": {
+            "trials": 10,
+            "successes": 8,
+            "success_rate": 0.8
+          }
+        },
+        "task_macro_success_rate": 0.9333333333333332
+      },
+      "uniform128": {
+        "trials": 30,
+        "successes": 22,
+        "policy_failures": 0,
+        "per_task": {
+          "0": {
+            "trials": 10,
+            "successes": 8,
+            "success_rate": 0.8
+          },
+          "3": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "5": {
+            "trials": 10,
+            "successes": 4,
+            "success_rate": 0.4
+          }
+        },
+        "task_macro_success_rate": 0.7333333333333334
+      },
+      "future_A": {
+        "trials": 30,
+        "successes": 28,
+        "policy_failures": 0,
+        "per_task": {
+          "0": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "3": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "5": {
+            "trials": 10,
+            "successes": 8,
+            "success_rate": 0.8
+          }
+        },
+        "task_macro_success_rate": 0.9333333333333332
+      },
+      "future_B": {
+        "trials": 30,
+        "successes": 27,
+        "policy_failures": 0,
+        "per_task": {
+          "0": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "3": {
+            "trials": 10,
+            "successes": 10,
+            "success_rate": 1.0
+          },
+          "5": {
+            "trials": 10,
+            "successes": 7,
+            "success_rate": 0.7
+          }
+        },
+        "task_macro_success_rate": 0.9
+      }
+    },
+    "pairs": [
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0005:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0007:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0008:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0013:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0017:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0020:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0027:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0030:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0041:env-0",
+        "task_id": 0,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0020:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0022:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0025:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0028:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0034:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0035:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0038:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0039:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0041:env-0",
+        "task_id": 3,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0006:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0008:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0025:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0034:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0039:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": false,
+        "B_minus_A": -1,
+        "delta": -1
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0040:env-0",
+        "task_id": 5,
+        "A_success": false,
+        "B_success": false,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0041:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0042:env-0",
+        "task_id": 5,
+        "A_success": false,
+        "B_success": false,
+        "B_minus_A": 0,
+        "delta": 0
+      },
+      {
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0045:env-0",
+        "task_id": 5,
+        "A_success": true,
+        "B_success": true,
+        "B_minus_A": 0,
+        "delta": 0
+      }
+    ],
+    "paired_B_minus_A": {
+      "mean": -0.03333333333333333,
+      "ci95_percentile": [
+        -0.1,
+        0.0
+      ],
+      "observations": 30,
+      "clusters": 30,
+      "strata": {
+        "0": 10,
+        "3": 10,
+        "5": 10
+      },
+      "repeats": 2000,
+      "seed": 1517,
+      "resampling_unit": "state_trial_id",
+      "stratified_by": "task_id",
+      "interpretation": "Exploratory fixed-development-panel interval; small n, post-selection, no significance or population claim."
+    },
+    "cost": {
+      "recorded_result_attempts": 120,
+      "unfinished_attempts_unknown_cost": 0,
+      "known_policy_calls": 1559,
+      "policy_calls_total": 1559,
+      "known_wall_seconds": 984.7407898157835,
+      "scope": "Episode attempts include simulator work; interrupted attempts require scheduler reconciliation. Not deployment latency."
+    },
+    "limits": "Only30 reused development states across3 tasks; no formal significance, seed replication or final-test conclusion."
   },
   "latency": {
     "status": "completed_latency_analysis",
@@ -22843,15 +23208,29 @@
           "exit_code": null,
           "elapsed_seconds": 223.0,
           "allocated_gpus": 1.0
+        },
+        {
+          "job_id": "2992331",
+          "state": "COMPLETED",
+          "exit_code": "0:0",
+          "elapsed_seconds": 238.0,
+          "allocated_gpus": 1.0
+        },
+        {
+          "job_id": "2992255",
+          "state": "COMPLETED",
+          "exit_code": "0:0",
+          "elapsed_seconds": 1553.0,
+          "allocated_gpus": 1.0
         }
       ],
       "missing_requested_jobs": [],
       "excluded_steps_or_unrequested_jobs": [],
       "states": {
-        "COMPLETED": 4
+        "COMPLETED": 6
       },
-      "known_allocated_gpu_hours": 0.4752777777777778,
-      "allocated_gpu_hours_total": 0.4752777777777778,
+      "known_allocated_gpu_hours": 0.9727777777777777,
+      "allocated_gpu_hours_total": 0.9727777777777777,
       "unfinished_jobs": [],
       "scope": "Allocation wall time × allocated GPUs; includes failed/retried jobs. Never add this to overlapping instrumented durations."
     },
@@ -22884,6 +23263,10 @@
     "F:\\CTI-VLA\\results\\g1_future_v1\\training\\B\\validation_0100.json": "38047df39b5c2c866e60bee18960f574e6547cd6a66fa2e82c4bf890654b0367",
     "F:\\CTI-VLA\\results\\g1_future_v1\\training\\train_finalization.json": "676bbdd2fc43aa778f4a51d0363917995dfc0ae10c3c55c9fb607996c44fd704",
     "F:\\CTI-VLA\\results\\g1_future_v1\\training\\training_summary.json": "67e0d2d85c9ca94c1baeda278ec384a1b58305132602f5065a7d704b5fb61d31",
+    "F:\\CTI-VLA\\results\\g1_future_v1\\closed_loop\\panel.json": "87e429c18b89977e5c0ff110554bc0e287d4df08b82e87cb0301c153bfef084b",
+    "F:\\CTI-VLA\\results\\g1_future_v1\\closed_loop\\config.json": "130b8432492d364e357e14d4d73079c316b8d1f7b0bc6df2a6f5260ceb947c70",
+    "F:\\CTI-VLA\\results\\g1_future_v1\\closed_loop\\closed_loop_report.json": "f1090b087fc21adb4cf8524f93810e74fdfd1feb69140911e7df526e29437002",
+    "F:\\CTI-VLA\\results\\g1_future_v1\\closed_loop\\trials.jsonl": "8692c9c8a300d393fda3f36aac7740d11017975d71d545140ac086ecf83f2090",
     "F:\\CTI-VLA\\results\\g1_future_v1\\latency\\measurements.json": "a0ef3375c4f71fe45e8fe52d4e6da9bae068fc8e175a074cf960fb66a9eea85c",
     "F:\\CTI-VLA\\results\\g1_future_v1\\latency\\summary.json": "0c3133235300aac69385caa10638895ddfc01cfc8fa65ddd9963aef1e445867f",
     "F:\\CTI-VLA\\results\\g1_future_v1\\latency\\calls.jsonl": "148aba4255de10b4e55b02945e3ef20e14e68ce53b31f3633ec8fdd7707c80e0",
@@ -22891,7 +23274,7 @@
     "F:\\CTI-VLA\\results\\g1_future_v1\\training\\A\\cost_events.jsonl": "23279be6c1d0a6613f07aae493fe7f66e3b73418948f9d0481f9eada37fed3c1",
     "F:\\CTI-VLA\\results\\g1_future_v1\\training\\B\\cost_events.jsonl": "6555ee1bef360a472d651842ef0b26ad32108012cfe8c30da09dabb7460ecbc2",
     "F:\\CTI-VLA\\results\\g1_future_v1\\training\\cost_events.jsonl": "c3fd4258ae7303396d97f25264778e8f7947498265c5ee4d4864eb521263ef74",
-    "F:\\CTI-VLA\\results\\g1_future_v1\\slurm_accounting.json": "9228ced86476a558b19737f00e36df60884b5d91f23215720721392cc309260b"
+    "F:\\CTI-VLA\\results\\g1_future_v1\\slurm_accounting.json": "adbb4d592a1657d7ade24c69cb0ae9e1d5adfe1ac7697c69a32f2b84e8bd4643"
   },
   "analyzer_sha256": "3959a3ce56a264d0aa97fd95cd8e7575d83b2c4198bae8d4ad3854afddecf1ba"
 }

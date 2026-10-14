@@ -1,0 +1,1786 @@
+{
+  "bootstrap": {
+    "repeated_observations_averaged_before_resampling": true,
+    "repeats": 2000,
+    "seed": 1117,
+    "unit": "episode"
+  },
+  "checkpoint_unchanged": true,
+  "components_separate_pass": [
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 16.80550422668457,
+        "median": 16.51136016845703,
+        "p95": 17.79866943359375
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 16.771823,
+        "median": 16.481625,
+        "p95": 17.7514772
+      },
+      "instruction_mode": "cold",
+      "method": "dense",
+      "phase": "preprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 29.051699447631837,
+        "median": 28.875776290893555,
+        "p95": 29.662618255615236
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 28.6312552,
+        "median": 28.444309,
+        "p95": 29.2523046
+      },
+      "instruction_mode": "cold",
+      "method": "dense",
+      "phase": "vision"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.002047999994829297,
+        "median": 0.002047999994829297,
+        "p95": 0.002047999994829297
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.0010129999999999998,
+        "median": 0.000996,
+        "p95": 0.0011502
+      },
+      "instruction_mode": "cold",
+      "method": "dense",
+      "phase": "condition_selection"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 76.61807403564453,
+        "median": 76.61817932128906,
+        "p95": 77.0010772705078
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 76.922136,
+        "median": 76.927164,
+        "p95": 77.3251016
+      },
+      "instruction_mode": "cold",
+      "method": "dense",
+      "phase": "policy"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.17908480167388915,
+        "median": 0.17632000148296356,
+        "p95": 0.19238400161266328
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.1588628,
+        "median": 0.155835,
+        "p95": 0.1714548
+      },
+      "instruction_mode": "cold",
+      "method": "dense",
+      "phase": "postprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 16.50108184814453,
+        "median": 16.532480239868164,
+        "p95": 16.82439727783203
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 16.4724498,
+        "median": 16.504423,
+        "p95": 16.795652
+      },
+      "instruction_mode": "hot",
+      "method": "dense",
+      "phase": "preprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 28.80798683166504,
+        "median": 28.705791473388672,
+        "p95": 29.514546585083007
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 28.3775558,
+        "median": 28.272524,
+        "p95": 29.0812774
+      },
+      "instruction_mode": "hot",
+      "method": "dense",
+      "phase": "vision"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.0018431999953463674,
+        "median": 0.002047999994829297,
+        "p95": 0.002047999994829297
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.0009476000000000002,
+        "median": 0.000916,
+        "p95": 0.0010194
+      },
+      "instruction_mode": "hot",
+      "method": "dense",
+      "phase": "condition_selection"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 77.01446533203125,
+        "median": 77.0888671875,
+        "p95": 77.32445983886718
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 77.3363898,
+        "median": 77.409058,
+        "p95": 77.65093660000001
+      },
+      "instruction_mode": "hot",
+      "method": "dense",
+      "phase": "policy"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.17099519968032836,
+        "median": 0.16806399822235107,
+        "p95": 0.18779520392417906
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.1502058,
+        "median": 0.143824,
+        "p95": 0.1680284
+      },
+      "instruction_mode": "hot",
+      "method": "dense",
+      "phase": "postprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 16.638156509399415,
+        "median": 16.61520004272461,
+        "p95": 17.09443130493164
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 16.6093118,
+        "median": 16.586232,
+        "p95": 17.065478
+      },
+      "instruction_mode": "cold",
+      "method": "future_A",
+      "phase": "preprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 28.666061019897462,
+        "median": 28.672000885009766,
+        "p95": 28.74019889831543
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 28.259792800000003,
+        "median": 28.265684,
+        "p95": 28.336412199999998
+      },
+      "instruction_mode": "cold",
+      "method": "future_A",
+      "phase": "vision"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 3.2861567974090575,
+        "median": 3.273792028427124,
+        "p95": 3.35480318069458
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 3.6091442000000002,
+        "median": 3.594516,
+        "p95": 3.6732506000000003
+      },
+      "instruction_mode": "cold",
+      "method": "future_A",
+      "phase": "condition_selection"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 35.19283218383789,
+        "median": 35.20671844482422,
+        "p95": 35.25064926147461
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 35.164790399999994,
+        "median": 35.178365,
+        "p95": 35.2226262
+      },
+      "instruction_mode": "cold",
+      "method": "future_A",
+      "phase": "policy"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.17594880163669585,
+        "median": 0.17375999689102173,
+        "p95": 0.18884479999542236
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.1557512,
+        "median": 0.153122,
+        "p95": 0.168761
+      },
+      "instruction_mode": "cold",
+      "method": "future_A",
+      "phase": "postprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 16.98842887878418,
+        "median": 16.73347282409668,
+        "p95": 17.938726043701173
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 16.9563526,
+        "median": 16.704559,
+        "p95": 17.8963902
+      },
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "phase": "preprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 29.296025466918945,
+        "median": 29.272064208984375,
+        "p95": 29.865164947509765
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 28.8923002,
+        "median": 28.867429,
+        "p95": 29.4615926
+      },
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "phase": "vision"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 3.3608704090118406,
+        "median": 3.3824961185455322,
+        "p95": 3.435648059844971
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 3.6806086000000002,
+        "median": 3.703473,
+        "p95": 3.7512543999999997
+      },
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "phase": "condition_selection"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 35.22399368286133,
+        "median": 35.239009857177734,
+        "p95": 35.28024826049805
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 35.196347200000005,
+        "median": 35.210721,
+        "p95": 35.252955
+      },
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "phase": "policy"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.18101119995117188,
+        "median": 0.1785919964313507,
+        "p95": 0.1921600043773651
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.16125899999999999,
+        "median": 0.159482,
+        "p95": 0.1721246
+      },
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "phase": "postprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 16.764851760864257,
+        "median": 16.53753662109375,
+        "p95": 17.670100021362305
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 16.732905799999997,
+        "median": 16.509221,
+        "p95": 17.628231800000002
+      },
+      "instruction_mode": "cold",
+      "method": "future_B",
+      "phase": "preprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 28.82089614868164,
+        "median": 28.519424438476562,
+        "p95": 29.864345932006835
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 28.4146606,
+        "median": 28.109037,
+        "p95": 29.464387000000002
+      },
+      "instruction_mode": "cold",
+      "method": "future_B",
+      "phase": "vision"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 3.2772736072540285,
+        "median": 3.229151964187622,
+        "p95": 3.4570240497589113
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 3.596812,
+        "median": 3.556659,
+        "p95": 3.7591368
+      },
+      "instruction_mode": "cold",
+      "method": "future_B",
+      "phase": "condition_selection"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 35.162035369873045,
+        "median": 35.1479377746582,
+        "p95": 35.2901252746582
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 35.1344156,
+        "median": 35.11962,
+        "p95": 35.262048
+      },
+      "instruction_mode": "cold",
+      "method": "future_B",
+      "phase": "policy"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.16695680022239684,
+        "median": 0.1626880019903183,
+        "p95": 0.18465280532836914
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.1471362,
+        "median": 0.14359,
+        "p95": 0.16420679999999999
+      },
+      "instruction_mode": "cold",
+      "method": "future_B",
+      "phase": "postprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 16.368402862548827,
+        "median": 16.38991928100586,
+        "p95": 16.4676025390625
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 16.338282400000004,
+        "median": 16.36131,
+        "p95": 16.434136
+      },
+      "instruction_mode": "hot",
+      "method": "future_B",
+      "phase": "preprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 28.420070266723634,
+        "median": 28.399616241455078,
+        "p95": 28.581068420410155
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 28.0102146,
+        "median": 27.991074,
+        "p95": 28.172068799999998
+      },
+      "instruction_mode": "hot",
+      "method": "future_B",
+      "phase": "vision"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 3.2021503925323485,
+        "median": 3.2037758827209473,
+        "p95": 3.220064067840576
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 3.5306264,
+        "median": 3.532229,
+        "p95": 3.5470433999999997
+      },
+      "instruction_mode": "hot",
+      "method": "future_B",
+      "phase": "condition_selection"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 35.14682846069336,
+        "median": 35.12684631347656,
+        "p95": 35.19532852172851
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 35.118382000000004,
+        "median": 35.098274,
+        "p95": 35.1676042
+      },
+      "instruction_mode": "hot",
+      "method": "future_B",
+      "phase": "policy"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.1600639969110489,
+        "median": 0.16067199409008026,
+        "p95": 0.16382079422473908
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.140397,
+        "median": 0.140574,
+        "p95": 0.1436816
+      },
+      "instruction_mode": "hot",
+      "method": "future_B",
+      "phase": "postprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 16.208640098571777,
+        "median": 16.197343826293945,
+        "p95": 16.35177001953125
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 16.180627,
+        "median": 16.170005,
+        "p95": 16.3221704
+      },
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "phase": "preprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 28.414771270751952,
+        "median": 28.464128494262695,
+        "p95": 28.588441848754883
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 27.9974558,
+        "median": 28.04494,
+        "p95": 28.1716486
+      },
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "phase": "vision"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.03215359970927238,
+        "median": 0.03174399957060814,
+        "p95": 0.03276799991726875
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.37851179999999995,
+        "median": 0.378414,
+        "p95": 0.38033
+      },
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "phase": "condition_selection"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 35.15639114379883,
+        "median": 35.16105651855469,
+        "p95": 35.220697021484376
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 35.129394000000005,
+        "median": 35.133914,
+        "p95": 35.1928838
+      },
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "phase": "policy"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.1586559981107712,
+        "median": 0.1582079976797104,
+        "p95": 0.16399359703063965
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.13886320000000002,
+        "median": 0.138588,
+        "p95": 0.1439326
+      },
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "phase": "postprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 16.68449287414551,
+        "median": 16.33286476135254,
+        "p95": 17.878982543945312
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 16.653042199999998,
+        "median": 16.305351,
+        "p95": 17.835357000000002
+      },
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "phase": "preprocess"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 28.861030197143556,
+        "median": 28.4979190826416,
+        "p95": 30.079385375976564
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 28.448459200000002,
+        "median": 28.084466,
+        "p95": 29.6713608
+      },
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "phase": "vision"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.03235839977860451,
+        "median": 0.03276799991726875,
+        "p95": 0.03276799991726875
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.37081240000000004,
+        "median": 0.374899,
+        "p95": 0.3774352
+      },
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "phase": "condition_selection"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 35.20545883178711,
+        "median": 35.13817596435547,
+        "p95": 35.421241760253906
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 35.177189,
+        "median": 35.110111,
+        "p95": 35.390574
+      },
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "phase": "policy"
+    },
+    {
+      "cuda_stream_elapsed_ms": {
+        "count": 5,
+        "mean": 0.1653567999601364,
+        "median": 0.16182400286197662,
+        "p95": 0.18334079384803773
+      },
+      "host_ms": {
+        "count": 5,
+        "mean": 0.1457104,
+        "median": 0.141545,
+        "p95": 0.16337279999999998
+      },
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "phase": "postprocess"
+    }
+  ],
+  "cost": {
+    "api_calls_attempted": 440,
+    "attempts_by_pass": {
+      "components": 40,
+      "main": 200,
+      "warmup": 200
+    },
+    "completed": 440,
+    "failed": 0,
+    "sample_policy_forwards_attempted": 440,
+    "scope": "Batch1 full-pipeline policy attempts; includes warmup/component passes. Hard-kill total wall/GPU cost requires scheduler accounting.",
+    "unknown_completion": 0
+  },
+  "execution_wall_seconds_including_model_loading": 212.2652151864022,
+  "interpretation": "Latency only. No success-rate, scientific go or acceleration claim without actual matched measurements.",
+  "journal_sha256": "5e359ca400ad277a283a742d1c0009f9a3908a0c18e36db76619bb88c87a9567",
+  "limitations": "Three development trajectories, up to nine fixed-step observations; no final-test or population claims. Cold/hot are identical uncached paths.",
+  "measurements_sha256": "440826ad834ec2ae641c1943b9c7b035a0243fba930ecacbf44eead6a0430449",
+  "paired_dense_comparisons": [
+    {
+      "episode_clusters": 3,
+      "instruction_mode": "cold",
+      "method": "future_A",
+      "observations": 5,
+      "speedup_ci95_episode_cluster": [
+        1.4460968511610623,
+        1.4737812995956479
+      ],
+      "speedup_ratio_of_paired_means": 1.4639735793713187
+    },
+    {
+      "episode_clusters": 3,
+      "instruction_mode": "cold",
+      "method": "future_B",
+      "observations": 5,
+      "speedup_ci95_episode_cluster": [
+        1.4530330863293726,
+        1.456727617321413
+      ],
+      "speedup_ratio_of_paired_means": 1.4555002812993394
+    },
+    {
+      "episode_clusters": 3,
+      "instruction_mode": "cold",
+      "method": "uniform128",
+      "observations": 5,
+      "speedup_ci95_episode_cluster": [
+        1.5003630386288898,
+        1.5315511001947897
+      ],
+      "speedup_ratio_of_paired_means": 1.5205785689194453
+    },
+    {
+      "episode_clusters": 3,
+      "instruction_mode": "hot",
+      "method": "future_A",
+      "observations": 5,
+      "speedup_ci95_episode_cluster": [
+        1.4515912721792459,
+        1.473149991590901
+      ],
+      "speedup_ratio_of_paired_means": 1.4638897283273538
+    },
+    {
+      "episode_clusters": 3,
+      "instruction_mode": "hot",
+      "method": "future_B",
+      "observations": 5,
+      "speedup_ci95_episode_cluster": [
+        1.4121677913004822,
+        1.470486475964064
+      ],
+      "speedup_ratio_of_paired_means": 1.452994462765928
+    },
+    {
+      "episode_clusters": 3,
+      "instruction_mode": "hot",
+      "method": "uniform128",
+      "observations": 5,
+      "speedup_ci95_episode_cluster": [
+        1.5197864600475541,
+        1.530531859771445
+      ],
+      "speedup_ratio_of_paired_means": 1.5263670403153464
+    }
+  ],
+  "panel": {
+    "collection_cost_excluded": [
+      {
+        "policy_calls": 10,
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "wall_seconds": 13.865655168890953
+      },
+      {
+        "policy_calls": 11,
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0",
+        "wall_seconds": 9.511440658941865
+      },
+      {
+        "policy_calls": 11,
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "wall_seconds": 9.75134857930243
+      }
+    ],
+    "content_signature": "d245d55780b65fbe9de7272af7fac42827600c2d2a9f5507fd8be912c99c6938",
+    "episodes": 3,
+    "missing": [
+      {
+        "control_step": 80,
+        "reason": "dense_trajectory_ended_before_query",
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "termination": "environment_success"
+      },
+      {
+        "control_step": 160,
+        "reason": "dense_trajectory_ended_before_query",
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "termination": "environment_success"
+      },
+      {
+        "control_step": 160,
+        "reason": "dense_trajectory_ended_before_query",
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0",
+        "termination": "environment_success"
+      },
+      {
+        "control_step": 160,
+        "reason": "dense_trajectory_ended_before_query",
+        "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "termination": "environment_success"
+      }
+    ],
+    "observations": 5,
+    "panel_sha256": "ea3cc370c2c6c76a72748c59262878d8eeba8ddbd76f980c5c6a71febacada05",
+    "provenance": {
+      "action_version": "libero-oft-boundsq99-gripper-sign-invert-chunk8-v1",
+      "checkpoint": {
+        "file_count": 25,
+        "repository": "moojink/openvla-7b-oft-finetuned-libero-spatial",
+        "revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+        "total_bytes": 15939159216
+      },
+      "checkpoint_unchanged": true,
+      "environment_seed": 0,
+      "hardware": {
+        "cpu": "x86_64",
+        "cpu_affinity": [
+          16,
+          17,
+          18,
+          48,
+          49,
+          50,
+          51
+        ],
+        "cpu_count": 56,
+        "nvidia_smi_columns": [
+          "index",
+          "uuid",
+          "name",
+          "driver_version",
+          "temperature.gpu",
+          "power.draw",
+          "clocks.current.sm",
+          "clocks.current.memory",
+          "memory.used",
+          "utilization.gpu"
+        ],
+        "nvidia_smi_rows": [
+          "0, GPU-79c18977-d2b1-2b81-820a-3c35560a306c, NVIDIA L40, 550.54.14, 41, 83.59, 2490, 9000, 15222, 0"
+        ],
+        "python": "3.11.7",
+        "slurm": {
+          "SLURM_CPUS_PER_TASK": "7",
+          "SLURM_JOB_GPUS": "6",
+          "SLURM_JOB_ID": "2992210",
+          "SLURM_MEM_PER_NODE": "65536"
+        },
+        "torch": "2.2.0+cu121",
+        "torch_cuda": "12.1"
+      },
+      "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+      "model_loading_seconds_excluded": 88.89856919832528,
+      "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+      "packing_version": "oft-original-positions-v1",
+      "panel_signature": "c0cb19b35897e859d7066acd69fa326f3ea36180678005ab6a985c8c0a582242",
+      "runtime_sha256": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+      "seed": 17,
+      "source_files": {
+        "scripts/collect_future_profile_panel.py": "df20df2ec4ea689c1add25190178e0bd7120af3929c264d8132d7437de3dea29",
+        "scripts/eval_libero.py": "e87825393086eb544c75d12dbf9fa22298e09ef5d8a6aeb90a3f51cf7dba2cde",
+        "src/cti_vla/__init__.py": "87c57d36dbb197ab4f3fce8a04ba4210ce59db2aeaff25ea4426436c21238511",
+        "src/cti_vla/data/__init__.py": "488a6651949594b79df67ab5bbdc2453119fe7230efd542ec6dafc2bd590c86d",
+        "src/cti_vla/data/experiment_protocol.py": "6a58b2393db41bc401a87e24ded424b7316846bae93660cb2d34a6dc4a3a2334",
+        "src/cti_vla/data/future_windows.py": "4bf5592d6d2c5675ea6b4b7f1b7e68c659d9d41e8b9e5e862a26fab3e2e4553e",
+        "src/cti_vla/data/identity.py": "c785ecca08cfff340c71cb4bf1cc9236c78f1c1d7e868e9308f96e263040cb5d",
+        "src/cti_vla/data/initial_states.py": "34b73213fce668575b29a3fb52a63fee0b8914c8ef3eba04466dda8de9703383",
+        "src/cti_vla/data/libero.py": "b2b9599f9fbb407aa69f008fb679f2d8b04855ab63c9b7e866c1d8f046d8fde2",
+        "src/cti_vla/data/sequence_example.py": "136f246fc5b8cc5fccc9323ad5a1e8529f225e4e5447a494e3fda12d8d5fd101",
+        "src/cti_vla/data/tfrecord.py": "56c2ebf85d4745497f7047360ff1584c731630d594d55e469a54a27155abca5f",
+        "src/cti_vla/evaluation/__init__.py": "9eb6f1c2d411a1b0b2a7f36cbd48190da76b750ef033909169370b43e8211913",
+        "src/cti_vla/evaluation/checkpoint_manifest.py": "6bad8f22b9b683de4785a3f05827f6383759a5689ca178efe71ea078211f368a",
+        "src/cti_vla/evaluation/condition_diagnostics.py": "5f93c34de5c503584c3fc081b17e8034d7a292152fb371bb382777b840ac2555",
+        "src/cti_vla/evaluation/conditional_smoke.py": "543574dec07ba7c89c858168b4910a2d18acd76260a7c59c20441c1adf6b6a37",
+        "src/cti_vla/evaluation/future_profiling.py": "6c3c47c4110fe56191e98e9b5302c9fcc3a265f84937101019e65afe18b11c31",
+        "src/cti_vla/evaluation/future_runtime.py": "4f1262c1b09f31e45404c9cd2972954848238d8e6008f93f9b122eafb2a8971b",
+        "src/cti_vla/evaluation/future_trials.py": "e997fe4c8c142fbadf2eb7995e426f7bb0c3890633b1f0605245bfd16bcc62a4",
+        "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+        "src/cti_vla/evaluation/profiling.py": "648cf11400b0d70f2e4ee99fd8d4c26f917b38957b546ad5bfc578915d1d0404",
+        "src/cti_vla/evaluation/selector_runtime.py": "67c5915c20b39ea41f533e8c4f7eeb5ef32343a37f71b0e681d72ae0d9ae1086",
+        "src/cti_vla/evaluation/selector_trials.py": "fb543fc494f0da3d0420960be19e3b3a7417e2a12ae389d7ebce2cd585e3096f",
+        "src/cti_vla/evaluation/teacher_diagnostics.py": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd",
+        "src/cti_vla/labeling/__init__.py": "5fb5e4c95e5b5101b90ae1c8cf132db259737884fe828c48d37ac088f3a1c1b9",
+        "src/cti_vla/labeling/cache.py": "42584ece20fb45a3186f05ecf890d89c1d4ae78c7b13f3fb4a65764e3268676c",
+        "src/cti_vla/labeling/deletion.py": "51f1f0d8aa793bdf727e1f4a92c39f1bf873a74328181f631fba239e8836171a",
+        "src/cti_vla/labeling/sampling.py": "81e8a6f63f8ce8da74aa5001efbfc05b0b2fc41df49bdec51c1dfa5c90517f04",
+        "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+        "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+        "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+        "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+        "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+        "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+        "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+        "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb",
+        "src/cti_vla/selection/__init__.py": "2a05c0aa803c280c1308d8fe0c538faa29e21acbb13ecc2c915251e352360385",
+        "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+        "src/cti_vla/training/__init__.py": "2e724e5b30883dfa7d96acb58aa9501200f91d1341414f8492788c8d916b5a6f",
+        "src/cti_vla/training/conditional.py": "354e014a5076543bab9046e9987e691d450ae6db7b48c043685a27303aa6a31c",
+        "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+        "src/cti_vla/training/offline.py": "a9ea3f98c52a15da31c645601a7a83cd3f4d40a28762325f3233b15f98d731d8"
+      },
+      "source_verification": {
+        "libero": {
+          "archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+          "file_count": 1116,
+          "inventory_sha256": "9e8bda25148b1258fb569ae81fbb2b2a858c570ad5b7e884082b7df24f8ab0d8",
+          "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+          "verification": "archive_all_files_sha256"
+        },
+        "oft": {
+          "archive_sha256": "b3c1d3ae654393c13e2eb8006bb68ea9854ec33a7306663455c94838858e5fd7",
+          "file_count": 112,
+          "inventory_sha256": "01b233e95f4ff1d6f839b690ba8aa96e4aa65366c78adc638e76907953762e68",
+          "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+          "verification": "archive_all_files_sha256"
+        }
+      },
+      "state_trial_ids": [
+        "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+        "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0",
+        "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0"
+      ],
+      "stats_key": "libero_spatial_no_noops",
+      "test_opened": false,
+      "version": "g1f-development-dense-control-0-80-160-v1",
+      "watched": {
+        "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g0_20261014_v1/g0_acceptance.json": "f43e681c576ab8d48073c04674d5cd316e72e8eea7c3db72d1d91e8a7a411c03",
+        "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/assets/openvla_oft_libero_spatial.json": "8df1d2af695dff20f8e554f2f11353a35ef9acd7c32f5d73cd94bc170b7b6350",
+        "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/manifests/spatial_initial_states_v1/g0_development_15.json": "632ccaad8a2d44892d7f4aa1cd6cf6880fd16da8eb99e0792acb8eed142cff5b",
+        "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/manifests/spatial_initial_states_v1/init_states_development.json": "d06a3d76fdf577f023ff29cf1088f73fc514cb20c549c97d000a8bb4ff724f9e"
+      }
+    },
+    "split": "development",
+    "target_observations": 9,
+    "test_opened": false,
+    "version": "g1f-development-dense-control-0-80-160-v1"
+  },
+  "primary": [
+    {
+      "by_round": {
+        "0": {
+          "count": 5,
+          "mean": 121.59385219999999,
+          "median": 121.326417,
+          "p95": 122.6442406
+        },
+        "1": {
+          "count": 5,
+          "mean": 122.30127659999998,
+          "median": 121.864598,
+          "p95": 123.53326
+        },
+        "2": {
+          "count": 5,
+          "mean": 122.6189646,
+          "median": 122.05435,
+          "p95": 124.449543
+        },
+        "3": {
+          "count": 5,
+          "mean": 124.44111559999999,
+          "median": 125.444146,
+          "p95": 126.1428392
+        },
+        "4": {
+          "count": 5,
+          "mean": 121.796843,
+          "median": 121.730561,
+          "p95": 122.8411852
+        }
+      },
+      "count": 25,
+      "instruction_mode": "cold",
+      "mean": 122.55041039999998,
+      "median": 121.994463,
+      "method": "dense",
+      "p95": 125.7292708,
+      "peak_memory_bytes": {
+        "peak_allocated": 15549822976,
+        "peak_reserved": 15623782400
+      }
+    },
+    {
+      "by_round": {
+        "0": {
+          "count": 5,
+          "mean": 83.0490048,
+          "median": 83.144729,
+          "p95": 83.4507938
+        },
+        "1": {
+          "count": 5,
+          "mean": 84.1687532,
+          "median": 83.505299,
+          "p95": 86.388072
+        },
+        "2": {
+          "count": 5,
+          "mean": 82.9087428,
+          "median": 82.754724,
+          "p95": 83.2926572
+        },
+        "3": {
+          "count": 5,
+          "mean": 84.27148120000001,
+          "median": 83.773842,
+          "p95": 85.9946652
+        },
+        "4": {
+          "count": 5,
+          "mean": 84.1560552,
+          "median": 83.28819,
+          "p95": 86.7287072
+        }
+      },
+      "count": 25,
+      "instruction_mode": "cold",
+      "mean": 83.71080744,
+      "median": 83.3085,
+      "method": "future_A",
+      "p95": 86.93531859999999,
+      "peak_memory_bytes": {
+        "peak_allocated": 15517355520,
+        "peak_reserved": 15623782400
+      }
+    },
+    {
+      "by_round": {
+        "0": {
+          "count": 5,
+          "mean": 83.35568559999999,
+          "median": 83.401869,
+          "p95": 83.6058554
+        },
+        "1": {
+          "count": 5,
+          "mean": 83.1704178,
+          "median": 83.102584,
+          "p95": 83.5324738
+        },
+        "2": {
+          "count": 5,
+          "mean": 87.2604742,
+          "median": 86.389345,
+          "p95": 90.7603666
+        },
+        "3": {
+          "count": 5,
+          "mean": 84.147797,
+          "median": 83.897655,
+          "p95": 86.3938568
+        },
+        "4": {
+          "count": 5,
+          "mean": 83.0563046,
+          "median": 83.080706,
+          "p95": 83.572086
+        }
+      },
+      "count": 25,
+      "instruction_mode": "cold",
+      "mean": 84.19813583999999,
+      "median": 83.401869,
+      "method": "future_B",
+      "p95": 87.9380144,
+      "peak_memory_bytes": {
+        "peak_allocated": 15517355520,
+        "peak_reserved": 15623782400
+      }
+    },
+    {
+      "by_round": {
+        "0": {
+          "count": 5,
+          "mean": 79.9317392,
+          "median": 79.879391,
+          "p95": 80.248985
+        },
+        "1": {
+          "count": 5,
+          "mean": 80.93843480000001,
+          "median": 80.203537,
+          "p95": 83.1964802
+        },
+        "2": {
+          "count": 5,
+          "mean": 81.01224239999999,
+          "median": 80.273881,
+          "p95": 83.172389
+        },
+        "3": {
+          "count": 5,
+          "mean": 81.1566282,
+          "median": 80.578782,
+          "p95": 83.4801424
+        },
+        "4": {
+          "count": 5,
+          "mean": 79.9339188,
+          "median": 79.855815,
+          "p95": 80.24988
+        }
+      },
+      "count": 25,
+      "instruction_mode": "cold",
+      "mean": 80.59459267999999,
+      "median": 80.153838,
+      "method": "uniform128",
+      "p95": 83.8282328,
+      "peak_memory_bytes": {
+        "peak_allocated": 15506541568,
+        "peak_reserved": 15623782400
+      }
+    },
+    {
+      "by_round": {
+        "0": {
+          "count": 5,
+          "mean": 122.6651722,
+          "median": 122.506716,
+          "p95": 123.1601064
+        },
+        "1": {
+          "count": 5,
+          "mean": 121.9769006,
+          "median": 121.923785,
+          "p95": 122.5890532
+        },
+        "2": {
+          "count": 5,
+          "mean": 121.88870120000001,
+          "median": 121.659544,
+          "p95": 122.6357592
+        },
+        "3": {
+          "count": 5,
+          "mean": 123.8458348,
+          "median": 122.435763,
+          "p95": 128.7338684
+        },
+        "4": {
+          "count": 5,
+          "mean": 121.9502526,
+          "median": 121.520315,
+          "p95": 123.88569460000001
+        }
+      },
+      "count": 25,
+      "instruction_mode": "hot",
+      "mean": 122.46537228000001,
+      "median": 121.923785,
+      "method": "dense",
+      "p95": 124.2816684,
+      "peak_memory_bytes": {
+        "peak_allocated": 15549822976,
+        "peak_reserved": 15623782400
+      }
+    },
+    {
+      "by_round": {
+        "0": {
+          "count": 5,
+          "mean": 83.0138144,
+          "median": 82.805313,
+          "p95": 83.7073918
+        },
+        "1": {
+          "count": 5,
+          "mean": 84.0146522,
+          "median": 84.179898,
+          "p95": 84.6579014
+        },
+        "2": {
+          "count": 5,
+          "mean": 83.730477,
+          "median": 83.099514,
+          "p95": 85.9546852
+        },
+        "3": {
+          "count": 5,
+          "mean": 84.3752078,
+          "median": 83.845171,
+          "p95": 86.87572399999999
+        },
+        "4": {
+          "count": 5,
+          "mean": 83.15340780000001,
+          "median": 83.20269,
+          "p95": 83.279361
+        }
+      },
+      "count": 25,
+      "instruction_mode": "hot",
+      "mean": 83.65751184000001,
+      "median": 83.20269,
+      "method": "future_A",
+      "p95": 86.17547,
+      "peak_memory_bytes": {
+        "peak_allocated": 15517355520,
+        "peak_reserved": 15623782400
+      }
+    },
+    {
+      "by_round": {
+        "0": {
+          "count": 5,
+          "mean": 83.446442,
+          "median": 83.697253,
+          "p95": 83.9046174
+        },
+        "1": {
+          "count": 5,
+          "mean": 86.4553162,
+          "median": 83.700159,
+          "p95": 93.59284339999999
+        },
+        "2": {
+          "count": 5,
+          "mean": 84.3252012,
+          "median": 84.134172,
+          "p95": 85.89807859999999
+        },
+        "3": {
+          "count": 5,
+          "mean": 83.0750976,
+          "median": 83.302792,
+          "p95": 83.34753140000001
+        },
+        "4": {
+          "count": 5,
+          "mean": 84.1220276,
+          "median": 83.324106,
+          "p95": 86.5703158
+        }
+      },
+      "count": 25,
+      "instruction_mode": "hot",
+      "mean": 84.28481692,
+      "median": 83.563129,
+      "method": "future_B",
+      "p95": 87.0179546,
+      "peak_memory_bytes": {
+        "peak_allocated": 15517355520,
+        "peak_reserved": 15623782400
+      }
+    },
+    {
+      "by_round": {
+        "0": {
+          "count": 5,
+          "mean": 80.0614678,
+          "median": 79.930591,
+          "p95": 80.709977
+        },
+        "1": {
+          "count": 5,
+          "mean": 79.9211102,
+          "median": 79.855393,
+          "p95": 80.1018662
+        },
+        "2": {
+          "count": 5,
+          "mean": 80.0685306,
+          "median": 79.971395,
+          "p95": 80.55928340000001
+        },
+        "3": {
+          "count": 5,
+          "mean": 80.40660199999999,
+          "median": 80.346244,
+          "p95": 81.0142736
+        },
+        "4": {
+          "count": 5,
+          "mean": 80.70848679999999,
+          "median": 80.092559,
+          "p95": 82.5916792
+        }
+      },
+      "count": 25,
+      "instruction_mode": "hot",
+      "mean": 80.23323948000001,
+      "median": 79.984581,
+      "method": "uniform128",
+      "p95": 81.0926354,
+      "peak_memory_bytes": {
+        "peak_allocated": 15506541568,
+        "peak_reserved": 15623782400
+      }
+    }
+  ],
+  "provenance": {
+    "action_version": "libero-oft-boundsq99-gripper-sign-invert-chunk8-v1",
+    "checkpoint_hashes": {
+      "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/g1_future_v1/A/best.pt": "a83899098104e495c352b5833ab0feee3644e031a94d647561a0d679e60e1562",
+      "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/g1_future_v1/B/best.pt": "e8b8f8c5cd4c8783c4655a7628d6d84e6865a799bc29fb85c31d5f744a08e82c",
+      "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1/acceptance/f01_acceptance.json": "9fa75f9241b414cb35e8080e88b385b99f2fdc2734e041c54b26fdf16a1b7c52",
+      "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1/profile_panel/panel.json": "ea3cc370c2c6c76a72748c59262878d8eeba8ddbd76f980c5c6a71febacada05",
+      "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1/training/A/deployment_receipt.json": "26a78e3de076a5509925bb675627d7382483ecee6d9453e2aae87eb9f3aa120e",
+      "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_v1/training/B/deployment_receipt.json": "633c7ee7c1a712ce1e9e5717c474558c4dcefccb271a56e42fe9371765805092",
+      "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/assets/openvla_oft_libero_spatial.json": "8df1d2af695dff20f8e554f2f11353a35ef9acd7c32f5d73cd94bc170b7b6350",
+      "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/experiments/g1_future_v1.json": "9be33be05a4889b27ea304332fc21bf41402fd8cb7f36123c4ceb025942ee9c6",
+      "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/manifests/spatial_future_v1/windows.json": "e63a30e4c0f63dd7008241f828cab794628be5268f38bd641ce75a12eb6ea66b",
+      "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/manifests/spatial_g0g1_v1/protocol.json": "38a8d34b78d3d04e31e80aeae5804c4abc41ffcc00195bfc1a66946167ecd12a"
+    },
+    "compile": "disabled; native eager SDPA",
+    "config": {
+      "component_repeats": 1,
+      "instruction_modes": [
+        "cold",
+        "hot"
+      ],
+      "order_seed": 1017,
+      "repeats": 5,
+      "synthetic": false,
+      "warmup_calls": 50
+    },
+    "hardware": {
+      "cpu": "x86_64",
+      "cpu_affinity": [
+        14,
+        15,
+        16,
+        31,
+        34,
+        35,
+        36
+      ],
+      "cpu_count": 56,
+      "nvidia_smi_columns": [
+        "index",
+        "uuid",
+        "name",
+        "driver_version",
+        "temperature.gpu",
+        "power.draw",
+        "clocks.current.sm",
+        "clocks.current.memory",
+        "memory.used",
+        "utilization.gpu"
+      ],
+      "nvidia_smi_rows": [
+        "0, GPU-4bd3aba5-9ede-44d6-5136-f2878c48b6d4, NVIDIA L40, 550.54.14, 38, 81.85, 2490, 9000, 15222, 0"
+      ],
+      "python": "3.11.7",
+      "slurm": {
+        "SLURM_CPUS_PER_TASK": "7",
+        "SLURM_JOB_GPUS": "3",
+        "SLURM_JOB_ID": "2992331",
+        "SLURM_MEM_PER_NODE": "65536"
+      },
+      "torch": "2.2.0+cu121",
+      "torch_cuda": "12.1"
+    },
+    "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+    "language_cache_enabled": false,
+    "limitations": "Three development trajectories, up to nine fixed-step observations; no final-test or population claims. Cold/hot are identical uncached paths.",
+    "methods": [
+      "dense",
+      "uniform128",
+      "future_A",
+      "future_B"
+    ],
+    "model_loading_seconds_excluded": 85.69444032013416,
+    "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+    "packing_version": "oft-original-positions-v1",
+    "pair_id": "34008a5d977eb61b64a3879b54a9dd9780f83f89b8c678c678ce64128b516326",
+    "panel": {
+      "collection_cost_excluded": [
+        {
+          "policy_calls": 10,
+          "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+          "wall_seconds": 13.865655168890953
+        },
+        {
+          "policy_calls": 11,
+          "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0",
+          "wall_seconds": 9.511440658941865
+        },
+        {
+          "policy_calls": 11,
+          "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+          "wall_seconds": 9.75134857930243
+        }
+      ],
+      "content_signature": "d245d55780b65fbe9de7272af7fac42827600c2d2a9f5507fd8be912c99c6938",
+      "episodes": 3,
+      "missing": [
+        {
+          "control_step": 80,
+          "reason": "dense_trajectory_ended_before_query",
+          "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+          "termination": "environment_success"
+        },
+        {
+          "control_step": 160,
+          "reason": "dense_trajectory_ended_before_query",
+          "state_trial_id": "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+          "termination": "environment_success"
+        },
+        {
+          "control_step": 160,
+          "reason": "dense_trajectory_ended_before_query",
+          "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0",
+          "termination": "environment_success"
+        },
+        {
+          "control_step": 160,
+          "reason": "dense_trajectory_ended_before_query",
+          "state_trial_id": "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+          "termination": "environment_success"
+        }
+      ],
+      "observations": 5,
+      "panel_sha256": "ea3cc370c2c6c76a72748c59262878d8eeba8ddbd76f980c5c6a71febacada05",
+      "provenance": {
+        "action_version": "libero-oft-boundsq99-gripper-sign-invert-chunk8-v1",
+        "checkpoint": {
+          "file_count": 25,
+          "repository": "moojink/openvla-7b-oft-finetuned-libero-spatial",
+          "revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+          "total_bytes": 15939159216
+        },
+        "checkpoint_unchanged": true,
+        "environment_seed": 0,
+        "hardware": {
+          "cpu": "x86_64",
+          "cpu_affinity": [
+            16,
+            17,
+            18,
+            48,
+            49,
+            50,
+            51
+          ],
+          "cpu_count": 56,
+          "nvidia_smi_columns": [
+            "index",
+            "uuid",
+            "name",
+            "driver_version",
+            "temperature.gpu",
+            "power.draw",
+            "clocks.current.sm",
+            "clocks.current.memory",
+            "memory.used",
+            "utilization.gpu"
+          ],
+          "nvidia_smi_rows": [
+            "0, GPU-79c18977-d2b1-2b81-820a-3c35560a306c, NVIDIA L40, 550.54.14, 41, 83.59, 2490, 9000, 15222, 0"
+          ],
+          "python": "3.11.7",
+          "slurm": {
+            "SLURM_CPUS_PER_TASK": "7",
+            "SLURM_JOB_GPUS": "6",
+            "SLURM_JOB_ID": "2992210",
+            "SLURM_MEM_PER_NODE": "65536"
+          },
+          "torch": "2.2.0+cu121",
+          "torch_cuda": "12.1"
+        },
+        "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+        "model_loading_seconds_excluded": 88.89856919832528,
+        "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+        "packing_version": "oft-original-positions-v1",
+        "panel_signature": "c0cb19b35897e859d7066acd69fa326f3ea36180678005ab6a985c8c0a582242",
+        "runtime_sha256": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+        "seed": 17,
+        "source_files": {
+          "scripts/collect_future_profile_panel.py": "df20df2ec4ea689c1add25190178e0bd7120af3929c264d8132d7437de3dea29",
+          "scripts/eval_libero.py": "e87825393086eb544c75d12dbf9fa22298e09ef5d8a6aeb90a3f51cf7dba2cde",
+          "src/cti_vla/__init__.py": "87c57d36dbb197ab4f3fce8a04ba4210ce59db2aeaff25ea4426436c21238511",
+          "src/cti_vla/data/__init__.py": "488a6651949594b79df67ab5bbdc2453119fe7230efd542ec6dafc2bd590c86d",
+          "src/cti_vla/data/experiment_protocol.py": "6a58b2393db41bc401a87e24ded424b7316846bae93660cb2d34a6dc4a3a2334",
+          "src/cti_vla/data/future_windows.py": "4bf5592d6d2c5675ea6b4b7f1b7e68c659d9d41e8b9e5e862a26fab3e2e4553e",
+          "src/cti_vla/data/identity.py": "c785ecca08cfff340c71cb4bf1cc9236c78f1c1d7e868e9308f96e263040cb5d",
+          "src/cti_vla/data/initial_states.py": "34b73213fce668575b29a3fb52a63fee0b8914c8ef3eba04466dda8de9703383",
+          "src/cti_vla/data/libero.py": "b2b9599f9fbb407aa69f008fb679f2d8b04855ab63c9b7e866c1d8f046d8fde2",
+          "src/cti_vla/data/sequence_example.py": "136f246fc5b8cc5fccc9323ad5a1e8529f225e4e5447a494e3fda12d8d5fd101",
+          "src/cti_vla/data/tfrecord.py": "56c2ebf85d4745497f7047360ff1584c731630d594d55e469a54a27155abca5f",
+          "src/cti_vla/evaluation/__init__.py": "9eb6f1c2d411a1b0b2a7f36cbd48190da76b750ef033909169370b43e8211913",
+          "src/cti_vla/evaluation/checkpoint_manifest.py": "6bad8f22b9b683de4785a3f05827f6383759a5689ca178efe71ea078211f368a",
+          "src/cti_vla/evaluation/condition_diagnostics.py": "5f93c34de5c503584c3fc081b17e8034d7a292152fb371bb382777b840ac2555",
+          "src/cti_vla/evaluation/conditional_smoke.py": "543574dec07ba7c89c858168b4910a2d18acd76260a7c59c20441c1adf6b6a37",
+          "src/cti_vla/evaluation/future_profiling.py": "6c3c47c4110fe56191e98e9b5302c9fcc3a265f84937101019e65afe18b11c31",
+          "src/cti_vla/evaluation/future_runtime.py": "4f1262c1b09f31e45404c9cd2972954848238d8e6008f93f9b122eafb2a8971b",
+          "src/cti_vla/evaluation/future_trials.py": "e997fe4c8c142fbadf2eb7995e426f7bb0c3890633b1f0605245bfd16bcc62a4",
+          "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+          "src/cti_vla/evaluation/profiling.py": "648cf11400b0d70f2e4ee99fd8d4c26f917b38957b546ad5bfc578915d1d0404",
+          "src/cti_vla/evaluation/selector_runtime.py": "67c5915c20b39ea41f533e8c4f7eeb5ef32343a37f71b0e681d72ae0d9ae1086",
+          "src/cti_vla/evaluation/selector_trials.py": "fb543fc494f0da3d0420960be19e3b3a7417e2a12ae389d7ebce2cd585e3096f",
+          "src/cti_vla/evaluation/teacher_diagnostics.py": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd",
+          "src/cti_vla/labeling/__init__.py": "5fb5e4c95e5b5101b90ae1c8cf132db259737884fe828c48d37ac088f3a1c1b9",
+          "src/cti_vla/labeling/cache.py": "42584ece20fb45a3186f05ecf890d89c1d4ae78c7b13f3fb4a65764e3268676c",
+          "src/cti_vla/labeling/deletion.py": "51f1f0d8aa793bdf727e1f4a92c39f1bf873a74328181f631fba239e8836171a",
+          "src/cti_vla/labeling/sampling.py": "81e8a6f63f8ce8da74aa5001efbfc05b0b2fc41df49bdec51c1dfa5c90517f04",
+          "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+          "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+          "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+          "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+          "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+          "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+          "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+          "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb",
+          "src/cti_vla/selection/__init__.py": "2a05c0aa803c280c1308d8fe0c538faa29e21acbb13ecc2c915251e352360385",
+          "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+          "src/cti_vla/training/__init__.py": "2e724e5b30883dfa7d96acb58aa9501200f91d1341414f8492788c8d916b5a6f",
+          "src/cti_vla/training/conditional.py": "354e014a5076543bab9046e9987e691d450ae6db7b48c043685a27303aa6a31c",
+          "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+          "src/cti_vla/training/offline.py": "a9ea3f98c52a15da31c645601a7a83cd3f4d40a28762325f3233b15f98d731d8"
+        },
+        "source_verification": {
+          "libero": {
+            "archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+            "file_count": 1116,
+            "inventory_sha256": "9e8bda25148b1258fb569ae81fbb2b2a858c570ad5b7e884082b7df24f8ab0d8",
+            "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+            "verification": "archive_all_files_sha256"
+          },
+          "oft": {
+            "archive_sha256": "b3c1d3ae654393c13e2eb8006bb68ea9854ec33a7306663455c94838858e5fd7",
+            "file_count": 112,
+            "inventory_sha256": "01b233e95f4ff1d6f839b690ba8aa96e4aa65366c78adc638e76907953762e68",
+            "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+            "verification": "archive_all_files_sha256"
+          }
+        },
+        "state_trial_ids": [
+          "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0",
+          "libero_spatial:pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate:state-0001:env-0",
+          "libero_spatial:pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate:state-0003:env-0"
+        ],
+        "stats_key": "libero_spatial_no_noops",
+        "test_opened": false,
+        "version": "g1f-development-dense-control-0-80-160-v1",
+        "watched": {
+          "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g0_20261014_v1/g0_acceptance.json": "f43e681c576ab8d48073c04674d5cd316e72e8eea7c3db72d1d91e8a7a411c03",
+          "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/assets/openvla_oft_libero_spatial.json": "8df1d2af695dff20f8e554f2f11353a35ef9acd7c32f5d73cd94bc170b7b6350",
+          "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/manifests/spatial_initial_states_v1/g0_development_15.json": "632ccaad8a2d44892d7f4aa1cd6cf6880fd16da8eb99e0792acb8eed142cff5b",
+          "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_eval_v1/configs/manifests/spatial_initial_states_v1/init_states_development.json": "d06a3d76fdf577f023ff29cf1088f73fc514cb20c549c97d000a8bb4ff724f9e"
+        }
+      },
+      "split": "development",
+      "target_observations": 9,
+      "test_opened": false,
+      "version": "g1f-development-dense-control-0-80-160-v1"
+    },
+    "runtime_sha256": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+    "selector_provenance": {
+      "A": {
+        "arm": "A",
+        "base_frozen": true,
+        "checkpoint_unchanged": true,
+        "condition_mode": "all",
+        "condition_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1:libero_spatial_no_noops:frozen-prompt-embeddings",
+        "config_sha256": "882ca01504d31e0af6ba88ec31449f07f435e384839f1d71b9da1c583aeb5743",
+        "deployment_receipt_sha256": "5c79da25c1769084e628077787b3279a5ddfabb0c1964ceb5716a85e3a5060e6",
+        "f01_report_sha256": "9fa75f9241b414cb35e8080e88b385b99f2fdc2734e041c54b26fdf16a1b7c52",
+        "future_head_deployed": false,
+        "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+        "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+        "packing_version": "oft-original-positions-v1",
+        "pair_id": "34008a5d977eb61b64a3879b54a9dd9780f83f89b8c678c678ce64128b516326",
+        "runtime_version": "g1-f-full512-score-once-hard128-deployment-v1",
+        "schema": "g1_future_v1",
+        "scorer_dimensions": {
+          "hidden_dim": 256,
+          "language_dim": 4096,
+          "max_instruction_tokens": 128,
+          "num_cameras": 2,
+          "patches_per_camera": 256,
+          "proprio_dim": 8,
+          "token_dim": 4096
+        },
+        "seed": 17,
+        "selection_metric": "hard_validation_teacher_l1",
+        "selection_mode": "full512_score_once_camera64",
+        "selector_checkpoint_sha256": "a83899098104e495c352b5833ab0feee3644e031a94d647561a0d679e60e1562",
+        "stats_key": "libero_spatial_no_noops",
+        "training_complete": false,
+        "training_source_files": {
+          "scripts/run_g1_future.py": "1213feb240cc17add7339ebd76e9e18f798048a049f276297ff83974bc39fdf6",
+          "src/cti_vla/__init__.py": "87c57d36dbb197ab4f3fce8a04ba4210ce59db2aeaff25ea4426436c21238511",
+          "src/cti_vla/data/__init__.py": "488a6651949594b79df67ab5bbdc2453119fe7230efd542ec6dafc2bd590c86d",
+          "src/cti_vla/data/experiment_protocol.py": "6a58b2393db41bc401a87e24ded424b7316846bae93660cb2d34a6dc4a3a2334",
+          "src/cti_vla/data/future_windows.py": "4bf5592d6d2c5675ea6b4b7f1b7e68c659d9d41e8b9e5e862a26fab3e2e4553e",
+          "src/cti_vla/data/identity.py": "c785ecca08cfff340c71cb4bf1cc9236c78f1c1d7e868e9308f96e263040cb5d",
+          "src/cti_vla/data/initial_states.py": "34b73213fce668575b29a3fb52a63fee0b8914c8ef3eba04466dda8de9703383",
+          "src/cti_vla/data/libero.py": "b2b9599f9fbb407aa69f008fb679f2d8b04855ab63c9b7e866c1d8f046d8fde2",
+          "src/cti_vla/data/sequence_example.py": "136f246fc5b8cc5fccc9323ad5a1e8529f225e4e5447a494e3fda12d8d5fd101",
+          "src/cti_vla/data/tfrecord.py": "56c2ebf85d4745497f7047360ff1584c731630d594d55e469a54a27155abca5f",
+          "src/cti_vla/evaluation/__init__.py": "9eb6f1c2d411a1b0b2a7f36cbd48190da76b750ef033909169370b43e8211913",
+          "src/cti_vla/evaluation/checkpoint_manifest.py": "6bad8f22b9b683de4785a3f05827f6383759a5689ca178efe71ea078211f368a",
+          "src/cti_vla/evaluation/condition_diagnostics.py": "5f93c34de5c503584c3fc081b17e8034d7a292152fb371bb382777b840ac2555",
+          "src/cti_vla/evaluation/conditional_smoke.py": "543574dec07ba7c89c858168b4910a2d18acd76260a7c59c20441c1adf6b6a37",
+          "src/cti_vla/evaluation/future_runtime.py": "d87f2b4d0a825b1aab665cb17556a29cd31b405d8da734e93419466d646527cc",
+          "src/cti_vla/evaluation/future_trials.py": "e997fe4c8c142fbadf2eb7995e426f7bb0c3890633b1f0605245bfd16bcc62a4",
+          "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+          "src/cti_vla/evaluation/profiling.py": "648cf11400b0d70f2e4ee99fd8d4c26f917b38957b546ad5bfc578915d1d0404",
+          "src/cti_vla/evaluation/selector_runtime.py": "67c5915c20b39ea41f533e8c4f7eeb5ef32343a37f71b0e681d72ae0d9ae1086",
+          "src/cti_vla/evaluation/selector_trials.py": "fb543fc494f0da3d0420960be19e3b3a7417e2a12ae389d7ebce2cd585e3096f",
+          "src/cti_vla/evaluation/teacher_diagnostics.py": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd",
+          "src/cti_vla/labeling/__init__.py": "5fb5e4c95e5b5101b90ae1c8cf132db259737884fe828c48d37ac088f3a1c1b9",
+          "src/cti_vla/labeling/cache.py": "42584ece20fb45a3186f05ecf890d89c1d4ae78c7b13f3fb4a65764e3268676c",
+          "src/cti_vla/labeling/deletion.py": "51f1f0d8aa793bdf727e1f4a92c39f1bf873a74328181f631fba239e8836171a",
+          "src/cti_vla/labeling/sampling.py": "81e8a6f63f8ce8da74aa5001efbfc05b0b2fc41df49bdec51c1dfa5c90517f04",
+          "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+          "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+          "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+          "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+          "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+          "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+          "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+          "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb",
+          "src/cti_vla/selection/__init__.py": "2a05c0aa803c280c1308d8fe0c538faa29e21acbb13ecc2c915251e352360385",
+          "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+          "src/cti_vla/training/__init__.py": "2e724e5b30883dfa7d96acb58aa9501200f91d1341414f8492788c8d916b5a6f",
+          "src/cti_vla/training/conditional.py": "354e014a5076543bab9046e9987e691d450ae6db7b48c043685a27303aa6a31c",
+          "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+          "src/cti_vla/training/offline.py": "a9ea3f98c52a15da31c645601a7a83cd3f4d40a28762325f3233b15f98d731d8",
+          "src/cti_vla_baselines/__init__.py": "435007c8a55697835a0db104f9d53617ec6caddfa56414b67fd0c87d148e6ca1",
+          "src/cti_vla_baselines/acl_matched.py": "3a0bf46a2f688beb654ba725ebfc75cf36594dfda72d1f2e4b5dc5e2235c48a3"
+        },
+        "training_source_sha256": "5c3b8a39ac39c778eece8319002f14bceee94e3a24774475daa98adedb7e10db",
+        "update": 100,
+        "validation_metric": 0.0297141054024299,
+        "window_manifest_sha256": "e63a30e4c0f63dd7008241f828cab794628be5268f38bd641ce75a12eb6ea66b"
+      },
+      "B": {
+        "arm": "B",
+        "base_frozen": true,
+        "checkpoint_unchanged": true,
+        "condition_mode": "all",
+        "condition_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1:libero_spatial_no_noops:frozen-prompt-embeddings",
+        "config_sha256": "70a74e2161351b3dddc125cc71b7f896c2fa95470f73509695d5cd76961b6ce8",
+        "deployment_receipt_sha256": "e29cc1aef8917c1e2076dda878a806d194b764ce7916283df28dea1ed288d17f",
+        "f01_report_sha256": "9fa75f9241b414cb35e8080e88b385b99f2fdc2734e041c54b26fdf16a1b7c52",
+        "future_head_deployed": false,
+        "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+        "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+        "packing_version": "oft-original-positions-v1",
+        "pair_id": "34008a5d977eb61b64a3879b54a9dd9780f83f89b8c678c678ce64128b516326",
+        "runtime_version": "g1-f-full512-score-once-hard128-deployment-v1",
+        "schema": "g1_future_v1",
+        "scorer_dimensions": {
+          "hidden_dim": 256,
+          "language_dim": 4096,
+          "max_instruction_tokens": 128,
+          "num_cameras": 2,
+          "patches_per_camera": 256,
+          "proprio_dim": 8,
+          "token_dim": 4096
+        },
+        "seed": 17,
+        "selection_metric": "hard_validation_teacher_l1",
+        "selection_mode": "full512_score_once_camera64",
+        "selector_checkpoint_sha256": "e8b8f8c5cd4c8783c4655a7628d6d84e6865a799bc29fb85c31d5f744a08e82c",
+        "stats_key": "libero_spatial_no_noops",
+        "training_complete": false,
+        "training_source_files": {
+          "scripts/run_g1_future.py": "1213feb240cc17add7339ebd76e9e18f798048a049f276297ff83974bc39fdf6",
+          "src/cti_vla/__init__.py": "87c57d36dbb197ab4f3fce8a04ba4210ce59db2aeaff25ea4426436c21238511",
+          "src/cti_vla/data/__init__.py": "488a6651949594b79df67ab5bbdc2453119fe7230efd542ec6dafc2bd590c86d",
+          "src/cti_vla/data/experiment_protocol.py": "6a58b2393db41bc401a87e24ded424b7316846bae93660cb2d34a6dc4a3a2334",
+          "src/cti_vla/data/future_windows.py": "4bf5592d6d2c5675ea6b4b7f1b7e68c659d9d41e8b9e5e862a26fab3e2e4553e",
+          "src/cti_vla/data/identity.py": "c785ecca08cfff340c71cb4bf1cc9236c78f1c1d7e868e9308f96e263040cb5d",
+          "src/cti_vla/data/initial_states.py": "34b73213fce668575b29a3fb52a63fee0b8914c8ef3eba04466dda8de9703383",
+          "src/cti_vla/data/libero.py": "b2b9599f9fbb407aa69f008fb679f2d8b04855ab63c9b7e866c1d8f046d8fde2",
+          "src/cti_vla/data/sequence_example.py": "136f246fc5b8cc5fccc9323ad5a1e8529f225e4e5447a494e3fda12d8d5fd101",
+          "src/cti_vla/data/tfrecord.py": "56c2ebf85d4745497f7047360ff1584c731630d594d55e469a54a27155abca5f",
+          "src/cti_vla/evaluation/__init__.py": "9eb6f1c2d411a1b0b2a7f36cbd48190da76b750ef033909169370b43e8211913",
+          "src/cti_vla/evaluation/checkpoint_manifest.py": "6bad8f22b9b683de4785a3f05827f6383759a5689ca178efe71ea078211f368a",
+          "src/cti_vla/evaluation/condition_diagnostics.py": "5f93c34de5c503584c3fc081b17e8034d7a292152fb371bb382777b840ac2555",
+          "src/cti_vla/evaluation/conditional_smoke.py": "543574dec07ba7c89c858168b4910a2d18acd76260a7c59c20441c1adf6b6a37",
+          "src/cti_vla/evaluation/future_runtime.py": "d87f2b4d0a825b1aab665cb17556a29cd31b405d8da734e93419466d646527cc",
+          "src/cti_vla/evaluation/future_trials.py": "e997fe4c8c142fbadf2eb7995e426f7bb0c3890633b1f0605245bfd16bcc62a4",
+          "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+          "src/cti_vla/evaluation/profiling.py": "648cf11400b0d70f2e4ee99fd8d4c26f917b38957b546ad5bfc578915d1d0404",
+          "src/cti_vla/evaluation/selector_runtime.py": "67c5915c20b39ea41f533e8c4f7eeb5ef32343a37f71b0e681d72ae0d9ae1086",
+          "src/cti_vla/evaluation/selector_trials.py": "fb543fc494f0da3d0420960be19e3b3a7417e2a12ae389d7ebce2cd585e3096f",
+          "src/cti_vla/evaluation/teacher_diagnostics.py": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd",
+          "src/cti_vla/labeling/__init__.py": "5fb5e4c95e5b5101b90ae1c8cf132db259737884fe828c48d37ac088f3a1c1b9",
+          "src/cti_vla/labeling/cache.py": "42584ece20fb45a3186f05ecf890d89c1d4ae78c7b13f3fb4a65764e3268676c",
+          "src/cti_vla/labeling/deletion.py": "51f1f0d8aa793bdf727e1f4a92c39f1bf873a74328181f631fba239e8836171a",
+          "src/cti_vla/labeling/sampling.py": "81e8a6f63f8ce8da74aa5001efbfc05b0b2fc41df49bdec51c1dfa5c90517f04",
+          "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+          "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+          "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+          "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+          "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+          "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+          "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+          "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb",
+          "src/cti_vla/selection/__init__.py": "2a05c0aa803c280c1308d8fe0c538faa29e21acbb13ecc2c915251e352360385",
+          "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+          "src/cti_vla/training/__init__.py": "2e724e5b30883dfa7d96acb58aa9501200f91d1341414f8492788c8d916b5a6f",
+          "src/cti_vla/training/conditional.py": "354e014a5076543bab9046e9987e691d450ae6db7b48c043685a27303aa6a31c",
+          "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+          "src/cti_vla/training/offline.py": "a9ea3f98c52a15da31c645601a7a83cd3f4d40a28762325f3233b15f98d731d8",
+          "src/cti_vla_baselines/__init__.py": "435007c8a55697835a0db104f9d53617ec6caddfa56414b67fd0c87d148e6ca1",
+          "src/cti_vla_baselines/acl_matched.py": "3a0bf46a2f688beb654ba725ebfc75cf36594dfda72d1f2e4b5dc5e2235c48a3"
+        },
+        "training_source_sha256": "5c3b8a39ac39c778eece8319002f14bceee94e3a24774475daa98adedb7e10db",
+        "update": 100,
+        "validation_metric": 0.02979401547151307,
+        "window_manifest_sha256": "e63a30e4c0f63dd7008241f828cab794628be5268f38bd641ce75a12eb6ea66b"
+      }
+    },
+    "source_files": {
+      "scripts/profile_future_observation_to_action.py": "6f18c88389d203bf02a5ed36c9fb62bbfd7e7b17fc911d6fa20a91d3c14bf663",
+      "scripts/profile_observation_to_action.py": "1c8c92527c95dc24e4194d5734f00bc96041b7f14c36bfc67799448ea7cf6093",
+      "src/cti_vla/__init__.py": "87c57d36dbb197ab4f3fce8a04ba4210ce59db2aeaff25ea4426436c21238511",
+      "src/cti_vla/data/__init__.py": "488a6651949594b79df67ab5bbdc2453119fe7230efd542ec6dafc2bd590c86d",
+      "src/cti_vla/data/experiment_protocol.py": "6a58b2393db41bc401a87e24ded424b7316846bae93660cb2d34a6dc4a3a2334",
+      "src/cti_vla/data/future_windows.py": "4bf5592d6d2c5675ea6b4b7f1b7e68c659d9d41e8b9e5e862a26fab3e2e4553e",
+      "src/cti_vla/data/identity.py": "c785ecca08cfff340c71cb4bf1cc9236c78f1c1d7e868e9308f96e263040cb5d",
+      "src/cti_vla/data/initial_states.py": "34b73213fce668575b29a3fb52a63fee0b8914c8ef3eba04466dda8de9703383",
+      "src/cti_vla/data/libero.py": "b2b9599f9fbb407aa69f008fb679f2d8b04855ab63c9b7e866c1d8f046d8fde2",
+      "src/cti_vla/data/sequence_example.py": "136f246fc5b8cc5fccc9323ad5a1e8529f225e4e5447a494e3fda12d8d5fd101",
+      "src/cti_vla/data/tfrecord.py": "56c2ebf85d4745497f7047360ff1584c731630d594d55e469a54a27155abca5f",
+      "src/cti_vla/evaluation/__init__.py": "9eb6f1c2d411a1b0b2a7f36cbd48190da76b750ef033909169370b43e8211913",
+      "src/cti_vla/evaluation/checkpoint_manifest.py": "6bad8f22b9b683de4785a3f05827f6383759a5689ca178efe71ea078211f368a",
+      "src/cti_vla/evaluation/condition_diagnostics.py": "5f93c34de5c503584c3fc081b17e8034d7a292152fb371bb382777b840ac2555",
+      "src/cti_vla/evaluation/conditional_smoke.py": "543574dec07ba7c89c858168b4910a2d18acd76260a7c59c20441c1adf6b6a37",
+      "src/cti_vla/evaluation/future_profiling.py": "6c3c47c4110fe56191e98e9b5302c9fcc3a265f84937101019e65afe18b11c31",
+      "src/cti_vla/evaluation/future_runtime.py": "4f1262c1b09f31e45404c9cd2972954848238d8e6008f93f9b122eafb2a8971b",
+      "src/cti_vla/evaluation/future_trials.py": "e997fe4c8c142fbadf2eb7995e426f7bb0c3890633b1f0605245bfd16bcc62a4",
+      "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+      "src/cti_vla/evaluation/profiling.py": "648cf11400b0d70f2e4ee99fd8d4c26f917b38957b546ad5bfc578915d1d0404",
+      "src/cti_vla/evaluation/selector_runtime.py": "67c5915c20b39ea41f533e8c4f7eeb5ef32343a37f71b0e681d72ae0d9ae1086",
+      "src/cti_vla/evaluation/selector_trials.py": "fb543fc494f0da3d0420960be19e3b3a7417e2a12ae389d7ebce2cd585e3096f",
+      "src/cti_vla/evaluation/teacher_diagnostics.py": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd",
+      "src/cti_vla/labeling/__init__.py": "5fb5e4c95e5b5101b90ae1c8cf132db259737884fe828c48d37ac088f3a1c1b9",
+      "src/cti_vla/labeling/cache.py": "42584ece20fb45a3186f05ecf890d89c1d4ae78c7b13f3fb4a65764e3268676c",
+      "src/cti_vla/labeling/deletion.py": "51f1f0d8aa793bdf727e1f4a92c39f1bf873a74328181f631fba239e8836171a",
+      "src/cti_vla/labeling/sampling.py": "81e8a6f63f8ce8da74aa5001efbfc05b0b2fc41df49bdec51c1dfa5c90517f04",
+      "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+      "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+      "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+      "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+      "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+      "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+      "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+      "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb",
+      "src/cti_vla/selection/__init__.py": "2a05c0aa803c280c1308d8fe0c538faa29e21acbb13ecc2c915251e352360385",
+      "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+      "src/cti_vla/training/__init__.py": "2e724e5b30883dfa7d96acb58aa9501200f91d1341414f8492788c8d916b5a6f",
+      "src/cti_vla/training/conditional.py": "354e014a5076543bab9046e9987e691d450ae6db7b48c043685a27303aa6a31c",
+      "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+      "src/cti_vla/training/offline.py": "a9ea3f98c52a15da31c645601a7a83cd3f4d40a28762325f3233b15f98d731d8",
+      "src/cti_vla_baselines/acl_matched.py": "3a0bf46a2f688beb654ba725ebfc75cf36594dfda72d1f2e4b5dc5e2235c48a3"
+    },
+    "stage": "G1-F_development_latency",
+    "stats_key": "libero_spatial_no_noops",
+    "test_opened": false,
+    "uncontended_gpu_attested": true,
+    "window_content_signature": "sha256:70d12e3b90ebd5d43e1dac54856847acd5c9b403d918fb70ed9512d79725aa60"
+  },
+  "stage": "G1-F_development_latency",
+  "status": "completed_latency_analysis",
+  "synthetic": false,
+  "test_opened": false,
+  "unit": "ms/action_chunk8",
+  "wall_seconds_including_measurement_overhead": 72.19303322397172
+}

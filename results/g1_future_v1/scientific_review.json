@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "stage": "G1-F03",
+  "status": "no_go_expansion",
+  "reviewed_utc": "2026-10-14T12:37:27.782912+00:00",
+  "decision": "Complete this bounded round;do not expand seeds,budgets,heads or old deletion-label/staged-rescoring experiments",
+  "criterion": "Expand only if B improves paired development closed-loop over matched A;not met",
+  "setting": {
+    "seed": 17,
+    "updates_per_arm": 100,
+    "effective_batch": 8,
+    "train_windows": 90,
+    "validation_windows": 60,
+    "retained_tokens": 128,
+    "per_view": 64,
+    "future_horizon_retained_control_steps": 8,
+    "future_loss_weight": 0.1,
+    "entire_vla_frozen": true,
+    "gradients_through_frozen_vla": true,
+    "future_head_removed_at_deployment": true
+  },
+  "offline": {
+    "A_teacher_L1": 0.0297141054024299,
+    "B_teacher_L1": 0.02979401547151307,
+    "mean_hard_set_intersection_over_128": 0.9919270833333333,
+    "limits": "Same validation selected both checkpoints;descriptive single-seed result"
+  },
+  "closed_loop": {
+    "trials_per_method": 30,
+    "successes": {
+      "dense": 28,
+      "future_A": 28,
+      "future_B": 27,
+      "uniform128": 22
+    },
+    "paired_counts": {
+      "A_only": 1,
+      "B_only": 0,
+      "both": 27,
+      "neither": 2
+    },
+    "B_minus_A_success_rate": -0.03333333333333333,
+    "policy_errors": 0,
+    "test_opened": false
+  },
+  "timing": {
+    "two_runs_total_pipeline_calls": 880,
+    "all_spikes_retained": true,
+    "B_faster_than_A_claim": false,
+    "report": "analysis/latency_two_runs.md"
+  },
+  "cost": {
+    "registered_allocation_gpu_seconds": 3502,
+    "registered_allocation_gpu_hours": 0.9727777777777777,
+    "acceptance_cache_training_validation_gpu_seconds": 1205,
+    "data_audit_cpu_wall_seconds": 225.81682569999975,
+    "local_audit_cpu_total_known": false,
+    "historical_jobs_excluded": true
+  },
+  "limitations": [
+    "One seed,100updates,30development states in3tasks;not final test or universal claim",
+    "Small mean/pair differences do not establish statistically significant stable degradation",
+    "Future loss decrease and nonzero gradients do not establish improved hard selection utility",
+    "Dense and A have equal success counts but fail different initial states",
+    "Timing uses5raw observations from3development trajectories;runtime spikes prevent stable tail claims"
+  ],
+  "evidence_sha256": {
+    "analysis/summary.json": "b3da5eb7a1f236109bebb0630fbb0e06431f604916ad4291beb9a1e3eeb5d81d",
+    "analysis/independent_data_review.json": "8a2fe0f0c1711665a5691f284309bf0fca1536d870177c2063923917578fb2b2",
+    "analysis/independent_closed_loop_review.json": "d023173c05ca0855229701a9c463614195aa1636a73f17c00a178b99c7cc6cd0",
+    "analysis/latency_two_runs.json": "de8bb0090bf1e93f184a8c61cee8dabe6d7670a1d2a862cbd839a5f2a5bee7f1",
+    "acceptance_review.json": "7d63c44482139897d6ce01091c7e1ad3739084f6c7eaddd0a955efa92fe4bb54",
+    "slurm_accounting.json": "adbb4d592a1657d7ade24c69cb0ae9e1d5adfe1ac7697c69a32f2b84e8bd4643",
+    "closed_loop/closed_loop_report.json": "f1090b087fc21adb4cf8524f93810e74fdfd1feb69140911e7df526e29437002",
+    "training/train_finalization.json": "676bbdd2fc43aa778f4a51d0363917995dfc0ae10c3c55c9fb607996c44fd704"
+  },
+  "report": "docs/G1-F首轮实验结论.md",
+  "no_further_jobs_submitted": true
+}
