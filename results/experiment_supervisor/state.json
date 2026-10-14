@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_completed_no_go_optional_step_activated",
+  "stage": "G1_no_go_optional_step_running",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -68,14 +68,20 @@
       "exit_code": 0,
       "node": "gpu4004",
       "elapsed": "00:04:04"
+    },
+    {
+      "job_id": "2990393",
+      "name": "cti-g1-step",
+      "mode": "preregistered_three_observations",
+      "status": "RUNNING",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_step_20261014_v1",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_step_20261014_v1",
+      "source_sha256": "a1b1f0d4723dabe093bbe0b7ce2fb9d770a44fe93b027971afa0dd86c8b4cc71",
+      "purpose": "Bounded optional small-step teacher diagnosis after main G1 no-go; 3 train observations,4812 unique upper bound,6000 total attempt cap; no automatic G2 activation",
+      "node": "gpu4026"
     }
   ],
-  "pending_submission": {
-    "name": "cti-g1-step",
-    "mode": "preregistered_three_observations",
-    "activation_receipt": "results/g1_analysis/g1_20261014_v1/step_activation.json",
-    "max_total_attempts": 6000
-  },
+  "pending_submission": null,
   "agents": {
     "packing_migration": "independent raw-result replay and scientific review",
     "conditional_method": "independent method review and bounded revision candidates",
@@ -160,7 +166,7 @@
   },
   "current_work": [
     "Full G1/D4 completed and reviewed no-go",
-    "Optional preregistered3-observation small-step diagnosis activated, awaiting root submission",
+    "Optional preregistered3-observation small-step diagnosis job2990393 submitted",
     "Formal G2/G3 and final test remain closed"
   ],
   "restrictions": [

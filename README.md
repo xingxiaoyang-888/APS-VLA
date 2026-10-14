@@ -4,7 +4,7 @@ Counterfactual Token Influence for Efficient Vision-Language-Action Policies。
 
 CTI-VLA 是独立研究项目，项目根目录为 F:/CTI-VLA。冻结 OpenVLA-OFT，使用与部署相同的真实 token 删除生成集合条件标签，仅训练轻量选择器和条件编码器。模型权重及训练 checkpoint 保存在服务器。
 
-2026-10-14 已迁移模型接口与数据基础，并实现新方法的最小核心。94项 CPU 测试及 L40 真实单观测联调通过，官方 dense 最大误差为0；详见 [验收记录](results/migration/migration_summary.json)。闭环成功率、端到端加速和方法收益仍待实验验证。旧 DIWA 数字只作为历史资料。
+2026-10-14：G0 工程验收通过，90 观测与 45 开发闭环完成，15 组官方 dense 配对误差为 0。主 G1 完成 90 观测诊断与 12 条教师选择路径；128-token 下分阶段教师落后于静态排序，当前方案 no-go，暂缓扩大标注/训练。正在执行事先登记的 3 观测小步长诊断，详见 [实验进度](docs/实验进度.md) 和 [首轮结论](docs/G1首轮实验结论.md)。尚无正式闭环成功率、加速或方法收益结论；旧 DIWA 数字只作为历史资料。
 
 ## 阅读入口
 
@@ -32,7 +32,7 @@ python scripts/smoke_conditional_pipeline.py --output results/smoke/conditional_
 - 语言、归一化 proprio、相机/patch 位置和分视角集合摘要进入选择器；signed 回归、分相机分阶段 Top-k。
 - 教师无梯度真实删除，训练仅消费 detached 特征；新标签缓存不兼容旧均值替换标签。
 - LIBERO 按完整轨迹内容 ID 划分，覆盖时间早中晚。时间阶段不等同于抓取/接触等语义阶段。
-- 真实模型单观测冒烟已通过。完整标注调度、训练恢复、闭环评测与端到端 profiler 尚待实现，未把旧世界模型代码或历史结论迁入当前方法。
+- 标注调度、轻量训练恢复、选择器开发闭环和完整 observation-to-action profiler 已实现并经过 CPU 审计；G1 科学门槛未通过，尚未运行正式训练与训练后性能评测。
 
 ## 目录
 
