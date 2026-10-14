@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_inputs",
+  "stage": "G1_F_Long_acceptance",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -173,13 +173,28 @@
       "job_id": "2993273",
       "name": "cti-g1f-long",
       "mode": "inputs",
-      "status": "SUBMITTED",
+      "status": "COMPLETED",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_v1",
       "source_sha256": "bcf9b24c15325b75aa3f35162d96f50a3de1f7e9aa1fc0f3155952924b0e73f5",
       "suite": "libero_10",
       "submitted_utc": "2026-10-14T15:42:58.336908+00:00",
-      "purpose": "User-authorized bounded Long G1-F inputs"
+      "purpose": "User-authorized bounded Long G1-F inputs",
+      "exit_code": "0:0",
+      "elapsed_seconds": 294,
+      "node": "gpu4012"
+    },
+    {
+      "job_id": "2993299",
+      "name": "cti-g1f-long",
+      "mode": "acceptance",
+      "status": "SUBMITTED",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_v1",
+      "source_sha256": "bcf9b24c15325b75aa3f35162d96f50a3de1f7e9aa1fc0f3155952924b0e73f5",
+      "suite": "libero_10",
+      "submitted_utc": "2026-10-14T15:49:03.327985+00:00",
+      "purpose": "User-authorized bounded Long G1-F acceptance"
     }
   ],
   "agents": {
@@ -309,9 +324,9 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "Long RLDS34files fully verified; CPU metadata protocol and fixed90/60 windows being built",
-    "Long model25files transfer continuing on server; no Long GPU submitted",
-    "Long integration174tests passed; frozen30development panel, paired90trials, no expansion/test"
+    "Long own official input parity passed on3fixedtrain observations,6completedcalls,maxabs0",
+    "Long F01 job2993299 submitted; requires gradient/no-leakage/frozen-parameter/hard128 acceptance",
+    "Then matched100update A/B and90 fixed paireddevelopment trials; no test/automaticexpansion"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -333,7 +348,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T15:42:58.336908+00:00",
+  "last_supervision_utc": "2026-10-14T15:49:03.327985+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -392,14 +407,17 @@
     "model_verified": true,
     "dataset_verified_files": 34,
     "dataset_bytes": 3656815424,
-    "gpu_jobs": 0,
+    "gpu_jobs": 2,
     "cpu_tests_passed": 174,
     "development_states": 30,
     "expected_trials": 90,
     "test_opened": false,
     "train_windows_verified": 90,
     "validation_windows_verified": 60,
-    "data_independent_review": "results/g1_future_long/data/independent_review.json"
+    "data_independent_review": "results/g1_future_long/data/independent_review.json",
+    "input_acceptance": "passed",
+    "input_parity_max_abs": 0.0,
+    "input_calls": 6
   },
   "long_checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-10-95220f9",
   "long_source_snapshot": {

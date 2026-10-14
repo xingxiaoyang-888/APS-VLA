@@ -2,6 +2,10 @@
 
 本轮是独立的 LIBERO-Long 数据实验，套件为 `libero_10`，RLDS 与归一化键为 `libero_10_no_noops`。不使用 Spatial 选择器、清单或验证样本。这里只核验数据契约与构建工具；真实窗口审计以服务器生成并回存的收据为准，不预写 150 个真实窗口已验证。
 
+**执行补充（2026-10-14）：真实数据审计与独立复核均通过。** 379轨迹固定为265 train /55 validation /59 sealed test；选定30/20轨迹构建90/60窗，150个h8区间有效、split交集0、test窗口0。数据构建CPU用时779.80秒、GPU调用0。[独立复核](../results/g1_future_long/data/independent_review.json) 已核对来源、签名、时间区间，并重算全部变化量汇总。
+
+选定轨迹长度162–458，中位数260；8步占控制转换比例中位数约3.09%。150窗末端位移mean/median/p95为3.17/2.39/8.45 cm；前/腕相机RGB MAE（0–1）均值0.02273/0.06974。目标有数值变化，但不证明语义子任务切换或未来监督收益。详细逐窗数据见 [h8变化量](../results/g1_future_long/data/h8_endpoint_changes.json)。下文为实现与原验收规范，GPU方法验收另行记录。
+
 ## 固定来源与整轨迹隔离
 
 - [资产清单](../configs/assets/libero_long_rlds.json)：`openvla/modified_libero_rlds` revision `6ce6aaaaabdbe590b1eef5cd29c0d33f14a08551`；32 个 `liber_o10-train.tfrecord-xxxxx-of-00032`，379 条轨迹，全部文件总计 3,656,815,424 字节。379 来自发布的 `dataset_info.json`，不是根据 Spatial 外推。
