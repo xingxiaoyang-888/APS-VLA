@@ -29,6 +29,31 @@ def _g0_helpers():
     return module
 
 
+def resolve_suite_arguments(args):
+    """Long is explicit; legacy Spatial defaults remain unchanged."""
+    suite = getattr(args, "suite", "libero_spatial")
+    if suite not in ("libero_spatial", "libero_10"):
+        raise ValueError("unsupported explicit deployment suite")
+    long = suite == "libero_10"
+    if long and (getattr(args, "panel", None) is None or getattr(args, "config", None) is None):
+        raise ValueError("Long requires explicit --suite libero_10 --panel and --config")
+    defaults = {"config": ROOT / "configs/experiments/g1_future_v1.json",
+        "window_manifest": ROOT / f"configs/manifests/{'long' if long else 'spatial'}_future_v1/windows.json",
+        "protocol": ROOT / ("configs/manifests/long_future_v1/protocol.json" if long else "configs/manifests/spatial_g0g1_v1/protocol.json"),
+        "asset_manifest": ROOT / f"configs/assets/openvla_oft_libero_{'long' if long else 'spatial'}.json",
+        "stats_key": "libero_10_no_noops" if long else "libero_spatial_no_noops",
+        "controls": ["dense"] if long else ["dense", "uniform128"]}
+    for key, value in defaults.items():
+        if getattr(args, key, None) is None:
+            setattr(args, key, value)
+    args.suite = suite
+    if long and _read(args.config).get("suite") != suite:
+        raise ValueError("Long requires its own suite-bound configuration")
+    if not long and getattr(args, "panel", None) is not None:
+        raise ValueError("legacy Spatial uses its original fixed development/G0 manifests")
+    return suite
+
+
 def validate_output_paths(args):
     project, source = args.project_root.resolve(), ROOT.resolve()
     if project != source and project not in source.parents:
@@ -58,13 +83,21 @@ def _exclusive_output(output):
 
 def run(args):
     from cti_vla.evaluation.future_trials import load_future_development_panel, METHOD_ORDER
-    panel = load_future_development_panel(args.development_states, args.g0_panel)
+    suite = resolve_suite_arguments(args)
+    if suite == "libero_10":
+        from cti_vla.data.long_initial_states import load_long_development_panel
+        panel = load_long_development_panel(args.panel)
+    else:
+        panel = load_future_development_panel(args.development_states, args.g0_panel)
     controls = tuple(args.controls)
     if len(set(controls)) != len(controls) or set(controls) - {"dense", "uniform128"}:
         raise ValueError("controls may contain dense and uniform128 once each")
+    if suite == "libero_10" and controls != ("dense",):
+        raise ValueError("Long preregistration fixes dense/A/B only, exactly90 trials")
     methods = tuple(m for m in METHOD_ORDER if m in controls or m in ("future_A", "future_B"))
     if args.prepare_only:
-        return {"stage": "G1-F_development", "status": "panel_prepared_only", "gpu_calls": 0,
+        return {"stage": "G1-F_Long_development" if suite == "libero_10" else "G1-F_development",
+            "status": "panel_prepared_only", "gpu_calls": 0,
             "tasks": [0, 3, 5], "states": 30, "expected_trials": 30 * len(methods), "methods": methods,
             "panel_signature": panel["panel_signature"], "test_opened": False,
             "checkpoint_validated": False, "f01_accepted": False}
@@ -72,7 +105,9 @@ def run(args):
                 "cache_directory", "output_directory")
     if any(getattr(args, key) is None for key in required):
         raise ValueError("G1-F execution requires F01, both checkpoint/receipt pairs, frozen base, cache and output")
-    if os.name == "nt":
+    if suite == "libero_10" and getattr(args, "input_acceptance_report", None) is None:
+        raise ValueError("Long requires its own official input/action acceptance receipt, not Spatial G0")
+    if os.name == "nt" or (suite == "libero_10" and not os.environ.get("SLURM_JOB_ID")):
         raise RuntimeError("real G1-F checkpoints and GPU rollouts remain on the server")
     validate_output_paths(args)
     with _exclusive_output(args.output_directory):
@@ -87,23 +122,40 @@ def _execute(args, panel, methods):
     from cti_vla.evaluation.checkpoint_manifest import load_checkpoint_manifest, verify_checkpoint_directory
     from cti_vla.evaluation.teacher_diagnostics import atomic_json, json_signature
     from cti_vla.models.abstraction.packing import PACKING_VERSION
+    long = args.suite == "libero_10"
     watched_paths = [args.config, args.window_manifest, args.f01_report, args.receipt_a, args.receipt_b,
                      args.checkpoint_a, args.checkpoint_b, args.asset_manifest]
+    if long:
+        watched_paths.extend([args.protocol, args.panel, args.input_acceptance_report])
     watched = {str(p.resolve()): file_sha256(p) for p in watched_paths}
     def unchanged():
         if any(file_sha256(path) != digest for path, digest in watched.items()):
             raise ValueError("G1-F configuration/evidence/selector bytes changed during evaluation")
     common_config = _read(args.config)
-    protocol = load_experiment_protocol(args.protocol)
-    windows = load_future_windows(args.window_manifest, protocol)
+    if long:
+        from cti_vla.data.long_future_windows import load_long_future_protocol, load_future_windows as load_long_windows
+        # The protocol's optional asset is the RLDS asset, never the VLA model
+        # manifest. Its frozen dataset path is resolved relative to the protocol.
+        protocol = load_long_future_protocol(args.protocol)
+        windows = load_long_windows(args.window_manifest, protocol)
+    else:
+        protocol = load_experiment_protocol(args.protocol)
+        windows = load_future_windows(args.window_manifest, protocol)
     asset = load_checkpoint_manifest(args.asset_manifest)
     f01 = _read(args.f01_report)
+    acceptance_kwargs = {"suite": args.suite} if long else {}
     future_runtime.require_future_f01(f01, pair_id=json_signature(common_config),
-        window_manifest_sha256=watched[str(args.window_manifest.resolve())], model_revision=asset.revision)
+        window_manifest_sha256=watched[str(args.window_manifest.resolve())], model_revision=asset.revision,
+        **acceptance_kwargs)
     expected = {"model_revision": asset.revision, "input_version": libero_runtime.INPUTS_VERSION,
         "packing_version": PACKING_VERSION, "stats_key": args.stats_key,
         "window_manifest_sha256": watched[str(args.window_manifest.resolve())],
         "f01_report_sha256": watched[str(args.f01_report.resolve())]}
+    if long:
+        input_sha = watched[str(args.input_acceptance_report.resolve())]
+        if f01.get("input_acceptance_sha256") != input_sha:
+            raise ValueError("Long F01 is not bound to the supplied official input/action receipt")
+        expected.update(suite=args.suite, input_acceptance_sha256=input_sha)
     sources = future_runtime.future_deployment_source_hashes(ROOT)
     loaded = {}
     for arm in ("A", "B"):
@@ -117,7 +169,7 @@ def _execute(args, panel, methods):
     source_verification = {"openvla_oft": common.verify_source_checkout(args.official_source, libero_runtime.OFT_COMMIT),
                            "libero": common.verify_source_checkout(args.libero_source, common.LIBERO_COMMIT)}
     from cti_vla.data.initial_states import official_task_catalog
-    catalog, mapping = official_task_catalog(args.libero_source)
+    catalog, mapping = official_task_catalog(args.libero_source, suite=panel["suite"])
     if panel["source"]["revision"] != common.LIBERO_COMMIT or any(panel["source"].get(key) != value for key, value in mapping.items()):
         raise ValueError("G1-F development task mapping differs from pinned LIBERO")
     if not (args.libero_config / "config.yaml").is_file():
@@ -154,7 +206,7 @@ def _execute(args, panel, methods):
         if suite.get_task(state["task_id"]).name != state["task_name"] or catalog[state["task_id"]]["task_name"] != state["task_name"]:
             raise ValueError("runtime task ID differs from the frozen G1-F development panel")
     runtime = common.environment_provenance(torch, device)
-    config = {"schema": future_runtime.FUTURE_SCHEMA, "stage": "G1-F_development",
+    config = {"schema": future_runtime.FUTURE_SCHEMA, "stage": "G1-F_Long_development" if long else "G1-F_development",
         "panel_signature": panel["panel_signature"], "pair_id": loaded["A"].provenance["pair_id"],
         "selectors": {arm: dict(selector.provenance) for arm, selector in loaded.items()},
         "watched_artifacts": watched, "window_content_signature": windows["content_signature"],
@@ -163,9 +215,13 @@ def _execute(args, panel, methods):
             (Path(__file__), Path(future_runtime.__file__), Path(future_trials.__file__), ROOT / "scripts/eval_libero.py")}},
         "input_version": libero_runtime.INPUTS_VERSION, "action_version": libero_runtime.ACTION_VERSION,
         "packing_version": PACKING_VERSION, "environment_seed": panel["environment_seed"], "runtime_seed": args.seed,
-        "methods": list(methods), "wait_steps": 10, "max_steps": 220, "action_chunk": 8,
+        "methods": list(methods), "wait_steps": 10, "max_steps": future_trials.future_trial_horizon(panel), "action_chunk": 8,
         "policy_watchdog_seconds": args.policy_watchdog_seconds, "stats_key": args.stats_key, "test_opened": False,
         "runtime": {key: value for key, value in runtime.items() if key != "slurm_job_id"}}
+    if long:
+        config.update(suite=args.suite, input_acceptance_sha256=expected["input_acceptance_sha256"])
+        for relative in ("src/cti_vla/data/long_initial_states.py", "src/cti_vla/data/long_future_windows.py"):
+            config["source_hashes"][relative] = file_sha256(ROOT / relative)
     signature = json_signature(config)
     write_frozen_json(args.output_directory / "config.json", config)
     write_frozen_json(args.output_directory / "panel.json", panel)
@@ -207,20 +263,23 @@ def _execute(args, panel, methods):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     states = ROOT / "configs/manifests/spatial_initial_states_v1"
+    parser.add_argument("--suite", choices=("libero_spatial", "libero_10"), default="libero_spatial")
+    parser.add_argument("--panel", type=Path, help="Long only: explicit frozen development_panel_30.json")
     parser.add_argument("--development-states", type=Path, default=states / "init_states_development.json")
     parser.add_argument("--g0-panel", type=Path, default=states / "g0_development_15.json")
-    parser.add_argument("--config", type=Path, default=ROOT / "configs/experiments/g1_future_v1.json")
-    parser.add_argument("--window-manifest", type=Path, default=ROOT / "configs/manifests/spatial_future_v1/windows.json")
-    parser.add_argument("--protocol", type=Path, default=ROOT / "configs/manifests/spatial_g0g1_v1/protocol.json")
-    parser.add_argument("--asset-manifest", type=Path, default=ROOT / "configs/assets/openvla_oft_libero_spatial.json")
+    parser.add_argument("--config", type=Path)
+    parser.add_argument("--window-manifest", type=Path)
+    parser.add_argument("--protocol", type=Path)
+    parser.add_argument("--asset-manifest", type=Path)
     parser.add_argument("--official-source", type=Path, default=ROOT / "external/openvla-oft")
     parser.add_argument("--libero-source", type=Path, default=ROOT / "external/LIBERO")
     parser.add_argument("--libero-config", type=Path, default=ROOT / "configs/libero_runtime")
     for name in ("f01-report", "checkpoint-a", "checkpoint-b", "receipt-a", "receipt-b", "checkpoint", "cache-directory", "output-directory"):
         parser.add_argument("--" + name, type=Path)
+    parser.add_argument("--input-acceptance-report", type=Path, help="Required Long frame-chain parity receipt; never Spatial G0")
     parser.add_argument("--project-root", type=Path, default=ROOT)
-    parser.add_argument("--controls", nargs="*", choices=("dense", "uniform128"), default=["dense", "uniform128"])
-    parser.add_argument("--stats-key", default="libero_spatial_no_noops")
+    parser.add_argument("--controls", nargs="*", choices=("dense", "uniform128"))
+    parser.add_argument("--stats-key")
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--policy-watchdog-seconds", type=float, default=60.)
     parser.add_argument("--stop-after", type=int)

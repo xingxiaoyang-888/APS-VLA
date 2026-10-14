@@ -22,6 +22,7 @@ from cti_vla.selection import ConditionalInfluenceEstimator, ConditionalTokenBat
 FUTURE_SCHEMA = "g1_future_v1"
 FUTURE_RUNTIME_VERSION = "g1-f-full512-score-once-hard128-deployment-v1"
 FUTURE_SELECTION_METRIC = "hard_validation_teacher_l1"
+FUTURE_SUITES = {"libero_spatial": "libero_spatial_no_noops", "libero_10": "libero_10_no_noops"}
 DIMENSIONS = ("token_dim", "language_dim", "proprio_dim", "hidden_dim", "num_cameras",
               "patches_per_camera", "max_instruction_tokens")
 METADATA_FIELDS = ("schema", "arm", "seed", "scorer_dimensions", "config_sha256",
@@ -37,6 +38,18 @@ def _sha(value, name):
 
 def _metadata(value: Mapping) -> dict:
     metadata = {name: value[name] for name in METADATA_FIELDS}
+    # Legacy Spatial checkpoints predate an explicit suite field. Preserve
+    # their exact metadata; new Long artifacts must carry both bindings.
+    for key in ("suite", "input_acceptance_sha256"):
+        if key in value:
+            metadata[key] = value[key]
+    suite = metadata.get("suite", "libero_spatial")
+    if suite not in FUTURE_SUITES:
+        raise ValueError("unsupported G1-F suite")
+    if "suite" in metadata and metadata["stats_key"] != FUTURE_SUITES[suite]:
+        raise ValueError("G1-F suite and normalization key differ")
+    if suite == "libero_10":
+        _sha(metadata.get("input_acceptance_sha256"), "Long input acceptance")
     if metadata["schema"] != FUTURE_SCHEMA or metadata["arm"] not in ("A", "B"):
         raise ValueError("G1-F requires its independent A/B checkpoint schema")
     if type(metadata["seed"]) is not int or metadata["seed"] < 0 or type(metadata["update"]) is not int or metadata["update"] < 0:
@@ -70,12 +83,15 @@ def _metadata(value: Mapping) -> dict:
 
 def make_future_checkpoint_metadata(*, arm, seed, scorer_dimensions, training_config,
         pair_config, window_manifest_sha256, model_revision, stats_key, training_source_files,
-        update, validation_metric, training_complete=False) -> dict:
+        update, validation_metric, training_complete=False, input_acceptance_sha256=None) -> dict:
     """Producer helper. Save ``{**metadata, 'estimator_state_dict': ...}``.
 
     A/B pair_config contains only the predeclared shared training settings.
     The complete arm-specific training_config is hash-bound independently.
     """
+    extra = {"suite": pair_config["suite"]} if "suite" in pair_config else {}
+    if input_acceptance_sha256 is not None:
+        extra["input_acceptance_sha256"] = input_acceptance_sha256
     return _metadata(dict(schema=FUTURE_SCHEMA, arm=arm, seed=seed,
         scorer_dimensions=dict(scorer_dimensions), config_sha256=json_signature(training_config),
         window_manifest_sha256=window_manifest_sha256, pair_id=json_signature(pair_config),
@@ -83,7 +99,7 @@ def make_future_checkpoint_metadata(*, arm, seed, scorer_dimensions, training_co
         packing_version=PACKING_VERSION, stats_key=stats_key,
         training_source_files=dict(training_source_files), training_source_sha256=json_signature(training_source_files),
         update=update, selection_metric=FUTURE_SELECTION_METRIC, validation_metric=validation_metric,
-        base_frozen=True, checkpoint_unchanged=True, training_complete=training_complete))
+        base_frozen=True, checkpoint_unchanged=True, training_complete=training_complete, **extra))
 
 
 def _validate_receipt(receipt, metadata):
@@ -101,6 +117,8 @@ def _validate_receipt(receipt, metadata):
     if type(planned) is not int or planned <= 0 or receipt["completed_updates"] != planned or receipt.get("training_complete") is not True or receipt.get("base_frozen") is not True or receipt.get("checkpoint_unchanged") is not True:
         raise ValueError("deployment requires completed bounded training with unchanged base")
     common = receipt["pair_config"]
+    if common.get("suite", "libero_spatial") != metadata.get("suite", "libero_spatial"):
+        raise ValueError("G1-F receipt and checkpoint suites differ")
     if common.get("training", {}).get("updates") != planned or common.get("selection", {}).get("metric") != FUTURE_SELECTION_METRIC:
         raise ValueError("completed training budget/metric differs from the frozen common config")
     if any(common.get(key) != metadata[key] for key in ("scorer_dimensions", "model_revision", "stats_key")):
@@ -136,8 +154,11 @@ def make_future_deployment_receipt(checkpoint_path, metadata, *, training_config
     return receipt
 
 
-def require_future_f01(report, *, pair_id, window_manifest_sha256, model_revision):
+def require_future_f01(report, *, pair_id, window_manifest_sha256, model_revision,
+                       suite="libero_spatial", input_acceptance_sha256=None):
     """Only the recorded real-model F01 acceptance can open this dev runner."""
+    if suite not in FUTURE_SUITES or report.get("suite", "libero_spatial") != suite:
+        raise ValueError("G1-F requires its own suite's real-model F01")
     expected = {"stage": "G1-F01", "status": "passed", "execution": "real_frozen_openvla_l40",
         "config_sha256": pair_id, "window_manifest_sha256": window_manifest_sha256,
         "model_revision": model_revision, "input_version": libero_runtime.INPUTS_VERSION,
@@ -146,6 +167,12 @@ def require_future_f01(report, *, pair_id, window_manifest_sha256, model_revisio
               "vla_parameters_unchanged", "hard128_packing", "dense_differentiable_parity")
     if any(report.get(key) != value for key, value in expected.items()) or any(report.get("checks", {}).get(key) is not True for key in checks):
         raise ValueError("G1-F deployment requires matching real-model F01 acceptance, not a CPU test")
+    if suite == "libero_10":
+        _sha(report.get("input_acceptance_sha256"), "Long input acceptance")
+        if report.get("stats_key") != FUTURE_SUITES[suite] or report.get("checks", {}).get("official_input_action_parity") is not True:
+            raise ValueError("Long F01 requires its own official input/action parity")
+        if input_acceptance_sha256 is not None and report["input_acceptance_sha256"] != input_acceptance_sha256:
+            raise ValueError("Long F01 input-acceptance receipt changed")
 
 
 def future_deployment_source_hashes(source_root):
@@ -176,6 +203,10 @@ def load_future_selector_checkpoint(path, receipt: Mapping, *, expected_versions
     saved = torch.load(path, map_location="cpu", weights_only=True)
     metadata = _metadata(saved)
     _validate_receipt(receipt, metadata)
+    if metadata.get("suite", "libero_spatial") != expected_versions.get("suite", "libero_spatial"):
+        raise ValueError("G1-F deployment identity mismatch: suite")
+    if metadata.get("suite") == "libero_10" and metadata["input_acceptance_sha256"] != expected_versions.get("input_acceptance_sha256"):
+        raise ValueError("Long deployment requires the accepted input-parity receipt")
     for key in ("model_revision", "input_version", "packing_version", "stats_key", "window_manifest_sha256"):
         if not expected_versions.get(key) or metadata[key] != expected_versions[key]:
             raise ValueError(f"G1-F deployment identity mismatch: {key}")
@@ -203,6 +234,8 @@ def load_future_selector_checkpoint(path, receipt: Mapping, *, expected_versions
 def validate_future_pair(a: LoadedFutureSelector, b: LoadedFutureSelector) -> None:
     if (a.provenance.get("arm"), b.provenance.get("arm")) != ("A", "B"):
         raise ValueError("paired evaluation requires distinct A and B checkpoints")
+    if a.provenance.get("suite", "libero_spatial") != b.provenance.get("suite", "libero_spatial") or a.provenance.get("input_acceptance_sha256") != b.provenance.get("input_acceptance_sha256"):
+        raise ValueError("G1-F A/B suite/input acceptance mismatch")
     for key in ("pair_id", "seed", "window_manifest_sha256", "model_revision", "input_version",
                 "packing_version", "stats_key", "scorer_dimensions", "training_source_sha256", "f01_report_sha256"):
         if a.provenance.get(key) != b.provenance.get(key):

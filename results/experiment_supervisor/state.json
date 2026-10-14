@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_assets_and_protocol_preparation",
+  "stage": "G1_F_Long_real_data_audit",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -264,7 +264,7 @@
     },
     {
       "asset": "LIBERO-Long OFT and RLDS",
-      "status": "started",
+      "status": "dataset_verified_model_downloading",
       "model_manifest": "configs/assets/openvla_oft_libero_long.json",
       "data_manifest": "configs/assets/libero_long_rlds.json",
       "result_root": "results/g1_future_long/assets",
@@ -297,10 +297,9 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "Pin Long model95220f9 and RLDS6ce6aaa;download25model and34data files on server only",
-    "Freeze Long taskindices0/3/5 and10development initial states each before outcomes;520step official horizon",
-    "Independent Long episode split and90train/60val windows;quantify actual8action state change;test sealed",
-    "Implement explicit suite guards and independent Long dense/F01 acceptance before matched seed17 training"
+    "Long RLDS34files fully verified; CPU metadata protocol and fixed90/60 windows being built",
+    "Long model25files transfer continuing on server; no Long GPU submitted",
+    "Long integration174tests passed; frozen30development panel, paired90trials, no expansion/test"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -322,7 +321,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T15:07:51.759432+00:00",
+  "last_supervision_utc": "2026-10-14T15:29:25.821426+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -376,5 +375,16 @@
     "acceptance_cache_training_validation_gpu_seconds": 1205,
     "historical_jobs_excluded": true,
     "accounting": "results/g1_future_v1/slurm_accounting.json"
-  }
+  },
+  "last_observed_G1_F_Long_progress": {
+    "model_verified": false,
+    "dataset_verified_files": 34,
+    "dataset_bytes": 3656815424,
+    "gpu_jobs": 0,
+    "cpu_tests_passed": 174,
+    "development_states": 30,
+    "expected_trials": 90,
+    "test_opened": false
+  },
+  "long_checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-10-95220f9"
 }

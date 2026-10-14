@@ -41,6 +41,12 @@ def load_future_development_panel(development_path, g0_panel_path):
 
 
 def _validate_panel(panel):
+    if panel.get("suite") == "libero_10":
+        from cti_vla.data.long_initial_states import validate_long_development_panel
+        validate_long_development_panel(panel)
+        return
+    if panel.get("suite") != "libero_spatial":
+        raise ValueError("only explicitly registered Spatial or Long development suites are supported")
     unsigned = {k: v for k, v in panel.items() if k != "panel_signature"}
     if panel.get("panel_signature") != json_signature(unsigned) or panel.get("split") != "development" or panel.get("test_opened") is not False:
         raise ValueError("G1-F requires the signed development panel, never test")
@@ -50,11 +56,21 @@ def _validate_panel(panel):
         raise ValueError("G1-F development source identities changed")
 
 
-def _methods(methods):
+def _methods(methods, *, suite="libero_spatial"):
     methods = tuple(methods)
+    if suite == "libero_10":
+        expected = ("dense", "future_A", "future_B")
+        if len(methods) != 3 or set(methods) != set(expected):
+            raise ValueError("Long preregistration requires exactly dense/A/B, without uniform")
+        return expected
     if len(set(methods)) != len(methods) or not {"future_A", "future_B"}.issubset(methods) or set(methods) - set(METHOD_ORDER):
         raise ValueError("G1-F requires A/B with optional dense/uniform128 controls")
     return tuple(m for m in METHOD_ORDER if m in methods)
+
+
+def future_trial_horizon(panel):
+    _validate_panel(panel)
+    return 520 if panel["suite"] == "libero_10" else 220
 
 
 def _identity(panel, state, method):
@@ -66,7 +82,7 @@ def _identity(panel, state, method):
 
 def validate_future_trial_identities(panel, methods, ledger):
     _validate_panel(panel)
-    expected = {row["trial_id"]: row for state in panel["states"] for m in _methods(methods)
+    expected = {row["trial_id"]: row for state in panel["states"] for m in _methods(methods, suite=panel["suite"])
                 for row in [_identity(panel, state, m)]}
     for event in ledger.events:
         if "trial_id" not in event:
@@ -78,7 +94,7 @@ def validate_future_trial_identities(panel, methods, ledger):
 
 def evaluate_future_trials(panel, policies, ledger, environment_factory, *, reseed,
         policy_watchdog_seconds=60., stop_after=None, on_result=None):
-    methods = _methods(policies)
+    methods = _methods(policies, suite=panel["suite"])
     validate_future_trial_identities(panel, methods, ledger)
     if stop_after is not None and (type(stop_after) is not int or stop_after <= 0):
         raise ValueError("stop_after must be a positive trial count")
@@ -96,7 +112,8 @@ def evaluate_future_trials(panel, policies, ledger, environment_factory, *, rese
                 reseed()
                 env, instruction = environment_factory(state)
                 result = run_episode(env, policies[method], instruction, state["initial_state"],
-                                     policy_watchdog_seconds=policy_watchdog_seconds)
+                                     policy_watchdog_seconds=policy_watchdog_seconds,
+                                     max_steps=future_trial_horizon(panel))
             except Exception as exc:
                 result = {"status": "infrastructure_error", "success": False, "termination": type(exc).__name__,
                     "error": str(exc), "error_phase": "environment_creation", "chunks": [], "executed_actions": [],
@@ -118,7 +135,7 @@ def evaluate_future_trials(panel, policies, ledger, environment_factory, *, rese
 
 
 def summarize_future_trials(panel, methods, ledger, *, provenance, checkpoint_unchanged=None):
-    methods = _methods(methods)
+    methods = _methods(methods, suite=panel["suite"])
     validate_future_trial_identities(panel, methods, ledger)
     completed = ledger.completed()
     summaries = {}
@@ -154,7 +171,8 @@ def summarize_future_trials(panel, methods, ledger, *, provenance, checkpoint_un
     unknown_starts += len(active)
     attempts = [r for r in ledger.events if r.get("event") == "result"]
     done = len(completed) == 30 * len(methods)
-    return {"stage": "G1-F_development", "status": "completed" if done and checkpoint_unchanged is True else "incomplete",
+    return {"stage": "G1-F_Long_development" if panel["suite"] == "libero_10" else "G1-F_development",
+        "status": "completed" if done and checkpoint_unchanged is True else "incomplete",
         "expected_trials": 30 * len(methods), "completed_trials": len(completed), "methods": summaries,
         "paired_AB": {"completed_pairs": len(paired), "results": paired,
             "B_minus_A_success_rate": sum(r["B_minus_A"] for r in paired) / 30 if len(paired) == 30 else None},
@@ -166,4 +184,5 @@ def summarize_future_trials(panel, methods, ledger, *, provenance, checkpoint_un
             "scope": "Episode attempts include simulator work; interrupted attempts require scheduler reconciliation. Not deployment latency."},
         "trials_jsonl_sha256": file_sha256(ledger.path) if ledger.path.exists() else None,
         "provenance": provenance,
-        "limitations": "Fixed three-task development panel, including prior G0 states; no test evaluation, population inference or benchmark claim."}
+        "limitations": ("Fixed Long task0,3,5 development panel, official520-step horizon and dense/A/B only; no sealed-final evaluation or population claim."
+            if panel["suite"] == "libero_10" else "Fixed three-task development panel, including prior G0 states; no test evaluation, population inference or benchmark claim.")}

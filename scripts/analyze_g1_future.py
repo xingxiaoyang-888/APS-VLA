@@ -254,7 +254,8 @@ def analyze_training(directory, windows, window_sha, config, evidence, *, repeat
                          "L1 rows are audited reported errors; raw teacher/GT arrays are absent here, so those L1 values cannot be independently recomputed."]}, reports
 
 
-def analyze_closed_loop(directory, reports, evidence, *, repeats=2000, seed=1517):
+def analyze_closed_loop(directory, reports, evidence, *, repeats=2000, seed=1517,
+                        suite="libero_spatial", panel_path=None):
     if directory is None:
         return {"status": "pending", "reason": "closed-loop directory not supplied"}
     directory = Path(directory)
@@ -278,8 +279,19 @@ def analyze_closed_loop(directory, reports, evidence, *, repeats=2000, seed=1517
     if any(e.get("run_signature") != run_signature for e in events):
         raise ValueError("closed-loop events belong to another frozen run")
     from cti_vla.evaluation.future_trials import validate_future_trial_identities, summarize_future_trials, load_future_development_panel
-    state_root = ROOT / "configs/manifests/spatial_initial_states_v1"
-    frozen_panel = load_future_development_panel(state_root / "init_states_development.json", state_root / "g0_development_15.json")
+    if suite == "libero_10":
+        from cti_vla.data.long_initial_states import load_long_development_panel
+        if panel_path is None:
+            raise ValueError("Long analysis requires its explicit frozen development panel")
+        evidence.read(panel_path)
+        frozen_panel = load_long_development_panel(panel_path)
+        if config.get("suite") != suite or config.get("max_steps") != 520 or config.get("methods") != ["dense", "future_A", "future_B"]:
+            raise ValueError("Long closed-loop config differs from its suite/horizon/three-method protocol")
+    elif suite == "libero_spatial":
+        state_root = ROOT / "configs/manifests/spatial_initial_states_v1"
+        frozen_panel = load_future_development_panel(state_root / "init_states_development.json", state_root / "g0_development_15.json")
+    else:
+        raise ValueError("unsupported explicit analysis suite")
     if panel != frozen_panel:
         raise ValueError("closed-loop panel differs from the existing frozen development initial states")
     completed = {}
@@ -306,10 +318,24 @@ def analyze_closed_loop(directory, reports, evidence, *, repeats=2000, seed=1517
         pairs.append({**row, "delta": int(b) - int(a)})
     if len(pairs) != 30:
         raise ValueError("completed G1-F requires all30 exact same-initial-state pairs")
-    return {"status": "analyzed", "training_checkpoint_link_verified": bool(reports), "paired_counts": dict(table),
+    result = {"status": "analyzed", "training_checkpoint_link_verified": bool(reports), "paired_counts": dict(table),
         "methods": rebuilt["methods"], "pairs": pairs,
         "paired_B_minus_A": clustered_interval(pairs, cluster="state_trial_id", strata="task_id", repeats=repeats, seed=seed),
         "cost": rebuilt["cost"], "limits": "Only30 reused development states across3 tasks; no formal significance, seed replication or final-test conclusion."}
+    if suite == "libero_10":
+        result["limits"] = "Only30 preregistered Long development states across3 tasks; intervals are conditional on one trained seed and these tasks, not across-seed generalization or final-test evidence."
+        result["paired_vs_dense"] = {}
+        for arm in ("A", "B"):
+            rows = []
+            for state in panel["states"]:
+                dense = completed[state["trial_id"] + ":dense"]
+                selected = completed[state["trial_id"] + ":future_" + arm]
+                rows.append({"state_trial_id": state["trial_id"], "task_id": state["task_id"],
+                    "dense_success": dense["success"], "selector_success": selected["success"],
+                    "delta": int(selected["success"]) - int(dense["success"])})
+            result["paired_vs_dense"][arm] = {"pairs": rows,
+                "selector_minus_dense": clustered_interval(rows, cluster="state_trial_id", strata="task_id", repeats=repeats, seed=seed)}
+    return result
 
 
 def analyze_cost_events(path, evidence):
@@ -468,16 +494,36 @@ def run(args):
     evidence = Evidence()
     from cti_vla.data.experiment_protocol import load_experiment_protocol
     from cti_vla.data.future_windows import load_future_windows
-    protocol = load_experiment_protocol(args.protocol)
-    windows = load_future_windows(args.windows, protocol)
+    suite = getattr(args, "suite", "libero_spatial")
+    if suite == "libero_10":
+        from cti_vla.data.long_future_windows import load_long_future_protocol, load_future_windows as load_long_windows
+        if getattr(args, "config", None) is None or getattr(args, "panel", None) is None:
+            raise ValueError("Long analysis requires explicit --suite libero_10 --panel and --config")
+        if args.latency_directory is not None:
+            raise ValueError("Long latency has no registered panel in this90-trial protocol")
+        args.protocol = args.protocol or ROOT / "configs/manifests/long_future_v1/protocol.json"
+        args.windows = args.windows or ROOT / "configs/manifests/long_future_v1/windows.json"
+        protocol = load_long_future_protocol(args.protocol)
+        windows = load_long_windows(args.windows, protocol)
+    elif suite == "libero_spatial":
+        args.config = args.config or ROOT / "configs/experiments/g1_future_v1.json"
+        args.protocol = args.protocol or ROOT / "configs/manifests/spatial_g0g1_v1/protocol.json"
+        args.windows = args.windows or ROOT / "configs/manifests/spatial_future_v1/windows.json"
+        protocol = load_experiment_protocol(args.protocol)
+        windows = load_future_windows(args.windows, protocol)
+    else:
+        raise ValueError("unsupported explicit analysis suite")
     evidence.read(args.windows)
     evidence.read(args.protocol)
     config = evidence.read(args.config)
     if config.get("schema") != "g1_future_v1":
         raise ValueError("this analyzer consumes only the registered G1-F v1 producer")
+    if suite == "libero_10" and config.get("suite") != suite:
+        raise ValueError("Long analysis must use the Long training config")
     offline, reports = analyze_training(args.training_directory, windows, digest(args.windows), config, evidence,
                                        repeats=args.bootstrap_repeats, seed=args.bootstrap_seed)
-    loop = analyze_closed_loop(args.closed_loop_directory, reports, evidence, repeats=args.bootstrap_repeats, seed=args.bootstrap_seed)
+    loop = analyze_closed_loop(args.closed_loop_directory, reports, evidence, repeats=args.bootstrap_repeats,
+        seed=args.bootstrap_seed, suite=suite, panel_path=getattr(args, "panel", None))
     latency = analyze_latency(args.latency_directory, reports, evidence)
     paths = list(args.cost_events)
     if args.training_directory:
@@ -493,6 +539,8 @@ def run(args):
                   "validation_seconds": {a: d["validation_completed_seconds_lower_bound"] for a, d in offline.get("arms", {}).items()},
                   "warning": "No complete total is claimed from incomplete nested timers. Reported arm wall_seconds_this_attempt excludes earlier attempts."},
         "evidence_sha256": evidence.files, "analyzer_sha256": digest(__file__)}
+    if suite == "libero_10":
+        summary.update(stage="G1-F_Long_independent_analysis", suite=suite)
     evidence.unchanged()
     output = args.output_directory.resolve()
     if args.project_root.resolve() not in output.parents:
@@ -508,15 +556,17 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--suite", choices=("libero_spatial", "libero_10"), default="libero_spatial")
+    parser.add_argument("--panel", type=Path, help="Long only: explicit frozen development_panel_30.json")
     parser.add_argument("--training-directory", type=Path)
     parser.add_argument("--closed-loop-directory", type=Path)
     parser.add_argument("--latency-directory", type=Path)
     parser.add_argument("--cost-events", type=Path, action="append", default=[])
     parser.add_argument("--slurm-accounting", type=Path, action="append", default=[])
     parser.add_argument("--job-id", action="append", default=[], help="Optional allocation filter; otherwise all supplied accounting jobs are reported")
-    parser.add_argument("--config", type=Path, default=ROOT / "configs/experiments/g1_future_v1.json")
-    parser.add_argument("--windows", type=Path, default=ROOT / "configs/manifests/spatial_future_v1/windows.json")
-    parser.add_argument("--protocol", type=Path, default=ROOT / "configs/manifests/spatial_g0g1_v1/protocol.json")
+    parser.add_argument("--config", type=Path)
+    parser.add_argument("--windows", type=Path)
+    parser.add_argument("--protocol", type=Path)
     parser.add_argument("--project-root", type=Path, default=ROOT)
     parser.add_argument("--output-directory", type=Path, required=True)
     parser.add_argument("--bootstrap-repeats", type=int, default=2000)

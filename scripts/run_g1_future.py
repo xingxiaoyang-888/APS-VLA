@@ -37,6 +37,86 @@ def source_hashes():
     return {p.relative_to(ROOT).as_posix(): file_hash(p) for p in paths}
 
 
+def resolve_suite(args, config, asset):
+    """No inference from filenames: Long requires explicit suite and stats key."""
+    from cti_vla.evaluation.future_runtime import FUTURE_SUITES
+    suite = getattr(args, "suite", "libero_spatial")
+    if suite not in FUTURE_SUITES or config.get("suite", "libero_spatial") != suite:
+        raise ValueError("CLI/config suite mismatch; Long cannot use the Spatial default")
+    if config.get("stats_key") != FUTURE_SUITES[suite] or (
+            getattr(args, "stats_key", None) is not None and args.stats_key != config["stats_key"]):
+        raise ValueError("CLI/config/suite normalization key mismatch")
+    repositories = {"libero_spatial": "moojink/openvla-7b-oft-finetuned-libero-spatial",
+                    "libero_10": "moojink/openvla-7b-oft-finetuned-libero-10"}
+    if asset.repository != repositories[suite] or asset.revision != config["model_revision"]:
+        raise ValueError("suite/config and frozen base asset differ")
+    if suite == "libero_10":
+        if getattr(args, "stats_key", None) != FUTURE_SUITES[suite]:
+            raise ValueError("Long requires explicit --stats-key libero_10_no_noops")
+        exact = {"seed": 17, "arms": ["A", "B"], "tokens_per_camera": 64,
+            "scorer_dimensions": dict(token_dim=4096, language_dim=4096, proprio_dim=8,
+                hidden_dim=256, num_cameras=2, patches_per_camera=256, max_instruction_tokens=128)}
+        if any(config.get(k) != v for k, v in exact.items()):
+            raise ValueError("Long must keep the registered common initialization/architecture/budget")
+        required = {
+            "training": {"updates": 100, "micro_batch": 1, "effective_batch": 8,
+                "learning_rate": 1e-4, "weight_decay": .01, "gradient_clip_norm": 1.,
+                "optimizer": "AdamW", "dtype_vla": "bfloat16", "dtype_scorer": "float32",
+                "same_initial_scorer": True, "vla_frozen": True, "gradient_through_vla": True},
+            "future": {"horizon": 8, "weight_A": 0., "weight_B": .1, "projection_seed": 917,
+                "layer_norm_eps": 1e-5},
+            "action_loss": {"teacher_l1_weight": .5, "demonstration_l1_weight": .5},
+            "gate": {"alpha_start": 2., "alpha_end": .1},
+            "selection": {"updates": [0, 25, 50, 75, 100], "metric": "hard_validation_teacher_l1",
+                "tie_break": "earliest_update", "future_loss_used": False}}
+        if any(config.get(section, {}).get(k) != v for section, fields in required.items() for k, v in fields.items()):
+            raise ValueError("Long training settings differ from the one registered round")
+    return suite
+
+
+def data_registration(args, config, asset):
+    suite = resolve_suite(args, config, asset)
+    if suite == "libero_10":
+        from cti_vla.data import long_future_windows as windows_api
+        protocol = windows_api.load_long_future_protocol(args.protocol)
+    else:
+        from cti_vla.data import future_windows as windows_api
+        from cti_vla.data.experiment_protocol import load_experiment_protocol
+        protocol = load_experiment_protocol(args.protocol)
+    manifest = windows_api.load_future_windows(args.windows, protocol)
+    if config["future"]["horizon"] != manifest["horizon"]:
+        raise ValueError("registered horizon mismatch")
+    if suite == "libero_10" and (manifest.get("suite") != suite or protocol.payload.get("suite") != suite):
+        raise ValueError("Long cannot use Spatial windows or protocol")
+    return suite, protocol, manifest, windows_api
+
+
+def require_input_gate(args, config, asset, protocol, manifest):
+    from cti_vla.evaluation.teacher_diagnostics import require_g0
+    from cti_vla.evaluation.libero_runtime import INPUTS_VERSION
+    from cti_vla.models.abstraction.packing import PACKING_VERSION
+    if config.get("suite", "libero_spatial") == "libero_10":
+        from cti_vla.evaluation.future_input_acceptance import select_input_windows, require_long_input_acceptance, verify_input_acceptance_journal
+        path = getattr(args, "input_acceptance_report", None)
+        if path is None or getattr(args, "g0_report", None) is not None:
+            raise ValueError("Long requires its own --input-acceptance-report, never a Spatial G0")
+        report = read_json(path)
+        require_long_input_acceptance(report, config=config,
+            window_manifest_sha256=file_hash(args.windows), protocol_sha256=file_hash(args.protocol),
+            asset_manifest_sha256=file_hash(args.asset_manifest), source_files=source_hashes(),
+            verification_script_sha256=file_hash(ROOT / "scripts/verify_long_inputs.py"),
+            selected_windows=select_input_windows(manifest, protocol))
+        verify_input_acceptance_journal(path.parent / "calls.jsonl", report)
+        if report.get("dataset_statistics_sha256") != file_hash(args.checkpoint / "dataset_statistics.json"):
+            raise ValueError("Long input acceptance normalization statistics changed")
+        return file_hash(path)
+    if getattr(args, "g0_report", None) is None or getattr(args, "input_acceptance_report", None) is not None:
+        raise ValueError("Spatial keeps its original required --g0-report gate")
+    require_g0(read_json(args.g0_report), model_revision=asset.revision,
+        input_version=INPUTS_VERSION, packing_version=PACKING_VERSION)
+    return None
+
+
 def append_json(path, row):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as handle:
@@ -86,7 +166,10 @@ def make_batch(record, device, *, include_future=True):
 def cache_records(args, config, manifest, protocol, components, processor, policy, *, limit=None):
     import numpy as np
     import torch
-    from cti_vla.data.future_windows import normalize_demo_actions, validate_future_window
+    if config.get("suite", "libero_spatial") == "libero_10":
+        from cti_vla.data.long_future_windows import normalize_demo_actions, validate_future_window
+    else:
+        from cti_vla.data.future_windows import normalize_demo_actions, validate_future_window
     from cti_vla.data.sequence_example import decode_libero_example
     from cti_vla.data.tfrecord import iter_tfrecord_records
     from cti_vla.evaluation.libero_runtime import prepare_rlds_eval_inputs, _prepare_processed_inputs, process_camera
@@ -247,6 +330,11 @@ def acceptance(args, config, index, components, policy, student):
         "hardware": torch.cuda.get_device_name(), "runtime": {"torch": torch.__version__, "python": platform.python_version()},
         "accepted_training_windows": [r["identity"]["window"]["window_id"] for r in index],
         "source_files": source_hashes(), "job_id": os.environ["SLURM_JOB_ID"]}
+    if config.get("suite") == "libero_10":
+        report.update(suite="libero_10", stats_key=config["stats_key"],
+            input_acceptance_sha256=file_hash(args.input_acceptance_report),
+            operator_window_id=index[0]["identity"]["window"]["window_id"])
+        report["checks"]["official_input_action_parity"] = True
     atomic_json(args.output / "f01_acceptance.json", report)
     return report
 
@@ -318,6 +406,8 @@ def train_pair(args, config, index, components, policy, student):
     schedule = training_order(len(data["train"]), updates, effective, config["seed"])
     source = source_hashes()
     window_sha = file_hash(args.windows)
+    long_identity = ({"suite": "libero_10", "input_acceptance_sha256": file_hash(args.input_acceptance_report),
+                      "f01_report_sha256": file_hash(args.acceptance_report)} if config.get("suite") == "libero_10" else {})
     torch.manual_seed(config["seed"])
     initial = ConditionalInfluenceEstimator(**config["scorer_dimensions"]).state_dict()
     initial_sha = tensor_signature(initial)
@@ -337,6 +427,8 @@ def train_pair(args, config, index, components, policy, student):
             complete = read_json(complete_path)
             if complete["status"] != "completed" or complete["config_sha256"] != json_signature(training_config) or complete["window_manifest_sha256"] != window_sha or complete["source_files"] != source:
                 raise ValueError("existing arm completion does not match immutable run")
+            if any(complete.get(k) != v for k, v in long_identity.items()):
+                raise ValueError("completed Long arm input/F01 identity changed")
             if file_hash(complete["best_checkpoint"]) != complete["best_checkpoint_sha256"]:
                 raise ValueError("completed arm best checkpoint changed")
             arm_results[arm] = complete
@@ -355,6 +447,8 @@ def train_pair(args, config, index, components, policy, student):
             saved = load_torch(resume_path)
             if saved["config_sha256"] != json_signature(training_config) or saved["window_manifest_sha256"] != window_sha or saved["source_files"] != source or saved["initial_scorer_sha256"] != initial_sha:
                 raise ValueError("cannot resume incompatible A/B training")
+            if any(saved.get(k) != v for k, v in long_identity.items()):
+                raise ValueError("cannot resume Long from another suite/input/F01 acceptance")
             scorer.load_state_dict(saved["scorer"])
             if head is not None:
                 head.load_state_dict(saved["head"])
@@ -401,13 +495,14 @@ def train_pair(args, config, index, components, policy, student):
                     best = make_future_checkpoint_metadata(arm=arm, seed=config["seed"],
                         scorer_dimensions=config["scorer_dimensions"], training_config=training_config, pair_config=config,
                         window_manifest_sha256=window_sha, model_revision=config["model_revision"], stats_key=config["stats_key"],
-                        training_source_files=source, update=update, validation_metric=validation["validation_metric"])
+                        training_source_files=source, update=update, validation_metric=validation["validation_metric"],
+                        input_acceptance_sha256=long_identity.get("input_acceptance_sha256"))
                     save_torch(arm_checkpoints / "best.pt", {**best,
                         "estimator_state_dict": {k: v.detach().cpu() for k, v in scorer.state_dict().items()}})
                 save_torch(resume_path, {"config_sha256": json_signature(training_config), "window_manifest_sha256": window_sha,
                     "source_files": source, "initial_scorer_sha256": initial_sha, "completed_update": update,
                     "scorer": scorer.state_dict(), "head": None if head is None else head.state_dict(),
-                    "optimizer": optimizer.state_dict(), "evaluations": evaluations, "best": best})
+                    "optimizer": optimizer.state_dict(), "evaluations": evaluations, "best": best, **long_identity})
         frozen_after = module_hash(components)
         if frozen_before != frozen_after:
             raise RuntimeError("frozen VLA parameters changed during training")
@@ -427,7 +522,7 @@ def train_pair(args, config, index, components, policy, student):
             "peak_memory_allocated_bytes": torch.cuda.max_memory_allocated(),
             "wall_seconds_this_attempt": time.perf_counter() - arm_started,
             "training_updates_completed": updates, "attempt_start_update": next_update,
-            "teacher_forwards_cached": len(index), "job_id": os.environ["SLURM_JOB_ID"]}
+            "teacher_forwards_cached": len(index), "job_id": os.environ["SLURM_JOB_ID"], **long_identity}
         atomic_json(complete_path, report)
         arm_results[arm] = report
         del scorer, head, optimizer, parameters
@@ -439,8 +534,7 @@ def train_pair(args, config, index, components, policy, student):
 
 
 def run(args):
-    from cti_vla.data.experiment_protocol import load_experiment_protocol, write_frozen_json
-    from cti_vla.data.future_windows import load_future_windows
+    from cti_vla.data.experiment_protocol import write_frozen_json
     from cti_vla.evaluation.checkpoint_manifest import load_checkpoint_manifest, verify_checkpoint_directory
     from cti_vla.evaluation.libero_runtime import INPUTS_VERSION
     from cti_vla.evaluation.teacher_diagnostics import atomic_json, require_g0, json_signature
@@ -448,10 +542,14 @@ def run(args):
     if os.name == "nt" or not os.environ.get("SLURM_JOB_ID"):
         raise RuntimeError("real VLA execution is server Slurm only")
     config = read_json(args.config)
-    protocol = load_experiment_protocol(args.protocol)
-    manifest = load_future_windows(args.windows, protocol)
-    if config["future"]["horizon"] != manifest["horizon"]:
-        raise ValueError("registered horizon mismatch")
+    asset = load_checkpoint_manifest(args.asset_manifest)
+    suite, protocol, manifest, _ = data_registration(args, config, asset)
+    input_acceptance_sha = require_input_gate(args, config, asset, protocol, manifest)
+    long_sources = source_hashes() if suite == "libero_10" else None
+    long_watched = ({str(p.resolve()): file_hash(p) for p in (args.config, args.windows,
+        args.protocol, args.asset_manifest, args.input_acceptance_report, args.input_acceptance_report.parent / "calls.jsonl",
+        ROOT / "scripts/verify_long_inputs.py", *([args.acceptance_report] if args.mode == "train" else []))}
+        if suite == "libero_10" else {})
     base = args.checkpoint.resolve()
     project = Path("/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA")
     weight_root = Path("/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints")
@@ -463,13 +561,11 @@ def run(args):
     args.output.mkdir(parents=True, exist_ok=True)
     write_frozen_json(args.output / "registered_config.json", config)
     write_frozen_json(args.output / "registered_windows.json", manifest)
-    asset = load_checkpoint_manifest(args.asset_manifest)
-    require_g0(read_json(args.g0_report), model_revision=asset.revision, input_version=INPUTS_VERSION, packing_version=PACKING_VERSION)
     if args.mode == "train":
         from cti_vla.evaluation.future_runtime import require_future_f01
         passed = read_json(args.acceptance_report)
         require_future_f01(passed, pair_id=json_signature(config), window_manifest_sha256=file_hash(args.windows),
-            model_revision=asset.revision)
+            model_revision=asset.revision, suite=suite, input_acceptance_sha256=input_acceptance_sha)
         finalized = read_json(args.acceptance_report.parent / "acceptance_finalization.json")
         if passed["source_files"] != source_hashes() or finalized.get("status") != "verified" or finalized.get("checkpoint_unchanged") is not True or finalized.get("result_sha256") != file_hash(args.acceptance_report):
             raise ValueError("training requires finalized F01 evidence from this exact implementation")
@@ -496,7 +592,8 @@ def run(args):
     else:
         report = train_pair(args, config, index, components, policy, student)
     after = verify_checkpoint_directory(base, asset)
-    if before != after:
+    if before != after or (long_sources is not None and (long_sources != source_hashes() or
+            any(file_hash(Path(p)) != sha for p, sha in long_watched.items()))):
         raise RuntimeError("immutable checkpoint verification changed")
     atomic_json(args.output / (args.mode + "_finalization.json"), {"status": "verified", "checkpoint_unchanged": True,
         "checkpoint": asdict(after), "job_id": os.environ["SLURM_JOB_ID"], "result_status": report["status"],
@@ -506,10 +603,14 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ("config", "windows", "protocol", "checkpoint", "asset-manifest", "g0-report", "data-directory",
+    for name in ("config", "windows", "protocol", "checkpoint", "asset-manifest", "data-directory",
                  "cache-directory", "feature-cache", "training-checkpoints", "output"):
         parser.add_argument("--" + name, type=Path, required=True)
     parser.add_argument("--acceptance-report", type=Path)
+    parser.add_argument("--g0-report", type=Path)
+    parser.add_argument("--input-acceptance-report", type=Path)
+    parser.add_argument("--suite", choices=("libero_spatial", "libero_10"), default="libero_spatial")
+    parser.add_argument("--stats-key")
     parser.add_argument("--mode", choices=("acceptance", "train"), required=True)
     args = parser.parse_args()
     started = time.perf_counter()

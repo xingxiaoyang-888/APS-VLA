@@ -85,7 +85,8 @@ def test_runner_validation_consumes_shared_hard_indices_and_future_head_api(exam
     assert all(p.grad is None for p in example.student.parameters())
 
 
-def test_runner_resumes_after_validation_zero_without_duplicate_history(example, monkeypatch, tmp_path):
+@pytest.mark.parametrize("suite", [None, "libero_10"])
+def test_runner_resumes_after_validation_zero_without_duplicate_history(example, monkeypatch, tmp_path, suite):
     """Exercise real two-update A/B loops and actual tiny checkpoint serialization.
 
     Ninety/sixty distinct synthetic window IDs satisfy the runner's panel size;
@@ -123,6 +124,9 @@ def test_runner_resumes_after_validation_zero_without_duplicate_history(example,
     args = SimpleNamespace(output=tmp_path / "synthetic-output", training_checkpoints=tmp_path / "synthetic-checkpoints",
                            windows=tmp_path / "synthetic-windows", checkpoint=tmp_path / "synthetic-base",
                            asset_manifest=tmp_path / "synthetic-assets", acceptance_report=tmp_path / "synthetic-F01")
+    if suite is not None:
+        config.update(suite=suite, stats_key="libero_10_no_noops")
+        args.input_acceptance_report=tmp_path / "synthetic-input-acceptance"
     events = []
     interrupted = [False]
 
@@ -138,6 +142,13 @@ def test_runner_resumes_after_validation_zero_without_duplicate_history(example,
     resume = original_load(args.training_checkpoints / "A/resume.pt")
     assert resume["completed_update"] == 0
     assert [r["update"] for r in resume["evaluations"]] == [0]
+    if suite is not None:
+        assert resume["suite"]==suite and resume["input_acceptance_sha256"]=="0"*64
+        assert resume["f01_report_sha256"]=="0"*64
+        runner.save_torch(args.training_checkpoints / "A/resume.pt",{**resume,"input_acceptance_sha256":"f"*64})
+        with pytest.raises(ValueError,match="another suite/input/F01"):
+            runner.train_pair(args,config,index,components,example.teacher,example.student)
+        runner.save_torch(args.training_checkpoints / "A/resume.pt",resume)
     report = runner.train_pair(args, config, index, components, example.teacher, example.student)
     assert report["status"] == "completed"
     for arm in ("A", "B"):
