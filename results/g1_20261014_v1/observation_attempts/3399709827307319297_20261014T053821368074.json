@@ -1,0 +1,95 @@
+{
+  "config_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2",
+  "cost": {
+    "api_calls_attempted": 1062,
+    "attempts_by_category": {
+      "comparison_full_loo_static": 2,
+      "comparison_random_seed_17": 3,
+      "comparison_random_seed_23": 3,
+      "comparison_random_seed_41": 3,
+      "comparison_uniform": 3,
+      "full_reference": 1,
+      "panel_base": 4,
+      "panel_deletion": 80,
+      "panel_replacement": 80,
+      "teacher_all_candidates": 880,
+      "teacher_stage_evaluation": 3
+    },
+    "batch_size": 1,
+    "by_visual_length": {
+      "127": {
+        "api_calls_attempted": 160,
+        "known_policy_seconds": 5.950622038915753,
+        "sample_forwards_attempted": 160,
+        "sample_forwards_completed": 160
+      },
+      "128": {
+        "api_calls_attempted": 40,
+        "known_policy_seconds": 1.5039266403764486,
+        "sample_forwards_attempted": 40,
+        "sample_forwards_completed": 40
+      },
+      "255": {
+        "api_calls_attempted": 288,
+        "known_policy_seconds": 15.042282927781343,
+        "sample_forwards_attempted": 288,
+        "sample_forwards_completed": 288
+      },
+      "256": {
+        "api_calls_attempted": 39,
+        "known_policy_seconds": 2.0305183082818985,
+        "sample_forwards_attempted": 39,
+        "sample_forwards_completed": 39
+      },
+      "511": {
+        "api_calls_attempted": 512,
+        "known_policy_seconds": 45.39858062565327,
+        "sample_forwards_attempted": 512,
+        "sample_forwards_completed": 512
+      },
+      "512": {
+        "api_calls_attempted": 17,
+        "known_policy_seconds": 1.476650534197688,
+        "sample_forwards_attempted": 17,
+        "sample_forwards_completed": 17
+      },
+      "64": {
+        "api_calls_attempted": 6,
+        "known_policy_seconds": 0.20602194778621197,
+        "sample_forwards_attempted": 6,
+        "sample_forwards_completed": 6
+      }
+    },
+    "cache_hits": 22,
+    "current_process_journal_io_seconds": 1.4351544957607985,
+    "failed_calls": 0,
+    "interrupted_calls_unknown_completion": 0,
+    "journal_bytes": 3200346,
+    "known_policy_seconds": 71.60860302299261,
+    "policy_seconds_total": 71.60860302299261,
+    "recovered_from_journal": false,
+    "requests": 1084,
+    "sample_forwards_attempted": 1062,
+    "sample_forwards_completed": 1062,
+    "timing_scope": "Synchronized packed-policy callback from cached projected features; excludes vision/preprocessing, CPU action copy and journal IO. Not deployment latency.",
+    "unique_cached_actions": 1062
+  },
+  "cpu_seconds_this_attempt": 72.76636387400004,
+  "observation": {
+    "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+    "exact_selection": true,
+    "is_last_step": true,
+    "record_index": 24,
+    "repeatability": false,
+    "sample_id": 3399709827307319297,
+    "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+    "stage": "late",
+    "step_index": 108,
+    "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+  },
+  "peak_allocated_bytes": 15553692160,
+  "preprocessing_seconds": 0.41231933422386646,
+  "status": "completed",
+  "vision_seconds": 0.12589962035417557,
+  "wall_seconds_this_attempt": 74.36648187227547
+}

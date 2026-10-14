@@ -1,0 +1,758 @@
+{
+  "schema_version": 1,
+  "stage": "G1_independent_scientific_review",
+  "reviewer": "packing_migration",
+  "reviewed_utc": "2026-10-14T06:06:37.847537+00:00",
+  "status": "review_completed",
+  "recommendation": {
+    "decision": "no_go_for_current_512_256_128_schedule",
+    "is_root_authorization": false,
+    "authorizes_G2_or_G3": false,
+    "scope": "Independent development-stage scientific recommendation; root retains the decision and execution authority.",
+    "plan_reference": "docs/完整实验计划.md section 5.3, G1 continuation condition",
+    "reasons": [
+      "At128, staged teacher is worse than full-context static LOO in9/12 observations, all4 task means and all3 phase means.",
+      "128 tail, position/rotation/gripper aggregate errors and all8 chunk-step means are worse than static LOO; excluding the largest-error observation does not reverse the mean contrast.",
+      "256 is the same first-stage selection by construction;64 does not show stable improvement over static LOO, so neither budget justifies bypassing the128 gate."
+    ],
+    "next_step": "At most the3 prospectively registered smaller-step observations; retain main G1 as primary and all failures. Examine batch deletion interactions and late-frame/gripper error before any revised frozen hypothesis. No automatic training activation."
+  },
+  "source_evidence": {
+    "main_directory": "results/g1_20261014_v1",
+    "main_config_sha256_file": "473a67299133693b19e14631f9f5b46a847c7401c090572e3afbd45d58e4f49c",
+    "main_config_identity_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2",
+    "main_finalization_sha256": "24a0b9db060de4aefb655c72a77a8ab798427f753dc1d8714b42f3d5f5ab780b",
+    "main_summary_sha256": "e602bf7a4c3f6cf86e02daca1cf1751bf91e7df570233ec0dedbb6d59f5157ea",
+    "d4_summary_sha256": "fe727c6705625a5c29521baecf47de79054ba99737e9369291d3d5a28dde3fe3",
+    "plan_sha256": "28656c748134038a6da7bcf9359a2ffb3856c5b2aeaaf6316014a17c13331541",
+    "d4_script_sha256": "09829925f0f1806c998b778c94431c662e6cc69d0a067194c94e8bd55e472420",
+    "teacher_diagnostics_source_sha256": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd"
+  },
+  "validation": {
+    "finalization_observation_files_verified": 90,
+    "finalization_query_journals_verified": 90,
+    "d4_source_evidence_matches": true,
+    "exact_paths_independently_replayed_from_original_journals": 12,
+    "replayed_paths_match_original_results": true,
+    "all_exact_stage_labels_finite": true,
+    "full_set_exact_labels_nonnegative": true,
+    "repeatability_observations": 10,
+    "maximum_repeated_action_or_label_difference": 0.0,
+    "gpu_calls_by_review": 0,
+    "raw_results_modified": false
+  },
+  "coverage": {
+    "teacher_observations": 12,
+    "teacher_episodes": 4,
+    "teacher_tasks": 4,
+    "observations_per_episode": 3,
+    "phases": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "late_equals_final_frame": true
+  },
+  "budgets": {
+    "256": {
+      "method_errors": {
+        "teacher_staged": {
+          "mean_l1": 0.01686128550985207,
+          "median_l1": 0.01201772689819336,
+          "p95_l1_linear_interpolation": 0.04340013815090058,
+          "maximum_l1": 0.059365954250097275
+        },
+        "full_loo_static": {
+          "mean_l1": 0.01686128550985207,
+          "median_l1": 0.01201772689819336,
+          "p95_l1_linear_interpolation": 0.04340013815090058,
+          "maximum_l1": 0.059365954250097275
+        },
+        "uniform": {
+          "mean_l1": 0.05610347352921963,
+          "median_l1": 0.03942734934389591,
+          "p95_l1_linear_interpolation": 0.11654559224843977,
+          "maximum_l1": 0.12398120015859604
+        }
+      },
+      "paired_comparisons": {
+        "full_loo_static": {
+          "teacher_minus_baseline_mean_l1": 0.0,
+          "teacher_wins": 0,
+          "ties_within_1e_6": 12,
+          "teacher_losses": 0,
+          "worst_increase": 0.0,
+          "d4_episode_cluster_exploratory_ci95": [
+            0.0,
+            0.0
+          ],
+          "episode_clusters": 4
+        },
+        "uniform": {
+          "teacher_minus_baseline_mean_l1": -0.03924218801936755,
+          "teacher_wins": 12,
+          "ties_within_1e_6": 0,
+          "teacher_losses": 0,
+          "worst_increase": -0.0094778873026371,
+          "d4_episode_cluster_exploratory_ci95": [
+            -0.05017909512389451,
+            -0.02514908400674661
+          ],
+          "episode_clusters": 4
+        }
+      }
+    },
+    "128": {
+      "method_errors": {
+        "teacher_staged": {
+          "mean_l1": 0.0646395181150486,
+          "median_l1": 0.04985669627785683,
+          "p95_l1_linear_interpolation": 0.16184500344097605,
+          "maximum_l1": 0.24010276794433594
+        },
+        "full_loo_static": {
+          "mean_l1": 0.037123538088053465,
+          "median_l1": 0.031347001902759075,
+          "p95_l1_linear_interpolation": 0.07091535888612269,
+          "maximum_l1": 0.08482115715742111
+        },
+        "uniform": {
+          "mean_l1": 0.09268073303004105,
+          "median_l1": 0.08292906731367111,
+          "p95_l1_linear_interpolation": 0.1836300916969776,
+          "maximum_l1": 0.1856907457113266
+        }
+      },
+      "paired_comparisons": {
+        "full_loo_static": {
+          "teacher_minus_baseline_mean_l1": 0.02751598002699514,
+          "teacher_wins": 3,
+          "ties_within_1e_6": 0,
+          "teacher_losses": 9,
+          "worst_increase": 0.15528161078691483,
+          "d4_episode_cluster_exploratory_ci95": [
+            0.012573379557579756,
+            0.04378657120590409
+          ],
+          "episode_clusters": 4
+        },
+        "uniform": {
+          "teacher_minus_baseline_mean_l1": -0.02804121491499245,
+          "teacher_wins": 8,
+          "ties_within_1e_6": 0,
+          "teacher_losses": 4,
+          "worst_increase": 0.14220265299081802,
+          "d4_episode_cluster_exploratory_ci95": [
+            -0.04990274575538933,
+            0.006566639058291912
+          ],
+          "episode_clusters": 4
+        }
+      }
+    },
+    "64": {
+      "method_errors": {
+        "teacher_staged": {
+          "mean_l1": 0.07236602048700054,
+          "median_l1": 0.0698830708861351,
+          "p95_l1_linear_interpolation": 0.12221749238669871,
+          "maximum_l1": 0.1307917982339859
+        },
+        "full_loo_static": {
+          "mean_l1": 0.06493323110044003,
+          "median_l1": 0.058674607425928116,
+          "p95_l1_linear_interpolation": 0.11447623185813427,
+          "maximum_l1": 0.11575235426425934
+        },
+        "uniform": {
+          "mean_l1": 0.1612967411056161,
+          "median_l1": 0.1542617231607437,
+          "p95_l1_linear_interpolation": 0.25513174533843996,
+          "maximum_l1": 0.2559421956539154
+        }
+      },
+      "paired_comparisons": {
+        "full_loo_static": {
+          "teacher_minus_baseline_mean_l1": 0.007432789386560519,
+          "teacher_wins": 7,
+          "ties_within_1e_6": 0,
+          "teacher_losses": 5,
+          "worst_increase": 0.0736955888569355,
+          "d4_episode_cluster_exploratory_ci95": [
+            -0.0007730314197639624,
+            0.014662264846265316
+          ],
+          "episode_clusters": 4
+        },
+        "uniform": {
+          "teacher_minus_baseline_mean_l1": -0.08893072061861555,
+          "teacher_wins": 12,
+          "ties_within_1e_6": 0,
+          "teacher_losses": 0,
+          "worst_increase": -0.0022370517253875732,
+          "d4_episode_cluster_exploratory_ci95": [
+            -0.11465962727864583,
+            -0.06320181395858526
+          ],
+          "episode_clusters": 4
+        }
+      }
+    }
+  },
+  "main128_groups": {
+    "task_name": [
+      {
+        "group": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+        "observations": 3,
+        "mean_l1": {
+          "teacher_staged": 0.06612984463572502,
+          "full_loo_static": 0.03525250218808651,
+          "uniform": 0.10745373368263245
+        },
+        "paired_comparisons": {
+          "full_loo_static": {
+            "teacher_minus_baseline_mean_l1": 0.03087734244763851,
+            "teacher_wins": 1,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 2,
+            "worst_increase": 0.06167520955204964
+          },
+          "uniform": {
+            "teacher_minus_baseline_mean_l1": -0.041323889046907425,
+            "teacher_wins": 2,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 1,
+            "worst_increase": 0.033530645072460175
+          }
+        }
+      },
+      {
+        "group": "pick up the black bowl next to the cookie box and place it on the plate",
+        "observations": 3,
+        "mean_l1": {
+          "teacher_staged": 0.04720115754753351,
+          "full_loo_static": 0.03508122762044271,
+          "uniform": 0.08745234459638596
+        },
+        "paired_comparisons": {
+          "full_loo_static": {
+            "teacher_minus_baseline_mean_l1": 0.012119929927090803,
+            "teacher_wins": 2,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 1,
+            "worst_increase": 0.0448848195374012
+          },
+          "uniform": {
+            "teacher_minus_baseline_mean_l1": -0.040251187048852444,
+            "teacher_wins": 2,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 1,
+            "worst_increase": 0.005677357316017151
+          }
+        }
+      },
+      {
+        "group": "pick up the black bowl next to the plate and place it on the plate",
+        "observations": 3,
+        "mean_l1": {
+          "teacher_staged": 0.0977928526699543,
+          "full_loo_static": 0.04375303412477175,
+          "uniform": 0.0752627042432626
+        },
+        "paired_comparisons": {
+          "full_loo_static": {
+            "teacher_minus_baseline_mean_l1": 0.05403981854518255,
+            "teacher_wins": 0,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 3,
+            "worst_increase": 0.15528161078691483
+          },
+          "uniform": {
+            "teacher_minus_baseline_mean_l1": 0.022530148426691692,
+            "teacher_wins": 2,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 1,
+            "worst_increase": 0.14220265299081802
+          }
+        }
+      },
+      {
+        "group": "pick up the black bowl on the ramekin and place it on the plate",
+        "observations": 3,
+        "mean_l1": {
+          "teacher_staged": 0.0474342176069816,
+          "full_loo_static": 0.03440738841891289,
+          "uniform": 0.10055414959788322
+        },
+        "paired_comparisons": {
+          "full_loo_static": {
+            "teacher_minus_baseline_mean_l1": 0.013026829188068708,
+            "teacher_wins": 0,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 3,
+            "worst_increase": 0.021528519690036774
+          },
+          "uniform": {
+            "teacher_minus_baseline_mean_l1": -0.05311993199090163,
+            "teacher_wins": 2,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 1,
+            "worst_increase": 0.023844584822654724
+          }
+        }
+      }
+    ],
+    "stage": [
+      {
+        "group": "early",
+        "observations": 4,
+        "mean_l1": {
+          "teacher_staged": 0.04017807776108384,
+          "full_loo_static": 0.038052132818847895,
+          "uniform": 0.12317230179905891
+        },
+        "paired_comparisons": {
+          "full_loo_static": {
+            "teacher_minus_baseline_mean_l1": 0.0021259449422359467,
+            "teacher_wins": 2,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 2,
+            "worst_increase": 0.0111541748046875
+          },
+          "uniform": {
+            "teacher_minus_baseline_mean_l1": -0.08299422403797507,
+            "teacher_wins": 4,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 0,
+            "worst_increase": -0.019517216831445694
+          }
+        }
+      },
+      {
+        "group": "late",
+        "observations": 4,
+        "mean_l1": {
+          "teacher_staged": 0.12065220065414906,
+          "full_loo_static": 0.05692359386011958,
+          "uniform": 0.0856779646128416
+        },
+        "paired_comparisons": {
+          "full_loo_static": {
+            "teacher_minus_baseline_mean_l1": 0.06372860679402947,
+            "teacher_wins": 0,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 4,
+            "worst_increase": 0.15528161078691483
+          },
+          "uniform": {
+            "teacher_minus_baseline_mean_l1": 0.03497423604130745,
+            "teacher_wins": 1,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 3,
+            "worst_increase": 0.14220265299081802
+          }
+        }
+      },
+      {
+        "group": "middle",
+        "observations": 4,
+        "mean_l1": {
+          "teacher_staged": 0.033088275929912925,
+          "full_loo_static": 0.01639488758519292,
+          "uniform": 0.06919193267822266
+        },
+        "paired_comparisons": {
+          "full_loo_static": {
+            "teacher_minus_baseline_mean_l1": 0.016693388344720006,
+            "teacher_wins": 1,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 3,
+            "worst_increase": 0.06167520955204964
+          },
+          "uniform": {
+            "teacher_minus_baseline_mean_l1": -0.03610365674830973,
+            "teacher_wins": 3,
+            "ties_within_1e_6": 0,
+            "teacher_losses": 1,
+            "worst_increase": 0.033530645072460175
+          }
+        }
+      }
+    ]
+  },
+  "main128_action_dimensions": {
+    "teacher_staged": {
+      "position_mean_l1": 0.06682866136543453,
+      "rotation_mean_l1": 0.059712303802371025,
+      "gripper_mean_l1": 0.07285372416178386,
+      "by_action_dimension": [
+        0.06803003946940105,
+        0.05235417683919271,
+        0.08010176817576091,
+        0.05932299296061198,
+        0.08108711242675781,
+        0.038726806640625,
+        0.07285372416178386
+      ],
+      "by_chunk_step": [
+        0.05856632092036307,
+        0.05670093419030309,
+        0.057757241457390286,
+        0.07146794348955154,
+        0.0900942503164212,
+        0.06813884976630409,
+        0.06052071717567742,
+        0.0538698824432989
+      ]
+    },
+    "full_loo_static": {
+      "position_mean_l1": 0.038813365545744695,
+      "rotation_mean_l1": 0.040104866260662675,
+      "gripper_mean_l1": 0.023110071818033855,
+      "by_action_dimension": [
+        0.04240608215332031,
+        0.03259468078613281,
+        0.041439334551493325,
+        0.039558092753092446,
+        0.05769952138264974,
+        0.023056983947753906,
+        0.023110071818033855
+      ],
+      "by_chunk_step": [
+        0.037859417110060654,
+        0.04726773298655947,
+        0.0382637744769454,
+        0.03329172606269518,
+        0.04204668244346976,
+        0.034484499832615256,
+        0.0324648905855914,
+        0.0313095822930336
+      ]
+    },
+    "uniform": {
+      "position_mean_l1": 0.09979652178784211,
+      "rotation_mean_l1": 0.10431136097759008,
+      "gripper_mean_l1": 0.03644148508707682,
+      "by_action_dimension": [
+        0.09893798828125,
+        0.10815095901489258,
+        0.09230061372121175,
+        0.09645827611287434,
+        0.15470377604166666,
+        0.06177202860514323,
+        0.03644148508707682
+      ],
+      "by_chunk_step": [
+        0.09284210205078125,
+        0.1018987378726403,
+        0.09748894814401865,
+        0.09633173296848933,
+        0.09571125265210867,
+        0.08447683556005359,
+        0.08260617995013793,
+        0.0900900699198246
+      ]
+    }
+  },
+  "main128_late_action_dimensions": {
+    "teacher_staged": {
+      "position_mean_l1": 0.11154810525476933,
+      "rotation_mean_l1": 0.0990495691075921,
+      "gripper_mean_l1": 0.21277236938476562
+    },
+    "full_loo_static": {
+      "position_mean_l1": 0.05113569926470518,
+      "rotation_mean_l1": 0.059745470993220806,
+      "gripper_mean_l1": 0.06582164764404297
+    },
+    "uniform": {
+      "position_mean_l1": 0.07237100694328547,
+      "rotation_mean_l1": 0.09321419429033995,
+      "gripper_mean_l1": 0.10299015045166016
+    }
+  },
+  "main128_worst_observation": {
+    "observation": {
+      "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+      "exact_selection": true,
+      "is_last_step": true,
+      "record_index": 23,
+      "repeatability": false,
+      "sample_id": 7836379267827386910,
+      "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+      "stage": "late",
+      "step_index": 172,
+      "task_name": "pick up the black bowl next to the plate and place it on the plate"
+    },
+    "mean_l1": {
+      "teacher_staged": 0.24010276794433594,
+      "full_loo_static": 0.08482115715742111,
+      "uniform": 0.09790011495351791
+    }
+  },
+  "exploratory_outlier_sensitivity": {
+    "excluded_sample_id": 7836379267827386910,
+    "purpose": "Sensitivity check only; excluded observation remains in every primary result.",
+    "teacher_minus_static_mean_l1_remaining11": 0.01590092268518426
+  },
+  "main128_observation_comparisons": [
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:7226134d970ff5581560a7049f0d114d856b48564d346942668fb6e89562db65",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 5,
+        "repeatability": false,
+        "sample_id": 3244922072381086711,
+        "source_shard": "libero_spatial-train.tfrecord-00013-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.05626944079995155,
+        "full_loo_static": 0.058532100170850754,
+        "uniform": 0.1819441020488739
+      },
+      "teacher_minus_static_mean_l1": -0.0022626593708992004,
+      "teacher_minus_uniform_mean_l1": -0.12567466124892235
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:7226134d970ff5581560a7049f0d114d856b48564d346942668fb6e89562db65",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 5,
+        "repeatability": false,
+        "sample_id": 4231800877142443125,
+        "source_shard": "libero_spatial-train.tfrecord-00013-of-00016",
+        "stage": "middle",
+        "step_index": 79,
+        "task_name": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.07849638909101486,
+        "full_loo_static": 0.016821179538965225,
+        "uniform": 0.04496574401855469
+      },
+      "teacher_minus_static_mean_l1": 0.06167520955204964,
+      "teacher_minus_uniform_mean_l1": 0.033530645072460175
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:7226134d970ff5581560a7049f0d114d856b48564d346942668fb6e89562db65",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 5,
+        "repeatability": false,
+        "sample_id": 7832060677625451964,
+        "source_shard": "libero_spatial-train.tfrecord-00013-of-00016",
+        "stage": "late",
+        "step_index": 157,
+        "task_name": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.06362370401620865,
+        "full_loo_static": 0.03040422685444355,
+        "uniform": 0.09545135498046875
+      },
+      "teacher_minus_static_mean_l1": 0.0332194771617651,
+      "teacher_minus_uniform_mean_l1": -0.0318276509642601
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5306709786799343592,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.03181757405400276,
+        "full_loo_static": 0.035503387451171875,
+        "uniform": 0.051334790885448456
+      },
+      "teacher_minus_static_mean_l1": -0.003685813397169113,
+      "teacher_minus_uniform_mean_l1": -0.019517216831445694
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 7605784223314304513,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "middle",
+        "step_index": 53,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.0119699751958251,
+        "full_loo_static": 0.016809191554784775,
+        "uniform": 0.11888367682695389
+      },
+      "teacher_minus_static_mean_l1": -0.004839216358959675,
+      "teacher_minus_uniform_mean_l1": -0.10691370163112879
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 9,
+        "repeatability": false,
+        "sample_id": 5255765869814492326,
+        "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+        "stage": "late",
+        "step_index": 105,
+        "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.09781592339277267,
+        "full_loo_static": 0.052931103855371475,
+        "uniform": 0.09213856607675552
+      },
+      "teacher_minus_static_mean_l1": 0.0448848195374012,
+      "teacher_minus_uniform_mean_l1": 0.005677357316017151
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 1602995049568869675,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.02918134443461895,
+        "full_loo_static": 0.02588326670229435,
+        "uniform": 0.0737195685505867
+      },
+      "teacher_minus_static_mean_l1": 0.0032980777323246002,
+      "teacher_minus_uniform_mean_l1": -0.04453822411596775
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 3109064030613564253,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "middle",
+        "step_index": 86,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.024094445630908012,
+        "full_loo_static": 0.0205546785145998,
+        "uniform": 0.05416842922568321
+      },
+      "teacher_minus_static_mean_l1": 0.0035397671163082123,
+      "teacher_minus_uniform_mean_l1": -0.0300739835947752
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 23,
+        "repeatability": false,
+        "sample_id": 7836379267827386910,
+        "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+        "stage": "late",
+        "step_index": 172,
+        "task_name": "pick up the black bowl next to the plate and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.24010276794433594,
+        "full_loo_static": 0.08482115715742111,
+        "uniform": 0.09790011495351791
+      },
+      "teacher_minus_static_mean_l1": 0.15528161078691483,
+      "teacher_minus_uniform_mean_l1": 0.14220265299081802
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 5018323033991223877,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "early",
+        "step_index": 0,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.0434439517557621,
+        "full_loo_static": 0.0322897769510746,
+        "uniform": 0.1856907457113266
+      },
+      "teacher_minus_static_mean_l1": 0.0111541748046875,
+      "teacher_minus_uniform_mean_l1": -0.1422467939555645
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": false,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 1383568076259036788,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "middle",
+        "step_index": 54,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.017792293801903725,
+        "full_loo_static": 0.011394500732421875,
+        "uniform": 0.05874988064169884
+      },
+      "teacher_minus_static_mean_l1": 0.00639779306948185,
+      "teacher_minus_uniform_mean_l1": -0.04095758683979511
+    },
+    {
+      "observation": {
+        "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+        "exact_selection": true,
+        "is_last_step": true,
+        "record_index": 24,
+        "repeatability": false,
+        "sample_id": 3399709827307319297,
+        "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+        "stage": "late",
+        "step_index": 108,
+        "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+      },
+      "mean_l1": {
+        "teacher_staged": 0.08106640726327896,
+        "full_loo_static": 0.05953788757324219,
+        "uniform": 0.05722182244062424
+      },
+      "teacher_minus_static_mean_l1": 0.021528519690036774,
+      "teacher_minus_uniform_mean_l1": 0.023844584822654724
+    }
+  ],
+  "mechanism_interpretation": "D2 shows that signed deletion rankings change with retained context (mean Spearman about0.12–0.20), but context sensitivity alone does not establish useful staged subset selection. No observed numerical-repeatability or record-replay failure explains away the main negative result.",
+  "limitations": [
+    "Only4 independent episodes, one per task; paired episode-cluster intervals are exploratory, not a full-suite population guarantee.",
+    "Action error is normalized teacher imitation error, not closed-loop success or environment reward.",
+    "No post-hoc removal of late frames, loss reweighting, schedule choice or main-budget switch is authorized by this review."
+  ]
+}

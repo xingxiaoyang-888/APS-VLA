@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_full_running_D1_completed",
+  "stage": "G1_completed_no_go_optional_step_activated",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -48,10 +48,13 @@
       "job_id": "2990197",
       "name": "cti-g1",
       "mode": "full",
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_20261014_v1",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_20261014_v1",
-      "purpose": "Resume frozen 90 observations and 12 exact teacher trajectories after successful pilot"
+      "purpose": "Resume frozen 90 observations and 12 exact teacher trajectories after successful pilot",
+      "exit_code": 0,
+      "node": "gpu4009",
+      "elapsed": "00:33:55"
     },
     {
       "job_id": "2990203",
@@ -67,11 +70,16 @@
       "elapsed": "00:04:04"
     }
   ],
-  "pending_submission": null,
+  "pending_submission": {
+    "name": "cti-g1-step",
+    "mode": "preregistered_three_observations",
+    "activation_receipt": "results/g1_analysis/g1_20261014_v1/step_activation.json",
+    "max_total_attempts": 6000
+  },
   "agents": {
-    "packing_migration": "trained selector development closed-loop adapter",
-    "conditional_method": "complete observation-to-action latency profiler",
-    "data_migration": "ACL matched baseline scaffold and fidelity audit"
+    "packing_migration": "independent raw-result replay and scientific review",
+    "conditional_method": "independent method review and bounded revision candidates",
+    "data_migration": "optional diagnostic input integrity review"
   },
   "verified_gates": [
     {
@@ -81,6 +89,12 @@
       "observations": 90,
       "closed_loop_trials": 45,
       "exact_dense_pairs": 15
+    },
+    {
+      "stage": "G1",
+      "status": "no_go",
+      "report": "results/g1_analysis/g1_20261014_v1/scientific_review.json",
+      "reason": "Primary128 staged teacher worse than full-LOO static in all4 task means; G2/G3 remain closed"
     }
   ],
   "verified_substeps": [
@@ -145,10 +159,9 @@
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
   "current_work": [
-    "G1 full diagnostics job 2990197 after pilot 165/165 successful queries; no scientific go yet",
-    "D1 completed18/18 and independently reconciled; one legal pair only",
-    "Full G1 then D4 scientific review before G2/G3",
-    "Parallel development: selector closed-loop adapter, complete latency profiling, ACL matched scaffolding"
+    "Full G1/D4 completed and reviewed no-go",
+    "Optional preregistered3-observation small-step diagnosis activated, awaiting root submission",
+    "Formal G2/G3 and final test remain closed"
   ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
@@ -157,10 +170,10 @@
     "Weights and training checkpoints stay on server"
   ],
   "last_observed_G1_progress": {
-    "completed_observations": 54,
+    "completed_observations": 90,
     "expected_observations": 90,
-    "completed_teacher_queries": 13405,
+    "completed_teacher_queries": 25634,
     "failed_queries": 0,
-    "scientific_status": "pending_complete_analysis"
+    "scientific_status": "no_go"
   }
 }

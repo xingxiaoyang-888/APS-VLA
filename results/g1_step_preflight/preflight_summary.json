@@ -1,0 +1,48 @@
+{
+  "cost_bound": {
+    "attempt_cap_per_observation": 2000,
+    "calculation": "1 full + (512+384+256+192+128+96) deletions + 6 stage evaluations + 30 controls - first static/teacher overlap =1604; further cache overlap can reduce actual count",
+    "fresh_unique_query_upper_bound_per_observation": 1604,
+    "plan_maximum_per_observation": 5000
+  },
+  "followup_per_camera_budgets": [
+    192,
+    128,
+    96,
+    64,
+    48,
+    32
+  ],
+  "gpu_calls": 0,
+  "registration_sha256": "8ab85ba783030a632ac4063e006fe202b56747face18aa3230cc9a6f672d475b",
+  "samples": [
+    {
+      "episode_id": "libero-episode-sha256:2497eb52db6d5cc775546d0c33230707949b9e0a709b66c9b063e52af6632d48",
+      "record_index": 9,
+      "sample_id": 5306709786799343592,
+      "source_shard": "libero_spatial-train.tfrecord-00011-of-00016",
+      "stage": "early",
+      "step_index": 0,
+      "task_name": "pick up the black bowl next to the cookie box and place it on the plate"
+    },
+    {
+      "episode_id": "libero-episode-sha256:57130c11c2cd3f855b3e9434858f59e31d33b1def68d13ceb4f39984a1fee813",
+      "record_index": 24,
+      "sample_id": 1383568076259036788,
+      "source_shard": "libero_spatial-train.tfrecord-00010-of-00016",
+      "stage": "middle",
+      "step_index": 54,
+      "task_name": "pick up the black bowl on the ramekin and place it on the plate"
+    },
+    {
+      "episode_id": "libero-episode-sha256:162ebd2ddcc4157444b7b983df53e835eb09de5ace15683ac501052121ed3371",
+      "record_index": 23,
+      "sample_id": 7836379267827386910,
+      "source_shard": "libero_spatial-train.tfrecord-00002-of-00016",
+      "stage": "late",
+      "step_index": 172,
+      "task_name": "pick up the black bowl next to the plate and place it on the plate"
+    }
+  ],
+  "status": "prepared_only_not_activated"
+}

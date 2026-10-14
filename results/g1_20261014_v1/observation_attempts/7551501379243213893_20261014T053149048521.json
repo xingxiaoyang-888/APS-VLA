@@ -1,0 +1,82 @@
+{
+  "config_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2",
+  "cost": {
+    "api_calls_attempted": 165,
+    "attempts_by_category": {
+      "full_reference": 1,
+      "panel_base": 4,
+      "panel_deletion": 80,
+      "panel_replacement": 80
+    },
+    "batch_size": 1,
+    "by_visual_length": {
+      "127": {
+        "api_calls_attempted": 32,
+        "known_policy_seconds": 1.174779649823904,
+        "sample_forwards_attempted": 32,
+        "sample_forwards_completed": 32
+      },
+      "128": {
+        "api_calls_attempted": 34,
+        "known_policy_seconds": 1.249263558536768,
+        "sample_forwards_attempted": 34,
+        "sample_forwards_completed": 34
+      },
+      "255": {
+        "api_calls_attempted": 32,
+        "known_policy_seconds": 1.6476792320609093,
+        "sample_forwards_attempted": 32,
+        "sample_forwards_completed": 32
+      },
+      "256": {
+        "api_calls_attempted": 34,
+        "known_policy_seconds": 1.7528594229370356,
+        "sample_forwards_attempted": 34,
+        "sample_forwards_completed": 34
+      },
+      "511": {
+        "api_calls_attempted": 16,
+        "known_policy_seconds": 1.3842207677662373,
+        "sample_forwards_attempted": 16,
+        "sample_forwards_completed": 16
+      },
+      "512": {
+        "api_calls_attempted": 17,
+        "known_policy_seconds": 1.5079226344823837,
+        "sample_forwards_attempted": 17,
+        "sample_forwards_completed": 17
+      }
+    },
+    "cache_hits": 1,
+    "current_process_journal_io_seconds": 0.21403068862855434,
+    "failed_calls": 0,
+    "interrupted_calls_unknown_completion": 0,
+    "journal_bytes": 400380,
+    "known_policy_seconds": 8.716725265607238,
+    "policy_seconds_total": 8.716725265607238,
+    "recovered_from_journal": false,
+    "requests": 166,
+    "sample_forwards_attempted": 165,
+    "sample_forwards_completed": 165,
+    "timing_scope": "Synchronized packed-policy callback from cached projected features; excludes vision/preprocessing, CPU action copy and journal IO. Not deployment latency.",
+    "unique_cached_actions": 165
+  },
+  "cpu_seconds_this_attempt": 8.95133515200007,
+  "observation": {
+    "episode_id": "libero-episode-sha256:3e87990565e1acabdc93cf431a040d8696c085479d6e14abda3195e215ed2a29",
+    "exact_selection": false,
+    "is_last_step": false,
+    "record_index": 5,
+    "repeatability": false,
+    "sample_id": 7551501379243213893,
+    "source_shard": "libero_spatial-train.tfrecord-00006-of-00016",
+    "stage": "early",
+    "step_index": 0,
+    "task_name": "pick up the black bowl on the stove and place it on the plate"
+  },
+  "peak_allocated_bytes": 15553576960,
+  "preprocessing_seconds": 0.16323020495474339,
+  "status": "completed",
+  "vision_seconds": 0.21658286452293396,
+  "wall_seconds_this_attempt": 9.43361951969564
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "stage": "G1",
+  "status": "no_go",
+  "decision": "no_go",
+  "reviewed_by": "root; independent reviews by packing_migration and conditional_method",
+  "reviewed_utc": "2026-10-14T06:07:47.380197+00:00",
+  "config_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2",
+  "finalization_sha256": "24a0b9db060de4aefb655c72a77a8ab798427f753dc1d8714b42f3d5f5ab780b",
+  "d4_summary_sha256": "fe727c6705625a5c29521baecf47de79054ba99737e9369291d3d5a28dde3fe3",
+  "coverage": {
+    "diagnostic_observations": 90,
+    "teacher_observations": 12,
+    "teacher_episodes": 4,
+    "teacher_tasks": 4
+  },
+  "primary_total_budget": 128,
+  "primary_mean_action_error": {
+    "teacher_staged": 0.0646395181150486,
+    "full_loo_static": 0.037123538088053465,
+    "uniform": 0.09268073303004105
+  },
+  "teacher_minus_static": {
+    "mean": 0.02751598002699514,
+    "episode_cluster_bootstrap_95ci": [
+      0.012573379557579756,
+      0.04378657120590409
+    ],
+    "wins": 3,
+    "losses": 9,
+    "tasks_worse": 4,
+    "phases_worse": 3
+  },
+  "checks": {
+    "original_journals_replayed": true,
+    "repeat_action_and_label_max_difference": 0.0,
+    "checkpoint_unchanged": true,
+    "successful_teacher_forwards": 25634,
+    "failed": 0,
+    "unknown": 0
+  },
+  "interpretation": "Current 512-256-128-64 teacher schedule has no stable advantage over static full-LOO at primary128; do not expand G2/G3. Four episode clusters support only development decisions; late is also terminal-frame-confounded.",
+  "permitted_next_action": "Only preregistered three-observation smaller-step diagnosis; separate results, no automatic G2 activation."
+}

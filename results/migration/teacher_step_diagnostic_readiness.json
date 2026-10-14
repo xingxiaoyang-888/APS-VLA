@@ -1,0 +1,52 @@
+{
+  "artifact_sha256": {
+    "configs/manifests/spatial_g1_step_diagnostic_v1.json": "8ab85ba783030a632ac4063e006fe202b56747face18aa3230cc9a6f672d475b",
+    "docs/G1可选小步长诊断工具.md": "747a11b78ab7a97c2aa0121d4242b898d28aa3b2857a769ba47ca0bf178a8434",
+    "results/g1_step_preflight/preflight_summary.json": "e6f8de65ea9c131d2a5de16191e3333b75c4a039c16f7851299ab3becb5b61dd",
+    "scripts/run_teacher_step_diagnostic.py": "fda15db26ab9d0cb1117db77a6abe52b355aea81f226d56c6f91cf46406f3c9c",
+    "tests/test_data_teacher_step_diagnostic.py": "d2f63bb68644abd5566fa227976892908d90c7912d3b6e0c2a5dfca9e1349c76"
+  },
+  "attempt_cap_per_observation_including_failures_and_interruptions": 2000,
+  "cpu_tests": {
+    "command": "python -m pytest tests/test_data_teacher_step_diagnostic.py -q --basetemp .local/test-artifacts/step-diagnostic-final",
+    "elapsed_seconds": 11.57,
+    "passed": 10
+  },
+  "gpu_policy_calls": 0,
+  "gpu_submissions": 0,
+  "guardrails": [
+    "real train and registered membership reconstructed",
+    "complete main G1 90/12 plus journal-bound finalization and D4 required",
+    "reviewed no-go receipt bound to registration/G1/D4",
+    "critical source hashes and actual cti_vla import directory match source snapshot",
+    "independent config and journals; source snapshot and weights never output paths",
+    "old exact action results and new paired results recomputed from action journals",
+    "actual input and projected feature fingerprints plus full teacher parity",
+    "all failures and unknown completions consume fixed attempt cap",
+    "checkpoint verified before and after; finalization binds result/journal hashes",
+    "unknown timing stays null; no automatic go"
+  ],
+  "model_weights_downloaded_or_written": false,
+  "not_verified": [
+    "real GPU/BF16 execution of optional tool",
+    "scientific activation condition, which root must review from complete G1/D4"
+  ],
+  "observations": 3,
+  "per_camera_budgets": [
+    192,
+    128,
+    96,
+    64,
+    48,
+    32
+  ],
+  "prepare_only": {
+    "command": "python scripts/run_teacher_step_diagnostic.py --prepare-only --output-directory results/g1_step_preflight",
+    "gpu_calls": 0,
+    "status": "prepared_only_not_activated"
+  },
+  "registration": "configs/manifests/spatial_g1_step_diagnostic_v1.json",
+  "schema_version": 1,
+  "status": "cpu_tooling_verified_not_activated_not_executed",
+  "unique_query_upper_bound_per_observation": 1604
+}

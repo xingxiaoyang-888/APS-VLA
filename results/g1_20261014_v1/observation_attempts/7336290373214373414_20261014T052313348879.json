@@ -1,0 +1,84 @@
+{
+  "config_sha256": "c83a7b0ac85b65ffc68b3982e0e3316467b6f60adca738ba2ce02d068f47c5b2",
+  "cost": {
+    "api_calls_attempted": 167,
+    "attempts_by_category": {
+      "full_reference": 1,
+      "panel_base": 4,
+      "panel_deletion": 80,
+      "panel_replacement": 80,
+      "repeatability_deletion": 1,
+      "repeatability_full": 1
+    },
+    "batch_size": 1,
+    "by_visual_length": {
+      "127": {
+        "api_calls_attempted": 32,
+        "known_policy_seconds": 1.1498831827193499,
+        "sample_forwards_attempted": 32,
+        "sample_forwards_completed": 32
+      },
+      "128": {
+        "api_calls_attempted": 34,
+        "known_policy_seconds": 1.222828110679984,
+        "sample_forwards_attempted": 34,
+        "sample_forwards_completed": 34
+      },
+      "255": {
+        "api_calls_attempted": 32,
+        "known_policy_seconds": 1.5867000296711922,
+        "sample_forwards_attempted": 32,
+        "sample_forwards_completed": 32
+      },
+      "256": {
+        "api_calls_attempted": 34,
+        "known_policy_seconds": 1.6894779466092587,
+        "sample_forwards_attempted": 34,
+        "sample_forwards_completed": 34
+      },
+      "511": {
+        "api_calls_attempted": 17,
+        "known_policy_seconds": 1.3871359527111053,
+        "sample_forwards_attempted": 17,
+        "sample_forwards_completed": 17
+      },
+      "512": {
+        "api_calls_attempted": 18,
+        "known_policy_seconds": 1.4603886045515537,
+        "sample_forwards_attempted": 18,
+        "sample_forwards_completed": 18
+      }
+    },
+    "cache_hits": 3,
+    "current_process_journal_io_seconds": 0.19637169875204563,
+    "failed_calls": 0,
+    "interrupted_calls_unknown_completion": 0,
+    "journal_bytes": 415113,
+    "known_policy_seconds": 8.496413826942444,
+    "policy_seconds_total": 8.496413826942444,
+    "recovered_from_journal": false,
+    "requests": 170,
+    "sample_forwards_attempted": 167,
+    "sample_forwards_completed": 167,
+    "timing_scope": "Synchronized packed-policy callback from cached projected features; excludes vision/preprocessing, CPU action copy and journal IO. Not deployment latency.",
+    "unique_cached_actions": 167
+  },
+  "cpu_seconds_this_attempt": 8.804022888000006,
+  "observation": {
+    "episode_id": "libero-episode-sha256:1b60cdbf712b7981475b38ae085a26b848da1184675e31a48fc4f2c18361aad9",
+    "exact_selection": false,
+    "is_last_step": true,
+    "record_index": 9,
+    "repeatability": true,
+    "sample_id": 7336290373214373414,
+    "source_shard": "libero_spatial-train.tfrecord-00000-of-00016",
+    "stage": "late",
+    "step_index": 147,
+    "task_name": "pick up the black bowl on the stove and place it on the plate"
+  },
+  "peak_allocated_bytes": 15553576960,
+  "preprocessing_seconds": 0.017819108441472054,
+  "status": "completed",
+  "vision_seconds": 0.029640069231390953,
+  "wall_seconds_this_attempt": 8.897062968462706
+}

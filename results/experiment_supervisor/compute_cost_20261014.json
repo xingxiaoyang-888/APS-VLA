@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "Slurm sacct original job records only; .batch/.extern/steps excluded to avoid double count",
-  "scope": "Completed jobs captured before full G1 job finishes; includes G0 engineering, G1pilot and D1. Does not represent total project or training cost.",
+  "scope": "Completed registered G0, main G1 including pilot, and D1 jobs; excludes prior setup/smoke and future training/optional diagnosis.",
   "jobs": [
     {
       "job_id": "2989099",
@@ -46,6 +46,20 @@
       "node": "gpu4009"
     },
     {
+      "job_id": "2990197",
+      "name": "cti-g1",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "start_cluster_local": "2026-10-14T13:19:33",
+      "end_cluster_local": "2026-10-14T13:53:28",
+      "elapsed_seconds": 2035,
+      "allocated_cpus": 7,
+      "allocated_gpus": 1,
+      "gpu_type": "L40",
+      "allocated_gpu_hours": 0.5652777777777778,
+      "node": "gpu4009"
+    },
+    {
       "job_id": "2990203",
       "name": "cti-d1",
       "state": "COMPLETED",
@@ -60,10 +74,10 @@
       "node": "gpu4004"
     }
   ],
-  "captured_completed_allocated_l40_hours": 0.5186111111111111,
+  "captured_completed_allocated_l40_hours": 1.0838888888888887,
   "groups": {
     "cti-d1": 0.06777777777777778,
     "cti-g0": 0.38555555555555554,
-    "cti-g1": 0.06527777777777778
+    "cti-g1": 0.6305555555555555
   }
 }

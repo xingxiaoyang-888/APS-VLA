@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "stage": "G5_tooling_preflight",
+  "status": "cpu_contract_tests_passed_not_a_latency_result",
+  "created_utc": "2026-10-14T05:51:12.432047+00:00",
+  "real_gpu_calls": 0,
+  "formal_test_observations_read": 0,
+  "final_public_panel_created": false,
+  "tests": {
+    "command": "python -m pytest tests/test_observation_profiling.py tests/test_selector_runtime.py -q",
+    "passed": 41,
+    "profiling_tests": 16,
+    "selector_runtime_tests": 25,
+    "warning": "PyTorch TypedStorage deprecation; no test failure"
+  },
+  "cli_help_checks": [
+    "profile_observation_to_action.py --help",
+    "analyze_observation_latency.py --help"
+  ],
+  "independent_review": {
+    "reviewer": "packing_migration",
+    "profiling_tests_passed": 16,
+    "remaining_blocking_findings": []
+  },
+  "source_sha256": {
+    "src/cti_vla/evaluation/profiling.py": "648cf11400b0d70f2e4ee99fd8d4c26f917b38957b546ad5bfc578915d1d0404",
+    "scripts/profile_observation_to_action.py": "1c8c92527c95dc24e4194d5734f00bc96041b7f14c36bfc67799448ea7cf6093",
+    "scripts/analyze_observation_latency.py": "2328227b2c0cfad0f2a01da607add991a8be2ef0f73a487e2b93fc9b62a1f335",
+    "tests/test_observation_profiling.py": "b5145f3a699571e067dbb3e57de776cccfac36cfae526081ee024e0e385accad",
+    "docs/端到端测速工具.md": "873a021d00f1d087cfb0eef236f9aa196da679bd52559bc0459c91ad2fd32f00"
+  },
+  "limitations": [
+    "No GPU latency, peak-memory, hot-language-cache benefit or speedup measured.",
+    "Current deployed adapters cache no instruction; cold/hot both include complete encoding.",
+    "Raw formal dense trajectory capture and the frozen 300-observation panel remain future experiment work.",
+    "Formal performance requires same-hardware uncontended Slurm execution and immutable checkpoint/input/G0 freeze."
+  ],
+  "optional_g1_small_step_operator_audit": {
+    "synthetic_only": true,
+    "per_camera_budgets": [
+      192,
+      128,
+      96,
+      64,
+      48,
+      32
+    ],
+    "comparison_seed": 517,
+    "random_seeds": [
+      17,
+      23,
+      41
+    ],
+    "fresh_unique_upper_bound": 1604,
+    "synthetic_actual_calls": 1604,
+    "synthetic_failed_calls": 0,
+    "attempt_cap_per_observation": 2000,
+    "formal_diagnostic_not_executed": true
+  }
+}
