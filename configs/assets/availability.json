@@ -21,6 +21,16 @@
     "python_version": "3.11.7",
     "torch": "2.2.0+cu121",
     "transformers": "4.40.1 (pinned OFT fork)",
-    "freeze": "results/assets/environment_freeze.txt"
+    "freeze": "results/setup/after_libero_freeze.txt",
+    "simulation": "LIBERO 8f1084e3132a39270c3a13ebe37270a43ece2a01; MuJoCo 2.3.7; robosuite 1.4.1; tensorflow-cpu 2.15.1",
+    "sources": "configs/assets/runtime_sources.json"
+  },
+  "native_baseline_scorers": {
+    "name": "VLA-ACL Spatial k32/k64",
+    "status": "2_of_2_files_hash_verified_not_evaluated",
+    "server_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/vla-acl-spatial-e8d3009",
+    "manifest": "configs/assets/vla_acl_spatial_scorers.json",
+    "receipt": "results/assets/vla_acl_spatial_scorers.json",
+    "use_boundary": "Author-native results only; undocumented training membership requires our own split-guarded retraining for matched comparisons."
   }
 }
