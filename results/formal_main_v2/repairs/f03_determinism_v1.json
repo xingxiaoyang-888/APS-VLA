@@ -1,0 +1,25 @@
+{
+  "schema": "formal_main_v2",
+  "status": "reviewed",
+  "stage_key": "libero_10_acceptance",
+  "target_source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "source_commit": "564be0995e45a229286365912c39b4c571429628",
+  "failed_job_ids": [
+    "3004911"
+  ],
+  "segment_end": null,
+  "utc": "2026-10-15T18:32:58.363871+00:00",
+  "reason": "F03 identical forward losses and restored RNG/cursor, but non-bitwise DIE and AdamW after backward; suspect nondeterministic training kernels, not established as unique cause",
+  "bounded_repair": "strict deterministic algorithms and pre-CUDA CUBLAS workspace; soft student forward efficient/math SDPA only; no scientific setting change",
+  "strict_bitwise_gate_unchanged": true,
+  "prior_failure_gpu_seconds": 543,
+  "cpu_review": "results/formal_main_v2/preflight/f03_determinism_cpu_review.json",
+  "independent_code_review": {
+    "agent": "/root/train64",
+    "status": "no_blocker",
+    "scope": "actual SDPA student graph, backward and CUDA initialization, unchanged matched A/B and inference, restoration identity; real GPU gate still required"
+  },
+  "record": "docs/正式实验F03恢复修正记录.md",
+  "max_retry_for_this_repair": 1,
+  "test_opened": false
+}

@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "formal_main_v2_acceptance_repair",
+  "stage": "formal_main_v2_train",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -553,6 +553,54 @@
       "elapsed_seconds": 543,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4016"
+    },
+    {
+      "job_id": "3005020",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "acceptance",
+      "stage_key": "libero_10_acceptance",
+      "suite": "libero_10",
+      "visual_tokens": null,
+      "training_seed": null,
+      "segment_end": null,
+      "status": "COMPLETED",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/acceptance/attempt02",
+      "invocation": "results/formal_main_v2/invocations/libero_10_acceptance_attempt02.json",
+      "invocation_sha256": "f0c9ea6db8da1463d819dc6ec8188e4a12cc3b27a976ae1dcc20404d37e5c7e6",
+      "submitted_utc": "2026-10-15T18:32:59.311508+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 580,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4016"
+    },
+    {
+      "job_id": "3005060",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k128_seed17",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "training_seed": 17,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed17_attempt01.json",
+      "invocation_sha256": "215fdd1813df60a74302d885fbff5f6730dfba1a72b5700259f88b72492c7fd0",
+      "submitted_utc": "2026-10-15T18:48:25.838003+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 103,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4025"
     }
   ],
   "agents": {
@@ -726,7 +774,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T18:28:42.983875+00:00",
+  "last_supervision_utc": "2026-10-15T18:50:11.851363+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -774,9 +822,9 @@
   "pending_submission": null,
   "next_allowed_action": "Finish Long data and F00/F01/F02/F03; start Long128seed17 formal A/B5000; estimate actual resource cost; follow registered matrix only",
   "current_round_cost": {
-    "registered_jobs": 4,
-    "allocated_gpu_seconds": 543,
-    "allocated_gpu_hours": 0.15083333333333335,
+    "registered_jobs": 6,
+    "allocated_gpu_seconds": 1226,
+    "allocated_gpu_hours": 0.34055555555555556,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1286,13 +1334,40 @@
     },
     "engineering_acceptance": {
       "suite": "libero_10",
-      "job_id": "3004911",
+      "job_id": "3005020",
+      "status": "passed_root_review",
       "F00": "passed",
       "F01_all_budgets": "passed",
-      "F03": "failed",
-      "formal_training_allowed": false,
-      "repair_record": "docs/正式实验F03恢复修正记录.md",
-      "next_action": "one source-bound acceptance retry with deterministic training numerics after CPU review"
+      "F03": "passed_bitwise",
+      "formal_training_allowed": true,
+      "failed_attempt_job_ids": [
+        "3004911"
+      ],
+      "root_review": "results/formal_main_v2/libero_10/acceptance/root_review.json",
+      "repair_record": "results/formal_main_v2/repairs/f03_determinism_v1.json"
+    },
+    "active_training": {
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "training_seed": 17,
+      "job_id": "3005060",
+      "segment_end": 500,
+      "total_updates_per_arm": 5000,
+      "status": "submitted",
+      "resource_estimate": "await actual first A/B segment throughput, full validation cost and cache volume"
     }
-  }
+  },
+  "formal_main_source_snapshot": {
+    "commit": "564be0995e45a229286365912c39b4c571429628",
+    "source_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+    "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+    "inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "files_verified": 173
+  },
+  "next_actions": [
+    "Check only registered job3005060 and existing outputs; do not resubmit while active",
+    "After terminal state, SHA-pull nonweight results and audit A/B full resume identity, sample order and all due validation nodes",
+    "Estimate full matrix resources using actual full-pool work and cache/validation costs; then continue exact resume to5000 before remaining Long matrix",
+    "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and root global release"
+  ]
 }
