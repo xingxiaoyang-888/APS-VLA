@@ -1,0 +1,31 @@
+{
+  "jobs": [
+    {
+      "job_id": "3001539",
+      "state": "RUNNING",
+      "exit_code": "0:0",
+      "elapsed_seconds": 6,
+      "allocated_gpus": 1,
+      "node": "gpu4012",
+      "start": "2026-10-15T19:42:24",
+      "end": "Unknown",
+      "scope": "acceptance",
+      "training_seed": 17
+    },
+    {
+      "job_id": "3001540",
+      "state": "RUNNING",
+      "exit_code": "0:0",
+      "elapsed_seconds": 2,
+      "allocated_gpus": 1,
+      "node": "gpu4013",
+      "start": "2026-10-15T19:42:28",
+      "end": "Unknown",
+      "scope": "collect",
+      "training_seed": null
+    }
+  ],
+  "source": "sacct -X -P; registered multiseed allocations only",
+  "queried_utc": "2026-10-15T11:42:28.388159+00:00",
+  "parent_jobs_excluded": true
+}
