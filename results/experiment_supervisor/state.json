@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "formal_main_v2_engineering_and_data",
+  "stage": "formal_main_v2_acceptance_repair",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -517,14 +517,42 @@
       "experiment": "formal_main_v2",
       "mode": "cpu_data_libero_goal",
       "suite": "libero_goal",
-      "status": "SUBMITTED",
+      "status": "COMPLETED",
       "gpus": 0,
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_data_1c6b2f6",
       "source_sha256": "ec4f2453200a745b70de7b0dce54618bff70fcc60dd4b37b17f2fe61b4bb2d85",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/data/libero_goal",
       "submitted_utc": "2026-10-15T17:44:55.639508+00:00",
       "purpose": "New suite content-hash whole-episode split and full-window metadata; no model calls",
-      "script_sha256": "8e9418df556dd1743556760c7e94b1c5470771fa64656e214927a2dca5459b56"
+      "script_sha256": "8e9418df556dd1743556760c7e94b1c5470771fa64656e214927a2dca5459b56",
+      "exit_code": "0:0",
+      "elapsed_seconds": 300,
+      "allocation": "billing=4,cpu=4,mem=32G,node=1",
+      "node": "cpui146"
+    },
+    {
+      "job_id": "3004911",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "acceptance",
+      "stage_key": "libero_10_acceptance",
+      "suite": "libero_10",
+      "visual_tokens": null,
+      "training_seed": null,
+      "segment_end": null,
+      "status": "FAILED",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_474a92df63",
+      "source_sha256": "2f6c0eb287f82924e6ec94f8f9189065733eff939a28ae50d77a515399de8a38",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/acceptance/attempt01",
+      "invocation": "results/formal_main_v2/invocations/libero_10_acceptance_attempt01.json",
+      "invocation_sha256": "53b636838582a131b9d4ecd119879b57f27177a999f97c4f692d7923091d3418",
+      "submitted_utc": "2026-10-15T17:48:25.271253+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "1:0",
+      "elapsed_seconds": 543,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4016"
     }
   ],
   "agents": {
@@ -698,7 +726,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T17:44:16.186700+00:00",
+  "last_supervision_utc": "2026-10-15T18:28:42.983875+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -746,9 +774,9 @@
   "pending_submission": null,
   "next_allowed_action": "Finish Long data and F00/F01/F02/F03; start Long128seed17 formal A/B5000; estimate actual resource cost; follow registered matrix only",
   "current_round_cost": {
-    "registered_jobs": 3,
-    "allocated_gpu_seconds": 0,
-    "allocated_gpu_hours": 0.0,
+    "registered_jobs": 4,
+    "allocated_gpu_seconds": 543,
+    "allocated_gpu_hours": 0.15083333333333335,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1243,7 +1271,28 @@
         "wall_seconds": 268.13362631201744,
         "train_windows": 44068,
         "validation_windows": 204
+      },
+      "libero_goal": {
+        "status": "passed_cpu_metadata_and_complete_window_inventory",
+        "episode_counts": {
+          "test": 67,
+          "train": 299,
+          "validation": 62
+        },
+        "wall_seconds": 295.75666383600037,
+        "train_windows": 33859,
+        "validation_windows": 186
       }
+    },
+    "engineering_acceptance": {
+      "suite": "libero_10",
+      "job_id": "3004911",
+      "F00": "passed",
+      "F01_all_budgets": "passed",
+      "F03": "failed",
+      "formal_training_allowed": false,
+      "repair_record": "docs/正式实验F03恢复修正记录.md",
+      "next_action": "one source-bound acceptance retry with deterministic training numerics after CPU review"
     }
   }
 }

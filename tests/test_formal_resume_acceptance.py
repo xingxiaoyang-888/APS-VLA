@@ -68,6 +68,10 @@ def test_actual_save_reload_probe_matches_both_arms_and_restores_outer_rng(examp
     declared = copy.deepcopy(report)
     declared["execution"] = "real_frozen_openvla_slurm"
     gate(declared)
+    missing_numerics = copy.deepcopy(declared)
+    missing_numerics.pop("training_numerics")
+    with pytest.raises(ValueError, match="real-GPU"):
+        gate(missing_numerics)
     for seed in (17, 23, 41):
         for budget in (32, 64, 128):
             config = dict(declared["accepted_pair_config"], seed=seed, tokens_per_camera=budget, run_id="other")

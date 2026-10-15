@@ -23,13 +23,13 @@ import torch
 from cti_vla.selection import ConditionalInfluenceEstimator
 from cti_vla.training.future_auxiliary import FutureAuxiliaryHead
 from cti_vla.training.formal_future import (
-    FORMAL_SCHEMA, FORMAL_METRIC, append_event, atomic_json_save, atomic_torch_save,
+    FORMAL_SCHEMA, FORMAL_METRIC, FORMAL_NUMERICS, append_event, atomic_json_save, atomic_torch_save,
     capture_rng, cpu_state, file_sha256, formal_auxiliary_loss, json_signature,
     load_torch, make_formal_batch, parameter_fingerprint, restore_rng, seed_training_rng,
     tensor_signature, validate_formal_training_config,
 )
 
-PROBE_VERSION = "formal-main-v2-real-resume-bitwise-v1"
+PROBE_VERSION = "formal-main-v2-real-resume-bitwise-v2"
 CHECKS = ("scorer_equal", "head_equal", "optimizer_equal", "rng_equal", "rng_probe_equal",
           "next_sample_cursor_equal", "scheduler_position_equal", "step1_snapshot_equal",
           "die_updated", "frozen_model_unchanged", "vla_gradients_absent")
@@ -293,7 +293,7 @@ def run_formal_resume_acceptance(*, config, records, windows, student, component
             "alpha_probe_updates": [spec.alpha(1), spec.alpha(2)], "effective_batch": 8,
             "arms": arms, "matched_ab_initialization": matched, "formal_selector_produced": False,
             "engineering_weights_reused_for_training": False, "test_opened": False,
-            "comparison": "bitwise equality; no numeric tolerance applied",
+            "comparison": "bitwise equality; no numeric tolerance applied", "training_numerics": dict(FORMAL_NUMERICS),
             "actual_forward_backward_samples": 48, "job_id": str(job_id),
             "checkpoint_root": str(run_root), "wall_seconds": time.perf_counter() - started,
             "journal_bytes": events_path.stat().st_size, "journal_sha256": file_sha256(events_path),
@@ -330,7 +330,7 @@ def require_formal_resume_acceptance(report, *, config, window_manifest_sha256, 
         "selection_metric": FORMAL_METRIC, "selection_tie_break": "earliest_update",
         "alpha_first": 2., "alpha_last": .1, "effective_batch": 8, "matched_ab_initialization": True,
         "formal_selector_produced": False, "engineering_weights_reused_for_training": False,
-        "test_opened": False, "actual_forward_backward_samples": 48}
+        "test_opened": False, "actual_forward_backward_samples": 48, "training_numerics": dict(FORMAL_NUMERICS)}
     if any(report.get(key) != value for key, value in expected.items()):
         raise ValueError("formal real-GPU resume gate identity/plan/checks failed")
     arms = report.get("arms", {})

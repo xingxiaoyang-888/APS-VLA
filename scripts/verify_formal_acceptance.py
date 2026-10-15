@@ -62,7 +62,8 @@ def run(args):
     from cti_vla.evaluation.checkpoint_manifest import load_checkpoint_manifest, verify_checkpoint_directory
     from cti_vla.evaluation.future_profiling import validate_new_output_paths
     from cti_vla.models.abstraction.packing import PACKING_VERSION
-    from cti_vla.training.formal_future import validate_formal_training_config, append_event
+    from cti_vla.training.formal_future import (validate_formal_training_config, append_event,
+        configure_formal_training_numerics)
     configs = [read_json(path) for path in args.configs]
     for config in configs:
         validate_formal_training_config(config)
@@ -99,6 +100,7 @@ def run(args):
     os.environ.update(HF_HOME=str(args.cache_directory), HF_HUB_CACHE=str(args.cache_directory / "hub"),
         HF_MODULES_CACHE=str(args.cache_directory / "modules"), HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1")
     import torch
+    configure_formal_training_numerics()
     from transformers import AutoProcessor
     from cti_vla.models.openvla_oft_loader import load_openvla_oft_components
     from cti_vla.models.openvla_oft_policy import OpenVLAOFTTokenPolicy

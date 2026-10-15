@@ -1,0 +1,16 @@
+2026-10-16 01:49:51.306098: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-10-16 01:49:52.754766: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:05<00:15,  5.20s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:06<00:06,  3.14s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:08<00:02,  2.25s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  1.43s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.07s/it]
+Traceback (most recent call last):
+  File "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_474a92df63/scripts/verify_formal_acceptance.py", line 268, in <module>
+    main()
+  File "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_474a92df63/scripts/verify_formal_acceptance.py", line 264, in main
+    print(json.dumps(run(parser.parse_args()), ensure_ascii=False), flush=True)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_474a92df63/scripts/verify_formal_acceptance.py", line 230, in run
+    require_formal_resume_acceptance(resume_report, config=primary, window_manifest_sha256=file_sha256(args.windows),
+  File "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_474a92df63/src/cti_vla/training/formal_resume_acceptance.py", line 335, in require_formal_resume_acceptance
+    raise ValueError("formal real-GPU resume gate identity/plan/checks failed")
+ValueError: formal real-GPU resume gate identity/plan/checks failed
+srun: error: gpu4016: task 0: Exited with exit code 1

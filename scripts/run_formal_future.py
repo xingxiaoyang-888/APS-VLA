@@ -39,6 +39,7 @@ def run(args):
     from cti_vla.training.formal_future import (
         atomic_json_save, file_sha256, formal_source_hashes, json_signature,
         parameter_fingerprint, train_formal_arm, validate_formal_training_config,
+        configure_formal_training_numerics,
     )
     from cti_vla.training.formal_records import FormalRecordProvider, exclusive_file_lock
     from cti_vla.training.formal_resume_acceptance import require_formal_resume_acceptance, verify_resume_journal
@@ -113,6 +114,7 @@ def run(args):
     os.environ.update(HF_HOME=str(cache_directory), HF_HUB_CACHE=str(cache_directory / "hub"),
         HF_MODULES_CACHE=str(cache_directory / "modules"), HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1")
     import torch
+    configure_formal_training_numerics()
     from transformers import AutoProcessor
     from cti_vla.models.openvla_oft_loader import load_openvla_oft_components
     from cti_vla.models.openvla_oft_policy import OpenVLAOFTTokenPolicy

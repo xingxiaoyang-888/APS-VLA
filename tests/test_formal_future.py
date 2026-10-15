@@ -13,6 +13,47 @@ from cti_vla.training import formal_future as formal
 from cti_vla.training.future_auxiliary import future_auxiliary_loss, hard_select_future
 
 
+@pytest.fixture
+def preserve_numerics(monkeypatch):
+    enabled = torch.are_deterministic_algorithms_enabled()
+    warn = torch.is_deterministic_algorithms_warn_only_enabled()
+    benchmark, deterministic = torch.backends.cudnn.benchmark, torch.backends.cudnn.deterministic
+    monkeypatch.setenv("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+    yield
+    torch.use_deterministic_algorithms(enabled, warn_only=warn)
+    torch.backends.cudnn.benchmark, torch.backends.cudnn.deterministic = benchmark, deterministic
+
+
+def test_training_numerics_scope_and_restore(preserve_numerics):
+    before = (torch.backends.cuda.flash_sdp_enabled(), torch.backends.cuda.mem_efficient_sdp_enabled(),
+              torch.backends.cuda.math_sdp_enabled())
+    assert formal.configure_formal_training_numerics() == formal.FORMAL_NUMERICS
+    with formal.formal_student_attention_context("cuda:0"):
+        assert not torch.backends.cuda.flash_sdp_enabled()
+        assert torch.backends.cuda.mem_efficient_sdp_enabled() and torch.backends.cuda.math_sdp_enabled()
+    assert before == (torch.backends.cuda.flash_sdp_enabled(), torch.backends.cuda.mem_efficient_sdp_enabled(),
+                      torch.backends.cuda.math_sdp_enabled())
+    # Determinism must persist for backward after the forward-only context.
+    assert torch.are_deterministic_algorithms_enabled()
+    with pytest.raises(RuntimeError, match="injected"):
+        with formal.formal_student_attention_context("cuda:0"):
+            raise RuntimeError("injected forward error")
+    assert torch.backends.cuda.flash_sdp_enabled() == before[0]
+    with formal.formal_student_attention_context("cpu"):
+        assert torch.backends.cuda.flash_sdp_enabled() == before[0]
+
+
+def test_cuda_numerics_fail_closed(preserve_numerics, monkeypatch):
+    formal.configure_formal_training_numerics()
+    torch.use_deterministic_algorithms(True, warn_only=True)
+    with pytest.raises(RuntimeError, match="not configured"):
+        formal.formal_student_attention_context("cuda:0")
+    monkeypatch.setattr(torch.cuda, "is_initialized", lambda: True)
+    monkeypatch.setenv("CUBLAS_WORKSPACE_CONFIG", ":16:8")
+    with pytest.raises(RuntimeError, match="before CUDA"):
+        formal.configure_formal_training_numerics()
+
+
 @pytest.mark.parametrize("budget", [32, 64])
 @pytest.mark.parametrize("arm", ["A", "B"])
 def test_historical_loss_and_gradients_identical(example, budget, arm):

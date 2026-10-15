@@ -7,6 +7,7 @@ only the separately registered data pool, update schedule and budget differ.
 from __future__ import annotations
 
 from collections import defaultdict
+from contextlib import nullcontext
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
@@ -37,6 +38,46 @@ FORMAL_METRIC = "task_macro_hard_validation_teacher_l1"
 FORMAL_TRAINING_VERSION = "formal-main-v2-acl-half-teacher-half-gt-future-fixed-v1"
 FORMAL_ORDER_VERSION = "python-random-private-seeded-full-pool-shuffle-cycle-v1"
 FORMAL_RESUME_VERSION = "formal-main-v2-optimizer-rng-next-sample-transaction-v1"
+FORMAL_NUMERICS = {
+    "version": "formal-training-deterministic-sdpa-v1",
+    "deterministic_algorithms": True,
+    "warn_only": False,
+    "cublas_workspace_config": ":4096:8",
+    "cudnn_benchmark": False,
+    "cudnn_deterministic": True,
+    "soft_student_sdpa": "efficient-or-math; flash-disabled",
+    "hard_inference_sdpa": "unchanged-runtime-default",
+}
+
+
+def configure_formal_training_numerics() -> dict:
+    """Set the engineering reproducibility contract before CUDA initialization.
+
+    PyTorch 2.2 flash SDPA backward has no deterministic implementation. Only
+    the differentiable student forward selects efficient/math SDPA below;
+    teacher, hard validation and deployed inference keep their usual dispatch.
+    The deterministic flag must remain enabled during the later backward.
+    """
+    workspace = FORMAL_NUMERICS["cublas_workspace_config"]
+    if torch.cuda.is_initialized() and os.environ.get("CUBLAS_WORKSPACE_CONFIG") != workspace:
+        raise RuntimeError("formal CUBLAS workspace must be configured before CUDA initialization")
+    os.environ["CUBLAS_WORKSPACE_CONFIG"] = workspace
+    torch.use_deterministic_algorithms(True, warn_only=False)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    return dict(FORMAL_NUMERICS)
+
+
+def formal_student_attention_context(device):
+    """Scope the deterministic CUDA attention choice to the training student."""
+    if torch.device(device).type != "cuda":
+        return nullcontext()
+    if (not torch.are_deterministic_algorithms_enabled()
+            or torch.is_deterministic_algorithms_warn_only_enabled()
+            or os.environ.get("CUBLAS_WORKSPACE_CONFIG") != FORMAL_NUMERICS["cublas_workspace_config"]
+            or torch.backends.cudnn.benchmark or not torch.backends.cudnn.deterministic):
+        raise RuntimeError("formal CUDA training numerics contract is not configured")
+    return torch.backends.cuda.sdp_kernel(enable_flash=False, enable_mem_efficient=True, enable_math=True)
 
 
 def formal_budget(tokens_per_camera: int) -> int:
@@ -88,8 +129,9 @@ There is no future or demonstrated-action argument to the selector.
     gated_raw = gate_raw_tokens(batch.raw_tokens, gates, batch.black_tokens)
     gated_projected = student.visual_projector(gated_raw)
     source = torch.arange(512, device=scores.device)[None].expand(scores.shape[0], -1)
-    prediction = student(gated_projected, source, input_ids=batch.input_ids, attention_mask=batch.attention_mask,
-                         normalized_proprio=conditions.normalized_proprio.to(gated_projected.dtype))
+    with formal_student_attention_context(gated_projected.device):
+        prediction = student(gated_projected, source, input_ids=batch.input_ids, attention_mask=batch.attention_mask,
+                             normalized_proprio=conditions.normalized_proprio.to(gated_projected.dtype))
     teacher_l1 = (prediction.float() - batch.teacher_actions.float()).abs().mean()
     demonstration_l1 = (prediction.float() - batch.demonstration_actions.float()).abs().mean()
     action_loss = .5 * teacher_l1 + .5 * demonstration_l1
@@ -497,6 +539,7 @@ def train_formal_arm(*, config: dict, arm: str, spec: FormalTrainingSpec,
     training_config = {**config, "arm": arm}
     run_identity = {**identity, "training_config_sha256": json_signature(training_config),
                     "pair_config_sha256": json_signature(config), "training_version": FORMAL_TRAINING_VERSION,
+                    "training_numerics": dict(FORMAL_NUMERICS),
                     "specification": dict(spec.__dict__)}
     with torch.random.fork_rng(devices=[]):
         torch.manual_seed(spec.seed)
