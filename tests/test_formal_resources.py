@@ -477,7 +477,7 @@ def test_projection_has72_arms_disjoint_components_explicit_cost_assumptions(syn
 
     monkeypatch.setattr(r, "cache_projection", replay)
     value = r.project_training(synthetic["registration"], synthetic["windows"], measured)
-    assert calls == [(0, True), (1, True), (0, False), (1, False)]
+    assert calls == [(0, True), (1, True), (0, False), (1, False), ("mean", True), ("mean", False)]
     assert value["fresh_training_only"] is True and value["remaining_cost_not_identified"] is True
     assert value["unmeasured_suites"] == list(r.SUITES[1:]) and value["unmeasured_budgets"] == [256, 64]
     assert "not preregistered" in value["assumptions"]["schedule_status"]
@@ -498,6 +498,25 @@ def test_projection_has72_arms_disjoint_components_explicit_cost_assumptions(syn
     independent = value["scenarios"]["independent_cache_per_arm"]["endpoints"][0]
     independent_A = next(x for x in independent["rows"] if (x["suite"], x["budget"], x["seed"], x["arm"]) == ("libero_10", 128, 17, "A"))
     assert independent_A["A_hypothetical_independent_train_future_savings_seconds"] == pytest.approx(100 * .015)
+    point = value["observed_mean_planning_point"]
+    assert point["proxy_validated"] is False and point["confidence_interval"] is False
+    assert point["fresh_training_only"] and point["remaining_cost_not_identified"]
+    assert point["rollout_and_profiling_costs_included"] is False
+    assert point["all_complete_observations_included"] and point["spike_filtering"] is False
+    mean = point["scenarios"]["shared_cache_serial"]
+    assert mean["planned_jobs"] == 360 and mean["trained_arms"] == 72
+    assert {round(x["update_compute_excluding_cache_seconds"], 10) for x in mean["rows"] if x["arm"] == "A"} == {5000.}
+    assert {round(x["update_compute_excluding_cache_seconds"], 10) for x in mean["rows"] if x["arm"] == "B"} == {6000.}
+    assert all(x["hard_validation_excluding_cache_seconds"] == pytest.approx(11 * 165 * .002) for x in mean["rows"])
+    assert sum(x["uses_unvalidated_Long128_proxy"] for x in mean["rows"]) == 66
+    base = mean["base_planning_gpu_seconds"]
+    assert base == pytest.approx(sum(x["subtotal_seconds"] for x in mean["rows"]) + 360 * 10.)
+    assert [x["fraction"] for x in mean["failure_reserve_options"]] == [0., .15]
+    assert [x["total_planning_gpu_seconds"] for x in mean["failure_reserve_options"]] == pytest.approx([base, base * 1.15])
+    assert value["retained_pressure_assumptions"] == r.PRESSURE_ASSUMPTIONS
+    assert value["retained_pressure_assumptions"]["version"] == "formal-resource-planning-v1"
+    assert value["assumptions"]["version"] == "formal-resource-planning-v2"
+    assert value["retained_pressure_assumptions_sha256"] != value["assumptions_sha256"]
 
 
 def test_cache_projection_reference_pair_first_and_all36_pairs_retained(synthetic, monkeypatch):
@@ -657,3 +676,66 @@ def test_preparation_does_not_weaken_training500_gate(synthetic, preparation, mo
     value = r.estimate(evidence, s["registration"], root=s["root"])
     assert value["status"] == "pending" and value["training_projection"] is None
     assert "first500" in value["missing"][0]
+
+
+def test_mean_rates_include_large_publish_spike_without_repeating_it_at_every_miss(synthetic):
+    reference, accounting = deepcopy(synthetic["reference"]), deepcopy(synthetic["accounting"])
+    publications = [x for x in reference["cache_rows"] if x["event"] == "cache_publish" and x.get("logical_key", "").startswith("window:")]
+    publication = next(x for x in publications if x["phase"] == "training")
+    delta = 9.82 - publication["seconds"]
+    publication["seconds"] = 9.82
+    publication["bytes"] += 100000
+    offset_started = False
+    for row in reference["cost_rows"]:
+        if row["arm"] != "A":
+            continue
+        if row["event"] == "sample_end" and row.get("update") == 1 and row.get("micro_batch_index") == 0:
+            offset_started = True
+        if offset_started:
+            row["attempt_elapsed_seconds"] += delta
+        if row["event"] == "update_end" and row.get("update") == 1:
+            row["seconds"] += delta
+        if row["event"] == "attempt_end":
+            row["seconds"] += delta
+    reference["attempts"][0]["seconds"] += delta
+    reference["receipts"]["1001"]["wall_seconds"] += delta
+    accounting["jobs"]["1001"]["elapsed_seconds"] += delta
+    accounting["jobs"]["1001"]["gpu_seconds"] += delta
+    value = r.measured_rates(reference, synthetic["windows"], accounting)
+    assert value["rates"]["cache_publish"] == [.04, 9.82]
+    assert value["mean_rates"]["cache_publish"] == pytest.approx(.04 + delta / len(publications))
+    assert value["mean_rates"]["cache_publish"] > .04
+    assert value["mean_rates"]["update"]["A"] == pytest.approx(1.)
+    assert value["mean_record_bytes"] == r.math.ceil(1024**2 + 100000 / len(publications))
+    wid = publication["logical_key"][len("window:"):]
+    assert value["known_sizes"][wid] == 1024**2 + 100000
+
+
+def test_mean_lru_uses_actual_known_sizes_and_mean_unknown_sizes(synthetic, monkeypatch):
+    measured = r.measured_rates(synthetic["reference"], synthetic["windows"], synthetic["accounting"])
+    known = next(iter(measured["known_sizes"]))
+    measured.update(known_sizes={known: 456}, mean_record_bytes=123, mean_black_bytes=7)
+    windows = {suite: {"train": [known, "unseen"], "validation": ["valid"]} for suite in r.SUITES}
+    observed = []
+    original_cache, original_schedule = r.CacheReplay, r.pair_schedule
+
+    class CheckedCache(original_cache):
+        def __init__(self, capacity, size_for, black_bytes):
+            assert capacity == r.CAPACITY and black_bytes == 7
+
+            def checked_size(wid):
+                size = size_for(wid)
+                observed.append((wid, size))
+                return size
+
+            super().__init__(capacity, checked_size, black_bytes)
+
+    monkeypatch.setattr(r, "CacheReplay", CheckedCache)
+    monkeypatch.setattr(r, "pair_schedule", lambda order, validation, **kw:
+        original_schedule(order[:4], validation, updates=2, batch=2, segment=1, **kw))
+    value = r.cache_projection(synthetic["registration"], windows, measured, endpoint="mean", shared=True)
+    assert len(value["rows"]) == 36
+    assert value["size_endpoint"] == "measured_keys_or_mean_of_all_measured_publications"
+    assert {size for wid, size in observed if wid == "unseen"} == {123}
+    assert {size for wid, size in observed if wid == known} == {123, 456}  # known only in Long
+    assert value["maximum_suite_disk_bytes"] == 7 + 456 + 123 + 123

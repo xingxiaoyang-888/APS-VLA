@@ -588,7 +588,7 @@
       "visual_tokens": 128,
       "training_seed": 17,
       "segment_end": 500,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "gpus": 1,
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
       "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
@@ -598,9 +598,33 @@
       "submitted_utc": "2026-10-15T18:48:25.838003+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2823,
+      "elapsed_seconds": 3876,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4025"
+    },
+    {
+      "job_id": "3005253",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k128_seed17",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "training_seed": 17,
+      "segment_end": 1000,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed17_attempt02.json",
+      "invocation_sha256": "3a5780846bf0529a5987749d55f5486d8089c1f6f2a01849ed66063863a53e13",
+      "submitted_utc": "2026-10-15T19:56:22.002568+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 797,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4001"
     }
   ],
   "agents": {
@@ -774,7 +798,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T19:35:31.615114+00:00",
+  "last_supervision_utc": "2026-10-15T20:09:41.786395+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -822,9 +846,9 @@
   "pending_submission": null,
   "next_allowed_action": "Finish Long data and F00/F01/F02/F03; start Long128seed17 formal A/B5000; estimate actual resource cost; follow registered matrix only",
   "current_round_cost": {
-    "registered_jobs": 6,
-    "allocated_gpu_seconds": 3946,
-    "allocated_gpu_hours": 1.096111111111111,
+    "registered_jobs": 7,
+    "allocated_gpu_seconds": 5796,
+    "allocated_gpu_hours": 1.61,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1350,20 +1374,25 @@
       "suite": "libero_10",
       "visual_tokens": 128,
       "training_seed": 17,
-      "job_id": "3005060",
-      "segment_end": 500,
+      "job_id": "3005253",
+      "segment_end": 1000,
       "total_updates_per_arm": 5000,
       "status": "running",
-      "resource_estimate": "await actual first A/B segment throughput, full validation cost and cache volume",
+      "resumed_from_updates": {
+        "A": 500,
+        "B": 500
+      },
+      "previous_segment_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3005060.json",
+      "resource_estimate": "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/estimate_mean_v2.json",
       "live_progress": {
-        "path": "results/formal_main_v2/live/3005060_20261015T193534Z.json",
-        "observed_utc": "2026-10-15T19:35:34.930063+00:00",
+        "path": "results/formal_main_v2/live/3005253_20261015T200945Z.json",
+        "observed_utc": "2026-10-15T20:09:45.172420+00:00",
         "provisional": true,
         "arms": {
           "A": {
-            "updates_completed_in_memory": 500,
-            "last_update_seconds": 4.351828319951892,
-            "last_checkpoint_update": 500,
+            "updates_completed_in_memory": 596,
+            "last_update_seconds": 6.494329723995179,
+            "last_checkpoint_update": 550,
             "validation_nodes": [
               {
                 "update": 0,
@@ -1376,46 +1405,108 @@
                 "windows": 165
               }
             ],
-            "last_event": "attempt_end",
-            "last_event_utc": "2026-10-15T19:32:19.970251+00:00"
+            "last_event": "sample_start",
+            "last_event_utc": "2026-10-15T20:09:43.842715+00:00",
+            "this_job_attempt_starts": [
+              {
+                "job_id": "3005253",
+                "attempt_id": "20261015T200037_53ed164408b2",
+                "utc": "2026-10-15T20:00:37.175294+00:00",
+                "resumed": true,
+                "completed_update": 500,
+                "next_sample_cursor": 4000
+              }
+            ]
           },
           "B": {
-            "updates_completed_in_memory": 71,
-            "last_update_seconds": 2.2910424396395683,
-            "last_checkpoint_update": 50,
+            "updates_completed_in_memory": 500,
+            "last_update_seconds": 2.481409264728427,
+            "last_checkpoint_update": 500,
             "validation_nodes": [
               {
                 "update": 0,
                 "seconds": 12.385537411086261,
                 "windows": 165
+              },
+              {
+                "update": 500,
+                "seconds": 17.233782833442092,
+                "windows": 165
               }
             ],
-            "last_event": "sample_start",
-            "last_event_utc": "2026-10-15T19:35:35.211017+00:00"
+            "last_event": "attempt_end",
+            "last_event_utc": "2026-10-15T19:52:40.697701+00:00",
+            "this_job_attempt_starts": []
           }
         },
         "not_a_completion_receipt": true
+      },
+      "actual_resume_confirmed": {
+        "arm": "A",
+        "completed_update": 500,
+        "next_sample_cursor": 4000,
+        "resumed": true,
+        "evidence": "results/formal_main_v2/live/3005253_20261015T200236Z.json",
+        "B_resume_in_next_phase": true
       }
     },
     "resource_estimate": {
-      "status": "pending_complete_first_A_B_segment",
-      "evidence": "results/formal_main_v2/resources/pre_segment_20261015T190613Z/estimate.json",
-      "test_review": "results/formal_main_v2/preflight/resource_preparation_review.json",
-      "training_projection_generated": false,
-      "evaluation_cost_unmeasured": true
+      "status": "conditional_training_scenarios_available_evaluation_pending",
+      "evidence": "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/evidence.json",
+      "test_review": "results/formal_main_v2/preflight/resource_mean_cpu_review.json",
+      "training_projection_generated": true,
+      "evaluation_cost_unmeasured": true,
+      "estimate": "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/estimate_mean_v2.json",
+      "observed_mean_planning_point": {
+        "shared_cache_whole72_gpu_hours": 360.17522000123256,
+        "shared_cache_plus15percent_gpu_hours": 414.2015030014174,
+        "independent_whole72_gpu_hours": 516.5095281480496,
+        "independent_plus15percent_gpu_hours": 593.985957370257,
+        "not_remaining_time": true,
+        "unmeasured_suites_and_budgets_use_Long128_proxy": true,
+        "rollout_and_profiling_costs_included": false
+      },
+      "previous_estimate": "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/estimate.json"
     },
     "segment_continuation_review": {
       "required": true,
       "script": "scripts/review_formal_segment.py",
       "cpu_review": "results/formal_main_v2/preflight/segment_cpu_review.json",
-      "status": "await terminal SHA-pull and server resume checks",
-      "no_fresh_restart_for_missing_started_arm": true
+      "status": "passed_first_segment",
+      "no_fresh_restart_for_missing_started_arm": true,
+      "latest_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3005060.json",
+      "latest_reviewed_job_id": "3005060"
     },
     "figure_pipeline": {
       "script": "scripts/render_formal_results.py",
       "cpu_review": "results/formal_main_v2/preflight/render_cpu_review_v2.json",
       "actual_status": "pending complete final evidence",
       "main_table_generated": false
+    },
+    "completed_engineering_segments": [
+      {
+        "job_id": "3005060",
+        "suite": "libero_10",
+        "visual_tokens": 128,
+        "seed": 17,
+        "updates_by_arm": {
+          "A": 500,
+          "B": 500
+        },
+        "status": "passed_root_local_and_server_SHA_review",
+        "root_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3005060.json",
+        "allocated_gpu_seconds": 3876,
+        "not_completed_formal_training": true
+      }
+    ],
+    "downstream_entrypoint_audit": {
+      "path": "results/formal_main_v2/preflight/downstream_entrypoint_audit.json",
+      "status": "adapter_passed_cpu_root_and_independent_audit_E04_pending",
+      "affects_current_training": false,
+      "adapter_review": "results/formal_main_v2/preflight/evaluation_adapter_cpu_review.json",
+      "adapter_sha256": "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e",
+      "gpu_execution": false,
+      "remaining_work": "Root downstream Slurm constructor and actual execution after prerequisites"
     }
   },
   "formal_main_source_snapshot": {
@@ -1426,10 +1517,11 @@
     "files_verified": 173
   },
   "next_actions": [
-    "Check only registered job3005060 and existing outputs; do not resubmit while active",
-    "After terminal state, SHA-pull nonweight results; require root segment review of source/config/finalization, full sample order, all due validation and both server resume.pt SHA identities",
-    "Advance to1000 only if both A/B reached500; otherwise resume the same500 target. Never fresh-initialize a previously started arm with missing restore state",
-    "Estimate full matrix resources from actual complete A/B500 full-pool work/cache/validation costs; then exact resume Long128seed17 to5000 before remaining matrix",
-    "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and root global release"
+    "Check registered3005253; actual A resume from500/cursor4000 confirmed; never duplicate active jobs",
+    "After terminal, SHA-pull and root segment review including both resume files; advance to1500 only if A/B both reached1000",
+    "Finish exact-resume Long128seed17 to5000 with all11 validation nodes before the remaining matrix",
+    "Retain first-segment resource mean and stress estimates; calibrate other suites/budgets and keep evaluation costs unmeasured until real execution",
+    "Integrate root-only downstream Slurm constructor with CPU-audited adapter before development; do not alter frozen173 training files",
+    "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and global root release"
   ]
 }

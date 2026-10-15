@@ -16,7 +16,7 @@ import statistics
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "formal-resource-planning-v1"
+VERSION = "formal-resource-planning-v2"
 SCHEMA = "formal_main_v2"
 SUITES = ("libero_10", "libero_spatial", "libero_object", "libero_goal")
 TERMINAL = {"COMPLETED", "FAILED", "CANCELLED", "TIMEOUT", "OUT_OF_MEMORY", "NODE_FAIL",
@@ -26,8 +26,8 @@ ORDER_VERSION = "python-random-private-seeded-full-pool-shuffle-cycle-v1"
 CAPACITY = 128 * 1024**3
 COMPONENTS = ("current_preprocess_vision_projection_seconds", "teacher_forward_seconds",
               "future_preprocess_vision_target_seconds", "window_diagnostic_seconds")
-ASSUMPTIONS = {
-    "version": VERSION,
+PRESSURE_ASSUMPTIONS = {
+    "version": "formal-resource-planning-v1",
     "timing_interval": "minimum/maximum of all complete measured intervals, not a confidence interval or guaranteed bound",
     "unmeasured_suite_rate_multiplier": [.75, 1.5],
     "unmeasured_training_budget_rate_multiplier": [.9, 1.25],
@@ -48,6 +48,24 @@ ASSUMPTIONS = {
     "scope": "fresh complete72-arm training scenario, not remaining cost and not additive to already-incurred training; engineering/evaluation costs reported separately",
     "no_extra_runs_authorized": True,
 }
+MEAN_PLANNING_ASSUMPTIONS = {
+    "version": "observed-mean-planning-point-v1",
+    "statistic": "arithmetic mean of every complete measured interval; no trimming, winsorizing, spike filtering or percentile substitution",
+    "record_size": "known Long keys retain their measured bytes (observed maximum if republished with varying size); unseen keys use ceiling of mean bytes over all measured window publications",
+    "black_size": "ceiling of mean bytes over all verified black publications, including accepted same-namespace preparation",
+    "unmeasured_suite_rate_multiplier": 1.,
+    "unmeasured_training_budget_rate_multiplier": 1.,
+    "unmeasured_hard_validation_budget_rate_multiplier": 1.,
+    "job_overhead_multiplier": 1.,
+    "proxy_status": "Long128 measured means are unvalidated proxies for other suites and token budgets; this is not a measured72-arm total",
+    "failure_allowance_options": [0., .15],
+    "failure_allowance_interpretation": "separate optional reserve amounts, not a confidence interval, probability estimate or measured failure rate",
+    "cache_schedule": "same actual full-pool/RNG/LRU replay and cold-start serial engineering assumptions as the retained pressure scenarios",
+    "scope": "fresh complete72-arm training; not remaining time, not additional to actual billed training; unmeasured rollout and profiling costs excluded",
+}
+ASSUMPTIONS = {**PRESSURE_ASSUMPTIONS, "version": VERSION,
+    "retained_pressure_scenarios": PRESSURE_ASSUMPTIONS,
+    "observed_mean_planning_point": MEAN_PLANNING_ASSUMPTIONS}
 
 
 class Pending(Exception):
@@ -697,7 +715,17 @@ def measured_rates(reference, windows, accounting):
             black_publish=bounds(black_publish), black_hit=bounds(black_hit) if black_hit else bounds(cache_hit),
             future_train_avoidable=[min(flat_components[COMPONENTS[2]]) + min(flat_components[COMPONENTS[3]]),
                                     max(flat_components[COMPONENTS[2]]) + max(flat_components[COMPONENTS[3]])]),
+        mean_rates=dict(update={a: statistics.fmean(update_core[a]) for a in ("A", "B")},
+            validation={a: statistics.fmean(validation_core[a]) for a in ("A", "B")},
+            resume_save={a: statistics.fmean(commits[a]) for a in ("A", "B")},
+            validation_save=statistics.fmean(validation_io), arm_other=statistics.fmean(attempt_residual),
+            job_other=statistics.fmean(job_overheads), cache_hit=statistics.fmean(cache_hit),
+            cache_publish=statistics.fmean(publish), black_publish=statistics.fmean(black_publish),
+            black_hit=statistics.fmean(black_hit if black_hit else cache_hit),
+            future_train_avoidable=statistics.fmean(flat_components[COMPONENTS[2]]) + statistics.fmean(flat_components[COMPONENTS[3]])),
         known_sizes=known_sizes, size_bounds=[min(known_sizes.values()), math.ceil(max(known_sizes.values()) * 1.25)],
+        mean_record_bytes=math.ceil(statistics.fmean([n for values in sizes.values() for n in values])),
+        mean_black_bytes=math.ceil(statistics.fmean(pinned_sizes)),
         black_size=max(pinned_sizes), reference_job_count=len(reference["job_ids"]))
 
 
@@ -773,6 +801,10 @@ def pair_schedule(order, validation, *, paired=True, arm="A", updates=5000, batc
 
 
 def cache_projection(registration, windows, measured, *, endpoint, shared):
+    if endpoint not in (0, 1, "mean"):
+        raise ValueError("unknown registered resource scenario")
+    unknown_bytes = measured["mean_record_bytes"] if endpoint == "mean" else measured["size_bounds"][endpoint]
+    black_bytes = measured["mean_black_bytes"] if endpoint == "mean" else measured["black_size"]
     ordering = sorted(registration["pairs"], key=lambda r: (r["suite"] != "libero_10" or r["visual_tokens"] != 128 or r["seed"] != 17,))
     outputs, shared_caches, orders, peaks = [], {}, {}, []
     for pair_index, pair in enumerate(ordering):
@@ -781,10 +813,10 @@ def cache_projection(registration, windows, measured, *, endpoint, shared):
         key = (suite, seed)
         if key not in orders:
             orders[key] = sample_order(wm["train"], seed)
-        size_for = lambda wid, s=suite: measured["known_sizes"].get(wid, measured["size_bounds"][endpoint]) if s == "libero_10" else measured["size_bounds"][endpoint]
+        size_for = lambda wid, s=suite: measured["known_sizes"].get(wid, unknown_bytes) if s == "libero_10" else unknown_bytes
         if shared:
             if suite not in shared_caches:
-                shared_caches[suite] = CacheReplay(CAPACITY, size_for, measured["black_size"])
+                shared_caches[suite] = CacheReplay(CAPACITY, size_for, black_bytes)
             replay = shared_caches[suite]
             before = {k: Counter(v) for k, v in replay.groups.items()}
             for segment, arm, phase, wid in pair_schedule(orders[key], wm["validation"]):
@@ -795,18 +827,74 @@ def cache_projection(registration, windows, measured, *, endpoint, shared):
         else:
             # Independent A and B have identical requests. Replay once and
             # relabel the measured counts, without sharing any cache state.
-            replay = CacheReplay(CAPACITY, size_for, measured["black_size"])
+            replay = CacheReplay(CAPACITY, size_for, black_bytes)
             for segment, arm, phase, wid in pair_schedule(orders[key], wm["validation"], paired=False):
                 replay.request(segment, arm, phase, wid)
             groups = {a + ":" + phase: dict(replay.groups[("A", phase)]) for a in ("A", "B") for phase in ("training", "validation")}
             outputs.append(dict(suite=suite, budget=budget, seed=seed, groups=groups))
         peaks.append(replay.peak)
     return dict(mode="suite_shared_serial_scenario" if shared else "independent_128GiB_per_arm_scenario",
-        size_endpoint="measured_or_empirical_small" if endpoint == 0 else "measured_or_empirical_large",
+        size_endpoint={0: "measured_or_empirical_small", 1: "measured_or_empirical_large",
+            "mean": "measured_keys_or_mean_of_all_measured_publications"}[endpoint],
         pair_order=[dict(suite=p["suite"], budget=p["visual_tokens"], seed=p["seed"]) for p in ordering],
         order_is_resource_assumption=True, rows=outputs,
         maximum_suite_disk_bytes=max(peaks),
         cache_records_are_simulated=True)
+
+
+def project_observed_mean(registration, windows, measured):
+    """A separate unvalidated planning point; retained extremes are untouched."""
+    rates, scenarios = measured["mean_rates"], {}
+    for shared in (True, False):
+        replay = cache_projection(registration, windows, measured, endpoint="mean", shared=shared)
+        rows, total, avoidable = [], 0., 0.
+        for row in replay["rows"]:
+            suite = row["suite"]
+            for arm in ("A", "B"):
+                groups = [row["groups"][arm + ":" + phase] for phase in ("training", "validation")]
+                core = 5000 * rates["update"][arm]
+                validation = 11 * len(windows[suite]["validation"]) * rates["validation"][arm]
+                saving = 103 * rates["resume_save"][arm] + 11 * rates["validation_save"]
+                cache = sum(g.get("misses", 0) * rates["cache_publish"]
+                    + g.get("disk_hits", 0) * rates["cache_hit"]
+                    + g.get("black_misses", 0) * rates["black_publish"]
+                    + g.get("black_hits", 0) * rates["black_hit"] for g in groups)
+                other = 10 * rates["arm_other"]
+                subtotal = core + validation + saving + cache + other
+                A_triggered = groups[0].get("misses", 0) * rates["future_train_avoidable"] if arm == "A" else 0.
+                hypothetical = A_triggered if not shared else 0.
+                total += subtotal
+                avoidable += hypothetical
+                rows.append(dict(suite=suite, budget=row["budget"], seed=row["seed"], arm=arm,
+                    update_compute_excluding_cache_seconds=core,
+                    hard_validation_excluding_cache_seconds=validation,
+                    checkpoint_and_validation_artifact_seconds=saving, cache_operations_seconds=cache,
+                    within_arm_other_seconds=other, subtotal_seconds=subtotal,
+                    A_triggered_train_future_and_diagnostic_component_seconds=A_triggered,
+                    A_hypothetical_independent_train_future_savings_seconds=hypothetical,
+                    uses_unvalidated_Long128_proxy=(suite != "libero_10" or row["budget"] != 128),
+                    cache_requests=sum(g.get("requests", 0) for g in groups),
+                    cache_counts={p: row["groups"][arm + ":" + p] for p in ("training", "validation")}))
+        jobs = 360 if shared else 720
+        overhead = jobs * rates["job_other"]
+        base = total + overhead
+        name = "shared_cache_serial" if shared else "independent_cache_per_arm"
+        scenarios[name] = dict(trained_arms=len(rows), planned_jobs=jobs,
+            component_seconds=total, job_setup_loading_verification_teardown_seconds=overhead,
+            base_planning_gpu_seconds=base, base_planning_gpu_hours=base / 3600.,
+            failure_reserve_options=[dict(fraction=fraction, reserve_gpu_seconds=base * fraction,
+                total_planning_gpu_seconds=base * (1. + fraction),
+                total_planning_gpu_hours=base * (1. + fraction) / 3600.)
+                for fraction in MEAN_PLANNING_ASSUMPTIONS["failure_allowance_options"]],
+            rows=rows, cache_replay=replay, hypothetical_A_avoidable_future_seconds=avoidable)
+    return dict(status="conditional_observed_mean_planning_point", assumptions=MEAN_PLANNING_ASSUMPTIONS,
+        assumptions_sha256=signature(MEAN_PLANNING_ASSUMPTIONS), mean_rates_seconds=rates,
+        unseen_record_bytes=measured["mean_record_bytes"], black_record_bytes=measured["mean_black_bytes"],
+        known_Long_record_keys=len(measured["known_sizes"]), scenarios=scenarios,
+        all_complete_observations_included=True, spike_filtering=False,
+        unmeasured_suite_and_budget_multipliers=1., proxy_validated=False,
+        confidence_interval=False, fresh_training_only=True, remaining_cost_not_identified=True,
+        rollout_and_profiling_costs_included=False)
 
 
 def project_training(registration, windows, measured):
@@ -872,6 +960,9 @@ def project_training(registration, windows, measured):
             endpoints=details)
     return dict(status="conditional_training_scenarios_available", assumptions=ASSUMPTIONS,
         assumptions_sha256=signature(ASSUMPTIONS), reference="formal Long128seed17 full-pool first500 or more updates of both A/B",
+        retained_pressure_assumptions=PRESSURE_ASSUMPTIONS,
+        retained_pressure_assumptions_sha256=signature(PRESSURE_ASSUMPTIONS),
+        observed_mean_planning_point=project_observed_mean(registration, windows, measured),
         unmeasured_suites=["libero_spatial", "libero_object", "libero_goal"],
         measured_budget=128, unmeasured_budgets=[256, 64], training_arms=72, updates_per_arm=5000,
         scenarios=scenarios, fresh_training_only=True, remaining_cost_not_identified=True,
