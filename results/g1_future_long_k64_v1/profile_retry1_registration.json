@@ -1,0 +1,23 @@
+{
+  "experiment": "g1_future_long_k64_v1",
+  "registered_utc": "2026-10-15T12:19:31.949775+00:00",
+  "retry_of": "3001742",
+  "retry_index": 1,
+  "reason": "First CUDA context initialization failed before base loading or any warmup/measured policy inference; exact driver/allocation cause unconfirmed.",
+  "independent_read_only_audit": "CPU checkpoint loading and legacy source imports do not alter CUDA visibility or initialize CUDA; device_count may enumerate NVML without a usable CUDA context.",
+  "failed_attempt_gpu_seconds": 55,
+  "failed_attempt_policy_calls": 0,
+  "profiling_directory_absent": true,
+  "failed_stderr_sha256": "2701e9de7a3744c0369ba76950e7034bd12b50824d7df4c53c0533b4bc54c6d6",
+  "unchanged_source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
+  "unchanged_registration_sha256": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+  "unchanged_methods_sha256": "5b0b98f59c0aa8eb33500c43f14a76db99e6c97c38aa14c76344f2f82a74db2b",
+  "excluded_node": "gpu4020",
+  "same_L40_required": true,
+  "protocol_and_runtime_identity_checks_unchanged": true,
+  "maximum_policy_calls_across_both_attempts": 2600,
+  "retain_failed_logs_and_full_allocation_cost": true,
+  "no_measurement_based_rerun_or_parameter_change": true,
+  "automatic_further_retries": false,
+  "test_opened": false
+}

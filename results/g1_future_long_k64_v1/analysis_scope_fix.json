@@ -1,0 +1,18 @@
+{
+  "status": "bounded_analysis_only_fix_verified",
+  "utc": "2026-10-15T12:05:59.667647+00:00",
+  "file": "scripts/analyze_g1_future_budgets.py",
+  "before_sha256": "3e6ec517eae371b95dd8326458e47c752ec9454631db103431030c49367b072e",
+  "after_sha256": "9f9cfdd7db54df09435a4d014bd4c96ec21b868292121ef432b6f90391bbd90a",
+  "issue": "Root submission names observation collection mode collect; analysis allowed collection but omitted collect.",
+  "change": "Accept the already registered collect scope as well; do not drop or rename original accounting rows.",
+  "frozen_server_source_changed": false,
+  "training_and_deployment_source_changed": false,
+  "scientific_configuration_changed": false,
+  "GPU_calls": 0,
+  "validation": "Actual five-allocation accounting and original128 evidence replay through analyzer completed; new64 scientific results correctly pending.",
+  "collection_job": "3001540",
+  "collection_allocated_gpu_seconds": 359,
+  "preflight_summary_sha256": "de94a34d8c5ac2dc375fc9b5cda1a2f2046e0182fff77e0b1c4906ebc3fa6d4a",
+  "reproduction": "Production snapshot192daa57 at source commit a980996 remains immutable; only later local result-analysis CLI differs."
+}

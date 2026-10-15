@@ -188,7 +188,7 @@ def run(args):
     for path in accounting_paths:
         payload = evidence.read(path)
         for row in payload["jobs"]:
-            if row.get("scope") not in ("acceptance", "train", "closed_loop", "profiling", "profile", "latency", "collection"):
+            if row.get("scope") not in ("acceptance", "train", "closed_loop", "profiling", "profile", "latency", "collection", "collect"):
                 raise ValueError("new allocation contains an unrelated scope")
             accounted.add(str(row["job_id"]))
     submitted = set()

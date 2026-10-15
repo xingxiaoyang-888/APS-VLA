@@ -1,0 +1,172 @@
+{
+  "status": "passed",
+  "reviewed_utc": "2026-10-15T11:54:03.544226+00:00",
+  "reviewer": "profile_long independent raw collection audit",
+  "review_script_sha256": "a41f36a9ba0bc098a3dd871612b713d534c2b9450b289e8de545238ce676e47d",
+  "gpu_calls_for_this_review": 0,
+  "weights_loaded_for_this_review": false,
+  "source_snapshot_commit": "192daa57",
+  "registration_sha256": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+  "panel_sha256": "81f9a6ac8060a1e77dc5a996adc4c4adf0b6f6e2b75e5af54ce6324436b05d15",
+  "collection_journal_sha256": "d31dc5f1d8d9f4ae4983248b983be11a0280eb96b02e7bb705ab4a6eb60ecbb5",
+  "collection_report_sha256": "80bf273dfdbc91b6b76ca159203c4bb87b923dfb92ab74a21ed7e4a8292ba3a1",
+  "original_dense_journal_sha256": "ff68b045e16c7e96ee2205471112e68c8596526b32ebef753db653a46e0bcad0",
+  "raw_observations": 9,
+  "registered_initial_states": 3,
+  "unique_arrays": 9,
+  "all_array_file_and_raw_hashes_verified": true,
+  "all_first_observations_match_original_dense": true,
+  "fixed_original_reference_step_selection": true,
+  "replaced_or_padded_observations": 0,
+  "missing_observations": [],
+  "test_opened": false,
+  "collection_replays_added_to_success_count": 0,
+  "collection_policy_calls": 95,
+  "collection_cost": {
+    "job": {
+      "job_id": "3001540",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 359,
+      "allocated_gpus": 1,
+      "node": "gpu4013",
+      "start": "2026-10-15T19:42:28",
+      "end": "2026-10-15T19:48:27",
+      "scope": "collect",
+      "training_seed": null
+    },
+    "GPU_seconds": 359,
+    "L40_GPU_hours": 0.09972222222222223
+  },
+  "trajectory_comparisons": [
+    {
+      "task_id": 0,
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "source_state_index": 0,
+      "requested_steps": [
+        0,
+        184,
+        336
+      ],
+      "original_control_steps": 380,
+      "collected_control_steps": 380,
+      "original_success": true,
+      "collected_success_not_added_to_success_denominator": true,
+      "comparable_policy_queries": 48,
+      "matching_observation_hashes": 48,
+      "matching_normalized_action_chunks": 48,
+      "matching_environment_action_chunks": 48
+    },
+    {
+      "task_id": 3,
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "source_state_index": 3,
+      "requested_steps": [
+        0,
+        104,
+        192
+      ],
+      "original_control_steps": 220,
+      "collected_control_steps": 220,
+      "original_success": true,
+      "collected_success_not_added_to_success_denominator": true,
+      "comparable_policy_queries": 28,
+      "matching_observation_hashes": 28,
+      "matching_normalized_action_chunks": 28,
+      "matching_environment_action_chunks": 28
+    },
+    {
+      "task_id": 5,
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "source_state_index": 2,
+      "requested_steps": [
+        0,
+        72,
+        128
+      ],
+      "original_control_steps": 148,
+      "collected_control_steps": 148,
+      "original_success": true,
+      "collected_success_not_added_to_success_denominator": true,
+      "comparable_policy_queries": 19,
+      "matching_observation_hashes": 19,
+      "matching_normalized_action_chunks": 19,
+      "matching_environment_action_chunks": 19
+    }
+  ],
+  "arrays": [
+    {
+      "task_id": 0,
+      "control_step": 0,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_0/control_step_000.npz",
+      "npz_sha256": "0e5b09ed0d1384169d9fc07f971c259d0e56e6a2ba0958f5ca1541de67619658",
+      "raw_observation_sha256": "e520522c3ca18fa051ed63da6fe80b6fc04c2e0df26f42a0b5c4a039839feb3b",
+      "matches_original_dense_same_step": true
+    },
+    {
+      "task_id": 0,
+      "control_step": 184,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_0/control_step_184.npz",
+      "npz_sha256": "4f45ee5010b744c0f8fdbddd9b24b165d8cd2f68d9a91356870570726591897a",
+      "raw_observation_sha256": "2e4084edd5f32b3a1150fd2441be6db5c3a16aab5b476e5045494c691a318ecc",
+      "matches_original_dense_same_step": true
+    },
+    {
+      "task_id": 0,
+      "control_step": 336,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_0/control_step_336.npz",
+      "npz_sha256": "8b2b2846c2f0e62c6a2f44372b70ecdd278542915a0d9dbd9a0375adb77a7b5c",
+      "raw_observation_sha256": "7c4ada025023a03a0436f37b51fa117e6d7a4e1160f9ba07c690b74e74108977",
+      "matches_original_dense_same_step": true
+    },
+    {
+      "task_id": 3,
+      "control_step": 0,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_3/control_step_000.npz",
+      "npz_sha256": "10576151b6d99bac9cc3074bc17578787245c81628149e6b394d95cf43cbd1fa",
+      "raw_observation_sha256": "a5a525f00f5d904b897e88faca2ab8380938b1f1fddb373ec2ed8515794e7e94",
+      "matches_original_dense_same_step": true
+    },
+    {
+      "task_id": 3,
+      "control_step": 104,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_3/control_step_104.npz",
+      "npz_sha256": "50f730f8c9d351c14f68fe988e4b83302281b511ee39f38fc75f3f720043775d",
+      "raw_observation_sha256": "c938d7859bc534fb966989975968fa9863a41ca6d646f9723ec2b07757da811f",
+      "matches_original_dense_same_step": true
+    },
+    {
+      "task_id": 3,
+      "control_step": 192,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_3/control_step_192.npz",
+      "npz_sha256": "4acde98aa2f4496c1303f7d6fc04f68223df20269eeead7147be9ca982c0dd8e",
+      "raw_observation_sha256": "663585de4dc7815743021aff41d033038faf95a3dcf9bb4f4bccbb73c21bbe86",
+      "matches_original_dense_same_step": true
+    },
+    {
+      "task_id": 5,
+      "control_step": 0,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_5/control_step_000.npz",
+      "npz_sha256": "84f6737fc97e7f81c58617b237d838f0721def7e913d826dd4e3af3e0b3f9878",
+      "raw_observation_sha256": "08fced0073afcc4308aa84053209c30574fdf9e08d97103678ba0fe6723caf44",
+      "matches_original_dense_same_step": true
+    },
+    {
+      "task_id": 5,
+      "control_step": 72,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_5/control_step_072.npz",
+      "npz_sha256": "b23e297ed92c70812eeaf623f4cd0e4e7470b0d5b74724ca36404c50f3bd53b0",
+      "raw_observation_sha256": "af3c999aea7453f2f7a8e585558ff1b7878a27eb6c9982dd1d4c4eb1b4e05b93",
+      "matches_original_dense_same_step": true
+    },
+    {
+      "task_id": 5,
+      "control_step": 128,
+      "path": "results/g1_future_long_k64_v1/profile_panel/task_5/control_step_128.npz",
+      "npz_sha256": "2e2a4f353977941c44b863e28fd637d521bed497084e9a0b52d9551594a65724",
+      "raw_observation_sha256": "c0422edb8168c47c15d224e78a7a74d2bf8a10e60d14a38121d472b1523cbfd1",
+      "matches_original_dense_same_step": true
+    }
+  ],
+  "interpretation": "Three original development trajectories replayed only to capture registered raw observations. Collection runtime is charged cost, never the O2A benchmark or extra independent success evidence."
+}
