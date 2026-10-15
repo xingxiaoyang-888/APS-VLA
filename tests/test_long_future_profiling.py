@@ -253,6 +253,35 @@ def test_failed_or_wrong_budget_call_is_retained_and_never_silently_retried(tmp_
     assert cost["unknown_completion"] == 0
 
 
+def test_offline_analysis_preserves_summary_across_sorted_json_serialization(tmp_path):
+    result, journal, _ = synthetic_run(tmp_path)
+    reg = registration()
+    identity = {"version": p.LONG_PROFILE_VERSION, "test_opened": False,
+        "registration_signature": json_signature(reg), "config": reg["profiling"],
+        "cache_scope": "none", "future_head_deployed": False,
+        "all_instances_share_one_loaded_base": True,
+        "uncontended_gpu_attested_and_checked": True, "panel": {"fixture": True}}
+    # Synthetic fixture stands in for a fully recorded run; no model or GPU.
+    events = [json.loads(line) for line in journal.read_text().splitlines()]
+    events[0]["identity"] = identity
+    events[0]["identity_sha256"] = json_signature(identity)
+    journal.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in events))
+    result.update(provenance=identity, checkpoint_unchanged=True, synthetic=False,
+        execution_wall_seconds_including_model_loading=1.0)
+    summary = p.summarize_long_profile(result)
+    assert list(result["observation_episodes"]) != sorted(result["observation_episodes"])
+    atomic_json(tmp_path / "config.json", identity)
+    atomic_json(tmp_path / "measurements.json", result)
+    atomic_json(tmp_path / "summary.json", {**summary, "cost": result["cost"],
+        "config_sha256": file_sha256(tmp_path / "config.json"),
+        "measurements_sha256": file_sha256(tmp_path / "measurements.json"),
+        "journal_sha256": file_sha256(journal)})
+    before = {path.name: file_sha256(path) for path in tmp_path.iterdir() if path.is_file()}
+    rebuilt = p.analyze_long_profile(tmp_path, reg)
+    assert all(rebuilt[key] == value for key, value in summary.items())
+    assert before == {path.name: file_sha256(path) for path in tmp_path.iterdir() if path.is_file()}
+
+
 def test_gpu_attestation_accepts_only_own_allocated_device_process(monkeypatch):
     script = load_script(ROOT, "profile_long_future_observation_to_action")
     own = os.getpid()

@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated_date": "2026-10-15",
-  "status": "active",
+  "status": "completed",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_k64_closed_loop_and_Long_full_latency",
+  "stage": "G1_F_Long_k64_and_Long_full_latency_completed",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -392,7 +392,7 @@
       "experiment": "g1_future_long_k64_v1",
       "mode": "closed_loop",
       "training_seed": 17,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1/seed17",
       "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
@@ -400,7 +400,7 @@
       "submitted_utc": "2026-10-15T12:07:43.153825+00:00",
       "purpose": "Bounded Long64 pruning/O2A experiment; only predeclared development data; no test",
       "exit_code": "0:0",
-      "elapsed_seconds": 744,
+      "elapsed_seconds": 1060,
       "node": "gpu4020"
     },
     {
@@ -409,7 +409,7 @@
       "experiment": "g1_future_long_k64_v1",
       "mode": "closed_loop",
       "training_seed": 23,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1/seed23",
       "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
@@ -417,7 +417,7 @@
       "submitted_utc": "2026-10-15T12:07:48.595754+00:00",
       "purpose": "Bounded Long64 pruning/O2A experiment; only predeclared development data; no test",
       "exit_code": "0:0",
-      "elapsed_seconds": 737,
+      "elapsed_seconds": 1012,
       "node": "gpu4020"
     },
     {
@@ -426,7 +426,7 @@
       "experiment": "g1_future_long_k64_v1",
       "mode": "closed_loop",
       "training_seed": 41,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1/seed41",
       "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
@@ -434,7 +434,7 @@
       "submitted_utc": "2026-10-15T12:07:54.704124+00:00",
       "purpose": "Bounded Long64 pruning/O2A experiment; only predeclared development data; no test",
       "exit_code": "0:0",
-      "elapsed_seconds": 732,
+      "elapsed_seconds": 982,
       "node": "gpu4020"
     },
     {
@@ -460,7 +460,7 @@
       "experiment": "g1_future_long_k64_v1",
       "mode": "profile",
       "training_seed": null,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1",
       "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
@@ -472,7 +472,7 @@
       "retry_registration": "results/g1_future_long_k64_v1/profile_retry1_registration.json",
       "excluded_node": "gpu4020",
       "exit_code": "0:0",
-      "elapsed_seconds": 33,
+      "elapsed_seconds": 505,
       "node": "gpu4022"
     }
   ],
@@ -525,6 +525,14 @@
       "report": "results/g1_future_long_multiseed_v1/scientific_review.json",
       "reason": "All3 seeds show+1/+1/+2 paired B gains; conditional state-cluster interval positive; offline action error slightly worse. Bounded user request completed.",
       "scope": "Same30development states,3tasks and3trained seeds; no task-difficulty causal claim or automatic expansion",
+      "test_opened": false
+    },
+    {
+      "stage": "G1-F-Long64-and-full-O2A",
+      "status": "completed_no_automatic_expansion",
+      "report": "results/g1_future_long_k64_v1/scientific_review.json",
+      "reason": "B64 beats A64 by7.78pp on fixed development states, but B64 vs A128 is-2.22pp with only3.28% lower median latency; strict cross-budget improvement not established.",
+      "scope": "30 unique development states,3 tasks,all3 training seeds. C remains a proposal only.",
       "test_opened": false
     }
   ],
@@ -618,7 +626,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "All6 fresh64 training arms audited;180 development trials running; sole unchanged timing retry after pre-inference CUDA initialization failure",
+  "current_work": "Completed6 fresh64 training arms,180 paired development trials and2600 full Long O2A calls; all evidence independently audited and retained. No automatic expansion.",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -639,7 +647,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T12:20:10.334920+00:00",
+  "last_supervision_utc": "2026-10-15T12:44:14.908666+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -685,14 +693,21 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Complete registered180 rollouts and sole profile retry, then analyze all retained results; no C or test",
+  "next_allowed_action": "Report this completed bounded round. No new task,seed,training,budget,ablation,C or test without separate explicit user authorization.",
   "current_round_cost": {
     "registered_jobs": 10,
-    "allocated_gpu_seconds": 4983,
-    "allocated_gpu_hours": 1.3841666666666668,
-    "final": false,
+    "allocated_gpu_seconds": 6296,
+    "allocated_gpu_hours": 1.748888888888889,
+    "final": true,
     "historical_jobs_excluded": true,
-    "accounting": "results/g1_future_long_k64_v1/slurm_accounting.json"
+    "accounting": "results/g1_future_long_k64_v1/slurm_accounting.json",
+    "training_gpu_seconds": 2009,
+    "closed_loop_gpu_seconds": 3054,
+    "acceptance_gpu_seconds": 314,
+    "collection_gpu_seconds": 359,
+    "profiling_gpu_seconds": 560,
+    "failed_profile_gpu_seconds": 55,
+    "historical_Long_gpu_seconds_excluded": 6557
   },
   "last_observed_G1_F_Long_progress": {
     "model_verified": true,
@@ -966,7 +981,7 @@
     "inventory": "results/g1_future_long_multiseed_v1/source_g1_future_long_multiseed_v1.json",
     "verified_files": 180
   },
-  "supervision_status": "active_for_new_explicit_request",
+  "supervision_status": "completed_stopped_after_authorized_round",
   "automation_status": "PAUSED",
   "last_observed_G1_F_Long_k64_progress": {
     "training_seeds": [
@@ -976,7 +991,7 @@
     ],
     "trained_arms": 6,
     "expected_arms": 6,
-    "closed_loop_trials": 0,
+    "closed_loop_trials": 180,
     "expected_trials": 180,
     "test_opened": false,
     "C_run": false,
@@ -1014,6 +1029,119 @@
     ],
     "profile_job": "3001817",
     "failed_profile_job": "3001742",
-    "failed_profile_gpu_seconds": 55
+    "failed_profile_gpu_seconds": 55,
+    "profile_policy_calls": 2600,
+    "profile_measured_calls": 2340,
+    "profile_warmup_calls": 260,
+    "profile_status": "completed_independently_audited",
+    "closed_loop_policy_errors": 0,
+    "closed_loop_infrastructure_errors": 0,
+    "closed_loop_independent_review": "results/g1_future_long_k64_v1/analysis/independent_closed_loop_review.json",
+    "profiling_independent_review": "results/g1_future_long_k64_v1/profiling/independent_review.json",
+    "scientific_review": "results/g1_future_long_k64_v1/scientific_review.json",
+    "report": "docs/G1-F-Long64预算与延迟实验结论.md",
+    "scientific_status": "same_budget_positive_development_success_but_no_strict_B64_over_A128_tradeoff",
+    "mean_success_rates": {
+      "A128": 0.8777777777777778,
+      "B128": 0.9222222222222223,
+      "A64": 0.7777777777777778,
+      "B64": 0.8555555555555555
+    },
+    "new64_successes_by_seed": {
+      "17": {
+        "A": 25,
+        "B": 26
+      },
+      "23": {
+        "A": 21,
+        "B": 24
+      },
+      "41": {
+        "A": 24,
+        "B": 27
+      }
+    },
+    "latency_seed_equal_weight": [
+      {
+        "method_family": "A128",
+        "training_seeds": [
+          17,
+          23,
+          41
+        ],
+        "mean_of_seed_medians_ms": 84.45158716666667,
+        "mean_of_seed_p95_ms": 87.72048533333331,
+        "seed_median_range_ms": [
+          84.35769350000001,
+          84.531879
+        ]
+      },
+      {
+        "method_family": "B128",
+        "training_seeds": [
+          17,
+          23,
+          41
+        ],
+        "mean_of_seed_medians_ms": 84.30742233333334,
+        "mean_of_seed_p95_ms": 91.6617226666666,
+        "seed_median_range_ms": [
+          84.1710545,
+          84.4605215
+        ]
+      },
+      {
+        "method_family": "A64",
+        "training_seeds": [
+          17,
+          23,
+          41
+        ],
+        "mean_of_seed_medians_ms": 81.67867016666666,
+        "mean_of_seed_p95_ms": 83.9586721,
+        "seed_median_range_ms": [
+          81.468874,
+          81.94580400000001
+        ]
+      },
+      {
+        "method_family": "B64",
+        "training_seeds": [
+          17,
+          23,
+          41
+        ],
+        "mean_of_seed_medians_ms": 81.68267533333334,
+        "mean_of_seed_p95_ms": 84.42148726666666,
+        "seed_median_range_ms": [
+          81.54093800000001,
+          81.84315749999999
+        ]
+      }
+    ],
+    "B64_minus_A64": {
+      "mean": 0.07777777777777778,
+      "ci95_percentile": [
+        0.01111111111111111,
+        0.15555555555555556
+      ],
+      "unique_initial_states": 30
+    },
+    "B64_minus_A128": {
+      "mean": -0.022222222222222223,
+      "ci95_percentile": [
+        -0.11111111111111112,
+        0.06666666666666667
+      ],
+      "unique_initial_states": 30
+    },
+    "strict_B64_over_A128": false
+  },
+  "long_k64_source_snapshot": {
+    "base_or_current_commit": "a98099685c15535aa4858712124466a11f634b58",
+    "dirty": false,
+    "tracked_only": true,
+    "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
+    "source_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1"
   }
 }

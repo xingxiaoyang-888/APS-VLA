@@ -1,17 +1,32 @@
 {
   "scope": "Root orchestration and independent evidence checks. Retained as executed source; not all scripts are safe to rerun after completion.",
   "files": {
+    "amend_long_profile_serialization_review.py": "7116568d2c292fdf8e45e71eb8a221f6a41cca9d7728302fc5b046f8a3d9e6f9",
+    "check_long_k64_jobs.py": "17f11612dd92259161066b2a1df04a97c96acef3d84f30fda3a5031cd0eddf9c",
     "document_long_k64.py": "f1a94d8d2d9369cc03fdcf1bec3687b35b317f1e180be14057403f99ff69dcf5",
-    "preregister_long_k64.py": "dee049f8a940782be51799fd81abb9c30c7f69ecca1197cd5bed9196991256c9",
-    "prepare_k64_helpers.py": "cd3567d9c5796b2878fec13b90441eac6d6a386191e36a0543b60308e0e2a13e",
     "finalize_k64_source_pins.py": "fff39b8ac239829ed4eab40fbc8750d1b38c4cdb8fd6834ea385815412f02f30",
-    "prepare_long_k64_snapshot.py": "102cf4b3909230fd2c13f32589b82a43fc58ed2371d569a73bb36362dffd11fd",
+    "finish_long64_round.py": "5ff6413dca7432a060fbd79e2cc952689794f33352d9f0e1279bbb873dc20107",
     "install_long_k64_snapshot.py": "fe7be626918442cc273622fad0a56d16f15163e3d05155882007a0825cd102bc",
+    "long_k64_progress.py": "912309d1facb4f038040ea1a7496baf8bc01f89edcf876f7f0157b0bfebc672a",
+    "prepare_k64_helpers.py": "cd3567d9c5796b2878fec13b90441eac6d6a386191e36a0543b60308e0e2a13e",
+    "prepare_long_k64_snapshot.py": "102cf4b3909230fd2c13f32589b82a43fc58ed2371d569a73bb36362dffd11fd",
+    "preregister_long_k64.py": "dee049f8a940782be51799fd81abb9c30c7f69ecca1197cd5bed9196991256c9",
+    "pull_long_k64_results.py": "e6c21ccf21512e833f33c5e373571199bb670fc7cbac514ad6337c593b188255",
+    "pull_long_k64_slurm.py": "b8c5bd24a1924a38ca8502ae4aa953e3dcad57896af7337e0bc072840586df52",
+    "record_k64_analysis_fix.py": "44133666714f30ccaea224b8ca4670c16373b4d6ccdf57ccec713bcafefec66b",
+    "record_long64_readback_fix.py": "71ade50b2b1dd65b3ae2a126f7bcb5043b09d88b05a3eaa09262e0354ae7fc61",
+    "register_long_profile_methods_server.py": "61bb78428184ef14f037a7cb323fb27ae3cc38ef20aaafdedc6c8c61d2d9e11a",
+    "review_k64_acceptance.py": "7a12e1880483767c9f3818d0bdb6f5d4e0c15773817091fe6144d66e757b04d5",
+    "review_long_k64_closed_loop.py": "ca5ea583bdb5d93b9be8da07d64caa624006bbdbcf1274064256d763044cf897",
+    "review_long_k64_closed_loop_final.py": "f57c8641991c67ecfedf4c21b277b0831b28cde4fc705e9863f5d3c51d608340",
+    "review_long_k64_training.py": "d68390a09dbc64d7ba3f4bafec8e9ac23cd27c36c0410a5c9f2431b87060678f",
+    "review_long_profile_collection.py": "a41f36a9ba0bc098a3dd871612b713d534c2b9450b289e8de545238ce676e47d",
+    "review_long_profile_panel.py": "e1dd9fbf4135fb4d9d44c129a2a549c748c112bcc01e9953071449ab76c981dc",
+    "review_long_profile_results.py": "18341d1ffdb48f41621679ec1aa12bcb946d559f13fc7ec136faf257dbe05600",
     "setup_long_k64_server.py": "48404a2bf3cd3ac9720687f5c38c47458cd9eddd64a9ed43dac18bc036e1e5bf",
     "submit_long_k64_stage.py": "0fe37dcca3ad8e38454677d0bdb25107f44a3c9751deb66183b087f9aa0eadd3",
-    "check_long_k64_jobs.py": "17f11612dd92259161066b2a1df04a97c96acef3d84f30fda3a5031cd0eddf9c",
-    "pull_long_k64_results.py": "e6c21ccf21512e833f33c5e373571199bb670fc7cbac514ad6337c593b188255",
-    "review_k64_acceptance.py": "7a12e1880483767c9f3818d0bdb6f5d4e0c15773817091fe6144d66e757b04d5",
-    "review_long_k64_training.py": "d68390a09dbc64d7ba3f4bafec8e9ac23cd27c36c0410a5c9f2431b87060678f"
-  }
+    "submit_long_profile_retry1.py": "6374cb6c0594340b9f637bfd1aa3f5fa0a13b800411035ec451ba0114de725a0",
+    "write_long64_results.py": "2fdf6e42943640a5074d7f555880f81adce8a18cee2640335ec772830dde1358"
+  },
+  "final_source_note": "review_long_k64_closed_loop_final.py uses the immutable supervisor_state_at_review.json; earlier helper versions retained. Post-measurement readback fix is CPU-only and production snapshot remains immutable."
 }

@@ -1,0 +1,1538 @@
+{
+  "status": "passed",
+  "reviewed_utc": "2026-10-15T12:29:58.804790+00:00",
+  "reviewer": "profile_long independent actual O2A audit",
+  "review_script_sha256": "18341d1ffdb48f41621679ec1aa12bcb946d559f13fc7ec136faf257dbe05600",
+  "gpu_calls_for_review": 0,
+  "weights_read_for_review": false,
+  "production_source_modified": false,
+  "config_sha256": "985daeb73b1a3e58019a5e849dbb608c6f300d7813834f7d7983bf741e6ec197",
+  "measurements_sha256": "7f9ed9c9163c12fc7566d168ddd6358e36a94c60c842b4af51a24fc8b9d64807",
+  "journal_sha256": "c036fcfde73f7dd1f2dc8447612ac5d2802f5e46a0f56030d49f0dcdcf3fddac",
+  "summary_sha256": "eb5235ce6cd8c18c9346ed403fb7b1f9c8f20d0fb9d8ac964cc9a6a2f14b37f9",
+  "registration_sha256": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+  "method_manifest_sha256": "5b0b98f59c0aa8eb33500c43f14a76db99e6c97c38aa14c76344f2f82a74db2b",
+  "deployments": 13,
+  "raw_observations": 9,
+  "warmup_calls": 260,
+  "measured_calls": 2340,
+  "total_policy_calls": 2600,
+  "failed_or_unknown_policy_calls": 0,
+  "component_calls": 0,
+  "dropped_calls": 0,
+  "schedule_exact_and_position_balanced": true,
+  "raw_observations_shared_across_methods": true,
+  "GPU_uuid": "GPU-7743b726-3a94-ab8a-93e1-696407e635e2",
+  "compute_pid": 2699393,
+  "uncontended_telemetry_checks": 522,
+  "all_same_GPU_and_no_other_compute_process": true,
+  "complete_raw_to_CPU_action_boundary_verified_against_frozen_source": true,
+  "cache_scope": "none",
+  "future_head_deployed": false,
+  "test_opened": false,
+  "all12_checkpoint_identities_equal_closed_loop": true,
+  "checkpoint_identity_checks": [
+    {
+      "instance": "A128_seed17",
+      "checkpoint_sha256": "19194d1c1501983de4074f3b823889acbffa442709a003b50e5a2e3e49ff142a",
+      "receipt_sha256": "f50e7fb2a2878754e57693bd6612581834e42608cf7db852b903deef1a9744c5",
+      "closed_loop_config_sha256": "1d9fb2c974105656f3a9909b13ac4dff1aed347f680b108df5793582195f17ea",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "B128_seed17",
+      "checkpoint_sha256": "ec058379165ec38238cc4687dff171b994cd4e36fbe17927257cad7977b624b0",
+      "receipt_sha256": "897c1d7838d55e30d43a29cbefbf2cb75ba4630968901cdeef0191db422d6ef6",
+      "closed_loop_config_sha256": "1d9fb2c974105656f3a9909b13ac4dff1aed347f680b108df5793582195f17ea",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "A128_seed23",
+      "checkpoint_sha256": "745f7578290d35d4cd03b972763ad28366b7254dae1310e3f58a2f2cbfd1f2e6",
+      "receipt_sha256": "44fbf815c71aaec0adbe711c55fa35e661026e8d31f00cb0e11d5e0183551de1",
+      "closed_loop_config_sha256": "354ef92f4597cb9a6f6199bed6b16761556f9bdbc2d782a1caa3105d48a343cf",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "B128_seed23",
+      "checkpoint_sha256": "0267e56cb52d43ca6011b27bd78c961f377ef4267cca6d500c0c8c5cfba2e5b5",
+      "receipt_sha256": "dd482f09c03c7403d3863d757a6d098098c3e5054e7e6ab4c5d20a216f96dca1",
+      "closed_loop_config_sha256": "354ef92f4597cb9a6f6199bed6b16761556f9bdbc2d782a1caa3105d48a343cf",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "A128_seed41",
+      "checkpoint_sha256": "68f4d0b1a24131ac594ac863043468399752162eaaff258f0321f384fe68d101",
+      "receipt_sha256": "0930a953061bbaf43cddc4ef05b10f41a4830fc7cd239825231949c63be6243b",
+      "closed_loop_config_sha256": "e1c3d24864143bcdc18f734f754b888d70b36151f650fae5a9e53596bea68d04",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "B128_seed41",
+      "checkpoint_sha256": "f2bd41225681fe0a1df1b3b8231b7ffe67c27fc40e54a7480a2ede9e41f18df6",
+      "receipt_sha256": "aac49c4d1ecf397174d42ba5bb0895b4df111c046ea8bea03ee2b8dfa66b00cd",
+      "closed_loop_config_sha256": "e1c3d24864143bcdc18f734f754b888d70b36151f650fae5a9e53596bea68d04",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "A64_seed17",
+      "checkpoint_sha256": "98f3406362259106cd23bb7a67720fd290f0e6c20013b5c0fd0aa25420ad585b",
+      "receipt_sha256": "ec22fc312c3bbf2f387a1f34a4fb35b649103113ecd784390a2431f0b35a6eea",
+      "closed_loop_config_sha256": "333ba2d13d13c409160f8b3aa70c67a2127732e53c2c71aa5fb817791c74b41c",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "B64_seed17",
+      "checkpoint_sha256": "494ac376914a1723509c94aa5e880568bd3ae102a538d123ad7dc7db0d957aa4",
+      "receipt_sha256": "d0aa093f4bf1f7de55e90ea88e99ae70523b858207b95c294141eb4e0f6b56d8",
+      "closed_loop_config_sha256": "333ba2d13d13c409160f8b3aa70c67a2127732e53c2c71aa5fb817791c74b41c",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "A64_seed23",
+      "checkpoint_sha256": "181ea26b3526c2b4827f89245af57d08df38f2b58230387667e6e7a90abff77a",
+      "receipt_sha256": "552b5a01cb67ef9a68fc5c81b7787e2d9e83f462659b776e68ea3060f2aeffaa",
+      "closed_loop_config_sha256": "27efe03871116b382c2693b47a95bf7d89c608fc81bab00857eb53a48833bdf5",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "B64_seed23",
+      "checkpoint_sha256": "04be02c6dcc3cacf3682a25273ad85af9f2321e6f53892669f3ec40e7169b146",
+      "receipt_sha256": "f00162d80c28905d63da57141545f5e5556139a384fac55e21af9c9b753b0211",
+      "closed_loop_config_sha256": "27efe03871116b382c2693b47a95bf7d89c608fc81bab00857eb53a48833bdf5",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "A64_seed41",
+      "checkpoint_sha256": "5177f482c6d89924c271d0b09b82accb2a2dfbc53258d689c3d51d6e6d5e77a2",
+      "receipt_sha256": "d3a61d0f3371a692d9ab8928dff69c7bfc31e82bbf5419f5080e31fc27c72d2b",
+      "closed_loop_config_sha256": "45dcd5f7640c224c38e7a2b4dae8210a7234a98c5f632477c5593d25d78ecf67",
+      "matches_success_evaluation_selector": true
+    },
+    {
+      "instance": "B64_seed41",
+      "checkpoint_sha256": "be2a4935a03c84aea4d83b3830c8082257c2aa012e920636df91a6112d7f62d2",
+      "receipt_sha256": "7db41f743852eea88fb1d5a0f31b5cc30464fdcf3ccd685b20154db840bd2a10",
+      "closed_loop_config_sha256": "45dcd5f7640c224c38e7a2b4dae8210a7234a98c5f632477c5593d25d78ecf67",
+      "matches_success_evaluation_selector": true
+    }
+  ],
+  "independent_primary_statistics": [
+    {
+      "method": "dense",
+      "count": 180,
+      "mean": 123.91691273888888,
+      "median": 122.838785,
+      "p95": 124.8747176,
+      "min": 119.76244,
+      "max": 289.890848,
+      "p99": 137.10864252000013,
+      "largest_three_retained_ms": [
+        133.758384,
+        149.711996,
+        289.890848
+      ]
+    },
+    {
+      "method": "A128_seed17",
+      "count": 180,
+      "mean": 86.62894195,
+      "median": 84.531879,
+      "p95": 87.87816624999998,
+      "min": 81.690469,
+      "max": 371.00539,
+      "p99": 110.44406906000019,
+      "largest_three_retained_ms": [
+        105.314234,
+        129.74202,
+        371.00539
+      ]
+    },
+    {
+      "method": "B128_seed17",
+      "count": 180,
+      "mean": 91.39495394444445,
+      "median": 84.29069100000001,
+      "p95": 101.96347544999983,
+      "min": 81.662733,
+      "max": 365.076372,
+      "p99": 347.5414979200001,
+      "largest_three_retained_ms": [
+        343.696471,
+        362.006123,
+        365.076372
+      ]
+    },
+    {
+      "method": "A128_seed23",
+      "count": 180,
+      "mean": 85.2354441,
+      "median": 84.46518900000001,
+      "p95": 87.30387044999999,
+      "min": 81.557438,
+      "max": 141.978946,
+      "p99": 123.5997267200001,
+      "largest_three_retained_ms": [
+        120.981188,
+        133.45042,
+        141.978946
+      ]
+    },
+    {
+      "method": "B128_seed23",
+      "count": 180,
+      "mean": 85.7098281611111,
+      "median": 84.1710545,
+      "p95": 86.1153313,
+      "min": 81.401485,
+      "max": 363.473185,
+      "p99": 92.28648206000017,
+      "largest_three_retained_ms": [
+        87.681479,
+        109.610065,
+        363.473185
+      ]
+    },
+    {
+      "method": "A128_seed41",
+      "count": 180,
+      "mean": 85.59140375,
+      "median": 84.35769350000001,
+      "p95": 87.97941929999998,
+      "min": 81.624843,
+      "max": 255.480005,
+      "p99": 99.47138078000026,
+      "largest_three_retained_ms": [
+        92.713514,
+        124.893832,
+        255.480005
+      ]
+    },
+    {
+      "method": "B128_seed41",
+      "count": 180,
+      "mean": 86.71668099444445,
+      "median": 84.4605215,
+      "p95": 86.90636124999999,
+      "min": 81.606722,
+      "max": 205.589924,
+      "p99": 197.31438791000008,
+      "largest_three_retained_ms": [
+        195.12317,
+        205.557541,
+        205.589924
+      ]
+    },
+    {
+      "method": "A64_seed17",
+      "count": 180,
+      "mean": 82.75669038333334,
+      "median": 81.94580400000001,
+      "p95": 83.9570206,
+      "min": 79.465839,
+      "max": 192.183313,
+      "p99": 108.89559032000017,
+      "largest_three_retained_ms": [
+        104.465432,
+        125.561424,
+        192.183313
+      ]
+    },
+    {
+      "method": "B64_seed17",
+      "count": 180,
+      "mean": 83.7052435,
+      "median": 81.66393049999999,
+      "p95": 83.7395152,
+      "min": 79.227517,
+      "max": 235.831343,
+      "p99": 172.93390056000052,
+      "largest_three_retained_ms": [
+        158.744529,
+        226.312965,
+        235.831343
+      ]
+    },
+    {
+      "method": "A64_seed23",
+      "count": 180,
+      "mean": 85.088164,
+      "median": 81.6213325,
+      "p95": 84.08505325,
+      "min": 78.710763,
+      "max": 292.278472,
+      "p99": 198.89878441000025,
+      "largest_three_retained_ms": [
+        192.004753,
+        224.833474,
+        292.278472
+      ]
+    },
+    {
+      "method": "B64_seed23",
+      "count": 180,
+      "mean": 84.82035667777778,
+      "median": 81.84315749999999,
+      "p95": 85.54481534999998,
+      "min": 78.819074,
+      "max": 246.548114,
+      "p99": 246.47710748,
+      "largest_three_retained_ms": [
+        246.468689,
+        246.508777,
+        246.548114
+      ]
+    },
+    {
+      "method": "A64_seed41",
+      "count": 180,
+      "mean": 87.54459138333333,
+      "median": 81.468874,
+      "p95": 83.83394245,
+      "min": 78.919426,
+      "max": 366.889937,
+      "p99": 360.09954670999997,
+      "largest_three_retained_ms": [
+        359.948903,
+        360.666254,
+        366.889937
+      ]
+    },
+    {
+      "method": "B64_seed41",
+      "count": 180,
+      "mean": 81.79039615555556,
+      "median": 81.54093800000001,
+      "p95": 83.98013125,
+      "min": 79.021989,
+      "max": 103.596169,
+      "p99": 88.58808346000001,
+      "largest_three_retained_ms": [
+        88.571173,
+        88.651699,
+        103.596169
+      ]
+    }
+  ],
+  "independent_per_observation_statistics": [
+    {
+      "method": "dense",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 130.67409379999998,
+      "median": 122.27052950000001,
+      "p95": 132.22621175000012
+    },
+    {
+      "method": "dense",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 123.77503895,
+      "median": 123.1042505,
+      "p95": 128.93119080000002
+    },
+    {
+      "method": "dense",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 122.6108688,
+      "median": 122.7791025,
+      "p95": 124.132414
+    },
+    {
+      "method": "dense",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 122.95075349999999,
+      "median": 123.1344615,
+      "p95": 124.51165710000001
+    },
+    {
+      "method": "dense",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 123.0864789,
+      "median": 123.287241,
+      "p95": 124.63935955000001
+    },
+    {
+      "method": "dense",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 122.92623315,
+      "median": 122.85355200000001,
+      "p95": 124.75030085
+    },
+    {
+      "method": "dense",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 122.31800195000001,
+      "median": 122.4810305,
+      "p95": 123.90816615
+    },
+    {
+      "method": "dense",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 122.50329115,
+      "median": 122.748345,
+      "p95": 123.65769915
+    },
+    {
+      "method": "dense",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 124.40745445,
+      "median": 123.3062195,
+      "p95": 126.91616555000002
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.58603500000001,
+      "median": 84.35097,
+      "p95": 87.0099174
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 87.0739903,
+      "median": 84.67033900000001,
+      "p95": 92.66413275000002
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.88132605,
+      "median": 83.7181095,
+      "p95": 87.23815935000002
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 85.6170982,
+      "median": 84.76094,
+      "p95": 90.79957480000002
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 85.59585475,
+      "median": 85.10046650000001,
+      "p95": 87.16236750000002
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.23760405,
+      "median": 84.624027,
+      "p95": 86.3951691
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 84.21417025,
+      "median": 83.8986985,
+      "p95": 86.38238480000001
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 99.16253,
+      "median": 85.4638245,
+      "p95": 101.9785969000002
+    },
+    {
+      "method": "A128_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 84.29186895000001,
+      "median": 83.487494,
+      "p95": 86.65062315
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 85.7493965,
+      "median": 83.448668,
+      "p95": 91.81612170000002
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 91.741353,
+      "median": 84.15567899999999,
+      "p95": 93.8613999500001
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.30202725000001,
+      "median": 84.283291,
+      "p95": 85.90774239999999
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 87.314335,
+      "median": 84.79573500000001,
+      "p95": 111.1017241
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.6803527,
+      "median": 84.82475,
+      "p95": 86.2080122
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 100.03148275,
+      "median": 83.945382,
+      "p95": 157.56576400000012
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 91.5082601,
+      "median": 83.66019800000001,
+      "p95": 94.13377285000011
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 98.41718019999999,
+      "median": 84.65778549999999,
+      "p95": 102.69757440000019
+    },
+    {
+      "method": "B128_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 98.810198,
+      "median": 84.48039,
+      "p95": 114.51850035000018
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 83.90346635,
+      "median": 83.9746955,
+      "p95": 85.38798245
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.48817095000001,
+      "median": 83.8349365,
+      "p95": 87.04596435
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.48304745,
+      "median": 84.8355975,
+      "p95": 86.41398475
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 86.9720153,
+      "median": 84.64382900000001,
+      "p95": 90.85568990000003
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 86.4626113,
+      "median": 84.6928715,
+      "p95": 90.81340505000003
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.6716373,
+      "median": 84.708485,
+      "p95": 87.13814769999999
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 85.09720665,
+      "median": 83.569398,
+      "p95": 87.17258120000002
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 87.1428899,
+      "median": 84.73320050000001,
+      "p95": 89.55148980000004
+    },
+    {
+      "method": "A128_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 83.8979517,
+      "median": 83.71918,
+      "p95": 86.02553315
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 83.7570782,
+      "median": 84.080609,
+      "p95": 85.59948185
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 85.5929644,
+      "median": 84.5427595,
+      "p95": 88.23947965
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 97.5180689,
+      "median": 83.6654875,
+      "p95": 99.1944871500002
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.08374745,
+      "median": 84.26093449999999,
+      "p95": 85.7794454
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.1517795,
+      "median": 84.041823,
+      "p95": 86.79536555
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 83.93854605,
+      "median": 84.006305,
+      "p95": 85.29622355000001
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 83.77073084999999,
+      "median": 83.56985,
+      "p95": 85.96961935
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 84.12698594999999,
+      "median": 84.038561,
+      "p95": 86.43480805
+    },
+    {
+      "method": "B128_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 84.44855215,
+      "median": 84.60313049999999,
+      "p95": 86.04644655
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.26954315,
+      "median": 83.8269665,
+      "p95": 87.01652865000001
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 92.9904367,
+      "median": 84.7787995,
+      "p95": 94.45643570000011
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.1273889,
+      "median": 84.21214599999999,
+      "p95": 86.4365681
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.26709650000001,
+      "median": 84.316224,
+      "p95": 86.17580765
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 85.27139465,
+      "median": 85.5055545,
+      "p95": 90.59201865
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.175422,
+      "median": 84.133189,
+      "p95": 86.59909545000001
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 86.3937262,
+      "median": 84.7878235,
+      "p95": 90.89851140000003
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 84.31819165,
+      "median": 84.2241525,
+      "p95": 86.40450514999999
+    },
+    {
+      "method": "A128_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 84.509434,
+      "median": 84.6286685,
+      "p95": 86.47424500000001
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 94.4885933,
+      "median": 84.214008,
+      "p95": 138.64819130000004
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 90.48143395,
+      "median": 84.856559,
+      "p95": 92.74124385000009
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.79817275,
+      "median": 84.7569345,
+      "p95": 87.9031339
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.1795495,
+      "median": 84.564009,
+      "p95": 85.7492006
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.5625323,
+      "median": 84.98576249999999,
+      "p95": 86.88987114999999
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.1863656,
+      "median": 84.6693655,
+      "p95": 86.58158065
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 84.13899615,
+      "median": 84.507007,
+      "p95": 85.504816
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 90.14458815,
+      "median": 84.3165175,
+      "p95": 92.78304705000009
+    },
+    {
+      "method": "B128_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 83.46989725,
+      "median": 83.2967035,
+      "p95": 85.4249931
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.63646255,
+      "median": 81.99194349999999,
+      "p95": 82.93174105
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.70824300000001,
+      "median": 81.85819699999999,
+      "p95": 83.5221612
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 82.44807485,
+      "median": 81.0510975,
+      "p95": 84.50014935000002
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 84.0336307,
+      "median": 82.30072150000001,
+      "p95": 86.19146320000003
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 87.1292638,
+      "median": 81.935676,
+      "p95": 89.27284445000008
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 81.93675505,
+      "median": 82.263454,
+      "p95": 84.1333459
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 82.1585637,
+      "median": 81.98873900000001,
+      "p95": 85.7447045
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 82.101027,
+      "median": 82.361222,
+      "p95": 83.3987075
+    },
+    {
+      "method": "A64_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 81.65819280000001,
+      "median": 81.801105,
+      "p95": 83.65559280000001
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.46219775,
+      "median": 81.51578950000001,
+      "p95": 83.1034432
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 82.37851409999999,
+      "median": 81.8886785,
+      "p95": 84.92928445000001
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.5447011,
+      "median": 81.418255,
+      "p95": 83.94401655
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 85.36157920000001,
+      "median": 81.90102250000001,
+      "p95": 87.03239105000004
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 81.52508605,
+      "median": 81.591578,
+      "p95": 83.69650324999999
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 88.84265265,
+      "median": 82.00849099999999,
+      "p95": 91.0379819500001
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 89.3119625,
+      "median": 81.78070149999999,
+      "p95": 90.8548564000001
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 81.4718997,
+      "median": 81.256796,
+      "p95": 83.33692165
+    },
+    {
+      "method": "B64_seed17",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 81.44859844999999,
+      "median": 81.4532535,
+      "p95": 83.27519310000001
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 87.2339403,
+      "median": 82.52922,
+      "p95": 88.93072960000008
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 84.96536180000001,
+      "median": 81.0385695,
+      "p95": 87.81824595000005
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 82.00379275,
+      "median": 82.352948,
+      "p95": 83.484022
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 81.383752,
+      "median": 80.6480415,
+      "p95": 83.66418469999999
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 92.0974172,
+      "median": 82.0659425,
+      "p95": 93.99118975000016
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 89.16839295,
+      "median": 82.377488,
+      "p95": 90.9577421500001
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 81.0144812,
+      "median": 80.804462,
+      "p95": 82.84505949999999
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 86.46856435,
+      "median": 80.76936599999999,
+      "p95": 88.32988920000007
+    },
+    {
+      "method": "A64_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 81.45777345,
+      "median": 81.25170399999999,
+      "p95": 83.82147545
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.70764175,
+      "median": 81.826089,
+      "p95": 83.50697985
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 82.4463752,
+      "median": 81.57290449999999,
+      "p95": 84.15451125000001
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.38970379999999,
+      "median": 81.16530399999999,
+      "p95": 83.26552705
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 99.3545092,
+      "median": 82.51472150000001,
+      "p95": 246.51074385
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 82.5302208,
+      "median": 81.7078085,
+      "p95": 85.59165525000002
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 89.8423785,
+      "median": 81.524271,
+      "p95": 92.13836465000011
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 82.4510009,
+      "median": 82.2233425,
+      "p95": 84.84186395
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 81.88862405,
+      "median": 81.6345015,
+      "p95": 83.80994735
+    },
+    {
+      "method": "B64_seed23",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 81.7727559,
+      "median": 81.9915045,
+      "p95": 83.30523265
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 89.51700255,
+      "median": 81.00056599999999,
+      "p95": 91.94700790000013
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 95.6338567,
+      "median": 81.2514355,
+      "p95": 97.87464460000021
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.21915320000001,
+      "median": 81.39119550000001,
+      "p95": 83.1839184
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 95.44200715,
+      "median": 81.5272185,
+      "p95": 97.47635370000019
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 81.94847035000001,
+      "median": 82.11160000000001,
+      "p95": 83.66289305
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 81.6845282,
+      "median": 81.856363,
+      "p95": 83.5624617
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 95.46824699999999,
+      "median": 81.628975,
+      "p95": 97.9328660500002
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 81.6849109,
+      "median": 81.13911999999999,
+      "p95": 84.32450840000001
+    },
+    {
+      "method": "A64_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 85.3031464,
+      "median": 81.064846,
+      "p95": 88.06597795000006
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_0",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.2928811,
+      "median": 81.03657849999999,
+      "p95": 83.34452425
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_184",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.71100645,
+      "median": 81.89388650000001,
+      "p95": 83.4288915
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0:control_step_336",
+      "episode_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "count": 20,
+      "mean": 81.6969414,
+      "median": 81.5311595,
+      "p95": 84.2505438
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_0",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 81.8856347,
+      "median": 82.014944,
+      "p95": 83.70064575
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_104",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 81.9797539,
+      "median": 82.0627095,
+      "p95": 84.19689325
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0:control_step_192",
+      "episode_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "count": 20,
+      "mean": 82.4290477,
+      "median": 81.6802345,
+      "p95": 84.53627340000001
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_0",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 82.2196817,
+      "median": 81.66432900000001,
+      "p95": 86.88227485
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_72",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 82.0457452,
+      "median": 82.2564735,
+      "p95": 83.96334915
+    },
+    {
+      "method": "B64_seed41",
+      "observation_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0:control_step_128",
+      "episode_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "count": 20,
+      "mean": 80.85287325,
+      "median": 80.6094665,
+      "p95": 82.85920065
+    }
+  ],
+  "independent_seed_equal_weight_statistics": [
+    {
+      "method_family": "A128",
+      "training_seeds": [
+        17,
+        23,
+        41
+      ],
+      "mean_of_seed_medians_ms": 84.45158716666667,
+      "mean_of_seed_p95_ms": 87.72048533333331,
+      "seed_median_range_ms": [
+        84.35769350000001,
+        84.531879
+      ]
+    },
+    {
+      "method_family": "B128",
+      "training_seeds": [
+        17,
+        23,
+        41
+      ],
+      "mean_of_seed_medians_ms": 84.30742233333334,
+      "mean_of_seed_p95_ms": 91.6617226666666,
+      "seed_median_range_ms": [
+        84.1710545,
+        84.4605215
+      ]
+    },
+    {
+      "method_family": "A64",
+      "training_seeds": [
+        17,
+        23,
+        41
+      ],
+      "mean_of_seed_medians_ms": 81.67867016666666,
+      "mean_of_seed_p95_ms": 83.9586721,
+      "seed_median_range_ms": [
+        81.468874,
+        81.94580400000001
+      ]
+    },
+    {
+      "method_family": "B64",
+      "training_seeds": [
+        17,
+        23,
+        41
+      ],
+      "mean_of_seed_medians_ms": 81.68267533333334,
+      "mean_of_seed_p95_ms": 84.42148726666666,
+      "seed_median_range_ms": [
+        81.54093800000001,
+        81.84315749999999
+      ]
+    }
+  ],
+  "independent_pooled_statistics": [
+    {
+      "method_family": "A128",
+      "training_seeds": [
+        17,
+        23,
+        41
+      ],
+      "count": 540,
+      "mean": 85.81859659999999,
+      "median": 84.45459550000001,
+      "p95": 87.94699384999998
+    },
+    {
+      "method_family": "B128",
+      "training_seeds": [
+        17,
+        23,
+        41
+      ],
+      "count": 540,
+      "mean": 87.9404877,
+      "median": 84.2947605,
+      "p95": 86.89704419999998
+    },
+    {
+      "method_family": "A64",
+      "training_seeds": [
+        17,
+        23,
+        41
+      ],
+      "count": 540,
+      "mean": 85.12981525555556,
+      "median": 81.69800699999999,
+      "p95": 84.07444604999999
+    },
+    {
+      "method_family": "B64",
+      "training_seeds": [
+        17,
+        23,
+        41
+      ],
+      "count": 540,
+      "mean": 83.43866544444444,
+      "median": 81.6836455,
+      "p95": 84.2251011
+    }
+  ],
+  "all_saved_statistics_match_independent_recalculation": true,
+  "json_mapping_order_requires_identity_based_summary_comparison": true,
+  "statistics_comparison_tolerance": {
+    "relative": 1e-12,
+    "absolute_ms": 1e-09
+  },
+  "timing_GPU_cost": {
+    "successful_job": {
+      "job_id": "3001817",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 505,
+      "allocated_gpus": 1,
+      "node": "gpu4022",
+      "start": "2026-10-15T20:19:39",
+      "end": "2026-10-15T20:28:04",
+      "scope": "profile",
+      "training_seed": null
+    },
+    "failed_pre_inference_job": {
+      "job_id": "3001742",
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "elapsed_seconds": 55,
+      "allocated_gpus": 1,
+      "node": "gpu4020",
+      "start": "2026-10-15T20:08:05",
+      "end": "2026-10-15T20:09:00",
+      "scope": "profile",
+      "training_seed": null
+    },
+    "successful_GPU_seconds": 505,
+    "failed_GPU_seconds": 55,
+    "both_attempts_GPU_seconds": 560,
+    "collection_and_training_costs_reported_separately_not_omitted": true
+  },
+  "interpretation": "Nine fixed observations from three development trajectories;20 repeated timings and3training seeds are not independent observations. All spikes retained. This audit validates latency evidence, not success-rate benefit.",
+  "serialization_roundtrip_diagnostic": {
+    "recorded_utc": "2026-10-15T12:33:10.822437+00:00",
+    "amendment_script_sha256": "7116568d2c292fdf8e45e71eb8a221f6a41cca9d7728302fc5b046f8a3d9e6f9",
+    "initial_independent_review_sha256": "1d05f970264244ff78ede674445d64989f320f90f7494bfb0e7b28e30d92d6ed",
+    "raw_measurement_files_unchanged": true,
+    "summarize_function_AST_equals_executed_frozen_source": true,
+    "fields_affected_by_mapping_order": [
+      "per_observation",
+      "paired_comparisons"
+    ],
+    "per_observation_effect": "List ordering only; compare rows by method and observation_id.",
+    "paired_comparisons_effect": "Floating reduction ordering only; source measurements and pairing identities are identical.",
+    "paired_comparison_max_abs_roundtrip_difference": {
+      "speedup_ratio_of_means": 6.661338147750939e-16,
+      "ratio_of_medians": 0.0,
+      "mean_paired_difference_ms": 1.4210854715202004e-14
+    },
+    "restore_mapping_order_from_observation_ids_all_summary_fields_exactly_equal": true,
+    "original_independent_tolerance_recalculation_remains_passed": true,
+    "no_GPU_rerun_or_measurement_edit": true
+  }
+}

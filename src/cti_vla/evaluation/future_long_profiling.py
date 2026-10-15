@@ -490,6 +490,12 @@ def analyze_long_profile(directory, registration):
     for key, name in (("measurements_sha256", "measurements.json"), ("journal_sha256", "calls.jsonl"), ("config_sha256", "config.json")):
         if saved.get(key) != file_sha256(directory / name):
             raise ValueError("Long latency summary artifact hash differs from raw evidence")
+    # atomic_json sorts mapping keys. Recover the measured sample order before
+    # rebuilding ordered observation rows and floating-point paired reductions.
+    # The journal check above validates these explicit IDs; raw files stay intact.
+    result["observation_episodes"] = {
+        oid: result["observation_episodes"][oid] for oid in result["observation_ids"]
+    }
     rebuilt = summarize_long_profile(result)
     if any(saved.get(key) != value for key, value in rebuilt.items()) or saved.get("cost") != result["cost"]:
         raise ValueError("Long latency summary differs from raw call recomputation")

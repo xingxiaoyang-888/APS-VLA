@@ -1,0 +1,3371 @@
+{
+  "stage": "Long64_vs128_independent_closed_loop_audit",
+  "status": "passed",
+  "reviewer": "train64",
+  "reviewed_utc": "2026-10-15T12:37:12.340924+00:00",
+  "checks": 71831,
+  "blockers": [],
+  "training_seeds": [
+    17,
+    23,
+    41
+  ],
+  "unique_initial_states": 30,
+  "new64_AB_trials": 180,
+  "historical128_AB_trials": 180,
+  "dense_reference_unique_trials": 30,
+  "per_budget_seed": {
+    "128": {
+      "17": {
+        "status": "passed",
+        "training_seed": 17,
+        "trained_visual_tokens": 128,
+        "evaluation_runtime_seed": 17,
+        "environment_seed": 0,
+        "expected_new_trials": 90,
+        "completed_trials": 90,
+        "unique_states": 30,
+        "method_statistics": {
+          "dense": {
+            "trials": 30,
+            "successes": 29,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 9
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          },
+          "future_A": {
+            "trials": 30,
+            "successes": 26,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 7
+              },
+              "5": {
+                "trials": 10,
+                "successes": 9
+              }
+            }
+          },
+          "future_B": {
+            "trials": 30,
+            "successes": 27,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 7
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          }
+        },
+        "AB_pairs": [
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": false,
+            "B_minus_A": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+            "task_id": 5,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          }
+        ],
+        "AB_paired_counts": {
+          "A_only": 1,
+          "B_only": 2,
+          "both": 25,
+          "neither": 2
+        },
+        "B_minus_A": {
+          "mean": 0.03333333333333333,
+          "ci95_percentile": [
+            -0.06666666666666667,
+            0.13333333333333333
+          ],
+          "per_seed_mean": [
+            0.03333333333333333
+          ],
+          "sample_sd": null,
+          "range": [
+            0.03333333333333333,
+            0.03333333333333333
+          ],
+          "unique_states": 30,
+          "state_seed_cells": 30,
+          "bootstrap_repeats": 2000,
+          "bootstrap_seed": 1517
+        },
+        "per_task_B_minus_A": {
+          "0": 0.0,
+          "3": 0.0,
+          "5": 0.1
+        },
+        "attempt_event_counts": {
+          "invocation": 1,
+          "start": 90,
+          "result": 90
+        },
+        "result_status_counts": {
+          "completed": 90
+        },
+        "cost": {
+          "recorded_result_attempts": 90,
+          "unfinished_attempts_unknown_cost": 0,
+          "known_policy_calls": 2881,
+          "known_wall_seconds": 981.6874489970505,
+          "policy_calls_total": 2881
+        },
+        "closed_loop_slurm_job_ids": [
+          "2993338"
+        ],
+        "training_completion_slurm_job_ids": [
+          "2993307"
+        ],
+        "initial_observation_hash_matches": 90,
+        "initial_hash_unavailable_policy_failures": 0,
+        "initial_scorer_sha256": "96f168f4e756e775fa6e60f71ae137d65f93466ef0a9794eb8cd329e5b3d8b17",
+        "dense_reference_new_trials": 30,
+        "test_opened": false,
+        "notes": [
+          "Interface/policy failures and interrupted attempts, when present, are retained rather than dropped.",
+          "Server checkpoint bytes are not downloaded or freshly rehashed here; local receipts and finalized run identities are verified."
+        ]
+      },
+      "23": {
+        "status": "passed",
+        "training_seed": 23,
+        "trained_visual_tokens": 128,
+        "evaluation_runtime_seed": 17,
+        "environment_seed": 0,
+        "expected_new_trials": 60,
+        "completed_trials": 60,
+        "unique_states": 30,
+        "method_statistics": {
+          "future_A": {
+            "trials": 30,
+            "successes": 26,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 6
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          },
+          "future_B": {
+            "trials": 30,
+            "successes": 27,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 7
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          }
+        },
+        "AB_pairs": [
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          }
+        ],
+        "AB_paired_counts": {
+          "A_only": 0,
+          "B_only": 1,
+          "both": 26,
+          "neither": 3
+        },
+        "B_minus_A": {
+          "mean": 0.03333333333333333,
+          "ci95_percentile": [
+            0.0,
+            0.1
+          ],
+          "per_seed_mean": [
+            0.03333333333333333
+          ],
+          "sample_sd": null,
+          "range": [
+            0.03333333333333333,
+            0.03333333333333333
+          ],
+          "unique_states": 30,
+          "state_seed_cells": 30,
+          "bootstrap_repeats": 2000,
+          "bootstrap_seed": 1517
+        },
+        "per_task_B_minus_A": {
+          "0": 0.0,
+          "3": 0.1,
+          "5": 0.0
+        },
+        "attempt_event_counts": {
+          "invocation": 1,
+          "start": 60,
+          "result": 60
+        },
+        "result_status_counts": {
+          "completed": 60
+        },
+        "cost": {
+          "recorded_result_attempts": 60,
+          "unfinished_attempts_unknown_cost": 0,
+          "known_policy_calls": 1981,
+          "known_wall_seconds": 629.1083432491869,
+          "policy_calls_total": 1981
+        },
+        "closed_loop_slurm_job_ids": [
+          "2993645"
+        ],
+        "training_completion_slurm_job_ids": [
+          "2993590"
+        ],
+        "initial_observation_hash_matches": 60,
+        "initial_hash_unavailable_policy_failures": 0,
+        "initial_scorer_sha256": "0b5afb698921d8d3fd10c42b15c5a178eb6a666c32df187f4961a98bab98c051",
+        "dense_reference_new_trials": 0,
+        "test_opened": false,
+        "notes": [
+          "Interface/policy failures and interrupted attempts, when present, are retained rather than dropped.",
+          "Server checkpoint bytes are not downloaded or freshly rehashed here; local receipts and finalized run identities are verified."
+        ]
+      },
+      "41": {
+        "status": "passed",
+        "training_seed": 41,
+        "trained_visual_tokens": 128,
+        "evaluation_runtime_seed": 17,
+        "environment_seed": 0,
+        "expected_new_trials": 60,
+        "completed_trials": 60,
+        "unique_states": 30,
+        "method_statistics": {
+          "future_A": {
+            "trials": 30,
+            "successes": 27,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 7
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          },
+          "future_B": {
+            "trials": 30,
+            "successes": 29,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 9
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          }
+        },
+        "AB_pairs": [
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          }
+        ],
+        "AB_paired_counts": {
+          "A_only": 0,
+          "B_only": 2,
+          "both": 27,
+          "neither": 1
+        },
+        "B_minus_A": {
+          "mean": 0.06666666666666667,
+          "ci95_percentile": [
+            0.0,
+            0.16666666666666666
+          ],
+          "per_seed_mean": [
+            0.06666666666666667
+          ],
+          "sample_sd": null,
+          "range": [
+            0.06666666666666667,
+            0.06666666666666667
+          ],
+          "unique_states": 30,
+          "state_seed_cells": 30,
+          "bootstrap_repeats": 2000,
+          "bootstrap_seed": 1517
+        },
+        "per_task_B_minus_A": {
+          "0": 0.0,
+          "3": 0.2,
+          "5": 0.0
+        },
+        "attempt_event_counts": {
+          "invocation": 1,
+          "start": 60,
+          "result": 60
+        },
+        "result_status_counts": {
+          "completed": 60
+        },
+        "cost": {
+          "recorded_result_attempts": 60,
+          "unfinished_attempts_unknown_cost": 0,
+          "known_policy_calls": 1875,
+          "known_wall_seconds": 573.2604078128934,
+          "policy_calls_total": 1875
+        },
+        "closed_loop_slurm_job_ids": [
+          "2993646"
+        ],
+        "training_completion_slurm_job_ids": [
+          "2993591"
+        ],
+        "initial_observation_hash_matches": 60,
+        "initial_hash_unavailable_policy_failures": 0,
+        "initial_scorer_sha256": "d62b454c4ca888f19c0d0153bad58620f4f6b0c4e1364cd963515bab634aed94",
+        "dense_reference_new_trials": 0,
+        "test_opened": false,
+        "notes": [
+          "Interface/policy failures and interrupted attempts, when present, are retained rather than dropped.",
+          "Server checkpoint bytes are not downloaded or freshly rehashed here; local receipts and finalized run identities are verified."
+        ]
+      }
+    },
+    "64": {
+      "17": {
+        "status": "passed",
+        "training_seed": 17,
+        "trained_visual_tokens": 64,
+        "evaluation_runtime_seed": 17,
+        "environment_seed": 0,
+        "expected_new_trials": 60,
+        "completed_trials": 60,
+        "unique_states": 30,
+        "method_statistics": {
+          "future_A": {
+            "trials": 30,
+            "successes": 25,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 5
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          },
+          "future_B": {
+            "trials": 30,
+            "successes": 26,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 6
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          }
+        },
+        "AB_pairs": [
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": false,
+            "B_minus_A": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": false,
+            "B_minus_A": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          }
+        ],
+        "AB_paired_counts": {
+          "A_only": 2,
+          "B_only": 3,
+          "both": 23,
+          "neither": 2
+        },
+        "B_minus_A": {
+          "mean": 0.03333333333333333,
+          "ci95_percentile": [
+            -0.1,
+            0.16666666666666666
+          ],
+          "per_seed_mean": [
+            0.03333333333333333
+          ],
+          "sample_sd": null,
+          "range": [
+            0.03333333333333333,
+            0.03333333333333333
+          ],
+          "unique_states": 30,
+          "state_seed_cells": 30,
+          "bootstrap_repeats": 2000,
+          "bootstrap_seed": 1517
+        },
+        "per_task_B_minus_A": {
+          "0": 0.0,
+          "3": 0.1,
+          "5": 0.0
+        },
+        "attempt_event_counts": {
+          "invocation": 1,
+          "start": 60,
+          "result": 60
+        },
+        "result_status_counts": {
+          "completed": 60
+        },
+        "cost": {
+          "recorded_result_attempts": 60,
+          "unfinished_attempts_unknown_cost": 0,
+          "known_policy_calls": 2170,
+          "known_wall_seconds": 701.1067138537765,
+          "policy_calls_total": 2170
+        },
+        "closed_loop_slurm_job_ids": [
+          "3001738"
+        ],
+        "training_completion_slurm_job_ids": [
+          "3001573"
+        ],
+        "initial_observation_hash_matches": 60,
+        "initial_hash_unavailable_policy_failures": 0,
+        "initial_scorer_sha256": "96f168f4e756e775fa6e60f71ae137d65f93466ef0a9794eb8cd329e5b3d8b17",
+        "dense_reference_new_trials": 0,
+        "test_opened": false,
+        "notes": [
+          "Interface/policy failures and interrupted attempts, when present, are retained rather than dropped.",
+          "Server checkpoint bytes are not downloaded or freshly rehashed here; local receipts and finalized run identities are verified."
+        ]
+      },
+      "23": {
+        "status": "passed",
+        "training_seed": 23,
+        "trained_visual_tokens": 64,
+        "evaluation_runtime_seed": 17,
+        "environment_seed": 0,
+        "expected_new_trials": 60,
+        "completed_trials": 60,
+        "unique_states": 30,
+        "method_statistics": {
+          "future_A": {
+            "trials": 30,
+            "successes": 21,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 8
+              },
+              "3": {
+                "trials": 10,
+                "successes": 3
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          },
+          "future_B": {
+            "trials": 30,
+            "successes": 24,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 4
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          }
+        },
+        "AB_pairs": [
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+            "task_id": 0,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+            "task_id": 0,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": false,
+            "B_minus_A": -1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          }
+        ],
+        "AB_paired_counts": {
+          "A_only": 1,
+          "B_only": 4,
+          "both": 20,
+          "neither": 5
+        },
+        "B_minus_A": {
+          "mean": 0.1,
+          "ci95_percentile": [
+            -0.03333333333333333,
+            0.23333333333333334
+          ],
+          "per_seed_mean": [
+            0.1
+          ],
+          "sample_sd": null,
+          "range": [
+            0.1,
+            0.1
+          ],
+          "unique_states": 30,
+          "state_seed_cells": 30,
+          "bootstrap_repeats": 2000,
+          "bootstrap_seed": 1517
+        },
+        "per_task_B_minus_A": {
+          "0": 0.2,
+          "3": 0.1,
+          "5": 0.0
+        },
+        "attempt_event_counts": {
+          "invocation": 1,
+          "start": 60,
+          "result": 60
+        },
+        "result_status_counts": {
+          "completed": 60
+        },
+        "cost": {
+          "recorded_result_attempts": 60,
+          "unfinished_attempts_unknown_cost": 0,
+          "known_policy_calls": 2360,
+          "known_wall_seconds": 668.0137944109738,
+          "policy_calls_total": 2360
+        },
+        "closed_loop_slurm_job_ids": [
+          "3001740"
+        ],
+        "training_completion_slurm_job_ids": [
+          "3001574"
+        ],
+        "initial_observation_hash_matches": 60,
+        "initial_hash_unavailable_policy_failures": 0,
+        "initial_scorer_sha256": "0b5afb698921d8d3fd10c42b15c5a178eb6a666c32df187f4961a98bab98c051",
+        "dense_reference_new_trials": 0,
+        "test_opened": false,
+        "notes": [
+          "Interface/policy failures and interrupted attempts, when present, are retained rather than dropped.",
+          "Server checkpoint bytes are not downloaded or freshly rehashed here; local receipts and finalized run identities are verified."
+        ]
+      },
+      "41": {
+        "status": "passed",
+        "training_seed": 41,
+        "trained_visual_tokens": 64,
+        "evaluation_runtime_seed": 17,
+        "environment_seed": 0,
+        "expected_new_trials": 60,
+        "completed_trials": 60,
+        "unique_states": 30,
+        "method_statistics": {
+          "future_A": {
+            "trials": 30,
+            "successes": 24,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 4
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          },
+          "future_B": {
+            "trials": 30,
+            "successes": 27,
+            "policy_failures": 0,
+            "per_task": {
+              "0": {
+                "trials": 10,
+                "successes": 10
+              },
+              "3": {
+                "trials": 10,
+                "successes": 7
+              },
+              "5": {
+                "trials": 10,
+                "successes": 10
+              }
+            }
+          }
+        },
+        "AB_pairs": [
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+            "task_id": 0,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": false,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+            "task_id": 3,
+            "A_success": false,
+            "B_success": true,
+            "B_minus_A": 1
+          },
+          {
+            "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+            "task_id": 3,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          },
+          {
+            "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+            "task_id": 5,
+            "A_success": true,
+            "B_success": true,
+            "B_minus_A": 0
+          }
+        ],
+        "AB_paired_counts": {
+          "A_only": 0,
+          "B_only": 3,
+          "both": 24,
+          "neither": 3
+        },
+        "B_minus_A": {
+          "mean": 0.1,
+          "ci95_percentile": [
+            0.0,
+            0.2
+          ],
+          "per_seed_mean": [
+            0.1
+          ],
+          "sample_sd": null,
+          "range": [
+            0.1,
+            0.1
+          ],
+          "unique_states": 30,
+          "state_seed_cells": 30,
+          "bootstrap_repeats": 2000,
+          "bootstrap_seed": 1517
+        },
+        "per_task_B_minus_A": {
+          "0": 0.0,
+          "3": 0.3,
+          "5": 0.0
+        },
+        "attempt_event_counts": {
+          "invocation": 1,
+          "start": 60,
+          "result": 60
+        },
+        "result_status_counts": {
+          "completed": 60
+        },
+        "cost": {
+          "recorded_result_attempts": 60,
+          "unfinished_attempts_unknown_cost": 0,
+          "known_policy_calls": 2155,
+          "known_wall_seconds": 636.4981486648321,
+          "policy_calls_total": 2155
+        },
+        "closed_loop_slurm_job_ids": [
+          "3001741"
+        ],
+        "training_completion_slurm_job_ids": [
+          "3001576"
+        ],
+        "initial_observation_hash_matches": 60,
+        "initial_hash_unavailable_policy_failures": 0,
+        "initial_scorer_sha256": "d62b454c4ca888f19c0d0153bad58620f4f6b0c4e1364cd963515bab634aed94",
+        "dense_reference_new_trials": 0,
+        "test_opened": false,
+        "notes": [
+          "Interface/policy failures and interrupted attempts, when present, are retained rather than dropped.",
+          "Server checkpoint bytes are not downloaded or freshly rehashed here; local receipts and finalized run identities are verified."
+        ]
+      }
+    }
+  },
+  "independently_recomputed_method_estimates": {
+    "A128": {
+      "mean": 0.8777777777777778,
+      "ci95_percentile": [
+        0.8,
+        0.9555555555555556
+      ],
+      "per_seed_mean": [
+        0.8666666666666667,
+        0.8666666666666667,
+        0.9
+      ],
+      "sample_sd": 0.01924500897298752,
+      "range": [
+        0.8666666666666667,
+        0.9
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "B128": {
+      "mean": 0.9222222222222223,
+      "ci95_percentile": [
+        0.8555555555555556,
+        0.9777777777777777
+      ],
+      "per_seed_mean": [
+        0.9,
+        0.9,
+        0.9666666666666667
+      ],
+      "sample_sd": 0.03849001794597504,
+      "range": [
+        0.9,
+        0.9666666666666667
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "A64": {
+      "mean": 0.7777777777777778,
+      "ci95_percentile": [
+        0.711111111111111,
+        0.8555555555555556
+      ],
+      "per_seed_mean": [
+        0.8333333333333334,
+        0.7,
+        0.8
+      ],
+      "sample_sd": 0.06938886664887113,
+      "range": [
+        0.7,
+        0.8333333333333334
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "B64": {
+      "mean": 0.8555555555555555,
+      "ci95_percentile": [
+        0.7777777777777778,
+        0.9333333333333333
+      ],
+      "per_seed_mean": [
+        0.8666666666666667,
+        0.8,
+        0.9
+      ],
+      "sample_sd": 0.05091750772173154,
+      "range": [
+        0.8,
+        0.9
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    }
+  },
+  "independently_recomputed_contrasts": {
+    "B128_minus_A128": {
+      "mean": 0.044444444444444446,
+      "ci95_percentile": [
+        0.01111111111111111,
+        0.07777777777777778
+      ],
+      "per_seed_mean": [
+        0.03333333333333333,
+        0.03333333333333333,
+        0.06666666666666667
+      ],
+      "sample_sd": 0.019245008972987525,
+      "range": [
+        0.03333333333333333,
+        0.06666666666666667
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "B64_minus_A64": {
+      "mean": 0.07777777777777778,
+      "ci95_percentile": [
+        0.01111111111111111,
+        0.15555555555555556
+      ],
+      "per_seed_mean": [
+        0.03333333333333333,
+        0.1,
+        0.1
+      ],
+      "sample_sd": 0.03849001794597506,
+      "range": [
+        0.03333333333333333,
+        0.1
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "B64_minus_A128": {
+      "mean": -0.022222222222222223,
+      "ci95_percentile": [
+        -0.11111111111111112,
+        0.06666666666666667
+      ],
+      "per_seed_mean": [
+        0.0,
+        -0.06666666666666667,
+        0.0
+      ],
+      "sample_sd": 0.03849001794597505,
+      "range": [
+        -0.06666666666666667,
+        0.0
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "A64_minus_A128": {
+      "mean": -0.1,
+      "ci95_percentile": [
+        -0.17777777777777776,
+        -0.01111111111111111
+      ],
+      "per_seed_mean": [
+        -0.03333333333333333,
+        -0.16666666666666666,
+        -0.1
+      ],
+      "sample_sd": 0.06666666666666667,
+      "range": [
+        -0.16666666666666666,
+        -0.03333333333333333
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "B64_minus_B128": {
+      "mean": -0.06666666666666667,
+      "ci95_percentile": [
+        -0.13333333333333333,
+        0.0
+      ],
+      "per_seed_mean": [
+        -0.03333333333333333,
+        -0.1,
+        -0.06666666666666667
+      ],
+      "sample_sd": 0.03333333333333334,
+      "range": [
+        -0.1,
+        -0.03333333333333333
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "A128_minus_dense": {
+      "mean": -0.08888888888888889,
+      "ci95_percentile": [
+        -0.17777777777777776,
+        -0.01111111111111111
+      ],
+      "per_seed_mean": [
+        -0.1,
+        -0.1,
+        -0.06666666666666667
+      ],
+      "sample_sd": 0.01924500897298753,
+      "range": [
+        -0.1,
+        -0.06666666666666667
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "B128_minus_dense": {
+      "mean": -0.044444444444444446,
+      "ci95_percentile": [
+        -0.11111111111111112,
+        0.01111111111111111
+      ],
+      "per_seed_mean": [
+        -0.06666666666666667,
+        -0.06666666666666667,
+        0.0
+      ],
+      "sample_sd": 0.03849001794597505,
+      "range": [
+        -0.06666666666666667,
+        0.0
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "A64_minus_dense": {
+      "mean": -0.18888888888888888,
+      "ci95_percentile": [
+        -0.26694444444444443,
+        -0.08888888888888888
+      ],
+      "per_seed_mean": [
+        -0.13333333333333333,
+        -0.26666666666666666,
+        -0.16666666666666666
+      ],
+      "sample_sd": 0.06938886664887109,
+      "range": [
+        -0.26666666666666666,
+        -0.13333333333333333
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    },
+    "B64_minus_dense": {
+      "mean": -0.1111111111111111,
+      "ci95_percentile": [
+        -0.2111111111111111,
+        -0.01111111111111111
+      ],
+      "per_seed_mean": [
+        -0.1,
+        -0.16666666666666666,
+        -0.06666666666666667
+      ],
+      "sample_sd": 0.05091750772173155,
+      "range": [
+        -0.16666666666666666,
+        -0.06666666666666667
+      ],
+      "unique_states": 30,
+      "state_seed_cells": 90,
+      "bootstrap_repeats": 2000,
+      "bootstrap_seed": 1517
+    }
+  },
+  "offline_diagnostics": {
+    "128": {
+      "17": {
+        "arms": {
+          "A": {
+            "teacher_l1": 0.02527241363810996,
+            "demonstration_l1": 0.025999743475889167
+          },
+          "B": {
+            "teacher_l1": 0.025616790028288962,
+            "demonstration_l1": 0.026413999156405528
+          }
+        },
+        "intersection_over_budget": 0.9822916666666667,
+        "jaccard": 0.9653757907108653,
+        "identical_sets": 3,
+        "windows": 60,
+        "scope": "Reaggregated saved per-window errors and exact token IDs; local teacher/GT arrays are unavailable."
+      },
+      "23": {
+        "arms": {
+          "A": {
+            "teacher_l1": 0.02384604150429368,
+            "demonstration_l1": 0.024684188406293592
+          },
+          "B": {
+            "teacher_l1": 0.024365265062078832,
+            "demonstration_l1": 0.025161732640117406
+          }
+        },
+        "intersection_over_budget": 0.973828125,
+        "jaccard": 0.9492127625577227,
+        "identical_sets": 0,
+        "windows": 60,
+        "scope": "Reaggregated saved per-window errors and exact token IDs; local teacher/GT arrays are unavailable."
+      },
+      "41": {
+        "arms": {
+          "A": {
+            "teacher_l1": 0.02548378660964469,
+            "demonstration_l1": 0.026319869328290224
+          },
+          "B": {
+            "teacher_l1": 0.02574088585873445,
+            "demonstration_l1": 0.02651443222227196
+          }
+        },
+        "intersection_over_budget": 0.984375,
+        "jaccard": 0.9694237786474048,
+        "identical_sets": 5,
+        "windows": 60,
+        "scope": "Reaggregated saved per-window errors and exact token IDs; local teacher/GT arrays are unavailable."
+      }
+    },
+    "64": {
+      "17": {
+        "arms": {
+          "A": {
+            "teacher_l1": 0.05418589920736849,
+            "demonstration_l1": 0.05419642060684661
+          },
+          "B": {
+            "teacher_l1": 0.056400771842648585,
+            "demonstration_l1": 0.05651078671216965
+          }
+        },
+        "intersection_over_budget": 0.940625,
+        "jaccard": 0.8887580230852414,
+        "identical_sets": 0,
+        "windows": 60,
+        "scope": "Reaggregated saved per-window errors and exact token IDs; local teacher/GT arrays are unavailable."
+      },
+      "23": {
+        "arms": {
+          "A": {
+            "teacher_l1": 0.05356036373414099,
+            "demonstration_l1": 0.05346222206329306
+          },
+          "B": {
+            "teacher_l1": 0.054499235935509205,
+            "demonstration_l1": 0.05441022093097369
+          }
+        },
+        "intersection_over_budget": 0.9395833333333333,
+        "jaccard": 0.8877176099413524,
+        "identical_sets": 1,
+        "windows": 60,
+        "scope": "Reaggregated saved per-window errors and exact token IDs; local teacher/GT arrays are unavailable."
+      },
+      "41": {
+        "arms": {
+          "A": {
+            "teacher_l1": 0.05606270089435081,
+            "demonstration_l1": 0.05610412050349017
+          },
+          "B": {
+            "teacher_l1": 0.055981664530312024,
+            "demonstration_l1": 0.05609145482691626
+          }
+        },
+        "intersection_over_budget": 0.9526041666666667,
+        "jaccard": 0.9102661668178094,
+        "identical_sets": 0,
+        "windows": 60,
+        "scope": "Reaggregated saved per-window errors and exact token IDs; local teacher/GT arrays are unavailable."
+      }
+    }
+  },
+  "state_vectors": [
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          0,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+      "task_id": 0,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          0,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          0,
+          1,
+          0
+        ],
+        "B64": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          0,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          0,
+          0
+        ],
+        "B128": [
+          0,
+          1,
+          1
+        ],
+        "A64": [
+          0,
+          0,
+          0
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          0,
+          0,
+          1
+        ],
+        "B128": [
+          0,
+          0,
+          1
+        ],
+        "A64": [
+          1,
+          0,
+          0
+        ],
+        "B64": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+      "task_id": 3,
+      "dense_success": false,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          0,
+          0
+        ],
+        "B128": [
+          1,
+          0,
+          0
+        ],
+        "A64": [
+          1,
+          0,
+          0
+        ],
+        "B64": [
+          1,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          0,
+          0,
+          0
+        ],
+        "B128": [
+          0,
+          0,
+          1
+        ],
+        "A64": [
+          0,
+          0,
+          0
+        ],
+        "B64": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          0,
+          0,
+          1
+        ],
+        "B64": [
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          0,
+          0
+        ],
+        "B64": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+      "task_id": 3,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          0,
+          0,
+          1
+        ],
+        "B64": [
+          1,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0005:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0012:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0014:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          0,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0021:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0030:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0032:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0039:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0042:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0044:env-0",
+      "task_id": 5,
+      "dense_success": true,
+      "method_seed_vectors": {
+        "A128": [
+          1,
+          1,
+          1
+        ],
+        "B128": [
+          1,
+          1,
+          1
+        ],
+        "A64": [
+          1,
+          1,
+          1
+        ],
+        "B64": [
+          1,
+          1,
+          1
+        ]
+      }
+    }
+  ],
+  "new_cost": {
+    "allocations": [
+      {
+        "job_id": "3001539",
+        "seed": 17,
+        "scope": "acceptance",
+        "state": "COMPLETED",
+        "gpu_seconds": 314
+      },
+      {
+        "job_id": "3001540",
+        "seed": null,
+        "scope": "collect",
+        "state": "COMPLETED",
+        "gpu_seconds": 359
+      },
+      {
+        "job_id": "3001573",
+        "seed": 17,
+        "scope": "train",
+        "state": "COMPLETED",
+        "gpu_seconds": 674
+      },
+      {
+        "job_id": "3001574",
+        "seed": 23,
+        "scope": "train",
+        "state": "COMPLETED",
+        "gpu_seconds": 670
+      },
+      {
+        "job_id": "3001576",
+        "seed": 41,
+        "scope": "train",
+        "state": "COMPLETED",
+        "gpu_seconds": 665
+      },
+      {
+        "job_id": "3001738",
+        "seed": 17,
+        "scope": "closed_loop",
+        "state": "COMPLETED",
+        "gpu_seconds": 1060
+      },
+      {
+        "job_id": "3001740",
+        "seed": 23,
+        "scope": "closed_loop",
+        "state": "COMPLETED",
+        "gpu_seconds": 1012
+      },
+      {
+        "job_id": "3001741",
+        "seed": 41,
+        "scope": "closed_loop",
+        "state": "COMPLETED",
+        "gpu_seconds": 982
+      },
+      {
+        "job_id": "3001742",
+        "seed": null,
+        "scope": "profile",
+        "state": "FAILED",
+        "gpu_seconds": 55
+      },
+      {
+        "job_id": "3001817",
+        "seed": null,
+        "scope": "profile",
+        "state": "COMPLETED",
+        "gpu_seconds": 505
+      }
+    ],
+    "new_gpu_seconds": 6296,
+    "new_gpu_hours": 1.748888888888889,
+    "parent128_allocations_excluded": true,
+    "failed_and_retried_allocations_included": true,
+    "scope": "Unique new parent allocation wall seconds times GPUs. No addition of overlapping episode, validation or training timers."
+  },
+  "test_opened": false,
+  "evidence_sha256": {
+    "configs/experiments/g1_future_long_k64_v1.json": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+    "results/g1_future_long_k64_v1/source_g1_future_long_k64_v1.json": "20dbd3b2e26732765ec05af08c2a9c16d18be140f5db76f74acdfddce621d36b",
+    "configs/experiments/g1_future_long_v1.json": "be6c2c235c7caf3ca5a05892e8da3b22b71605be5fa42fa9c209219c26f5e990",
+    "configs/manifests/long_future_v1/protocol.json": "228f4942c85ce00cbd4c8f2915802b1453c7b8b735a13f44870956d69dfd7e6f",
+    "configs/manifests/long_future_v1/windows.json": "707b9daf18827c41f4470bf163528a6f626c95e297e0e38c673792959fef4c28",
+    "configs/manifests/long_initial_states_v1/development_panel_30.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "configs/assets/openvla_oft_libero_long.json": "90f366c593ae62862e95b2114de3878b499074b9f4db6eb8671e7d4f1103fcae",
+    "results/g1_future_long/source_g1_future_long_v1.json": "46fa4266a0abef2ea6697c69c1a63851fcbb065e7979a14cadc6a434928441c2",
+    "results/g1_future_long_v1/inputs/input_acceptance.json": "43a094489cc884813c9889104b4ef706f6050c7242dc48fd22ede264757e7def",
+    "results/g1_future_long_v1/inputs/calls.jsonl": "e85c56a5059a4836bb2d5abba74bc81bdde02f7ad8f6568844a8ea5c8e8366f7",
+    "results/g1_future_long_v1/training/cache_index.json": "4ed339aabfc527f5da8e374504c45dea41312865296b67a376edc06f89411d2b",
+    "results/g1_future_long_v1/closed_loop/config.json": "1d9fb2c974105656f3a9909b13ac4dff1aed347f680b108df5793582195f17ea",
+    "results/g1_future_long_v1/closed_loop/closed_loop_report.json": "b54ea4fa2755317e9a71b1d566694e2ddcc0bb2267087ab16d5e34eb6ba85611",
+    "results/g1_future_long_v1/closed_loop/trials.jsonl": "ff68b045e16c7e96ee2205471112e68c8596526b32ebef753db653a46e0bcad0",
+    "results/g1_future_long_multiseed_v1/scientific_review.json": "b7d9c02171bb3f33896eb4ac3f7810099a475e5b77f454fc9187d4a9faaa9033",
+    "results/g1_future_long_multiseed_v1/analysis/summary.json": "f37cda43a4273483f802ade27309ab6d1517fdeade8cfe314aa167afa06f8ff6",
+    "results/g1_future_long_multiseed_v1/analysis/independent_closed_loop_review.json": "ed8a6cef7fafa5e40360a7c309908ccef77a749f88b2a24ab76e15bf5e480514",
+    "results/g1_future_long_v1/training/A/deployment_receipt.json": "f50e7fb2a2878754e57693bd6612581834e42608cf7db852b903deef1a9744c5",
+    "results/g1_future_long_v1/training/A/training_report.json": "78d6f48c7848c3324ad0a6530b67961c89bad32261419efa596749290b9ccd17",
+    "results/g1_future_long_v1/training/B/deployment_receipt.json": "897c1d7838d55e30d43a29cbefbf2cb75ba4630968901cdeef0191db422d6ef6",
+    "results/g1_future_long_v1/training/B/training_report.json": "11b786ae29b50e28673e330b3e45935ade04e93dacbd400de624351080abbf11",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/deployment_receipt.json": "44fbf815c71aaec0adbe711c55fa35e661026e8d31f00cb0e11d5e0183551de1",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/training_report.json": "01cf3c3f6ccd9daa40d6a39617a9747cb168111978fc4c587ee0d5dd5dc4f122",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/deployment_receipt.json": "dd482f09c03c7403d3863d757a6d098098c3e5054e7e6ab4c5d20a216f96dca1",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/training_report.json": "2895a8ad2f7c9698ab7372c70919605db90bebee113070c586c7593f78d22975",
+    "results/g1_future_long_multiseed_v1/seed23/closed_loop/config.json": "354ef92f4597cb9a6f6199bed6b16761556f9bdbc2d782a1caa3105d48a343cf",
+    "results/g1_future_long_multiseed_v1/seed23/closed_loop/closed_loop_report.json": "4f82f3d8bb7a5a560314aa46fd8bf65d8728c2b0e47a3d9f6cd31983ef9b8eea",
+    "results/g1_future_long_multiseed_v1/seed23/closed_loop/trials.jsonl": "4829e1bfca5857199ed6f4dd0f8b6c20dcac11f5ef2792da4d34e31a9eed87ec",
+    "results/g1_future_long_multiseed_v1/seed41/training/A/deployment_receipt.json": "0930a953061bbaf43cddc4ef05b10f41a4830fc7cd239825231949c63be6243b",
+    "results/g1_future_long_multiseed_v1/seed41/training/A/training_report.json": "c633511e49149e2b84af647b25be103ea7b910beb47ac42645247355481e4894",
+    "results/g1_future_long_multiseed_v1/seed41/training/B/deployment_receipt.json": "aac49c4d1ecf397174d42ba5bb0895b4df111c046ea8bea03ee2b8dfa66b00cd",
+    "results/g1_future_long_multiseed_v1/seed41/training/B/training_report.json": "5fc78d313de4b6dd4e69686af5c74e070fc3fbb8b7d549a38284a745341d9d20",
+    "results/g1_future_long_multiseed_v1/seed41/closed_loop/config.json": "e1c3d24864143bcdc18f734f754b888d70b36151f650fae5a9e53596bea68d04",
+    "results/g1_future_long_multiseed_v1/seed41/closed_loop/closed_loop_report.json": "faa1bb2e9d5a568acb13bb9211cf847203d835c92d27879de1f8420fee0be810",
+    "results/g1_future_long_multiseed_v1/seed41/closed_loop/trials.jsonl": "0b0d32ea1ef548ea49ec796259bae337887ca60342e01cdec2433c00a4387648",
+    "results/g1_future_long_multiseed_v1/source_g1_future_long_multiseed_v1.json": "b001ae047ab3f92ad36412b633d36a3cfef0c9d678482b6b94b7476925bb1839",
+    "results/g1_future_long_v1/acceptance/f01_acceptance.json": "fe4f86e0807fd85844bd4ab673364b6fa50bbd055ed7b6896e7689e58a4515bb",
+    "results/g1_future_long_v1/closed_loop/panel.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long_k64_v1/acceptance/f01_acceptance.json": "70eb1cf5984f9a70d9361331af4815c684013e1161429c6050cb7e9e2d733f1f",
+    "results/g1_future_long_k64_v1/acceptance/acceptance_finalization.json": "7c11898f99014242dab4aafe5cf5b15c48fbfcd7bfd4b641e23465f47594c2e3",
+    "results/g1_future_long_k64_v1/acceptance/root_review.json": "6e4e2aec3053b9b9f4469c54a8b5b71d2ad29fb581b95b974b17a46107daea19",
+    "results/g1_future_long_v1/training/train_finalization.json": "0be5fd02a582e78b63ac8b117ab0d1fe1b53839f04b35636f8143c928f21404f",
+    "results/g1_future_long_v1/training/training_summary.json": "d94b9b7974832668b5bcaf9d5968b71777930031d80f8c0cbfa0b1665570be4e",
+    "results/g1_future_long_multiseed_v1/seed23/closed_loop/panel.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long_multiseed_v1/seed23/reuse_registration.json": "3547934d13fbbdf2436b555f4d7307f9db1cc0977010482cf368487b167893cf",
+    "results/g1_future_long_multiseed_v1/seed23/training/train_finalization.json": "e1e1e2186ecb6742922db27a9927f21eeeda79c0a6a0812fdd7d0c6884d9d245",
+    "results/g1_future_long_multiseed_v1/seed23/training/training_summary.json": "4e72b13676d905c077dafa6972dd874f4787a3fe090cea5b01ce374ec4d5f044",
+    "results/g1_future_long_multiseed_v1/seed41/closed_loop/panel.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long_multiseed_v1/seed41/reuse_registration.json": "e649987996ad680d420c3d3c24a2461f99d6a141abe11f1445fdbaee2032786b",
+    "results/g1_future_long_multiseed_v1/seed41/training/train_finalization.json": "db786fa6f8c145330fc27500cd5c7596876f4fe2d526df86ac8d8133d9e1e2ca",
+    "results/g1_future_long_multiseed_v1/seed41/training/training_summary.json": "6ce5ca8d20fe3e2b2394765bc6a716574a27e376bb6bb1ed5a7e02ad37deb474",
+    "configs/experiments/g1_future_long_k64_seed17_v1.json": "2eb0e5d10b5938b99b25747d2d7ae741932e46548ae08ec47917a06033bae653",
+    "results/g1_future_long_k64_v1/seed17/closed_loop/config.json": "333ba2d13d13c409160f8b3aa70c67a2127732e53c2c71aa5fb817791c74b41c",
+    "results/g1_future_long_k64_v1/seed17/closed_loop/closed_loop_report.json": "ec985565a3676612278af6ce48cd22e9b9b0141407f8f50ef0104205d67aec01",
+    "results/g1_future_long_k64_v1/seed17/closed_loop/panel.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long_k64_v1/seed17/closed_loop/trials.jsonl": "932cf42e7f8c38d06c44247b152602d461c1536aad10d172ddb056826bc1a544",
+    "results/g1_future_long_k64_v1/seed17/budget_reuse_registration.json": "9271257e0ca924640aa2f2e9ee5b82fc67121376d307f93775253556e6da566c",
+    "results/g1_future_long_k64_v1/seed17/submission_closed_loop.json": "c84773f4995cbfbfe2b31d0abaa2a66059686c871b0ea6521d94fbb94dc5f582",
+    "results/g1_future_long_k64_v1/seed17/training/A/training_report.json": "18ec2a714d371b89fd9162b0c46bdbd6d00a47c7f855cd89c3b88bac3174e66e",
+    "results/g1_future_long_k64_v1/seed17/training/A/deployment_receipt.json": "ec22fc312c3bbf2f387a1f34a4fb35b649103113ecd784390a2431f0b35a6eea",
+    "results/g1_future_long_k64_v1/seed17/training/independent_review.json": "e1e0eb73376b4d3cf87eae4e16d4636678221c1ad2c56e400df8d87d749971da",
+    "results/g1_future_long_k64_v1/seed17/training/B/training_report.json": "64cd382ce21ede30a5c94748dbb382ca5b928402e8a7d223afed861ad0370769",
+    "results/g1_future_long_k64_v1/seed17/training/B/deployment_receipt.json": "d0aa093f4bf1f7de55e90ea88e99ae70523b858207b95c294141eb4e0f6b56d8",
+    "results/g1_future_long_k64_v1/seed17/training/train_finalization.json": "859167922e9bccd951068ce45b024a953c3bbb5dc48f207b32532a23ad46b955",
+    "results/g1_future_long_k64_v1/seed17/training/training_summary.json": "b5fbc00751c57639ccd4fd50e2bfd13a0b73ee18362dd835ea4c472c04b04a06",
+    "configs/experiments/g1_future_long_k64_seed23_v1.json": "259392b3b92b8f92b721bd9dd9bd64e606d995a747a472e909045295011b6ad4",
+    "results/g1_future_long_k64_v1/seed23/closed_loop/config.json": "27efe03871116b382c2693b47a95bf7d89c608fc81bab00857eb53a48833bdf5",
+    "results/g1_future_long_k64_v1/seed23/closed_loop/closed_loop_report.json": "b907375338aabd25e6160bdab46caa9ba701a5c2dbc8735ffbc88cdf8929c185",
+    "results/g1_future_long_k64_v1/seed23/closed_loop/panel.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long_k64_v1/seed23/closed_loop/trials.jsonl": "ec07ccbfb30ea4afc606caa2fe7b9f67b2ff2a2a0e77cbbe8c3ab4be70f80e2f",
+    "results/g1_future_long_k64_v1/seed23/budget_reuse_registration.json": "31e9ccd15452dc164456b87e16e802b01f94293bc4fdf46e3dc8634bac87793a",
+    "results/g1_future_long_k64_v1/seed23/submission_closed_loop.json": "3fd9daad4054202676c8e6834d8e827aaaf8fb914c5ef00076ebe930b2a16d1d",
+    "results/g1_future_long_k64_v1/seed23/training/A/training_report.json": "599ba92b4f4d4a5c19f481a300b43f572b58803ae8bd69830a3a043a66fe1012",
+    "results/g1_future_long_k64_v1/seed23/training/A/deployment_receipt.json": "552b5a01cb67ef9a68fc5c81b7787e2d9e83f462659b776e68ea3060f2aeffaa",
+    "results/g1_future_long_k64_v1/seed23/training/independent_review.json": "ebb9ce52591b3f57220f1628743c74b78c3e9572ff878db2b91e37c14dfc6214",
+    "results/g1_future_long_k64_v1/seed23/training/B/training_report.json": "54b1478a43e48a599f5e083b3cd9c780a3acd721d6308f52b2b44bf2c7a181a9",
+    "results/g1_future_long_k64_v1/seed23/training/B/deployment_receipt.json": "f00162d80c28905d63da57141545f5e5556139a384fac55e21af9c9b753b0211",
+    "results/g1_future_long_k64_v1/seed23/training/train_finalization.json": "af150a3203a059ffcf513e5cb7a1c047e82ee2594556ab26fff8c0a1917404ce",
+    "results/g1_future_long_k64_v1/seed23/training/training_summary.json": "534220718b07703937336a8cf2c62551e4880e4021e59e0cf47ab10df49df4f2",
+    "configs/experiments/g1_future_long_k64_seed41_v1.json": "3d6db2cf40888aeed1abf7bf7a53b044d997ced198dd79e87a090e5ee8a9596b",
+    "results/g1_future_long_k64_v1/seed41/closed_loop/config.json": "45dcd5f7640c224c38e7a2b4dae8210a7234a98c5f632477c5593d25d78ecf67",
+    "results/g1_future_long_k64_v1/seed41/closed_loop/closed_loop_report.json": "1d3588891571c96cf40ad61850d90b9987d0bddae51ec29477df7fd5355f9cfa",
+    "results/g1_future_long_k64_v1/seed41/closed_loop/panel.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "results/g1_future_long_k64_v1/seed41/closed_loop/trials.jsonl": "3d7144a0adfc37af35d6a30cd6d1bf8766e0b905e2eccb5f830e62d9dabd7faa",
+    "results/g1_future_long_k64_v1/seed41/budget_reuse_registration.json": "35b592c79ef4c0fc9bf50f53b53ead4138afdec23b46495dfa024878c3d6e3c0",
+    "results/g1_future_long_k64_v1/seed41/submission_closed_loop.json": "6ac919903679239049062639213758816068cf67f45a6ccb2a4d650e417096e7",
+    "results/g1_future_long_k64_v1/seed41/training/A/training_report.json": "c1b00a3e26d110dda4ef0b4df63a991657f228afedc9efedfe46ca1185a4e933",
+    "results/g1_future_long_k64_v1/seed41/training/A/deployment_receipt.json": "d3a61d0f3371a692d9ab8928dff69c7bfc31e82bbf5419f5080e31fc27c72d2b",
+    "results/g1_future_long_k64_v1/seed41/training/independent_review.json": "ee3c171e4b1fa377f10d6ba2a1edcbeabb3f25b32b344e3a3dcb3cfe26e130fa",
+    "results/g1_future_long_k64_v1/seed41/training/B/training_report.json": "5e77b57ebc1a3c59a78858829b226bef3448e0475ccab303f0e061418b7f09d1",
+    "results/g1_future_long_k64_v1/seed41/training/B/deployment_receipt.json": "7db41f743852eea88fb1d5a0f31b5cc30464fdcf3ccd685b20154db840bd2a10",
+    "results/g1_future_long_k64_v1/seed41/training/train_finalization.json": "258b116aa7858e30cceb4d40c4494d532c057807363df0827638d0fa82be8a80",
+    "results/g1_future_long_k64_v1/seed41/training/training_summary.json": "f2e2de6dd47400c51c19181f9d65437cd2b820cd5b5456fc8d124d1a3e17e9d4",
+    "results/g1_future_long_k64_v1/slurm_accounting.json": "2db26438218643df702e2197011b4c2385183dec018be9279b8b37c322899448",
+    "results/g1_future_long_k64_v1/slurm_accounting.txt": "d3e94b7aa3c3e7e1f369089bd52aec3f8a7f4522bac7f560f5b2cfed0c71303e",
+    "results/g1_future_long_k64_v1/seed17/submission_train.json": "73358934e9c6026107b8b2d0b1e61046f88d8766b06e89dc37b65a87776d10f7",
+    "results/g1_future_long_k64_v1/seed23/submission_train.json": "e95c5eb33aa723754d2dd9639b123e761cc527b3d06419085695d1588ac12dc3",
+    "results/g1_future_long_k64_v1/seed41/submission_train.json": "b49d596e6ec01574840300a05407e7408cff77a75bb4795c8bfe62e4829aff8b",
+    "results/g1_future_long_k64_v1/submission_acceptance.json": "7acc81ea1953939327b16b13c2c7226d904c5aa6cd5a7f7ed1c503ec5c9b8811",
+    "results/g1_future_long_k64_v1/submission_collect.json": "f06ee6345437a212feef6463847f2fe1cca3a67587e001da82da9cacd215752b",
+    "results/g1_future_long_k64_v1/submission_profile.json": "acb2c80cb5dd0532fa85a11124bdfa920b2581c8cc5ba2191b5526c64b433c61",
+    "results/g1_future_long_k64_v1/submission_profile_retry1.json": "65520e0bd997482b427720ac2f71d2cb08ecd8abb06d42085521dd2e5b61914a",
+    "results/g1_future_long_k64_v1/supervisor_state_at_review.json": "8324bd1f6be004465577570b3fdc50383930b4238003a47d1a8e282d58d395aa",
+    "results/g1_future_long_k64_v1/analysis/summary.json": "244bb6365a8f4764efeb842bd841ecef97dcbce5485952a38d1c2894dfe1bdbe",
+    "results/g1_future_long_v1/training/A/validation_0100.json": "a6a78fca76fc0c139bb3a91a6c4a960c552e6766d6fe9b263fd198e614033e62",
+    "results/g1_future_long_v1/training/B/validation_0100.json": "b2dded11a6e86bb7cbcefecd27320c6bc3d6bc16a36785042de09353cf83baa0",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/validation_0100.json": "ebb190c40dd01f39b34cb83dd865d8d6148eb01eaccb24076c34e08d206d5573",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/validation_0100.json": "657390721ce4ddb8897cff110828a4bd94fbac9827a2b7703f946ea0d3e66957",
+    "results/g1_future_long_multiseed_v1/seed41/training/A/validation_0100.json": "83c31b73162e05ac657ace546ea6952edef24cc0228bd0bc48592f1740da8761",
+    "results/g1_future_long_multiseed_v1/seed41/training/B/validation_0100.json": "b9f7f1b8731bbf0239b9c8f76c590dcafb2a47ffd88c5fa16e748793e02fae27",
+    "results/g1_future_long_k64_v1/seed17/training/A/validation_0100.json": "b79129beb6c0e2d43fc114f4c9df1d8d4e9510cc8d03913e0eb4797b6b864491",
+    "results/g1_future_long_k64_v1/seed17/training/B/validation_0100.json": "19907e97de7ece2e65ba1a2c6f3c7e7f890373bfeb7267d81c6654f8471b8f43",
+    "results/g1_future_long_k64_v1/seed23/training/A/validation_0100.json": "1352b850aafad16e5cd5cd78119123df01e6c070dfbf02abca58cc7693935998",
+    "results/g1_future_long_k64_v1/seed23/training/B/validation_0100.json": "7132a17a2d0e35257abdcc0e2ca4972b8659fdd8fbccd5efca5ee627c4367b01",
+    "results/g1_future_long_k64_v1/seed41/training/A/validation_0100.json": "b2f885bb3fecaac5b6d5a7fcf40df948375eda678de5fc7e53fe9c9c82a5210e",
+    "results/g1_future_long_k64_v1/seed41/training/B/validation_0100.json": "21803484ed4343a08b073d5033f541e95ab11acf5a49b255e5ea1cddd6b40246"
+  },
+  "audit_script_sha256": "f57c8641991c67ecfedf4c21b277b0831b28cde4fc705e9863f5d3c51d608340",
+  "limits": "All3 seed vectors stay together within30 unique states. Local nonweight evidence audit only; no independent rehash of server checkpoint tensors. Paired success and full allocation cost verified; latency statistics need separate profiling audit. No C or further experiment authorized."
+}
