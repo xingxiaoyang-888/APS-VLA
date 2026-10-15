@@ -1,0 +1,124 @@
+{
+  "action_chunk": 8,
+  "action_version": "libero-oft-boundsq99-gripper-sign-invert-chunk8-v1",
+  "checkpoint": {
+    "file_count": 25,
+    "repository": "moojink/openvla-7b-oft-finetuned-libero-10",
+    "revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+    "total_bytes": 15939159245
+  },
+  "collector_sha256": "a8e119c9b528a4d7f8eba7c9163ba291a4bbdc73d4a320ad2de8f5cb88f601a9",
+  "dense_reference_signature": "9af54766a03d820ee2d2969a4f346e7032b40545123678fd3b46ec7f39cb94ef",
+  "environment_seed": 0,
+  "hardware": {
+    "cpu": "x86_64",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      28,
+      29,
+      30,
+      38
+    ],
+    "cpu_count": 56,
+    "nvidia_smi_columns": [
+      "index",
+      "uuid",
+      "name",
+      "driver_version",
+      "temperature.gpu",
+      "power.draw",
+      "clocks.current.sm",
+      "clocks.current.memory",
+      "memory.used",
+      "utilization.gpu"
+    ],
+    "nvidia_smi_rows": [
+      "0, GPU-1a5ef2ec-2559-b87c-7a1a-66dac79e6110, NVIDIA L40, 580.65.06, 44, 82.97, 2490, 9001, 15225, 0"
+    ],
+    "python": "3.11.7",
+    "slurm": {
+      "SLURM_CPUS_PER_TASK": "7",
+      "SLURM_JOB_GPUS": "0",
+      "SLURM_JOB_ID": "3001540",
+      "SLURM_MEM_PER_NODE": "65536"
+    },
+    "torch": "2.2.0+cu121",
+    "torch_cuda": "12.1"
+  },
+  "input_version": "libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+  "max_steps": 520,
+  "model_loading_seconds_excluded_from_collection": 118.62583265826106,
+  "model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+  "new_success_trials": false,
+  "packing_version": "oft-original-positions-v1",
+  "panel_signature": "d6135205703e081bbc2bc99461670458101cd5bb4d5fd10d3f3865c5d5f8909f",
+  "registration_sha256": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+  "registration_signature": "5b1fdac6ad8a8503d5ad2bfa383b3b1ac8a93999261b0e1c679d8a6833d810aa",
+  "runtime": {
+    "attention": "sdpa",
+    "cpu": "x86_64",
+    "cuda": "12.1",
+    "dtype": "bfloat16",
+    "gpu": "NVIDIA L40",
+    "gpu_memory_bytes": 47665709056,
+    "mujoco_gl": "egl",
+    "packages": {
+      "gym": "0.25.2",
+      "mujoco": "2.3.7",
+      "numpy": "1.26.4",
+      "robosuite": "1.4.1",
+      "tensorflow-cpu": "2.15.1",
+      "timm": "0.9.10",
+      "torch": "2.2.0",
+      "transformers": "4.40.1"
+    },
+    "python": "3.11.7",
+    "slurm_job_id": "3001540"
+  },
+  "runtime_sha256": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+  "seed": 17,
+  "source_files": {
+    "scripts/eval_libero.py": "e87825393086eb544c75d12dbf9fa22298e09ef5d8a6aeb90a3f51cf7dba2cde",
+    "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+    "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+    "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+    "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+    "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+    "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+    "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+    "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+    "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb"
+  },
+  "source_verification": {
+    "libero": {
+      "archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+      "file_count": 1116,
+      "inventory_sha256": "9e8bda25148b1258fb569ae81fbb2b2a858c570ad5b7e884082b7df24f8ab0d8",
+      "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "verification": "archive_all_files_sha256"
+    },
+    "openvla_oft": {
+      "archive_sha256": "b3c1d3ae654393c13e2eb8006bb68ea9854ec33a7306663455c94838858e5fd7",
+      "file_count": 112,
+      "inventory_sha256": "01b233e95f4ff1d6f839b690ba8aa96e4aa65366c78adc638e76907953762e68",
+      "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+      "verification": "archive_all_files_sha256"
+    }
+  },
+  "stats_key": "libero_10_no_noops",
+  "test_opened": false,
+  "version": "long-dense-preregistered-control-steps-v1",
+  "wait_steps": 10,
+  "watched": {
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1/closed_loop/closed_loop_report.json": "b54ea4fa2755317e9a71b1d566694e2ddcc0bb2267087ab16d5e34eb6ba85611",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1/closed_loop/config.json": "1d9fb2c974105656f3a9909b13ac4dff1aed347f680b108df5793582195f17ea",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1/closed_loop/panel.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1/closed_loop/trials.jsonl": "ff68b045e16c7e96ee2205471112e68c8596526b32ebef753db653a46e0bcad0",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_v1/inputs/input_acceptance.json": "43a094489cc884813c9889104b4ef706f6050c7242dc48fd22ede264757e7def",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1/configs/assets/openvla_oft_libero_long.json": "90f366c593ae62862e95b2114de3878b499074b9f4db6eb8671e7d4f1103fcae",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1/configs/experiments/g1_future_long_k64_v1.json": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1/configs/manifests/long_initial_states_v1/development_panel_30.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e"
+  }
+}

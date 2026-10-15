@@ -4,7 +4,7 @@
   "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_k64_acceptance_and_profile_collection",
+  "stage": "G1_F_Long_k64_train",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -307,7 +307,7 @@
       "experiment": "g1_future_long_k64_v1",
       "mode": "acceptance",
       "training_seed": 17,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1",
       "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
@@ -315,7 +315,7 @@
       "submitted_utc": "2026-10-15T11:42:18.917864+00:00",
       "purpose": "Bounded Long64 pruning/O2A experiment; only predeclared development data; no test",
       "exit_code": "0:0",
-      "elapsed_seconds": 6,
+      "elapsed_seconds": 314,
       "node": "gpu4012"
     },
     {
@@ -324,7 +324,7 @@
       "experiment": "g1_future_long_k64_v1",
       "mode": "collect",
       "training_seed": null,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
       "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1",
       "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
@@ -332,8 +332,59 @@
       "submitted_utc": "2026-10-15T11:42:23.421416+00:00",
       "purpose": "Bounded Long64 pruning/O2A experiment; only predeclared development data; no test",
       "exit_code": "0:0",
-      "elapsed_seconds": 2,
+      "elapsed_seconds": 359,
       "node": "gpu4013"
+    },
+    {
+      "job_id": "3001573",
+      "name": "cti-long-k64",
+      "experiment": "g1_future_long_k64_v1",
+      "mode": "train",
+      "training_seed": 17,
+      "status": "RUNNING",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1/seed17",
+      "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
+      "registration_sha256": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+      "submitted_utc": "2026-10-15T11:50:50.138535+00:00",
+      "purpose": "Bounded Long64 pruning/O2A experiment; only predeclared development data; no test",
+      "exit_code": "0:0",
+      "elapsed_seconds": 114,
+      "node": "gpu4020"
+    },
+    {
+      "job_id": "3001574",
+      "name": "cti-long-k64",
+      "experiment": "g1_future_long_k64_v1",
+      "mode": "train",
+      "training_seed": 23,
+      "status": "RUNNING",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1/seed23",
+      "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
+      "registration_sha256": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+      "submitted_utc": "2026-10-15T11:50:54.258286+00:00",
+      "purpose": "Bounded Long64 pruning/O2A experiment; only predeclared development data; no test",
+      "exit_code": "0:0",
+      "elapsed_seconds": 110,
+      "node": "gpu4020"
+    },
+    {
+      "job_id": "3001576",
+      "name": "cti-long-k64",
+      "experiment": "g1_future_long_k64_v1",
+      "mode": "train",
+      "training_seed": 41,
+      "status": "RUNNING",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/g1_future_long_k64_v1/seed41",
+      "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
+      "registration_sha256": "e15d92e97a61ff9622bf885d77e83f23ce3b5b8b32938a0c1f261b0432c9c822",
+      "submitted_utc": "2026-10-15T11:50:58.592577+00:00",
+      "purpose": "Bounded Long64 pruning/O2A experiment; only predeclared development data; no test",
+      "exit_code": "0:0",
+      "elapsed_seconds": 105,
+      "node": "gpu4020"
     }
   ],
   "agents": {
@@ -478,7 +529,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "New64 real F01 and original Long raw profile observation collection running; 247 integrated CPU tests passed; training awaits gate.",
+  "current_work": "New64 real F01 independently passed;9/9 original Long profile observations collected/verified; fresh seed17/23/41 matched A/B100-update training submitted.",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -499,7 +550,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T11:42:28.388159+00:00",
+  "last_supervision_utc": "2026-10-15T11:52:46.077366+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -547,9 +598,9 @@
   "pending_submission": null,
   "next_allowed_action": "Finish CPU audits and immutable preregistered source; submit64 acceptance before any training",
   "current_round_cost": {
-    "registered_jobs": 2,
-    "allocated_gpu_seconds": 8,
-    "allocated_gpu_hours": 0.0022222222222222222,
+    "registered_jobs": 5,
+    "allocated_gpu_seconds": 1002,
+    "allocated_gpu_hours": 0.2783333333333333,
     "final": false,
     "historical_jobs_excluded": true,
     "accounting": "results/g1_future_long_k64_v1/slurm_accounting.json"
@@ -840,10 +891,16 @@
     "expected_trials": 180,
     "test_opened": false,
     "C_run": false,
-    "gpu_jobs": 2,
+    "gpu_jobs": 5,
     "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
     "integrated_cpu_tests_passed": 247,
-    "new64_acceptance": "RUNNING",
-    "profile_collection": "RUNNING"
+    "new64_acceptance": "PASSED",
+    "profile_collection": "COMPLETED",
+    "profile_observations": 9,
+    "training_jobs": [
+      3001573,
+      3001574,
+      3001576
+    ]
   }
 }
