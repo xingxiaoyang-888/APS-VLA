@@ -90,16 +90,26 @@ def run(args):
     else:
         panel = load_future_development_panel(args.development_states, args.g0_panel)
     controls = tuple(args.controls)
+    pair_config = _read(args.config)
+    budget = pair_config.get("tokens_per_camera", 64)
+    if type(budget) is not int or budget not in (32, 64):
+        raise ValueError("G1-F deployment budget must be the registered32 or64 tokens per camera")
+    budget_registration = getattr(args, "budget_reuse_registration", None)
+    if budget == 32 and (suite != "libero_10" or budget_registration is None):
+        raise ValueError("new64-token Long deployment requires explicit budget reuse registration and new F01")
     if len(set(controls)) != len(controls) or set(controls) - {"dense", "uniform128"}:
         raise ValueError("controls may contain dense and uniform128 once each")
     reference_path = getattr(args, "dense_reference", None)
     dense_reference = None
     if reference_path is not None:
-        if suite != "libero_10" or controls or _read(args.config).get("seed") not in (23, 41) or getattr(args, "seed", 17) != 17:
-            raise ValueError("dense reuse is only for Long training seeds23/41, A/B-only, evaluation seed17")
+        allowed_seeds = (17, 23, 41) if budget == 32 else (23, 41)
+        if suite != "libero_10" or controls or pair_config.get("seed") not in allowed_seeds or getattr(args, "seed", 17) != 17:
+            raise ValueError("dense reuse requires registered Long training seeds, A/B-only, evaluation seed17")
         from cti_vla.evaluation.future_dense_reuse import load_dense_reference
         dense_reference = load_dense_reference(reference_path, panel)
-    elif suite == "libero_10" and (controls != ("dense",) or _read(args.config).get("seed", 17) != 17):
+    elif budget == 32:
+        raise ValueError("all new64-token seeds require the unchanged original dense reference and60 A/B trials")
+    elif suite == "libero_10" and (controls != ("dense",) or pair_config.get("seed", 17) != 17):
         raise ValueError("Long seed17 fixes dense/A/B90; seeds23/41 require explicit dense reference and60 A/B trials")
     methods = tuple(m for m in METHOD_ORDER if m in controls or m in ("future_A", "future_B"))
     if args.prepare_only:
@@ -108,7 +118,8 @@ def run(args):
             "tasks": [0, 3, 5], "states": 30, "expected_trials": 30 * len(methods), "methods": methods,
             "panel_signature": panel["panel_signature"], "test_opened": False,
             "checkpoint_validated": False, "f01_accepted": False,
-            **({"dense_reference_signature": dense_reference["signature"], "training_seed": _read(args.config)["seed"],
+            **({"visual_tokens": 64, "per_camera_budgets": [32, 32]} if budget == 32 else {}),
+            **({"dense_reference_signature": dense_reference["signature"], "training_seed": pair_config["seed"],
                 "evaluation_runtime_seed": 17, "reused_dense_trials": 30} if dense_reference else {})}
     required = ("f01_report", "checkpoint_a", "checkpoint_b", "receipt_a", "receipt_b", "checkpoint",
                 "cache_directory", "output_directory")
@@ -116,8 +127,10 @@ def run(args):
         raise ValueError("G1-F execution requires F01, both checkpoint/receipt pairs, frozen base, cache and output")
     if suite == "libero_10" and getattr(args, "input_acceptance_report", None) is None:
         raise ValueError("Long requires its own official input/action acceptance receipt, not Spatial G0")
-    if dense_reference is not None and getattr(args, "engineering_reuse_registration", None) is None:
+    if dense_reference is not None and budget_registration is None and getattr(args, "engineering_reuse_registration", None) is None:
         raise ValueError("new Long training seeds require explicit parent engineering evidence reuse")
+    if budget_registration is not None and getattr(args, "engineering_reuse_registration", None) is not None:
+        raise ValueError("64-budget acceptance cannot be replaced or mixed with legacy128 F01 inheritance")
     if os.name == "nt" or (suite == "libero_10" and not os.environ.get("SLURM_JOB_ID")):
         raise RuntimeError("real G1-F checkpoints and GPU rollouts remain on the server")
     validate_output_paths(args)
@@ -148,6 +161,7 @@ def _execute(args, panel, methods):
         if any(file_sha256(path) != digest for path, digest in watched.items()):
             raise ValueError("G1-F configuration/evidence/selector bytes changed during evaluation")
     common_config = _read(args.config)
+    budget = common_config.get("tokens_per_camera", 64)
     if long:
         from cti_vla.data.long_future_windows import load_long_future_protocol, load_future_windows as load_long_windows
         # The protocol's optional asset is the RLDS asset, never the VLA model
@@ -160,7 +174,23 @@ def _execute(args, panel, methods):
     asset = load_checkpoint_manifest(args.asset_manifest)
     f01 = _read(args.f01_report)
     pair_for_acceptance = json_signature(common_config)
-    if getattr(args, "engineering_reuse_registration", None) is not None:
+    if getattr(args, "budget_reuse_registration", None) is not None:
+        from cti_vla.evaluation.future_budget_reuse import load_long_budget_reuse, require_budget_f01
+        contract = load_long_budget_reuse(args.budget_reuse_registration, config=common_config,
+            project_root=args.project_root, source_root=ROOT,
+            expected_paths={"input_acceptance": args.input_acceptance_report,
+                "windows": args.window_manifest, "protocol": args.protocol, "asset_manifest": args.asset_manifest})
+        if contract.input_acceptance_sha256 != watched[str(args.input_acceptance_report.resolve())]:
+            raise ValueError("budget reuse registration differs from supplied parent F00")
+        accepted = require_budget_f01(args.f01_report, config=common_config, source_root=ROOT,
+            window_manifest_sha256=watched[str(args.window_manifest.resolve())],
+            input_acceptance_sha256=contract.input_acceptance_sha256)
+        if accepted["report_sha256"] != watched[str(args.f01_report.resolve())]:
+            raise ValueError("budget acceptance differs from supplied new64 F01")
+        pair_for_acceptance = accepted["accepted_pair_id"]
+        watched.update({str(Path(p).resolve()): digest for p, digest in contract.watched_files.items()})
+        watched.update({str(Path(p).resolve()): digest for p, digest in accepted["watched_files"].items()})
+    elif getattr(args, "engineering_reuse_registration", None) is not None:
         from cti_vla.evaluation.future_seed_reuse import load_long_seed_reuse
         contract = load_long_seed_reuse(args.engineering_reuse_registration, config=common_config,
             project_root=args.project_root, source_root=ROOT,
@@ -174,11 +204,14 @@ def _execute(args, panel, methods):
     acceptance_kwargs = {"suite": args.suite} if long else {}
     future_runtime.require_future_f01(f01, pair_id=pair_for_acceptance,
         window_manifest_sha256=watched[str(args.window_manifest.resolve())], model_revision=asset.revision,
+        visual_tokens=2 * budget, per_camera_budgets=(budget, budget),
         **acceptance_kwargs)
     expected = {"model_revision": asset.revision, "input_version": libero_runtime.INPUTS_VERSION,
         "packing_version": PACKING_VERSION, "stats_key": args.stats_key,
         "window_manifest_sha256": watched[str(args.window_manifest.resolve())],
         "f01_report_sha256": watched[str(args.f01_report.resolve())]}
+    if budget == 32:
+        expected.update(visual_tokens=64, per_camera_budgets=[32, 32])
     if long:
         input_sha = watched[str(args.input_acceptance_report.resolve())]
         if f01.get("input_acceptance_sha256") != input_sha:
@@ -252,8 +285,13 @@ def _execute(args, panel, methods):
             config["source_hashes"][relative] = file_sha256(ROOT / relative)
     if dense_reference is not None:
         from cti_vla.evaluation.future_dense_reuse import require_dense_compatibility
-        config.update(training_seed=common_config["seed"], dense_reference=dense_reference,
-            engineering_reuse_registration_sha256=file_sha256(args.engineering_reuse_registration))
+        config.update(training_seed=common_config["seed"], dense_reference=dense_reference)
+        if budget == 32:
+            config.update(visual_tokens=64, per_camera_budgets=[32, 32],
+                budget_reuse_registration_sha256=file_sha256(args.budget_reuse_registration))
+            config["source_hashes"]["src/cti_vla/evaluation/future_budget_reuse.py"] = file_sha256(ROOT / "src/cti_vla/evaluation/future_budget_reuse.py")
+        else:
+            config["engineering_reuse_registration_sha256"] = file_sha256(args.engineering_reuse_registration)
         config["source_hashes"]["src/cti_vla/evaluation/future_dense_reuse.py"] = file_sha256(ROOT / "src/cti_vla/evaluation/future_dense_reuse.py")
         require_dense_compatibility(dense_reference, panel, config)
     signature = json_signature(config)
@@ -312,8 +350,9 @@ def main():
     for name in ("f01-report", "checkpoint-a", "checkpoint-b", "receipt-a", "receipt-b", "checkpoint", "cache-directory", "output-directory"):
         parser.add_argument("--" + name, type=Path)
     parser.add_argument("--input-acceptance-report", type=Path, help="Required Long frame-chain parity receipt; never Spatial G0")
-    parser.add_argument("--dense-reference", type=Path, help="Long seeds23/41 only: immutable seed17 closed_loop directory")
+    parser.add_argument("--dense-reference", type=Path, help="New Long training: immutable seed17 closed_loop directory")
     parser.add_argument("--engineering-reuse-registration", type=Path, help="Explicit parent F00/F01/cache evidence contract for new training seeds")
+    parser.add_argument("--budget-reuse-registration", type=Path, help="New64 budget: parent F00/cache only; requires new64 F01")
     parser.add_argument("--project-root", type=Path, default=ROOT)
     parser.add_argument("--controls", nargs="*", choices=("dense", "uniform128"))
     parser.add_argument("--stats-key")

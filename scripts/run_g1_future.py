@@ -53,8 +53,14 @@ def resolve_suite(args, config, asset):
     if suite == "libero_10":
         if getattr(args, "stats_key", None) != FUTURE_SUITES[suite]:
             raise ValueError("Long requires explicit --stats-key libero_10_no_noops")
-        authorized_seed = config.get("seed") in (23, 41) and getattr(args, "engineering_reuse_registration", None) is not None
-        exact = {"seed": config["seed"] if authorized_seed else 17, "arms": ["A", "B"], "tokens_per_camera": 64,
+        budget_reuse = getattr(args, "budget_reuse_registration", None)
+        seed_reuse = getattr(args, "engineering_reuse_registration", None)
+        if budget_reuse is not None and seed_reuse is not None:
+            raise ValueError("new-budget cache inheritance and old seed-only inheritance are distinct")
+        authorized_budget = budget_reuse is not None and type(config.get("seed")) is int and config["seed"] in (17, 23, 41)
+        authorized_seed = config.get("seed") in (23, 41) and seed_reuse is not None
+        exact = {"seed": config["seed"] if authorized_seed or authorized_budget else 17, "arms": ["A", "B"],
+            "tokens_per_camera": 32 if authorized_budget else 64,
             "scorer_dimensions": dict(token_dim=4096, language_dim=4096, proprio_dim=8,
                 hidden_dim=256, num_cameras=2, patches_per_camera=256, max_instruction_tokens=128)}
         if any(config.get(k) != v for k, v in exact.items()):
@@ -102,6 +108,19 @@ def require_input_gate(args, config, asset, protocol, manifest):
         if path is None or getattr(args, "g0_report", None) is not None:
             raise ValueError("Long requires its own --input-acceptance-report, never a Spatial G0")
         report = read_json(path)
+        budget_path = getattr(args, "budget_reuse_registration", None)
+        if budget_path is not None:
+            from cti_vla.evaluation.future_budget_reuse import load_long_budget_reuse
+            if args.mode == "acceptance" and config["seed"] != 17:
+                raise ValueError("the registered new64-budget operator acceptance uses seed17")
+            contract = load_long_budget_reuse(budget_path, config=config,
+                project_root=args.project_root, source_root=ROOT,
+                expected_paths={"input_acceptance": path, "windows": args.windows,
+                    "protocol": args.protocol, "asset_manifest": args.asset_manifest})
+            if report.get("dataset_statistics_sha256") != file_hash(args.checkpoint / "dataset_statistics.json"):
+                raise ValueError("reused Long normalization statistics changed")
+            args._budget_reuse = contract
+            return contract.input_acceptance_sha256
         reuse_path = getattr(args, "engineering_reuse_registration", None)
         if reuse_path is not None:
             from cti_vla.evaluation.future_seed_reuse import load_long_seed_reuse
@@ -269,6 +288,7 @@ def acceptance(args, config, index, components, policy, student):
     from cti_vla.selection import ConditionalInfluenceEstimator
     from cti_vla.training.future_auxiliary import FutureAuxiliaryHead, future_auxiliary_loss, hard_select_future
     device = next(components.vla.parameters()).device
+    budget = config.get("tokens_per_camera", 64)
     torch.manual_seed(config["seed"])
     scorer = ConditionalInfluenceEstimator(**config["scorer_dimensions"]).to(device)
     head = FutureAuxiliaryHead(config["scorer_dimensions"]["token_dim"]).to(device)
@@ -284,13 +304,14 @@ def acceptance(args, config, index, components, policy, student):
     parity = float((dense.float() - batch.teacher_actions).abs().max())
     if parity > .002:
         raise RuntimeError(f"differentiable dense path differs from accepted teacher: {parity}")
-    a = future_auxiliary_loss(scorer, student, batch, alpha=2.0)
+    a = future_auxiliary_loss(scorer, student, batch, alpha=2.0, tokens_per_camera=budget)
     a.loss.backward()
     action_grad = sum(float(p.grad.float().square().sum()) for p in scorer.parameters() if p.grad is not None) ** .5
     a_scores = a.scores.detach().clone()
     scorer.zero_grad(set_to_none=True)
     del a
-    b = future_auxiliary_loss(scorer, student, batch, alpha=2.0, auxiliary_head=head, auxiliary_weight=.1)
+    b = future_auxiliary_loss(scorer, student, batch, alpha=2.0, auxiliary_head=head, auxiliary_weight=.1,
+        tokens_per_camera=budget)
     if not torch.equal(a_scores, b.scores.detach()):
         raise RuntimeError("A/B differ before future gradient update")
     b.future_mse.backward()
@@ -303,7 +324,11 @@ def acceptance(args, config, index, components, policy, student):
     del b
     # A complete optimizer step proves updates are confined to the trainable branches.
     optimizer = torch.optim.AdamW(list(scorer.parameters()) + list(head.parameters()), lr=1e-4, weight_decay=.01)
-    result = future_auxiliary_loss(scorer, student, batch, alpha=2.0, auxiliary_head=head, auxiliary_weight=.1)
+    result = future_auxiliary_loss(scorer, student, batch, alpha=2.0, auxiliary_head=head, auxiliary_weight=.1,
+        tokens_per_camera=budget)
+    gate_mass = result.gates.detach().reshape(-1, 2, 256).sum(-1)
+    if not torch.allclose(gate_mass, torch.full_like(gate_mass, float(budget)), atol=.01, rtol=0):
+        raise RuntimeError("soft gate mass differs from registered per-camera budget")
     result.loss.backward()
     torch.nn.utils.clip_grad_norm_(list(scorer.parameters()) + list(head.parameters()), 1.0, error_if_nonfinite=True)
     optimizer.step()
@@ -313,15 +338,15 @@ def acceptance(args, config, index, components, policy, student):
     with torch.no_grad():
         scores = scorer(batch.conditions, batch.conditions.valid)
         scorer.eval()
-        indices = hard_select_future(scorer, batch.conditions).source_indices
+        indices = hard_select_future(scorer, batch.conditions, tokens_per_camera=budget).source_indices
         hard = policy.forward_from_full_tokens(batch.conditions.visual, batch.conditions.normalized_proprio,
             input_ids=batch.input_ids, attention_mask=batch.attention_mask, retained_indices=indices)
         packed = batch.conditions.visual.gather(1, indices[..., None].expand(-1, -1, batch.conditions.visual.shape[-1]))
         paired = student(packed, indices, input_ids=batch.input_ids, attention_mask=batch.attention_mask,
             normalized_proprio=batch.conditions.normalized_proprio)
         hard_diff = float((hard.float() - paired.float()).abs().max())
-        if hard_diff > .002 or indices.shape != (1, 128) or len(indices.unique()) != 128 or int((indices < 256).sum()) != 64:
-            raise RuntimeError("hard128 selection/packing acceptance failed")
+        if hard_diff > .002 or indices.shape != (1, 2 * budget) or len(indices.unique()) != 2 * budget or int((indices < 256).sum()) != budget:
+            raise RuntimeError(f"hard{2 * budget} selection/packing acceptance failed")
         # Change training-only future/GT fields while keeping current conditions fixed.
         mutated = copy.copy(batch)
         object.__setattr__(mutated, "future_target", batch.future_target.flip(-1))
@@ -336,7 +361,7 @@ def acceptance(args, config, index, components, policy, student):
         "config_sha256": json_signature(config), "config_file_sha256": file_hash(args.config), "window_manifest_sha256": file_hash(args.windows),
         "model_revision": config["model_revision"], "input_version": INPUTS_VERSION, "packing_version": PACKING_VERSION,
         "checks": {"time_alignment": True, "no_future_leakage": True, "action_gradient_to_die": True,
-            "future_gradient_to_die": True, "vla_parameters_unchanged": True, "hard128_packing": True,
+            "future_gradient_to_die": True, "vla_parameters_unchanged": True, f"hard{2 * budget}_packing": True,
             "dense_differentiable_parity": True},
         "action_gradient_norm": action_grad, "future_gradient_norm": future_grad, "future_head_gradient_norm": head_grad,
         "dense_max_abs": parity, "hard_max_abs": hard_diff, "vla_parameter_sha256": before,
@@ -344,6 +369,10 @@ def acceptance(args, config, index, components, policy, student):
         "hardware": torch.cuda.get_device_name(), "runtime": {"torch": torch.__version__, "python": platform.python_version()},
         "accepted_training_windows": [r["identity"]["window"]["window_id"] for r in index],
         "source_files": source_hashes(), "job_id": os.environ["SLURM_JOB_ID"]}
+    if budget == 32:
+        report.update(visual_tokens=64, per_camera_budgets=[32, 32],
+            soft_gate_mass_per_camera=gate_mass.cpu().tolist(),
+            reuse_scope="original inputs/cache only; newly measured64-budget gradients and hard packing")
     if config.get("suite") == "libero_10":
         report.update(suite="libero_10", stats_key=config["stats_key"],
             input_acceptance_sha256=file_hash(args.input_acceptance_report),
@@ -363,7 +392,7 @@ def training_order(count, updates, batch_size, seed):
     return [order[i * batch_size:(i + 1) * batch_size] for i in range(updates)]
 
 
-def validate_hard(scorer, head, records, policy, student, *, alpha):
+def validate_hard(scorer, head, records, policy, student, *, alpha, tokens_per_camera=64):
     import numpy as np
     import torch
     from cti_vla.training.future_auxiliary import hard_select_future
@@ -374,7 +403,7 @@ def validate_hard(scorer, head, records, policy, student, *, alpha):
     with torch.no_grad():
         for item, record in records:
             batch = make_batch(record, device)
-            indices = hard_select_future(scorer, batch.conditions).source_indices
+            indices = hard_select_future(scorer, batch.conditions, tokens_per_camera=tokens_per_camera).source_indices
             pred = policy.forward_from_full_tokens(batch.conditions.visual, batch.conditions.normalized_proprio,
                 input_ids=batch.input_ids, attention_mask=batch.attention_mask, retained_indices=indices).float()
             row = {"window": item["identity"]["window"], "teacher_l1": float((pred - batch.teacher_actions).abs().mean()),
@@ -382,7 +411,7 @@ def validate_hard(scorer, head, records, policy, student, *, alpha):
                 "retained_indices": indices[0].cpu().tolist(), "normalized_actions": pred[0].cpu().tolist()}
             if head is not None:
                 scores = scorer(batch.conditions, batch.conditions.valid)
-                gates = torch.cat([soft_top_k(scores[:, c*256:(c+1)*256], 64, alpha) for c in range(2)], 1)
+                gates = torch.cat([soft_top_k(scores[:, c*256:(c+1)*256], tokens_per_camera, alpha) for c in range(2)], 1)
                 projected = student.visual_projector(gate_raw_tokens(batch.raw_tokens, gates, batch.black_tokens))
                 future = head(projected, batch.demonstration_actions)
                 # Readout interventions diagnose reliance; these are not newly trained arms.
@@ -417,6 +446,7 @@ def train_pair(args, config, index, components, policy, student):
         raise ValueError("registered first G1-F requires its complete90/60 valid-window panels")
     spec = config["training"]
     updates, effective = spec["updates"], spec["effective_batch"]
+    budget = config.get("tokens_per_camera", 64)
     schedule = training_order(len(data["train"]), updates, effective, config["seed"])
     source = source_hashes()
     window_sha = file_hash(args.windows)
@@ -483,7 +513,7 @@ def train_pair(args, config, index, components, policy, student):
                 for j in schedule[update - 1]:
                     batch = make_batch(data["train"][j][1], device, include_future=arm == "B")
                     result = future_auxiliary_loss(scorer, student, batch, alpha=alpha, auxiliary_head=head,
-                        auxiliary_weight=config["future"]["weight_" + arm])
+                        auxiliary_weight=config["future"]["weight_" + arm], tokens_per_camera=budget)
                     (result.loss / effective).backward()
                     for key in ("loss", "action_loss", "teacher_l1", "demonstration_l1", "future_mse"):
                         value = getattr(result, key)
@@ -501,7 +531,7 @@ def train_pair(args, config, index, components, policy, student):
             if update in config["selection"]["updates"] and not resumed_boundary:
                 started = time.perf_counter()
                 validation = validate_hard(scorer, head, data["validation"], policy, student,
-                    alpha=cosine_alpha(max(0, update - 1), updates - 1))
+                    alpha=cosine_alpha(max(0, update - 1), updates - 1), tokens_per_camera=budget)
                 validation.update(update=update, seconds=time.perf_counter() - started, arm=arm)
                 atomic_json(arm_output / f"validation_{update:04d}.json", validation)
                 evaluations.append({"update": update, "validation_metric": validation["validation_metric"]})
@@ -560,16 +590,18 @@ def run(args):
     suite, protocol, manifest, _ = data_registration(args, config, asset)
     input_acceptance_sha = require_input_gate(args, config, asset, protocol, manifest)
     reuse = getattr(args, "_engineering_reuse", None)
+    budget_reuse = getattr(args, "_budget_reuse", None)
+    input_reuse = budget_reuse if budget_reuse is not None else reuse
     long_sources = source_hashes() if suite == "libero_10" else None
     long_watched = ({str(p.resolve()): file_hash(p) for p in (args.config, args.windows,
         args.protocol, args.asset_manifest, args.input_acceptance_report, args.input_acceptance_report.parent / "calls.jsonl",
         ROOT / "scripts/verify_long_inputs.py", *([args.acceptance_report] if args.mode == "train" else []))}
         if suite == "libero_10" else {})
-    if reuse is not None:
+    if input_reuse is not None:
         from cti_vla.evaluation.future_seed_reuse import require_fresh_seed_destinations, verify_reused_cache
         require_fresh_seed_destinations(args.output, args.training_checkpoints)
-        long_watched.update(reuse.watched_files)
-        reused_index = verify_reused_cache(reuse, args.feature_cache)
+        long_watched.update(input_reuse.watched_files)
+        reused_index = verify_reused_cache(input_reuse, args.feature_cache)
         for entry in reused_index:
             path = Path(entry["path"])
             long_watched[str(path.resolve())] = entry["cache_sha256"]
@@ -585,17 +617,25 @@ def run(args):
     args.output.mkdir(parents=True, exist_ok=True)
     write_frozen_json(args.output / "registered_config.json", config)
     write_frozen_json(args.output / "registered_windows.json", manifest)
-    if reuse is not None:
-        atomic_json(args.output / "engineering_reuse_receipt.json", reuse.receipt)
+    if input_reuse is not None:
+        name = "input_cache_reuse_receipt.json" if budget_reuse is not None else "engineering_reuse_receipt.json"
+        atomic_json(args.output / name, input_reuse.receipt)
     if args.mode == "train":
-        from cti_vla.evaluation.future_runtime import require_future_f01
-        passed = read_json(args.acceptance_report)
-        require_future_f01(passed, pair_id=reuse.parent_pair_id if reuse is not None else json_signature(config), window_manifest_sha256=file_hash(args.windows),
-            model_revision=asset.revision, suite=suite, input_acceptance_sha256=input_acceptance_sha)
-        finalized = read_json(args.acceptance_report.parent / "acceptance_finalization.json")
-        expected_parent_sources = read_json(args.input_acceptance_report)["source_files"] if reuse is not None else source_hashes()
-        if passed["source_files"] != expected_parent_sources or finalized.get("status") != "verified" or finalized.get("checkpoint_unchanged") is not True or finalized.get("result_sha256") != file_hash(args.acceptance_report):
-            raise ValueError("training requires finalized F01 evidence from this exact implementation")
+        if budget_reuse is not None:
+            from cti_vla.evaluation.future_budget_reuse import require_budget_f01
+            gate = require_budget_f01(args.acceptance_report, config=config, source_root=ROOT,
+                window_manifest_sha256=file_hash(args.windows), input_acceptance_sha256=input_acceptance_sha)
+            long_watched.update(gate["watched_files"])
+            atomic_json(args.output / "same_budget_f01_receipt.json", gate["receipt"])
+        else:
+            from cti_vla.evaluation.future_runtime import require_future_f01
+            passed = read_json(args.acceptance_report)
+            require_future_f01(passed, pair_id=reuse.parent_pair_id if reuse is not None else json_signature(config), window_manifest_sha256=file_hash(args.windows),
+                model_revision=asset.revision, suite=suite, input_acceptance_sha256=input_acceptance_sha)
+            finalized = read_json(args.acceptance_report.parent / "acceptance_finalization.json")
+            expected_parent_sources = read_json(args.input_acceptance_report)["source_files"] if reuse is not None else source_hashes()
+            if passed["source_files"] != expected_parent_sources or finalized.get("status") != "verified" or finalized.get("checkpoint_unchanged") is not True or finalized.get("result_sha256") != file_hash(args.acceptance_report):
+                raise ValueError("training requires finalized F01 evidence from this exact implementation")
     for folder in (args.cache_directory, args.cache_directory / "hub", args.cache_directory / "modules"):
         folder.mkdir(parents=True, exist_ok=True)
     os.environ.update(HF_HOME=str(args.cache_directory), HF_HUB_CACHE=str(args.cache_directory / "hub"),
@@ -612,9 +652,10 @@ def run(args):
     processor = AutoProcessor.from_pretrained(base, trust_remote_code=True, local_files_only=True)
     policy = OpenVLAOFTTokenPolicy(components.vla, components.action_head, components.proprio_projector, num_patches_full=512)
     student = FrozenDifferentiableOFTPolicy(policy, components.vla.projector, model_revision=asset.revision, input_version=INPUTS_VERSION)
-    if reuse is not None:
-        index = reused_index
-        atomic_json(args.output / "cache_index.json", index)
+    if input_reuse is not None:
+        index = ([r for r in reused_index if r["identity"]["window"]["split"] == "train"][:2]
+            if args.mode == "acceptance" else reused_index)
+        atomic_json(args.output / ("acceptance_cache_index.json" if args.mode == "acceptance" else "cache_index.json"), index)
     else:
         index = cache_records(args, config, manifest, protocol, components, processor, policy,
             limit=2 if args.mode == "acceptance" else None)
@@ -643,6 +684,7 @@ def main():
     parser.add_argument("--suite", choices=("libero_spatial", "libero_10"), default="libero_spatial")
     parser.add_argument("--stats-key")
     parser.add_argument("--engineering-reuse-registration", "--reuse-registration", type=Path)
+    parser.add_argument("--budget-reuse-registration", type=Path)
     parser.add_argument("--project-root", type=Path, default=Path("/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"))
     parser.add_argument("--mode", choices=("acceptance", "train"), required=True)
     args = parser.parse_args()

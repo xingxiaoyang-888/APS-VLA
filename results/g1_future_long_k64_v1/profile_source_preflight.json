@@ -1,0 +1,63 @@
+{
+  "archive_sha256": "33bf598f5c49f40945ff80f98d23994b1979d532b69c26dbfa3a9fa152c72295",
+  "artifact": "original128 deployment source recovered from retained local nonweight source archive",
+  "checkpoint_loaded": false,
+  "gpu_calls": 0,
+  "legacy_snapshots": [
+    {
+      "covers_training_seeds": [
+        17
+      ],
+      "deployment_source_files": {
+        "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+        "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+        "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+        "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+        "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+        "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+        "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+        "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+        "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb",
+        "src/cti_vla/selection/__init__.py": "2a05c0aa803c280c1308d8fe0c538faa29e21acbb13ecc2c915251e352360385",
+        "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+        "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+        "src/cti_vla_baselines/acl_matched.py": "3a0bf46a2f688beb654ba725ebfc75cf36594dfda72d1f2e4b5dc5e2235c48a3"
+      },
+      "inventory": "results/g1_future_long/source_g1_future_long_v1.json",
+      "inventory_sha256": "46fa4266a0abef2ea6697c69c1a63851fcbb065e7979a14cadc6a434928441c2",
+      "legacy_training_seed": 17,
+      "module_import_and_exact_restore_verified": true,
+      "runtime_version": "g1-f-full512-score-once-hard128-deployment-v1",
+      "shared_and_legacy_code_bytes_verified": true
+    },
+    {
+      "covers_training_seeds": [
+        23,
+        41
+      ],
+      "deployment_source_files": {
+        "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+        "src/cti_vla/models/__init__.py": "bb49f68f355c950c660fbc16f27cb04460370043697c1e8a186fa0e9b647fe8e",
+        "src/cti_vla/models/abstraction/__init__.py": "9b185fd97f920b1a0fab73a315359b3bd3266bc55a5bbf4ca23482f7c826d7e0",
+        "src/cti_vla/models/abstraction/packing.py": "f11f0fbabbfb7b2ba99ced69639cde8e650c367201c5b5dcbae9a0a134be49bc",
+        "src/cti_vla/models/oft_adapter.py": "d438a2c9cd80ca4ff39c8cdeaa110d112ac8421e59fad5cd5403d942d7c7a9ca",
+        "src/cti_vla/models/openvla_oft_inputs.py": "1e2ec7cf90fee75e2ea9c580d53d6da53c02d8ede28287161f7e15678b786bd4",
+        "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+        "src/cti_vla/models/openvla_oft_policy.py": "e999c03365845a40f133c7b1f96a34b83e1cada9f67c0e3ac2e61e1265662c2a",
+        "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb",
+        "src/cti_vla/selection/__init__.py": "2a05c0aa803c280c1308d8fe0c538faa29e21acbb13ecc2c915251e352360385",
+        "src/cti_vla/selection/conditional.py": "722ac27524de7f9e2eab4a473f90895c1ae91a494a28ce225e7936cf70e3612f",
+        "src/cti_vla/training/future_auxiliary.py": "1401ef63d9fbd43905eb3af5b704016b8bca9f755289862d9476a98c2827d262",
+        "src/cti_vla_baselines/acl_matched.py": "3a0bf46a2f688beb654ba725ebfc75cf36594dfda72d1f2e4b5dc5e2235c48a3"
+      },
+      "inventory": "results/g1_future_long_multiseed_v1/source_g1_future_long_multiseed_v1.json",
+      "inventory_sha256": "b001ae047ab3f92ad36412b633d36a3cfef0c9d678482b6b94b7476925bb1839",
+      "legacy_training_seed": 23,
+      "module_import_and_exact_restore_verified": true,
+      "runtime_version": "g1-f-full512-score-once-hard128-deployment-v1",
+      "shared_and_legacy_code_bytes_verified": true
+    }
+  ],
+  "limitation": "CPU source/import audit, not real GPU timing or checkpoint acceptance",
+  "status": "passed"
+}

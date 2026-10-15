@@ -28,12 +28,14 @@ from test_selector_runtime import VLA, Head, Env, STATS_KEY
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def checkpoint_fixture(tmp_path, arm="A", best_update=25):
+def checkpoint_fixture(tmp_path, arm="A", best_update=25, tokens_per_camera=64):
     dimensions = dict(token_dim=4, language_dim=4, proprio_dim=8, hidden_dim=8,
                       num_cameras=2, patches_per_camera=256, max_instruction_tokens=128)
     common = {"seed": 17, "training": {"updates": 100}, "scorer_dimensions": dimensions,
         "model_revision": "synthetic-base", "stats_key": STATS_KEY,
         "selection": {"metric": "hard_validation_teacher_l1", "updates": [0, 25, 50, 75, 100]}}
+    if tokens_per_camera != 64:
+        common["tokens_per_camera"] = tokens_per_camera
     config = {**common, "arm": arm}
     sources = {"src/cti_vla/training/future_auxiliary.py": "a" * 64}
     metadata = make_future_checkpoint_metadata(arm=arm, seed=17, scorer_dimensions=dimensions,
@@ -53,11 +55,13 @@ def checkpoint_fixture(tmp_path, arm="A", best_update=25):
     expected = {"model_revision": "synthetic-base", "input_version": libero_runtime.INPUTS_VERSION,
         "packing_version": PACKING_VERSION, "stats_key": STATS_KEY,
         "window_manifest_sha256": "b" * 64, "f01_report_sha256": "c" * 64}
+    if tokens_per_camera != 64:
+        expected.update(visual_tokens=2 * tokens_per_camera, per_camera_budgets=[tokens_per_camera] * 2)
     return path, saved, receipt, expected, sources
 
 
-def load_fixture(tmp_path, arm="A", best_update=25):
-    path, saved, receipt, expected, sources = checkpoint_fixture(tmp_path, arm, best_update)
+def load_fixture(tmp_path, arm="A", best_update=25, tokens_per_camera=64):
+    path, saved, receipt, expected, sources = checkpoint_fixture(tmp_path, arm, best_update, tokens_per_camera)
     loaded = load_future_selector_checkpoint(path, receipt, expected_versions=expected, expected_source_hashes=sources)
     return loaded, (path, saved, receipt, expected, sources)
 
@@ -131,8 +135,8 @@ def test_f01_requires_real_model_and_every_required_check(tmp_path):
         require_future_f01(report, **kwargs)
 
 
-def synthetic_policy(tmp_path, monkeypatch, *, arm="A", context=None, record_selection=True):
-    loaded, _ = load_fixture(tmp_path, arm)
+def synthetic_policy(tmp_path, monkeypatch, *, arm="A", context=None, record_selection=True, tokens_per_camera=64):
+    loaded, _ = load_fixture(tmp_path, arm, tokens_per_camera=tokens_per_camera)
     components = SimpleNamespace(vla=VLA(), action_head=Head(), proprio_projector=torch.nn.Linear(8, 4))
     prepared = []
     def prepare(observation, instruction, processor, stats, *, device, dtype):
@@ -198,6 +202,53 @@ def test_nonfinite_scorer_stops_before_policy(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match="finite"):
         policy({}, "first")
     assert not components.vla.language_model.model.calls
+
+
+@pytest.mark.parametrize("arm", ["A", "B"])
+def test_trained64_budget_uses_exact32_per_view_original_positions_once(tmp_path, monkeypatch, arm):
+    policy, components, _ = synthetic_policy(tmp_path, monkeypatch, arm=arm, tokens_per_camera=32)
+    seen = []
+    def score(batch, retained):
+        seen.append(retained.clone())
+        return torch.zeros_like(batch.valid, dtype=torch.float32)
+    monkeypatch.setattr(policy.selector.estimator, "forward", score)
+    result = policy({}, "first")
+    indices = [*range(32), *range(256, 288)]
+    assert len(seen) == 1 and seen[0].all()
+    assert result.metadata["retained_indices"] == indices
+    assert result.metadata["visual_tokens"] == 64 and result.metadata["per_camera_budgets"] == [32, 32]
+    assert result.metadata["future_head_calls"] == 0
+    calls = components.vla.language_model.model.calls
+    assert len(calls) == components.vla.vision_calls == 1
+    assert calls[0]["inputs_embeds"].shape == (1, 126, 4)
+    assert calls[0]["position_ids"][0, 1:65].tolist() == [i + 1 for i in indices]
+    assert calls[0]["position_ids"][0, 65].item() == 513
+    assert components.action_head.hidden_shapes == [(1, 56, 4)]
+
+
+def test_128_checkpoint_cannot_deploy_as64_by_changing_expected_topk(tmp_path):
+    path, _, receipt, expected, sources = checkpoint_fixture(tmp_path)
+    expected.update(visual_tokens=64, per_camera_budgets=[32, 32])
+    with pytest.raises(ValueError, match="trained visual budget"):
+        load_future_selector_checkpoint(path, receipt, expected_versions=expected, expected_source_hashes=sources)
+
+
+def test_64_checkpoint_requires_explicit_expected_budget_and_new_f01(tmp_path):
+    loaded, (_, _, receipt, expected, sources) = load_fixture(tmp_path, tokens_per_camera=32)
+    report = {"stage": "G1-F01", "status": "passed", "execution": "real_frozen_openvla_l40",
+        "config_sha256": loaded.provenance["pair_id"], "window_manifest_sha256": expected["window_manifest_sha256"],
+        "model_revision": expected["model_revision"], "input_version": expected["input_version"], "packing_version": PACKING_VERSION,
+        "checks": {key: True for key in ("time_alignment", "no_future_leakage", "action_gradient_to_die",
+            "future_gradient_to_die", "vla_parameters_unchanged", "hard128_packing", "dense_differentiable_parity")}}
+    kwargs = dict(pair_id=loaded.provenance["pair_id"], window_manifest_sha256=expected["window_manifest_sha256"],
+        model_revision=expected["model_revision"], visual_tokens=64, per_camera_budgets=[32, 32])
+    with pytest.raises(ValueError, match="budget-specific"):
+        require_future_f01(report, **kwargs)
+    report.update(visual_tokens=64, per_camera_budgets=[32, 32])
+    with pytest.raises(ValueError, match="real-model"):
+        require_future_f01(report, **kwargs)
+    report["checks"]["hard64_packing"] = True
+    require_future_f01(report, **kwargs)
 
 
 def panel():

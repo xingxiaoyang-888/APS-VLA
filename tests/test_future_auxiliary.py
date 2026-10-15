@@ -126,28 +126,31 @@ def test_current_representation_keeps_gradients_future_target_does_not(example):
         reducer.target(current)
 
 
-def test_action_A_is_exact_half_teacher_half_GT_and_soft_mass_is_per_sample(example):
-    x = future_auxiliary_loss(example.scorer, example.student, example.batch, alpha=.6)
+@pytest.mark.parametrize("budget", [32, 64])
+def test_action_A_is_exact_half_teacher_half_GT_and_soft_mass_is_per_sample(example, budget):
+    x = future_auxiliary_loss(example.scorer, example.student, example.batch, alpha=.6, tokens_per_camera=budget)
     teacher = F.l1_loss(x.predicted_actions.float(), example.batch.teacher_actions)
     gt = F.l1_loss(x.predicted_actions.float(), example.batch.demonstration_actions)
     assert torch.equal(x.action_loss, .5 * teacher + .5 * gt)
     assert torch.equal(x.loss, x.action_loss) and x.future_mse is None
     assert x.gates.shape == (2, 512)
-    assert torch.allclose(x.gates.reshape(2, 2, 256).sum(-1), torch.full((2, 2), 64.), atol=2e-4, rtol=0)
+    assert torch.allclose(x.gates.reshape(2, 2, 256).sum(-1), torch.full((2, 2), float(budget)), atol=2e-4, rtol=0)
     assert x.source_indices.tolist() == [list(range(512))] * 2
     assert x.metrics()["physical_student_visual_tokens"] == 512
+    assert x.metrics()["hard_deployment_visual_tokens"] == 2 * budget
     x.action_loss.backward()
     assert trainable_gradient(example.scorer) > 0
     example.student.require_frozen()
 
 
-def test_AB_identical_initial_scorer_and_action_path_only_B_adds_future_loss(example):
+@pytest.mark.parametrize("budget", [32, 64])
+def test_AB_identical_initial_scorer_and_action_path_only_B_adds_future_loss(example, budget):
     # This is the required runner construction order: clone before creating B's head.
     a, b = copy.deepcopy(example.scorer), copy.deepcopy(example.scorer)
     head = FutureAuxiliaryHead(8)
     assert all(torch.equal(a.state_dict()[k], v) for k, v in b.state_dict().items())
-    result_a = future_auxiliary_loss(a, example.student, example.batch, alpha=1.2)
-    result_b = future_auxiliary_loss(b, example.student, example.batch, alpha=1.2, auxiliary_head=head)
+    result_a = future_auxiliary_loss(a, example.student, example.batch, alpha=1.2, tokens_per_camera=budget)
+    result_b = future_auxiliary_loss(b, example.student, example.batch, alpha=1.2, auxiliary_head=head, tokens_per_camera=budget)
     assert torch.equal(result_a.scores, result_b.scores)
     assert torch.equal(result_a.gates, result_b.gates)
     assert torch.equal(result_a.predicted_actions, result_b.predicted_actions)
@@ -155,11 +158,12 @@ def test_AB_identical_initial_scorer_and_action_path_only_B_adds_future_loss(exa
     assert torch.equal(result_b.loss, result_b.action_loss + .1 * result_b.future_mse)
 
 
-def test_future_loss_alone_reaches_DIE_and_has_no_ungated_head_input(example):
+@pytest.mark.parametrize("budget", [32, 64])
+def test_future_loss_alone_reaches_DIE_and_has_no_ungated_head_input(example, budget):
     captured = []
     hook = example.auxiliary.register_forward_pre_hook(lambda module, args: captured.append(args))
     result = future_auxiliary_loss(example.scorer, example.student, example.batch, alpha=.5,
-                                   auxiliary_head=example.auxiliary)
+                                   auxiliary_head=example.auxiliary, tokens_per_camera=budget)
     hook.remove()
     assert len(captured) == 1 and len(captured[0]) == 2
     expected = example.student.visual_projector(gate_raw_tokens(example.batch.raw_tokens, result.gates, example.batch.black_tokens))
@@ -201,20 +205,31 @@ def test_future_target_and_demonstration_cannot_leak_into_scores_or_policy(examp
     assert first.future_mse != second.future_mse
 
 
-def test_shared_hard_path_calls_scorer_once_keeps_128_original_positions_without_head(example):
+@pytest.mark.parametrize("budget", [32, 64])
+def test_shared_hard_path_calls_scorer_once_keeps_registered_original_positions_without_head(example, budget):
     scorer = example.scorer.eval()
     for p in scorer.parameters():
         nn.init.zeros_(p)
     calls = []
     hook = scorer.register_forward_pre_hook(lambda module, args: calls.append(args[1].clone()))
-    selected = hard_select_future(scorer, example.batch.conditions)
+    selected = hard_select_future(scorer, example.batch.conditions, tokens_per_camera=budget)
     hook.remove()
     assert len(calls) == 1 and calls[0].all()
-    assert selected.source_indices.tolist() == [list(range(64)) + list(range(256, 320))] * 2
+    assert selected.source_indices.tolist() == [list(range(budget)) + list(range(256, 256 + budget))] * 2
     assert len(selected.stage_masks) == 1
     assert "single" in FUTURE_SELECTION_VERSION
     with pytest.raises(ValueError, match="eval"):
         hard_select_future(scorer.train(), example.batch.conditions)
+
+
+@pytest.mark.parametrize("budget", [True, 32.0, 16, 128, None])
+def test_unregistered_budgets_fail_before_policy_forward(example, budget):
+    calls = example.vla.language_model.model.calls
+    with pytest.raises(ValueError, match="tokens_per_camera"):
+        future_auxiliary_loss(example.scorer, example.student, example.batch, alpha=.5, tokens_per_camera=budget)
+    with pytest.raises(ValueError, match="tokens_per_camera"):
+        hard_select_future(example.scorer.eval(), example.batch.conditions, tokens_per_camera=budget)
+    assert example.vla.language_model.model.calls == calls
 
 
 def test_inference_cache_tensors_materialize_as_ordinary_inputs_for_backward(example):

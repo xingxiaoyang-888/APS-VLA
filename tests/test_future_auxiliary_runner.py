@@ -34,7 +34,8 @@ def one_record(batch):
                 "demonstration_actions", "future_target")}}
 
 
-def test_runner_acceptance_calls_real_shared_loss_and_packing_on_cpu(example, monkeypatch, tmp_path):
+@pytest.mark.parametrize("budget", [32, 64])
+def test_runner_acceptance_calls_real_shared_loss_and_packing_on_cpu(example, monkeypatch, tmp_path, budget):
     runner = runner_module()
     record = one_record(example.batch)
     # Include the real toy projector in the runner's byte-level frozen hash.
@@ -51,7 +52,7 @@ def test_runner_acceptance_calls_real_shared_loss_and_packing_on_cpu(example, mo
     monkeypatch.setenv("SLURM_JOB_ID", "synthetic-cpu-only")
     writes = []
     monkeypatch.setattr("cti_vla.evaluation.teacher_diagnostics.atomic_json", lambda path, value: writes.append((path, value)))
-    config = {"seed": 17, "model_revision": "synthetic-model",
+    config = {"seed": 17, "model_revision": "synthetic-model", "tokens_per_camera": budget,
               "scorer_dimensions": {"token_dim": 8, "language_dim": 8, "proprio_dim": 8, "hidden_dim": 16}}
     args = SimpleNamespace(config=tmp_path / "synthetic-config", windows=tmp_path / "synthetic-windows", output=tmp_path)
     index = [{"path": "memory-only", "identity": {"window": {"window_id": "synthetic-window"}}}]
@@ -63,21 +64,26 @@ def test_runner_acceptance_calls_real_shared_loss_and_packing_on_cpu(example, mo
     assert report["action_gradient_norm"] > 0 and report["future_gradient_norm"] > 0
     assert report["future_head_gradient_norm"] > 0
     assert report["checks"]["vla_parameters_unchanged"]
+    assert report["checks"][f"hard{2 * budget}_packing"]
+    if budget == 32:
+        assert report["visual_tokens"] == 64 and report["per_camera_budgets"] == [32, 32]
+        assert "hard128_packing" not in report["checks"]
     assert report["hardware"] == "synthetic CPU fixture, no GPU"
     assert len(writes) == 1 and not list(tmp_path.iterdir())
 
 
-def test_runner_validation_consumes_shared_hard_indices_and_future_head_api(example):
+@pytest.mark.parametrize("budget", [32, 64])
+def test_runner_validation_consumes_shared_hard_indices_and_future_head_api(example, budget):
     runner = runner_module()
     record = one_record(example.batch)
     records = [({"identity": {"window": {"window_id": "synthetic-validation", "split": "validation"}}}, record)]
     scorer = ConditionalInfluenceEstimator(8, 8, 8, hidden_dim=16)
     head = FutureAuxiliaryHead(8)
-    result = runner.validate_hard(scorer, head, records, example.teacher, example.student, alpha=.5)
+    result = runner.validate_hard(scorer, head, records, example.teacher, example.student, alpha=.5, tokens_per_camera=budget)
     assert result["windows"] == 1
     row = result["observations"][0]
-    assert len(row["retained_indices"]) == 128
-    assert sum(i < 256 for i in row["retained_indices"]) == 64
+    assert len(row["retained_indices"]) == 2 * budget
+    assert sum(i < 256 for i in row["retained_indices"]) == budget
     assert row["retained_indices"] == sorted(set(row["retained_indices"]))
     for key in ("validation_metric", "demonstration_l1", "future_mse", "future_zero_visual_mse", "future_reversed_action_mse"):
         assert 0 <= result[key] < float("inf")
@@ -86,7 +92,8 @@ def test_runner_validation_consumes_shared_hard_indices_and_future_head_api(exam
 
 
 @pytest.mark.parametrize("suite,seed", [(None,17),("libero_10",17),("libero_10",23),("libero_10",41)])
-def test_runner_pair_initialization_order_and_legacy_resume(example, monkeypatch, tmp_path, suite, seed):
+@pytest.mark.parametrize("budget", [32, 64])
+def test_runner_pair_initialization_order_and_legacy_resume(example, monkeypatch, tmp_path, suite, seed, budget):
     """Exercise real two-update A/B loops and actual tiny checkpoint serialization.
 
     Ninety/sixty distinct synthetic window IDs satisfy the runner's panel size;
@@ -114,7 +121,7 @@ def test_runner_pair_initialization_order_and_legacy_resume(example, monkeypatch
     monkeypatch.setattr("cti_vla.evaluation.checkpoint_manifest.verify_checkpoint_directory", lambda *a: None)
     writes = []
     monkeypatch.setattr("cti_vla.evaluation.teacher_diagnostics.atomic_json", lambda path, value: writes.append((path, value)))
-    config = {"seed": seed, "model_revision": "synthetic-model", "stats_key": "synthetic-stats", "arms": ["A", "B"],
+    config = {"seed": seed, "tokens_per_camera": budget, "model_revision": "synthetic-model", "stats_key": "synthetic-stats", "arms": ["A", "B"],
               "scorer_dimensions": {"token_dim": 8, "language_dim": 8, "proprio_dim": 8, "hidden_dim": 16,
                                     "num_cameras": 2, "patches_per_camera": 256, "max_instruction_tokens": 128},
               "training": {"updates": 2, "effective_batch": 1, "learning_rate": 1e-4, "weight_decay": .01,
@@ -161,6 +168,9 @@ def test_runner_pair_initialization_order_and_legacy_resume(example, monkeypatch
         result = report["arms"][arm]
         assert [r["update"] for r in result["evaluations"]] == [0, 2]
         assert result["vla_parameters_unchanged"] and result["training_updates_completed"] == 2
+        saved = original_load(args.training_checkpoints / arm / "best.pt")
+        if budget == 32:
+            assert saved["visual_tokens"] == 64 and saved["per_camera_budgets"] == [32, 32]
     assert report["arms"]["A"]["initial_scorer_sha256"] == report["arms"]["B"]["initial_scorer_sha256"]
     assert report["arms"]["A"]["sample_order_sha256"] == report["arms"]["B"]["sample_order_sha256"]
     assert sum(row["event"] == "update_end" for _, row in events) == 4

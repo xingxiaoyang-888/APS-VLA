@@ -68,7 +68,9 @@
     "results/g1_future_long_multiseed_v1/seed41/training/B/training_report.json": "5fc78d313de4b6dd4e69686af5c74e070fc3fbb8b7d549a38284a745341d9d20",
     "results/g1_future_long_multiseed_v1/seed41/closed_loop/config.json": "e1c3d24864143bcdc18f734f754b888d70b36151f650fae5a9e53596bea68d04",
     "results/g1_future_long_multiseed_v1/seed41/closed_loop/closed_loop_report.json": "faa1bb2e9d5a568acb13bb9211cf847203d835c92d27879de1f8420fee0be810",
-    "results/g1_future_long_multiseed_v1/seed41/closed_loop/trials.jsonl": "0b0d32ea1ef548ea49ec796259bae337887ca60342e01cdec2433c00a4387648"
+    "results/g1_future_long_multiseed_v1/seed41/closed_loop/trials.jsonl": "0b0d32ea1ef548ea49ec796259bae337887ca60342e01cdec2433c00a4387648",
+    "results/g1_future_long_multiseed_v1/source_g1_future_long_multiseed_v1.json": "b001ae047ab3f92ad36412b633d36a3cfef0c9d678482b6b94b7476925bb1839",
+    "results/g1_future_long_v1/acceptance/f01_acceptance.json": "fe4f86e0807fd85844bd4ab673364b6fa50bbd055ed7b6896e7689e58a4515bb"
   },
   "training": {
     "tokens_per_camera": 32,
@@ -332,7 +334,8 @@
     "latency_ratios": "same registered observations/hardware; raw call repeats are not independent tasks",
     "support_same_budget": "positive paired success mean with lower conditional95% bound>0; jointly inspect actual latency, no acceleration claim from token counts",
     "support_strict_B64_over_A128_tradeoff": "paired success mean>0 and lower conditional95% bound>0, measured B64 median and p95 both lower than A128; describe inconclusive cases without equivalence claims",
-    "continue_C_candidate_only_if": "at least one budget has success-versus-measured-latency improvement supported by these diagnostics; C remains unexecuted without new user authorization"
+    "continue_C_candidate_only_if": "at least one budget has success-versus-measured-latency improvement supported by these diagnostics; C remains unexecuted without new user authorization",
+    "primary_latency_aggregation": "equal-weight arithmetic mean of the3 per-seed medians and of the3 per-seed p95s; pooled distributions are secondary, no posthoc choice"
   },
   "cost": {
     "all_new_allocations_counted_once": true,

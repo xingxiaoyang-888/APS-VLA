@@ -35,6 +35,23 @@ FUTURE_PROJECTION_SEED = 917
 FUTURE_TARGET_DIM = 512
 
 
+def validate_tokens_per_camera(tokens_per_camera: int = 64) -> int:
+    """Only the two registered budgets; never silently reinterpret a checkpoint."""
+    if type(tokens_per_camera) is not int or tokens_per_camera not in (32, 64):
+        raise ValueError("G1-F tokens_per_camera must be exactly32 or64")
+    return tokens_per_camera
+
+
+def future_training_version(tokens_per_camera: int = 64) -> str:
+    budget = validate_tokens_per_camera(tokens_per_camera)
+    return FUTURE_TRAINING_VERSION if budget == 64 else "g1f-cti-die-acl-soft64-half-teacher-half-gt-v1"
+
+
+def future_selection_version(tokens_per_camera: int = 64) -> str:
+    budget = validate_tokens_per_camera(tokens_per_camera)
+    return FUTURE_SELECTION_VERSION if budget == 64 else "g1f-full512-single-top32-per-camera-v1"
+
+
 def _finite_float(value: torch.Tensor, name: str, *, detached: bool = False) -> None:
     if not isinstance(value, torch.Tensor) or not value.is_floating_point() or not torch.isfinite(value).all():
         raise ValueError(f"{name} must be a finite floating tensor")
@@ -72,16 +89,17 @@ def validate_full_conditions(conditions: ConditionalTokenBatch) -> None:
 
 @torch.no_grad()
 def hard_select_future(scorer: ConditionalInfluenceEstimator,
-                       conditions: ConditionalTokenBatch) -> StagedSelection:
-    """Deployment path shared by A/B: exactly one full-set score and top64/view.
+                       conditions: ConditionalTokenBatch, *, tokens_per_camera: int = 64) -> StagedSelection:
+    """Deployment path shared by A/B: one full-set score and registered top-k/view.
 
     Requires scorer.eval(). Ties use smaller original indices. The future head
     is absent from this API and no teacher, GT or future tensor is available.
     """
     validate_full_conditions(conditions)
+    budget = validate_tokens_per_camera(tokens_per_camera)
     if not isinstance(scorer, ConditionalInfluenceEstimator):
         raise TypeError("G1-F requires the shared conditional estimator")
-    return staged_topk(scorer, conditions, ((64, 64),))
+    return staged_topk(scorer, conditions, ((budget, budget),))
 
 
 class FrozenFutureRepresentation(nn.Module):
@@ -234,6 +252,7 @@ class FutureLossOutput:
     scores: torch.Tensor
     gates: torch.Tensor
     source_indices: torch.Tensor
+    tokens_per_camera: int = 64
 
     def metrics(self) -> dict:
         return {"loss": float(self.loss.detach()), "action_loss": float(self.action_loss.detach()),
@@ -241,13 +260,14 @@ class FutureLossOutput:
                 "demonstration_l1": float(self.demonstration_l1.detach()),
                 "future_mse": None if self.future_mse is None else float(self.future_mse.detach()),
                 "gate_mass_by_camera": self.gates.detach().reshape(-1, 2, 256).sum(-1).cpu().tolist(),
-                "physical_student_visual_tokens": 512, "hard_deployment_visual_tokens": 128}
+                "physical_student_visual_tokens": 512, "hard_deployment_visual_tokens": 2 * self.tokens_per_camera}
 
 
 def future_auxiliary_loss(scorer: ConditionalInfluenceEstimator, student: FrozenDifferentiableOFTPolicy,
                           batch: FutureTrainingBatch, *, alpha: float,
                           auxiliary_head: FutureAuxiliaryHead | None = None,
-                          auxiliary_weight: float = .1, projection_atol: float = 1e-5) -> FutureLossOutput:
+                          auxiliary_weight: float = .1, projection_atol: float = 1e-5,
+                          tokens_per_camera: int = 64) -> FutureLossOutput:
     """One differentiable loss; optimizer, accumulation, costs and resume are caller-owned.
 
     A and B have exactly the same scorer/action path and0.5/0.5 action objective.
@@ -256,6 +276,7 @@ def future_auxiliary_loss(scorer: ConditionalInfluenceEstimator, student: Frozen
     current projected tensor and the actual normalized demonstration actions.
     """
     batch.validate()
+    budget = validate_tokens_per_camera(tokens_per_camera)
     if not isinstance(scorer, ConditionalInfluenceEstimator) or not isinstance(student, FrozenDifferentiableOFTPolicy):
         raise TypeError("shared conditional estimator and differentiable frozen OFT student are required")
     if not math.isfinite(auxiliary_weight) or auxiliary_weight < 0 or not math.isfinite(projection_atol) or projection_atol < 0:
@@ -275,7 +296,7 @@ def future_auxiliary_loss(scorer: ConditionalInfluenceEstimator, student: Frozen
     scores = scorer(conditions, conditions.valid)
     if scores.shape != (conditions.visual.shape[0], 512) or not torch.isfinite(scores).all():
         raise ValueError("full-set scorer must return finite [B,512] scores")
-    gates = torch.cat([soft_top_k(scores[:, c * 256:(c + 1) * 256], 64, alpha) for c in range(2)], dim=1)
+    gates = torch.cat([soft_top_k(scores[:, c * 256:(c + 1) * 256], budget, alpha) for c in range(2)], dim=1)
     gated_raw = gate_raw_tokens(batch.raw_tokens, gates, batch.black_tokens)
     gated_projected = student.visual_projector(gated_raw)
     source = torch.arange(512, device=scores.device)[None].expand(scores.shape[0], -1)
@@ -294,4 +315,4 @@ def future_auxiliary_loss(scorer: ConditionalInfluenceEstimator, student: Frozen
         raise RuntimeError("training loss must be finite and retain a scorer gradient path")
     student.require_frozen()
     return FutureLossOutput(loss, action_loss, teacher_l1, demonstration_l1, future_mse,
-                            prediction, scores, gates, source)
+                            prediction, scores, gates, source, budget)

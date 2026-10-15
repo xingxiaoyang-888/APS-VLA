@@ -31,6 +31,27 @@ METADATA_FIELDS = ("schema", "arm", "seed", "scorer_dimensions", "config_sha256"
     "validation_metric", "base_frozen", "checkpoint_unchanged", "training_complete")
 
 
+def future_budget(value: Mapping) -> int:
+    """Legacy receipts mean128; new64 receipts must explicitly bind both views."""
+    present = {key for key in ("visual_tokens", "per_camera_budgets") if key in value}
+    if not present:
+        return 64
+    if present != {"visual_tokens", "per_camera_budgets"}:
+        raise ValueError("G1-F checkpoint budget metadata is incomplete")
+    total, per_view = value["visual_tokens"], value["per_camera_budgets"]
+    if (type(total) is not int or total not in (64, 128) or not isinstance(per_view, (tuple, list))
+            or len(per_view) != 2 or any(type(k) is not int for k in per_view)
+            or list(per_view) != [total // 2] * 2):
+        raise ValueError("G1-F supports only explicit equal-view64 or128 budgets")
+    return total // 2
+
+
+def future_runtime_version(tokens_per_camera=64):
+    if type(tokens_per_camera) is not int or tokens_per_camera not in (32, 64):
+        raise ValueError("G1-F deployment budget must be32 or64 tokens per view")
+    return f"g1-f-full512-score-once-hard{2 * tokens_per_camera}-deployment-v1"
+
+
 def _sha(value, name):
     if not isinstance(value, str) or len(value) != 64 or any(c not in "0123456789abcdef" for c in value):
         raise ValueError(f"{name} must be a SHA256 hex digest")
@@ -40,9 +61,10 @@ def _metadata(value: Mapping) -> dict:
     metadata = {name: value[name] for name in METADATA_FIELDS}
     # Legacy Spatial checkpoints predate an explicit suite field. Preserve
     # their exact metadata; new Long artifacts must carry both bindings.
-    for key in ("suite", "input_acceptance_sha256"):
+    for key in ("suite", "input_acceptance_sha256", "visual_tokens", "per_camera_budgets"):
         if key in value:
             metadata[key] = value[key]
+    future_budget(metadata)
     suite = metadata.get("suite", "libero_spatial")
     if suite not in FUTURE_SUITES:
         raise ValueError("unsupported G1-F suite")
@@ -90,6 +112,10 @@ def make_future_checkpoint_metadata(*, arm, seed, scorer_dimensions, training_co
     The complete arm-specific training_config is hash-bound independently.
     """
     extra = {"suite": pair_config["suite"]} if "suite" in pair_config else {}
+    budget = pair_config.get("tokens_per_camera", 64)
+    future_runtime_version(budget)
+    if budget == 32:
+        extra.update(visual_tokens=64, per_camera_budgets=[32, 32])
     if input_acceptance_sha256 is not None:
         extra["input_acceptance_sha256"] = input_acceptance_sha256
     return _metadata(dict(schema=FUTURE_SCHEMA, arm=arm, seed=seed,
@@ -117,6 +143,10 @@ def _validate_receipt(receipt, metadata):
     if type(planned) is not int or planned <= 0 or receipt["completed_updates"] != planned or receipt.get("training_complete") is not True or receipt.get("base_frozen") is not True or receipt.get("checkpoint_unchanged") is not True:
         raise ValueError("deployment requires completed bounded training with unchanged base")
     common = receipt["pair_config"]
+    budget = common.get("tokens_per_camera", 64)
+    future_runtime_version(budget)
+    if future_budget(metadata) != budget:
+        raise ValueError("checkpoint trained budget differs from deployment receipt; changing Top-k is prohibited")
     if common.get("suite", "libero_spatial") != metadata.get("suite", "libero_spatial"):
         raise ValueError("G1-F receipt and checkpoint suites differ")
     if common.get("training", {}).get("updates") != planned or common.get("selection", {}).get("metric") != FUTURE_SELECTION_METRIC:
@@ -155,7 +185,8 @@ def make_future_deployment_receipt(checkpoint_path, metadata, *, training_config
 
 
 def require_future_f01(report, *, pair_id, window_manifest_sha256, model_revision,
-                       suite="libero_spatial", input_acceptance_sha256=None):
+                       suite="libero_spatial", input_acceptance_sha256=None,
+                       visual_tokens=128, per_camera_budgets=(64, 64)):
     """Only the recorded real-model F01 acceptance can open this dev runner."""
     if suite not in FUTURE_SUITES or report.get("suite", "libero_spatial") != suite:
         raise ValueError("G1-F requires its own suite's real-model F01")
@@ -163,8 +194,11 @@ def require_future_f01(report, *, pair_id, window_manifest_sha256, model_revisio
         "config_sha256": pair_id, "window_manifest_sha256": window_manifest_sha256,
         "model_revision": model_revision, "input_version": libero_runtime.INPUTS_VERSION,
         "packing_version": PACKING_VERSION}
+    budget = future_budget({"visual_tokens": visual_tokens, "per_camera_budgets": per_camera_budgets})
+    if future_budget(report) != budget or (budget == 32 and "visual_tokens" not in report):
+        raise ValueError("G1-F requires its own real-model budget-specific F01 acceptance")
     checks = ("time_alignment", "no_future_leakage", "action_gradient_to_die", "future_gradient_to_die",
-              "vla_parameters_unchanged", "hard128_packing", "dense_differentiable_parity")
+              "vla_parameters_unchanged", f"hard{visual_tokens}_packing", "dense_differentiable_parity")
     if any(report.get(key) != value for key, value in expected.items()) or any(report.get("checks", {}).get(key) is not True for key in checks):
         raise ValueError("G1-F deployment requires matching real-model F01 acceptance, not a CPU test")
     if suite == "libero_10":
@@ -203,6 +237,9 @@ def load_future_selector_checkpoint(path, receipt: Mapping, *, expected_versions
     saved = torch.load(path, map_location="cpu", weights_only=True)
     metadata = _metadata(saved)
     _validate_receipt(receipt, metadata)
+    budget = future_budget(metadata)
+    if budget != future_budget(expected_versions):
+        raise ValueError("G1-F deployment identity mismatch: trained visual budget")
     if metadata.get("suite", "libero_spatial") != expected_versions.get("suite", "libero_spatial"):
         raise ValueError("G1-F deployment identity mismatch: suite")
     if metadata.get("suite") == "libero_10" and metadata["input_acceptance_sha256"] != expected_versions.get("input_acceptance_sha256"):
@@ -226,8 +263,8 @@ def load_future_selector_checkpoint(path, receipt: Mapping, *, expected_versions
         raise ValueError("G1-F checkpoint changed while loading")
     return LoadedFutureSelector(estimator, {**metadata, "selector_checkpoint_sha256": digest,
         "deployment_receipt_sha256": json_signature(receipt), "f01_report_sha256": receipt["f01_report_sha256"],
-        "runtime_version": FUTURE_RUNTIME_VERSION, "future_head_deployed": False,
-        "selection_mode": "full512_score_once_camera64", "condition_mode": "all",
+        "runtime_version": future_runtime_version(budget), "future_head_deployed": False,
+        "selection_mode": f"full512_score_once_camera{budget}", "condition_mode": "all",
         "condition_version": f"{libero_runtime.INPUTS_VERSION}:{metadata['stats_key']}:frozen-prompt-embeddings"})
 
 
@@ -240,10 +277,12 @@ def validate_future_pair(a: LoadedFutureSelector, b: LoadedFutureSelector) -> No
                 "packing_version", "stats_key", "scorer_dimensions", "training_source_sha256", "f01_report_sha256"):
         if a.provenance.get(key) != b.provenance.get(key):
             raise ValueError(f"G1-F A/B paired identity mismatch: {key}")
+    if future_budget(a.provenance) != future_budget(b.provenance):
+        raise ValueError("G1-F A/B paired identity mismatch: visual budget")
 
 
 class FutureRolloutPolicy:
-    """Raw observation -> one full-set score -> one hard128 VLA forward."""
+    """Raw observation -> one full-set score -> one trained-budget VLA forward."""
     def __init__(self, components, processor, selector: LoadedFutureSelector, *, stats_key,
                  stage_context=None, record_selection=True):
         from cti_vla.models.openvla_oft_policy import OpenVLAOFTTokenPolicy
@@ -252,9 +291,10 @@ class FutureRolloutPolicy:
         self.stage_context = stage_context or (lambda _: nullcontext())
         self.device, self.dtype = next(components.vla.parameters()).device, next(components.vla.parameters()).dtype
         provenance = selector.provenance
+        self.tokens_per_camera = future_budget(provenance)
         if stats_key not in components.vla.norm_stats or provenance.get("stats_key") != stats_key:
             raise ValueError("G1-F normalization key differs from the checkpoint")
-        if provenance.get("input_version") != libero_runtime.INPUTS_VERSION or provenance.get("packing_version") != PACKING_VERSION or provenance.get("selection_mode") != "full512_score_once_camera64" or provenance.get("future_head_deployed") is not False:
+        if provenance.get("input_version") != libero_runtime.INPUTS_VERSION or provenance.get("packing_version") != PACKING_VERSION or provenance.get("selection_mode") != f"full512_score_once_camera{self.tokens_per_camera}" or provenance.get("future_head_deployed") is not False:
             raise ValueError("G1-F deployment input/packing/selection contract mismatch")
         if next(selector.estimator.parameters()).device != self.device or selector.estimator.training or any(p.requires_grad or p.dtype != torch.float32 for p in selector.estimator.parameters()):
             raise ValueError("deployed DIE must be frozen FP32 eval on the VLA device")
@@ -291,17 +331,17 @@ class FutureRolloutPolicy:
             language = vla.get_input_embeddings()(inputs["input_ids"]).detach()
             batch = ConditionalTokenBatch(visual, language, inputs["attention_mask"].bool(),
                 inputs["normalized_proprio"].detach(), self.camera_ids, self.patch_ids, self.valid)
-            selection = hard_select_future(scorer, batch)
+            selection = hard_select_future(scorer, batch, tokens_per_camera=self.tokens_per_camera)
         with self.stage_context("policy"):
             normalized = self.token_policy.forward_from_full_tokens(visual, inputs["normalized_proprio"],
                 input_ids=inputs["input_ids"], attention_mask=inputs["attention_mask"], retained_indices=selection.source_indices)
         with self.stage_context("postprocess"):
             normalized = normalized.float().cpu().numpy()[0]
             actions = libero_runtime.postprocess_actions(vla._unnormalize_actions(normalized, self.stats_key))
-            metadata = {"method": f"future_{self.selector.provenance['arm']}", "visual_tokens": 128,
-                "per_camera_budgets": [64, 64], "inputs_version": libero_runtime.INPUTS_VERSION,
+            metadata = {"method": f"future_{self.selector.provenance['arm']}", "visual_tokens": 2 * self.tokens_per_camera,
+                "per_camera_budgets": [self.tokens_per_camera] * 2, "inputs_version": libero_runtime.INPUTS_VERSION,
                 "action_version": libero_runtime.ACTION_VERSION, "packing_version": PACKING_VERSION,
-                "runtime_version": FUTURE_RUNTIME_VERSION, "policy_calls": 1, "vision_calls": 1,
+                "runtime_version": future_runtime_version(self.tokens_per_camera), "policy_calls": 1, "vision_calls": 1,
                 "scorer_calls": 1, "future_head_calls": 0, "language_cache": "disabled",
                 "selector_checkpoint_sha256": self.selector.provenance["selector_checkpoint_sha256"],
                 "pair_id": self.selector.provenance["pair_id"], "diagnostic_indices_recorded": self.record_selection}
