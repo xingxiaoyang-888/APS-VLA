@@ -1,0 +1,71 @@
+{
+  "job_id": "3005253",
+  "observed_utc": "2026-10-15T20:46:14.148164+00:00",
+  "provisional_live_read": true,
+  "arms": {
+    "A": {
+      "updates_completed_in_memory": 1000,
+      "last_update_seconds": 4.520141841843724,
+      "last_checkpoint_update": 1000,
+      "validation_nodes": [
+        {
+          "update": 0,
+          "seconds": 72.98348569404334,
+          "windows": 165
+        },
+        {
+          "update": 500,
+          "seconds": 18.026056924834847,
+          "windows": 165
+        },
+        {
+          "update": 1000,
+          "seconds": 19.41102740028873,
+          "windows": 165
+        }
+      ],
+      "last_event": "attempt_end",
+      "last_event_utc": "2026-10-15T20:44:54.023463+00:00",
+      "this_job_attempt_starts": [
+        {
+          "job_id": "3005253",
+          "attempt_id": "20261015T200037_53ed164408b2",
+          "utc": "2026-10-15T20:00:37.175294+00:00",
+          "resumed": true,
+          "completed_update": 500,
+          "next_sample_cursor": 4000
+        }
+      ]
+    },
+    "B": {
+      "updates_completed_in_memory": 525,
+      "last_update_seconds": 2.3331461041234434,
+      "last_checkpoint_update": 500,
+      "validation_nodes": [
+        {
+          "update": 0,
+          "seconds": 12.385537411086261,
+          "windows": 165
+        },
+        {
+          "update": 500,
+          "seconds": 17.233782833442092,
+          "windows": 165
+        }
+      ],
+      "last_event": "sample_start",
+      "last_event_utc": "2026-10-15T20:46:13.878460+00:00",
+      "this_job_attempt_starts": [
+        {
+          "job_id": "3005253",
+          "attempt_id": "20261015T204514_381d667a42a0",
+          "utc": "2026-10-15T20:45:14.226949+00:00",
+          "resumed": true,
+          "completed_update": 500,
+          "next_sample_cursor": 4000
+        }
+      ]
+    }
+  },
+  "failures": []
+}

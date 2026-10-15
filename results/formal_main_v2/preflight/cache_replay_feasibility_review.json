@@ -1,0 +1,58 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "cache_replay_feasibility_review",
+  "reviewed_by": "root",
+  "independent_reviewer": "profile_long",
+  "reviewed_utc": "2026-10-15T20:45:24.671775+00:00",
+  "status": "first_segment_count_replay_supported_full_training_evidence_pending",
+  "files": {
+    "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/evidence.json": "69a1e5324731964a2b544c99910fd6533cca19a117aaa2e75aae0698136519cf",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3005060_f80ee5824084.jsonl": "0b1fc4ce8cc62ac6e4f4b7e0ae9154298be11edf4d5e10967e78acd86fc510fc",
+    "results/formal_main_v2/libero_10/acceptance/attempt02/cache_cost_events.jsonl": "28c33a57f660a3fc9c75dc3a80c60b4d5da731bffb98f3ef82b3ad487c32b2fc",
+    "configs/manifests/formal_main_v2/libero_10/windows.json": "9a6ba246ca534ba2af9cc34e4a19f90e430fe154f0235adcd09cedfe6d33760a",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/training_order.json": "5ba41a3da90dabfb94b618363bdda5a5dec6898763f29b8e1f5eba1a3e6f4fab",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/training_order.json": "5ba41a3da90dabfb94b618363bdda5a5dec6898763f29b8e1f5eba1a3e6f4fab",
+    "src/cti_vla/training/formal_records.py": "b774b9e96a04eaca6bc8df51327b8012500bd37cc85122a0331582382e344da5",
+    "scripts/run_formal_future.py": "5f36a9e315d7c25e439e0a4747c0d67ab1ff3671909e9d39569f1836d1717c00"
+  },
+  "cache_identity_sha256": "36f57c665a987642e8a4c50f910c4d2255d1d3660a92ee2660fa07d10b4ddcbe",
+  "actual_shared_job_id": "3005060",
+  "actual_shared_cache_event_counts": {
+    "shard_index_verified": 32,
+    "cache_hit": 4496,
+    "cache_miss": 4165,
+    "feature_generate_start": 4165,
+    "feature_generate_end": 4165,
+    "cache_publish": 4165
+  },
+  "actual_shared_black_operations": {
+    "cache_hit": 1
+  },
+  "actual_window_requests": 8660,
+  "actual_total_disk_requests_including_black": 8661,
+  "independent_cold_first500_per_arm": {
+    "window_requests": 4330,
+    "black_publications": 1,
+    "window_publications": 4165,
+    "disk_window_hits": 165,
+    "ram_hits": 0,
+    "evictions": 0,
+    "peak_disk_bytes": 27788010568
+  },
+  "complete5000_unique_window_keys": 40165,
+  "missing_window_sizes_at_this_review": 36000,
+  "shared_provider_lifecycle": "One provider is created before the A/B loop; do not reset RAM/black at the arm switch.",
+  "cold_replay_lifecycle": "Each independent arm starts cold; later500-update invocations reset RAM/black references but keep disk.",
+  "timing_estimate_generated": false,
+  "actual_gpu_cost_estimate_generated": false,
+  "extra_gpu_jobs": 0,
+  "limitations": [
+    "These are counterfactual no-failure operation counts, not new executed training or an independent GPU bill.",
+    "A database commit can precede cache publication/eviction journal writes; failures can leave ambiguous transactions.",
+    "A later cache hit lacks record size/content SHA; do not invent missing publication evidence.",
+    "Only same-namespace/key/hardware measured operation times may calibrate estimates; unknown operations stay unknown.",
+    "Published duration already includes generation/locking/disk; nested components must not be added again.",
+    "RAM and provider/episode overhead are not fully identifiable; a measured range is neither a confidence interval nor a bound.",
+    "No eviction was observed in this first segment; full72-arm implementation and complete logs remain pending."
+  ]
+}

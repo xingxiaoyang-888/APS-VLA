@@ -622,7 +622,7 @@
       "submitted_utc": "2026-10-15T19:56:22.002568+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 1447,
+      "elapsed_seconds": 3655,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4001"
     }
@@ -777,7 +777,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "Register72-arm full training experiment; implement and audit full pools,256budget,resume and global final release; no formal GPU job yet",
+  "current_work": "Long128seed17 registered3005253 resumes A/B500 to1000, then exact500-step continuation to5000. E04 downstream scheduling passed42 root and42 independent CPU tests; actual downstream evaluation not submitted.",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -798,7 +798,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T20:20:31.679953+00:00",
+  "last_supervision_utc": "2026-10-15T20:57:19.314290+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -844,11 +844,11 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Finish Long data and F00/F01/F02/F03; start Long128seed17 formal A/B5000; estimate actual resource cost; follow registered matrix only",
+  "next_allowed_action": "Do not duplicate active3005253. After terminal, SHA-pull retained nonweights and review both resume files; advance to1500 only if A/B both1000, otherwise finish the original1000 boundary. Keep final values sealed until global release.",
   "current_round_cost": {
     "registered_jobs": 7,
-    "allocated_gpu_seconds": 6446,
-    "allocated_gpu_hours": 1.7905555555555555,
+    "allocated_gpu_seconds": 8654,
+    "allocated_gpu_hours": 2.403888888888889,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1385,14 +1385,14 @@
       "previous_segment_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3005060.json",
       "resource_estimate": "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/estimate_mean_v2.json",
       "live_progress": {
-        "path": "results/formal_main_v2/live/3005253_20261015T202035Z.json",
-        "observed_utc": "2026-10-15T20:20:35.059009+00:00",
+        "path": "results/formal_main_v2/live/3005253_20261015T205722Z.json",
+        "observed_utc": "2026-10-15T20:57:22.723554+00:00",
         "provisional": true,
         "arms": {
           "A": {
-            "updates_completed_in_memory": 715,
-            "last_update_seconds": 4.990977484732866,
-            "last_checkpoint_update": 700,
+            "updates_completed_in_memory": 1000,
+            "last_update_seconds": 4.520141841843724,
+            "last_checkpoint_update": 1000,
             "validation_nodes": [
               {
                 "update": 0,
@@ -1403,10 +1403,15 @@
                 "update": 500,
                 "seconds": 18.026056924834847,
                 "windows": 165
+              },
+              {
+                "update": 1000,
+                "seconds": 19.41102740028873,
+                "windows": 165
               }
             ],
-            "last_event": "sample_start",
-            "last_event_utc": "2026-10-15T20:20:34.757518+00:00",
+            "last_event": "attempt_end",
+            "last_event_utc": "2026-10-15T20:44:54.023463+00:00",
             "this_job_attempt_starts": [
               {
                 "job_id": "3005253",
@@ -1419,9 +1424,9 @@
             ]
           },
           "B": {
-            "updates_completed_in_memory": 500,
-            "last_update_seconds": 2.481409264728427,
-            "last_checkpoint_update": 500,
+            "updates_completed_in_memory": 809,
+            "last_update_seconds": 2.2973659210838377,
+            "last_checkpoint_update": 800,
             "validation_nodes": [
               {
                 "update": 0,
@@ -1434,9 +1439,18 @@
                 "windows": 165
               }
             ],
-            "last_event": "attempt_end",
-            "last_event_utc": "2026-10-15T19:52:40.697701+00:00",
-            "this_job_attempt_starts": []
+            "last_event": "sample_start",
+            "last_event_utc": "2026-10-15T20:57:22.610120+00:00",
+            "this_job_attempt_starts": [
+              {
+                "job_id": "3005253",
+                "attempt_id": "20261015T204514_381d667a42a0",
+                "utc": "2026-10-15T20:45:14.226949+00:00",
+                "resumed": true,
+                "completed_update": 500,
+                "next_sample_cursor": 4000
+              }
+            ]
           }
         },
         "not_a_completion_receipt": true
@@ -1447,7 +1461,27 @@
         "next_sample_cursor": 4000,
         "resumed": true,
         "evidence": "results/formal_main_v2/live/3005253_20261015T200236Z.json",
-        "B_resume_in_next_phase": true
+        "B_resume_in_next_phase": false,
+        "both_arms_confirmed": true,
+        "by_arm": {
+          "A": {
+            "job_id": "3005253",
+            "attempt_id": "20261015T200037_53ed164408b2",
+            "utc": "2026-10-15T20:00:37.175294+00:00",
+            "resumed": true,
+            "completed_update": 500,
+            "next_sample_cursor": 4000
+          },
+          "B": {
+            "job_id": "3005253",
+            "attempt_id": "20261015T204514_381d667a42a0",
+            "utc": "2026-10-15T20:45:14.226949+00:00",
+            "resumed": true,
+            "completed_update": 500,
+            "next_sample_cursor": 4000
+          }
+        },
+        "both_arms_evidence": "results/formal_main_v2/live/3005253_20261015T205309Z.json"
       }
     },
     "resource_estimate": {
@@ -1501,12 +1535,40 @@
     ],
     "downstream_entrypoint_audit": {
       "path": "results/formal_main_v2/preflight/downstream_entrypoint_audit.json",
-      "status": "adapter_passed_cpu_root_and_independent_audit_E04_pending",
+      "status": "adapter_and_E04_passed_root_and_independent_CPU_audit_actual_execution_pending",
       "affects_current_training": false,
       "adapter_review": "results/formal_main_v2/preflight/evaluation_adapter_cpu_review.json",
       "adapter_sha256": "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e",
       "gpu_execution": false,
-      "remaining_work": "Root downstream Slurm constructor and actual execution after prerequisites"
+      "remaining_work": "Actual downstream execution after training prerequisites; root review of terminal outputs",
+      "controller": "scripts/ops/formal_downstream_supervisor.py",
+      "wrapper": "scripts/server/run_formal_downstream.py",
+      "E04_review": "results/formal_main_v2/preflight/downstream_cpu_review.json"
+    },
+    "development_reference_registration": {
+      "status": "preregistered_not_executed",
+      "suite": "libero_10",
+      "manifest": "results/formal_main_v2/execution/libero_10_development_references_v1.json",
+      "manifest_sha256": "767007059484e48540d0f2f23c9eaca9f5ea7bc914c334cb87ffe639bde408d3",
+      "methods": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64"
+      ],
+      "unique_development_initial_states": 100,
+      "expected_reference_trials": 400,
+      "completed_reference_trials": 0,
+      "execution_after_first_Long128_seed17_pair5000_review": true,
+      "gpu_submitted": false
+    },
+    "independent_cache_cost": {
+      "status": "first_segment_count_replay_audited_full_implementation_and_complete_logs_pending",
+      "design": "docs/正式成本归属接口草案.md",
+      "review": "results/formal_main_v2/preflight/cache_replay_feasibility_review.json",
+      "actual_gpu_bill_unchanged": true,
+      "counterfactual_gpu_cost_reported": false,
+      "extra_gpu_jobs_for_accounting": 0
     }
   },
   "formal_main_source_snapshot": {
@@ -1517,11 +1579,11 @@
     "files_verified": 173
   },
   "next_actions": [
-    "Check registered3005253; actual A resume from500/cursor4000 confirmed; never duplicate active jobs",
-    "After terminal, SHA-pull and root segment review including both resume files; advance to1500 only if A/B both reached1000",
-    "Finish exact-resume Long128seed17 to5000 with all11 validation nodes before the remaining matrix",
-    "Retain first-segment resource mean and stress estimates; calibrate other suites/budgets and keep evaluation costs unmeasured until real execution",
-    "Integrate root-only downstream Slurm constructor with CPU-audited adapter before development; do not alter frozen173 training files",
-    "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and global root release"
+    "Check only registered3005253; both arms resumed from500/cursor4000. Never duplicate active jobs.",
+    "After terminal SHA-pull and root segment review including both resume SHA files; advance to1500 only if A/B both1000.",
+    "Complete Long128seed17 to5000 with all11 validation nodes before remaining registered matrix.",
+    "Use audited E04 planning/submission and retain terminal pulls/root reviews for downstream work after prerequisites.",
+    "Keep first-segment resource estimates conditional; complete independent cache replay implementation from natural full logs without GPU reruns for accounting.",
+    "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and global root release."
   ]
 }

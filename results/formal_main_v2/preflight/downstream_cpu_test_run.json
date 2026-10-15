@@ -1,0 +1,28 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_downstream_cpu_test_run",
+  "started_utc": "2026-10-15T20:48:33.415420+00:00",
+  "finished_utc": "2026-10-15T20:55:17.766909+00:00",
+  "command": [
+    "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "-m",
+    "pytest",
+    "tests/test_formal_downstream_supervisor.py",
+    "-q"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 404.3518927999976,
+  "stdout": "..........................................                               [100%]\n42 passed in 402.44s (0:06:42)\n",
+  "stderr": "",
+  "files": {
+    "scripts/ops/formal_downstream_supervisor.py": "1e96c745c0a433f073c6eda91acdf77254797f00ddcaa10624b819b1559a2833",
+    "scripts/server/run_formal_downstream.py": "5d5f3f3ff4e80d68a1ca7392f9ad39d7384990a5788adfb97beb519f8ff14375",
+    "tests/test_formal_downstream_supervisor.py": "bce1156ae7bcaa3dff26360d91ab5cd56eff7faae746719c94a03aa619d8754b",
+    "scripts/ops/formal_evaluation_adapter.py": "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e"
+  },
+  "files_unchanged": true,
+  "gpu_jobs_submitted": 0,
+  "weights_loaded": false,
+  "sealed_state_values_opened": false,
+  "actual_downstream_experiment_executed": false
+}

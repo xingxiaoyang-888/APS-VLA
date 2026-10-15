@@ -1,0 +1,67 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_downstream_cpu_review",
+  "status": "passed_cpu_only",
+  "reviewed_by": "root",
+  "reviewed_utc": "2026-10-15T20:56:30.410716+00:00",
+  "files": {
+    "scripts/ops/formal_downstream_supervisor.py": "1e96c745c0a433f073c6eda91acdf77254797f00ddcaa10624b819b1559a2833",
+    "scripts/server/run_formal_downstream.py": "5d5f3f3ff4e80d68a1ca7392f9ad39d7384990a5788adfb97beb519f8ff14375",
+    "tests/test_formal_downstream_supervisor.py": "bce1156ae7bcaa3dff26360d91ab5cd56eff7faae746719c94a03aa619d8754b",
+    "docs/正式下游作业入口.md": "3fbee18871dd7a543695f05f92b3ecf46b6733391ef8f7df140f6fd6552c18fe"
+  },
+  "adapter_sha256": "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e",
+  "frozen_source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+  "source_inventory_file_sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+  "frozen_source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "frozen_source_files_count": 173,
+  "frozen_source_files_unchanged": true,
+  "root_test_run": {
+    "path": "results/formal_main_v2/preflight/downstream_cpu_test_run.json",
+    "sha256": "da32fb4af2673756d7465f2a0abc6b2f141358de9bad4c3078f43f0ceb34e3ec",
+    "passed": 42
+  },
+  "implementer_test_runs": {
+    "agent": "train64",
+    "main_tests_passed": 41,
+    "main_seconds": 385.91,
+    "additional_stdin_test_passed": 1,
+    "additional_seconds": 7.22
+  },
+  "independent_test_run": {
+    "agent": "deploy64",
+    "tests_passed": 42,
+    "seconds": 365.48,
+    "production_sha_rechecked": true,
+    "remaining_blockers": []
+  },
+  "actual_manifest_dry_plan_review": {
+    "path": "results/formal_main_v2/preflight/long_references_downstream_dry_plan_review.json",
+    "sha256": "f15884cfd5e5f67f36a1ad17e3f81e35eac85a03a8033e05a1745654b2c3ed24",
+    "plan_sha256": "fec9a27b49517bc466118224a293f2c15db2204dd566a39e24394c295d789e0e"
+  },
+  "engineering_repairs": [
+    "Portable source path comparison in the wrapper's CPU shape check.",
+    "Normalize Slurm terminal state suffixes like CANCELLED by UID and TIMEOUT+; retain raw state and all allocation cost.",
+    "Send long remote metadata scripts via SSH stdin instead of the Windows command line; stream ledger SHA checks."
+  ],
+  "verified_scope": [
+    "Source/adapter/registration/checkpoint/manifest binding and all stable5000 training review files.",
+    "Read-only plan; no state/invocation/output mutation before explicit root submit.",
+    "Exactly one submission attempt; active/unknown/overlapping methods and unresolved pending block duplicates.",
+    "Terminal SHA pull, original raw ledger prefix, explicit resume, failed repair records, and unknown attempt cost retained.",
+    "Valid synthetic72 selector/16 reference/four-development global freeze and release produce a final plan without opening sealed values.",
+    "Valid synthetic dense raw development observation panel produces both full and component timing plans.",
+    "Wrapper archives only the exact job's adapter evidence and retains failure journals."
+  ],
+  "limits": [
+    "No real downstream Slurm job, simulator evaluation, model inference, final release, or server publication was executed in this review.",
+    "Root must generate downstream completion/recovery reviews from actual terminal artifacts; no automatic producer exists yet.",
+    "Failure before ledger/adapter receipt creation or a report lagging its raw ledger requires separate root diagnosis; no automatic repair/retry.",
+    "The actual Long reference manifest remains unexecuted; wait for the first Long128seed17 pair's complete5000 root review."
+  ],
+  "method_settings_changed": false,
+  "extra_gpu_jobs": 0,
+  "checkpoint_bytes_read": false,
+  "sealed_state_values_opened": false
+}

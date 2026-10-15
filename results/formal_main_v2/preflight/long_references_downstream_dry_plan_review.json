@@ -1,0 +1,33 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_actual_development_plan_review",
+  "status": "passed_cpu_only",
+  "reviewed_utc": "2026-10-15T20:49:39.213970+00:00",
+  "command": [
+    "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "-B",
+    "scripts/ops/formal_downstream_supervisor.py",
+    "plan",
+    "--stage",
+    "development",
+    "--execution-manifest",
+    "results/formal_main_v2/execution/libero_10_development_references_v1.json",
+    "--stop-after",
+    "10"
+  ],
+  "plan": "results/formal_main_v2/preflight/long_references_downstream_dry_plan.json",
+  "plan_file_sha256": "818aa6a4640c1cdc6e7be9d32993a8e1afd42ed1f75b37c42316551924a09cbb",
+  "plan_sha256": "fec9a27b49517bc466118224a293f2c15db2204dd566a39e24394c295d789e0e",
+  "controller_sha256": "1e96c745c0a433f073c6eda91acdf77254797f00ddcaa10624b819b1559a2833",
+  "wrapper_sha256": "5d5f3f3ff4e80d68a1ca7392f9ad39d7384990a5788adfb97beb519f8ff14375",
+  "state_byte_sha256_at_check": "1933491e2061c37637bf1e0af0731067ce07ee2f3b22c7813c16b46cd11cc7b3",
+  "state_unchanged": true,
+  "registered_invocations_unchanged": true,
+  "output_created": false,
+  "invocation_created": false,
+  "ssh_calls": 0,
+  "gpu_jobs_submitted": 0,
+  "weights_opened": false,
+  "sealed_state_values_opened": false,
+  "note": "Dry plan uses real frozen inputs and4 references/100 dev states. stop-after10 is an unsubmitted engineering slice; execution still awaits first Long128seed17 pair5000 root review."
+}
