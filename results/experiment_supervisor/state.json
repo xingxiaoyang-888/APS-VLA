@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "updated_date": "2026-10-15",
-  "status": "completed",
+  "updated_date": "2026-10-16",
+  "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_k64_and_Long_full_latency_completed",
+  "stage": "formal_main_v2_engineering_and_data",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -626,7 +626,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "Completed6 fresh64 training arms,180 paired development trials and2600 full Long O2A calls; all evidence independently audited and retained. No automatic expansion.",
+  "current_work": "Register72-arm full training experiment; implement and audit full pools,256budget,resume and global final release; no formal GPU job yet",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -647,7 +647,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T12:44:14.908666+00:00",
+  "last_supervision_utc": "2026-10-15T17:02:48.682559+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -656,8 +656,8 @@
     "new_queries": 0,
     "new_jobs": []
   },
-  "current_method": "configs/experiments/g1_future_long_k64_v1.json",
-  "current_authorization": "User explicitly authorized new3seed64-token A/B training,180paired development trials and Long end-to-end latency. C proposal only, no execution.",
+  "current_method": "configs/experiments/formal_main_v2.json",
+  "current_authorization": "User formal paper experiment2026-10-16;72 fresh5000-update arms and35200 final trials after global release",
   "suspended_work": [
     "G1R anchor candidate diagnostics",
     "expanded token deletion labeling",
@@ -693,21 +693,13 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Report this completed bounded round. No new task,seed,training,budget,ablation,C or test without separate explicit user authorization.",
+  "next_allowed_action": "Finish Long data and F00/F01/F02/F03; start Long128seed17 formal A/B5000; estimate actual resource cost; follow registered matrix only",
   "current_round_cost": {
-    "registered_jobs": 10,
-    "allocated_gpu_seconds": 6296,
-    "allocated_gpu_hours": 1.748888888888889,
-    "final": true,
-    "historical_jobs_excluded": true,
-    "accounting": "results/g1_future_long_k64_v1/slurm_accounting.json",
-    "training_gpu_seconds": 2009,
-    "closed_loop_gpu_seconds": 3054,
-    "acceptance_gpu_seconds": 314,
-    "collection_gpu_seconds": 359,
-    "profiling_gpu_seconds": 560,
-    "failed_profile_gpu_seconds": 55,
-    "historical_Long_gpu_seconds_excluded": 6557
+    "registered_jobs": 0,
+    "allocated_gpu_seconds": 0,
+    "allocated_gpu_hours": 0,
+    "final": false,
+    "historical_jobs_excluded": true
   },
   "last_observed_G1_F_Long_progress": {
     "model_verified": true,
@@ -786,6 +778,21 @@
       "final": true,
       "training_gpu_seconds": 1368,
       "closed_loop_gpu_seconds": 1948
+    },
+    {
+      "registered_jobs": 10,
+      "allocated_gpu_seconds": 6296,
+      "allocated_gpu_hours": 1.748888888888889,
+      "final": true,
+      "historical_jobs_excluded": true,
+      "accounting": "results/g1_future_long_k64_v1/slurm_accounting.json",
+      "training_gpu_seconds": 2009,
+      "closed_loop_gpu_seconds": 3054,
+      "acceptance_gpu_seconds": 314,
+      "collection_gpu_seconds": 359,
+      "profiling_gpu_seconds": 560,
+      "failed_profile_gpu_seconds": 55,
+      "historical_Long_gpu_seconds_excluded": 6557
     }
   ],
   "long_multiseed_registration": "configs/experiments/g1_future_long_multiseed_v1.json",
@@ -981,7 +988,7 @@
     "inventory": "results/g1_future_long_multiseed_v1/source_g1_future_long_multiseed_v1.json",
     "verified_files": 180
   },
-  "supervision_status": "completed_stopped_after_authorized_round",
+  "supervision_status": "active_formal_main_v2",
   "automation_status": "PAUSED",
   "last_observed_G1_F_Long_k64_progress": {
     "training_seeds": [
@@ -1143,5 +1150,14 @@
     "tracked_only": true,
     "source_sha256": "192daa57ba6f1acc6e803717e77a98b4e30a6b247fbb82e261d6da1436061b63",
     "source_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/g1_future_long_k64_v1"
+  },
+  "formal_main_progress": {
+    "trained_arms": 0,
+    "expected_arms": 72,
+    "completed_final_trials": 0,
+    "expected_final_trials": 35200,
+    "completed_development_trials": 0,
+    "test_opened": false,
+    "global_release_created": false
   }
 }
