@@ -1,0 +1,94 @@
+{
+  "schema": "g1_future_v1",
+  "seed": 41,
+  "arms": [
+    "A",
+    "B"
+  ],
+  "question": "Does adding future visual-state supervision improve matched hard token pruning on this bounded LIBERO-Long development experiment?",
+  "model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+  "stats_key": "libero_10_no_noops",
+  "tokens_per_camera": 32,
+  "scorer_dimensions": {
+    "token_dim": 4096,
+    "language_dim": 4096,
+    "proprio_dim": 8,
+    "hidden_dim": 256,
+    "num_cameras": 2,
+    "patches_per_camera": 256,
+    "max_instruction_tokens": 128
+  },
+  "future": {
+    "horizon": 8,
+    "representation": "Frozen OFT projected visual tokens, each 16x16 camera pooled to 2x2, shared fixed Gaussian projection to64 per cell, per-cell parameter-free LayerNorm, flatten512",
+    "projection_seed": 917,
+    "projection_scale": "1/sqrt(4096)",
+    "layer_norm_eps": 1e-05,
+    "head": "Linear(512+8*7,256),SiLU,Linear(256,512)",
+    "head_inputs": [
+      "gated current visual representation",
+      "normalized actually executed demonstration actions[t:t+8]"
+    ],
+    "target": "detached visual representation of observation[t+8] from same episode",
+    "weight_A": 0.0,
+    "weight_B": 0.1,
+    "loss": "mean squared error over all512 features",
+    "deployment": "head and executed-action inputs removed"
+  },
+  "action_loss": {
+    "teacher_l1_weight": 0.5,
+    "demonstration_l1_weight": 0.5,
+    "space": "checkpoint-normalized action8x7"
+  },
+  "gate": {
+    "method": "ACL LapSum per camera; raw-feature black-image mixing with detached sqrt stabilizer",
+    "alpha_start": 2.0,
+    "alpha_end": 0.1,
+    "schedule": "cosine across100updates"
+  },
+  "training": {
+    "updates": 100,
+    "micro_batch": 1,
+    "effective_batch": 8,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "dtype_vla": "bfloat16",
+    "dtype_scorer": "float32",
+    "order": "identical seeded shuffled windows, cycling through epochs",
+    "same_initial_scorer": true,
+    "vla_frozen": true,
+    "gradient_through_vla": true
+  },
+  "selection": {
+    "updates": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ],
+    "metric": "hard_validation_teacher_l1",
+    "tie_break": "earliest_update",
+    "future_loss_used": false
+  },
+  "panels": {
+    "train": "3 episodes per each of10 Long tasks,seed117 selection from seed17 whole-episode train split;3valid starts each",
+    "validation": "2 episodes per each of10 Long tasks from validation,seed517;3valid starts each",
+    "window_phases": "first,middle,last valid start within same episode",
+    "closed_loop": "libero_10,task indices0/3/5 selected before results;10registered development states each;paired dense,A,B;official520control-step limit",
+    "test": "sealed"
+  },
+  "limits": {
+    "allow_hyperparameter_search": false,
+    "first_gpu_job": "Long-specific raw-input official dense parity and F01 acceptance;no training before successful acceptance",
+    "expand_only_after_closed_loop_benefit": true,
+    "old_deletion_label_expansion": false,
+    "staged_rescoring": false,
+    "automatic_expansion": false,
+    "stop_after_first_round": true
+  },
+  "suite": "libero_10",
+  "run_id": "g1_future_long_k64_seed41_v1"
+}

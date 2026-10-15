@@ -1,0 +1,349 @@
+{
+  "schema": "g1_future_long_k64_v1",
+  "registered_utc": "2026-10-15T11:17:42.564196+00:00",
+  "registered_after_observing_parent128_results": true,
+  "scope": "VLA visual token pruning success-versus-measured-full-inference latency; no standalone future prediction or image generation",
+  "suite": "libero_10",
+  "parent_config": "configs/experiments/g1_future_long_v1.json",
+  "training_seeds": [
+    17,
+    23,
+    41
+  ],
+  "new_configs": {
+    "17": {
+      "path": "configs/experiments/g1_future_long_k64_seed17_v1.json",
+      "sha256": "2eb0e5d10b5938b99b25747d2d7ae741932e46548ae08ec47917a06033bae653",
+      "result_root": "results/g1_future_long_k64_v1/seed17",
+      "checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/g1_future_long_k64_v1/seed17"
+    },
+    "23": {
+      "path": "configs/experiments/g1_future_long_k64_seed23_v1.json",
+      "sha256": "259392b3b92b8f92b721bd9dd9bd64e606d995a747a472e909045295011b6ad4",
+      "result_root": "results/g1_future_long_k64_v1/seed23",
+      "checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/g1_future_long_k64_v1/seed23"
+    },
+    "41": {
+      "path": "configs/experiments/g1_future_long_k64_seed41_v1.json",
+      "sha256": "3d6db2cf40888aeed1abf7bf7a53b044d997ced198dd79e87a090e5ee8a9596b",
+      "result_root": "results/g1_future_long_k64_v1/seed41",
+      "checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/g1_future_long_k64_v1/seed41"
+    }
+  },
+  "allowed_parent_config_changes": [
+    "seed",
+    "run_id",
+    "tokens_per_camera"
+  ],
+  "frozen_evidence_sha256": {
+    "configs/experiments/g1_future_long_v1.json": "be6c2c235c7caf3ca5a05892e8da3b22b71605be5fa42fa9c209219c26f5e990",
+    "configs/manifests/long_future_v1/protocol.json": "228f4942c85ce00cbd4c8f2915802b1453c7b8b735a13f44870956d69dfd7e6f",
+    "configs/manifests/long_future_v1/windows.json": "707b9daf18827c41f4470bf163528a6f626c95e297e0e38c673792959fef4c28",
+    "configs/manifests/long_initial_states_v1/development_panel_30.json": "64ce305a9530dca00879fdc00a4d08552d95c1ebf3db981533873d3b0d14886e",
+    "configs/assets/openvla_oft_libero_long.json": "90f366c593ae62862e95b2114de3878b499074b9f4db6eb8671e7d4f1103fcae",
+    "results/g1_future_long/source_g1_future_long_v1.json": "46fa4266a0abef2ea6697c69c1a63851fcbb065e7979a14cadc6a434928441c2",
+    "results/g1_future_long_v1/inputs/input_acceptance.json": "43a094489cc884813c9889104b4ef706f6050c7242dc48fd22ede264757e7def",
+    "results/g1_future_long_v1/inputs/calls.jsonl": "e85c56a5059a4836bb2d5abba74bc81bdde02f7ad8f6568844a8ea5c8e8366f7",
+    "results/g1_future_long_v1/training/cache_index.json": "4ed339aabfc527f5da8e374504c45dea41312865296b67a376edc06f89411d2b",
+    "results/g1_future_long_v1/closed_loop/config.json": "1d9fb2c974105656f3a9909b13ac4dff1aed347f680b108df5793582195f17ea",
+    "results/g1_future_long_v1/closed_loop/closed_loop_report.json": "b54ea4fa2755317e9a71b1d566694e2ddcc0bb2267087ab16d5e34eb6ba85611",
+    "results/g1_future_long_v1/closed_loop/trials.jsonl": "ff68b045e16c7e96ee2205471112e68c8596526b32ebef753db653a46e0bcad0",
+    "results/g1_future_long_multiseed_v1/scientific_review.json": "b7d9c02171bb3f33896eb4ac3f7810099a475e5b77f454fc9187d4a9faaa9033",
+    "results/g1_future_long_multiseed_v1/analysis/summary.json": "f37cda43a4273483f802ade27309ab6d1517fdeade8cfe314aa167afa06f8ff6",
+    "results/g1_future_long_multiseed_v1/analysis/independent_closed_loop_review.json": "ed8a6cef7fafa5e40360a7c309908ccef77a749f88b2a24ab76e15bf5e480514",
+    "results/g1_future_long_v1/training/A/deployment_receipt.json": "f50e7fb2a2878754e57693bd6612581834e42608cf7db852b903deef1a9744c5",
+    "results/g1_future_long_v1/training/A/training_report.json": "78d6f48c7848c3324ad0a6530b67961c89bad32261419efa596749290b9ccd17",
+    "results/g1_future_long_v1/training/B/deployment_receipt.json": "897c1d7838d55e30d43a29cbefbf2cb75ba4630968901cdeef0191db422d6ef6",
+    "results/g1_future_long_v1/training/B/training_report.json": "11b786ae29b50e28673e330b3e45935ade04e93dacbd400de624351080abbf11",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/deployment_receipt.json": "44fbf815c71aaec0adbe711c55fa35e661026e8d31f00cb0e11d5e0183551de1",
+    "results/g1_future_long_multiseed_v1/seed23/training/A/training_report.json": "01cf3c3f6ccd9daa40d6a39617a9747cb168111978fc4c587ee0d5dd5dc4f122",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/deployment_receipt.json": "dd482f09c03c7403d3863d757a6d098098c3e5054e7e6ab4c5d20a216f96dca1",
+    "results/g1_future_long_multiseed_v1/seed23/training/B/training_report.json": "2895a8ad2f7c9698ab7372c70919605db90bebee113070c586c7593f78d22975",
+    "results/g1_future_long_multiseed_v1/seed23/closed_loop/config.json": "354ef92f4597cb9a6f6199bed6b16761556f9bdbc2d782a1caa3105d48a343cf",
+    "results/g1_future_long_multiseed_v1/seed23/closed_loop/closed_loop_report.json": "4f82f3d8bb7a5a560314aa46fd8bf65d8728c2b0e47a3d9f6cd31983ef9b8eea",
+    "results/g1_future_long_multiseed_v1/seed23/closed_loop/trials.jsonl": "4829e1bfca5857199ed6f4dd0f8b6c20dcac11f5ef2792da4d34e31a9eed87ec",
+    "results/g1_future_long_multiseed_v1/seed41/training/A/deployment_receipt.json": "0930a953061bbaf43cddc4ef05b10f41a4830fc7cd239825231949c63be6243b",
+    "results/g1_future_long_multiseed_v1/seed41/training/A/training_report.json": "c633511e49149e2b84af647b25be103ea7b910beb47ac42645247355481e4894",
+    "results/g1_future_long_multiseed_v1/seed41/training/B/deployment_receipt.json": "aac49c4d1ecf397174d42ba5bb0895b4df111c046ea8bea03ee2b8dfa66b00cd",
+    "results/g1_future_long_multiseed_v1/seed41/training/B/training_report.json": "5fc78d313de4b6dd4e69686af5c74e070fc3fbb8b7d549a38284a745341d9d20",
+    "results/g1_future_long_multiseed_v1/seed41/closed_loop/config.json": "e1c3d24864143bcdc18f734f754b888d70b36151f650fae5a9e53596bea68d04",
+    "results/g1_future_long_multiseed_v1/seed41/closed_loop/closed_loop_report.json": "faa1bb2e9d5a568acb13bb9211cf847203d835c92d27879de1f8420fee0be810",
+    "results/g1_future_long_multiseed_v1/seed41/closed_loop/trials.jsonl": "0b0d32ea1ef548ea49ec796259bae337887ca60342e01cdec2433c00a4387648"
+  },
+  "training": {
+    "tokens_per_camera": 32,
+    "total_tokens": 64,
+    "fresh_initialization": true,
+    "warm_start_128_forbidden": true,
+    "updates": 100,
+    "effective_batch": 8,
+    "train_windows": 90,
+    "validation_windows": 60,
+    "horizon_executed_actions": 8,
+    "future_weight": 0.1,
+    "within_seed_AB_matching": "initial DIE, sample order, optimizer, alpha schedule, checkpoint selection",
+    "selection": "minimum hard validation teacher L1 at0/25/50/75/100; earliest tie; no future-loss or rollout selection",
+    "hyperparameter_search": false
+  },
+  "engineering": {
+    "new_budget64_F01_required_before_training": true,
+    "acceptance_training_seed": 17,
+    "inherit_old_F00_and_detached_cache_only": true,
+    "parent128_F01_is_not_budget64_acceptance": true,
+    "parent_cache_directory_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/data/g1_future_long_v1_features",
+    "cache_producer_identity_retained": true,
+    "all_cache_file_SHA_checked": true,
+    "same_budget64_F01_explicitly_shared_across_seeds": true
+  },
+  "evaluation": {
+    "panel": "configs/manifests/long_initial_states_v1/development_panel_30.json",
+    "tasks": [
+      0,
+      3,
+      5
+    ],
+    "states_per_task": 10,
+    "environment_seed": 0,
+    "runtime_seed": 17,
+    "max_steps": 520,
+    "wait_steps": 10,
+    "action_chunk": 8,
+    "new_trials_per_seed": 60,
+    "total_new_AB_trials": 180,
+    "new_methods": [
+      "A64",
+      "B64"
+    ],
+    "reuse_dense_reference": "results/g1_future_long_v1/closed_loop",
+    "reuse128_roots": {
+      "17": "results/g1_future_long_v1",
+      "23": "results/g1_future_long_multiseed_v1/seed23",
+      "41": "results/g1_future_long_multiseed_v1/seed41"
+    },
+    "require_unchanged_dense_identity": true,
+    "test_opened": false
+  },
+  "profiling": {
+    "suite": "libero_10",
+    "observation_source": "Replay original dense policy on the minimum registered development source_state_index of each fixed task",
+    "capture_rule": "floor((original dense control_steps-1)*fraction/8)*8, fractions0,.5,.9; chosen from original dense records before any64 or Long latency result",
+    "states": [
+      {
+        "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+        "task_id": 0,
+        "source_state_index": 0,
+        "parent_dense_control_steps": 380,
+        "capture_steps": [
+          0,
+          184,
+          336
+        ],
+        "first_observation_sha256": "e520522c3ca18fa051ed63da6fe80b6fc04c2e0df26f42a0b5c4a039839feb3b"
+      },
+      {
+        "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+        "task_id": 3,
+        "source_state_index": 3,
+        "parent_dense_control_steps": 220,
+        "capture_steps": [
+          0,
+          104,
+          192
+        ],
+        "first_observation_sha256": "a5a525f00f5d904b897e88faca2ab8380938b1f1fddb373ec2ed8515794e7e94"
+      },
+      {
+        "state_trial_id": "libero_10:STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy:state-0002:env-0",
+        "task_id": 5,
+        "source_state_index": 2,
+        "parent_dense_control_steps": 148,
+        "capture_steps": [
+          0,
+          72,
+          128
+        ],
+        "first_observation_sha256": "08fced0073afcc4308aa84053209c30574fdf9e08d97103678ba0fe6723caf44"
+      }
+    ],
+    "maximum_observations": 9,
+    "missing_rule": "Preserve missing steps; no last-frame padding or replacement observation. Stop timing and report if all3tasks are not represented.",
+    "deployment_instances": [
+      {
+        "id": "dense",
+        "budget": 512,
+        "training_seed": null,
+        "arm": null
+      },
+      {
+        "id": "A128_seed17",
+        "budget": 128,
+        "training_seed": 17,
+        "arm": "A"
+      },
+      {
+        "id": "B128_seed17",
+        "budget": 128,
+        "training_seed": 17,
+        "arm": "B"
+      },
+      {
+        "id": "A128_seed23",
+        "budget": 128,
+        "training_seed": 23,
+        "arm": "A"
+      },
+      {
+        "id": "B128_seed23",
+        "budget": 128,
+        "training_seed": 23,
+        "arm": "B"
+      },
+      {
+        "id": "A128_seed41",
+        "budget": 128,
+        "training_seed": 41,
+        "arm": "A"
+      },
+      {
+        "id": "B128_seed41",
+        "budget": 128,
+        "training_seed": 41,
+        "arm": "B"
+      },
+      {
+        "id": "A64_seed17",
+        "budget": 64,
+        "training_seed": 17,
+        "arm": "A"
+      },
+      {
+        "id": "B64_seed17",
+        "budget": 64,
+        "training_seed": 17,
+        "arm": "B"
+      },
+      {
+        "id": "A64_seed23",
+        "budget": 64,
+        "training_seed": 23,
+        "arm": "A"
+      },
+      {
+        "id": "B64_seed23",
+        "budget": 64,
+        "training_seed": 23,
+        "arm": "B"
+      },
+      {
+        "id": "A64_seed41",
+        "budget": 64,
+        "training_seed": 41,
+        "arm": "A"
+      },
+      {
+        "id": "B64_seed41",
+        "budget": 64,
+        "training_seed": 41,
+        "arm": "B"
+      }
+    ],
+    "warmup_calls_per_instance": 20,
+    "main_rounds": 20,
+    "order_seed": 1017,
+    "schedule": "Each round evaluates all instances in a precomputed balanced cyclic permutation; all methods use the same registered observations. No method-dependent sample removal.",
+    "maximum_pipeline_calls": 2600,
+    "component_rounds": 0,
+    "boundary": "raw simulator observation and instruction to CPU physical8x7 action chunk; includes preprocessing,vision,DIE,packing,VLA,action postprocessing",
+    "cuda_synchronize_before_after": true,
+    "hooks_in_main_pass": false,
+    "teacher_cache": false,
+    "future_head_deployed": false,
+    "language_visual_selection_action_cache": false,
+    "single_L40_all_instances": true,
+    "uncontended_device_check": true,
+    "raw_loading_and_model_startup_excluded_from_per_call_but_charged_in_GPU_cost": true,
+    "report": [
+      "all raw calls",
+      "per instance and observation median/p95",
+      "per seed and method median/p95",
+      "method pooled and seed mean summaries",
+      "all spikes/failures",
+      "allocation GPU cost"
+    ],
+    "automatic_timing_repeats": false,
+    "version": "long-o2a-13-deployments-v1",
+    "warmup_calls": 20,
+    "repeats": 20,
+    "component_repeats": 0,
+    "task_control_steps": {
+      "0": [
+        0,
+        184,
+        336
+      ],
+      "3": [
+        0,
+        104,
+        192
+      ],
+      "5": [
+        0,
+        72,
+        128
+      ]
+    },
+    "source_dense_trials_sha256": "ff68b045e16c7e96ee2205471112e68c8596526b32ebef753db653a46e0bcad0",
+    "method_names": [
+      "dense",
+      "A128_seed17",
+      "B128_seed17",
+      "A128_seed23",
+      "B128_seed23",
+      "A128_seed41",
+      "B128_seed41",
+      "A64_seed17",
+      "B64_seed17",
+      "A64_seed23",
+      "B64_seed23",
+      "A64_seed41",
+      "B64_seed41"
+    ],
+    "max_pipeline_calls": 2600
+  },
+  "analysis": {
+    "all_seeds_retained": true,
+    "unique_initial_states": 30,
+    "cluster_unit": "state_trial_id, carrying all3seed vectors across budgets/arms",
+    "bootstrap_repeats": 2000,
+    "bootstrap_seed": 1517,
+    "stratified_by": "task_id",
+    "primary_comparisons": [
+      "B64-A64",
+      "B128-A128",
+      "B64-A128"
+    ],
+    "secondary_comparisons": [
+      "A64-A128",
+      "B64-B128",
+      "each method-dense"
+    ],
+    "interval_interpretation": "descriptive conditional on fixed30states,3tasks and3training seeds; not broad population significance",
+    "no_equivalence_from_nonsignificance": true,
+    "latency_ratios": "same registered observations/hardware; raw call repeats are not independent tasks",
+    "support_same_budget": "positive paired success mean with lower conditional95% bound>0; jointly inspect actual latency, no acceleration claim from token counts",
+    "support_strict_B64_over_A128_tradeoff": "paired success mean>0 and lower conditional95% bound>0, measured B64 median and p95 both lower than A128; describe inconclusive cases without equivalence claims",
+    "continue_C_candidate_only_if": "at least one budget has success-versus-measured-latency improvement supported by these diagnostics; C remains unexecuted without new user authorization"
+  },
+  "cost": {
+    "all_new_allocations_counted_once": true,
+    "include_acceptance_training_validation_collection_closed_loop_profiling_failures_retries": true,
+    "parent128_cost_gpu_seconds": 6557,
+    "parent_cost_excluded_from_increment": true
+  },
+  "stop": {
+    "complete_parts_1_and_2_then_report": true,
+    "C_execution_authorized": false,
+    "no_automatic_more_tasks_seeds_scale_ablations_budgets": true,
+    "test_sealed": true
+  }
+}

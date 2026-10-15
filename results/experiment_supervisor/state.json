@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "updated_date": "2026-10-15",
-  "status": "completed",
+  "status": "active",
   "automation_id": "cti-vla",
   "supervision_interval_minutes": 30,
-  "stage": "G1_F_Long_multiseed_completed",
+  "stage": "G1_F_Long_k64_preregistered",
   "plan": "docs/完整实验计划.md",
   "baseline_commit": "fb4de67",
   "project_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
@@ -444,7 +444,11 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": [],
+  "current_work": [
+    "Implement and validate budget64 gates and deployment, then freeze source",
+    "Run new64 acceptance then6fresh training arms and180paired trials",
+    "Measure Long full O2A across13instances, compare budgets, propose but do not run C"
+  ],
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -465,7 +469,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-14T18:08:39.487281+00:00",
+  "last_supervision_utc": "2026-10-15T11:17:42.928873+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -474,8 +478,8 @@
     "new_queries": 0,
     "new_jobs": []
   },
-  "current_method": "configs/experiments/g1_future_long_multiseed_v1.json",
-  "current_authorization": "User explicitly requests only fresh training seeds23/41 and120additional A/B development trials,then report and stop.",
+  "current_method": "configs/experiments/g1_future_long_k64_v1.json",
+  "current_authorization": "User explicitly authorized new3seed64-token A/B training,180paired development trials and Long end-to-end latency. C proposal only, no execution.",
   "suspended_work": [
     "G1R anchor candidate diagnostics",
     "expanded token deletion labeling",
@@ -511,16 +515,14 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Report completed17/23/41 Long results and stop. Await fresh user authorization; no automatic tasks, scale, ablations, seeds, budgets or test.",
+  "next_allowed_action": "Finish CPU audits and immutable preregistered source; submit64 acceptance before any training",
   "current_round_cost": {
-    "registered_jobs": 4,
-    "allocated_gpu_seconds": 3316,
-    "allocated_gpu_hours": 0.9211111111111111,
-    "accounting": "results/g1_future_long_multiseed_v1/slurm_accounting.json",
+    "registered_jobs": 0,
+    "allocated_gpu_seconds": 0,
+    "allocated_gpu_hours": 0,
+    "final": false,
     "historical_jobs_excluded": true,
-    "final": true,
-    "training_gpu_seconds": 1368,
-    "closed_loop_gpu_seconds": 1948
+    "accounting": "results/g1_future_long_k64_v1/slurm_accounting.json"
   },
   "last_observed_G1_F_Long_progress": {
     "model_verified": true,
@@ -589,6 +591,16 @@
       "closed_loop_gpu_seconds": 1474,
       "historical_jobs_excluded": true,
       "accounting": "results/g1_future_long_v1/slurm_accounting.json"
+    },
+    {
+      "registered_jobs": 4,
+      "allocated_gpu_seconds": 3316,
+      "allocated_gpu_hours": 0.9211111111111111,
+      "accounting": "results/g1_future_long_multiseed_v1/slurm_accounting.json",
+      "historical_jobs_excluded": true,
+      "final": true,
+      "training_gpu_seconds": 1368,
+      "closed_loop_gpu_seconds": 1948
     }
   ],
   "long_multiseed_registration": "configs/experiments/g1_future_long_multiseed_v1.json",
@@ -784,6 +796,19 @@
     "inventory": "results/g1_future_long_multiseed_v1/source_g1_future_long_multiseed_v1.json",
     "verified_files": 180
   },
-  "supervision_status": "stopped_at_authorized_round_completion",
-  "automation_status": "PAUSED"
+  "supervision_status": "active_for_new_explicit_request",
+  "automation_status": "PAUSED",
+  "last_observed_G1_F_Long_k64_progress": {
+    "training_seeds": [
+      17,
+      23,
+      41
+    ],
+    "trained_arms": 0,
+    "expected_arms": 6,
+    "closed_loop_trials": 0,
+    "expected_trials": 180,
+    "test_opened": false,
+    "C_run": false
+  }
 }
