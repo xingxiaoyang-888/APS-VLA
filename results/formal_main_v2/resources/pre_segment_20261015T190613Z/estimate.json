@@ -1,0 +1,224 @@
+{
+  "version": "formal-resource-planning-v1",
+  "schema": "formal_main_v2",
+  "registration_sha256": "2e4362b81ec5b7265871a8a8321f4fd8cfdffd42aa33af68c842c4caad57c6ac",
+  "script_sha256": "87a3f09e0a92a11eeb41e1f92cd163427dc41cc2bf3d0e4e7c2116cb4f659c7e",
+  "evidence_sha256": "ec234380e431770f4256fac93fc692f325fd79c51db9901d10e90d8ded0cca7e",
+  "assumptions": {
+    "version": "formal-resource-planning-v1",
+    "timing_interval": "minimum/maximum of all complete measured intervals, not a confidence interval or guaranteed bound",
+    "unmeasured_suite_rate_multiplier": [
+      0.75,
+      1.5
+    ],
+    "unmeasured_training_budget_rate_multiplier": [
+      0.9,
+      1.25
+    ],
+    "unmeasured_hard_validation_budget_rate_multiplier": [
+      0.5,
+      2.0
+    ],
+    "unseen_record_size_multiplier_of_measured_min_max": [
+      1.0,
+      1.25
+    ],
+    "job_overhead_multiplier": [
+      0.5,
+      2.0
+    ],
+    "final_selected_export": "one additional resume-save duration per arm as an unmeasured proxy for best.pt/receipt export",
+    "black_disk_hit_proxy": "if first invocation has no measured black-record disk hit, use measured ordinary-record disk-hit bounds; explicitly an estimate",
+    "future_failed_allocation_fraction": [
+      0.0,
+      0.15
+    ],
+    "disk_cache_bytes_per_suite": 137438953472,
+    "ram_record_capacity_per_invocation": 2,
+    "shared_schedule": "serial suites in registration order; Long128seed17 first; remaining pairs in registration order; each pair completes5000 via ten A500-then-B500 invocations",
+    "invocation_count": "one successful invocation per500-update pair segment; extra interruption/restart work is an explicit15% upper planning allowance, not an observed reliability bound",
+    "schedule_status": "engineering resource scenario only; later actual budget/seed scheduling is not preregistered",
+    "cache_initial_state": "cold current namespace per suite; one pinned black record; constant observed per-window bytes where known, empirical size scenarios otherwise",
+    "private_schedule": "each arm independently cold with128GiB disk cache and ten invocations; no cross-arm/seed/budget sharing",
+    "minimal_A_alternative": "hypothetically omit future target and future-change diagnostics only for train-record generation; retain validation diagnostics and original record sizes; not implemented or measured as an A-only producer",
+    "scope": "fresh complete72-arm training scenario, not remaining cost and not additive to already-incurred training; engineering/evaluation costs reported separately",
+    "no_extra_runs_authorized": true
+  },
+  "measured_results_fabricated": false,
+  "weights_read": false,
+  "sealed_states_read": false,
+  "actual_cost": {
+    "status": "incomplete_or_provisional_snapshot",
+    "measured_allocation_gpu_seconds_through_snapshot": 2189.0,
+    "finalized_gpu_seconds": 1123.0,
+    "finalized_failed_gpu_seconds": 543.0,
+    "provisional_gpu_seconds": 1066.0,
+    "missing_registered_job_ids": [],
+    "gpu_seconds_by_mode": {
+      "cpu_data_long_spatial": 0.0,
+      "cpu_data_libero_object": 0.0,
+      "cpu_data_libero_goal": 0.0,
+      "acceptance": 1123.0,
+      "train": 1066.0
+    },
+    "unique_jobs": 6,
+    "scope": "Only actual registered allocation seconds; every job counted once. Never add nested phase times or projected cache costs.",
+    "jobs": {
+      "3004787": {
+        "job_id": "3004787",
+        "name": "cti-formal-data",
+        "experiment": "formal_main_v2",
+        "mode": "cpu_data_long_spatial",
+        "status": "COMPLETED",
+        "gpus": 0,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_data_1c6b2f6",
+        "source_sha256": "ec4f2453200a745b70de7b0dce54618bff70fcc60dd4b37b17f2fe61b4bb2d85",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/data",
+        "submitted_utc": "2026-10-15T17:09:17.436352+00:00",
+        "purpose": "Full legal train/validation inventory for Long and Spatial,CPU metadata only,test images and final eval sealed",
+        "exit_code": "0:0",
+        "elapsed_seconds": 535,
+        "allocation": "billing=4,cpu=4,mem=32G,node=1",
+        "node": "cpui135",
+        "gpu_seconds": 0.0
+      },
+      "3004854": {
+        "job_id": "3004854",
+        "name": "cti-formal-data",
+        "experiment": "formal_main_v2",
+        "mode": "cpu_data_libero_object",
+        "suite": "libero_object",
+        "status": "COMPLETED",
+        "gpus": 0,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_data_1c6b2f6",
+        "source_sha256": "ec4f2453200a745b70de7b0dce54618bff70fcc60dd4b37b17f2fe61b4bb2d85",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/data/libero_object",
+        "submitted_utc": "2026-10-15T17:28:06.095343+00:00",
+        "purpose": "New suite content-hash whole-episode split and full-window metadata; no model calls",
+        "script_sha256": "12bdd537e1de91406d555d989e1f86167ca6011567e12cae1f524ad5945d9133",
+        "exit_code": "0:0",
+        "elapsed_seconds": 269,
+        "allocation": "billing=4,cpu=4,mem=32G,node=1",
+        "node": "cpui135",
+        "gpu_seconds": 0.0
+      },
+      "3004907": {
+        "job_id": "3004907",
+        "name": "cti-formal-data",
+        "experiment": "formal_main_v2",
+        "mode": "cpu_data_libero_goal",
+        "suite": "libero_goal",
+        "status": "COMPLETED",
+        "gpus": 0,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_data_1c6b2f6",
+        "source_sha256": "ec4f2453200a745b70de7b0dce54618bff70fcc60dd4b37b17f2fe61b4bb2d85",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/data/libero_goal",
+        "submitted_utc": "2026-10-15T17:44:55.639508+00:00",
+        "purpose": "New suite content-hash whole-episode split and full-window metadata; no model calls",
+        "script_sha256": "8e9418df556dd1743556760c7e94b1c5470771fa64656e214927a2dca5459b56",
+        "exit_code": "0:0",
+        "elapsed_seconds": 300,
+        "allocation": "billing=4,cpu=4,mem=32G,node=1",
+        "node": "cpui146",
+        "gpu_seconds": 0.0
+      },
+      "3004911": {
+        "job_id": "3004911",
+        "name": "cti-formal",
+        "experiment": "formal_main_v2",
+        "mode": "acceptance",
+        "stage_key": "libero_10_acceptance",
+        "suite": "libero_10",
+        "visual_tokens": null,
+        "training_seed": null,
+        "segment_end": null,
+        "status": "FAILED",
+        "gpus": 1,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_474a92df63",
+        "source_sha256": "2f6c0eb287f82924e6ec94f8f9189065733eff939a28ae50d77a515399de8a38",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/acceptance/attempt01",
+        "invocation": "results/formal_main_v2/invocations/libero_10_acceptance_attempt01.json",
+        "invocation_sha256": "53b636838582a131b9d4ecd119879b57f27177a999f97c4f692d7923091d3418",
+        "submitted_utc": "2026-10-15T17:48:25.271253+00:00",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "exit_code": "1:0",
+        "elapsed_seconds": 543,
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "node": "gpu4016",
+        "gpu_seconds": 543.0
+      },
+      "3005020": {
+        "job_id": "3005020",
+        "name": "cti-formal",
+        "experiment": "formal_main_v2",
+        "mode": "acceptance",
+        "stage_key": "libero_10_acceptance",
+        "suite": "libero_10",
+        "visual_tokens": null,
+        "training_seed": null,
+        "segment_end": null,
+        "status": "COMPLETED",
+        "gpus": 1,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/acceptance/attempt02",
+        "invocation": "results/formal_main_v2/invocations/libero_10_acceptance_attempt02.json",
+        "invocation_sha256": "f0c9ea6db8da1463d819dc6ec8188e4a12cc3b27a976ae1dcc20404d37e5c7e6",
+        "submitted_utc": "2026-10-15T18:32:59.311508+00:00",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "exit_code": "0:0",
+        "elapsed_seconds": 580,
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "node": "gpu4016",
+        "gpu_seconds": 580.0
+      },
+      "3005060": {
+        "job_id": "3005060",
+        "name": "cti-formal",
+        "experiment": "formal_main_v2",
+        "mode": "train",
+        "stage_key": "libero_10_train_k128_seed17",
+        "suite": "libero_10",
+        "visual_tokens": 128,
+        "training_seed": 17,
+        "segment_end": 500,
+        "status": "RUNNING",
+        "gpus": 1,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed17/training",
+        "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed17_attempt01.json",
+        "invocation_sha256": "215fdd1813df60a74302d885fbff5f6730dfba1a72b5700259f88b72492c7fd0",
+        "submitted_utc": "2026-10-15T18:48:25.838003+00:00",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "exit_code": "0:0",
+        "elapsed_seconds": 1066,
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "node": "gpu4025",
+        "gpu_seconds": 1066.0
+      }
+    }
+  },
+  "training_projection": null,
+  "evaluation_cost": {
+    "status": "pending_measurements",
+    "missing": [
+      "registered development/final rollout throughput including simulator/reset work",
+      "formal collection and full/component profiling job throughput and loading cost"
+    ],
+    "no_spatial_or_pilot_latency_substitution": true
+  },
+  "main_experiment_resource_total": {
+    "status": "pending",
+    "reason": "evaluation costs and cross-suite performance remain unmeasured"
+  },
+  "new_jobs_submitted": false,
+  "status": "pending",
+  "missing": [
+    "Long128seed17 A/B formal500 progress, complete cost/cache journals and stage receipts"
+  ],
+  "read_evidence_sha256": {
+    "F:\\CTI-VLA\\results\\formal_main_v2\\resources\\pre_segment_20261015T190613Z\\supervisor_snapshot.json": "34920dac817cf8c7e2fecfafd5fd7b6aaf22ec81ece8daa920d26d744bb6932f",
+    "F:\\CTI-VLA\\results\\formal_main_v2\\resources\\pre_segment_20261015T190613Z\\accounting_snapshot.json": "fe3b7a857e0ea39bb8cf3234439369d5319aa20b5c0b360626ef8f93d8987229"
+  }
+}

@@ -598,7 +598,7 @@
       "submitted_utc": "2026-10-15T18:48:25.838003+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 103,
+      "elapsed_seconds": 1066,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4025"
     }
@@ -774,7 +774,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T18:50:11.851363+00:00",
+  "last_supervision_utc": "2026-10-15T19:06:14.428517+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -823,8 +823,8 @@
   "next_allowed_action": "Finish Long data and F00/F01/F02/F03; start Long128seed17 formal A/B5000; estimate actual resource cost; follow registered matrix only",
   "current_round_cost": {
     "registered_jobs": 6,
-    "allocated_gpu_seconds": 1226,
-    "allocated_gpu_hours": 0.34055555555555556,
+    "allocated_gpu_seconds": 2189,
+    "allocated_gpu_hours": 0.6080555555555556,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1353,8 +1353,40 @@
       "job_id": "3005060",
       "segment_end": 500,
       "total_updates_per_arm": 5000,
-      "status": "submitted",
-      "resource_estimate": "await actual first A/B segment throughput, full validation cost and cache volume"
+      "status": "running",
+      "resource_estimate": "await actual first A/B segment throughput, full validation cost and cache volume",
+      "live_progress": {
+        "path": "results/formal_main_v2/live/3005060_20261015T190132Z.json",
+        "observed_utc": "2026-10-15T19:01:35.398029+00:00",
+        "provisional": true,
+        "arms": {
+          "A": {
+            "updates_completed_in_memory": 101,
+            "last_update_seconds": 4.3710323721170425,
+            "last_checkpoint_update": 100,
+            "validation_nodes": [
+              {
+                "update": 0,
+                "seconds": 72.98348569404334,
+                "windows": 165
+              }
+            ],
+            "last_event": "sample_start",
+            "last_event_utc": "2026-10-15T19:01:35.501928+00:00"
+          },
+          "B": {
+            "status": "not_started"
+          }
+        },
+        "not_a_completion_receipt": true
+      }
+    },
+    "resource_estimate": {
+      "status": "pending_complete_first_A_B_segment",
+      "evidence": "results/formal_main_v2/resources/pre_segment_20261015T190613Z/estimate.json",
+      "test_review": "results/formal_main_v2/preflight/resource_cpu_review.json",
+      "training_projection_generated": false,
+      "evaluation_cost_unmeasured": true
     }
   },
   "formal_main_source_snapshot": {
@@ -1366,8 +1398,9 @@
   },
   "next_actions": [
     "Check only registered job3005060 and existing outputs; do not resubmit while active",
-    "After terminal state, SHA-pull nonweight results and audit A/B full resume identity, sample order and all due validation nodes",
-    "Estimate full matrix resources using actual full-pool work and cache/validation costs; then continue exact resume to5000 before remaining Long matrix",
+    "After terminal state, SHA-pull nonweight results; require root segment review of source/config/finalization, full sample order, all due validation and both server resume.pt SHA identities",
+    "Advance to1000 only if both A/B reached500; otherwise resume the same500 target. Never fresh-initialize a previously started arm with missing restore state",
+    "Estimate full matrix resources from actual complete A/B500 full-pool work/cache/validation costs; then exact resume Long128seed17 to5000 before remaining matrix",
     "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and root global release"
   ]
 }
