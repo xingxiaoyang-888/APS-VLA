@@ -137,7 +137,7 @@ def synthetic(tmp_path_factory):
     total = sum(arm_walls) + 10.
     receipt = dict(schema=r.SCHEMA, job_id=job, stage="train", source_sha256="source",
         invocation_sha256="invocation", wall_seconds=total - 1., exit_code=0)
-    state = dict(registered_jobs=[dict(job_id=job, experiment=r.SCHEMA, mode="train", run_root=pair["run_root_server"],
+    state = dict(registered_jobs=[dict(job_id=job, experiment=r.SCHEMA, mode="train", run_root=pair["run_root_server"] + "/training",
         source_sha256="source", invocation_sha256="invocation"),
         dict(job_id="1002", experiment=r.SCHEMA, mode="acceptance", run_root="/CTI-VLA/results/acceptance")])
     bills = dict(jobs=[dict(job_id=job, experiment=r.SCHEMA, mode="train", status="COMPLETED", elapsed_seconds=total, gpus=1),
@@ -152,6 +152,90 @@ def synthetic(tmp_path_factory):
         cost_rows=cost_rows, cache_rows=cache_rows, job_ids={job}, receipts={job: receipt})
     return dict(root=root, registration=registration, evidence=evidence, windows=windows,
         reference=reference, accounting=accounting, registered=registered, state=state, bills=bills)
+
+
+@pytest.fixture(scope="module")
+def preparation(synthetic):
+    """Accepted earlier preparation plus a training journal with only black hits."""
+    s = synthetic
+    root, job = s["root"], "1005"
+    namespace = s["reference"]["cache_rows"][0]["cache_identity_sha256"]
+    key = r.hashlib.sha256((namespace + ":shared:black-image").encode()).hexdigest()
+    directory = "prepared/libero_10/acceptance/attempt02"
+    remote = "/CTI-VLA/results/formal_main_v2/libero_10/acceptance/attempt02"
+    record = dict(job_id=job, experiment=r.SCHEMA, mode="acceptance", suite="libero_10",
+        run_root=remote, stage_key="libero_10_acceptance", source_sha256="accepted-source",
+        invocation_sha256="accepted-invocation")
+    bill = dict(job_id=job, experiment=r.SCHEMA, mode="acceptance", status="COMPLETED",
+        elapsed_seconds=100., gpus=1, exit_code="0:0", allocation="gres/gpu=1", node="synthetic-gpu")
+    state, bills = deepcopy(s["state"]), deepcopy(s["bills"])
+    state["registered_jobs"].append(record)
+    bills["jobs"].append(bill)
+    accounting, registered = r.account_snapshot(state, bills)
+    context = dict(job_id=job, cache_identity_sha256=namespace)
+    rows = [dict(event="cache_miss", logical_key="shared:black-image", key=key, **context),
+        dict(event="shared_black_generate_start", **context),
+        dict(event="shared_black_generate_end", seconds=2.8, vision_forwards=1, **context),
+        dict(event="cache_publish", logical_key="shared:black-image", key=key, bytes=2229660,
+            seconds=3., sha256="a" * 64, **context),
+        # Deliberately different ordinary record calibration: these acceptance
+        # rates and entry bytes must NEVER enter measured training rates.
+        dict(event="feature_generate_end", window_id=s["windows"]["libero_10"]["train"][0],
+            seconds=6., teacher_forward_seconds=4., future_preprocess_vision_target_seconds=1., **context),
+        dict(event="cache_publish", logical_key="window:acceptance-only", key="ignored-window",
+            seconds=7., bytes=9876543210, **context)]
+    rows = [{**row, "time_unix_ns": 10**12 + i} for i, row in enumerate(rows)]
+    cache_ref = ref(root, directory + "/cache_cost_events.jsonl", rows, lines=True)
+    complete = dict(schema=r.SCHEMA, status="passed", job_id=job, suite="libero_10",
+        frozen_model_sha256="synthetic-base", checkpoint_unchanged=True, test_opened=False,
+        resume_acceptance_passed=True, source_files={"producer.py": "accepted-producer-sha"})
+    complete_ref = ref(root, directory + "/acceptance_complete.json", complete)
+    receipt = dict(schema=r.SCHEMA, stage="acceptance", stage_key=record["stage_key"], job_id=job, exit_code=0,
+        source_sha256=record["source_sha256"], invocation_sha256=record["invocation_sha256"], wall_seconds=99.)
+    receipt_ref = ref(root, "prepared/job_receipts/1005.json", receipt)
+    snapshot_bill = {k: bill[k] for k in ("status", "exit_code", "elapsed_seconds", "allocation", "node")}
+    files = [dict(relative=item["path"], sha256=item["sha256"], bytes=(root / item["path"]).stat().st_size,
+        job_ids=[job], action="downloaded_verified",
+        path=remote + "/" + Path(item["path"]).name if item is not receipt_ref else "/CTI-VLA/results/formal_main_v2/job_receipts/1005.json")
+        for item in (cache_ref, complete_ref, receipt_ref)]
+    pull = dict(schema=r.SCHEMA, kind="nonweight_pull", status="verified_nonweight_snapshot", final_evidence=True,
+        weights_copied=False, sealed_initial_states_copied=False, scientific_completion_inferred=False, missing=[],
+        selected_jobs=[{**record, "include_run_root": True, "active_overlapping_job_ids": []}],
+        accounting_before={"jobs": {job: snapshot_bill}}, accounting_after={"jobs": {job: snapshot_bill.copy()}}, files=files)
+    pull_ref = ref(root, "prepared/pulls/accepted/receipt.json", pull)
+    review = dict(schema=r.SCHEMA, kind="root_acceptance_review", status="passed", job_id=job, suite="libero_10",
+        sealed_initial_states_opened=False, weights_opened=False, source_sha256=record["source_sha256"],
+        invocation_sha256=record["invocation_sha256"], job_at_review={**record, **bill}, output_relative=directory,
+        source_files=complete["source_files"], evidence_sha256={item["path"]: item["sha256"] for item in (pull_ref, complete_ref, receipt_ref)})
+    review["evidence_sha256"][s["registration"]["suites"]["libero_10"]["windows"]] = s["windows"]["libero_10"]["sha256"]
+    review_ref = ref(root, "prepared/libero_10/acceptance/root_review.json", review)
+    preparation_spec = dict(job_id=job, root_review=review_ref, pull_receipt=pull_ref,
+        acceptance_complete=complete_ref, job_receipt=receipt_ref, cache_events=cache_ref)
+    warm_rows = []
+    for row in s["reference"]["cache_rows"]:
+        if row.get("logical_key") == "shared:black-image":
+            if row["event"] == "cache_miss":
+                continue
+            row = {**row, "event": "cache_hit", "key": key}
+            row.pop("bytes", None)
+        warm_rows.append({**row, "time_unix_ns": 2 * 10**12 + len(warm_rows)})
+    warm_ref = ref(root, "prepared/training/cache_events/warm.jsonl", warm_rows, lines=True)
+    spec = deepcopy(s["evidence"]["reference_pair"])
+    spec["cache_events"] = [warm_ref]
+    spec["acceptance_cache_preparation"] = [preparation_spec]
+    return dict(root=root, spec=spec, preparation_spec=preparation_spec, warm_rows=warm_rows,
+        namespace=namespace, state=state, bills=bills, accounting=accounting, registered=registered,
+        metadata={"root_review": review, "pull_receipt": pull, "acceptance_complete": complete, "job_receipt": receipt})
+
+
+def read_prepared(synthetic, preparation, *, reader=None, spec=None, **overrides):
+    kwargs = dict(expected_namespace=preparation["namespace"],
+        expected_window_sha256=synthetic["windows"]["libero_10"]["sha256"], frozen_model_sha256="synthetic-base",
+        registration=synthetic["registration"], accounting=preparation["accounting"],
+        registered=preparation["registered"], training_cache_rows=preparation["warm_rows"])
+    kwargs.update(overrides)
+    return r.read_cache_preparation(reader or r.Evidence(preparation["root"]),
+        [spec or preparation["preparation_spec"]], **kwargs)
 
 
 def test_sampler_matches_frozen_implementation_without_global_rng_changes():
@@ -430,3 +514,146 @@ def test_cache_projection_reference_pair_first_and_all36_pairs_retained(syntheti
     assert value["pair_order"][1:] == remaining
     assert len(value["rows"]) == 36 and value["maximum_suite_disk_bytes"] < r.CAPACITY
     assert value["order_is_resource_assumption"] and value["cache_records_are_simulated"]
+
+
+def test_accepted_preparation_only_calibrates_black_record_no_double_charge(synthetic, preparation):
+    s, p = synthetic, preparation
+    reader = r.Evidence(s["root"])
+    reference = r.read_reference(reader, p["spec"], s["registration"], s["windows"], p["accounting"], p["registered"])
+    before = deepcopy(p["accounting"])
+    measured = r.measured_rates(reference, s["windows"], p["accounting"])
+    old = r.measured_rates(s["reference"], s["windows"], s["accounting"])
+    reader.unchanged()
+    assert p["accounting"] == before
+    assert measured["black_size"] == 2229660 and measured["rates"]["black_publish"] == [3., 3.]
+    assert measured["rates"]["black_hit"] == [.02, .02]
+    assert measured["rates"]["update"] == old["rates"]["update"]
+    assert measured["rates"]["validation"] == old["rates"]["validation"]
+    assert measured["rates"]["cache_publish"] == old["rates"]["cache_publish"] == [.04, .04]
+    assert measured["known_sizes"] == old["known_sizes"]
+    assert measured["observed"]["future_generation_triggered_by_A_seconds"] == old["observed"]["future_generation_triggered_by_A_seconds"]
+    assert {row["job_id"] for row in measured["observed"]["jobs"]} == {"1001"}
+    calibration = measured["observed"]["black_cache_calibration"]
+    assert calibration["training_publications"] == 0
+    assert calibration["acceptance_contributes_to_training_throughput"] is False
+    assert calibration["acceptance_cost_already_in_unique_slurm_bill"] is True
+    assert calibration["accepted_preparation_publications"][0]["job_id"] == "1005"
+    assert p["accounting"]["measured_allocation_gpu_seconds_through_snapshot"] == pytest.approx(s["accounting"]["measured_allocation_gpu_seconds_through_snapshot"] + 100.)
+
+
+def test_warm_black_without_accepted_preparation_remains_pending(synthetic, preparation):
+    reference = {**synthetic["reference"], "cache_rows": preparation["warm_rows"]}
+    with pytest.raises(r.Pending, match="verified same-namespace acceptance"):
+        r.measured_rates(reference, synthetic["windows"], synthetic["accounting"])
+
+
+@pytest.mark.parametrize("mutation", ["unregistered", "wrong_mode", "failed", "running", "two_gpus", "different_namespace", "different_windows", "different_model", "late_preparation", "untimestamped_training"])
+def test_preparation_requires_same_registered_accepted_identity(synthetic, preparation, mutation):
+    overrides = {}
+    if mutation in ("unregistered", "wrong_mode"):
+        registered = deepcopy(preparation["registered"])
+        if mutation == "unregistered":
+            del registered["1005"]
+        else:
+            registered["1005"]["mode"] = "train"
+        overrides["registered"] = registered
+    elif mutation in ("failed", "running", "two_gpus"):
+        accounting = deepcopy(preparation["accounting"])
+        if mutation == "two_gpus":
+            accounting["jobs"]["1005"]["gpus"] = 2
+        else:
+            accounting["jobs"]["1005"]["status"] = mutation.upper()
+        overrides["accounting"] = accounting
+    elif mutation == "different_namespace":
+        overrides["expected_namespace"] = "other-namespace"
+    elif mutation == "different_windows":
+        overrides["expected_window_sha256"] = "other-windows"
+    elif mutation == "different_model":
+        overrides["frozen_model_sha256"] = "other-base"
+    else:
+        overrides["training_cache_rows"] = [{"time_unix_ns": 1}] if mutation == "late_preparation" else [{}]
+    with pytest.raises(ValueError):
+        read_prepared(synthetic, preparation, **overrides)
+
+
+@pytest.mark.parametrize("target,field,value", [
+    ("root_review", "status", "failed"),
+    ("root_review", "evidence_sha256", {}),
+    ("root_review", "sealed_initial_states_opened", True),
+    ("acceptance_complete", "checkpoint_unchanged", False),
+    ("acceptance_complete", "resume_acceptance_passed", False),
+    ("job_receipt", "invocation_sha256", "other-job"),
+    ("job_receipt", "exit_code", 1),
+    ("pull_receipt", "status", "failed_nonfinal"),
+    ("pull_receipt", "weights_copied", True),
+    ("pull_receipt", "final_evidence", False),
+    ("pull_receipt", "files", []),
+    ("pull_receipt", "selected_jobs", []),
+    ("pull_receipt", "accounting_after", {"jobs": {}}),
+])
+def test_preparation_cannot_bypass_review_receipt_or_verified_pull(synthetic, preparation, monkeypatch, target, field, value):
+    reader = r.Evidence(preparation["root"])
+    original = reader.read
+
+    def altered(ref, label):
+        payload = original(ref, label)  # still run real file SHA checks first
+        if label == "cache preparation:" + target:
+            payload[field] = value
+        return payload
+
+    monkeypatch.setattr(reader, "read", altered)
+    with pytest.raises(ValueError):
+        read_prepared(synthetic, preparation, reader=reader)
+
+
+def test_preparation_sha_and_duplicate_references_are_rejected(synthetic, preparation):
+    spec = deepcopy(preparation["preparation_spec"])
+    spec["cache_events"]["sha256"] = "stale"
+    with pytest.raises(ValueError, match="SHA mismatch"):
+        read_prepared(synthetic, preparation, spec=spec)
+    with pytest.raises(ValueError, match="unique registered"):
+        r.read_cache_preparation(r.Evidence(preparation["root"]), [preparation["preparation_spec"]] * 2,
+            expected_namespace=preparation["namespace"], expected_window_sha256=synthetic["windows"]["libero_10"]["sha256"],
+            frozen_model_sha256="synthetic-base", registration=synthetic["registration"],
+            accounting=preparation["accounting"], registered=preparation["registered"], training_cache_rows=preparation["warm_rows"])
+
+
+@pytest.mark.parametrize("mutation", ["no_miss", "no_generation_end", "wrong_key", "invalid_size", "generation_exceeds_parent", "wrong_journal_job"])
+def test_preparation_requires_complete_black_generation_transaction(synthetic, preparation, monkeypatch, mutation):
+    reader = r.Evidence(preparation["root"])
+    original = reader.lines
+
+    def altered(ref, label):
+        rows = original(ref, label)
+        if mutation == "no_miss":
+            rows.pop(0)
+        elif mutation == "no_generation_end":
+            rows.pop(2)
+        elif mutation == "wrong_key":
+            rows[3]["key"] = "different-key"
+        elif mutation == "invalid_size":
+            rows[3]["bytes"] = 0
+        elif mutation == "generation_exceeds_parent":
+            rows[2]["seconds"] = 30.
+        else:
+            rows[0]["job_id"] = "1006"
+        return rows
+
+    monkeypatch.setattr(reader, "lines", altered)
+    with pytest.raises(ValueError):
+        read_prepared(synthetic, preparation, reader=reader)
+
+
+def test_preparation_does_not_weaken_training500_gate(synthetic, preparation, monkeypatch):
+    s, p = synthetic, preparation
+    evidence = deepcopy(s["evidence"])
+    evidence["reference_pair"] = deepcopy(p["spec"])
+    evidence["supervisor_state"] = ref(s["root"], "prepared/state.json", p["state"])
+    evidence["accounting"] = ref(s["root"], "prepared/accounting.json", p["bills"])
+    report = deepcopy(s["reference"]["reports"]["A"])
+    report.update(training_updates_completed=499, next_sample_cursor=3992)
+    evidence["reference_pair"]["arms"]["A"]["report"] = ref(s["root"], "prepared/not500/report.json", report)
+    monkeypatch.setattr(r, "read_cache_preparation", lambda *args, **kwargs: pytest.fail("accepted preparation was used before the training gate"))
+    value = r.estimate(evidence, s["registration"], root=s["root"])
+    assert value["status"] == "pending" and value["training_projection"] is None
+    assert "first500" in value["missing"][0]

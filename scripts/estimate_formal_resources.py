@@ -227,6 +227,137 @@ def read_windows(reader, refs, registration):
     return result
 
 
+def read_cache_preparation(reader, specs, *, expected_namespace, expected_window_sha256, frozen_model_sha256,
+                           registration, accounting, registered, training_cache_rows):
+    """Use accepted preparation solely for black-record size/cold publish time.
+
+    The root review anchors the verified pull, which anchors the journal bytes.
+    Acceptance feature/teacher/update timings never enter training calibration.
+    """
+    if not isinstance(specs, list):
+        raise ValueError("acceptance_cache_preparation must be an explicit reference list")
+    publications, seen_jobs = [], set()
+    training_times = [row.get("time_unix_ns") for row in training_cache_rows]
+    if specs and (not training_times or any(type(t) is not int or t <= 0 for t in training_times)):
+        raise ValueError("preparation chronology requires timestamped training cache evidence")
+    for spec in specs:
+        job = str(spec.get("job_id", ""))
+        record, bill = registered.get(job), accounting["jobs"].get(job)
+        if job in seen_jobs or not record or record.get("mode") != "acceptance" or record.get("suite") != "libero_10":
+            raise ValueError("cache preparation requires a unique registered Long acceptance job")
+        seen_jobs.add(job)
+        if (not bill or bill.get("status") != "COMPLETED" or bill.get("exit_code") != "0:0"
+                or bill.get("gpus") != 1):
+            raise ValueError("cache preparation needs successful terminal single-GPU accounting")
+        loaded = {name: reader.read(spec.get(name), "cache preparation:" + name)
+            for name in ("root_review", "pull_receipt", "acceptance_complete", "job_receipt")}
+        review, pull, complete, receipt = [loaded[k] for k in
+            ("root_review", "pull_receipt", "acceptance_complete", "job_receipt")]
+        relative = lambda item: reader.path(item, "cache preparation reference").relative_to(reader.root).as_posix()
+        paths = {name: relative(spec.get(name)) for name in loaded}
+        paths["cache_events"] = relative(spec.get("cache_events"))
+        if (review.get("schema") != SCHEMA or review.get("kind") != "root_acceptance_review"
+                or review.get("status") != "passed" or str(review.get("job_id")) != job
+                or review.get("suite") != "libero_10" or review.get("sealed_initial_states_opened") is not False
+                or review.get("weights_opened") is not False
+                or review.get("source_sha256") != record.get("source_sha256")
+                or review.get("invocation_sha256") != record.get("invocation_sha256")):
+            raise ValueError("cache preparation has no matching passed root acceptance review")
+        for name in ("pull_receipt", "acceptance_complete", "job_receipt"):
+            if review.get("evidence_sha256", {}).get(paths[name]) != spec[name]["sha256"]:
+                raise ValueError("root acceptance review does not SHA-bind preparation evidence")
+        for key in ("job_id", "mode", "suite", "run_root", "source_sha256", "invocation_sha256"):
+            if review.get("job_at_review", {}).get(key) != record.get(key):
+                raise ValueError("root acceptance job identity differs from supervision")
+        if (review.get("job_at_review", {}).get("status") != "COMPLETED"
+                or review.get("job_at_review", {}).get("elapsed_seconds") != bill["elapsed_seconds"]
+                or review.get("evidence_sha256", {}).get(registration["suites"]["libero_10"]["windows"])
+                != expected_window_sha256):
+            raise ValueError("root acceptance bill or window binding is missing")
+        if (complete.get("schema") != SCHEMA or complete.get("status") != "passed"
+                or str(complete.get("job_id")) != job or complete.get("suite") != "libero_10"
+                or complete.get("frozen_model_sha256") != frozen_model_sha256
+                or complete.get("checkpoint_unchanged") is not True or complete.get("test_opened") is not False
+                or complete.get("resume_acceptance_passed") is not True
+                or complete.get("source_files") != review.get("source_files")):
+            raise ValueError("preparation acceptance is not the accepted frozen base/source")
+        if (receipt.get("schema") != SCHEMA or str(receipt.get("job_id")) != job
+                or receipt.get("stage") != "acceptance" or receipt.get("stage_key") != record.get("stage_key")
+                or receipt.get("exit_code") != 0 or receipt.get("source_sha256") != record.get("source_sha256")
+                or receipt.get("invocation_sha256") != record.get("invocation_sha256")
+                or finite(receipt.get("wall_seconds"), "preparation stage wall seconds", positive=True) > bill["elapsed_seconds"] + 2):
+            raise ValueError("preparation stage receipt is not the registered successful invocation")
+        if (pull.get("schema") != SCHEMA or pull.get("kind") != "nonweight_pull"
+                or pull.get("status") != "verified_nonweight_snapshot" or pull.get("final_evidence") is not True
+                or pull.get("weights_copied") is not False or pull.get("sealed_initial_states_copied") is not False
+                or pull.get("scientific_completion_inferred") is not False or pull.get("missing") != []):
+            raise ValueError("preparation requires a complete verified nonweight pull")
+        selected = [row for row in pull.get("selected_jobs", []) if str(row.get("job_id")) == job]
+        if (len(selected) != 1 or selected[0].get("include_run_root") is not True
+                or selected[0].get("active_overlapping_job_ids") != []
+                or any(selected[0].get(k) != record.get(k) for k in ("mode", "run_root", "source_sha256", "stage_key"))):
+            raise ValueError("verified pull did not select the registered preparation run")
+        before = pull.get("accounting_before", {}).get("jobs", {}).get(job)
+        after = pull.get("accounting_after", {}).get("jobs", {}).get(job)
+        if (not before or before != after or any(before.get(k) != bill.get(k)
+                for k in ("status", "exit_code", "elapsed_seconds", "allocation", "node"))):
+            raise ValueError("preparation pull accounting is unstable or differs from the terminal bill")
+        output = review.get("output_relative")
+        if not isinstance(output, str) or not output:
+            raise ValueError("root acceptance output directory is missing")
+        for name, filename in (("cache_events", "cache_cost_events.jsonl"), ("acceptance_complete", "acceptance_complete.json")):
+            if paths[name] != output + "/" + filename:
+                raise ValueError("preparation evidence is outside the reviewed acceptance directory")
+        for name in ("cache_events", "acceptance_complete", "job_receipt"):
+            matches = [row for row in pull.get("files", []) if row.get("relative") == paths[name]]
+            if (len(matches) != 1 or matches[0].get("sha256") != spec[name]["sha256"]
+                    or job not in matches[0].get("job_ids", [])
+                    or matches[0].get("action") not in ("downloaded_verified", "same_sha_skipped")
+                    or matches[0].get("bytes") != reader.path(spec[name], name).stat().st_size):
+                raise ValueError("verified pull does not bind the preparation file bytes")
+            if name != "job_receipt" and matches[0].get("path") != record["run_root"].rstrip("/") + "/" + Path(paths[name]).name:
+                raise ValueError("preparation pull points to another server run directory")
+        rows = reader.lines(spec.get("cache_events"), "accepted preparation cache journal")
+        times = [row.get("time_unix_ns") for row in rows]
+        if (not rows or any(str(row.get("job_id")) != job or row.get("cache_identity_sha256") != expected_namespace for row in rows)
+                or any(type(t) is not int or t <= 0 for t in times) or times != sorted(times)
+                or max(times) >= min(training_times)):
+            raise ValueError("preparation cache journal has another namespace/job or invalid chronology")
+        expected_key = hashlib.sha256((expected_namespace + ":shared:black-image").encode()).hexdigest()
+        phase, generation_seconds, count = None, None, 0
+        for row in rows:
+            event = row.get("event")
+            if row.get("logical_key") == "shared:black-image" and event == "cache_miss":
+                if phase is not None or row.get("key") != expected_key:
+                    raise ValueError("preparation black miss has no unique namespace key")
+                phase = "miss"
+            elif event == "shared_black_generate_start":
+                if phase != "miss":
+                    raise ValueError("preparation black generation has no cache miss")
+                phase = "generating"
+            elif event == "shared_black_generate_end":
+                if phase != "generating" or row.get("vision_forwards") != 1:
+                    raise ValueError("preparation black generation is not a complete single vision forward")
+                generation_seconds = finite(row.get("seconds"), "black generation seconds", positive=True)
+                phase = "generated"
+            elif row.get("logical_key") == "shared:black-image" and event == "cache_publish":
+                duration = finite(row.get("seconds"), "black publication seconds", positive=True)
+                checksum = row.get("sha256")
+                if (phase != "generated" or row.get("key") != expected_key or generation_seconds > duration + .01
+                        or type(row.get("bytes")) is not int or row["bytes"] <= 0
+                        or not isinstance(checksum, str) or len(checksum) != 64 or any(c not in "0123456789abcdef" for c in checksum)):
+                    raise ValueError("preparation black publication is incomplete or lacks identity/size")
+                publications.append(dict(job_id=job, cache_identity_sha256=expected_namespace,
+                    key=expected_key, bytes=row["bytes"], seconds=duration, record_sha256=checksum,
+                    generation_seconds_nested=generation_seconds, publication_time_unix_ns=row["time_unix_ns"],
+                    cache_journal_sha256=spec["cache_events"]["sha256"], root_review_sha256=spec["root_review"]["sha256"],
+                    pull_receipt_sha256=spec["pull_receipt"]["sha256"]))
+                phase, generation_seconds, count = None, None, count + 1
+        if phase is not None or not count:
+            raise ValueError("accepted preparation lacks a complete black publication")
+    return publications
+
+
 def read_reference(reader, spec, registration, windows, accounting, registered):
     pair = next(r for r in registration["pairs"] if (r["suite"], r["visual_tokens"], r["seed"]) == ("libero_10", 128, 17))
     config = reader.read({"path": pair["path"], "sha256": pair["sha256"]}, "registered Long128seed17 config")
@@ -279,7 +410,8 @@ def read_reference(reader, spec, registration, windows, accounting, registered):
             if aid in seen_attempts or first.get("identity") != identity or job not in registered:
                 raise ValueError("cost attempt is duplicate, unregistered or from another trained arm")
             seen_attempts.add(aid)
-            if registered[job].get("mode") != "train" or registered[job].get("run_root") != pair["run_root_server"]:
+            expected_run_root = pair["run_root_server"].rstrip("/") + "/training"
+            if registered[job].get("mode") != "train" or registered[job].get("run_root") != expected_run_root:
                 raise ValueError("calibration allocation is outside this registered training pair")
             if job not in accounting["jobs"] or accounting["jobs"][job]["status"] not in TERMINAL:
                 raise Pending("reference training job lacks terminal accounting: " + job)
@@ -342,8 +474,13 @@ def read_reference(reader, spec, registration, windows, accounting, registered):
     missing = job_ids - set(receipts)
     if missing:
         raise Pending("missing reference stage receipts: " + ",".join(sorted(missing)))
+    preparation = read_cache_preparation(reader, spec.get("acceptance_cache_preparation", []),
+        expected_namespace=expected_cache, expected_window_sha256=wm["sha256"],
+        frozen_model_sha256=reports["A"]["frozen_model_sha256"],
+        registration=registration, accounting=accounting, registered=registered, training_cache_rows=cache_rows)
     return dict(config=config, reports=reports, order=order, attempts=attempts,
-        cost_rows=cost_rows, cache_rows=cache_rows, job_ids=job_ids, receipts=receipts)
+        cost_rows=cost_rows, cache_rows=cache_rows, job_ids=job_ids, receipts=receipts,
+        accepted_cache_preparation=preparation)
 
 
 def measured_rates(reference, windows, accounting):
@@ -501,8 +638,15 @@ def measured_rates(reference, windows, accounting):
             arm_attempt_wall_seconds=by_job[job], outside_arm_wall_seconds=gap,
             stage_wall_seconds=receipt["wall_seconds"],
             allocation_outside_stage_seconds=max(0., bill["elapsed_seconds"] - receipt["wall_seconds"])))
+    training_black_publications = len(black_publish)
+    preparation = reference.get("accepted_cache_preparation", [])
+    # Earlier acceptance is already in the unique Slurm bill. Only its black
+    # record calibrates a hypothetical cold namespace; no phase/cache work is
+    # charged to these training attempts, and no ordinary record rates leak in.
+    black_publish.extend(row["seconds"] for row in preparation)
+    pinned_sizes.extend(row["bytes"] for row in preparation)
     if not sizes or not publish or not cache_hit or not pinned_sizes or not black_publish:
-        raise Pending("need measured window/black cache publications, entry sizes and disk hits; warmed-only caches are insufficient")
+        raise Pending("need measured window publications/sizes and disk hits plus black publication/size from training or strictly verified same-namespace acceptance preparation")
     flat_components = {k: [v for a in ("A", "B") for v in components_by_arm[a][k]] for k in COMPONENTS}
     if any(not flat_components[k] for k in COMPONENTS):
         raise Pending("shared feature generation component timings are missing")
@@ -524,6 +668,11 @@ def measured_rates(reference, windows, accounting):
             cache_request_counts_by_arm_phase={a + ":" + p: dict(v) for (a, p), v in request_counts.items()},
             evicted_cache_bytes=evicted_bytes,
             pinned_black_bytes=describe(pinned_sizes), disk_hit_seconds=describe(cache_hit),
+            black_cache_calibration=dict(training_publications=training_black_publications,
+                accepted_preparation_publications=preparation,
+                acceptance_contributes_to_training_throughput=False,
+                acceptance_cost_already_in_unique_slurm_bill=True,
+                calibration_use="black record bytes and cold cache-publish duration only; no actual cost is added"),
             window_publish_seconds_including_generation=describe(publish),
             generation_components_seconds={k: describe(v) for k, v in flat_components.items()},
             future_generation_triggered_by_A_seconds=sum(components_by_arm["A"]["future_preprocess_vision_target_seconds"]),

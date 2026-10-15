@@ -598,7 +598,7 @@
       "submitted_utc": "2026-10-15T18:48:25.838003+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 1066,
+      "elapsed_seconds": 2823,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4025"
     }
@@ -774,7 +774,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-15T19:06:14.428517+00:00",
+  "last_supervision_utc": "2026-10-15T19:35:31.615114+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -823,8 +823,8 @@
   "next_allowed_action": "Finish Long data and F00/F01/F02/F03; start Long128seed17 formal A/B5000; estimate actual resource cost; follow registered matrix only",
   "current_round_cost": {
     "registered_jobs": 6,
-    "allocated_gpu_seconds": 2189,
-    "allocated_gpu_hours": 0.6080555555555556,
+    "allocated_gpu_seconds": 3946,
+    "allocated_gpu_hours": 1.096111111111111,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1356,26 +1356,42 @@
       "status": "running",
       "resource_estimate": "await actual first A/B segment throughput, full validation cost and cache volume",
       "live_progress": {
-        "path": "results/formal_main_v2/live/3005060_20261015T190132Z.json",
-        "observed_utc": "2026-10-15T19:01:35.398029+00:00",
+        "path": "results/formal_main_v2/live/3005060_20261015T193534Z.json",
+        "observed_utc": "2026-10-15T19:35:34.930063+00:00",
         "provisional": true,
         "arms": {
           "A": {
-            "updates_completed_in_memory": 101,
-            "last_update_seconds": 4.3710323721170425,
-            "last_checkpoint_update": 100,
+            "updates_completed_in_memory": 500,
+            "last_update_seconds": 4.351828319951892,
+            "last_checkpoint_update": 500,
             "validation_nodes": [
               {
                 "update": 0,
                 "seconds": 72.98348569404334,
                 "windows": 165
+              },
+              {
+                "update": 500,
+                "seconds": 18.026056924834847,
+                "windows": 165
+              }
+            ],
+            "last_event": "attempt_end",
+            "last_event_utc": "2026-10-15T19:32:19.970251+00:00"
+          },
+          "B": {
+            "updates_completed_in_memory": 71,
+            "last_update_seconds": 2.2910424396395683,
+            "last_checkpoint_update": 50,
+            "validation_nodes": [
+              {
+                "update": 0,
+                "seconds": 12.385537411086261,
+                "windows": 165
               }
             ],
             "last_event": "sample_start",
-            "last_event_utc": "2026-10-15T19:01:35.501928+00:00"
-          },
-          "B": {
-            "status": "not_started"
+            "last_event_utc": "2026-10-15T19:35:35.211017+00:00"
           }
         },
         "not_a_completion_receipt": true
@@ -1384,9 +1400,22 @@
     "resource_estimate": {
       "status": "pending_complete_first_A_B_segment",
       "evidence": "results/formal_main_v2/resources/pre_segment_20261015T190613Z/estimate.json",
-      "test_review": "results/formal_main_v2/preflight/resource_cpu_review.json",
+      "test_review": "results/formal_main_v2/preflight/resource_preparation_review.json",
       "training_projection_generated": false,
       "evaluation_cost_unmeasured": true
+    },
+    "segment_continuation_review": {
+      "required": true,
+      "script": "scripts/review_formal_segment.py",
+      "cpu_review": "results/formal_main_v2/preflight/segment_cpu_review.json",
+      "status": "await terminal SHA-pull and server resume checks",
+      "no_fresh_restart_for_missing_started_arm": true
+    },
+    "figure_pipeline": {
+      "script": "scripts/render_formal_results.py",
+      "cpu_review": "results/formal_main_v2/preflight/render_cpu_review_v2.json",
+      "actual_status": "pending complete final evidence",
+      "main_table_generated": false
     }
   },
   "formal_main_source_snapshot": {
