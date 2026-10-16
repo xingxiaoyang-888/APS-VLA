@@ -1,0 +1,181 @@
+{
+  "accounting": {
+    "path": "results/formal_main_v2/resources/segment1000_3005253_20261016T062232Z/accounting_snapshot.json",
+    "sha256": "ca3351f05c8fd70cebb05b6135624121bfe78a425788c7d5641a3b84e19b0cb2"
+  },
+  "cache_jobs": [
+    {
+      "cache_events": [
+        {
+          "path": "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3005060_f80ee5824084.jsonl",
+          "sha256": "0b1fc4ce8cc62ac6e4f4b7e0ae9154298be11edf4d5e10967e78acd86fc510fc"
+        }
+      ],
+      "job_id": "3005060",
+      "job_receipt": {
+        "path": "results/formal_main_v2/job_receipts/3005060.json",
+        "sha256": "3fb9519f6013b93764ea238da1ac7f8054e5d9c60a7e95172650ba9980c23410"
+      },
+      "namespace_sha256": "36f57c665a987642e8a4c50f910c4d2255d1d3660a92ee2660fa07d10b4ddcbe",
+      "root_review": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3005060.json",
+        "sha256": "bc73b5af53e2b23dcc4a72ac8c3a31eae4ae479bdb1f4754e0ac77d11694ec95"
+      },
+      "verified_pull": {
+        "path": "results/formal_main_v2/pulls/20261015T195350Z_ef8651b76756/receipt.json",
+        "sha256": "e465de8ff149ad6b472615eebbf931e476a3726d76714e61aefbe032fdc2ae22"
+      }
+    },
+    {
+      "cache_events": [
+        {
+          "path": "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3005253_7ae6ca671862.jsonl",
+          "sha256": "42a08dd35ad8819b34720ffe1859513929da8dd41741a1a389d42fa731929c8d"
+        }
+      ],
+      "job_id": "3005253",
+      "job_receipt": {
+        "path": "results/formal_main_v2/job_receipts/3005253.json",
+        "sha256": "219e8f53170f45467c6467ce57165559f5d2077cf8ef56353bab0ac879ccaafc"
+      },
+      "namespace_sha256": "36f57c665a987642e8a4c50f910c4d2255d1d3660a92ee2660fa07d10b4ddcbe",
+      "root_review": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3005253.json",
+        "sha256": "e8a50c478be458ca021457aa77bed56959c91e4ce65960bde43eab047ae46d20"
+      },
+      "verified_pull": {
+        "path": "results/formal_main_v2/pulls/20261016T062053Z_e2d651901c67/receipt.json",
+        "sha256": "46d60d10db86e093520cae6cd91c64f6efac43fc37917ccc2d8d6233c5953db0"
+      }
+    },
+    {
+      "acceptance_complete": {
+        "path": "results/formal_main_v2/libero_10/acceptance/attempt02/acceptance_complete.json",
+        "sha256": "8744e4ef579b0af76ab9219bf0dc5545bd592540a57011841e1a59f853babd9d"
+      },
+      "cache_events": [
+        {
+          "path": "results/formal_main_v2/libero_10/acceptance/attempt02/cache_cost_events.jsonl",
+          "sha256": "28c33a57f660a3fc9c75dc3a80c60b4d5da731bffb98f3ef82b3ad487c32b2fc"
+        }
+      ],
+      "hardware_record": {
+        "path": "results/formal_main_v2/libero_10/acceptance/attempt02/resume_acceptance.json",
+        "sha256": "46236f4cbd548a174daa277798cf71729ca5e691dc46a9ac02238fed6cfd4620"
+      },
+      "job_id": "3005020",
+      "job_receipt": {
+        "path": "results/formal_main_v2/job_receipts/3005020.json",
+        "sha256": "b88a1f6301ea489874766b2e90defb93feb6c2237d4ec1b547e90f04c3619a70"
+      },
+      "namespace_sha256": "36f57c665a987642e8a4c50f910c4d2255d1d3660a92ee2660fa07d10b4ddcbe",
+      "root_review": {
+        "path": "results/formal_main_v2/libero_10/acceptance/root_review.json",
+        "sha256": "7c013d75170725debd716de9780feceb4d27d143263e316e9acf2d6010117fdf"
+      },
+      "verified_pull": {
+        "path": "results/formal_main_v2/pulls/20261015T184336Z_a6c4b346c304/receipt.json",
+        "sha256": "6e36e41360b95859991af479b01d284d53c9508ac6aa08d87c30bc5253a5a5a7"
+      }
+    }
+  ],
+  "kind": "cache_replay_evidence",
+  "registration_sha256": "2e4362b81ec5b7265871a8a8321f4fd8cfdffd42aa33af68c842c4caad57c6ac",
+  "schema": "formal_main_v2",
+  "suites": {
+    "libero_10": {
+      "protocol": {
+        "path": "configs/manifests/formal_main_v2/libero_10/protocol.json",
+        "sha256": "fc54f424b139f09bdd394cb6ac551e9212fb46b23b53c9c040392735cea4b62a"
+      },
+      "windows": {
+        "path": "configs/manifests/formal_main_v2/libero_10/windows.json",
+        "sha256": "9a6ba246ca534ba2af9cc34e4a19f90e430fe154f0235adcd09cedfe6d33760a"
+      }
+    },
+    "libero_goal": {
+      "protocol": {
+        "path": "configs/manifests/formal_main_v2/libero_goal/protocol.json",
+        "sha256": "5879e56b566ed2bdc45f02053a42be9a1ba009d0d6d4e3d23751b4db821400a3"
+      },
+      "windows": {
+        "path": "configs/manifests/formal_main_v2/libero_goal/windows.json",
+        "sha256": "4a9ab2252e6bb32f33bc4de46957b41f2be1c755920a87f0d5c8fa26108fbec8"
+      }
+    },
+    "libero_object": {
+      "protocol": {
+        "path": "configs/manifests/formal_main_v2/libero_object/protocol.json",
+        "sha256": "1a138d3cb36467c2dafc44b81d5fdbf247b34b311c4b933cea9faed76fd94bd5"
+      },
+      "windows": {
+        "path": "configs/manifests/formal_main_v2/libero_object/windows.json",
+        "sha256": "9b0042381d75b4de2c98bf5d79ae3296dffa2511cd76625c843eb9b740f913c8"
+      }
+    },
+    "libero_spatial": {
+      "protocol": {
+        "path": "configs/manifests/formal_main_v2/libero_spatial/protocol.json",
+        "sha256": "dd14ed1338d2bb50a35fcef335e5ca5e76e67fa282375c2334b5489aaf347b4c"
+      },
+      "windows": {
+        "path": "configs/manifests/formal_main_v2/libero_spatial/windows.json",
+        "sha256": "48d482d77ec2115fcf0130edd28dd815077083d7ea9b6c2aefa1ab93355e170f"
+      }
+    }
+  },
+  "supervisor_state": {
+    "path": "results/formal_main_v2/resources/segment1000_3005253_20261016T062232Z/supervisor_snapshot.json",
+    "sha256": "a67746102fa4686255702c0e46ad16da0b0e7c6087f287b6d690061e979ace20"
+  },
+  "training": [
+    {
+      "arm": "A",
+      "cost_events": [
+        {
+          "path": "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261015T185251_8f5497b6f0fa/cost_events.jsonl",
+          "sha256": "f8844f5ff502f14f1f2adcea636a279fb098044df2f02e4433fe5019549da664"
+        },
+        {
+          "path": "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261015T200037_53ed164408b2/cost_events.jsonl",
+          "sha256": "e5cd82903216994b97f3d4fd04ca58b3de68417dad323cd928a832429d4feaad"
+        }
+      ],
+      "report": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/A/progress_report.json",
+        "sha256": "00bb5aec67a02ddc4458bf56a24bcfa5093509d0abbefd332c44e2b23b598e3b"
+      },
+      "seed": 17,
+      "suite": "libero_10",
+      "training_order": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/A/training_order.json",
+        "sha256": "5ba41a3da90dabfb94b618363bdda5a5dec6898763f29b8e1f5eba1a3e6f4fab"
+      },
+      "visual_tokens": 128
+    },
+    {
+      "arm": "B",
+      "cost_events": [
+        {
+          "path": "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261015T193238_336fb73b8320/cost_events.jsonl",
+          "sha256": "c719d02a3e126206987cd34d4a984d32ef988a7664031937ef0ad57f7fa2fa45"
+        },
+        {
+          "path": "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261015T204514_381d667a42a0/cost_events.jsonl",
+          "sha256": "2b74f99f7d4260d3b9fac3a0baa10e806c327d931034e581eedd15ca167df021"
+        }
+      ],
+      "report": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/B/progress_report.json",
+        "sha256": "b07472fbdd5f627684b07d40013bd43324bb0735e1b2185cec02cc9af7a6b2e2"
+      },
+      "seed": 17,
+      "suite": "libero_10",
+      "training_order": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/B/training_order.json",
+        "sha256": "5ba41a3da90dabfb94b618363bdda5a5dec6898763f29b8e1f5eba1a3e6f4fab"
+      },
+      "visual_tokens": 128
+    }
+  ]
+}
