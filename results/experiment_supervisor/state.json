@@ -708,7 +708,7 @@
       "visual_tokens": 128,
       "training_seed": 17,
       "segment_end": 3000,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "gpus": 1,
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
       "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
@@ -718,7 +718,31 @@
       "submitted_utc": "2026-10-16T15:28:31.116124+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 8,
+      "elapsed_seconds": 3900,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4010"
+    },
+    {
+      "job_id": "3012151",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k128_seed17",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "training_seed": 17,
+      "segment_end": 3500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed17_attempt07.json",
+      "invocation_sha256": "8f4625187a4aab4102ad9c22bd78778ebd63a627415b656107051ee2e9a093d7",
+      "submitted_utc": "2026-10-16T17:51:05.704873+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 295,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     }
@@ -873,7 +897,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "Long128seed17 common2500 passed root and independent audit; six165-window validation nodes complete, 20000 unique committed windows per arm, same initialization/order and server resume SHAs verified. Latest teacherL1 A0.021688718/B0.021102052; temporary best2000 both, no closed-loop conclusion. Registered job3011093 is RUNNING at15:28UTC to continue2500 to3000, expected resume cursor20000; initialization in progress, neither arm own attempt_start has appeared yet. Terminal formal GPU20992 seconds=5.831111 hours before new allocation; formal0/72, development0, final0/35200. No scope expansion; frozen173 unchanged.",
+  "current_work": "Long128seed17 common3000 passed root and independent audit: seven165-window validations, 24000 unique windows per arm, matched initialization/order, both terminal server resume SHAs verified. Latest validation teacherL1 A0.02030953544/B0.02159124833, provisional best2000 both; no closed-loop conclusion. Registered3012151 RUNNING at17:56UTC targeting3500: A3006 in memory/checkpoint3000; actual A resume3000/cursor24000 confirmed by own journal. B not yet started this job, prior boundary3000 retained; pending B resume confirmation. Current allocation25187 GPU seconds=6.996389h provisional, terminal24892. First3571 cache evictions at3000 boundary retained; no duplicate window generation or training replay. Resource reestimate shared373.96h/430.05h with15percent reserve is whole72 from-scratch Long128 proxy, not remaining time, excludes closed-loop/profiling. Formal0/72, development0, final0/35200; final sealed, source173 unchanged.",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -894,7 +918,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-16T15:28:41.446367+00:00",
+  "last_supervision_utc": "2026-10-16T17:56:03.072562+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -940,11 +964,11 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Observe only registered job3011093; do not duplicate. Confirm both actual2500/cursor20000 resumes. After terminal, SHA-pull all six pair jobs and review common3000 plus both server resume SHAs. Advance to3500 only after passed common3000 review; if uneven, complete original3000 boundary. Final values remain sealed.",
+  "next_allowed_action": "Observe only registered3012151, confirm actual3000/cursor24000 resume. After terminal, SHA-pull all seven pair jobs and verify common3500/all validation/server resume SHAs; advance4000 only if both3500. Uneven arms must finish original3500, never fresh initialize; final states stay sealed.",
   "current_round_cost": {
-    "registered_jobs": 11,
-    "allocated_gpu_seconds": 21000,
-    "allocated_gpu_hours": 5.833333333333333,
+    "registered_jobs": 12,
+    "allocated_gpu_seconds": 25187,
+    "allocated_gpu_hours": 6.996388888888889,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1470,36 +1494,44 @@
       "suite": "libero_10",
       "visual_tokens": 128,
       "training_seed": 17,
-      "job_id": "3011093",
-      "segment_end": 3000,
+      "job_id": "3012151",
+      "segment_end": 3500,
       "total_updates_per_arm": 5000,
       "status": "running",
       "resumed_from_updates": {
-        "A": 2500,
-        "B": 2500
+        "A": 3000,
+        "B": 3000
       },
-      "expected_sample_cursor_on_resume": 20000,
-      "previous_segment_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3009076.json",
-      "previous_segment_independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3009076_independent.json",
-      "resource_estimate": "results/formal_main_v2/resources/segment1000_3005253_20261016T062232Z/estimate_mean_v2.json",
+      "expected_sample_cursor_on_resume": 24000,
+      "previous_segment_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093.json",
+      "previous_segment_independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093_independent.json",
+      "resource_estimate": "results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/estimate_mean_v3.json",
       "actual_resume_confirmed": {
-        "by_arm": {},
+        "by_arm": {
+          "A": {
+            "job_id": "3012151",
+            "attempt_id": "20261016T175521_7afea2e7d508",
+            "utc": "2026-10-16T17:55:21.297508+00:00",
+            "resumed": true,
+            "completed_update": 3000,
+            "next_sample_cursor": 24000
+          }
+        },
         "both_arms_confirmed": false,
         "pending_arms": [
-          "A",
           "B"
         ],
-        "evidence": null
+        "evidence": "results/formal_main_v2/live/3012151_20261016T175607Z.json"
       },
       "live_progress": {
-        "path": "results/formal_main_v2/live/3011093_20261016T152845Z.json",
-        "observed_utc": "2026-10-16T15:28:45.645257+00:00",
+        "path": "results/formal_main_v2/live/3012151_20261016T175607Z.json",
+        "observed_utc": "2026-10-16T17:56:07.344479+00:00",
         "provisional": true,
         "arms": {
           "A": {
-            "updates_completed_in_memory": 2500,
-            "last_update_seconds": 4.710828622803092,
-            "last_checkpoint_update": 2500,
+            "updates_completed_in_memory": 3006,
+            "last_update_seconds": 5.93697290122509,
+            "last_checkpoint_update": 3000,
             "validation_nodes": [
               {
                 "update": 0,
@@ -1530,16 +1562,30 @@
                 "update": 2500,
                 "seconds": 19.325405836105347,
                 "windows": 165
+              },
+              {
+                "update": 3000,
+                "seconds": 19.58345092460513,
+                "windows": 165
               }
             ],
-            "last_event": "attempt_end",
-            "last_event_utc": "2026-10-16T11:20:54.542981+00:00",
-            "this_job_attempt_starts": []
+            "last_event": "sample_start",
+            "last_event_utc": "2026-10-16T17:56:07.144610+00:00",
+            "this_job_attempt_starts": [
+              {
+                "job_id": "3012151",
+                "attempt_id": "20261016T175521_7afea2e7d508",
+                "utc": "2026-10-16T17:55:21.297508+00:00",
+                "resumed": true,
+                "completed_update": 3000,
+                "next_sample_cursor": 24000
+              }
+            ]
           },
           "B": {
-            "updates_completed_in_memory": 2500,
-            "last_update_seconds": 2.3207620810717344,
-            "last_checkpoint_update": 2500,
+            "updates_completed_in_memory": 3000,
+            "last_update_seconds": 2.3403625320643187,
+            "last_checkpoint_update": 3000,
             "validation_nodes": [
               {
                 "update": 0,
@@ -1570,10 +1616,15 @@
                 "update": 2500,
                 "seconds": 17.88083592429757,
                 "windows": 165
+              },
+              {
+                "update": 3000,
+                "seconds": 18.538005113601685,
+                "windows": 165
               }
             ],
             "last_event": "attempt_end",
-            "last_event_utc": "2026-10-16T11:41:36.140888+00:00",
+            "last_event_utc": "2026-10-16T16:33:08.576316+00:00",
             "this_job_attempt_starts": []
           }
         },
@@ -1582,21 +1633,21 @@
     },
     "resource_estimate": {
       "status": "conditional_training_scenarios_available_evaluation_pending",
-      "evidence": "results/formal_main_v2/resources/segment1000_3005253_20261016T062232Z/evidence.json",
+      "evidence": "results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/evidence.json",
       "test_review": "results/formal_main_v2/preflight/resource_terminal_clock_cpu_review.json",
       "training_projection_generated": true,
       "evaluation_cost_unmeasured": true,
-      "estimate": "results/formal_main_v2/resources/segment1000_3005253_20261016T062232Z/estimate_mean_v2.json",
+      "estimate": "results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/estimate_mean_v3.json",
       "observed_mean_planning_point": {
-        "shared_cache_whole72_gpu_hours": 376.42909037353456,
-        "shared_cache_plus15percent_gpu_hours": 432.89345392956477,
-        "independent_whole72_gpu_hours": 548.9590521889451,
-        "independent_plus15percent_gpu_hours": 631.3029100172869,
+        "shared_cache_whole72_gpu_hours": 373.9598267863963,
+        "shared_cache_plus15percent_gpu_hours": 430.0538008043557,
+        "independent_whole72_gpu_hours": 540.7685779997468,
+        "independent_plus15percent_gpu_hours": 621.8838646997087,
         "not_remaining_time": true,
         "unmeasured_suites_and_budgets_use_Long128_proxy": true,
         "rollout_and_profiling_costs_included": false
       },
-      "previous_estimate": "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/estimate_mean_v2.json",
+      "previous_estimate": "results/formal_main_v2/resources/segment1000_3005253_20261016T062232Z/estimate_mean_v2.json",
       "new_boundary_analysis": {
         "status": "passed_CPU_repair_and_root_independent_actual_replay",
         "evidence": "results/formal_main_v2/resources/segment1000_3005253_20261016T062232Z/evidence.json",
@@ -1607,20 +1658,46 @@
       },
       "estimate_history": [
         "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/estimate.json",
-        "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/estimate_mean_v2.json"
+        "results/formal_main_v2/resources/segment500_3005060_20261015T195448Z/estimate_mean_v2.json",
+        "results/formal_main_v2/resources/segment1000_3005253_20261016T062232Z/estimate_mean_v2.json"
       ],
-      "latest_boundary_evidence": "results/formal_main_v2/resources/segment2500_3009076_20261016T152317Z/evidence.json",
-      "latest_boundary_projection": "Not rerun; retain1000 planning estimate until first pair5000 or new cache/suite evidence."
+      "latest_boundary_evidence": "results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/evidence.json",
+      "latest_boundary_projection": "Recalculated from actual3000 terminal evidence after first cache evictions; all72 from-scratch conditional planning, not remaining time or actual cost; full5000 and unmeasured suites/budgets pending.",
+      "first_observed_cache_evictions": {
+        "job_id": "3011093",
+        "first_arm": "A",
+        "first_update": 2554,
+        "evictions": 3571,
+        "configured_capacity_GiB": 128,
+        "generated_window_records": 24165,
+        "unique_training_windows": 24000,
+        "validation_windows": 165,
+        "duplicate_window_generations": 0,
+        "root_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093.json",
+        "independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093_independent.json"
+      },
+      "boundary3000_analysis": {
+        "status": "passed_raw_log_recount_and_root40_input_SHA_checks",
+        "estimate": "results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/estimate_mean_v3.json",
+        "estimate_sha256": "3e9f96570e43536147f7449284853bb23638e87c4ea37eaee5b25959ded63702",
+        "independent_review": "results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/resource_independent_review.json",
+        "independent_review_sha256": "4dff682cf80cfdb91a6fad5347a334fd67e07f2936e252b247389842f0d28e48",
+        "new_GPU_jobs_for_accounting": 0,
+        "observed_evictions": 3571,
+        "actual_cost_at_terminal_snapshot_gpu_seconds": 24892,
+        "includes_new_running_job3012151": false,
+        "training_settings_changed": false
+      }
     },
     "segment_continuation_review": {
       "required": true,
       "script": "scripts/review_formal_segment.py",
       "cpu_review": "results/formal_main_v2/preflight/segment_cpu_review.json",
-      "status": "passed_through_common2500_boundary",
+      "status": "passed_through_common3000_boundary",
       "no_fresh_restart_for_missing_started_arm": true,
-      "latest_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3009076.json",
-      "latest_reviewed_job_id": "3009076",
-      "independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3009076_independent.json"
+      "latest_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093.json",
+      "latest_reviewed_job_id": "3011093",
+      "independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093_independent.json"
     },
     "figure_pipeline": {
       "script": "scripts/render_formal_results.py",
@@ -1701,6 +1778,21 @@
         "allocated_gpu_seconds": 3908,
         "not_completed_formal_training": true,
         "independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3009076_independent.json"
+      },
+      {
+        "job_id": "3011093",
+        "suite": "libero_10",
+        "visual_tokens": 128,
+        "seed": 17,
+        "updates_by_arm": {
+          "A": 3000,
+          "B": 3000
+        },
+        "status": "passed_root_local_and_server_SHA_review",
+        "root_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093.json",
+        "allocated_gpu_seconds": 3900,
+        "not_completed_formal_training": true,
+        "independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093_independent.json"
       }
     ],
     "downstream_entrypoint_audit": {
@@ -1807,12 +1899,12 @@
     "files_verified": 173
   },
   "next_actions": [
-    "Observe only registered job3011093; confirm actual2500/cursor20000 resumes without duplicate submission.",
-    "After job3011093 terminates, pull all six pair jobs and verify common3000, all validation nodes and both server resume SHAs before registered3500 continuation.",
+    "Observe registered3012151 targeting3500; actual A3000/cursor24000 resume confirmed, B pending. No duplicate submission.",
+    "After terminal, pull all seven pair jobs and verify common3500/all validation/both server resume SHAs before4000.",
     "Complete Long128seed17 to5000 with all11 validation nodes before remaining registered matrix.",
     "Calibrate conditional resource planning with the complete first Long128 pair and later actual suite/budget throughput. All raw costs and prior estimates retained; no GPU reruns for accounting.",
     "Use audited E04 downstream planning/submission only after training prerequisites; record terminal pulls and root reviews.",
     "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and global root release."
   ],
-  "updated_utc": "2026-10-16T15:29:18.823158+00:00"
+  "updated_utc": "2026-10-16T17:56:52.160898+00:00"
 }

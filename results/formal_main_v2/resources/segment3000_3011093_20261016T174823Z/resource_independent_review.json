@@ -1,0 +1,146 @@
+{
+  "actual_unique_allocation": {
+    "acceptance_gpu_seconds": 1123,
+    "failed_gpu_seconds_already_in_total": 543,
+    "gpu_hours": 6.914444444444444,
+    "gpu_seconds": 24892,
+    "missing_registered_jobs": [],
+    "provisional_gpu_seconds": 0,
+    "registered_jobs": 11,
+    "training_gpu_seconds": 23769
+  },
+  "command": "python -B scripts/estimate_formal_resources.py --registration configs/experiments/formal_main_v2.json --evidence results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/evidence.json --project-root F:/CTI-VLA --output results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/estimate_mean_v3.json",
+  "conditional_72arm_fresh_training_planning": {
+    "independent_cache_per_arm": {
+      "from_scratch_gpu_hours": 540.7685779997468,
+      "retained_pressure_envelope_gpu_hours": [
+        354.3484221657142,
+        14821.491512654466
+      ],
+      "with_optional_15percent_reserve_gpu_hours": 621.8838646997087
+    },
+    "shared_cache_serial": {
+      "from_scratch_gpu_hours": 373.9598267863963,
+      "retained_pressure_envelope_gpu_hours": [
+        241.13484823203964,
+        7439.7056646171795
+      ],
+      "with_optional_15percent_reserve_gpu_hours": 430.0538008043557
+    }
+  },
+  "created_utc": "2026-10-16T17:53:55.813912+00:00",
+  "estimate": {
+    "path": "results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/estimate_mean_v3.json",
+    "sha256": "3e9f96570e43536147f7449284853bb23638e87c4ea37eaee5b25959ded63702"
+  },
+  "estimator_exit_code": 0,
+  "evidence": {
+    "path": "results/formal_main_v2/resources/segment3000_3011093_20261016T174823Z/evidence.json",
+    "sha256": "757d23906d7aeeff8c7dfe33485e44e19e373aa9119c432a20b840ba95db952a"
+  },
+  "historical_estimates_overwritten": false,
+  "independent_raw_log_recount": {
+    "A_triggered_future_diagnostics_seconds": 18.635073350276798,
+    "A_triggered_future_generation_seconds": 2452.1212889221497,
+    "black_disk_hits": 6,
+    "black_preparation": {
+      "already_in_actual_slurm_bill": true,
+      "job_id": "3005020",
+      "not_training_throughput": true,
+      "seconds": 2.961726825684309
+    },
+    "cache_events": {
+      "cache_eviction": 3571,
+      "cache_hit": 26151,
+      "cache_miss": 24165,
+      "cache_publish": 24165,
+      "feature_generate_end": 24165,
+      "feature_generate_start": 24165,
+      "shard_index_verified": 192
+    },
+    "cache_hit_seconds_including_black": 1248.699559153989,
+    "cache_operation_seconds_diagnostic_only": 9840.928196402267,
+    "cache_publication_max_seconds_retained": 11.400154927745461,
+    "cache_publish_seconds_including_generation": 8592.228637248278,
+    "evicted_bytes": 23822948596,
+    "first_eviction": {
+      "arm": "A",
+      "job_id": "3011093",
+      "line": 1753,
+      "path": "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3011093_6c10fb8b76d0.jsonl",
+      "phase": "training",
+      "sha256": "7448209774a7fcf6b13f8632e8ee6574c4e02cfe8e081200007c42eb8d33f150",
+      "update": 2554
+    },
+    "latest_job_cache_events": {
+      "cache_eviction": 3571,
+      "cache_hit": 4331,
+      "cache_miss": 4000,
+      "cache_publish": 4000,
+      "feature_generate_end": 4000,
+      "feature_generate_start": 4000,
+      "shard_index_verified": 32
+    },
+    "no_nested_phase_cost_added_to_bill": true,
+    "per_arm": {
+      "A": {
+        "committed_samples": 24000,
+        "completed_attempts": 6,
+        "cursor": 24000,
+        "update_mean_seconds_including_cache": 4.767614452997067,
+        "updates": 3000,
+        "validation_updates": [
+          0,
+          500,
+          1000,
+          1500,
+          2000,
+          2500,
+          3000
+        ],
+        "windows_per_validation": 165
+      },
+      "B": {
+        "committed_samples": 24000,
+        "completed_attempts": 6,
+        "cursor": 24000,
+        "update_mean_seconds_including_cache": 2.353563118304126,
+        "updates": 3000,
+        "validation_updates": [
+          0,
+          500,
+          1000,
+          1500,
+          2000,
+          2500,
+          3000
+        ],
+        "windows_per_validation": 165
+      }
+    },
+    "shared_initialization_and_order": true
+  },
+  "kind": "resource_independent_review",
+  "limitations": [
+    "Planning covers all 72 arms from scratch at 5000 updates; it is not remaining time and is not added to the actual bill.",
+    "Other suites and budgets use unvalidated Long128 mean timing proxies with multiplier 1.0; unseen record sizes use the registered measured-mean proxy.",
+    "Every measured spike is retained; the optional 15% reserve and pressure extrema are engineering scenarios, not confidence intervals.",
+    "Registered serial and independent cache schedules are engineering resource assumptions; later actual scheduling is not claimed preregistered.",
+    "Rollout, collection, full/component profiling and the complete main-experiment resource total remain pending.",
+    "The shared provider creates future targets on A-triggered misses; these nested costs remain present and are not globally removable savings.",
+    "Disk-cache publication/hit seconds are diagnostic intervals, not an additional GPU allocation bill; eviction is not assigned an invented separate unit cost."
+  ],
+  "new_jobs_submitted": false,
+  "observed_mean_assumptions_sha256": "5ea4e467555a7ae00c3af6b153433fbd9191ed27316026341788a3f27421e804",
+  "regression_tests_run": false,
+  "schema": "formal_main_v2",
+  "sha_bound_input_files_rechecked": 42,
+  "source_files_modified": false,
+  "source_script": {
+    "path": "scripts/estimate_formal_resources.py",
+    "sha256": "82fe512321617ccab7495182ae6d8b736b5f28ff5d024551dae770217c49b28b"
+  },
+  "ssh_or_gpu_calls": false,
+  "status": "passed_conditional_planning_with_measurement_limits",
+  "weights_or_sealed_values_read": false
+}

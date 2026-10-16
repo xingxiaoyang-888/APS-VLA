@@ -1,0 +1,361 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "independent_segment_review",
+  "status": "passed_local_evidence",
+  "job_id": "3011093",
+  "suite": "libero_10",
+  "visual_tokens": 128,
+  "seed": 17,
+  "reviewed_utc": "2026-10-16T17:49:35.334475+00:00",
+  "reviewer": "deploy64",
+  "allowed_next_segment_end": 3500,
+  "root_review": {
+    "path": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093.json",
+    "sha256": "a0262e37e2c5fe90cd2848463ae1a134fe244fad1bf0ab9a1d2dcb2c22b87fae",
+    "status": "passed"
+  },
+  "pull_receipt": {
+    "path": "results/formal_main_v2/pulls/20261016T174632Z_b63d5d7eae11/receipt.json",
+    "sha256": "217b7b52e4d5f836a269766ed4c332ce4402533043b29364e85421d62fe16eb3",
+    "verified_file_count": 62
+  },
+  "source_inventory": {
+    "path": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "verified_files": 173,
+    "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
+  },
+  "completed_updates_per_arm": 3000,
+  "next_sample_cursor_per_arm": 24000,
+  "unique_committed_windows_per_arm": 24000,
+  "planned_updates": 5000,
+  "train_pool_windows": 68819,
+  "effective_epochs": 0.34874090004213953,
+  "same_initialization_sha256": "96f168f4e756e775fa6e60f71ae137d65f93466ef0a9794eb8cd329e5b3d8b17",
+  "same_full40000_order_sha256": "7983e846115ded55e99826b1a23c0af3848f194fbcd8598a499d4a544a89682b",
+  "same_actual_first24000_order": true,
+  "actual_resume_start": {
+    "update": 2500,
+    "cursor": 20000
+  },
+  "training_source_files_verified": 63,
+  "vla_frozen_fingerprint": "9c8fac3f8dcb40c75182d0a4fc6e5329c09185e5ce9eaa3ba561bb3817c9eb77",
+  "vla_frozen_evidence_consistent": true,
+  "alpha_schedule_5000_all_logged_updates_verified": true,
+  "fixed_A_B_objective_all_logged_updates_verified": true,
+  "failed_attempts": 0,
+  "replayed_or_uncommitted_samples": 0,
+  "incomplete_jsonl_tails": 0,
+  "attempts": {
+    "A": [
+      {
+        "job_id": "3005060",
+        "resumed": false,
+        "start_update": 0,
+        "start_cursor": 0,
+        "end_update": 500,
+        "samples": 4000,
+        "seconds": 2368.2071889070794,
+        "journal_sha256": "f8844f5ff502f14f1f2adcea636a279fb098044df2f02e4433fe5019549da664"
+      },
+      {
+        "job_id": "3005253",
+        "resumed": true,
+        "start_update": 500,
+        "start_cursor": 4000,
+        "end_update": 1000,
+        "samples": 4000,
+        "seconds": 2656.847750076093,
+        "journal_sha256": "e5cd82903216994b97f3d4fd04ca58b3de68417dad323cd928a832429d4feaad"
+      },
+      {
+        "job_id": "3007549",
+        "resumed": true,
+        "start_update": 1000,
+        "start_cursor": 8000,
+        "end_update": 1500,
+        "samples": 4000,
+        "seconds": 2426.8506608605385,
+        "journal_sha256": "519b42a0150d9376c784e70450bb80ed6d82f037a88ac297c0ef9349726871aa"
+      },
+      {
+        "job_id": "3008000",
+        "resumed": true,
+        "start_update": 1500,
+        "start_cursor": 12000,
+        "end_update": 2000,
+        "samples": 4000,
+        "seconds": 2395.62981200777,
+        "journal_sha256": "3146cd86914ebb26c314dc88e6d0d195bf0bd84a2790bf1e0cadec498d25e1aa"
+      },
+      {
+        "job_id": "3009076",
+        "resumed": true,
+        "start_update": 2000,
+        "start_cursor": 16000,
+        "end_update": 2500,
+        "samples": 4000,
+        "seconds": 2388.228319035843,
+        "journal_sha256": "1d9b56b75e2d2ffab845914efb126a88301b4eebc4373575fa90b55302f48355"
+      },
+      {
+        "job_id": "3011093",
+        "resumed": true,
+        "start_update": 2500,
+        "start_cursor": 20000,
+        "end_update": 3000,
+        "samples": 4000,
+        "seconds": 2375.8918837718666,
+        "journal_sha256": "fd1a810e98ef186fa08566dc32c8e5e7498e2ec060e8e2dc0a0b47127bbf15d3"
+      }
+    ],
+    "B": [
+      {
+        "job_id": "3005060",
+        "resumed": false,
+        "start_update": 0,
+        "start_cursor": 0,
+        "end_update": 500,
+        "samples": 4000,
+        "seconds": 1202.5906228180975,
+        "journal_sha256": "c719d02a3e126206987cd34d4a984d32ef988a7664031937ef0ad57f7fa2fa45"
+      },
+      {
+        "job_id": "3005253",
+        "resumed": true,
+        "start_update": 500,
+        "start_cursor": 4000,
+        "end_update": 1000,
+        "samples": 4000,
+        "seconds": 1218.964785268996,
+        "journal_sha256": "2b74f99f7d4260d3b9fac3a0baa10e806c327d931034e581eedd15ca167df021"
+      },
+      {
+        "job_id": "3007549",
+        "resumed": true,
+        "start_update": 1000,
+        "start_cursor": 8000,
+        "end_update": 1500,
+        "samples": 4000,
+        "seconds": 1229.1221704874188,
+        "journal_sha256": "cb35a27549bc01b4c34135be248bd7b45c79d1b660fd45e4f10aa32a4ae267f7"
+      },
+      {
+        "job_id": "3008000",
+        "resumed": true,
+        "start_update": 1500,
+        "start_cursor": 12000,
+        "end_update": 2000,
+        "samples": 4000,
+        "seconds": 1229.888948360458,
+        "journal_sha256": "8c49179685ea38b4b225d452e75b03a9bfa43795ff75799d4d744e44c1351011"
+      },
+      {
+        "job_id": "3009076",
+        "resumed": true,
+        "start_update": 2000,
+        "start_cursor": 16000,
+        "end_update": 2500,
+        "samples": 4000,
+        "seconds": 1222.0040520727634,
+        "journal_sha256": "075733b52f9d79d79b6d7aeb20d6ea41a2fc7e2d23ed610b4d8ce4ab1c688db8"
+      },
+      {
+        "job_id": "3011093",
+        "resumed": true,
+        "start_update": 2500,
+        "start_cursor": 20000,
+        "end_update": 3000,
+        "samples": 4000,
+        "seconds": 1213.8087754920125,
+        "journal_sha256": "244f5011f5a034bd189c6d8cb63c268829c356190eeb476d407891a2fa2744ec"
+      }
+    ]
+  },
+  "metrics": {
+    "A": {
+      "validations": [
+        {
+          "update": 0,
+          "teacher_l1": 0.08567824792456888,
+          "demonstration_l1": 0.08605397317159388,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "acad9c42dd4960d3975220cbb96b6291e1bfae39e501e9cd49b23e5acb011f04"
+        },
+        {
+          "update": 500,
+          "teacher_l1": 0.02241147929625142,
+          "demonstration_l1": 0.023925149678917866,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "2e36a603af0579402fa62d4c8600a8dc1f89b7baa6f1c553f9fd106b30c8bc7a"
+        },
+        {
+          "update": 1000,
+          "teacher_l1": 0.021888893980252008,
+          "demonstration_l1": 0.023369329406451138,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "34a82bd4fd6d0c3db908252c3617f5a6764f63fd715c624d3eb8a3a64d9e9173"
+        },
+        {
+          "update": 1500,
+          "teacher_l1": 0.020426836726255716,
+          "demonstration_l1": 0.022036546072996564,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "83f5062aa9b168a0bd578ff2a62e534c345a5de0eb32fa6adb3e65d1b8eef18a"
+        },
+        {
+          "update": 2000,
+          "teacher_l1": 0.019977854423978852,
+          "demonstration_l1": 0.021480776725617788,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "07f8f410fdf0c6c9c738c1fc425dd89d237d689d35e7e2359e9c89a4534bb8f3"
+        },
+        {
+          "update": 2500,
+          "teacher_l1": 0.021688717974512474,
+          "demonstration_l1": 0.023206895954966066,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "11c25a6e8b27dd55a59bd7b079664b1194e051868c0a4e3b015096105f1705c2"
+        },
+        {
+          "update": 3000,
+          "teacher_l1": 0.02030953544413759,
+          "demonstration_l1": 0.021863459401601365,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "1bf0053d49c2d5764b19efc3e115b52f52de5b5fab21a53780788d61079df062"
+        }
+      ],
+      "provisional_best_update": 2000,
+      "provisional_best_teacher_l1": 0.019977854423978852
+    },
+    "B": {
+      "validations": [
+        {
+          "update": 0,
+          "teacher_l1": 0.08567824792456888,
+          "demonstration_l1": 0.08605397317159388,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "f4090b371fbb16f2beaded352285534e74fddb4c2c724d5e114dabd0b7a3f712"
+        },
+        {
+          "update": 500,
+          "teacher_l1": 0.022455613614089553,
+          "demonstration_l1": 0.023934820025553187,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "b4f4153bd10b95ba364088e96cf0e85837fc3fd7f37d7d474e8fe03ff84fad87"
+        },
+        {
+          "update": 1000,
+          "teacher_l1": 0.02197709398669383,
+          "demonstration_l1": 0.023440851532883705,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "f8c2d1e42bd618ce92c82210e77dceaa4103daa871980f9d877c7895d755b057"
+        },
+        {
+          "update": 1500,
+          "teacher_l1": 0.021435302645633262,
+          "demonstration_l1": 0.022965476934591098,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "4a6ecbc071aff26e8b4303f63a0cb996734aae869ea06094966794367edf7c6f"
+        },
+        {
+          "update": 2000,
+          "teacher_l1": 0.02080783884129709,
+          "demonstration_l1": 0.02228483706712723,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "e8cdf846dd6a36c30a5ada18b687b81fcdf22674c544d428a6e9084b269a09d7"
+        },
+        {
+          "update": 2500,
+          "teacher_l1": 0.02110205161540458,
+          "demonstration_l1": 0.022541197342798115,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "8309c671973c6e61fd1b9694e66f51487033383783514ea0bd133f6258357f18"
+        },
+        {
+          "update": 3000,
+          "teacher_l1": 0.02159124832666879,
+          "demonstration_l1": 0.023120662780360336,
+          "windows": 165,
+          "tasks": 10,
+          "artifact_sha256": "3155f3c4c83d34d462f9747a1cc7464ff2ff0dbec302f786d81251155390ae92"
+        }
+      ],
+      "provisional_best_update": 2000,
+      "provisional_best_teacher_l1": 0.02080783884129709
+    }
+  },
+  "selection_note": "Task-macro hard teacherL1 with earliest-update tie break; both provisional minima remain update2000. Final selection waits for all5000updates and11validations; no configuration change.",
+  "cost": {
+    "basis": "One count per Slurm GPU allocation; nested cache/compute timers are not added.",
+    "new_job_gpu_seconds": 3900,
+    "training_by_job_gpu_seconds": {
+      "3005060": 3876,
+      "3005253": 4177,
+      "3007549": 3967,
+      "3008000": 3941,
+      "3009076": 3908,
+      "3011093": 3900
+    },
+    "training_gpu_seconds": 23769,
+    "acceptance_gpu_seconds_including_failed_attempt": 1123,
+    "total_registered_gpu_seconds_including_acceptance": 24892,
+    "total_registered_gpu_hours_including_acceptance": 6.914444444444444
+  },
+  "server_resume_verification": {
+    "performed_by_this_auditor": false,
+    "performed_by": "root",
+    "evidence": "SHA-bound root review server_resume_checks only",
+    "reported_checks": [
+      {
+        "arm": "A",
+        "bytes": 32073574,
+        "exists": true,
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed17/A/resume.pt",
+        "sha256": "e09a1b0b43b7677edcf0ae21eb10957e3df1f2b74a5b4f4c9c6b1de971dad601"
+      },
+      {
+        "arm": "B",
+        "bytes": 36454020,
+        "exists": true,
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed17/B/resume.pt",
+        "sha256": "878e1f497e019319a77da6e5ae280fe47fab04ca08787f78d33024451fd74fdc"
+      }
+    ]
+  },
+  "limits": [
+    "Local nonweight evidence only; no SSH/checkpoint deserialization.",
+    "Server resume SHA is root-verified, not independently remotely verified by this auditor.",
+    "VLA identity is checked from immutable runner evidence and frozen source; actual weights were not loaded.",
+    "Validation errors do not establish closed-loop/final performance."
+  ],
+  "weights_read": false,
+  "sealed_states_read": false,
+  "gpu_jobs_submitted": 0,
+  "critical_evidence_sha256": {
+    "results/formal_main_v2/pulls/20261016T174632Z_b63d5d7eae11/receipt.json": "217b7b52e4d5f836a269766ed4c332ce4402533043b29364e85421d62fe16eb3",
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093.json": "a0262e37e2c5fe90cd2848463ae1a134fe244fad1bf0ab9a1d2dcb2c22b87fae",
+    "results/formal_main_v2/libero_10/k128/seed17/training/registered_config.json": "24c9c6c32a13eeee6f4740cac1b9e356312de2d9ab19baffd19a6c13755ba661",
+    "configs/manifests/formal_main_v2/libero_10/windows.json": "9a6ba246ca534ba2af9cc34e4a19f90e430fe154f0235adcd09cedfe6d33760a",
+    "configs/manifests/formal_main_v2/libero_10/protocol.json": "fc54f424b139f09bdd394cb6ac551e9212fb46b23b53c9c040392735cea4b62a",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/progress_report.json": "9862ff9071608b3d60cc5d0d4f7db50297c2a32db55725562d13dbab76be4ef8",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/progress_report.json": "87bda2c74b59cab26cea6305b57fbb615934f84cfd8c63364e0582aca6b43a39",
+    "results/formal_main_v2/libero_10/k128/seed17/training/training_progress.json": "2b82b68ee0b94df922e1b11e9307827181b8c593ec30797745ab218950078aea",
+    "scripts/review_formal_segment.py": "a69f9f3dc959278430a9318c9ab8567c8f5ce6d41dc8a839a8e37974c450c92d"
+  },
+  "all_read_files_unchanged_count": 244
+}
