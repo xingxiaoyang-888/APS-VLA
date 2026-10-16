@@ -1,6 +1,6 @@
 {
-  "utc": "2026-10-16T11:32:10.252432+00:00",
-  "raw": "3004787|COMPLETED|0:0|535|billing=4,cpu=4,mem=32G,node=1|cpui135\n3004854|COMPLETED|0:0|269|billing=4,cpu=4,mem=32G,node=1|cpui135\n3004907|COMPLETED|0:0|300|billing=4,cpu=4,mem=32G,node=1|cpui146\n3004911|FAILED|1:0|543|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4016\n3005020|COMPLETED|0:0|580|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4016\n3005060|COMPLETED|0:0|3876|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4025\n3005253|COMPLETED|0:0|4177|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4001\n3007549|COMPLETED|0:0|3967|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4018\n3008000|COMPLETED|0:0|3941|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4010\n3009076|RUNNING|0:0|3317|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4010\n",
+  "utc": "2026-10-16T15:28:41.446367+00:00",
+  "raw": "3004787|COMPLETED|0:0|535|billing=4,cpu=4,mem=32G,node=1|cpui135\n3004854|COMPLETED|0:0|269|billing=4,cpu=4,mem=32G,node=1|cpui135\n3004907|COMPLETED|0:0|300|billing=4,cpu=4,mem=32G,node=1|cpui146\n3004911|FAILED|1:0|543|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4016\n3005020|COMPLETED|0:0|580|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4016\n3005060|COMPLETED|0:0|3876|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4025\n3005253|COMPLETED|0:0|4177|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4001\n3007549|COMPLETED|0:0|3967|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4018\n3008000|COMPLETED|0:0|3941|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4010\n3009076|COMPLETED|0:0|3908|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4010\n3011093|RUNNING|0:0|8|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4010\n",
   "jobs": [
     {
       "job_id": "3004787",
@@ -211,7 +211,7 @@
       "visual_tokens": 128,
       "training_seed": 17,
       "segment_end": 2500,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "gpus": 1,
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
       "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
@@ -221,12 +221,36 @@
       "submitted_utc": "2026-10-16T10:36:50.697770+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 3317,
+      "elapsed_seconds": 3908,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4010"
+    },
+    {
+      "job_id": "3011093",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k128_seed17",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "training_seed": 17,
+      "segment_end": 3000,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed17_attempt06.json",
+      "invocation_sha256": "abdcfc6199016cc1311fb966b49d26d0f912eda6c6067b3c6bf298ccf940e0d9",
+      "submitted_utc": "2026-10-16T15:28:31.116124+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 8,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     }
   ],
-  "allocated_gpu_seconds": 20401,
-  "allocated_gpu_hours": 5.666944444444445,
+  "allocated_gpu_seconds": 21000,
+  "allocated_gpu_hours": 5.833333333333333,
   "includes_running_elapsed": true
 }
