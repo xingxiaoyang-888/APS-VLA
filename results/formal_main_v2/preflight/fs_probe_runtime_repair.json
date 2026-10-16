@@ -1,0 +1,16 @@
+{
+  "schema": "formal_main_v2",
+  "status": "reviewed",
+  "failed_job_ids": [
+    "3012313"
+  ],
+  "failed_GPU_seconds": 0,
+  "failed_CPU_job_wall_seconds": 1,
+  "cause": "intel system python3 predates future annotations; failure before protocol or shared cache access",
+  "bounded_fix": "Use existing project venv Python3.11.7; original wrapper/source retained, only executable path differs",
+  "old_wrapper_sha256": "a0958481a45350b749387faca6d41c65597e9c76dccf161e1d8c0ead7ec5650c",
+  "new_wrapper_sha256": "dafc3fe385f4761982b97a1a45fbff10da04d671c909d44ac37f8ac176d6d2df",
+  "probe_sha256": "ab79d18a5b35d2bdec68bb7f07bdf77b97c052b20678c8f4e5bf49bf10ba2a75",
+  "pull_receipt": "results/formal_main_v2/pulls/20261016T183632Z_6a84ceef89e8/receipt.json",
+  "reviewed_utc": "2026-10-16T18:37:19.581783+00:00"
+}

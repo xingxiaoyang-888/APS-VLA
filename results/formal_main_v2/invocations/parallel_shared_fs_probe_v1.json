@@ -1,0 +1,23 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "cpu_shared_fs_probe",
+  "stage_key": "parallel_shared_fs_probe_v1",
+  "registered_utc": "2026-10-16T18:35:35.820109+00:00",
+  "registration": "configs/experiments/formal_main_v2_parallel_execution_v1.json",
+  "registration_sha256": "e1378e74d1ad89af2d38d2f8eb8ce33695a346331c2e89db6313a5608faf4907",
+  "files": {
+    "scripts/ops/formal_shared_fs_probe.py": "ab79d18a5b35d2bdec68bb7f07bdf77b97c052b20678c8f4e5bf49bf10ba2a75",
+    "scripts/server/formal_shared_fs_probe.slurm": "a0958481a45350b749387faca6d41c65597e9c76dccf161e1d8c0ead7ec5650c"
+  },
+  "nodes": 2,
+  "ranks": 2,
+  "cpus_per_rank": 1,
+  "memory_GiB_per_node": 1,
+  "gpus": 0,
+  "time_limit_seconds": 180,
+  "protocol_timeout_seconds": 120,
+  "fresh_probe_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/.local/fs_parallel_probe/SLURM_JOB_ID",
+  "result_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/preflight/fs_parallel_probe/SLURM_JOB_ID",
+  "existing_training_cache_opened": false,
+  "final_initial_states_opened": false
+}

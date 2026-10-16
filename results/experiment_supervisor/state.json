@@ -742,9 +742,291 @@
       "submitted_utc": "2026-10-16T17:51:05.704873+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 295,
+      "elapsed_seconds": 3253,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
+    },
+    {
+      "job_id": "3012294",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "acceptance",
+      "stage_key": "libero_spatial_acceptance",
+      "suite": "libero_spatial",
+      "visual_tokens": null,
+      "training_seed": null,
+      "segment_end": null,
+      "status": "COMPLETED",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/acceptance/attempt01",
+      "invocation": "results/formal_main_v2/invocations/libero_spatial_acceptance_attempt01.json",
+      "invocation_sha256": "fa9400edaac55127cc659f9e2210df14a18e81ffd26d8fb8ce26eba529fdab4d",
+      "submitted_utc": "2026-10-16T18:28:00.319944+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 539,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4010"
+    },
+    {
+      "job_id": "3012295",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "acceptance",
+      "stage_key": "libero_object_acceptance",
+      "suite": "libero_object",
+      "visual_tokens": null,
+      "training_seed": null,
+      "segment_end": null,
+      "status": "FAILED",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/acceptance/attempt01",
+      "invocation": "results/formal_main_v2/invocations/libero_object_acceptance_attempt01.json",
+      "invocation_sha256": "9e967f085e6a9fa87ff30b931de60c4781b2ed7cedf4f969d669a01c6155bff6",
+      "submitted_utc": "2026-10-16T18:28:03.862052+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "1:0",
+      "elapsed_seconds": 19,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4026"
+    },
+    {
+      "job_id": "3012296",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "acceptance",
+      "stage_key": "libero_goal_acceptance",
+      "suite": "libero_goal",
+      "visual_tokens": null,
+      "training_seed": null,
+      "segment_end": null,
+      "status": "FAILED",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/acceptance/attempt01",
+      "invocation": "results/formal_main_v2/invocations/libero_goal_acceptance_attempt01.json",
+      "invocation_sha256": "8b9fc7f286c298f942ca4ae95594b9e92f803dd35c08e683d09a8c104923fb03",
+      "submitted_utc": "2026-10-16T18:28:07.620667+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "1:0",
+      "elapsed_seconds": 15,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4041"
+    },
+    {
+      "job_id": "3012313",
+      "name": "cti-fs-probe",
+      "experiment": "formal_main_v2",
+      "mode": "cpu_shared_fs_probe",
+      "stage_key": "parallel_shared_fs_probe_v1",
+      "status": "FAILED",
+      "gpus": 0,
+      "nodes_requested": 2,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+      "source_sha256": "ab79d18a5b35d2bdec68bb7f07bdf77b97c052b20678c8f4e5bf49bf10ba2a75",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/preflight/fs_parallel_probe/3012313",
+      "invocation": "results/formal_main_v2/invocations/parallel_shared_fs_probe_v1.json",
+      "invocation_sha256": "f192e8d08aee8641694d7bef3eeebdb326b90b25b6de9c42b2eea7a3fe026ce1",
+      "submitted_utc": "2026-10-16T18:35:35.820109+00:00",
+      "purpose": "User-authorized parallel execution prerequisite; synthetic cross-node locks only; zero GPU/data/model/test access",
+      "exit_code": "1:0",
+      "elapsed_seconds": 1,
+      "allocation": "billing=2,cpu=2,mem=2G,node=2",
+      "node": "cpui[144,146]"
+    },
+    {
+      "job_id": "3012316",
+      "name": "cti-fs-probe",
+      "experiment": "formal_main_v2",
+      "mode": "cpu_shared_fs_probe",
+      "stage_key": "parallel_shared_fs_probe_v2",
+      "status": "COMPLETED",
+      "gpus": 0,
+      "nodes_requested": 2,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+      "source_sha256": "ab79d18a5b35d2bdec68bb7f07bdf77b97c052b20678c8f4e5bf49bf10ba2a75",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/preflight/fs_parallel_probe/3012316",
+      "invocation": "results/formal_main_v2/invocations/parallel_shared_fs_probe_v2.json",
+      "invocation_sha256": "c6477785ba9ff095502d1104cc25fff69c6f234139e51449d4dd7e4c345bfbc2",
+      "submitted_utc": "2026-10-16T18:37:19.999977+00:00",
+      "purpose": "User-authorized parallel execution prerequisite; synthetic cross-node locks only; zero GPU/data/model/test access",
+      "exit_code": "0:0",
+      "elapsed_seconds": 4,
+      "allocation": "billing=2,cpu=2,mem=2G,node=2",
+      "node": "cpui[144,146]"
+    },
+    {
+      "job_id": "3012319",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k128_seed23",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "training_seed": 23,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed23/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed23_attempt01.json",
+      "invocation_sha256": "9cf77c87951024a1222d0e878d37f48702220ae571b878346ead3fd6424d5b0c",
+      "submitted_utc": "2026-10-16T18:40:37.205620+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 278,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4010"
+    },
+    {
+      "job_id": "3012321",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k128_seed41",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "training_seed": 41,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed41/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed41_attempt01.json",
+      "invocation_sha256": "f35c5a55e520506ad635483cc9e2579ff92d5791d8aba18ea11ff3839f21682b",
+      "submitted_utc": "2026-10-16T18:41:05.119465+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 253,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4026"
+    },
+    {
+      "job_id": "3012322",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k256_seed17",
+      "suite": "libero_10",
+      "visual_tokens": 256,
+      "training_seed": 17,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k256/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k256_seed17_attempt01.json",
+      "invocation_sha256": "d2bbbb9ff1537b61a601f2c72443620c88740c08ad847c96959b0bd49860e16e",
+      "submitted_utc": "2026-10-16T18:41:13.296065+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 244,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4041"
+    },
+    {
+      "job_id": "3012323",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k64_seed17",
+      "suite": "libero_10",
+      "visual_tokens": 64,
+      "training_seed": 17,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k64/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k64_seed17_attempt01.json",
+      "invocation_sha256": "f2f5df2cf17b57991941bb9bf15f86011ae0c00b7c876abf450b3acb37f93765",
+      "submitted_utc": "2026-10-16T18:41:21.660038+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 236,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4041"
+    },
+    {
+      "job_id": "3012324",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_spatial_train_k128_seed17",
+      "suite": "libero_spatial",
+      "visual_tokens": 128,
+      "training_seed": 17,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k128_seed17_attempt01.json",
+      "invocation_sha256": "ff81eb11aa39ae38fa8f7c6ff14b7ee6b46bf5273ecedc7bbada5c3885b43acf",
+      "submitted_utc": "2026-10-16T18:41:29.896295+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 228,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4041"
+    },
+    {
+      "job_id": "3012325",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_spatial_train_k128_seed23",
+      "suite": "libero_spatial",
+      "visual_tokens": 128,
+      "training_seed": 23,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training",
+      "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k128_seed23_attempt01.json",
+      "invocation_sha256": "1bf944994a732f6471696a43101cb4cfdd016f03079b1d1dda2d18d46af5803c",
+      "submitted_utc": "2026-10-16T18:41:38.024020+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 219,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4041"
+    },
+    {
+      "job_id": "3012326",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_spatial_train_k128_seed41",
+      "suite": "libero_spatial",
+      "visual_tokens": 128,
+      "training_seed": 41,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed41/training",
+      "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k128_seed41_attempt01.json",
+      "invocation_sha256": "8cd4570ca0199dd618811d7d78c33447bbcb0ebac68da7d14527629181859f06",
+      "submitted_utc": "2026-10-16T18:41:46.131346+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 212,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4041"
     }
   ],
   "agents": {
@@ -897,7 +1179,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "Long128seed17 common3000 passed root and independent audit: seven165-window validations, 24000 unique windows per arm, matched initialization/order, both terminal server resume SHAs verified. Latest validation teacherL1 A0.02030953544/B0.02159124833, provisional best2000 both; no closed-loop conclusion. Registered3012151 RUNNING at17:56UTC targeting3500: A3006 in memory/checkpoint3000; actual A resume3000/cursor24000 confirmed by own journal. B not yet started this job, prior boundary3000 retained; pending B resume confirmation. Current allocation25187 GPU seconds=6.996389h provisional, terminal24892. First3571 cache evictions at3000 boundary retained; no duplicate window generation or training replay. Resource reestimate shared373.96h/430.05h with15percent reserve is whole72 from-scratch Long128 proxy, not remaining time, excludes closed-loop/profiling. Formal0/72, development0, final0/35200; final sealed, source173 unchanged.",
+  "current_work": "Eight distinct registered training pairs are RUNNING on8L40 GPUs:5Long+3Spatial. Long seed17 continues3000->3500; other7pairs start at0->500. Spatial acceptance and cross-node cache locks passed. Object/Goal metadata-only schema repair is being prepared; no blind retry. All science/final-release gates unchanged.",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -918,7 +1200,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-16T17:56:03.072562+00:00",
+  "last_supervision_utc": "2026-10-16T18:45:20.332497+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -928,7 +1210,7 @@
     "new_jobs": []
   },
   "current_method": "configs/experiments/formal_main_v2.json",
-  "current_authorization": "User formal paper experiment2026-10-16;72 fresh5000-update arms and35200 final trials after global release",
+  "current_authorization": "Formal72-arm fixed-science matrix plus latest2026-10-17 explicit multi-GPU concurrency authorization;8 independent1-GPU jobs, no serial-suite or first-Long5000 global barrier.",
   "suspended_work": [
     "G1R anchor candidate diagnostics",
     "expanded token deletion labeling",
@@ -964,11 +1246,11 @@
     "latency_replication_calls": 440
   },
   "pending_submission": null,
-  "next_allowed_action": "Observe only registered3012151, confirm actual3000/cursor24000 resume. After terminal, SHA-pull all seven pair jobs and verify common3500/all validation/server resume SHAs; advance4000 only if both3500. Uneven arms must finish original3500, never fresh initialize; final states stay sealed.",
+  "next_allowed_action": "Review/pull each terminal pair independently and resume its next500 boundary, filling up to8 requested/running GPU jobs; never block on another pair. Count PENDING/SUBMITTED toward cap. Complete bounded Object/Goal metadata adapter review before retry acceptance when a slot is available.",
   "current_round_cost": {
-    "registered_jobs": 12,
-    "allocated_gpu_seconds": 25187,
-    "allocated_gpu_hours": 6.996388888888889,
+    "registered_jobs": 24,
+    "allocated_gpu_seconds": 30388,
+    "allocated_gpu_hours": 8.44111111111111,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1509,123 +1791,62 @@
       "actual_resume_confirmed": {
         "by_arm": {
           "A": {
-            "job_id": "3012151",
             "attempt_id": "20261016T175521_7afea2e7d508",
             "utc": "2026-10-16T17:55:21.297508+00:00",
             "resumed": true,
             "completed_update": 3000,
-            "next_sample_cursor": 24000
+            "next_sample_cursor": 24000,
+            "job_id": "3012151"
+          },
+          "B": {
+            "attempt_id": "20261016T183845_22b66c351090",
+            "utc": "2026-10-16T18:38:45.872832+00:00",
+            "resumed": true,
+            "completed_update": 3000,
+            "next_sample_cursor": 24000,
+            "job_id": "3012151"
           }
         },
-        "both_arms_confirmed": false,
-        "pending_arms": [
-          "B"
-        ],
-        "evidence": "results/formal_main_v2/live/3012151_20261016T175607Z.json"
+        "both_arms_confirmed": true,
+        "pending_arms": [],
+        "evidence": "results/formal_main_v2/live/parallel_20261016T184259Z.json"
       },
       "live_progress": {
-        "path": "results/formal_main_v2/live/3012151_20261016T175607Z.json",
-        "observed_utc": "2026-10-16T17:56:07.344479+00:00",
+        "path": "results/formal_main_v2/live/parallel_20261016T184259Z.json",
+        "observed_utc": "2026-10-16T18:42:59.127976+00:00",
         "provisional": true,
         "arms": {
           "A": {
-            "updates_completed_in_memory": 3006,
-            "last_update_seconds": 5.93697290122509,
-            "last_checkpoint_update": 3000,
-            "validation_nodes": [
-              {
-                "update": 0,
-                "seconds": 72.98348569404334,
-                "windows": 165
-              },
-              {
-                "update": 500,
-                "seconds": 18.026056924834847,
-                "windows": 165
-              },
-              {
-                "update": 1000,
-                "seconds": 19.41102740028873,
-                "windows": 165
-              },
-              {
-                "update": 1500,
-                "seconds": 20.314604051411152,
-                "windows": 165
-              },
-              {
-                "update": 2000,
-                "seconds": 18.870976639911532,
-                "windows": 165
-              },
-              {
-                "update": 2500,
-                "seconds": 19.325405836105347,
-                "windows": 165
-              },
-              {
-                "update": 3000,
-                "seconds": 19.58345092460513,
-                "windows": 165
-              }
-            ],
-            "last_event": "sample_start",
-            "last_event_utc": "2026-10-16T17:56:07.144610+00:00",
             "this_job_attempt_starts": [
               {
-                "job_id": "3012151",
                 "attempt_id": "20261016T175521_7afea2e7d508",
                 "utc": "2026-10-16T17:55:21.297508+00:00",
                 "resumed": true,
                 "completed_update": 3000,
                 "next_sample_cursor": 24000
               }
-            ]
+            ],
+            "this_job_updates_completed_in_memory": 3500,
+            "this_job_last_checkpoint_update": 3500,
+            "this_job_last_update_seconds": 5.039068438112736,
+            "last_event": "attempt_end",
+            "last_event_utc": "2026-10-16T18:38:26.458997+00:00"
           },
           "B": {
-            "updates_completed_in_memory": 3000,
-            "last_update_seconds": 2.3403625320643187,
-            "last_checkpoint_update": 3000,
-            "validation_nodes": [
+            "this_job_attempt_starts": [
               {
-                "update": 0,
-                "seconds": 12.385537411086261,
-                "windows": 165
-              },
-              {
-                "update": 500,
-                "seconds": 17.233782833442092,
-                "windows": 165
-              },
-              {
-                "update": 1000,
-                "seconds": 18.606487768236548,
-                "windows": 165
-              },
-              {
-                "update": 1500,
-                "seconds": 17.980936666950583,
-                "windows": 165
-              },
-              {
-                "update": 2000,
-                "seconds": 20.62012130022049,
-                "windows": 165
-              },
-              {
-                "update": 2500,
-                "seconds": 17.88083592429757,
-                "windows": 165
-              },
-              {
-                "update": 3000,
-                "seconds": 18.538005113601685,
-                "windows": 165
+                "attempt_id": "20261016T183845_22b66c351090",
+                "utc": "2026-10-16T18:38:45.872832+00:00",
+                "resumed": true,
+                "completed_update": 3000,
+                "next_sample_cursor": 24000
               }
             ],
-            "last_event": "attempt_end",
-            "last_event_utc": "2026-10-16T16:33:08.576316+00:00",
-            "this_job_attempt_starts": []
+            "this_job_updates_completed_in_memory": 3107,
+            "this_job_last_checkpoint_update": 3100,
+            "this_job_last_update_seconds": 2.3084845039993525,
+            "last_event": "sample_start",
+            "last_event_utc": "2026-10-16T18:42:59.662567+00:00"
           }
         },
         "not_a_completion_receipt": true
@@ -1687,7 +1908,8 @@
         "actual_cost_at_terminal_snapshot_gpu_seconds": 24892,
         "includes_new_running_job3012151": false,
         "training_settings_changed": false
-      }
+      },
+      "parallel_limitation": "Historical serial-cache proxy only; not a parallel wall-clock prediction. Re-estimate from natural concurrent job/caching evidence without extra experiments."
     },
     "segment_continuation_review": {
       "required": true,
@@ -1889,6 +2111,468 @@
       "fixed_cases_require_latest_complete_root_review_per_suite": true,
       "changes_scientific_protocol": false,
       "final_jobs_submitted": 0
+    },
+    "parallel_execution": {
+      "status": "concurrent_training_active",
+      "registration": "configs/experiments/formal_main_v2_parallel_execution_v1.json",
+      "registration_sha256": "e1378e74d1ad89af2d38d2f8eb8ce33695a346331c2e89db6313a5608faf4907",
+      "registered_utc": "2026-10-16T18:27:51.711628+00:00",
+      "max_concurrent_GPU_jobs": 8,
+      "GPU_per_job": 1,
+      "global_first_pair5000_barrier_removed_by_user": true,
+      "per_suite_acceptance_and_per_pair_resume_gates_retained": true,
+      "active_trainings": [
+        {
+          "job_id": "3012151",
+          "suite": "libero_10",
+          "visual_tokens": 128,
+          "training_seed": 17,
+          "segment_end": 3500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed17/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4010",
+          "elapsed_seconds": 3253,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261016T175521_7afea2e7d508",
+                  "utc": "2026-10-16T17:55:21.297508+00:00",
+                  "resumed": true,
+                  "completed_update": 3000,
+                  "next_sample_cursor": 24000
+                }
+              ],
+              "this_job_updates_completed_in_memory": 3500,
+              "this_job_last_checkpoint_update": 3500,
+              "this_job_last_update_seconds": 5.039068438112736,
+              "last_event": "attempt_end",
+              "last_event_utc": "2026-10-16T18:38:26.458997+00:00"
+            },
+            "B": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261016T183845_22b66c351090",
+                  "utc": "2026-10-16T18:38:45.872832+00:00",
+                  "resumed": true,
+                  "completed_update": 3000,
+                  "next_sample_cursor": 24000
+                }
+              ],
+              "this_job_updates_completed_in_memory": 3163,
+              "this_job_last_checkpoint_update": 3150,
+              "this_job_last_update_seconds": 2.5988881159573793,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-16T18:45:24.834514+00:00"
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        },
+        {
+          "job_id": "3012319",
+          "suite": "libero_10",
+          "visual_tokens": 128,
+          "training_seed": 23,
+          "segment_end": 500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed23/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4010",
+          "elapsed_seconds": 278,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261016T184435_e1a040df741d",
+                  "utc": "2026-10-16T18:44:35.532209+00:00",
+                  "resumed": false,
+                  "completed_update": 0,
+                  "next_sample_cursor": 0
+                }
+              ],
+              "this_job_updates_completed_in_memory": 2,
+              "this_job_last_checkpoint_update": 0,
+              "this_job_last_update_seconds": 4.051938608288765,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-16T18:45:24.985256+00:00"
+            },
+            "B": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        },
+        {
+          "job_id": "3012321",
+          "suite": "libero_10",
+          "visual_tokens": 128,
+          "training_seed": 41,
+          "segment_end": 500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed41/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4026",
+          "elapsed_seconds": 253,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261016T184547_dd20174834bb",
+                  "utc": "2026-10-16T18:45:47.499922+00:00",
+                  "resumed": false,
+                  "completed_update": 0,
+                  "next_sample_cursor": 0
+                }
+              ],
+              "this_job_updates_completed_in_memory": 1,
+              "this_job_last_checkpoint_update": 0,
+              "this_job_last_update_seconds": 11.314570967108011,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-16T18:46:36.111532+00:00"
+            },
+            "B": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        },
+        {
+          "job_id": "3012322",
+          "suite": "libero_10",
+          "visual_tokens": 256,
+          "training_seed": 17,
+          "segment_end": 500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k256/seed17/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4041",
+          "elapsed_seconds": 244,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261016T184359_e165d4612cb0",
+                  "utc": "2026-10-16T18:43:59.774071+00:00",
+                  "resumed": false,
+                  "completed_update": 0,
+                  "next_sample_cursor": 0
+                }
+              ],
+              "this_job_updates_completed_in_memory": 1,
+              "this_job_last_checkpoint_update": 0,
+              "this_job_last_update_seconds": 13.533339193090796,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-16T18:44:46.019418+00:00"
+            },
+            "B": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        },
+        {
+          "job_id": "3012323",
+          "suite": "libero_10",
+          "visual_tokens": 64,
+          "training_seed": 17,
+          "segment_end": 500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k64/seed17/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4041",
+          "elapsed_seconds": 236,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261016T184359_a385e2586722",
+                  "utc": "2026-10-16T18:43:59.971122+00:00",
+                  "resumed": false,
+                  "completed_update": 0,
+                  "next_sample_cursor": 0
+                }
+              ],
+              "this_job_updates_completed_in_memory": 1,
+              "this_job_last_checkpoint_update": 0,
+              "this_job_last_update_seconds": 9.77655134536326,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-16T18:44:46.061312+00:00"
+            },
+            "B": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        },
+        {
+          "job_id": "3012324",
+          "suite": "libero_spatial",
+          "visual_tokens": 128,
+          "training_seed": 17,
+          "segment_end": 500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed17/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4041",
+          "elapsed_seconds": 228,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261016T184409_af68f49d59f2",
+                  "utc": "2026-10-16T18:44:09.355254+00:00",
+                  "resumed": false,
+                  "completed_update": 0,
+                  "next_sample_cursor": 0
+                }
+              ],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": 0,
+              "this_job_last_update_seconds": null,
+              "last_event": "validation_start",
+              "last_event_utc": "2026-10-16T18:44:09.558870+00:00"
+            },
+            "B": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        },
+        {
+          "job_id": "3012325",
+          "suite": "libero_spatial",
+          "visual_tokens": 128,
+          "training_seed": 23,
+          "segment_end": 500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4041",
+          "elapsed_seconds": 219,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261016T184411_41f03bc9751b",
+                  "utc": "2026-10-16T18:44:11.528414+00:00",
+                  "resumed": false,
+                  "completed_update": 0,
+                  "next_sample_cursor": 0
+                }
+              ],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": 0,
+              "this_job_last_update_seconds": null,
+              "last_event": "validation_start",
+              "last_event_utc": "2026-10-16T18:44:11.626153+00:00"
+            },
+            "B": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        },
+        {
+          "job_id": "3012326",
+          "suite": "libero_spatial",
+          "visual_tokens": 128,
+          "training_seed": 41,
+          "segment_end": 500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed41/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4041",
+          "elapsed_seconds": 212,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            },
+            "B": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        }
+      ],
+      "active_acceptances": [],
+      "shared_cache_cross_node_probe": {
+        "status": "passed",
+        "job_id": "3012316",
+        "root_review": "results/formal_main_v2/preflight/fs_parallel_probe/3012316/root_review.json",
+        "sha256": "9436d3820e66df523bcb6ff54d955225d011b2c25270e45de80bf94e75858d91",
+        "failed_prior_job_id": "3012313",
+        "gpus_used": 0
+      },
+      "legacy_active_training_field": "First Long128seed17 pair only; not a global concurrency gate.",
+      "batch1_registration": "results/formal_main_v2/preflight/parallel_batch1_training_registration.json",
+      "batch1_registration_sha256": "1aaac02ec8d122e80e06cb4a98fa13e9e4183bd48fd66ad12ab065d83ae57bff",
+      "latest_live_observation": {
+        "path": "results/formal_main_v2/live/parallel_20261016T184524Z.json",
+        "sha256": "97ba31e12d416a95495a17e724a152e612026f3a1644c2fdc74285007e416cd7",
+        "observed_utc": "2026-10-16T18:45:24.655279+00:00"
+      },
+      "registered_requested_active_GPU_jobs": 8,
+      "actual_running_allocated_GPUs": 8,
+      "pair_tracking": {
+        "libero_10_k128_seed17": {
+          "active_job_id": "3012151",
+          "segment_target": 3500,
+          "last_root_reviewed_common_update": 3000,
+          "next_segment_requires_own_terminal_pull_and_root_review": true,
+          "root_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3011093.json",
+          "no_restart_or_duplicate_submission": true
+        },
+        "libero_10_k128_seed23": {
+          "active_job_id": "3012319",
+          "segment_target": 500,
+          "last_root_reviewed_common_update": 0,
+          "next_segment_requires_own_terminal_pull_and_root_review": true,
+          "root_review": null,
+          "no_restart_or_duplicate_submission": true
+        },
+        "libero_10_k128_seed41": {
+          "active_job_id": "3012321",
+          "segment_target": 500,
+          "last_root_reviewed_common_update": 0,
+          "next_segment_requires_own_terminal_pull_and_root_review": true,
+          "root_review": null,
+          "no_restart_or_duplicate_submission": true
+        },
+        "libero_10_k256_seed17": {
+          "active_job_id": "3012322",
+          "segment_target": 500,
+          "last_root_reviewed_common_update": 0,
+          "next_segment_requires_own_terminal_pull_and_root_review": true,
+          "root_review": null,
+          "no_restart_or_duplicate_submission": true
+        },
+        "libero_10_k64_seed17": {
+          "active_job_id": "3012323",
+          "segment_target": 500,
+          "last_root_reviewed_common_update": 0,
+          "next_segment_requires_own_terminal_pull_and_root_review": true,
+          "root_review": null,
+          "no_restart_or_duplicate_submission": true
+        },
+        "libero_spatial_k128_seed17": {
+          "active_job_id": "3012324",
+          "segment_target": 500,
+          "last_root_reviewed_common_update": 0,
+          "next_segment_requires_own_terminal_pull_and_root_review": true,
+          "root_review": null,
+          "no_restart_or_duplicate_submission": true
+        },
+        "libero_spatial_k128_seed23": {
+          "active_job_id": "3012325",
+          "segment_target": 500,
+          "last_root_reviewed_common_update": 0,
+          "next_segment_requires_own_terminal_pull_and_root_review": true,
+          "root_review": null,
+          "no_restart_or_duplicate_submission": true
+        },
+        "libero_spatial_k128_seed41": {
+          "active_job_id": "3012326",
+          "segment_target": 500,
+          "last_root_reviewed_common_update": 0,
+          "next_segment_requires_own_terminal_pull_and_root_review": true,
+          "root_review": null,
+          "no_restart_or_duplicate_submission": true
+        }
+      },
+      "CPU_probe_independent_review": "results/formal_main_v2/preflight/fs_parallel_probe/3012316/independent_review.json",
+      "CPU_probe_independent_review_sha256": "8a69e34f8af5834e95bc57cea1ae880d35901bd1539ca98386c5d62af8605a1c",
+      "resource_snapshot": "results/formal_main_v2/preflight/parallel_resources_20261016T184343Z.json",
+      "resource_snapshot_sha256": "ea590d4057a695fb4266791d1b7cf29c4d33d98cb0f106cb5bffdcbc351dfdb1",
+      "automation_prompt_updated": true,
+      "automation_interval_minutes_unchanged": 90,
+      "batch1_independent_review": "results/formal_main_v2/preflight/parallel_batch1_root_registration_independent.json",
+      "batch1_independent_review_sha256": "328c73c0dd49c68b281c22c42998eb9fb41907b5ed669831e2b5dfa29de93dce"
+    },
+    "engineering_acceptance_by_suite": {
+      "libero_10": {
+        "suite": "libero_10",
+        "job_id": "3005020",
+        "status": "passed_root_review",
+        "F00": "passed",
+        "F01_all_budgets": "passed",
+        "F03": "passed_bitwise",
+        "formal_training_allowed": true,
+        "failed_attempt_job_ids": [
+          "3004911"
+        ],
+        "root_review": "results/formal_main_v2/libero_10/acceptance/root_review.json",
+        "repair_record": "results/formal_main_v2/repairs/f03_determinism_v1.json"
+      },
+      "libero_spatial": {
+        "status": "passed_root_review",
+        "job_id": "3012294",
+        "formal_training_allowed": true,
+        "root_review": "results/formal_main_v2/libero_spatial/acceptance/root_review.json",
+        "root_review_sha256": "fee55c4f78f0f4953b96bf9364eb1051a591b91b3a9f092efc52bfdee99b8f68"
+      },
+      "libero_object": {
+        "status": "failed_before_model_loading",
+        "job_id": "3012295",
+        "formal_training_allowed": false,
+        "issue": "Three extra descriptive metadata fields rejected by strict checkpoint schema",
+        "bounded_repair_status": "strict_derived_view_adapter_in_CPU_preparation_no_retry"
+      },
+      "libero_goal": {
+        "status": "failed_before_model_loading",
+        "job_id": "3012296",
+        "formal_training_allowed": false,
+        "issue": "Three extra descriptive metadata fields rejected by strict checkpoint schema",
+        "bounded_repair_status": "strict_derived_view_adapter_in_CPU_preparation_no_retry"
+      }
     }
   },
   "formal_main_source_snapshot": {
@@ -1899,12 +2583,19 @@
     "files_verified": 173
   },
   "next_actions": [
-    "Observe registered3012151 targeting3500; actual A3000/cursor24000 resume confirmed, B pending. No duplicate submission.",
-    "After terminal, pull all seven pair jobs and verify common3500/all validation/both server resume SHAs before4000.",
-    "Complete Long128seed17 to5000 with all11 validation nodes before remaining registered matrix.",
-    "Calibrate conditional resource planning with the complete first Long128 pair and later actual suite/budget throughput. All raw costs and prior estimates retained; no GPU reruns for accounting.",
-    "Use audited E04 downstream planning/submission only after training prerequisites; record terminal pulls and root reviews.",
-    "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and global root release."
+    "Check all registered8training jobs and own attempt logs; distinguish loading, in-memory update, checkpoint and root-reviewed common boundary.",
+    "For each terminal pair, pull that pair all historical job IDs while registration is stable, run strict review_formal_segment with server resume SHA, then submit only its allowed next500 boundary.",
+    "Count all requestedGPU stages includingPENDING/SUBMITTED toward8-slot cap; preserve8independent1GPU allocations when ready work exists.",
+    "Object/Goal original asset manifests have3extra descriptive fields. Use a separately registered strict-view compatibility adapter only after CPU/source/watch/review integration; keep original173bytes, models, splits and scientific settings unchanged. Retain failures3012295/3012296=34GPU seconds.",
+    "Record actual parallel throughput/cache waits/re-generation and all GPU billing; old serial projections are not wall-clock promises.",
+    "Final states remain sealed until72selected checkpoints+16references+all4complete development receipts and root global release.",
+    "Update nonweight results/docs/GitHub; weights remain server-only; no new scientific matrix or external selectors."
   ],
-  "updated_utc": "2026-10-16T17:56:52.160898+00:00"
+  "updated_utc": "2026-10-16T18:45:21.455670+00:00",
+  "execution_authorization_update": {
+    "user_requested_parallel_multi_GPU": true,
+    "registration": "configs/experiments/formal_main_v2_parallel_execution_v1.json",
+    "registered_utc": "2026-10-16T18:27:51.711628+00:00",
+    "scientific_scope_unchanged": true
+  }
 }

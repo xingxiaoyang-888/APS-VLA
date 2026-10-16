@@ -1,0 +1,126 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "independent_shared_fs_probe_review",
+  "version": 1,
+  "job_id": "3012316",
+  "status": "passed_local_evidence",
+  "reviewer": "deploy64",
+  "reviewed_utc": "2026-10-16T18:40:55.599955+00:00",
+  "pull_receipt": {
+    "path": "results/formal_main_v2/pulls/20261016T183814Z_d9ec47a7c674/receipt.json",
+    "sha256": "6682a826a2e4eb175d78302496802c69c7c5b636a5fd2cf763dbc8aa15887b85",
+    "all_files_verified": 32,
+    "probe_files_verified": 19
+  },
+  "invocation": {
+    "path": "results/formal_main_v2/invocations/parallel_shared_fs_probe_v2.json",
+    "sha256": "c6477785ba9ff095502d1104cc25fff69c6f234139e51449d4dd7e4c345bfbc2"
+  },
+  "source_files_sha256": {
+    "scripts/ops/formal_shared_fs_probe.py": "ab79d18a5b35d2bdec68bb7f07bdf77b97c052b20678c8f4e5bf49bf10ba2a75",
+    "scripts/server/formal_shared_fs_probe_v2.slurm": "dafc3fe385f4761982b97a1a45fbff10da04d671c909d44ac37f8ac176d6d2df"
+  },
+  "runtime_repair": {
+    "path": "results/formal_main_v2/preflight/fs_probe_runtime_repair.json",
+    "sha256": "642e5d910a2c094aeb292e75f6ebe718541edf1fdeec654caf33873174916fa8",
+    "old_wrapper_sha256": "a0958481a45350b749387faca6d41c65597e9c76dccf161e1d8c0ead7ec5650c",
+    "only_change": "python3 executable replaced by registered project venv Python; probe bytes unchanged",
+    "failed_pull": "results/formal_main_v2/pulls/20261016T183632Z_6a84ceef89e8/receipt.json",
+    "failed_pull_sha256": "5a39bc373eef9c9a6a222c063e8a12de0858153a2feb4f0f83a7969250c18012"
+  },
+  "summary_sha256": "1dcba22ebbafdab17e855d9de81093c87f978998d90a79ca0a9bcf361d1401e2",
+  "rank_results": [
+    {
+      "rank": 0,
+      "host": "cpui144",
+      "node_id": 0,
+      "checks": {
+        "distinct_nodes": true,
+        "flock_exclusion_then_release": true,
+        "sqlite_exclusion_then_visible_commits": true
+      },
+      "status": "passed",
+      "event_count": 5,
+      "elapsed_seconds": 2.0473029230051907
+    },
+    {
+      "rank": 1,
+      "host": "cpui146",
+      "node_id": 1,
+      "checks": {
+        "distinct_nodes": true,
+        "flock_exclusion_then_release": true,
+        "sqlite_exclusion_then_visible_commits": true
+      },
+      "status": "passed",
+      "event_count": 6,
+      "elapsed_seconds": 2.0482356760039693
+    }
+  ],
+  "observed_protocol": {
+    "flock_block_errno": 11,
+    "flock_block_then_release_then_acquire": true,
+    "sqlite_block_seconds": 1.535556415998144,
+    "sqlite_committed_values": [
+      17,
+      41
+    ],
+    "sqlite_cross_node_visibility_verified": true,
+    "local_smoke": false,
+    "isolated_probe_directory": "/share/home/u15016/XXY_CVPR/CTI-VLA/.local/fs_parallel_probe/3012316",
+    "training_or_cache_files_opened": false,
+    "gpu_calls": 0
+  },
+  "slurm": {
+    "3012313": {
+      "allocation": "billing=2,cpu=2,mem=2G,node=2",
+      "elapsed_seconds": 1,
+      "exit_code": "1:0",
+      "node": "cpui[144,146]",
+      "raw_status": "FAILED",
+      "status": "FAILED",
+      "gpu_seconds": 0,
+      "allocated_cpu_seconds": 2
+    },
+    "3012316": {
+      "allocation": "billing=2,cpu=2,mem=2G,node=2",
+      "elapsed_seconds": 4,
+      "exit_code": "0:0",
+      "node": "cpui[144,146]",
+      "raw_status": "COMPLETED",
+      "status": "COMPLETED",
+      "gpu_seconds": 0,
+      "allocated_cpu_seconds": 8
+    }
+  },
+  "total_probe_job_wall_seconds": 5,
+  "total_allocated_cpu_seconds": 10,
+  "total_gpu_seconds": 0,
+  "evidence_sha256": {
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/flock.acquired.json": "809643502bc57ee6b4d3ad2d3eda932666635f4900a5b488d051452c4c591e9c",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/flock.blocked.json": "d476ecace7017648fd93ff2a00648af4198d612e1646a3ec34fec88de1e41856",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/flock.held.json": "37a5caaed3aefb1983c248ed180399c4e96b11036ea20641f0b3232703bbf6d6",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/flock.released.json": "22f2accd0782da64a70f6b7dcbc428852706449df6c56f1a11fc0e2ffe36f180",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/init.json": "cdcfe8f95fef256cd661a5a1b31fe0f8fd0fc1024e7da98b08b3ab72221f23d9",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/rank0.events.jsonl": "28b00c390c19d5f3ffab8257886f7a62f3c3cf547b23b02fad6db424ece5c621",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/rank0.hello.json": "e28b28fc0af9c53b50c7208e8fe216637ab2e638d5b59cce00f687c218a0e995",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/rank0.result.json": "9f28a789669fbbfb010a5b8749d31ceec3c09f33decafe67885f48fc02ac1cfa",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/rank1.events.jsonl": "91be236b76b84483208f22b3b611405a2175c6b325b84f64393d6623b493db4a",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/rank1.hello.json": "b59c9eec81e18a2a536fc99cba79626c7b4f215acb83e24c157a15af2520e762",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/rank1.result.json": "6965c8f3788c8757b3b00e2f6472038ece8f79e88ccbcba5af8f7c8e364864b8",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/sqlite.blocked.json": "626383222dd066d8fb5b165d9437ea647beb58cf6b8bea27dacf0f0320c29e70",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/sqlite.committed.json": "f559f1d2c20fd5f1ac345f611b7e7aaeaea6ec106a780868ae9a4a51cebf17cf",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/sqlite.confirmed.json": "4e4013fe61be8b9d1b86cc0dd028ce8ef33aca8417af00d92db586b723505ba2",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/sqlite.held.json": "16f9e27bfc79930cb831b35c2c4a652fbb3e092087b573203078c772ecc69355",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/sqlite.updated.json": "aae03386a5e88716572b5ba9544ad495bb49018ee790b0c3076c489ddd800a4b",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/summary.json": "1dcba22ebbafdab17e855d9de81093c87f978998d90a79ca0a9bcf361d1401e2",
+    "results/slurm/cti-fs-probe_3012316.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/slurm/cti-fs-probe_3012316.out": "6f1c225995e1384e8d6276c5952828e39c9389c42b9087039e00a2bddd1f627a"
+  },
+  "notes": [
+    "Standalone probe intentionally has no generic job_receipt; verified original summary, both rank journals and results, invocation/source SHA, and terminal Slurm accounting instead.",
+    "Failed 3012313 was retained and counted; it failed compiling the unchanged probe under old system Python before the protocol.",
+    "Evidence applies to cpui144/cpui146 and this shared filesystem path; it does not prove all L40-node mount configurations, concurrent training throughput, or numerical gains.",
+    "Local nonweight review only; server verification and pull were performed by root. No SSH, Slurm submission, production edits, model weights, or sealed state access."
+  ]
+}
