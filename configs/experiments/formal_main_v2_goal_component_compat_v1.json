@@ -1,0 +1,37 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "goal_component_filename_compatibility_registration",
+  "version": "formal-goal-components-v1",
+  "suite": "libero_goal",
+  "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "loader": "src/cti_vla/models/openvla_oft_loader.py",
+  "loader_sha256": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+  "target_symbol": "_load_component_state",
+  "model_manifest": "configs/assets/openvla_oft_libero_goal.json",
+  "model_manifest_sha256": "6aaef6cd88a3968a13591fc196a3498c1780c7aab7a5e782a53c1967911a0ed5",
+  "model_repository": "moojink/openvla-7b-oft-finetuned-libero-goal",
+  "model_revision": "c2d0f9fbbd82674683b397ff923168a12f6a307b",
+  "checkpoint_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-goal-c2d0f9f",
+  "mappings": [
+    {
+      "requested": "action_head--150000_checkpoint.pt",
+      "target": "action_head--50000_checkpoint.pt",
+      "size": 302242654,
+      "sha256": "b97c2e8939ede32d8a1b29e9565d70f22040ba9e54925665e81989a0cc13ccff"
+    },
+    {
+      "requested": "proprio_projector--150000_checkpoint.pt",
+      "target": "proprio_projector--50000_checkpoint.pt",
+      "size": 67275184,
+      "sha256": "780595e9cca5292348697686f9ccc83d39d9d3d303e860d62c6d4609952dfff1"
+    }
+  ],
+  "other_component_requests": "reject",
+  "original_component_loader_used": true,
+  "torch_load_replaced": false,
+  "official_directory_modified": false,
+  "scientific_settings_changed": false,
+  "weights_changed": false,
+  "acceptance_required": "original_real_F00_F01_F03_and_root_review"
+}

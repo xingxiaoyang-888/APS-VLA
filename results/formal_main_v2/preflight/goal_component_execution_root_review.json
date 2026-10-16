@@ -1,0 +1,98 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "goal_component_execution_root_review",
+  "status": "passed",
+  "reviewed_utc": "2026-10-16T20:23:11.391030+00:00",
+  "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+  "source_inventory_sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+  "frozen_source_files_verified": 173,
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "runtime_compatibility": {
+    "schema": "formal_main_v2",
+    "kind": "asset_metadata_compatibility",
+    "version": "formal-asset-metadata-compat-v1",
+    "wrapper": "scripts/server/run_formal_asset_stage.py",
+    "slurm": "scripts/server/formal_asset_main.slurm",
+    "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+    "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+    "files": {
+      "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+      "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+      "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+      "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+      "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+      "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+    }
+  },
+  "component_compatibility": {
+    "schema": "formal_main_v2",
+    "kind": "goal_component_filename_compatibility",
+    "version": "formal-goal-components-v1",
+    "suite": "libero_goal",
+    "wrapper": "scripts/server/run_formal_goal_asset_stage.py",
+    "adapter": "scripts/ops/formal_goal_component_adapter.py",
+    "slurm": "scripts/server/formal_goal_asset_main.slurm",
+    "registration": "configs/experiments/formal_main_v2_goal_component_compat_v1.json",
+    "files": {
+      "scripts/server/run_formal_goal_asset_stage.py": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039",
+      "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+      "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+      "configs/experiments/formal_main_v2_goal_component_compat_v1.json": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84"
+    }
+  },
+  "files": {
+    "scripts/server/run_formal_goal_asset_stage.py": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039",
+    "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+    "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+    "configs/experiments/formal_main_v2_goal_component_compat_v1.json": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84",
+    "scripts/ops/formal_goal_component_review.py": "f220ff71084c460b1fb66d56d63e10f0256dc1fb98874fd0f6f916c293734871",
+    "scripts/ops/formal_goal_asset_supervisor.py": "9affce50454c7262462868b317ab9965dc5a98e7a2283b57bd610432b510f1c9",
+    "scripts/review_formal_acceptance.py": "373bcaea3ca8da63ee684ab8c3af6adcd329daa8fcc952422984882c0c206926",
+    "scripts/review_formal_segment.py": "566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790",
+    "tests/test_formal_goal_component_stage.py": "43448145aa21664b9020f228056ef107401aaaf0905616cacfcd86bddf7c4b1f",
+    "tests/test_formal_goal_component_review.py": "17ec1badc6142b82db444e712107ccf0eb069acadd0209c0ca9eec6ac689b255",
+    "tests/test_formal_goal_asset_supervisor.py": "b10c3e6e2ec91bb45c050cce3170aa4f2cfc10da9dd79905823306e9fec20f78"
+  },
+  "root_CPU_tests": [
+    {
+      "path": "results/formal_main_v2/preflight/goal_component_stage_root_tests.xml",
+      "sha256": "017555b8e7ef24d71d75fd5a45af9ea2cb176319a92552ba0dfc3d32d394234f",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 176.112
+    },
+    {
+      "path": "results/formal_main_v2/preflight/goal_asset_submitter_root_final_tests.xml",
+      "sha256": "9855a54854e61080b7c5a624e820d931aced6864af0cea8691507c1503095bde",
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 5.631
+    }
+  ],
+  "independent_CPU_reviews": {
+    "results/formal_main_v2/preflight/goal_component_stage_implementation_review.json": "cc80a994edb2d02bc624506c9e027dc453f16c51e9f971c9a56fa3f4e35d9deb",
+    "results/formal_main_v2/preflight/goal_component_runtime_review_cpu_review.json": "3954b3ae81c2f38cc74415bf3f8b7690f36c019c3b4ea5a13a6972cbac7c1094",
+    "results/formal_main_v2/preflight/goal_asset_submitter_independent_review_v2.json": "fc11786fe9a523fbe2206496316ce031083144177f7362c40b049303df38798c"
+  },
+  "official_component_read_only_probe": {
+    "path": "results/formal_main_v2/preflight/goal_official_component_probe_20261016.json",
+    "sha256": "c9ac0871cc4e06ebe478b783c5fe464244108e18a0fa1727b10c26819612360b"
+  },
+  "retained_CPU_attempts": {
+    "results/formal_main_v2/preflight/goal_component_stage_initial_windows_path.xml": "3f8d3bd71471e482cac66d550dd0b74a127eed04880a4ad16f1a22acce7e87fc",
+    "results/formal_main_v2/preflight/goal_asset_submitter_root_initial_tmp_location.xml": "f482e9414805a726ee8f2f4abe8c98a0fdcbb5b6aad1aaeea8883d716e88cd9d",
+    "results/formal_main_v2/preflight/goal_asset_submitter_root_tests.xml": "1b7304f9a4610b977642aa9ce0cef919b339941bcdb64ed5d935ff38a71e2038"
+  },
+  "CPU_corrections": [
+    "Producer normalized Windows path separators while retaining exact ordered paths and rejecting traversal.",
+    "Dispatcher fixture moved evidence into its synthetic project; production project-boundary check was retained."
+  ],
+  "scientific_settings_changed": false,
+  "official_weights_changed": false,
+  "final_states_opened": false,
+  "real_GPU_acceptance_status": "not_yet_run_with_component_compatibility",
+  "downstream_status": "Object and Goal explicitly gated until complete downstream runtime provenance integration",
+  "next": "Only original Goal F00/all-budget F01/F03 within next free registered8-GPU slot; root review required before training."
+}

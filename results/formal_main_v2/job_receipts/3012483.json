@@ -1,0 +1,61 @@
+{
+  "compatibility_artifacts": [
+    {
+      "bytes": 41049,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/acceptance/attempt02/compatibility/3012483/identity.json",
+      "sha256": "17b20306741f402c7ba2ab6d95d5e2bd8deff898553905c389dcdb28748005c8",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/compatibility_invocations/3012483/identity.json"
+    },
+    {
+      "bytes": 48917,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/acceptance/attempt02/compatibility/3012483/compatibility_events.jsonl",
+      "sha256": "a02436511a26306b6efa0d0f28db61eafcd9f79141aa49b7eedde9dd389a0bf0",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/compatibility_invocations/3012483/compatibility_events.jsonl"
+    }
+  ],
+  "entrypoint": "scripts/verify_formal_acceptance.py",
+  "errors": [
+    {
+      "error": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-goal-c2d0f9f/action_head--150000_checkpoint.pt",
+      "error_type": "FileNotFoundError",
+      "phase": "runner"
+    }
+  ],
+  "exit_code": 1,
+  "invocation_sha256": "663fa36cc563bc76103a8e2d07878c5f98c7e615ac8f6546cdd504851c02bea7",
+  "job_id": "3012483",
+  "kind": "formal_asset_stage_job",
+  "loader_restored": true,
+  "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/acceptance/attempt02",
+  "runner_exit_code": 1,
+  "runner_termination": "exception",
+  "runtime_compatibility": {
+    "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+    "files": {
+      "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+      "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+      "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+      "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+      "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+      "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996"
+    },
+    "kind": "asset_metadata_compatibility",
+    "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+    "schema": "formal_main_v2",
+    "slurm": "scripts/server/formal_asset_main.slurm",
+    "version": "formal-asset-metadata-compat-v1",
+    "wrapper": "scripts/server/run_formal_asset_stage.py"
+  },
+  "schema": "formal_main_v2",
+  "source_inputs_unchanged": true,
+  "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "stage": "acceptance",
+  "stage_key": "libero_goal_acceptance",
+  "started_utc": "2026-10-16T19:50:42.018304+00:00",
+  "status": "failed",
+  "suite": "libero_goal",
+  "version": "formal-asset-stage-v1",
+  "wall_seconds": 176.98222998110577,
+  "wrapper_sha256": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996"
+}

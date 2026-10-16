@@ -32,6 +32,9 @@ FORBIDDEN = {".pt", ".pth", ".ckpt", ".safetensors", ".bin", ".pickle", ".pkl", 
 _compat_spec = importlib.util.spec_from_file_location("formal_asset_compat_review", ROOT / "scripts/ops/formal_asset_compat_review.py")
 _compat = importlib.util.module_from_spec(_compat_spec)
 _compat_spec.loader.exec_module(_compat)
+_component_spec = importlib.util.spec_from_file_location("formal_goal_component_review", ROOT / "scripts/ops/formal_goal_component_review.py")
+_component = importlib.util.module_from_spec(_component_spec)
+_component_spec.loader.exec_module(_component)
 
 
 def sha(path):
@@ -165,12 +168,53 @@ def require_saved_runtime_review(evidence, *, saved, job, inventory):
     return actual
 
 
+def review_component_compatibility(evidence, *, job, invocation, receipt, inventory, metadata_review, pull_receipt):
+    """Goal-only second proof; the metadata proof and scientific gates remain separate."""
+    result = _component.review_job(evidence, job=job, invocation=invocation, receipt=receipt,
+        inventory=inventory, metadata_review=metadata_review)
+    if result is None:
+        return None
+    required = [*result["required_pulled_files"], f"results/{ROUND}/job_receipts/{job['job_id']}.json"]
+    require_pulled(evidence, pull_receipt, job, required)
+    relative = evidence.path(pull_receipt).relative_to(evidence.root).as_posix()
+    pull_identity = dict(path=relative, sha256=evidence.watch(relative))
+    if metadata_review.get("pull_receipt") != pull_identity:
+        raise ValueError("Goal component and metadata evidence must use the same verified pull snapshot")
+    proof_hashes = dict(result["evidence_sha256"])
+    for path in (evidence.path(relative), evidence.path(relative).parent / "inventory_before.json",
+            evidence.path(relative).parent / "inventory_after.json"):
+        name = path.relative_to(evidence.root).as_posix()
+        proof_hashes[name] = evidence.watch(name)
+    return dict(result, pull_receipt=pull_identity, evidence_sha256=proof_hashes)
+
+
+def require_saved_component_review(evidence, *, saved, job, inventory, metadata_review):
+    """A Goal acceptance can be reused only after both original raw proofs rebuild."""
+    invocation = evidence.read(job["invocation"])
+    value = _component.contract(evidence, job=job, invocation=invocation)
+    if value is None:
+        if any(key in saved for key in ("component_compatibility", "component_compatibility_review")):
+            raise ValueError("Non-Goal root review unexpectedly contains component compatibility")
+        return None
+    previous = saved.get("component_compatibility_review", {})
+    pull = previous.get("pull_receipt", {})
+    if (saved.get("component_compatibility") != value or not pull.get("path")
+            or evidence.watch(pull["path"]) != pull.get("sha256")):
+        raise ValueError("Reused Goal root review lacks its immutable component pull/provenance")
+    actual = review_component_compatibility(evidence, job=job, invocation=invocation,
+        receipt=evidence.read(f"results/{ROUND}/job_receipts/{job['job_id']}.json"), inventory=inventory,
+        metadata_review=metadata_review, pull_receipt=pull["path"])
+    if actual != previous:
+        raise ValueError("Reused component review does not rebuild from its raw artifacts")
+    return actual
+
+
 def publish_review(path, report):
     """No failed/partial review, and never replace a previous accepted identity."""
     if path.exists():
         previous = json.loads(path.read_text(encoding="utf-8"))
         stable = ("schema", "kind", "status", "suite", "job_id", "output_relative", "files", "source_sha256", "invocation_sha256",
-                  "runtime_compatibility", "runtime_compatibility_review")
+                  "runtime_compatibility", "runtime_compatibility_review", "component_compatibility", "component_compatibility_review")
         if any(previous.get(k) != report.get(k) for k in stable):
             raise ValueError("An existing root review has a different accepted identity")
         return previous
@@ -289,6 +333,8 @@ def review(job_id, *, source_inventory, pull_receipt, root=ROOT):
         raise ValueError("Server job receipt has no finite positive cost")
     runtime_review = review_runtime_compatibility(evidence, job=job, invocation=invocation,
         receipt=receipt, inventory=inventory, pull_receipt=pull_receipt)
+    component_review = review_component_compatibility(evidence, job=job, invocation=invocation,
+        receipt=receipt, inventory=inventory, metadata_review=runtime_review, pull_receipt=pull_receipt)
     required = [relative + "/" + name for name in NAMES] + [receipt_relative] + [f"results/slurm/cti-formal_{job_id}.{ext}" for ext in ("out", "err")]
     require_pulled(evidence, pull_receipt, job, required)
     reports = {name: evidence.read(base / name) for name in NAMES if name.endswith(".json")}
@@ -336,6 +382,11 @@ def review(job_id, *, source_inventory, pull_receipt, root=ROOT):
         report.update(runtime_compatibility=runtime_review["runtime_compatibility"], runtime_compatibility_review=runtime_review)
         report["files"].update({PurePosixPath(name).relative_to(relative).as_posix(): evidence.watch(name)
             for name in runtime_review["required_pulled_files"]})
+        report["evidence_sha256"] = dict(evidence.hashes)
+    if component_review is not None:
+        report.update(component_compatibility=component_review["component_compatibility"], component_compatibility_review=component_review)
+        report["files"].update({PurePosixPath(name).relative_to(relative).as_posix(): evidence.watch(name)
+            for name in component_review["required_pulled_files"]})
         report["evidence_sha256"] = dict(evidence.hashes)
     evidence.unchanged()
     target = evidence.path(f"results/{ROUND}/{suite}/acceptance/root_review.json")

@@ -1,0 +1,535 @@
+{
+  "all_formal_costs": false,
+  "allocated_GPU_seconds_seven_jobs_only": 32693,
+  "findings": [],
+  "included_job_ids": [
+    "3012319",
+    "3012321",
+    "3012322",
+    "3012323",
+    "3012324",
+    "3012325",
+    "3012326"
+  ],
+  "independent_recomputed_totals": {
+    "arms": 14,
+    "bytes_published_including_republications": 136296807132,
+    "cache_event_counts": {
+      "cache_eviction": 9558,
+      "cache_hit": 40506,
+      "cache_miss": 20409,
+      "cache_publish": 20409,
+      "feature_generate_end": 20409,
+      "feature_generate_start": 20409,
+      "shard_index_verified": 176
+    },
+    "full_validation_calls": 28,
+    "pairs": 7,
+    "training_sample_forward_backwards": 56000,
+    "updates": 7000,
+    "validation_window_forwards": 4908
+  },
+  "kind": "parallel_first_segments_cost_independent_review",
+  "limits": [
+    "Only seven completed fresh first500 allocations are covered; acceptance, failures, original Long128 seed17 and subsequent jobs are outside32693 seconds.",
+    "No pure lock-wait timer or controlled independent A/B runtime counterfactual is present.",
+    "No current mutable supervisor state or running continuation artifact was needed; original root review and verified-pull ledger snapshots were used.",
+    "Only local JSON/JSONL and source text read; no SSH, GPU, weights, sealed initial values, production writes or Git."
+  ],
+  "read_evidence_sha256": {
+    ".local/summarize_parallel_first_segments.py": "57c181c44bd373df7086de262909375e99b2657fbb8600b86aca24d52ab092ea",
+    "results/formal_main_v2/libero_10/k128/seed23/training/A/attempts/20261016T184435_e1a040df741d/cost_events.jsonl": "850f90e7ffb5e87487a0c487d7de15ad2bd2749ea5aa91149d405e3feb3dfe96",
+    "results/formal_main_v2/libero_10/k128/seed23/training/A/attempts/20261016T184435_e1a040df741d/validation_00000.json": "243c4e73417f545f444a979fa8342364c026f5c64332e1a982c1a36830c1dc98",
+    "results/formal_main_v2/libero_10/k128/seed23/training/A/attempts/20261016T184435_e1a040df741d/validation_00500.json": "671e1f6a0e2f086436e76939fe6cdeb9bfad6d3aaee66e8a1d31480a64842ed8",
+    "results/formal_main_v2/libero_10/k128/seed23/training/B/attempts/20261016T192641_3ce23f0fab4b/cost_events.jsonl": "3b32c0e91692bc6915a5d98566ff2bcdd031f15feb168ac3a74c724818e84afb",
+    "results/formal_main_v2/libero_10/k128/seed23/training/B/attempts/20261016T192641_3ce23f0fab4b/validation_00000.json": "46f7fe3a1e1cc2f884a5938a86d30a01c483cd332ca2c176a36909602fea22fd",
+    "results/formal_main_v2/libero_10/k128/seed23/training/B/attempts/20261016T192641_3ce23f0fab4b/validation_00500.json": "7e7ade4733548e9ee90cda6a62889a6757f7de80e75ee3cd6a07e9fd34542456",
+    "results/formal_main_v2/libero_10/k128/seed23/training/cache_events/3012319_38d765592a6c.jsonl": "338d303b0e9d3c581649cb75c364d447b7073b3a9599f7f6e5943da99fb4e11c",
+    "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3012319.json": "360134a5f16e4827920598428359a34f1fd5fbe6412c4cc979c230067c195435",
+    "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3012319_independent.json": "ad9b8f7d7ec21d4f14613f0e20690b2c7e4210e545e01a7db9d509c26b6c262b",
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/attempts/20261016T184547_dd20174834bb/cost_events.jsonl": "c1fb1dd4bc7cf87fa2ee94ef3f08cf4771c23b1312bf3db807408096b075514d",
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/attempts/20261016T184547_dd20174834bb/validation_00000.json": "8f6db8bba42ac5bfef478464111a938863fe94fbc0958e84087eb58b9f34a17b",
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/attempts/20261016T184547_dd20174834bb/validation_00500.json": "15e86ccd7cea9f8fcc8ebf63c56cceaff5d0a46d7236bf25b56cacbe0300da7c",
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/attempts/20261016T192806_9da44cac4632/cost_events.jsonl": "162c243fa0f63e3cb38ba2979fae6774629681fc0beaee385ef66a207421a537",
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/attempts/20261016T192806_9da44cac4632/validation_00000.json": "926ea6aa42ffd37c43ea369788bb357eb875ff1dfe322e69dbdf0ea2c6c7d9c8",
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/attempts/20261016T192806_9da44cac4632/validation_00500.json": "7137c49130a4f50b55cffb5147cf8ba92ddf6b75a69a9e2da796997ecda5a1ff",
+    "results/formal_main_v2/libero_10/k128/seed41/training/cache_events/3012321_693d23b07b34.jsonl": "9f73cf66fb9101be707f02580caa0ecb7937364f7ddc251b17e3d6f75122b583",
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3012321.json": "c0ac550fbffa0202a2ccdab0e6985a3eaa3c8927926f12528a91b0f58a619750",
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3012321_independent.json": "b17327b7b014009a637bfa89b0567842107fa3dd5d84bbca793125d01d7d621d",
+    "results/formal_main_v2/libero_10/k256/seed17/training/A/attempts/20261016T184359_e165d4612cb0/cost_events.jsonl": "28454a72fb9a0d4eac97432c46a2cf39491032aac37d154b31a8b54a48db44ae",
+    "results/formal_main_v2/libero_10/k256/seed17/training/A/attempts/20261016T184359_e165d4612cb0/validation_00000.json": "51b2bfa15c944e795d778dc498499e20be3a8ca82ee4cf8130d38da033e9c1c0",
+    "results/formal_main_v2/libero_10/k256/seed17/training/A/attempts/20261016T184359_e165d4612cb0/validation_00500.json": "0692d85ce4441d6f467bddf2131ce277dfd50c9938db841dd6a9218ec21f1f26",
+    "results/formal_main_v2/libero_10/k256/seed17/training/B/attempts/20261016T194616_457b808af52a/cost_events.jsonl": "95593bd762b1c389c6e73cc161dde1aac1e10a7c54daf456c312e5f712dae471",
+    "results/formal_main_v2/libero_10/k256/seed17/training/B/attempts/20261016T194616_457b808af52a/validation_00000.json": "aefbeb6e60e8c398df88274dd46b4b90ac2de11db3ca040c00ae4abb8c3d359c",
+    "results/formal_main_v2/libero_10/k256/seed17/training/B/attempts/20261016T194616_457b808af52a/validation_00500.json": "674defd2a31fc52aa2210fc89be4b28a81a0a0c4b8c72ce592ce4710fa997bec",
+    "results/formal_main_v2/libero_10/k256/seed17/training/cache_events/3012322_159d0eee663a.jsonl": "65170e5e943c3907dafa5c24bbf77a312f515c286076f4d2cdef554cea00b30d",
+    "results/formal_main_v2/libero_10/k256/seed17/training/segment_reviews/3012322.json": "b7b184071f85b243ba569e20fc44d3ba27043af8c5b3efd6f23c1637f882c851",
+    "results/formal_main_v2/libero_10/k256/seed17/training/segment_reviews/3012322_independent.json": "63b8ffa157d46d64f79bb75a67e034619a7d123aded48f939fa7996ee9b603a6",
+    "results/formal_main_v2/libero_10/k64/seed17/training/A/attempts/20261016T184359_a385e2586722/cost_events.jsonl": "def9c8db89271c9496f120c25cfcfe287d2ffb7649aa0e01bdfe3fda8a9cb8db",
+    "results/formal_main_v2/libero_10/k64/seed17/training/A/attempts/20261016T184359_a385e2586722/validation_00000.json": "e73f0a2c61732c95eb0f7c19e6f20a9b59c95dd4aa684910e674a6844b68e42f",
+    "results/formal_main_v2/libero_10/k64/seed17/training/A/attempts/20261016T184359_a385e2586722/validation_00500.json": "adad6ac86c8e8ea175bd83c985a230cda5d85eaf2d47cadc0ad4e4805545ea8e",
+    "results/formal_main_v2/libero_10/k64/seed17/training/B/attempts/20261016T194617_6dbc57902950/cost_events.jsonl": "5f30ef2ed8c6af7e5fb9047860b743083af27a31da63e10550aad56dbb8e3fd6",
+    "results/formal_main_v2/libero_10/k64/seed17/training/B/attempts/20261016T194617_6dbc57902950/validation_00000.json": "9e749c2f708a73f68e0814e77aa808cf33985bf8ff2840957d7d9d09da027f13",
+    "results/formal_main_v2/libero_10/k64/seed17/training/B/attempts/20261016T194617_6dbc57902950/validation_00500.json": "65c5db219891e0b2301d36fe928b42a0fc3243b7eb3400a033005df623952e12",
+    "results/formal_main_v2/libero_10/k64/seed17/training/cache_events/3012323_65f57277ae88.jsonl": "994e8a10c6770d7957cda54e7718a91706b73f809515584696203c46fba6b572",
+    "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3012323.json": "89dda64c9338f0d1dafb8caba4a27a722cdeaadbd65b3e429052615905829d7d",
+    "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3012323_independent.json": "e2ce4121ccf0069c2e6047e6c3eefe2760f4d03b317eae3f77f26f4696c877f9",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/A/attempts/20261016T184409_af68f49d59f2/cost_events.jsonl": "3131524d7f41626f369c6869841c97713f7386155a4b24cee3f636f8ff1b8f0c",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/A/attempts/20261016T184409_af68f49d59f2/validation_00000.json": "c0f0e8a169ff92ea91dff3c26db534f7ebbd91c6ecf264679a8a1a0103437bf8",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/A/attempts/20261016T184409_af68f49d59f2/validation_00500.json": "99f0bd44e9cebdb460f78a540e925ee7cef8bdad37eace1c7effb35de3b80c79",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/B/attempts/20261016T193625_0d79682c79c0/cost_events.jsonl": "4299efb0b4a158d30f67c6204a0ffedbd582c8ea4063f860ecd920d907b83355",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/B/attempts/20261016T193625_0d79682c79c0/validation_00000.json": "1b2c7e675676db87ef28c7ee3514060608b1a0e8923c29e639b0943397d1a18b",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/B/attempts/20261016T193625_0d79682c79c0/validation_00500.json": "00edbe434c853f9b9f20f5072eb61284f3b2f1ee8e0cc859492d0c8ee72472d8",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/cache_events/3012324_d5902f1625bc.jsonl": "b3c0f651680bc84f0168fd599098eb18fed5feb62bac83200f6dc340a6dcb9fa",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3012324.json": "f8d10b4c87ecd5ed3c9561986f49db405c0caea8b3d2c5533b56a1015805da9e",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3012324_independent.json": "d30b0bbc82a8ad4f2a28dfb01451c0f1757f05ce5918f0a636b97f18b9c41ef3",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/A/attempts/20261016T184411_41f03bc9751b/cost_events.jsonl": "014975920547ffb5fac8863d57fc4192433d32595baac9eee51d2ebd8826c712",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/A/attempts/20261016T184411_41f03bc9751b/validation_00000.json": "7ca7094210d9c25d06b9ecb699d36aeca9d73f7737b785e9f037a267aaccf79a",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/A/attempts/20261016T184411_41f03bc9751b/validation_00500.json": "ab3b47476db68b39537282a160960bf1755434c2811a246cd0c3ea0815946bf0",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T193435_1ae31203fb89/cost_events.jsonl": "263136300052f731bae8ec52a0c43556f5d01e389859c025686231d92add46eb",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T193435_1ae31203fb89/validation_00000.json": "df041444d70e38e26b57e23cdba5423be3ca2fef2353a478c5c453619eac5fcd",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T193435_1ae31203fb89/validation_00500.json": "25c144e84ca064769fd145bc5815cfd8872ed53837a3ec39a5e3093a183a17c4",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/cache_events/3012325_e7feaf095cef.jsonl": "047ea0a1c79be20ede2f45837e5fdfeef389384b86ed4f2807630b80573a8f78",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3012325.json": "4d36038eb009bcd493a7195bfa3824cde3796148ae609b1a959008000935f7d5",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3012325_independent.json": "fb7efd4af31efd523266937d9dbd2ba5dce36e6e1cf44da0bf832f60996d9116",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/A/attempts/20261016T184448_370acdeeb4d4/cost_events.jsonl": "d7ba54c31f5075019bd5d097c733715edd50527f361413cb8f98ec833e74909f",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/A/attempts/20261016T184448_370acdeeb4d4/validation_00000.json": "06733d96f776a5625f93c63184ad4ab3c25abf9f1d01dd9ccb0c929111ce2881",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/A/attempts/20261016T184448_370acdeeb4d4/validation_00500.json": "f240ce17000fbf4b355e8bfda4f82872e6fe361bf9c38c460d8e1eefd540f224",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/B/attempts/20261016T193502_f8fd681bfa25/cost_events.jsonl": "11a0859bc83849a71d54bc88a760cce39f55f46df14c0e4f78ab303b51f1d1ea",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/B/attempts/20261016T193502_f8fd681bfa25/validation_00000.json": "9eeb91bf2c2bc0f633e883f9f2775a669f1797d48aa122faecf99c4555c54e28",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/B/attempts/20261016T193502_f8fd681bfa25/validation_00500.json": "b85298037269e7f0471da680a1225580fe7a69b802a6496a7d5fd1d3062177c3",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/cache_events/3012326_21dd375591a1.jsonl": "65da8e1df6773df3543751abf54482f2617736703c00b727b267e7c308db70bc",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3012326.json": "c5aa3665dd6943ad7fc14cee2de14ae09751d0a2fd067e212ff4ed04711c3076",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3012326_independent.json": "c7ddd673f30c83316f82909ca42513bbeec9fbcb202ec616fdaa68792fa45f72",
+    "results/formal_main_v2/preflight/parallel_first_segments_observed_cost_20261016.json": "7cacab850c2d67135fa864bf91755c9499a6ab540cec74f632b5a3b0dfaf5bda",
+    "results/formal_main_v2/pulls/20261016T195055Z_b88bde8bbd46/inventory_after.json": "d714a8ebfc4d33bd38846412a14af64f3283782d895af35e71f60c83244b1aca",
+    "results/formal_main_v2/pulls/20261016T195055Z_b88bde8bbd46/inventory_before.json": "d714a8ebfc4d33bd38846412a14af64f3283782d895af35e71f60c83244b1aca",
+    "results/formal_main_v2/pulls/20261016T195055Z_b88bde8bbd46/receipt.json": "8ae09a81335375532fcd943e556764f2b072fa29d6b1fee059d4d05ef4277c2e",
+    "results/formal_main_v2/pulls/20261016T195908Z_e85b896373d0/inventory_after.json": "17c20ba9c10de246820bf3e2f9a52890ea91b402be8e9b8955ec8286cccfd16d",
+    "results/formal_main_v2/pulls/20261016T195908Z_e85b896373d0/inventory_before.json": "17c20ba9c10de246820bf3e2f9a52890ea91b402be8e9b8955ec8286cccfd16d",
+    "results/formal_main_v2/pulls/20261016T195908Z_e85b896373d0/receipt.json": "e7d155e3872785e3c6a34824ade61eed9e9c72491015284ed8bc62ce0e7a73d1",
+    "results/formal_main_v2/pulls/20261016T200021Z_eb98d13f875c/inventory_after.json": "62a3e49e2813c7b137f08ab5eecfc7a5352331ddc96d278ded95328b6fe8ab97",
+    "results/formal_main_v2/pulls/20261016T200021Z_eb98d13f875c/inventory_before.json": "62a3e49e2813c7b137f08ab5eecfc7a5352331ddc96d278ded95328b6fe8ab97",
+    "results/formal_main_v2/pulls/20261016T200021Z_eb98d13f875c/receipt.json": "5a0417679dbcca0ce884a6e77b0fe3d3871685609db90b15eeb4b50c53def778",
+    "results/formal_main_v2/pulls/20261016T201202Z_10a2ba593092/inventory_after.json": "96c4e525ad34c0d35293631addb42e7a1da2d60f5d6801b6668ec70b573bcc8c",
+    "results/formal_main_v2/pulls/20261016T201202Z_10a2ba593092/inventory_before.json": "96c4e525ad34c0d35293631addb42e7a1da2d60f5d6801b6668ec70b573bcc8c",
+    "results/formal_main_v2/pulls/20261016T201202Z_10a2ba593092/receipt.json": "102fcbc480346d52b36b17befe5386a6d58fdb8d688a4233fdec462aceefe953",
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "src/cti_vla/training/formal_future.py": "3f4d2f933aa276d26dccfc2ce16d145f8bf40c7c1446ffddbb7342a763bc097b",
+    "src/cti_vla/training/formal_records.py": "b774b9e96a04eaca6bc8df51327b8012500bd37cc85122a0331582382e344da5"
+  },
+  "reviewed_utc": "2026-10-16T20:22:09.214062+00:00",
+  "reviewer": "profile_long",
+  "row_checks": [
+    {
+      "allocated_GPU_seconds": 4128,
+      "arms": {
+        "A": {
+          "full_validation_seconds": 55.0164343342185,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 10.83813857473433,
+            "mean_seconds": 4.8649649744406345,
+            "median_seconds": 4.818464502692223,
+            "n": 500,
+            "total_seconds": 2432.482487220317
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 165
+        },
+        "B": {
+          "full_validation_seconds": 41.53300777822733,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 4.037670120596886,
+            "mean_seconds": 2.569165094323456,
+            "median_seconds": 2.5224183090031147,
+            "n": 500,
+            "total_seconds": 1284.5825471617281
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 165
+        }
+      },
+      "bytes_published": 19583981216,
+      "cache_event_counts": {
+        "cache_eviction": 2937,
+        "cache_hit": 5725,
+        "cache_miss": 2936,
+        "cache_publish": 2936,
+        "feature_generate_end": 2936,
+        "feature_generate_start": 2936,
+        "shard_index_verified": 32
+      },
+      "job_id": "3012319",
+      "node": "gpu4010",
+      "one_registered_L40": true,
+      "root_receipt_and_verified_pull_match": true,
+      "seed": 23,
+      "suite": "libero_10",
+      "visual_tokens": 128
+    },
+    {
+      "allocated_GPU_seconds": 4103,
+      "arms": {
+        "A": {
+          "full_validation_seconds": 56.126087699085474,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 11.314570967108011,
+            "mean_seconds": 4.888754492927343,
+            "median_seconds": 4.81890753377229,
+            "n": 500,
+            "total_seconds": 2444.3772464636713
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 165
+        },
+        "B": {
+          "full_validation_seconds": 42.02870698273182,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 4.335391974076629,
+            "mean_seconds": 2.5466814178712665,
+            "median_seconds": 2.5076172798871994,
+            "n": 500,
+            "total_seconds": 1273.3407089356333
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 165
+        }
+      },
+      "bytes_published": 19502543952,
+      "cache_event_counts": {
+        "cache_eviction": 2921,
+        "cache_hit": 5737,
+        "cache_miss": 2924,
+        "cache_publish": 2924,
+        "feature_generate_end": 2924,
+        "feature_generate_start": 2924,
+        "shard_index_verified": 32
+      },
+      "job_id": "3012321",
+      "node": "gpu4026",
+      "one_registered_L40": true,
+      "root_receipt_and_verified_pull_match": true,
+      "seed": 41,
+      "suite": "libero_10",
+      "visual_tokens": 128
+    },
+    {
+      "allocated_GPU_seconds": 5363,
+      "arms": {
+        "A": {
+          "full_validation_seconds": 60.29360520094633,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 15.001052677631378,
+            "mean_seconds": 7.268478915732354,
+            "median_seconds": 6.782734679989517,
+            "n": 500,
+            "total_seconds": 3634.239457866177
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 165
+        },
+        "B": {
+          "full_validation_seconds": 54.28891807049513,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 4.0976766590029,
+            "mean_seconds": 2.592824923608452,
+            "median_seconds": 2.5496340468525887,
+            "n": 500,
+            "total_seconds": 1296.412461804226
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 165
+        }
+      },
+      "bytes_published": 13723612188,
+      "cache_event_counts": {
+        "cache_eviction": 2057,
+        "cache_hit": 6604,
+        "cache_miss": 2057,
+        "cache_publish": 2057,
+        "feature_generate_end": 2057,
+        "feature_generate_start": 2057,
+        "shard_index_verified": 32
+      },
+      "job_id": "3012322",
+      "node": "gpu4041",
+      "one_registered_L40": true,
+      "root_receipt_and_verified_pull_match": true,
+      "seed": 17,
+      "suite": "libero_10",
+      "visual_tokens": 256
+    },
+    {
+      "allocated_GPU_seconds": 5355,
+      "arms": {
+        "A": {
+          "full_validation_seconds": 63.74902946688235,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 14.708340225741267,
+            "mean_seconds": 7.260635190404952,
+            "median_seconds": 6.802291106432676,
+            "n": 500,
+            "total_seconds": 3630.317595202476
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 165
+        },
+        "B": {
+          "full_validation_seconds": 53.32573574595153,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 4.163471769541502,
+            "mean_seconds": 2.5918253426253797,
+            "median_seconds": 2.543160665780306,
+            "n": 500,
+            "total_seconds": 1295.9126713126898
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 165
+        }
+      },
+      "bytes_published": 10960275092,
+      "cache_event_counts": {
+        "cache_eviction": 1643,
+        "cache_hit": 7018,
+        "cache_miss": 1643,
+        "cache_publish": 1643,
+        "feature_generate_end": 1643,
+        "feature_generate_start": 1643,
+        "shard_index_verified": 32
+      },
+      "job_id": "3012323",
+      "node": "gpu4041",
+      "one_registered_L40": true,
+      "root_receipt_and_verified_pull_match": true,
+      "seed": 17,
+      "suite": "libero_10",
+      "visual_tokens": 64
+    },
+    {
+      "allocated_GPU_seconds": 4652,
+      "arms": {
+        "A": {
+          "full_validation_seconds": 114.42734052240849,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 11.828634591773152,
+            "mean_seconds": 5.951947375148535,
+            "median_seconds": 5.451863843016326,
+            "n": 500,
+            "total_seconds": 2975.9736875742674
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 189
+        },
+        "B": {
+          "full_validation_seconds": 37.51301205717027,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 2.648511279374361,
+            "mean_seconds": 2.430756253194064,
+            "median_seconds": 2.4236795101314783,
+            "n": 500,
+            "total_seconds": 1215.378126597032
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 189
+        }
+      },
+      "bytes_published": 25150177592,
+      "cache_event_counts": {
+        "cache_hit": 4995,
+        "cache_miss": 3762,
+        "cache_publish": 3762,
+        "feature_generate_end": 3762,
+        "feature_generate_start": 3762,
+        "shard_index_verified": 16
+      },
+      "job_id": "3012324",
+      "node": "gpu4041",
+      "one_registered_L40": true,
+      "root_receipt_and_verified_pull_match": true,
+      "seed": 17,
+      "suite": "libero_spatial",
+      "visual_tokens": 128
+    },
+    {
+      "allocated_GPU_seconds": 4544,
+      "arms": {
+        "A": {
+          "full_validation_seconds": 116.46027583442628,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 12.659456498920918,
+            "mean_seconds": 5.722922699619085,
+            "median_seconds": 5.177552796900272,
+            "n": 500,
+            "total_seconds": 2861.4613498095423
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 189
+        },
+        "B": {
+          "full_validation_seconds": 39.96990320831537,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 3.506449243053794,
+            "mean_seconds": 2.426543193921447,
+            "median_seconds": 2.416668264195323,
+            "n": 500,
+            "total_seconds": 1213.2715969607234
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 189
+        }
+      },
+      "bytes_published": 23618957196,
+      "cache_event_counts": {
+        "cache_hit": 5224,
+        "cache_miss": 3533,
+        "cache_publish": 3533,
+        "feature_generate_end": 3533,
+        "feature_generate_start": 3533,
+        "shard_index_verified": 16
+      },
+      "job_id": "3012325",
+      "node": "gpu4041",
+      "one_registered_L40": true,
+      "root_receipt_and_verified_pull_match": true,
+      "seed": 23,
+      "suite": "libero_spatial",
+      "visual_tokens": 128
+    },
+    {
+      "allocated_GPU_seconds": 4548,
+      "arms": {
+        "A": {
+          "full_validation_seconds": 73.71878267265856,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 11.23655372671783,
+            "mean_seconds": 5.798451851192862,
+            "median_seconds": 5.193483402952552,
+            "n": 500,
+            "total_seconds": 2899.225925596431
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 189
+        },
+        "B": {
+          "full_validation_seconds": 35.809347841888666,
+          "samples": 4000,
+          "update_durations_recomputed": {
+            "max_seconds": 2.718165410682559,
+            "mean_seconds": 2.4335692110694946,
+            "median_seconds": 2.425079978071153,
+            "n": 500,
+            "total_seconds": 1216.7846055347472
+          },
+          "updates": 500,
+          "validation_nodes": [
+            0,
+            500
+          ],
+          "validation_windows_each": 189
+        }
+      },
+      "bytes_published": 23757259896,
+      "cache_event_counts": {
+        "cache_hit": 5203,
+        "cache_miss": 3554,
+        "cache_publish": 3554,
+        "feature_generate_end": 3554,
+        "feature_generate_start": 3554,
+        "shard_index_verified": 16
+      },
+      "job_id": "3012326",
+      "node": "gpu4041",
+      "one_registered_L40": true,
+      "root_receipt_and_verified_pull_match": true,
+      "seed": 41,
+      "suite": "libero_spatial",
+      "visual_tokens": 128
+    }
+  ],
+  "schema": "formal_main_v2",
+  "statistics_comparison": {
+    "absolute_tolerance_seconds": 1e-10,
+    "all_fields_matched": true,
+    "independent_calculation": "Counts and median from sorted raw values; mean/total via math.fsum; all samples including spikes retained. No root helper execution.",
+    "max_absolute_floating_rounding_difference_seconds": 0.0,
+    "relative_tolerance": 1e-12
+  },
+  "status": "passed",
+  "summary": {
+    "path": "results/formal_main_v2/preflight/parallel_first_segments_observed_cost_20261016.json",
+    "sha256": "7cacab850c2d67135fa864bf91755c9499a6ab540cec74f632b5a3b0dfaf5bda"
+  },
+  "timing_scope_review": {
+    "actual_total_rule": "Sum the seven unique terminal Slurm elapsed_seconds times one GPU only; cache/feature/update/validation diagnostics are never added to this ledger.",
+    "cache_hit_scope": "Timer starts before stripe lock and includes SQLite transaction, integrity check, CPU record deserialization, recency update and commit. It cannot isolate lock waiting.",
+    "cache_publish_scope": "Timer includes initial locks/lookup, feature generation, serialization, publication, metadata transaction and eviction; nested feature_generate_end is not an additional GPU bill.",
+    "method_comparison": "A precedes B and shares the provider/cache, with concurrent peers changing hit/miss and contention. A/B observed wall times cannot identify a causal method training-speed effect; no causal token-budget speedup or72-arm extrapolation inferred.",
+    "update_scope": "Synchronized wall-clock update including provider.get, record fetch/generation, forward/backward and optimizer; validation/checkpoint work follows outside that update timer.",
+    "validation_scope": "Two full fixed-panel validations per arm at0 and500; 165 Long or189 Spatial windows per call. Later resumed segments need not repeat0."
+  }
+}

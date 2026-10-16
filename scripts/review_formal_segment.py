@@ -495,6 +495,8 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
         raise ValueError("Missing allocation wall cost")
     runtime_review = _shared.review_runtime_compatibility(evidence, job=job, invocation=invocation,
         receipt=receipt, inventory=inventory, pull_receipt=pull_receipt)
+    component_review = _shared.review_component_compatibility(evidence, job=job, invocation=invocation,
+        receipt=receipt, inventory=inventory, metadata_review=runtime_review, pull_receipt=pull_receipt)
     runtime_history = None
     if runtime_review is not None:
         gate_runtime = _shared.require_saved_runtime_review(evidence, saved=gate, job=gate_job, inventory=inventory)
@@ -515,6 +517,25 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
             runtime_history[prior_id] = prior_runtime
     elif any(key in gate for key in ("runtime_compatibility", "runtime_compatibility_review")):
         raise ValueError("Legacy training cannot inherit a compatibility-only acceptance")
+    component_history = None
+    if component_review is not None:
+        gate_component = _shared.require_saved_component_review(evidence, saved=gate, job=gate_job,
+            inventory=inventory, metadata_review=gate_runtime)
+        if gate_component is None or gate_component["component_compatibility"] != component_review["component_compatibility"]:
+            raise ValueError("Goal training component runtime differs from the reviewed suite acceptance")
+        component_history = {job_id: component_review}
+        for prior_id, prior_job in jobs.items():
+            if prior_id == job_id:
+                continue
+            prior_component = _shared.review_component_compatibility(evidence, job=prior_job,
+                invocation=evidence.read(prior_job["invocation"]),
+                receipt=evidence.read(f"results/{ROUND}/job_receipts/{prior_id}.json"), inventory=inventory,
+                metadata_review=runtime_history[prior_id], pull_receipt=pull_receipt)
+            if prior_component is None or prior_component["component_compatibility"] != component_review["component_compatibility"]:
+                raise ValueError("A prior Goal pair allocation used another component runtime")
+            component_history[prior_id] = prior_component
+    elif any(key in gate for key in ("component_compatibility", "component_compatibility_review")):
+        raise ValueError("Non-Goal training cannot inherit Goal component compatibility")
     first = next((result["arms"].get(a, {}) for a in ("A", "B") if result["arms"].get(a, {}).get("status") != "not_started"), None)
     if first is None:
         raise ValueError("No actual training evidence to review")
@@ -537,6 +558,8 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
                 receipt_rel, *[f"results/slurm/cti-formal_{job_id}.{ext}" for ext in ("out", "err")]]
     if runtime_history is not None:
         required.extend(path for reviewed in runtime_history.values() for path in reviewed["required_pulled_files"])
+    if component_history is not None:
+        required.extend(path for reviewed in component_history.values() for path in reviewed["required_pulled_files"])
     arms = {}
     for arm in ("A", "B"):
         arms[arm], needed = audit_arm(evidence, arm=arm, relative=relative, pair=pair, config=config, manifest=manifest,
@@ -624,6 +647,9 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
     if runtime_review is not None:
         summary.update(runtime_compatibility=runtime_review["runtime_compatibility"],
             runtime_compatibility_review=runtime_review, runtime_compatibility_history=runtime_history)
+    if component_review is not None:
+        summary.update(component_compatibility=component_review["component_compatibility"],
+            component_compatibility_review=component_review, component_compatibility_history=component_history)
     if verify_server_resume:
         checks = probe_registered_resume(resume_specs)
         if len(checks) != 2 or {r.get("arm") for r in checks} != {"A", "B"}:
@@ -640,7 +666,8 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
         if path.exists():
             previous = evidence.read(path)
             for key in ("files", "source_sha256", "invocation_sha256", "completed_by_arm", "allowed_next_segment_end", "server_resume_checks",
-                        "runtime_compatibility", "runtime_compatibility_review", "runtime_compatibility_history"):
+                        "runtime_compatibility", "runtime_compatibility_review", "runtime_compatibility_history",
+                        "component_compatibility", "component_compatibility_review", "component_compatibility_history"):
                 if previous.get(key) != summary.get(key):
                     raise ValueError("Existing immutable segment review differs")
             return previous

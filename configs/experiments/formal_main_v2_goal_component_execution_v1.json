@@ -1,0 +1,70 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "goal_component_execution_registration",
+  "version": "goal_component_execution_v1",
+  "status": "reviewed",
+  "registered_utc": "2026-10-16T20:23:11.391030+00:00",
+  "component_compatibility": {
+    "schema": "formal_main_v2",
+    "kind": "goal_component_filename_compatibility",
+    "version": "formal-goal-components-v1",
+    "suite": "libero_goal",
+    "wrapper": "scripts/server/run_formal_goal_asset_stage.py",
+    "adapter": "scripts/ops/formal_goal_component_adapter.py",
+    "slurm": "scripts/server/formal_goal_asset_main.slurm",
+    "registration": "configs/experiments/formal_main_v2_goal_component_compat_v1.json",
+    "files": {
+      "scripts/server/run_formal_goal_asset_stage.py": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039",
+      "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+      "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+      "configs/experiments/formal_main_v2_goal_component_compat_v1.json": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84"
+    }
+  },
+  "runtime_compatibility": {
+    "schema": "formal_main_v2",
+    "kind": "asset_metadata_compatibility",
+    "version": "formal-asset-metadata-compat-v1",
+    "wrapper": "scripts/server/run_formal_asset_stage.py",
+    "slurm": "scripts/server/formal_asset_main.slurm",
+    "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+    "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+    "files": {
+      "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+      "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+      "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+      "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+      "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+      "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+    }
+  },
+  "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+  "source_inventory_sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+  "metadata_execution_registration": "configs/experiments/formal_main_v2_asset_execution_v1.json",
+  "metadata_execution_registration_sha256": "4356a807b4a1e2084b8de13c939f6588721be05e21b370932d388561188bc1d6",
+  "scientific_registration": "configs/experiments/formal_main_v2.json",
+  "scientific_registration_sha256": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+  "parallel_registration": "configs/experiments/formal_main_v2_parallel_execution_v1.json",
+  "parallel_registration_sha256": "e1378e74d1ad89af2d38d2f8eb8ce33695a346331c2e89db6313a5608faf4907",
+  "allowed_suites": [
+    "libero_goal"
+  ],
+  "allowed_stages": [
+    "acceptance",
+    "train"
+  ],
+  "GPU_per_job": 1,
+  "max_active_GPU_jobs": 8,
+  "same_pair_active_job_limit": 1,
+  "root_submission_tool": "scripts/ops/formal_goal_asset_supervisor.py",
+  "root_submission_tool_sha256": "9affce50454c7262462868b317ab9965dc5a98e7a2283b57bd610432b510f1c9",
+  "review_inputs": {
+    "results/formal_main_v2/preflight/goal_component_execution_root_review.json": "84caf1fec3c73af8c0ef93aca5b803f4660582aedf7e940048d54c62547a61bb",
+    "results/formal_main_v2/preflight/goal_component_stage_implementation_review.json": "cc80a994edb2d02bc624506c9e027dc453f16c51e9f971c9a56fa3f4e35d9deb",
+    "results/formal_main_v2/preflight/goal_component_runtime_review_cpu_review.json": "3954b3ae81c2f38cc74415bf3f8b7690f36c019c3b4ea5a13a6972cbac7c1094",
+    "results/formal_main_v2/preflight/goal_asset_submitter_independent_review_v2.json": "fc11786fe9a523fbe2206496316ce031083144177f7362c40b049303df38798c"
+  },
+  "scientific_settings_changed": false,
+  "final_states_sealed": true,
+  "acceptance_must_run_again": true,
+  "downstream": "Explicit Goal component and metadata runtime evidence required; development/final/timing still gated."
+}

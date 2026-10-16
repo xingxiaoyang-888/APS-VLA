@@ -1,0 +1,103 @@
+{
+  "component_runtime_support_files": {
+    "configs/experiments/formal_main_v2_goal_component_compat_v1.json": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84",
+    "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+    "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+    "scripts/server/run_formal_goal_asset_stage.py": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039"
+  },
+  "conservative_failure_boundary": "A failed compatibility training allocation remains retained and blocks successful continuation review until a separate bounded failure/recovery audit exists.",
+  "cost_scope": "Count each complete Slurm allocation once; the outer component wall time and nested metadata wall time are diagnostic and are not additive GPU charges.",
+  "coverage": [
+    "Goal requires exact four-file component contract in both registered job and invocation; non-Goal behavior and fields remain unchanged.",
+    "The original unchanged metadata reviewer revalidates its original six-file contract and eight-event proof; metadata success alone cannot satisfy Goal component review.",
+    "The component proof binds its identity, complete ten-event raw journal, completion, old main receipt, old metadata artifacts and verified pull snapshot; exact paths, SHA and bytes are checked.",
+    "Exactly one action-head and one proprio-projector load must use the registered official 150000-to-50000 mapping, inside the original runner time interval; all restoration and unchanged-input flags must pass.",
+    "Actual outer and inner CPU writers for acceptance and training pass raw verified-pull and saved-review reconstruction. A successful inner metadata writer with a zero-component failing outer writer is rejected.",
+    "Server function bytecode SHA is treated as runtime-specific evidence: local Python 3.10 does not recompile and compare against server Python 3.11 bytecode. Source SHA, exact symbol set, identity continuity and restoration evidence remain mandatory.",
+    "Only immutable evidence read for this proof is exported in evidence_sha256; unrelated mutable supervisor/progress reads cannot stale the continuation gate.",
+    "Legacy scientific acceptance/segment and original metadata reviewer regressions pass, including the unmocked historical Long branch."
+  ],
+  "downstream_status": "Goal/Object execution remains fail-closed until a separately reviewed downstream compatibility integration",
+  "files": {
+    "scripts/ops/formal_goal_component_review.py": "f220ff71084c460b1fb66d56d63e10f0256dc1fb98874fd0f6f916c293734871",
+    "scripts/review_formal_acceptance.py": "373bcaea3ca8da63ee684ab8c3af6adcd329daa8fcc952422984882c0c206926",
+    "scripts/review_formal_segment.py": "566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790",
+    "tests/test_formal_goal_component_review.py": "17ec1badc6142b82db444e712107ccf0eb069acadd0209c0ca9eec6ac689b255"
+  },
+  "fixture_limits": [
+    "Actual writer integration substitutes the frozen GPU runner and the official-component target I/O boundary with CPU tiny-tensor inputs; original component loading and torch.load execute on those synthetic tensors.",
+    "Temporary Windows paths are explicitly transported to registered POSIX paths and only affected evidence hashes are rebound. Original writer bytes and transport logs remain under the test basetemp; validators themselves are not mocked in these integration cases.",
+    "The pre-existing scientific-core fixtures retain their approved runtime-helper mock to isolate original synthetic source identities. Goal contract and writer proof tests exercise the real new helper and original metadata reviewer.",
+    "No real model or training checkpoint was opened, no scientific GPU F00/F01/F03 or training was executed, and no real final-state values were read."
+  ],
+  "frozen_source_inventory": {
+    "changed_files": [],
+    "path": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+    "verified_frozen_files": 173,
+    "verified_training_source_files": 63
+  },
+  "gpu_jobs_submitted": false,
+  "kind": "root_goal_component_runtime_cpu_review",
+  "outputs": {
+    "acceptance_and_segment_fields": [
+      "component_compatibility",
+      "component_compatibility_review"
+    ],
+    "nested_required_fields": [
+      "status",
+      "component_compatibility",
+      "job_id",
+      "helper_sha256",
+      "evidence_sha256"
+    ],
+    "segment_history_field": "component_compatibility_history"
+  },
+  "production_status": "Goal real GPU F00/F01/F03 and root two-layer review remain required before formal training",
+  "production_weights_opened": false,
+  "reviewed_utc": "2026-10-16T20:22:29.974795+00:00",
+  "schema": "formal_main_v2",
+  "scientific_acceptance_claimed": false,
+  "sealed_initial_states_opened": false,
+  "server_accessed": false,
+  "status": "passed_cpu_review_integration",
+  "synthetic_tensors_loaded": true,
+  "tests": [
+    {
+      "command": "python -B -m pytest tests/test_formal_goal_component_review.py -q -p no:cacheprovider --basetemp=.local/pytest_goal_component_review_deploy64_final_a1 --junitxml=.local/pytest_goal_component_review_deploy64_final_a1.xml -x",
+      "errors": 0,
+      "failures": 0,
+      "junit": "results/formal_main_v2/preflight/goal_component_runtime_review_tests.xml",
+      "junit_sha256": "aed54961a81246776e19c24d59aa2d92ee7a1c208cfb47dce36abc1b88c7a291",
+      "seconds": 186.436,
+      "skipped": 0,
+      "source_junit": ".local/pytest_goal_component_review_deploy64_final_a1.xml",
+      "tests": 35
+    },
+    {
+      "command": "python -B -m pytest tests/test_review_formal_acceptance.py tests/test_review_formal_segment.py tests/test_formal_asset_compat_review.py -q -p no:cacheprovider --basetemp=.local/pytest_goal_component_legacy_deploy64_final_a1 --junitxml=.local/pytest_goal_component_legacy_deploy64_final_a1.xml -x",
+      "errors": 0,
+      "failures": 0,
+      "junit": "results/formal_main_v2/preflight/goal_component_runtime_review_legacy_tests.xml",
+      "junit_sha256": "c1ee4f293d3be0cbdfee8660653b673d48d88df506e3c9e4dbeaa8a42792e6ce",
+      "seconds": 210.023,
+      "skipped": 0,
+      "source_junit": ".local/pytest_goal_component_legacy_deploy64_final_a1.xml",
+      "tests": 85
+    }
+  ],
+  "total_tests_passed": 120,
+  "unchanged_metadata_review_helper": {
+    "path": "scripts/ops/formal_asset_compat_review.py",
+    "sha256": "6ad55ddac4bfb692c72e3b1a9c37f41d6d831d7d03a2f2fbbde7f3c0dcf8f46b"
+  },
+  "unchanged_metadata_runtime_support_files": {
+    "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+    "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+    "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+    "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+    "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+    "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996"
+  }
+}

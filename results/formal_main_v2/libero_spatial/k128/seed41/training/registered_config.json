@@ -1,0 +1,104 @@
+{
+  "action_loss": {
+    "demonstration_l1_weight": 0.5,
+    "space": "checkpoint-normalized action8x7",
+    "teacher_l1_weight": 0.5
+  },
+  "arms": [
+    "A",
+    "B"
+  ],
+  "data": {
+    "protocol": "configs/manifests/formal_main_v2/libero_spatial/protocol.json",
+    "windows": "configs/manifests/formal_main_v2/libero_spatial/windows.json"
+  },
+  "future": {
+    "deployment": "head and executed-action inputs removed",
+    "head": "Linear(512+8*7,256),SiLU,Linear(256,512)",
+    "head_inputs": [
+      "gated current visual representation",
+      "normalized actually executed demonstration actions[t:t+8]"
+    ],
+    "horizon": 8,
+    "layer_norm_eps": 1e-05,
+    "loss": "mean squared error over all512 features",
+    "projection_scale": "1/sqrt(4096)",
+    "projection_seed": 917,
+    "representation": "Frozen OFT projected visual tokens, each 16x16 camera pooled to 2x2, shared fixed Gaussian projection to64 per cell, per-cell parameter-free LayerNorm, flatten512",
+    "target": "detached visual representation of observation[t+8] from same episode",
+    "weight_A": 0.0,
+    "weight_B": 0.1
+  },
+  "gate": {
+    "alpha_end": 0.1,
+    "alpha_start": 2.0,
+    "method": "ACL LapSum per camera; raw-feature black-image mixing with detached sqrt stabilizer",
+    "schedule": "cosine across5000updates"
+  },
+  "limits": {
+    "allow_hyperparameter_search": false,
+    "automatic_expansion": false,
+    "external_selector_download_training_evaluation": false,
+    "first_gpu_job": "suite-specific F00/F01/F02/F03 acceptance",
+    "old_deletion_label_expansion": false,
+    "scope": "registered72-arm matrix only",
+    "staged_rescoring": false
+  },
+  "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+  "panels": {
+    "closed_loop": "all10tasks,10dev+40sealed final states per task",
+    "test": "sealed until global root release",
+    "train": "all legal8-action same-episode train windows; no terminal crossing or padding",
+    "validation": "first,middle,last legal window per eligible validation episode,distinct"
+  },
+  "question": "Does future visual-state auxiliary supervision improve frozen VLA token-pruning success versus full inference latency?",
+  "run_id": "formal_main_v2_libero_spatial_k128_seed41",
+  "schema": "formal_main_v2",
+  "scorer_dimensions": {
+    "hidden_dim": 256,
+    "language_dim": 4096,
+    "max_instruction_tokens": 128,
+    "num_cameras": 2,
+    "patches_per_camera": 256,
+    "proprio_dim": 8,
+    "token_dim": 4096
+  },
+  "seed": 41,
+  "selection": {
+    "future_loss_used": false,
+    "metric": "task_macro_hard_validation_teacher_l1",
+    "tie_break": "earliest_update",
+    "updates": [
+      0,
+      500,
+      1000,
+      1500,
+      2000,
+      2500,
+      3000,
+      3500,
+      4000,
+      4500,
+      5000
+    ]
+  },
+  "stats_key": "libero_spatial_no_noops",
+  "suite": "libero_spatial",
+  "tokens_per_camera": 64,
+  "training": {
+    "checkpoint_every_updates": 50,
+    "dtype_scorer": "float32",
+    "dtype_vla": "bfloat16",
+    "effective_batch": 8,
+    "gradient_clip_norm": 1.0,
+    "gradient_through_vla": true,
+    "learning_rate": 0.0001,
+    "micro_batch": 1,
+    "optimizer": "AdamW",
+    "order": "identical seeded shuffled windows, cycling through epochs",
+    "same_initial_scorer": true,
+    "updates": 5000,
+    "vla_frozen": true,
+    "weight_decay": 0.01
+  }
+}
