@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 import hashlib
+import importlib.util
 import json
 import math
 from pathlib import Path
@@ -24,6 +25,10 @@ from cti_vla.evaluation.teacher_diagnostics import json_signature
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "formal-main-v2-analysis-1"
+CACHE_INTEGRATION_VERSION = "formal-cache-evidence-integration-v1"
+CACHE_SCOPE = ("Independent disk-cache operation cost estimate under the registered isolated-cache schedule; "
+    "not a complete independent training GPU bill. Actual Slurm allocations remain the only measured GPU total. "
+    "Shared-run incremental cache/phase times are diagnostic and are never added to that total.")
 BOOTSTRAP_SEED, BOOTSTRAP_REPEATS = 20261016, 10000
 SUITES = ("libero_10", "libero_spatial", "libero_object", "libero_goal")
 TERMINAL_JOBS = {"COMPLETED", "FAILED", "CANCELLED", "TIMEOUT", "OUT_OF_MEMORY", "NODE_FAIL", "PREEMPTED", "BOOT_FAIL",
@@ -101,9 +106,114 @@ def require_registration(registration):
 
 def pending_cache_cost():
     return {"status": "pending_real_training_logs", "not_assumed_zero": True,
-        "missing": ["per-arm actual requested-window sequence and128GiB capacity replay",
-                    "same-window measured current/teacher/future/diagnostic component times"],
-        "scope": "Independent-cache cost estimate will be separate from actual Slurm GPU seconds; no extra training or GPU jobs for accounting."}
+        "missing": ["SHA-bound cache_replay evidence manifest and root-closed complete natural journals"],
+        "scope": CACHE_SCOPE}
+
+
+def load_cache_replay():
+    path = Path(__file__).with_name("replay_formal_cache_cost.py")
+    spec = importlib.util.spec_from_file_location("formal_cache_replay_in_analysis", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def cache_delivery_fields(cache, *, core_complete):
+    closed = core_complete and cache.get("status") == "completed_estimate_with_limitations"
+    identified = bool(closed and len(cache.get("arms", [])) == 72 and not cache.get("transaction_unknown")
+        and all(row["replay"].get("status") == "exact_under_registered_no_failure_schedule"
+                and row["timing"].get("complete_seconds") is not None for row in cache["arms"]))
+    return dict(core_results_complete=core_complete, cache_evidence_complete=closed,
+        independent_cache_operations_fully_identified=identified, main_experiment_delivery_complete=False,
+        delivery_status=("pending_core_evidence" if not core_complete else
+            "core_complete_cache_estimate_with_limitations" if closed else "core_complete_cache_pending"),
+        delivery_note="Core results and scoped cache estimates do not establish a complete independent training GPU bill; root must verify remaining paper/delivery requirements.")
+
+
+def recompute_cache_cost(reader, evidence, registration, matrix, cost):
+    """Bind the original cache manifest to the already audited core identities."""
+    reference = evidence.get("cache_replay")
+    if not reference:
+        return pending_cache_cost()
+    replay = load_cache_replay()
+    source_sha = file_sha256(replay.__file__)
+    registration_token = object()
+    class CacheEvidence(replay.Evidence):
+        def read(self, ref, label="evidence"):
+            # The caller's registration has already passed the formal protocol
+            # gate. Use that exact object, never a second unbound registration.
+            return registration if ref is registration_token else super().read(ref, label)
+    cache_reader = CacheEvidence(reader.root)
+    result = dict(schema=FORMAL_SCHEMA, kind="independent_disk_cache_operation_cost_estimate", version=replay.VERSION,
+        status="pending_evidence", missing=[], arms=[], actual_allocation=None, transaction_unknown=[])
+    def ref_identity(ref):
+        if not isinstance(ref, dict) or set(ref) != {"path", "sha256"}:
+            raise ValueError("cache evidence accepts only path/SHA references, never completed summaries")
+        path = replay.metadata_path(reader.root, ref["path"])
+        return path, replay.sha(ref["sha256"])
+    def same_ref(left, right, label):
+        if ref_identity(left) != ref_identity(right):
+            raise ValueError("cache replay differs from audited core " + label)
+    try:
+        ref_identity(reference)
+        manifest = cache_reader.read(reference, "cache replay evidence manifest")
+        if (manifest.get("kind") != "cache_replay_evidence" or manifest.get("schema") != FORMAL_SCHEMA
+                or manifest.get("registration_sha256") != json_signature(registration)):
+            raise ValueError("only the original same-registration cache replay evidence manifest is accepted")
+        for name in ("accounting", "root_cost_inventory"):
+            if manifest.get(name):
+                same_ref(manifest[name], evidence[name], name)
+        frozen = {(r["suite"], r["method_id"]): r for r in matrix["instances"] if r["method"] in ("A", "B")}
+        expected = {}
+        for item in evidence["training"]:
+            identity = frozen[(item["suite"], item["method_id"])]
+            key = (identity["suite"], identity["visual_tokens"], identity["training_seed"], identity["method"])
+            if key in expected:
+                raise ValueError("duplicate core training identity in cache binding")
+            expected[key] = item
+        seen = set()
+        for item in manifest.get("training", []):
+            key = (item.get("suite"), item.get("visual_tokens"), item.get("seed"), item.get("arm"))
+            if key not in expected or key in seen:
+                raise ValueError("cache replay has duplicate/foreign frozen training identity")
+            seen.add(key)
+            for name in ("report", "receipt"):
+                if item.get(name):
+                    same_ref(item[name], expected[key][name], str(key) + ":" + name)
+        for suite, spec in manifest.get("suites", {}).items():
+            if suite not in evidence["suites"]:
+                raise ValueError("cache replay contains an unregistered suite")
+            if spec.get("windows"):
+                same_ref(spec["windows"], evidence["suites"][suite]["windows"], suite + ":windows")
+        result = replay.analyze(cache_reader, registration_token, reference)
+        if result.get("registration_sha256") != json_signature(registration):
+            raise ValueError("cache recomputation changed registration identity")
+        if result["status"] == "completed_estimate_with_limitations" and seen != set(expected):
+            raise ValueError("closed cache replay does not cover the same72 frozen selectors")
+        allocation = result.get("actual_allocation")
+        if allocation is not None:
+            def bill_identity(rows):
+                return {str(r["job_id"]): (r["elapsed_seconds"], r["gpus"], str(r["status"]).split()[0].rstrip("+")) for r in rows}
+            if (bill_identity(allocation["jobs"]) != bill_identity(cost["jobs"])
+                    or not math.isclose(allocation["gpu_seconds"], cost["actual_allocated_gpu_seconds"], rel_tol=1e-12, abs_tol=1e-9)):
+                raise ValueError("cache replay and core actual allocation totals differ")
+    except replay.Pending as exc:
+        result["missing"].append(str(exc))
+    finally:
+        cache_reader.unchanged()
+        for relative, digest in cache_reader.used.items():
+            path = str(reader.root / relative)
+            if path in reader.seen and reader.seen[path] != digest:
+                raise ValueError("core/cache evidence changed identity during analysis")
+            reader.seen[path] = digest
+        if file_sha256(replay.__file__) != source_sha:
+            raise ValueError("cache replay source changed during analysis")
+    return {**result, "integration_version": CACHE_INTEGRATION_VERSION,
+        "display_name": "独立磁盘缓存操作成本估计", "scope": CACHE_SCOPE, "not_assumed_zero": True,
+        "recomputed_from_original_evidence": True, "replay_script_sha256": source_sha,
+        "evidence_manifest": reference, "evidence_sha256": dict(sorted(cache_reader.used.items())),
+        "registration_sha256": json_signature(registration),
+        "core_binding": {name: evidence[name] for name in ("accounting", "root_cost_inventory")}}
 
 
 def interval(values, estimate):
@@ -526,11 +636,15 @@ def analyze(evidence, registration, *, project_root):
     if (evidence.get("schema") != FORMAL_SCHEMA or evidence.get("kind") != "analysis_evidence"
             or evidence.get("registration_sha256") != json_signature(registration)):
         raise ValueError("formal analysis evidence manifest differs from registration")
+    if "standalone_cache_cost" in evidence or (evidence.get("cache_replay") is not None
+            and (not isinstance(evidence["cache_replay"], dict) or set(evidence["cache_replay"]) != {"path", "sha256"})):
+        raise ValueError("supply only a SHA-bound original cache_replay manifest; precomputed cache summaries are forbidden")
     base = dict(version=VERSION, schema=FORMAL_SCHEMA, registration_sha256=json_signature(registration),
         analysis_script_sha256=file_sha256(__file__), analysis_runtime=dict(python=sys.version, numpy=np.__version__),
         evidence_manifest_sha256=json_signature(evidence), weights_loaded=False, sealed_state_values_read=False,
         main_experiment_delivery_complete=False,
         standalone_cache_cost=pending_cache_cost())
+    base.update(cache_delivery_fields(base["standalone_cache_cost"], core_complete=False))
     try:
         # Nothing referencing a final result is followed until both gates pass.
         missing = [k for k in ("global_freeze", "release") if not evidence.get(k)]
@@ -600,10 +714,12 @@ def analyze(evidence, registration, *, project_root):
             raise PendingEvidence("root final cost inventory is not complete")
         cost = summarize_cost(reader.read(evidence["accounting"], "Slurm accounting"),
             expected_job_ids=inventory["job_ids"], observed_job_ids=observed_jobs)
+        cache_cost = recompute_cache_cost(reader, evidence, registration, matrix, cost)
         statistics = summarize_success(outcomes, state_ids=state_ids)
         reader.unchanged()
         return {**base, "status": "completed_core_analysis", "success": statistics, "latency": latency,
             "diagnostics": diagnostics, "cost": cost, "retained_failed_attempts": attempts,
+            "standalone_cache_cost": cache_cost, **cache_delivery_fields(cache_cost, core_complete=True),
             "read_evidence_sha256": reader.seen, "new_experiments_authorized": False}
     except PendingEvidence as exc:
         reader.unchanged()
@@ -628,6 +744,7 @@ def main():
             main_table_generated=False, weights_loaded=False, sealed_state_values_read=False,
             analysis_script_sha256=file_sha256(__file__), main_experiment_delivery_complete=False,
             standalone_cache_cost=pending_cache_cost())
+        result.update(cache_delivery_fields(result["standalone_cache_cost"], core_complete=False))
     if args.output:
         output = args.output.resolve()
         if args.project_root.resolve() not in output.parents or output.exists() or output.suffix.lower() != ".json":

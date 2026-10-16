@@ -423,3 +423,186 @@ def test_cli_missing_evidence_manifest_outputs_pending(tmp_path, monkeypatch, ca
     a.main()
     value = json.loads(capsys.readouterr().out)
     assert value["status"] == "pending" and value["main_table_generated"] is False
+
+
+def cache_binding_fixture(tmp_path):
+    from test_replay_formal_cache_cost import matrix
+    reg = matrix(); reg.update(final_trials=35200, statistics=deepcopy(a.STATISTICAL_PROTOCOL))
+    instances, entries = [], []
+    dummy = lambda path: dict(path=path, sha256="a" * 64)
+    for suite in a.SUITES:
+        for budget in (256, 128, 64):
+            for seed in (17, 23, 41):
+                for arm in "AB":
+                    mid = f"{arm}{budget}_seed{seed}"
+                    instances.append(dict(suite=suite, method_id=mid, method=arm, visual_tokens=budget, training_seed=seed))
+                    entries.append(dict(suite=suite, method_id=mid, report=dummy(f"reports/{suite}_{mid}.json"),
+                        receipt=dummy(f"receipts/{suite}_{mid}.json")))
+    core = dict(training=entries, suites={s: {"windows": dummy(f"windows/{s}.json")} for s in a.SUITES},
+        accounting=dummy("accounting.json"), root_cost_inventory=dummy("final_cost_inventory.json"))
+    manifest = dict(schema="formal_main_v2", kind="cache_replay_evidence", registration_sha256=json_signature(reg))
+    core["cache_replay"] = ref(tmp_path, "cache_evidence.json", manifest)
+    return reg, core, {"instances": instances}, manifest
+
+
+def test_cache_actual_entrypoint_missing_natural_logs_remains_pending(tmp_path):
+    reg, core, matrix, _ = cache_binding_fixture(tmp_path)
+    reader = a.Evidence(tmp_path)
+    result = a.recompute_cache_cost(reader, core, reg, matrix, {"jobs": []})
+    assert result["status"] == "pending_evidence" and result["missing"]
+    assert result["recomputed_from_original_evidence"] is True and result["arms"] == []
+    assert a.cache_delivery_fields(result, core_complete=True) == dict(core_results_complete=True,
+        cache_evidence_complete=False, independent_cache_operations_fully_identified=False,
+        main_experiment_delivery_complete=False, delivery_status="core_complete_cache_pending",
+        delivery_note="Core results and scoped cache estimates do not establish a complete independent training GPU bill; root must verify remaining paper/delivery requirements.")
+    assert str(tmp_path / "cache_evidence.json") in reader.seen
+
+
+@pytest.mark.parametrize("field", ["accounting", "root_cost_inventory", "report", "receipt", "windows", "registration", "summary"])
+def test_cache_identity_mismatch_or_precomputed_summary_rejected(tmp_path, field):
+    reg, core, matrix, manifest = cache_binding_fixture(tmp_path)
+    wrong = dict(path="different.json", sha256="b" * 64)
+    if field in ("accounting", "root_cost_inventory"):
+        manifest[field] = wrong
+    elif field in ("report", "receipt"):
+        item = core["training"][0]
+        manifest["training"] = [dict(suite=item["suite"], visual_tokens=256, seed=17, arm="A", **{field: wrong})]
+    elif field == "windows":
+        manifest["suites"] = {"libero_10": {"windows": wrong}}
+    elif field == "registration":
+        manifest["registration_sha256"] = "0" * 64
+    else:
+        manifest.update(kind="independent_disk_cache_operation_cost_estimate", status="completed_estimate_with_limitations")
+    core["cache_replay"] = ref(tmp_path, "changed_cache_evidence.json", manifest)
+    with pytest.raises(ValueError):
+        a.recompute_cache_cost(a.Evidence(tmp_path), core, reg, matrix, {"jobs": []})
+
+
+def test_cache_sha_and_inline_completed_summary_are_rejected_before_replay(tmp_path):
+    reg, core, matrix, manifest = cache_binding_fixture(tmp_path)
+    (tmp_path / core["cache_replay"]["path"]).write_text("{}")
+    with pytest.raises(ValueError, match="SHA mismatch"):
+        a.recompute_cache_cost(a.Evidence(tmp_path), core, reg, matrix, {"jobs": []})
+    for extra in (dict(standalone_cache_cost={"status": "completed"}), dict(cache_replay={"status": "completed"})):
+        with pytest.raises(ValueError, match="precomputed cache summaries"):
+            a.analyze(dict(schema="formal_main_v2", kind="analysis_evidence", registration_sha256=json_signature(reg), **extra),
+                reg, project_root=tmp_path)
+
+
+def test_cache_reference_sensitive_paths_rejected_before_hash(tmp_path, monkeypatch):
+    reg, core, matrix, _ = cache_binding_fixture(tmp_path)
+    replay = a.load_cache_replay()
+    monkeypatch.setattr(a, "load_cache_replay", lambda: replay)
+    monkeypatch.setattr(replay, "digest", lambda *args: pytest.fail("forbidden metadata hashed"))
+    for name in ("weights/fake.json", "sealed/data.json", "test/data.json", "init_states_test.json", "panel.json", "cache.pt"):
+        core["cache_replay"] = dict(path=name, sha256="a" * 64)
+        with pytest.raises(ValueError):
+            a.recompute_cache_cost(a.Evidence(tmp_path), core, reg, matrix, {"jobs": []})
+
+
+def test_original_cache_replay_to_analysis_and_renderer_layered(tmp_path, monkeypatch):
+    """Exercise real cache identity/closure/replay through both public entrypoints.
+
+    Existing suites test core statistics/profiles and full journal decoding.
+    Here those independent expensive layers use their synthetic contract;
+    cache completion is computed, never supplied as a completed summary.
+    Identical synthetic streams memoize the real full40000 replay, no proxies.
+    """
+    import test_replay_formal_cache_cost as fixture
+    import test_formal_render as presentation
+    from cti_vla.evaluation import formal_profiling
+    replay = fixture.r
+    regref, cacheref, proto = fixture.build_matrix_evidence(tmp_path)
+    reg = json.loads((tmp_path / regref["path"]).read_text())
+    reg.update(final_trials=35200, statistics=deepcopy(a.STATISTICAL_PROTOCOL))
+    cache_manifest = json.loads((tmp_path / cacheref["path"]).read_text())
+    cache_manifest["registration_sha256"] = json_signature(reg)
+    inventory = json.loads((tmp_path / cache_manifest["root_cost_inventory"]["path"]).read_text())
+    inventory["registration_sha256"] = json_signature(reg)
+    cache_manifest["root_cost_inventory"] = ref(tmp_path, "closed_inventory_v2.json", inventory)
+    cacheref = ref(tmp_path, "original_cache_manifest_v2.json", cache_manifest)
+    actual_parse_cache, actual_replay = replay.parse_cache, replay.replay_counts
+    replay_memo = {}
+    def expanded_attempt(reader, reference, arm, registered, bills):
+        first = reader.lines(reference)[0][0]
+        assert first["identity"] == arm["identity"]
+        groups = {("validation", u): dict(expected=arm["windows"]["validation"], sample_starts=0, sample_ends=0, complete=True)
+            for u in range(0, 5001, 500)}
+        groups[("training", 5000)] = dict(expected=arm["order"][-8:], sample_starts=8, sample_ends=8, complete=True)
+        return dict(job=first["job_id"], aid=first["attempt_id"], groups=groups, completed_updates=set(range(1, 5001)),
+            sample_ends=40000, failed_or_partial=False, ref=reference)
+    def expanded_cache(reader, reference, **kwargs):
+        value = actual_parse_cache(reader, reference, **kwargs); requests = {}
+        for arm, (order, val) in proto[kwargs["job"]].items():
+            for u in range(0, 5001, 500): requests[(arm, "validation", u)] = val
+            requests[(arm, "training", 5000)] = order[-8:]
+        value["requests"] = requests
+        return value
+    def memoized_replay(order, val, ns, sizes):
+        key = (tuple(order), tuple(val), ns, replay.signature({str(k): sorted(v) for k,v in sizes.items()}))
+        if key not in replay_memo: replay_memo[key] = actual_replay(order, val, ns, sizes)
+        return replay_memo[key]
+    monkeypatch.setattr(replay, "parse_attempt", expanded_attempt)
+    monkeypatch.setattr(replay, "parse_cache", expanded_cache)
+    monkeypatch.setattr(replay, "replay_counts", memoized_replay)
+    monkeypatch.setattr(a, "load_cache_replay", lambda: replay)
+    template = presentation.completed_fixture()
+    instances = []
+    for suite in a.SUITES:
+        for mid in expected_method_ids():
+            arm = mid[0] if mid.startswith(("A", "B")) else "dense" if mid == "dense" else "uniform"
+            budget = int(mid[1:].split("_")[0]) if arm in "AB" else 512 if mid == "dense" else int(mid[7:])
+            instances.append(dict(suite=suite, method_id=mid, method=arm, visual_tokens=budget,
+                training_seed=int(mid.split("seed")[1]) if "seed" in mid else None,
+                window_manifest_sha256=cache_manifest["suites"][suite]["windows"]["sha256"]))
+    freeze = dict(instances=instances, suites={s: {} for s in a.SUITES})
+    core = dict(schema="formal_main_v2", kind="analysis_evidence", registration_sha256=json_signature(reg),
+        global_freeze=ref(tmp_path, "freeze.json", freeze), release=ref(tmp_path, "release.json", {}),
+        accounting=cache_manifest["accounting"], root_cost_inventory=cache_manifest["root_cost_inventory"], cache_replay=cacheref,
+        training=[dict(suite=x["suite"], method_id=f"{x['arm']}{x['visual_tokens']}_seed{x['seed']}", report=x["report"], receipt=x["receipt"])
+            for x in cache_manifest["training"]], suites={})
+    for suite in a.SUITES:
+        spec = dict(windows=cache_manifest["suites"][suite]["windows"], final_registry=ref(tmp_path, f"{suite}/registry.json", {}), runs=[{}])
+        for pass_name, key in (("full", "full_profile"), ("components", "component_profile")):
+            config = dict(global_freeze_sha256=core["global_freeze"]["sha256"], slurm_job_id="1000", panel={}, runtime={},
+                manifest={"methods": [{"identity": x} for x in instances if x["suite"] == suite]})
+            spec[key] = {field: ref(tmp_path, f"{suite}/{pass_name}/{field}." + ("jsonl" if field == "calls" else "json"),
+                config if field == "config" else [])
+                for field in ("config", "measurements", "summary", "calls")}
+        core["suites"][suite] = spec
+    monkeypatch.setattr(a, "validate_freeze_matrix", lambda *args, **kw: None)
+    monkeypatch.setattr(a, "validate_final_release", lambda *args, **kw: None)
+    monkeypatch.setattr(a, "read_registry", lambda *args, **kw: {})
+    monkeypatch.setattr(a, "read_final_run", lambda *args, **kw: ([], dict(job_ids=["1000"])))
+    monkeypatch.setattr(a, "assemble_outcomes", lambda *args, **kw: (None, None))
+    monkeypatch.setattr(a, "read_training_diagnostics", lambda *args, **kw: (template["diagnostics"], set()))
+    monkeypatch.setattr(a, "summarize_success", lambda *args, **kw: template["success"])
+    monkeypatch.setattr(formal_profiling, "analyze_formal_profile", lambda path, reg: presentation.profile(path.name))
+    result = a.analyze(core, reg, project_root=tmp_path)
+    assert result["status"] == "completed_core_analysis" and result["cache_evidence_complete"]
+    assert result["independent_cache_operations_fully_identified"] is False
+    assert result["main_experiment_delivery_complete"] is False
+    assert result["standalone_cache_cost"]["actual_allocation"]["gpu_seconds"] == result["cost"]["actual_allocated_gpu_seconds"] == 180000
+    assert len(result["standalone_cache_cost"]["arms"]) == 72 and len(replay_memo) == 12
+    assert all(x["replay"]["counts"]["window_requests"] == 40110 for x in result["standalone_cache_cost"]["arms"])
+    result["synthetic"] = True
+    renderer = presentation.r
+    renderer.validate_completed(result, synthetic=True)
+    tables = {t["stem"]: t for t in renderer.make_tables(result)}
+    assert len(tables["cache_operation_cost"]["rows"]) == 72
+    assert all(row[9] == renderer.UNKNOWN for row in tables["cache_operation_cost"]["rows"])
+    monkeypatch.setattr(renderer, "render_figures", lambda *args, **kw: "synthetic-no-plot-contract-test")
+    rendered = renderer.render(presentation.write_input(tmp_path, result), tmp_path / "synthetic-integrated", project_root=tmp_path, synthetic=True)
+    assert rendered["status"] == "rendered_core_results_cache_estimate_with_limitations"
+    assert rendered["main_experiment_delivery_complete"] is False and rendered["cache_evidence_complete"] is True
+    assert "NOT IDENTIFIED" in (tmp_path / "synthetic-integrated/synthetic_cost.md").read_text()
+    # An incomplete cache archive cannot become a closed main delivery merely
+    # because core scientific results and the actual GPU bill are complete.
+    incomplete = deepcopy(cache_manifest); incomplete.pop("root_cost_inventory")
+    core["cache_replay"] = ref(tmp_path, "unclosed_cache_manifest.json", incomplete)
+    partial = a.analyze(core, reg, project_root=tmp_path)
+    assert partial["status"] == "completed_core_analysis" and partial["standalone_cache_cost"]["status"] == "pending_evidence"
+    assert partial["cache_evidence_complete"] is False and partial["standalone_cache_cost"]["missing"]
+    partial["synthetic"] = True
+    renderer.validate_completed(partial, synthetic=True)
+    assert not any(t["stem"] == "cache_operation_cost" for t in renderer.make_tables(partial))

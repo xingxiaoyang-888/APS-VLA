@@ -340,3 +340,77 @@ def test_truthy_string_is_not_an_explicit_synthetic_marker(tmp_path):
     data["synthetic"] = "true"
     with pytest.raises(ValueError, match="Synthetic"):
         r.render(write_input(tmp_path, data), tmp_path / "out", project_root=tmp_path, synthetic=True)
+
+
+def cache_estimate_fixture(*, known=False, missing_sizes=False):
+    """Presentation contract built with the real count/calibration producers."""
+    import test_replay_formal_cache_cost as cache
+    import test_formal_analysis as analysis
+    data = completed_fixture(); ns = "a" * 64
+    value = cache.r.replay_counts(["x"] * 40000, ["v"], ns, cache.sizes(ns, ["x", "v"]) if not missing_sizes else [])
+    observations = [dict(namespace=ns, key=op["key"], operation=op["operation"], seconds=.25,
+        hardware={"identity_sha256": "h" * 64}, source=dict(path="synthetic_cache.jsonl", sha256="a" * 64, line=i + 1))
+        for i, op in enumerate(value.get("operations", []))]
+    timing = cache.r.calibrate(value, ns, observations, "h" * 64 if known else None, compact=True)
+    manifest_ref = dict(path="synthetic/cache_manifest.json", sha256="d" * 64)
+    bindings = {name: dict(path=f"synthetic/{name}.json", sha256="e" * 64) for name in ("accounting", "root_cost_inventory")}
+    data["read_evidence_sha256"] = {"/synthetic-root/" + x["path"]: x["sha256"] for x in [manifest_ref, *bindings.values()]}
+    estimate = dict(schema=r.SCHEMA, kind="independent_disk_cache_operation_cost_estimate", version=cache.r.VERSION,
+        status="completed_estimate_with_limitations", missing=[], not_assumed_zero=True, integration_version=r.CACHE_INTEGRATION_VERSION,
+        registration_sha256=data["registration_sha256"], recomputed_from_original_evidence=True,
+        replay_script_sha256=r.sha256(ROOT / "scripts/replay_formal_cache_cost.py"), evidence_manifest=manifest_ref,
+        core_binding=bindings, evidence_sha256={manifest_ref["path"]: manifest_ref["sha256"]},
+        display_name="独立磁盘缓存操作成本估计", scope=analysis.a.CACHE_SCOPE,
+        actual_allocation=dict(gpu_seconds=data["cost"]["actual_allocated_gpu_seconds"], jobs=data["cost"]["jobs"]),
+        limitations=["Synthetic scoped operation estimate; never a complete independent training GPU bill."], transaction_unknown=[],
+        arms=[dict(suite=s, visual_tokens=b, seed=seed, arm=arm, replay=cache.r.compact_replay(value), timing=deepcopy(timing))
+            for s in r.SUITES for b in r.BUDGETS for seed in r.SEEDS for arm in "AB"])
+    data["standalone_cache_cost"] = estimate
+    data.update(analysis.a.cache_delivery_fields(estimate, core_complete=True))
+    return data
+
+
+@pytest.mark.parametrize("known,missing_sizes", [(False, False), (True, False), (False, True)])
+def test_scoped_cache_counts_and_seconds_keep_unknowns_and_full_delivery_false(known, missing_sizes):
+    data = cache_estimate_fixture(known=known, missing_sizes=missing_sizes)
+    r.validate_completed(data, synthetic=True)
+    tables = {t["stem"]: t for t in r.make_tables(data)}
+    row = tables["cache_operation_cost"]["rows"][0]
+    assert len(tables["cache_operation_cost"]["rows"]) == 72
+    assert (row[9] != r.UNKNOWN) is known
+    assert data["cache_evidence_complete"] is True
+    assert data["independent_cache_operations_fully_identified"] is known
+    assert data["main_experiment_delivery_complete"] is False
+    if missing_sizes:
+        assert all(x == r.UNKNOWN for x in tables["cache_operation_counts"]["rows"][0][3:])
+    if not known:
+        assert row[6:10] == [r.UNKNOWN] * 4
+    assert "not a complete independent training GPU bill" in tables["cost"]["notes"]
+
+
+@pytest.mark.parametrize("change", [
+    lambda d: d.update(main_experiment_delivery_complete=True),
+    lambda d: d.update(independent_cache_operations_fully_identified=True),
+    lambda d: d["standalone_cache_cost"].update(recomputed_from_original_evidence=False),
+    lambda d: d["standalone_cache_cost"].update(replay_script_sha256="0" * 64),
+    lambda d: d["standalone_cache_cost"]["arms"].pop(),
+    lambda d: d["standalone_cache_cost"]["actual_allocation"].update(gpu_seconds=0),
+    lambda d: d["standalone_cache_cost"]["arms"][0]["timing"].update(complete_seconds=dict(mean=0, empirical_min_sum=0, empirical_max_sum=0)),
+    lambda d: d["standalone_cache_cost"]["arms"][0]["timing"].update(unknown_operations=0),
+    lambda d: d["standalone_cache_cost"]["arms"][0]["replay"]["counts"].update(black_hit=0),
+    lambda d: d["standalone_cache_cost"]["evidence_manifest"].update(sha256="0" * 64),
+])
+def test_cache_completed_addon_cannot_hide_unknowns_provenance_or_actual_bill(change):
+    data = cache_estimate_fixture()
+    change(data)
+    with pytest.raises(ValueError):
+        r.validate_completed(data, synthetic=True)
+
+
+def test_closed_cache_missing_required_cost_field_yields_pending_render(tmp_path, monkeypatch):
+    data = cache_estimate_fixture()
+    del data["standalone_cache_cost"]["arms"][0]["timing"]["unknown_operations"]
+    monkeypatch.setattr(r, "render_figures", lambda *args, **kw: pytest.fail("missing data rendered"))
+    result = r.render(write_input(tmp_path, data), tmp_path / "missing-cache-field", project_root=tmp_path, synthetic=True)
+    assert result["status"] == "pending" and "cache.timing.unknown_operations" in result["missing"]
+    assert not result["main_table_generated"] and len(result["artifacts"]) == 0

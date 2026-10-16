@@ -16,6 +16,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "formal-main-v2-render-1"
+CACHE_INTEGRATION_VERSION = "formal-cache-evidence-integration-v1"
 ANALYSIS_VERSION = "formal-main-v2-analysis-1"
 PROFILE_VERSION = "formal-main-v2-o2a-1"
 SCHEMA = "formal_main_v2"
@@ -35,6 +36,7 @@ LATENCY_NOTE = ("Complete observation-to-CPU-action chunk8 latency; 30 fixed dev
     "medians/p95s/means, not percentiles of pooled calls. No latency CI is supplied. Component timings are a separate "
     "instrumented pass; host and CUDA-stream intervals overlap and are never added to full latency.")
 PENDING = "pending / not supplied"
+UNKNOWN = "unknown / not identified"
 
 
 class MissingFields(Exception):
@@ -95,6 +97,124 @@ def latency_stats(row, label):
         raise ValueError("Expected all 600 timed calls per instance/phase: " + label)
     for key in ("median", "p95", "mean"):
         number(need(row, key, label), label + "." + key, 0)
+
+
+def validate_cache_cost(data):
+    cache = data["standalone_cache_cost"]
+    if data["main_experiment_delivery_complete"] is not False:
+        raise ValueError("Scoped cache operations cannot establish full experiment delivery; root final verification remains required")
+    if cache.get("not_assumed_zero") is not True:
+        raise ValueError("Unknown cache cost cannot be assumed zero")
+    need(cache, "missing", "standalone_cache_cost")
+    if cache.get("status") == "pending_real_training_logs":
+        if data.get("cache_evidence_complete", False) or data.get("independent_cache_operations_fully_identified", False):
+            raise ValueError("Pending cache evidence cannot be identified/complete")
+        return  # Original analysis-v1 pending outputs remain readable.
+    if (cache.get("status") not in ("pending_evidence", "completed_estimate_with_limitations")
+            or cache.get("kind") != "independent_disk_cache_operation_cost_estimate"
+            or cache.get("version") != "formal-independent-disk-cache-replay-v1"
+            or cache.get("integration_version") != CACHE_INTEGRATION_VERSION
+            or cache.get("recomputed_from_original_evidence") is not True
+            or cache.get("registration_sha256") != data["registration_sha256"]):
+        raise ValueError("Unsupported standalone-cost schema; original evidence must be recomputed by the analyzer")
+    if cache.get("replay_script_sha256") != sha256(Path(__file__).with_name("replay_formal_cache_cost.py")):
+        raise ValueError("Cache replay source SHA differs; preserve the matching audited source")
+    for key in ("scope", "display_name", "core_binding", "evidence_manifest", "evidence_sha256"):
+        need(cache, key, "standalone_cache_cost")
+    def bound(ref):
+        if not isinstance(ref, dict) or set(ref) != {"path", "sha256"}:
+            raise ValueError("Cache provenance is not an immutable original reference")
+        suffix = "/" + ref["path"].replace("\\", "/")
+        if not any(path.replace("\\", "/").endswith(suffix) and value == ref["sha256"]
+                   for path, value in data["read_evidence_sha256"].items()):
+            raise ValueError("Cache provenance is not bound by this core analysis")
+    # Missing manifests may legitimately remain pending. Never follow them here.
+    if cache.get("evidence_sha256"):
+        bound(cache["evidence_manifest"])
+    for name in ("accounting", "root_cost_inventory"):
+        bound(need(cache["core_binding"], name, "cache.core_binding"))
+    closed = cache["status"] == "completed_estimate_with_limitations"
+    if data.get("core_results_complete") is not True or data.get("cache_evidence_complete") is not closed:
+        raise ValueError("Core/cache completion flags disagree")
+    expected_delivery = "core_complete_cache_estimate_with_limitations" if closed else "core_complete_cache_pending"
+    if data.get("delivery_status") != expected_delivery:
+        raise ValueError("Cache delivery status hides pending evidence or limitations")
+    if not closed:
+        if not cache["missing"] or data.get("independent_cache_operations_fully_identified") is not False:
+            raise ValueError("Pending replay must retain missing evidence and unidentified cost")
+        return
+    if cache["missing"]:
+        raise ValueError("Closed cache evidence cannot conceal missing evidence")
+    need(cache, "limitations", "cache")
+    actual = need(cache, "actual_allocation", "cache")
+    if (actual.get("gpu_seconds") != data["cost"]["actual_allocated_gpu_seconds"]
+            or {str(j["job_id"]) for j in actual.get("jobs", [])} != {str(j["job_id"]) for j in data["cost"]["jobs"]}):
+        raise ValueError("Cache estimate changed the actual unique allocation ledger")
+    expected = {(s, b, seed, arm) for s in SUITES for b in BUDGETS for seed in SEEDS for arm in ("A", "B")}
+    rows = cache.get("arms", [])
+    keys = [(r.get("suite"), r.get("visual_tokens"), r.get("seed"), r.get("arm")) for r in rows]
+    if len(keys) != 72 or set(keys) != expected:
+        raise ValueError("Closed cache estimate lacks the same72 training instances")
+    identified = not cache.get("transaction_unknown")
+    for row in rows:
+        replay, timing = row["replay"], row["timing"]
+        if replay.get("status") == "unknown_sizes":
+            if replay.get("counts") is not None or timing.get("status") != "unknown_counts" or timing.get("complete_seconds") is not None:
+                raise ValueError("Missing sizes cannot produce exact operations or complete cost")
+            if not any(type(replay.get(k)) is int and replay[k] > 0 for k in ("missing_sizes_count", "conflicting_sizes_count")):
+                raise ValueError("Unknown sizes must retain their missing/conflicting evidence counts")
+            identified = False
+            continue
+        if replay.get("status") != "exact_under_registered_no_failure_schedule":
+            raise ValueError("Unrecognized cache operation count scope")
+        counts = need(replay, "counts", "cache.replay")
+        for name, value in counts.items():
+            if type(value) is not int or value < 0:
+                raise ValueError("Cache operation counts must be nonnegative integers")
+        requests = counts.get("window_requests", 0)
+        if (requests <= 40000 or (requests - 40000) % 11 or counts.get("black_publish") != 1
+                or counts.get("black_hit") != 9
+                or sum(counts.get(k, 0) for k in ("window_publish", "window_hit", "ram_hits")) != requests):
+            raise ValueError("Cache counts differ from40000 uses/11 validations/ten process boundaries")
+        for name in ("covered_operations", "requested_disk_operations", "unknown_operations"):
+            value = need(timing, name, "cache.timing")
+            if type(value) is not int or value < 0:
+                raise ValueError("Cache timing coverage must be nonnegative counts")
+        if timing["covered_operations"] + timing["unknown_operations"] != timing["requested_disk_operations"]:
+            raise ValueError("Cache timing coverage conceals unknown operations")
+        if timing["requested_disk_operations"] != sum(counts.get(k, 0) for k in ("window_publish", "window_hit", "black_publish", "black_hit")):
+            raise ValueError("Cache disk-operation timing does not cover the counted disk accesses")
+        coverage = need(timing, "operation_coverage", "cache.timing")
+        if not math.isclose(number(coverage, "cache.coverage", 0, 1), timing["covered_operations"] / timing["requested_disk_operations"], rel_tol=1e-12):
+            raise ValueError("Cache calibration coverage differs from retained operations")
+        if sum(need(timing, "unknown_by_reason", "cache.timing").values()) != timing["unknown_operations"]:
+            raise ValueError("Cache missing-operation reasons are incomplete")
+        for name in ("complete_seconds", "covered_operation_seconds"):
+            value = need(timing, name, "cache.timing")
+            if value is not None:
+                for metric in ("mean", "empirical_min_sum", "empirical_max_sum"):
+                    number(need(value, metric, name), "cache." + metric, 0)
+                if not value["empirical_min_sum"] <= value["mean"] <= value["empirical_max_sum"]:
+                    raise ValueError("Cache empirical range is inconsistent")
+        if timing["unknown_operations"]:
+            if timing.get("status") != "partial_unknown" or timing["complete_seconds"] is not None:
+                raise ValueError("Unknown operations cannot be filled into complete cache seconds")
+            identified = False
+        elif timing.get("status") != "estimated_with_limitations" or timing["complete_seconds"] is None:
+            raise ValueError("Complete scoped calibration must retain its empirical estimate")
+        elif timing["complete_seconds"] != timing["covered_operation_seconds"]:
+            raise ValueError("Complete cache-operation seconds differ from the fully covered subtotal")
+        if (timing["covered_operations"] == 0) != (timing["covered_operation_seconds"] is None):
+            raise ValueError("Unmeasured cache operations cannot have a measured subtotal")
+    if data.get("independent_cache_operations_fully_identified") is not identified:
+        raise ValueError("Cache unknowns and identified flag disagree")
+
+
+def cache_note(data):
+    cache = data["standalone_cache_cost"]
+    if cache["status"] in ("pending_real_training_logs", "pending_evidence"):
+        return "独立缓存成本归属仍pending；" + "; ".join(cache["missing"])
+    return "独立磁盘缓存操作成本估计已核验；unknown及范围限制保留，完整独立训练GPU账单仍未识别。"
 
 
 def validate_completed(data, *, synthetic):
@@ -234,12 +354,7 @@ def validate_completed(data, *, synthetic):
     for mode, value in need(cost, "gpu_seconds_by_mode", "cost").items():
         number(value, "cost.mode." + mode, 0)
     need(cost, "scope", "cost")
-    cache = data["standalone_cache_cost"]
-    # The current analyzer leaves independent cache costs pending.
-    # Refuse fabricated completed add-ons.
-    if cache.get("status") != "pending_real_training_logs" or cache.get("not_assumed_zero") is not True:
-        raise ValueError("Unsupported standalone-cost schema; no invented cost attribution")
-    need(cache, "missing", "standalone_cache_cost")
+    validate_cache_cost(data)
 
 
 def fmt(value, digits=2):
@@ -319,10 +434,38 @@ def make_tables(data):
     rows = [["Actual allocated GPU seconds", fmt(cost["actual_allocated_gpu_seconds"], 3)],
         ["Actual allocated GPU hours", fmt(cost["actual_allocated_gpu_hours"], 6)], ["Unique registered jobs", str(cost["unique_jobs"])]]
     rows += [["GPU seconds: " + mode, fmt(seconds, 3)] for mode, seconds in cost["gpu_seconds_by_mode"].items()]
-    rows += [["Independent A/B cache cost attribution", "PENDING; not assumed zero"],
-        ["Experiment fully delivered", "NO: auxiliary cost attribution incomplete"]]
-    tables.append(table("cost", "Actual GPU cost and unresolved attribution", ["Quantity", "Reported value"], rows,
-        cost["scope"] + " " + "; ".join(data["standalone_cache_cost"]["missing"])))
+    cache = data["standalone_cache_cost"]
+    closed = cache["status"] == "completed_estimate_with_limitations"
+    rows += [["Independent disk-cache evidence", cache["status"]],
+        ["All scoped cache operations calibrated", str(data.get("independent_cache_operations_fully_identified", False))],
+        ["Complete independent training GPU bill", "NOT IDENTIFIED by disk-operation replay"],
+        ["Experiment fully delivered", "NO: root final delivery verification required"]]
+    notes = cost["scope"] + " " + cache.get("scope", "Independent cache estimates are separate from the actual GPU bill.")
+    notes += " " + "; ".join(cache.get("limitations", []) + cache["missing"])
+    tables.append(table("cost", "Actual GPU cost and scoped cache evidence", ["Quantity", "Reported value"], rows, notes))
+    if closed:
+        count_rows, timing_rows = [], []
+        def optional(value, digits=3):
+            return UNKNOWN if value is None else fmt(value, digits)
+        for row in cache["arms"]:
+            replay, timing = row["replay"], row["timing"]
+            identity = [LABELS[row["suite"]], f"{row['arm']}{row['visual_tokens']}_seed{row['seed']}"]
+            counts = replay.get("counts")
+            count_rows.append(identity + [replay["status"]] +
+                [str(counts.get(k, 0)) if counts is not None else UNKNOWN for k in
+                 ("window_requests", "window_publish", "window_hit", "black_publish", "black_hit", "ram_hits", "evictions")])
+            covered = timing.get("covered_operation_seconds")
+            complete = timing.get("complete_seconds")
+            timing_rows.append(identity + [timing["status"]] +
+                [str(timing[k]) if k in timing else UNKNOWN for k in ("requested_disk_operations", "covered_operations", "unknown_operations")]
+                + [optional(covered and covered[k]) for k in ("mean", "empirical_min_sum", "empirical_max_sum")]
+                + [optional(complete and complete["mean"]), json.dumps(timing.get("unknown_by_reason", {}), sort_keys=True)
+                   if timing.get("status") != "unknown_counts" else "missing/conflicting key sizes"])
+        tables.append(table("cache_operation_counts", "Independent disk-cache operation counts", ["Suite", "Instance", "Count status",
+            "Window uses", "Window publish", "Window disk hit", "Black publish", "Black hit", "RAM hit", "Evictions"], count_rows, notes, figure=False))
+        tables.append(table("cache_operation_cost", "Independent disk-cache operation cost estimate", ["Suite", "Instance", "Timing status",
+            "Disk operations", "Covered", "Unknown", "Covered mean s", "Covered min sum s", "Covered max sum s", "Complete mean s", "Unknown reasons"],
+            timing_rows, notes + " Covered seconds are partial subtotals. Empirical minima/maxima use all observations, are not CI, and never bound unobserved operations. No per-arm estimate is a full independent training GPU bill.", figure=False))
     tables.append(table("cost_jobs", "Complete allocation ledger (including failed attempts)",
         ["Job", "Mode", "Status", "Elapsed allocation seconds", "GPUs"],
         [[str(r["job_id"]), str(r.get("mode", "unspecified")), str(r["status"]),
@@ -368,7 +511,10 @@ def render_figures(directory, prefix, tables, data, *, synthetic, input_sha):
     from matplotlib.backends.backend_pdf import PdfPages
     import textwrap
 
-    footer = "SYNTHETIC - NOT EXPERIMENTAL RESULTS" if synthetic else "Core analysis only; independent cache-cost attribution pending"
+    footer = "SYNTHETIC - NOT EXPERIMENTAL RESULTS" if synthetic else (
+        "Core results; disk-cache estimate retains scope limits and unknowns; root delivery verification pending"
+        if data["standalone_cache_cost"]["status"] == "completed_estimate_with_limitations" else
+        "Core analysis only; independent cache-cost attribution pending")
     metadata = {"Title": prefix + "CTI-VLA formal results", "Author": "CTI-VLA",
         "Subject": footer + "; input SHA256=" + input_sha, "Keywords": VERSION + (" SYNTHETIC" if synthetic else "")}
     with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 9, "pdf.fonttype": 42, "ps.fonttype": 42,
@@ -499,7 +645,7 @@ def render(analysis_path, output_directory, *, project_root=ROOT, synthetic=Fals
         receipt.update(status="pending", missing=missing, note="No main figures/tables produced from incomplete input.")
     else:
         prefix = "synthetic_" if synthetic else ""
-        banner = ("**SYNTHETIC — NOT EXPERIMENTAL RESULTS.**" if synthetic else "**正式核心分析输出；独立缓存成本归属未完成，不代表实验已全部交付。**")
+        banner = ("**SYNTHETIC — NOT EXPERIMENTAL RESULTS.**" if synthetic else "**正式核心分析输出；" + cache_note(data) + "不代表实验已全部交付。**")
         banner += "\n\nInput SHA256: `" + receipt["input_sha256"] + "`; renderer: `" + VERSION + "`."
         tables = make_tables(data)
         for item in tables:
@@ -508,21 +654,26 @@ def render(analysis_path, output_directory, *, project_root=ROOT, synthetic=Fals
         (output / (prefix + "plot_coordinates.json")).write_text(json.dumps(dict(synthetic=synthetic,
             input_sha256=receipt["input_sha256"], points=points), indent=2, allow_nan=False) + "\n", encoding="utf-8")
         version = render_figures(output, prefix, tables, data, synthetic=synthetic, input_sha=receipt["input_sha256"])
-        missing_aux = ["independent A/B cache attribution"]
+        closed_cache = data["standalone_cache_cost"]["status"] == "completed_estimate_with_limitations"
+        missing_aux = ([] if closed_cache else list(data["standalone_cache_cost"]["missing"]))
         missing_aux += [r["suite"] + ":" + r["method_id"] + ":training peak memory" for r in data["diagnostics"]["selected_action_errors"]
             if r.get("peak_cuda_memory_allocated_bytes") is None]
         index = [banner, "", "# CTI-VLA 正式图表", "", "全部结果均从严格分析输出直接排版；未重新抽样、合并种子或计算新统计。",
             "", "1600 个唯一最终初态、35200 条最终闭环。每套件400个初态；三种子复用初态，不能视为独立初态。",
             "", INTERVAL_NOTE, "", LATENCY_NOTE, "", "主预算为128；Dense使用512 tokens。A/B每个预算均保留seed17/23/41。",
-            "", "独立缓存成本归属仍pending；失败/重试及加载成本保留在完整Slurm账单。登记的显存指标为训练峰值，详见动作误差与显存表。",
+            "", cache_note(data) + "失败/重试及加载成本保留在完整Slurm账单。登记的显存指标为训练峰值，详见动作误差与显存表。",
             "", "## 产物", "", f"- [静态图表PDF]({prefix}formal_results.pdf)", f"- [成功率—完整延迟曲线]({prefix}success_latency.png)"]
         index += [f"- [{item['title']}]({prefix}{item['stem']}.md)" for item in tables]
         index += ["", "分项PNG/PDF使用已报告均值；对应Markdown保留每实例各分项的median/p95/mean。全部分项来自独立计时，不与完整O2A相加。",
                   "", "本生成器不打开上游证据引用、不读取权重或封存状态；证据真实性由已绑定版本的严格分析器负责校验。"]
         (output / (prefix + "README.md")).write_text("\n".join(index) + "\n", encoding="utf-8")
-        receipt.update(status="rendered_core_results_auxiliary_pending", main_table_generated=True,
+        receipt.update(status="rendered_core_results_cache_estimate_with_limitations" if closed_cache else "rendered_core_results_auxiliary_pending", main_table_generated=True,
             matplotlib_version=version, python_version=sys.version, auxiliary_missing=missing_aux,
+            auxiliary_limitations=data["standalone_cache_cost"].get("limitations", []) + ["Root final paper/delivery verification and a complete independent training GPU bill are not established by disk-cache replay."],
             cost_attribution_status=data["standalone_cache_cost"]["status"],
+            core_results_complete=True, cache_evidence_complete=data.get("cache_evidence_complete", False),
+            independent_cache_operations_fully_identified=data.get("independent_cache_operations_fully_identified", False),
+            delivery_status=data.get("delivery_status", "core_complete_cache_pending"),
             upstream_main_experiment_delivery_complete=data["main_experiment_delivery_complete"],
             production_results=not synthetic, interval_description=INTERVAL_NOTE, latency_description=LATENCY_NOTE)
         receipt["artifacts"] = [dict(path=p.name, bytes=p.stat().st_size, sha256=sha256(p)) for p in sorted(output.iterdir()) if p.is_file()]
@@ -530,7 +681,9 @@ def render(analysis_path, output_directory, *, project_root=ROOT, synthetic=Fals
             or (receipt["input_sha256"] is not None and (not source.is_file() or receipt["input_sha256"] != sha256(source)))
             or receipt["renderer_sha256"] != sha256(__file__)
             or (receipt.get("analysis_script_sha256") is not None
-                and receipt["analysis_script_sha256"] != sha256(Path(__file__).with_name("analyze_formal.py")))):
+                and receipt["analysis_script_sha256"] != sha256(Path(__file__).with_name("analyze_formal.py")))
+            or (data is not None and data.get("standalone_cache_cost", {}).get("replay_script_sha256") is not None
+                and data["standalone_cache_cost"]["replay_script_sha256"] != sha256(Path(__file__).with_name("replay_formal_cache_cost.py")))):
         raise ValueError("Analysis changed during rendering; partial output retained without successful receipt")
     (output / "render_receipt.json").write_text(json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
     return receipt
