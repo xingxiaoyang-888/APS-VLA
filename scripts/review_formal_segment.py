@@ -493,6 +493,28 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
                         invocation_sha256=inv_sha, source_sha256=source_sha), "Allocation receipt")
     if finite(receipt.get("wall_seconds")) <= 0:
         raise ValueError("Missing allocation wall cost")
+    runtime_review = _shared.review_runtime_compatibility(evidence, job=job, invocation=invocation,
+        receipt=receipt, inventory=inventory, pull_receipt=pull_receipt)
+    runtime_history = None
+    if runtime_review is not None:
+        gate_runtime = _shared.require_saved_runtime_review(evidence, saved=gate, job=gate_job, inventory=inventory)
+        if gate_runtime is None or gate_runtime["runtime_compatibility"] != runtime_review["runtime_compatibility"]:
+            raise ValueError("Training compatibility runtime differs from the reviewed suite acceptance")
+        runtime_history = {job_id: runtime_review}
+        for prior_id, prior_job in jobs.items():
+            if prior_id == job_id:
+                continue
+            if prior_job.get("status") != "COMPLETED" or prior_job.get("exit_code") != "0:0":
+                raise ValueError("Failed compatibility allocations require explicit raw runtime reconstruction before continuation review")
+            prior_invocation = evidence.read(prior_job["invocation"])
+            prior_receipt = evidence.read(f"results/{ROUND}/job_receipts/{prior_id}.json")
+            prior_runtime = _shared.review_runtime_compatibility(evidence, job=prior_job,
+                invocation=prior_invocation, receipt=prior_receipt, inventory=inventory, pull_receipt=pull_receipt)
+            if prior_runtime is None or prior_runtime["runtime_compatibility"] != runtime_review["runtime_compatibility"]:
+                raise ValueError("A prior pair allocation used another compatibility runtime")
+            runtime_history[prior_id] = prior_runtime
+    elif any(key in gate for key in ("runtime_compatibility", "runtime_compatibility_review")):
+        raise ValueError("Legacy training cannot inherit a compatibility-only acceptance")
     first = next((result["arms"].get(a, {}) for a in ("A", "B") if result["arms"].get(a, {}).get("status") != "not_started"), None)
     if first is None:
         raise ValueError("No actual training evidence to review")
@@ -513,6 +535,8 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
             checkpoint_every=50, learning_rate=.0001, weight_decay=.01, gradient_clip_norm=1., alpha_start=2., alpha_end=.1, future_weight=.1))
     required = [f"{relative}/registered_config.json", result_rel, final_paths[0].relative_to(evidence.root).as_posix(),
                 receipt_rel, *[f"results/slurm/cti-formal_{job_id}.{ext}" for ext in ("out", "err")]]
+    if runtime_history is not None:
+        required.extend(path for reviewed in runtime_history.values() for path in reviewed["required_pulled_files"])
     arms = {}
     for arm in ("A", "B"):
         arms[arm], needed = audit_arm(evidence, arm=arm, relative=relative, pair=pair, config=config, manifest=manifest,
@@ -597,6 +621,9 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
         optimizer_rng_deserialized=False, weights_copied=False, sealed_states_opened=False,
         limits=["Server resume bytes are hashed only; optimizer/RNG/candidate content is revalidated by the frozen training core on resume.",
                 "Cache timings are nested diagnostics; the complete Slurm allocation is the GPU bill."])
+    if runtime_review is not None:
+        summary.update(runtime_compatibility=runtime_review["runtime_compatibility"],
+            runtime_compatibility_review=runtime_review, runtime_compatibility_history=runtime_history)
     if verify_server_resume:
         checks = probe_registered_resume(resume_specs)
         if len(checks) != 2 or {r.get("arm") for r in checks} != {"A", "B"}:
@@ -612,8 +639,9 @@ def review(job_id, *, source_inventory, pull_receipt, verify_server_resume=False
         path = evidence.path(f"{relative}/segment_reviews/{job_id}.json")
         if path.exists():
             previous = evidence.read(path)
-            for key in ("files", "source_sha256", "invocation_sha256", "completed_by_arm", "allowed_next_segment_end", "server_resume_checks"):
-                if previous.get(key) != summary[key]:
+            for key in ("files", "source_sha256", "invocation_sha256", "completed_by_arm", "allowed_next_segment_end", "server_resume_checks",
+                        "runtime_compatibility", "runtime_compatibility_review", "runtime_compatibility_history"):
+                if previous.get(key) != summary.get(key):
                     raise ValueError("Existing immutable segment review differs")
             return previous
         return _shared.publish_review(path, summary)

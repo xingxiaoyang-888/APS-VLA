@@ -29,6 +29,9 @@ NAMES = ("input_acceptance.json", "input_calls.jsonl", "operator_calls.jsonl",
          "f01_k128.json", "f01_k256.json", "f01_k64.json", "resume_acceptance.json",
          "f03_calls.jsonl", "acceptance_complete.json")
 FORBIDDEN = {".pt", ".pth", ".ckpt", ".safetensors", ".bin", ".pickle", ".pkl", ".init", ".pruned_init"}
+_compat_spec = importlib.util.spec_from_file_location("formal_asset_compat_review", ROOT / "scripts/ops/formal_asset_compat_review.py")
+_compat = importlib.util.module_from_spec(_compat_spec)
+_compat_spec.loader.exec_module(_compat)
 
 
 def sha(path):
@@ -130,12 +133,45 @@ def require_pulled(evidence, receipt_path, job, required):
             raise ValueError("Required evidence is not a verified SHA-pulled file: " + relative)
 
 
+def review_runtime_compatibility(evidence, *, job, invocation, receipt, inventory, pull_receipt):
+    """Additional operational audit; never replaces the original scientific gates."""
+    result = _compat.review_job(evidence, job=job, invocation=invocation, receipt=receipt, inventory=inventory)
+    if result is None:
+        return None
+    required = [*result["required_pulled_files"], f"results/{ROUND}/job_receipts/{job['job_id']}.json"]
+    require_pulled(evidence, pull_receipt, job, required)
+    relative = evidence.path(pull_receipt).relative_to(evidence.root).as_posix()
+    return dict(result, pull_receipt=dict(path=relative, sha256=evidence.watch(relative)))
+
+
+def require_saved_runtime_review(evidence, *, saved, job, inventory):
+    """Reconstruct a reused root attestation from its raw, SHA-pulled artifacts."""
+    invocation = evidence.read(job["invocation"])
+    receipt = evidence.read(f"results/{ROUND}/job_receipts/{job['job_id']}.json")
+    runtime = _compat.contract(evidence, job=job, invocation=invocation)
+    if runtime is None:
+        if any(key in saved for key in ("runtime_compatibility", "runtime_compatibility_review")):
+            raise ValueError("Legacy root review unexpectedly contains runtime compatibility")
+        return None
+    previous = saved.get("runtime_compatibility_review", {})
+    pull = previous.get("pull_receipt", {})
+    if (saved.get("runtime_compatibility") != runtime or not pull.get("path")
+            or evidence.watch(pull["path"]) != pull.get("sha256")):
+        raise ValueError("Reused compatibility root review lacks its immutable pull/provenance")
+    actual = review_runtime_compatibility(evidence, job=job, invocation=invocation, receipt=receipt,
+        inventory=inventory, pull_receipt=pull["path"])
+    if actual != previous:
+        raise ValueError("Reused compatibility review does not rebuild from its raw artifacts")
+    return actual
+
+
 def publish_review(path, report):
     """No failed/partial review, and never replace a previous accepted identity."""
     if path.exists():
         previous = json.loads(path.read_text(encoding="utf-8"))
-        stable = ("schema", "kind", "status", "suite", "job_id", "output_relative", "files", "source_sha256", "invocation_sha256")
-        if any(previous.get(k) != report[k] for k in stable):
+        stable = ("schema", "kind", "status", "suite", "job_id", "output_relative", "files", "source_sha256", "invocation_sha256",
+                  "runtime_compatibility", "runtime_compatibility_review")
+        if any(previous.get(k) != report.get(k) for k in stable):
             raise ValueError("An existing root review has a different accepted identity")
         return previous
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -251,6 +287,8 @@ def review(job_id, *, source_inventory, pull_receipt, root=ROOT):
     wall = receipt.get("wall_seconds")
     if isinstance(wall, bool) or not isinstance(wall, (float, int)) or not math.isfinite(wall) or wall <= 0:
         raise ValueError("Server job receipt has no finite positive cost")
+    runtime_review = review_runtime_compatibility(evidence, job=job, invocation=invocation,
+        receipt=receipt, inventory=inventory, pull_receipt=pull_receipt)
     required = [relative + "/" + name for name in NAMES] + [receipt_relative] + [f"results/slurm/cti-formal_{job_id}.{ext}" for ext in ("out", "err")]
     require_pulled(evidence, pull_receipt, job, required)
     reports = {name: evidence.read(base / name) for name in NAMES if name.endswith(".json")}
@@ -294,6 +332,11 @@ def review(job_id, *, source_inventory, pull_receipt, root=ROOT):
         reviewed_utc=datetime.now(timezone.utc).isoformat(), job_at_review=job,
         selected_windows=fixed, reviewed_counts=dict(input_forwards=6, operator_probes=63, f03_forward_backward_samples=48),
         weights_opened=False, sealed_initial_states_opened=False, evidence_sha256=dict(evidence.hashes))
+    if runtime_review is not None:
+        report.update(runtime_compatibility=runtime_review["runtime_compatibility"], runtime_compatibility_review=runtime_review)
+        report["files"].update({PurePosixPath(name).relative_to(relative).as_posix(): evidence.watch(name)
+            for name in runtime_review["required_pulled_files"]})
+        report["evidence_sha256"] = dict(evidence.hashes)
     evidence.unchanged()
     target = evidence.path(f"results/{ROUND}/{suite}/acceptance/root_review.json")
     return publish_review(target, report)

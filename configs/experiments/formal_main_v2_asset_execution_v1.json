@@ -1,0 +1,52 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "asset_execution_registration",
+  "version": "asset_execution_v1",
+  "status": "reviewed",
+  "registered_utc": "2026-10-16T19:46:44.335344+00:00",
+  "runtime_compatibility": {
+    "schema": "formal_main_v2",
+    "kind": "asset_metadata_compatibility",
+    "version": "formal-asset-metadata-compat-v1",
+    "wrapper": "scripts/server/run_formal_asset_stage.py",
+    "slurm": "scripts/server/formal_asset_main.slurm",
+    "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+    "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+    "files": {
+      "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+      "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+      "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+      "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+      "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+      "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+    }
+  },
+  "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+  "source_inventory_sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+  "scientific_registration": "configs/experiments/formal_main_v2.json",
+  "scientific_registration_sha256": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+  "parallel_registration": "configs/experiments/formal_main_v2_parallel_execution_v1.json",
+  "parallel_registration_sha256": "e1378e74d1ad89af2d38d2f8eb8ce33695a346331c2e89db6313a5608faf4907",
+  "allowed_suites": [
+    "libero_object",
+    "libero_goal"
+  ],
+  "allowed_stages": [
+    "acceptance",
+    "train"
+  ],
+  "max_active_GPU_jobs": 8,
+  "same_pair_active_job_limit": 1,
+  "GPU_per_job": 1,
+  "scientific_settings_changed": false,
+  "root_submission_tool": "scripts/ops/formal_asset_supervisor.py",
+  "root_submission_tool_sha256": "442b6e42f4b80979541b0526dd4ae53546567cb9c0884a37dc8356bad094d26a",
+  "review_inputs": {
+    "results/formal_main_v2/preflight/asset_execution_root_review.json": "c797182afb94f402b44aacc06f824990bd0e1e83d91ec9450b504e0c088e0c64",
+    "results/formal_main_v2/preflight/asset_submitter_independent_review.json": "985071c6242faa8f6ba08589e1c2843088eb2ff5212ba0de17ec9dde3b5851d7",
+    "results/formal_main_v2/preflight/asset_runtime_review_cpu_review.json": "abc00a76bb8c0fc1361146b7bfc029b6ffa25780f7f0fc5183b07f42e17ba0df"
+  },
+  "acceptance_must_run_again": true,
+  "final_states_sealed": true,
+  "downstream": "Object/Goal development/final/timing blocked until explicit runtime integration; legacy Long/Spatial unchanged"
+}

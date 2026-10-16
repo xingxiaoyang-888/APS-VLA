@@ -20,6 +20,9 @@ def tool():
     spec = importlib.util.spec_from_file_location("formal_segment_test", REPO / "scripts/review_formal_segment.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    # Keep the historical synthetic Object journals focused on the frozen
+    # training/validation/cost gates. New runtime provenance has its own tests.
+    module._shared.review_runtime_compatibility = lambda *args, **kwargs: None
     return module
 
 
@@ -371,7 +374,7 @@ def test_stale_pull_or_nonterminal_registration_fails(setup):
 
 def test_import_and_local_audit_do_not_import_torch(setup):
     c=setup
-    code="import importlib.util,sys; s=importlib.util.spec_from_file_location('segment',sys.argv[1]); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); m.review('202',root=sys.argv[2],source_inventory=sys.argv[3],pull_receipt=sys.argv[4]); assert 'torch' not in sys.modules"
+    code="import importlib.util,sys; s=importlib.util.spec_from_file_location('segment',sys.argv[1]); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); m._shared.review_runtime_compatibility=lambda *a,**k:None; m.review('202',root=sys.argv[2],source_inventory=sys.argv[3],pull_receipt=sys.argv[4]); assert 'torch' not in sys.modules"
     result=subprocess.run([sys.executable,"-c",code,str(REPO/"scripts/review_formal_segment.py"),str(c.root),str(c.inventory),str(c.pull)],capture_output=True,text=True)
     assert result.returncode==0,result.stderr
 

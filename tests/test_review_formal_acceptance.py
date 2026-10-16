@@ -22,6 +22,10 @@ def tool():
     spec = importlib.util.spec_from_file_location("formal_review_test", REPO / "scripts/review_formal_acceptance.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    # This older fixture synthesizes an Object protocol/source and isolates the
+    # original F00/F01/F03 reconstruction. The mandatory metadata-runtime layer
+    # has independent real-source/pull/writer tests; never bypass it in production.
+    module.review_runtime_compatibility = lambda *args, **kwargs: None
     return module
 
 

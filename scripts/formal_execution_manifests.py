@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -285,6 +286,14 @@ def load_suite_acceptance(evidence, registration, suite, sources):
     from cti_vla.training.formal_resume_acceptance import require_formal_resume_acceptance, verify_resume_journal
     spec = registration["suites"][suite]
     review = evidence.read(f"results/{SCHEMA}/{suite}/acceptance/root_review.json")
+    # Metadata compatibility is currently authorized only for acceptance/train.
+    # Do not silently drop its extra provenance when building deployment/final
+    # identities. The downstream adapter and receipts must be integrated first.
+    compat_spec = importlib.util.spec_from_file_location("formal_execution_asset_compat_gate",
+        ROOT / "scripts/ops/formal_asset_compat_review.py")
+    compat = importlib.util.module_from_spec(compat_spec)
+    compat_spec.loader.exec_module(compat)
+    compat.reject_unintegrated_consumer(suite=suite, review=review, consumer="Formal execution manifests")
     base = evidence.path(review["output_relative"])
     expected_parent = evidence.path(f"results/{SCHEMA}/{suite}/acceptance")
     if (review.get("status") != "passed" or expected_parent not in base.parents
