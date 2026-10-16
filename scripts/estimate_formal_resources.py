@@ -446,12 +446,18 @@ def read_reference(reader, spec, registration, windows, accounting, registered):
             if last.get("status") not in ("completed", "checkpointed", "failed"):
                 raise ValueError("unknown training attempt terminal status")
             attempt_seconds = finite(last.get("seconds"), "attempt wall seconds", positive=True)
-            if attempt_seconds + .01 < elapsed[-1]:
-                raise ValueError("attempt wall time precedes its final timestamp")
+            # Frozen trainer evaluates seconds first, then _peak_memory(),
+            # then event() records attempt_elapsed_seconds. This applies to
+            # checkpointed/completed/failed exits alike. Scheduling and CUDA
+            # statistics can delay the event; these are ordered clock samples,
+            # not two equal timestamps subject to a10ms tolerance.
+            if not elapsed[-2] <= attempt_seconds <= elapsed[-1]:
+                raise ValueError("attempt wall time is outside its preceding-event/terminal-event timestamps")
             normalized = [{**r, "arm": arm} for r in rows]
             cost_rows.extend(normalized)
             rows_for_arm.extend(normalized)
             attempts.append(dict(arm=arm, job_id=job, attempt_id=aid, seconds=attempt_seconds,
+                terminal_event_elapsed_seconds=elapsed[-1],
                 status=last["status"], resumed=first.get("resumed"), start_update=first["completed_update"],
                 end_update=last.get("completed_update", last.get("completed_update_in_memory"))))
             job_ids.add(job)
@@ -635,7 +641,7 @@ def measured_rates(reference, windows, accounting):
     for arm in ("A", "B"):
         if not set(range(1, 501)) <= observed_updates[arm] or len(validation_raw[arm]) < 2:
             raise Pending(arm + ": complete first500 updates and both full validation stages are required")
-    by_job = defaultdict(float)
+    by_job, terminal_by_job = defaultdict(float), defaultdict(float)
     for attempt in reference["attempts"]:
         aid = attempt["attempt_id"]
         extra = attempt["seconds"] - phase_seconds[aid]
@@ -643,17 +649,21 @@ def measured_rates(reference, windows, accounting):
             raise ValueError("disjoint phase intervals exceed the enclosing arm wall time")
         (failed_residual if attempt["status"] == "failed" else attempt_residual).append(max(0., extra))
         by_job[attempt["job_id"]] += attempt["seconds"]
+        terminal_by_job[attempt["job_id"]] += attempt.get("terminal_event_elapsed_seconds", attempt["seconds"])
     job_overheads, job_rows = [], []
     for job in sorted(reference["job_ids"]):
         bill = accounting["jobs"][job]
         receipt = reference["receipts"][job]
         gap = bill["elapsed_seconds"] - by_job[job]
-        if gap < -2 or receipt["wall_seconds"] > bill["elapsed_seconds"] + 2:
+        if (gap < -2 or receipt["wall_seconds"] > bill["elapsed_seconds"] + 2
+                or terminal_by_job[job] > bill["elapsed_seconds"] + 2):
             raise ValueError("calibration arm/stage intervals exceed allocated wall time")
         gap = max(0., gap)
         job_overheads.append(gap)
         job_rows.append(dict(job_id=job, actual_allocated_gpu_seconds=bill["gpu_seconds"],
             arm_attempt_wall_seconds=by_job[job], outside_arm_wall_seconds=gap,
+            arm_terminal_event_elapsed_seconds=terminal_by_job[job],
+            arm_terminal_event_recording_lag_seconds=terminal_by_job[job] - by_job[job],
             stage_wall_seconds=receipt["wall_seconds"],
             allocation_outside_stage_seconds=max(0., bill["elapsed_seconds"] - receipt["wall_seconds"])))
     training_black_publications = len(black_publish)

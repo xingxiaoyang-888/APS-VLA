@@ -1,0 +1,62 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "independent_segment_audit",
+  "recorded_utc": "2026-10-16T06:29:39.614440+00:00",
+  "auditor": "deploy64",
+  "root_recorded_from_agent_report": true,
+  "status": "passed",
+  "job_id": "3005253",
+  "root_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3005253.json",
+  "root_review_sha256": "e8a50c478be458ca021457aa77bed56959c91e4ce65960bde43eab047ae46d20",
+  "pull_receipt": "results/formal_main_v2/pulls/20261016T062053Z_e2d651901c67/receipt.json",
+  "pull_receipt_sha256": "46d60d10db86e093520cae6cd91c64f6efac43fc37917ccc2d8d6233c5953db0",
+  "stable_review_files_checked": 22,
+  "frozen_source_files_unchanged": 173,
+  "checks": {
+    "completed_by_arm": {
+      "A": 1000,
+      "B": 1000
+    },
+    "sample_cursor_by_arm": {
+      "A": 8000,
+      "B": 8000
+    },
+    "unique_windows_per_arm": 8000,
+    "unique_shared_windows": 8000,
+    "shared_init_and_sample_order": true,
+    "validation_updates": [
+      0,
+      500,
+      1000
+    ],
+    "validation_windows_per_node": 165,
+    "teacher_l1_by_arm": {
+      "A": [
+        0.08567824792456888,
+        0.02241147929625142,
+        0.021888893980252008
+      ],
+      "B": [
+        0.08567824792456888,
+        0.022455613614089553,
+        0.02197709398669383
+      ]
+    },
+    "current_best_by_arm": {
+      "A": 1000,
+      "B": 1000
+    },
+    "final_selection": false,
+    "vla_unchanged": true,
+    "replayed_samples": 0,
+    "failed_attempts": 0,
+    "pair_allocated_gpu_seconds": 8053,
+    "this_segment_gpu_seconds": 4177
+  },
+  "limits": {
+    "weights_read": false,
+    "sealed_states_read": false,
+    "auditor_used_ssh": false,
+    "closed_loop_conclusions": false
+  }
+}

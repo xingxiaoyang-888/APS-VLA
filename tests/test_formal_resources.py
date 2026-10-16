@@ -464,6 +464,65 @@ def test_readonly_complete_pipeline_uses_real_evidence_and_keeps_evaluation_pend
     assert len(result["read_evidence_sha256"]) == 15
 
 
+def terminal_timestamp_reference(synthetic, *, status, delay=0., corruption=None):
+    """Keep real fixture identity checks; publish a distinct synthetic journal.
+
+    The frozen trainer computes seconds, then calls _peak_memory(), then event()
+    timestamps the row. Simulate delay between those clock reads on every exit.
+    """
+    s = synthetic
+    entry = deepcopy(s["evidence"]["reference_pair"])
+    reader = r.Evidence(s["root"])
+    rows = reader.lines(entry["arms"]["B"]["cost_events"][0], "original synthetic cost journal")
+    last = rows[-1]
+    last["status"] = status
+    if status == "failed":
+        last["completed_update_in_memory"] = last.pop("completed_update")
+        last.update(error_type="SyntheticError", error="bounded terminal timing fixture")
+    last["attempt_elapsed_seconds"] += delay
+    if corruption == "before_previous":
+        last["seconds"] = rows[-2]["attempt_elapsed_seconds"] - .001
+    elif corruption == "after_terminal":
+        last["seconds"] = last["attempt_elapsed_seconds"] + .001
+    entry["arms"]["B"]["cost_events"] = [ref(s["root"],
+        f"regression/terminal_{status}_{delay}_{corruption}.jsonl", rows, lines=True)]
+    result = r.read_reference(reader, entry, s["registration"], s["windows"], s["accounting"], s["registered"])
+    reader.unchanged()
+    return result
+
+
+@pytest.mark.parametrize("status", ["checkpointed", "completed", "failed"])
+@pytest.mark.parametrize("delay", [.016925957053899765, .25])
+def test_terminal_recording_delay_is_ordered_not_a_timestamp_equality(synthetic, status, delay):
+    # The first delay is the actual3005253/B regression; both exceed the old
+    # incorrect10ms equality threshold without changing any work or GPU bill.
+    reference = terminal_timestamp_reference(synthetic, status=status, delay=delay)
+    attempt = next(a for a in reference["attempts"] if a["arm"] == "B")
+    original = next(a for a in synthetic["reference"]["attempts"] if a["arm"] == "B")
+    assert attempt["seconds"] == original["seconds"] and attempt["end_update"] == 500
+    assert attempt["terminal_event_elapsed_seconds"] - attempt["seconds"] == pytest.approx(delay)
+    value = r.measured_rates(reference, synthetic["windows"], synthetic["accounting"])
+    job = value["observed"]["jobs"][0]
+    assert job["arm_terminal_event_recording_lag_seconds"] == pytest.approx(delay)
+    assert job["actual_allocated_gpu_seconds"] == synthetic["accounting"]["jobs"]["1001"]["gpu_seconds"]
+    assert job["outside_arm_wall_seconds"] == pytest.approx(10.)
+    if status == "failed":
+        assert value["observed"]["failed_attempt_residual_seconds"]
+
+
+@pytest.mark.parametrize("status", ["checkpointed", "completed", "failed"])
+@pytest.mark.parametrize("corruption", ["before_previous", "after_terminal"])
+def test_terminal_seconds_must_be_bracketed_by_actual_recorded_events(synthetic, status, corruption):
+    with pytest.raises(ValueError, match="preceding-event/terminal-event"):
+        terminal_timestamp_reference(synthetic, status=status, corruption=corruption)
+
+
+def test_terminal_recording_delay_cannot_escape_the_actual_slurm_allocation(synthetic):
+    reference = terminal_timestamp_reference(synthetic, status="checkpointed", delay=20.)
+    with pytest.raises(ValueError, match="exceed allocated wall time"):
+        r.measured_rates(reference, synthetic["windows"], synthetic["accounting"])
+
+
 def test_projection_has72_arms_disjoint_components_explicit_cost_assumptions(synthetic, monkeypatch):
     measured = r.measured_rates(synthetic["reference"], synthetic["windows"], synthetic["accounting"])
     calls = []
