@@ -1,0 +1,70 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "independent_asset_metadata_adapter_review",
+  "reviewer": "deploy64",
+  "reviewed_utc": "2026-10-16T18:53:09.367644+00:00",
+  "status": "passed_cpu_module_review_production_integration_pending",
+  "files_sha256": {
+    "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+    "tests/test_formal_asset_metadata_adapter.py": "2ddde3c1ee7cb6705704f42fbf67e0d2b7a435d1f6534a16d675da33bd35039c",
+    "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+    "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+    "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+  },
+  "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+  "source_inventory_sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+  "frozen_source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "frozen_173_files_unchanged": true,
+  "formal_training_63_files_unchanged": true,
+  "independent_checks": {
+    "exact_original_path_and_sha_whitelist": [
+      "libero_object",
+      "libero_goal"
+    ],
+    "views_are_exact_five_field_projections": true,
+    "per_file_path_size_hash_and_header_unchanged": true,
+    "unchanged_strict_parser_rejects_both_original_extra_metadata_inputs": true,
+    "unchanged_strict_parser_accepts_both_views": true,
+    "files_per_view": 25,
+    "total_bytes": {
+      "libero_object": 15939159270,
+      "libero_goal": 15939159075
+    },
+    "directory_verifier_not_rebound": true,
+    "scoped_installation_and_finally_restore_reviewed": true,
+    "escaped_loader_reference_rejected_after_scope": true,
+    "in_place_original_function_code_mutation_detected_and_restored": true,
+    "reference_code_compiled_from_pinned_source_bytes": true,
+    "other_paths_use_original_strict_loader": true
+  },
+  "resolved_finding": {
+    "issue": "Initial scope exit compared function identity only, missing in-place __code__ mutation.",
+    "final_fix": "Original loader/verifier code objects saved, checked before/after adapted loads and on exit, restored before failure; final CPU regression covers both functions.",
+    "status": "resolved_before_final_hash"
+  },
+  "implementer_cpu_tests": {
+    "report": ".local/pytest_asset_metadata_20261017_final.xml",
+    "sha256": "79fc78bacdf692988d8ed178a336077ee9d2e679f91524d318af7ddedf2e638e",
+    "passed": 24,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 50.828,
+    "execution_owner": "train64",
+    "independently_rerun_full_pytest": false,
+    "receipt": ".local/formal_asset_metadata_adapter_cpu_verification_20261017_v1.json",
+    "receipt_sha256": "d0fdc0641241ae13ea4b0784c982b6837855f12ac67eac906c4b50194e3f0fe0",
+    "fixture_scope": "Synthetic project copies only the173 frozen source/config allowlist; actual original parser and directory verifier exercised with synthetic bytes. No real weights or sealed values."
+  },
+  "production_integration_complete": false,
+  "pending_before_formal_run": [
+    "Root must explicitly pin adapter/registration/views in stage and submit invocations, watched inputs, job receipt and root review.",
+    "Install in a fresh process before frozen runner function-local loader imports; preserve original manifest path/SHA in scientific identities.",
+    "Durably record and verify enter/load/exit events, restoration flags and final input hashes; partial/failed journal cannot imply acceptance.",
+    "Rerun the affected suites real GPU acceptance under registered bounded repair before training; CPU tests alone do not satisfy F00/F01/F03."
+  ],
+  "limitations": [
+    "Independent review performed locally: source/projection SHA checks, actual strict-parser calls and final JUnit/receipt inspection; full pytest executed by train64.",
+    "No SSH, Slurm submission, GPU use, weight access, sealed initial-state access or existing-file modification."
+  ]
+}

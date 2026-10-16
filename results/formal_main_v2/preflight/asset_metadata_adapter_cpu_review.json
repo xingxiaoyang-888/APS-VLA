@@ -1,0 +1,45 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "asset_metadata_adapter_root_CPU_review",
+  "status": "passed_CPU_module_only_not_deployed",
+  "reviewed_utc": "2026-10-16T18:54:10.870626+00:00",
+  "failed_GPU_jobs": [
+    "3012295",
+    "3012296"
+  ],
+  "failed_GPU_seconds": 34,
+  "cause": "Only three descriptive top-level keys exceeded the original strict five-key schema; no model files were loaded by failed jobs.",
+  "files_sha256": {
+    "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+    "tests/test_formal_asset_metadata_adapter.py": "2ddde3c1ee7cb6705704f42fbf67e0d2b7a435d1f6534a16d675da33bd35039c",
+    "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+    "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+    "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+  },
+  "frozen_173_files_unchanged": true,
+  "scientific_settings_changed": false,
+  "data_split_changed": false,
+  "root_tests": {
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 52.65,
+    "command": "python -B -m pytest tests/test_formal_asset_metadata_adapter.py -q --basetemp <new project .local UUID directory>",
+    "log": "results/formal_main_v2/preflight/asset_metadata_adapter_root_pytest.txt"
+  },
+  "implementation_tests": {
+    "passed": 24,
+    "seconds": 50.86
+  },
+  "independent_review": "results/formal_main_v2/preflight/asset_metadata_adapter_independent_review.json",
+  "independent_review_sha256": "2a8270078f48443377756a1ecb4de7aa4b76270e3b451ba2723e5e56e985b2de",
+  "raw_verification_files": {
+    "results/formal_main_v2/preflight/asset_metadata_adapter_implementation_review.json": "d0fdc0641241ae13ea4b0784c982b6837855f12ac67eac906c4b50194e3f0fe0",
+    "results/formal_main_v2/preflight/asset_metadata_adapter_implementation_pytest.xml": "79fc78bacdf692988d8ed178a336077ee9d2e679f91524d318af7ddedf2e638e",
+    "results/formal_main_v2/preflight/asset_metadata_adapter_root_pytest.txt": "1985660cb40d176d9f9032550229fb885f7d9c95345cdf751a7bf1b4ff334c43"
+  },
+  "production_integration_complete": false,
+  "GPU_retries_submitted": 0,
+  "weights_or_test_states_read": false,
+  "next_requirement": "Pin adapter in stage/submit/watch/events/job receipts and root acceptance/segment/downstream review; then own-suite real GPU acceptance, within8-slot cap. Never inject an unregistered patch into existing jobs."
+}

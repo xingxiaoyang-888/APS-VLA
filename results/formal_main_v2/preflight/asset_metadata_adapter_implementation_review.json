@@ -1,0 +1,33 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "asset_metadata_compat_cpu_verification",
+  "status": "cpu_only_verified",
+  "synthetic": true,
+  "files_sha256": {
+    "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+    "tests/test_formal_asset_metadata_adapter.py": "2ddde3c1ee7cb6705704f42fbf67e0d2b7a435d1f6534a16d675da33bd35039c",
+    "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+    "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+    "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+  },
+  "new_files_lf_only": true,
+  "frozen_source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+  "frozen_source_inventory_sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+  "frozen_173_files_unchanged": true,
+  "formal_source_files_unchanged": true,
+  "formal_source_file_count": 63,
+  "tests": 24,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "pytest_report": ".local/pytest_asset_metadata_20261017_final.xml",
+  "pytest_report_sha256": "79fc78bacdf692988d8ed178a336077ee9d2e679f91524d318af7ddedf2e638e",
+  "pytest_seconds": 50.828,
+  "command": "python -B -m pytest tests/test_formal_asset_metadata_adapter.py -q --basetemp .local/pytest_asset_metadata_20261017_final --junitxml .local/pytest_asset_metadata_20261017_final.xml",
+  "gpu_calls": 0,
+  "real_weights_read": false,
+  "sealed_initial_state_values_read": false,
+  "production_integration_complete": false,
+  "scope": "Exact two-manifest projection, original strict parser/directory verifier, scoped install/restore, in-place code tamper rejection/restoration, escaped-reference rejection, unchanged Long/Spatial and unknown inputs.",
+  "pending": "Root stage/invocation/watch/receipt/review integration and real GPU acceptance are not performed by this CPU verification."
+}
