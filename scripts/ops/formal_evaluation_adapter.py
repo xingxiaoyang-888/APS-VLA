@@ -21,7 +21,8 @@ import uuid
 
 PROJECT = Path(__file__).resolve().parents[2]
 ROUND = "formal_main_v2"
-VERSION = "formal-evaluation-explicit-archive-resume-adapter-v1"
+VERSION = "formal-evaluation-explicit-archive-resume-adapter-v2-marshal2"
+CODE_MARSHAL_VERSION = 2
 FROZEN_SOURCE_SHA256 = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
 FROZEN_FILE_COUNT = 173
 FROZEN_SNAPSHOT = "formal_main_v2_run_564be0995e"
@@ -42,7 +43,11 @@ def signature(value):
 
 
 def code_sha(function):
-    return hashlib.sha256(marshal.dumps(function.__code__)).hexdigest()
+    # Default marshal reference tracking can change bytes when temporary
+    # references/GC change, even for the very same immutable code object.
+    # Format2 omits that tracking. Compare only within one Python runtime;
+    # the registered file hashes remain the cross-host source identity.
+    return hashlib.sha256(marshal.dumps(function.__code__, CODE_MARSHAL_VERSION)).hexdigest()
 
 
 def read(path):

@@ -694,7 +694,7 @@
       "submitted_utc": "2026-10-16T10:36:50.697770+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 1045,
+      "elapsed_seconds": 3317,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     }
@@ -849,7 +849,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "Long128seed17 A/B2000 passed root and independent audit. Registered job3009076 continues to2500; latest10:54UTC live A2159/checkpoint2150, B2000 awaiting its turn. Formal0/72, no development/final/timing GPU jobs. Raw cache evidence integration passed independent56 CPU tests plus one partial-coverage probe; fixed-case exporter implementation in progress. Frozen training unchanged.",
+  "current_work": "Long128seed17 common2000 passed root and independent audit. Registered job3009076 continues to2500: latest11:32UTC A2500 with165-window validation, B2277/checkpoint2250; both actual resume2000/cursor16000 confirmed, no failures. Allocated20401 GPU seconds provisional; formal0/72, development0, final0/35200. Raw cache integration audited; fixed-case exporter implementer31+independent31 passed. Downstream code fingerprint false alarm repaired, root111+14 regressions and server Python311 CPU probe passed; original173 frozen sources unchanged.",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -870,7 +870,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-16T10:54:17.694986+00:00",
+  "last_supervision_utc": "2026-10-16T11:32:10.252432+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -919,8 +919,8 @@
   "next_allowed_action": "Do not duplicate registered3007549. After terminal, SHA-pull all jobs in this pair (3005060,3005253,3007549) and review both server resume files. Advance to2000 only if A/B both1500; otherwise finish original1500 boundary. Final values remain sealed until global release.",
   "current_round_cost": {
     "registered_jobs": 10,
-    "allocated_gpu_seconds": 18129,
-    "allocated_gpu_hours": 5.035833333333334,
+    "allocated_gpu_seconds": 20401,
+    "allocated_gpu_hours": 5.666944444444445,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -1460,30 +1460,36 @@
       "actual_resume_confirmed": {
         "by_arm": {
           "A": {
-            "attempt_id": "20261016T104106_11819ba3e9af",
-            "completed_update": 2000,
             "job_id": "3009076",
-            "next_sample_cursor": 16000,
+            "attempt_id": "20261016T104106_11819ba3e9af",
+            "utc": "2026-10-16T10:41:06.314234+00:00",
             "resumed": true,
-            "utc": "2026-10-16T10:41:06.314234+00:00"
+            "completed_update": 2000,
+            "next_sample_cursor": 16000
+          },
+          "B": {
+            "job_id": "3009076",
+            "attempt_id": "20261016T112114_8452ffe6db85",
+            "utc": "2026-10-16T11:21:14.136172+00:00",
+            "resumed": true,
+            "completed_update": 2000,
+            "next_sample_cursor": 16000
           }
         },
-        "both_arms_confirmed": false,
-        "pending_arms": [
-          "B"
-        ],
-        "evidence": "results/formal_main_v2/live/3009076_20261016T104214Z.json"
+        "both_arms_confirmed": true,
+        "pending_arms": [],
+        "evidence": "results/formal_main_v2/live/3009076_20261016T112248Z.json"
       },
       "previous_segment_independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3008000_independent.json",
       "live_progress": {
-        "path": "results/formal_main_v2/live/3009076_20261016T105421Z.json",
-        "observed_utc": "2026-10-16T10:54:21.665453+00:00",
+        "path": "results/formal_main_v2/live/3009076_20261016T113214Z.json",
+        "observed_utc": "2026-10-16T11:32:14.266474+00:00",
         "provisional": true,
         "arms": {
           "A": {
-            "updates_completed_in_memory": 2159,
-            "last_update_seconds": 4.578964816406369,
-            "last_checkpoint_update": 2150,
+            "updates_completed_in_memory": 2500,
+            "last_update_seconds": 4.710828622803092,
+            "last_checkpoint_update": 2500,
             "validation_nodes": [
               {
                 "update": 0,
@@ -1509,25 +1515,30 @@
                 "update": 2000,
                 "seconds": 18.870976639911532,
                 "windows": 165
+              },
+              {
+                "update": 2500,
+                "seconds": 19.325405836105347,
+                "windows": 165
               }
             ],
-            "last_event": "sample_start",
-            "last_event_utc": "2026-10-16T10:54:21.869545+00:00",
+            "last_event": "attempt_end",
+            "last_event_utc": "2026-10-16T11:20:54.542981+00:00",
             "this_job_attempt_starts": [
               {
-                "attempt_id": "20261016T104106_11819ba3e9af",
-                "completed_update": 2000,
                 "job_id": "3009076",
-                "next_sample_cursor": 16000,
+                "attempt_id": "20261016T104106_11819ba3e9af",
+                "utc": "2026-10-16T10:41:06.314234+00:00",
                 "resumed": true,
-                "utc": "2026-10-16T10:41:06.314234+00:00"
+                "completed_update": 2000,
+                "next_sample_cursor": 16000
               }
             ]
           },
           "B": {
-            "updates_completed_in_memory": 2000,
-            "last_update_seconds": 2.2874614782631397,
-            "last_checkpoint_update": 2000,
+            "updates_completed_in_memory": 2277,
+            "last_update_seconds": 2.313625656068325,
+            "last_checkpoint_update": 2250,
             "validation_nodes": [
               {
                 "update": 0,
@@ -1555,9 +1566,18 @@
                 "windows": 165
               }
             ],
-            "last_event": "attempt_end",
-            "last_event_utc": "2026-10-16T08:40:31.081287+00:00",
-            "this_job_attempt_starts": []
+            "last_event": "sample_start",
+            "last_event_utc": "2026-10-16T11:32:14.647604+00:00",
+            "this_job_attempt_starts": [
+              {
+                "job_id": "3009076",
+                "attempt_id": "20261016T112114_8452ffe6db85",
+                "utc": "2026-10-16T11:21:14.136172+00:00",
+                "resumed": true,
+                "completed_update": 2000,
+                "next_sample_cursor": 16000
+              }
+            ]
           }
         },
         "not_a_completion_receipt": true
@@ -1673,10 +1693,10 @@
     ],
     "downstream_entrypoint_audit": {
       "path": "results/formal_main_v2/preflight/downstream_entrypoint_audit.json",
-      "status": "adapter_and_E04_passed_root_and_independent_CPU_audit_actual_execution_pending",
+      "status": "adapter_marshal2_passed_root111_plus14_and_independent_audit_actual_GPU_execution_pending",
       "affects_current_training": false,
       "adapter_review": "results/formal_main_v2/preflight/evaluation_adapter_cpu_review.json",
-      "adapter_sha256": "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e",
+      "adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
       "gpu_execution": false,
       "remaining_work": "Actual downstream execution after training prerequisites; root review of terminal outputs",
       "controller": "scripts/ops/formal_downstream_supervisor.py",
@@ -1691,7 +1711,17 @@
         "changes_frozen_training": false,
         "review": "results/formal_main_v2/preflight/downstream_artifact_review_cpu_review.json",
         "script_sha256": "36e72122e37227f24bff92cb1822670132653e0a332424034f27499314d1d38b"
-      }
+      },
+      "runtime_fingerprint_repair": {
+        "status": "passed_CPU_regression_and_independent_audit_actual_downstream_GPU_pending",
+        "record": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/repair.json",
+        "record_sha256": "352315124f81178a2f3a4fa56c0270ee687873a3ed04df503497f6a307653888",
+        "adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+        "training_affected": false
+      },
+      "previous_adapter_sha256": "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e",
+      "current_controller_sha256": "d02317ed08bc377ec60e532916a37fbc620b811e03d4ade0f039f5f613a5120a",
+      "current_wrapper_sha256": "2b7db31f5e3ea80a8036017b9175e8fb28fbce644f6e0f10e2924341ccf993db"
     },
     "development_reference_registration": {
       "status": "preregistered_not_executed",
@@ -1708,7 +1738,8 @@
       "expected_reference_trials": 400,
       "completed_reference_trials": 0,
       "execution_after_first_Long128_seed17_pair5000_review": true,
-      "gpu_submitted": false
+      "gpu_submitted": false,
+      "latest_readonly_plan": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/development_references_readonly_plan.json"
     },
     "independent_cache_cost": {
       "status": "raw_replay_and_analysis_render_integration_CPU_audited_complete_natural_logs_pending",
@@ -1736,10 +1767,24 @@
       }
     },
     "diagnostic_case_pipeline": {
+      "status": "passed_implementer_and_independent31_CPU_tests_actual_final_evidence_pending",
       "implementer": "train64",
-      "real_cases_generated": false,
-      "scope": "Existing fixed-rule textual cases and token-position grids from audited final logs; no new evaluation or image collection.",
-      "status": "implementation_in_progress"
+      "independent_reviewer": "deploy64",
+      "script": "scripts/extract_formal_cases.py",
+      "review": "results/formal_main_v2/preflight/fixed_cases_cpu_review.json",
+      "review_sha256": "705da81b323c471debebaa94a840317005061b3dad8905d8c6711b40195d6d22",
+      "scope": "Fixed textual cases and same-first-observation two-view token-position grids under registered144 slots; no new evaluation or RGB collection.",
+      "real_cases_generated": false
+    },
+    "final_execution_convention": {
+      "registered_before_final_release": true,
+      "suite_run_layout": "One persistent final run per suite with all22 frozen deployment instances; engineering segments resume the same ledger.",
+      "expected_terminal_cells_per_suite": 8800,
+      "root_pre_submit_method_count_check": 22,
+      "subset_runs_supported_by_E04_but_not_used_this_round": true,
+      "fixed_cases_require_latest_complete_root_review_per_suite": true,
+      "changes_scientific_protocol": false,
+      "final_jobs_submitted": 0
     }
   },
   "formal_main_source_snapshot": {
@@ -1750,12 +1795,12 @@
     "files_verified": 173
   },
   "next_actions": [
-    "Observe only registered job3009076; A2000/cursor16000 resume confirmed, confirm B from its own attempt log when it starts. No duplicate submission.",
+    "Observe only registered job3009076; both arms actual2000/cursor16000 resume confirmed. A2500/B2277 at11:32UTC, wait for common2500 terminal receipts; no duplicate submission.",
     "After job3009076 terminates, pull all five jobs for this pair and verify common2500, all validations and both server resume SHAs before registered3000 continuation.",
     "Complete Long128seed17 to5000 with all11 validation nodes before remaining registered matrix.",
     "Calibrate conditional resource planning with the complete first Long128 pair and later actual suite/budget throughput. All raw costs and prior estimates retained; no GPU reruns for accounting.",
     "Use audited E04 downstream planning/submission only after training prerequisites; record terminal pulls and root reviews.",
     "Keep final states sealed until72 checkpoints+16 references+four complete development receipts and global root release."
   ],
-  "updated_utc": "2026-10-16T11:00:44.698978+00:00"
+  "updated_utc": "2026-10-16T11:32:50.886710+00:00"
 }

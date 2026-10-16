@@ -1,0 +1,67 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "fixed_case_extractor_CPU_review",
+  "status": "passed",
+  "reviewed_utc": "2026-10-16T11:27:40.011932+00:00",
+  "reviewed_by": "root",
+  "implementer": "train64",
+  "independent_reviewer": "deploy64",
+  "file_sha256": {
+    "scripts/extract_formal_cases.py": "3efb9d8d0cc6946a87128485df2b84a7f9a2fda139f8a288fea2ef6003d94655",
+    "tests/test_extract_formal_cases.py": "229e8ccb9c5a75763677104df56b48f42d58410fc1527a395669f1f407f51558",
+    "docs/正式固定案例接口.md": "a00209fe63eb2f8d8eaf07b09490cce753d8327e20dc7d363eb426f4ec3cd27c"
+  },
+  "dependency_sha256": {
+    "scripts/review_formal_downstream.py": "36e72122e37227f24bff92cb1822670132653e0a332424034f27499314d1d38b",
+    "scripts/formal_execution_manifests.py": "fcdd9d762bb5afd8b779b59a03868310a47724562cd1276f28e025c8318a1930",
+    "scripts/ops/formal_downstream_supervisor.py": "d02317ed08bc377ec60e532916a37fbc620b811e03d4ade0f039f5f613a5120a",
+    "scripts/analyze_formal.py": "aa12382fd5fd32fd72f9ccf21404e3c0e3f0fd7353bb341968105ce9457576ad",
+    "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+    "scripts/server/run_formal_downstream.py": "2b7db31f5e3ea80a8036017b9175e8fb28fbce644f6e0f10e2924341ccf993db"
+  },
+  "frozen_source_files_unchanged": 173,
+  "tests": {
+    "implementer": {
+      "passed": 31,
+      "seconds": 266.72,
+      "junit": "results/formal_main_v2/preflight/fixed_cases_implementer_junit.xml",
+      "sha256": "679faa9515f0a260a8c95317c75ee9a93aad08969051a6e165cfa10b8f029a30",
+      "suggested_reproduction_command": "python -B -m pytest tests/test_extract_formal_cases.py -q -p no:cacheprovider --basetemp .local/pytest_cases_final_marshal2_20261016 --junitxml .local/pytest_cases_final_marshal2_20261016.xml"
+    },
+    "independent": {
+      "passed": 31,
+      "seconds": 234.92,
+      "junit": "results/formal_main_v2/preflight/fixed_cases_independent_junit.xml",
+      "sha256": "008c8df3600544097a5f08f8c0ffdd19ca518a56b9301eddfe03c08172728ba0",
+      "suggested_reproduction_command": "python -B -m pytest tests/test_extract_formal_cases.py -q -p no:cacheprovider --basetemp .local/pytest_cases_independent_deploy64_20261016_marshal2 --junitxml .local/pytest_cases_independent_deploy64_20261016_marshal2.xml"
+    }
+  },
+  "checked": [
+    "Release and72+16 global freeze precede final metadata/trial access.",
+    "Four latest8800-cell complete root reviews are rechecked against original E04, producer, raw logs, verified pulls and failure costs.",
+    "All35200 cells are required before144 slots; absent categories only after complete evidence.",
+    "Numeric task/index first case chosen before token availability; missing first chunk never replaces the selected case.",
+    "Only identical first control-step0 observation hashes permit token comparison; later divergent rollouts are not compared as same input.",
+    "Exact file/line SHA, one-based line, byte offset and original LF preserved; immutable new output directory and receipt last.",
+    "No policy execution, real final state-value read, checkpoint read, or GPU call."
+  ],
+  "scope": [
+    "Existing registered fixed diagnostic cases with text and two16x16 token-position grids; no RGB/video or extra evaluation.",
+    "One persistent all22-method final run per suite is this round's root operating convention. E04 generic subset support exists but this extractor does not merge multiple subset runs.",
+    "A/B normalized action difference is not teacher/demo action error. Those errors remain in the existing selected-checkpoint validation diagnostics."
+  ],
+  "synthetic_fixture_limits": [
+    "GPU acceptance,173-source construction, training and server proofs are synthetic.",
+    "Actual72 identity checks,8800 development freeze/release,35200 terminal cells, E04 consumers, original root raw reviews and byte locators are executed without reduced cardinality gates.",
+    "Most synthetic results are zero-control policy errors.144 slots produce48 present/96 missing and4 grids; these are interface test values, not experimental results."
+  ],
+  "synthetic_grid_QA": {
+    "root": "XML/coordinate inspection only:512 indexed cells, two complete16x16 grids, all cells within680x370, prominent synthetic title; not a rendered preview",
+    "independent": "Output SHA and each of4 SVG cell/index/bounds/watermark checks passed"
+  },
+  "engineering_failure_preserved": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/repair.json",
+  "real_cases_generated": false,
+  "GPU_jobs_added": 0,
+  "weights_read": false,
+  "sealed_state_values_read": false
+}

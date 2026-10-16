@@ -19,7 +19,7 @@ ROUND = "formal_main_v2"
 ADAPTER = "scripts/ops/formal_evaluation_adapter.py"
 WRAPPER = "scripts/server/run_formal_downstream.py"
 CONTROLLER = "scripts/ops/formal_downstream_supervisor.py"
-ADAPTER_SHA = "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e"
+ADAPTER_SHA = "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd"
 FROZEN_SHA = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
 SOURCE = P / "snapshots/formal_main_v2_run_564be0995e"
 

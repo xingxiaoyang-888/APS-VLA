@@ -1,0 +1,142 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "bounded_engineering_repair",
+  "status": "passed_CPU_regression_and_independent_audit_actual_downstream_GPU_pending",
+  "registered_utc": "2026-10-16T11:19:26.240353+00:00",
+  "reviewed_by": "root",
+  "diagnosis": "Default marshal format4 reference tracking changes serialized bytes with references/GC although the function, code object and source are identical. The old strict binding-restore comparison can falsely reject genuine restored code.",
+  "affected_scope": "Downstream adapter runtime code fingerprints only; no actual downstream GPU jobs exist yet. Current training never executes this adapter.",
+  "bounded_fix": "Use explicit marshal format2 for runtime-local code hashes; update adapter version and controller/wrapper allowed SHA only. Keep strict restore comparison and full173 source checks.",
+  "old_adapter_sha256": "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e",
+  "new_adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+  "new_controller_sha256": "d02317ed08bc377ec60e532916a37fbc620b811e03d4ade0f039f5f613a5120a",
+  "new_wrapper_sha256": "2b7db31f5e3ea80a8036017b9175e8fb28fbce644f6e0f10e2924341ccf993db",
+  "observations": [
+    {
+      "source": ".local/repro_formal_case_code_sha.py",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/repro_formal_case_code_sha.py",
+      "sha256": "1ddeed912eb1de3d776552635611e8fb87d3724dc468fb31b8bc81b8d7377dde",
+      "bytes": 2099
+    },
+    {
+      "source": ".local/formal_case_code_sha_fresh.json",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/formal_case_code_sha_fresh.json",
+      "sha256": "698125f5b1b856b5a96c2156f434bf973070e949e977a4936445c65ffeb2f5c5",
+      "bytes": 1194
+    },
+    {
+      "source": ".local/formal_case_code_sha_duplicate_drop.json",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/formal_case_code_sha_duplicate_drop.json",
+      "sha256": "82f098a60f9e059c480584f23161fdeb97952b7d76f6cca6aad802af36c2aa91",
+      "bytes": 1203
+    },
+    {
+      "source": ".local/formal_case_code_sha_duplicate_retain.json",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/formal_case_code_sha_duplicate_retain.json",
+      "sha256": "4192447b334d473ed860324b8393b5eab3e10dd9fb5d76ac4428ee4639c5e5f9",
+      "bytes": 1205
+    },
+    {
+      "source": ".local/formal_case_code_sha_gc_only_fresh.json",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/formal_case_code_sha_gc_only_fresh.json",
+      "sha256": "6ee8c7b754d61ff58dd56055a8aa1102ca2dc163524102b35549a404a9e01738",
+      "bytes": 795
+    },
+    {
+      "source": ".local/formal_case_code_sha_gc_only_duplicate_drop.json",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/formal_case_code_sha_gc_only_duplicate_drop.json",
+      "sha256": "7797162ca36dc3e681d8de9fdb751f53d494b73caa9bf0a693cdee9180ab2e5d",
+      "bytes": 1203
+    },
+    {
+      "source": ".local/formal_case_code_sha_gc_only_duplicate_retain.json",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/formal_case_code_sha_gc_only_duplicate_retain.json",
+      "sha256": "9f7c7d7c165da034df531d1ec0d7f754e6a6471fe6fecfc883b028a8debe26a1",
+      "bytes": 806
+    },
+    {
+      "source": ".local/pytest_cases_chain_20261017T0218/synthetic_case_corpus0/results/formal_main_v2/libero_object/downstream/final/e353495b1af574dc/attempt01/adapter_invocations/702_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.json",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/702_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.json",
+      "sha256": "6344f85dff1b9ceb81663b75af2ba6cb2fec12dad974b65cf62c9e465f1a5ecf",
+      "bytes": 605024
+    },
+    {
+      "source": ".local/pytest_cases_chain_20261017T0218/synthetic_case_corpus0/results/formal_main_v2/libero_object/downstream/final/e353495b1af574dc/attempt01/adapter_invocations/702_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.jsonl",
+      "archived": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/synthetic_failure_evidence/702_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.jsonl",
+      "sha256": "06fd165a23487599f96edb2a36da0dff91d05dcfe807c036623275115ac0d5da",
+      "bytes": 5424
+    }
+  ],
+  "server_CPU_probe": {
+    "path": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/server_python311_probe.json",
+    "sha256": "8ec2c7ce982b993850427942e9905414cb5e06a255d017c3a6f1bb7b06b15da7"
+  },
+  "independent_review": {
+    "reviewer": "deploy64",
+    "status": "passed_static_and_fresh_Python310_probe",
+    "old_bytes_reconstructed_to_prior_SHA": true,
+    "frozen173_unchanged": true,
+    "probes": "9 co_* reference categories,30 repeated imports+GC; format2 stable; changed constants/opcodes still change the hash"
+  },
+  "evidence_limits": [
+    "All adapter_invocations under synthetic_failure_evidence are synthetic CPU fixtures, not actual registered Slurm jobs or formal trials.",
+    "gc_only_* records isolate gc.collect between hashes. Earlier records without gc_only also create semantic references; preserved but not claimed as GC-only experiments.",
+    "Function hashes are compared within one Python runtime; cross-host identity still relies on the immutable source file SHA inventory.",
+    "Server Python3.11 probe only AST-compiles the frozen function, never calls it or loads VLA."
+  ],
+  "formal_training_changed": false,
+  "policy_or_environment_changed": false,
+  "inference_logic_changed": false,
+  "sealed_state_values_read": false,
+  "weights_read": false,
+  "GPU_jobs_added": 0,
+  "actual_GPU_cost_changed": false,
+  "completed_utc": "2026-10-16T11:31:34.882739+00:00",
+  "final_file_sha256": {
+    "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+    "scripts/ops/formal_downstream_supervisor.py": "d02317ed08bc377ec60e532916a37fbc620b811e03d4ade0f039f5f613a5120a",
+    "scripts/server/run_formal_downstream.py": "2b7db31f5e3ea80a8036017b9175e8fb28fbce644f6e0f10e2924341ccf993db",
+    "tests/test_formal_code_fingerprint.py": "40488fd80cb31a5cd2bb7efb406abf3d804988aa080a5219bd3d5c8058695aaa"
+  },
+  "frozen_training_files_unchanged": 173,
+  "validation": {
+    "root_existing_regression": {
+      "command": "python -B -m pytest tests/test_formal_evaluation_adapter.py tests/test_formal_downstream_supervisor.py tests/test_review_formal_downstream.py -q -p no:cacheprovider --basetemp .local/pytest_marshal2_downstream_root_20261016 --durations=5",
+      "passed": 111,
+      "seconds": 819.75
+    },
+    "root_targeted": {
+      "command": "python -B -m pytest tests/test_formal_code_fingerprint.py -q -p no:cacheprovider --basetemp .local/pytest_formal_code_fingerprint_root_20261016",
+      "passed": 14,
+      "seconds": 6.29
+    },
+    "implementer_targeted": {
+      "command": "python -B -m pytest tests/test_formal_code_fingerprint.py -q --basetemp .local/pytest_formal_code_fingerprint_v2",
+      "passed": 14,
+      "seconds": 7.35,
+      "reported_by": "profile_long"
+    },
+    "integrated_fixed_cases": {
+      "implementer_passed": 31,
+      "independent_passed": 31,
+      "review": "results/formal_main_v2/preflight/fixed_cases_cpu_review.json"
+    },
+    "root_legacy_reference_probe": {
+      "path": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/root_legacy_reference_probe.json",
+      "sha256": "2e502e7e7b270f116b84179cdd3bede33111c7e6f5afd524ce1350a965cf6fee"
+    },
+    "real_metadata_development_plan": {
+      "path": "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/development_references_readonly_plan.json",
+      "sha256": "7af4f4b309507e869d0d7c239bb9f8f839ab75ff21c59d27368613560f868909",
+      "plan_sha256": "d5fb84be5fb3489a3129213a809d6f9a122bbbb0e1c4f7a53b30f19f1650e0a9",
+      "methods": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64"
+      ],
+      "submitted": false,
+      "note": "Read-only plan only. Root must re-plan at submission time, after first Long128 seed17 pair5000 is complete and reviewed."
+    }
+  }
+}
