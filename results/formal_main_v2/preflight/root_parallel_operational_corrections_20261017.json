@@ -1,0 +1,57 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_parallel_operational_corrections",
+  "recorded_utc": "2026-10-17T08:56:59.969155+00:00",
+  "scientific_settings_changed": false,
+  "frozen_training_files_changed": false,
+  "additional_GPU_jobs": 0,
+  "additional_GPU_seconds": 0,
+  "records": [
+    {
+      "issue": "Capacity helper counted only train/acceptance; future downstream GPU jobs could be omitted.",
+      "identified_by": "profile_long independent static review",
+      "correction": "Count all registered project nonterminal requests, including SUBMITTED/PENDING; CPU requests conservatively occupy one slot.",
+      "scope": "Root operational helpers only; no allocation limit change."
+    },
+    {
+      "issue": "First bookkeeping call for3016435 raised KeyError(stage_key) because an unrelated registered CPU cache probe has no stage_key.",
+      "correction": "Use j.get(stage_key) when filtering exact pair history; bookkeeping rerun passed.",
+      "effects": "Accounting refresh only before failure; no new job, no training replay, no lost or changed raw result."
+    },
+    {
+      "issue": "Old bookkeeping fixed0/72 and assumed every boundary has a next500.",
+      "correction": "At5000 require root, independent and actual stable selected best.pt SHA proofs; increment only unique completed pairs and set next=None.",
+      "status": "Prepared and statically reviewed; not yet used at a real5000 terminal."
+    }
+  ],
+  "independent_review": "profile_long static messages in root task; no test/GPU execution claimed",
+  "source_archives": [
+    {
+      "local_source": ".local/fill_reviewed_pair_slot.py",
+      "sha256": "220d49be53191aae918bd0ef7ae65949d81f5b6a598efcba47b07cc19f15e7fe",
+      "archived_bytes": "results/formal_main_v2/preflight/root_operational_source/fill_reviewed_pair_slot_220d49be5319.txt"
+    },
+    {
+      "local_source": ".local/review_selected_pair_server.py",
+      "sha256": "07929269bc8417667d887d4ba8141f658850db34f82656b14e658391922ee3c9",
+      "archived_bytes": "results/formal_main_v2/preflight/root_operational_source/review_selected_pair_server_07929269bc84.txt"
+    },
+    {
+      "local_source": ".local/record_parallel_boundary.py",
+      "sha256": "8893d18ad30e11b1a50e403332e2784c9ce44353c382683ef64912fc7f635db6",
+      "archived_bytes": "results/formal_main_v2/preflight/root_operational_source/record_parallel_boundary_8893d18ad30e.txt"
+    },
+    {
+      "local_source": ".local/reconcile_parallel_progress_20261017.py",
+      "sha256": "4f1a6baef715cb514905ef1934a634d1cfa4e6ec19ee9617f847c77c9fcfb124",
+      "archived_bytes": "results/formal_main_v2/preflight/root_operational_source/reconcile_parallel_progress_20261017_4f1a6baef715.txt"
+    },
+    {
+      "local_source": ".local/read_parallel_live.py",
+      "sha256": "85592adfa7e52d70bad4930f0d6d5d99d0b2a625860ac107c206a17fe119cff2",
+      "archived_bytes": "results/formal_main_v2/preflight/root_operational_source/read_parallel_live_85592adfa7e5.txt"
+    }
+  ],
+  "final_states_opened": false,
+  "global_release": false
+}

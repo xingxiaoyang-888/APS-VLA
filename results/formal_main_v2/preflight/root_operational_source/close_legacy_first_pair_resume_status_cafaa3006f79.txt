@@ -1,0 +1,40 @@
+"""Reconcile the legacy display-only resume field from completed raw evidence."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+with f.supervisor_lock():
+    state = f.read(f.STATE)
+    progress = state['formal_main_progress']
+    row = progress['completed_training_pairs']['libero_10_k128_seed17']
+    independent = f.read(ROOT / row['independent_review'])
+    assert independent['status'] == 'passed' and independent['job_id'] == '3016464'
+    legacy = progress['active_training']
+    assert legacy['job_id'] == '3016464' and legacy['completed_by_arm'] == {'A': 5000, 'B': 5000}
+    found = {}
+    for arm in ('A', 'B'):
+        for path in (ROOT / f'results/formal_main_v2/libero_10/k128/seed17/training/{arm}/attempts').glob('*/cost_events.jsonl'):
+            rel = path.relative_to(ROOT).as_posix()
+            assert independent['read_evidence_sha256'][rel] == hashlib.sha256(path.read_bytes()).hexdigest()
+            events = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
+            starts = [event for event in events if event['event'] == 'attempt_start' and event['job_id'] == '3016464']
+            if starts:
+                assert arm not in found and len(starts) == 1
+                start = starts[0]
+                assert start['resumed'] is True and start['completed_update'] == 4500 and start['next_sample_cursor'] == 36000
+                found[arm] = dict(resumed=True, completed_update=4500, next_sample_cursor=36000,
+                                  evidence=rel, evidence_sha256=independent['read_evidence_sha256'][rel])
+    assert set(found) == {'A', 'B'}
+    legacy['actual_resume_confirmed'] = dict(by_arm=found, both_arms_confirmed=True, pending_arms=[],
+        verified_from_terminal_history=True, used_for_global_scheduling=False)
+    progress['first_completed_pair_summary'] = dict(path='results/formal_main_v2/preflight/first_completed_pair_summary_20261017.json',
+        sha256=f.sha(ROOT / 'results/formal_main_v2/preflight/first_completed_pair_summary_20261017.json'))
+    state['updated_utc'] = datetime.now(timezone.utc).isoformat()
+    f.write(f.STATE, state)
+    print(json.dumps({'job_id': '3016464', 'confirmed_arms': list(found), 'scheduler_uses_per_pair_tracking': True}))

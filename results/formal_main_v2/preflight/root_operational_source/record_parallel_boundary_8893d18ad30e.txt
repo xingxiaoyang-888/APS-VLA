@@ -1,0 +1,109 @@
+"""Root bookkeeping after completed, independently reviewed pair boundary."""
+from pathlib import Path
+from datetime import datetime, timezone
+import json
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+job_id = sys.argv[1]
+with f.supervisor_lock():
+    state = f.read(f.STATE)
+    jobs = f.refresh(state)
+    job = next(j for j in jobs if j['job_id'] == job_id)
+    assert job['status'] == 'COMPLETED' and job['exit_code'] == '0:0'
+    assert job['mode'] == 'train'
+    own = [j for j in jobs if j.get('stage_key') == job['stage_key']]
+    assert max(own, key=lambda j: j['submitted_utc'])['job_id'] == job_id
+    assert not any(j['status'] in f.ACTIVE | {'SUBMITTED'} for j in own)
+    suite, budget, seed = job['suite'], job['visual_tokens'], job['training_seed']
+    base = f'results/formal_main_v2/{suite}/k{budget}/seed{seed}/training'
+    rel = base + '/segment_reviews/' + job_id + '.json'
+    independent_rel = base + '/segment_reviews/' + job_id + '_independent.json'
+    review = f.read(ROOT / rel)
+    independent = f.read(ROOT / independent_rel)
+    assert review['status'] == independent['status'] == 'passed'
+    assert review['job_id'] == independent['job_id'] == job_id
+    assert independent['read_evidence_sha256'][rel] == f.sha(ROOT / rel)
+    boundary = job['segment_end']
+    assert review['completed_by_arm'] == {'A': boundary, 'B': boundary}
+    assert len(review['server_resume_checks']) == 2
+    assert review['allowed_next_segment_end'] == independent['allowed_next_segment_end']
+    complete = boundary == 5000
+    assert review['allowed_next_segment_end'] == (None if complete else boundary + 500)
+    assert review['resume_required'] is (not complete)
+    selected_rel = None
+    if complete:
+        selected_rel = base + '/segment_reviews/' + job_id + '_selected_server.json'
+        selected = f.read(ROOT / selected_rel)
+        assert selected['status'] == 'passed' and selected['job_id'] == job_id
+        assert independent['read_evidence_sha256'][selected_rel] == f.sha(ROOT / selected_rel)
+        assert selected['input_sha256'][rel] == f.sha(ROOT / rel)
+        assert selected['source_sha256'] == review['source_sha256']
+        assert selected['invocation_sha256'] == job['invocation_sha256']
+        assert len(selected['server_selected_checks']) == 2
+        assert {x['arm'] for x in selected['server_selected_checks']} == {'A', 'B'}
+        for arm in ('A', 'B'):
+            receipt_rel = base + '/' + arm + '/deployment_receipt.json'
+            report_rel = base + '/' + arm + '/training_report.json'
+            assert all(selected['input_sha256'][r] == f.sha(ROOT / r) for r in (receipt_rel, report_rel))
+            receipt, report = f.read(ROOT / receipt_rel), f.read(ROOT / report_rel)
+            check = next(x for x in selected['server_selected_checks'] if x['arm'] == arm)
+            assert check['sha256'] == receipt['checkpoint_sha256'] == report['best_checkpoint_sha256']
+            assert check['path'] == report['best_checkpoint'] and check['stable_during_hash'] is True
+    progress = state['formal_main_progress']
+    parallel = progress['parallel_execution']
+    key = f'{suite}_k{budget}_seed{seed}'
+    pair = parallel['pair_tracking'].setdefault(key, {})
+    pair.update(active_job_id=None, last_completed_job_id=job_id,
+                last_root_reviewed_common_update=boundary,
+                allowed_next_segment_end=review['allowed_next_segment_end'],
+                root_review=rel, independent_review=independent_rel,
+                next_segment_requires_own_terminal_pull_and_root_review=True,
+                no_restart_or_duplicate_submission=True)
+    if complete:
+        pair.update(training_complete=True, selected_server_review=selected_rel,
+                    selected_server_review_sha256=f.sha(ROOT / selected_rel))
+        completed = progress.setdefault('completed_training_pairs', {})
+        row = dict(job_id=job_id, suite=suite, visual_tokens=budget, seed=seed,
+                   root_review=rel, independent_review=independent_rel, selected_server_review=selected_rel,
+                   root_review_sha256=f.sha(ROOT / rel), independent_review_sha256=f.sha(ROOT / independent_rel),
+                   selected_server_review_sha256=f.sha(ROOT / selected_rel), trained_arms=2,
+                   selected_checkpoints=selected['selected'], allowed_next_segment_end=None)
+        assert key not in completed or completed[key] == row
+        completed[key] = row
+        progress['trained_arms'] = 2 * len(completed)
+    segments = progress['completed_engineering_segments']
+    if not any(x['job_id'] == job_id for x in segments):
+        segments.append({'job_id': job_id, 'suite': suite, 'visual_tokens': budget,
+                         'seed': seed, 'updates_by_arm': review['completed_by_arm'],
+                         'status': 'passed_root_and_independent_review',
+                         'root_review': rel, 'independent_review': independent_rel,
+                         'allocated_gpu_seconds': job['elapsed_seconds'] * job['gpus'],
+                         'not_completed_formal_training': not complete})
+    active = progress.get('active_training', {})
+    if active.get('job_id') == job_id:
+        active.update(status='completed_formal_training_root_independent_and_selected_SHA_passed' if complete else 'completed_boundary_root_and_independent_review_passed',
+                      completed_by_arm=review['completed_by_arm'], terminal_root_review=rel,
+                      terminal_independent_review=independent_rel)
+        active.pop('live_progress', None)
+        progress['segment_continuation_review'].update(
+            status=f'passed_through_common{boundary}_boundary', latest_review=rel,
+            latest_reviewed_job_id=job_id, independent_review=independent_rel)
+    current = [j for j in jobs if j['status'] in f.ACTIVE | {'SUBMITTED'}]
+    parallel['registered_requested_active_GPU_jobs'] = len(current)
+    parallel['actual_running_allocated_GPUs'] = sum(j['gpus'] for j in current if j['status'] == 'RUNNING')
+    parallel['active_trainings'] = [j for j in parallel['active_trainings'] if j['job_id'] != job_id]
+    state['current_work'] = (f'{suite} k{budget} seed{seed} A/B common{boundary} passed root and independent review; '
+                             f'{len(current)} other GPU jobs active. Formal {progress["trained_arms"]}/72; final states sealed.')
+    state['next_allowed_action'] = (f'{key} completed5000: no further training; prepare registered development after downstream entry acceptance. ' if complete else
+                                    f'Resume reviewed {key} to {review["allowed_next_segment_end"]} with full optimizer/RNG/cursor; ')
+    state['next_allowed_action'] += 'Fill other free slots only after own suite acceptance and pair review, maximum8 GPU jobs.'
+    state['next_actions'][:2] = [state['next_allowed_action'],
+        'Complete downstream execution/review chain; all72+16+four-suite development gates remain required before final release.']
+    state['updated_utc'] = datetime.now(timezone.utc).isoformat()
+    f.write(f.STATE, state)
+    print(json.dumps({'job': job_id, 'boundary': boundary, 'next': review['allowed_next_segment_end'],
+                      'active_GPU_jobs': len(current), 'cost': state['current_round_cost']}))
