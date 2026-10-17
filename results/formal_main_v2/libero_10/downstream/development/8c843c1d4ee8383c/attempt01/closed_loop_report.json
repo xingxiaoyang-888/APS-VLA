@@ -1,12 +1,12 @@
 {
   "checkpoint_unchanged": true,
-  "completed_trials": 12,
+  "completed_trials": 132,
   "cost": {
-    "known_attempt_wall_seconds": 227.94946383219212,
-    "known_policy_calls": 491,
-    "known_wall_seconds": 180.48580434452742,
-    "policy_calls_total": 491,
-    "recorded_result_attempts": 12,
+    "known_attempt_wall_seconds": 2150.8048485359177,
+    "known_policy_calls": 4877,
+    "known_wall_seconds": 1692.9247440388426,
+    "policy_calls_total": 4877,
+    "recorded_result_attempts": 132,
     "scope": "Includes every episode attempt; all allocations require Slurm reconciliation. Not inference latency.",
     "unfinished_attempts_unknown_cost": 0
   },
@@ -18,18 +18,18 @@
       "per_task": {
         "0": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "1": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 10,
+          "trials": 10
         },
         "2": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "3": {
           "success_rate": null,
@@ -68,25 +68,25 @@
         }
       },
       "success_rate": 1.0,
-      "successes": 2,
-      "trials": 2
+      "successes": 22,
+      "trials": 22
     },
     "B128_seed17": {
       "per_task": {
         "0": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "1": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 10,
+          "trials": 10
         },
         "2": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "3": {
           "success_rate": null,
@@ -125,25 +125,25 @@
         }
       },
       "success_rate": 1.0,
-      "successes": 2,
-      "trials": 2
+      "successes": 22,
+      "trials": 22
     },
     "dense": {
       "per_task": {
         "0": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "1": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 10,
+          "trials": 10
         },
         "2": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "3": {
           "success_rate": null,
@@ -182,25 +182,25 @@
         }
       },
       "success_rate": 1.0,
-      "successes": 2,
-      "trials": 2
+      "successes": 22,
+      "trials": 22
     },
     "uniform128": {
       "per_task": {
         "0": {
-          "success_rate": 0.5,
-          "successes": 1,
-          "trials": 2
+          "success_rate": 0.3,
+          "successes": 3,
+          "trials": 10
         },
         "1": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 10,
+          "trials": 10
         },
         "2": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "3": {
           "success_rate": null,
@@ -238,26 +238,26 @@
           "trials": 0
         }
       },
-      "success_rate": 0.5,
-      "successes": 1,
-      "trials": 2
+      "success_rate": 0.6818181818181818,
+      "successes": 15,
+      "trials": 22
     },
     "uniform256": {
       "per_task": {
         "0": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "1": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 10,
+          "trials": 10
         },
         "2": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "3": {
           "success_rate": null,
@@ -296,25 +296,25 @@
         }
       },
       "success_rate": 1.0,
-      "successes": 2,
-      "trials": 2
+      "successes": 22,
+      "trials": 22
     },
     "uniform64": {
       "per_task": {
         "0": {
+          "success_rate": 0.3,
+          "successes": 3,
+          "trials": 10
+        },
+        "1": {
+          "success_rate": 1.0,
+          "successes": 10,
+          "trials": 10
+        },
+        "2": {
           "success_rate": 0.5,
           "successes": 1,
           "trials": 2
-        },
-        "1": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
-        },
-        "2": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
         },
         "3": {
           "success_rate": null,
@@ -352,28 +352,28 @@
           "trials": 0
         }
       },
-      "success_rate": 0.5,
-      "successes": 1,
-      "trials": 2
+      "success_rate": 0.6363636363636364,
+      "successes": 14,
+      "trials": 22
     }
   },
   "paired_AB": {
     "k128_seed17": {
       "B_minus_A_success_rate": null,
-      "completed_pairs": 2,
+      "completed_pairs": 22,
       "expected_pairs": 100,
       "per_task": {
         "0": {
-          "B_minus_A": null,
-          "pairs": 2
+          "B_minus_A": 0.0,
+          "pairs": 10
         },
         "1": {
-          "B_minus_A": null,
-          "pairs": 0
+          "B_minus_A": 0.0,
+          "pairs": 10
         },
         "2": {
           "B_minus_A": null,
-          "pairs": 0
+          "pairs": 2
         },
         "3": {
           "B_minus_A": null,
@@ -418,6 +418,146 @@
           "B_success": true,
           "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0",
           "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0009:env-0",
+          "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0015:env-0",
+          "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0020:env-0",
+          "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0025:env-0",
+          "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0032:env-0",
+          "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0035:env-0",
+          "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0040:env-0",
+          "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0045:env-0",
+          "task_id": 0
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0004:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0014:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0016:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0019:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0026:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0028:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0029:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0031:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0042:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket:state-0048:env-0",
+          "task_id": 1
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0007:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0008:env-0",
+          "task_id": 2
         }
       ]
     }
@@ -583,7 +723,7 @@
       "gpu": "NVIDIA L40",
       "numpy": "1.26.4",
       "python": "3.11.7",
-      "slurm_job_id": "3016981",
+      "slurm_job_id": "3017161",
       "torch": "2.2.0+cu121"
     },
     "schema": "formal_main_v2",
@@ -693,6 +833,6 @@
   "status": "incomplete",
   "suite": "libero_10",
   "test_opened": false,
-  "trials_jsonl_sha256": "484f3703e1d4e15e09745ad6d5fe7147fb8da5f9015c01977409f14c7dae8880",
+  "trials_jsonl_sha256": "a3a3cd8786a35e7f84bf3e3c84c594569dff6584961759e52500bccea86190c5",
   "unique_initial_states": 100
 }
