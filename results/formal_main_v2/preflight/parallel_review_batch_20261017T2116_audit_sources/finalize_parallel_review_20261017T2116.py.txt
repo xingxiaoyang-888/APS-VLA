@@ -1,0 +1,109 @@
+"""Root evidence closure for eight terminal pairs; no runtime/science edits."""
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+import json, sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+base = 'results/formal_main_v2/'
+batch = base + 'preflight/parallel_review_batch_20261017T2116.json'
+assert not (root / batch).exists()
+ids = ['3020824', '3020826', '3020832', '3020800', '3020803', '3020804', '3020805', '3020806']
+new_ids = ['3021089', '3021090', '3021092', '3021094', '3021095', '3021103', '3021108', '3021112']
+refs, pulls, sources, boundaries = set(), set(), set(), []
+source_map = {}
+for job in ids:
+    op_path = '.local/root_pull_review_2116_' + job + '.json'
+    op = f.read(root / op_path)
+    assert op['status'] == 'passed' and op['job_id'] == job
+    rr = op['root_review']
+    ir = rr.removesuffix('.json') + '_independent.json'
+    r, i = f.read(root / rr), f.read(root / ir)
+    assert r['status'] == i['status'] == 'passed'
+    assert r['job_id'] == i['job_id'] == job
+    assert f.sha(root / rr) == op['root_sha256']
+    assert f.sha(root / op['pull']) == op['pull_sha256']
+    evidence = i['read_evidence_sha256']
+    for path, checksum in evidence.items():
+        assert f.sha(root / path) == checksum, path
+        if path.startswith('.local/'):
+            assert Path(path).suffix in ('.py', '.json', '.txt', '.log')
+            sources.add(path)
+    assert evidence[rr] == op['root_sha256']
+    assert r['allowed_next_segment_end'] == i['allowed_next_segment_end'] == op['allowed_next']
+    assert r['completed_by_arm'] == dict.fromkeys(('A', 'B'), op['boundary'])
+    assert len(r['server_resume_checks']) == 2
+    refs.update([rr, ir, op['pull']])
+    pulls.add(op['pull'])
+    sources.update([op_path, '.local/audit_training_segment_' + job + '.py', '.local/audit_training_segment_' + job + '.log'])
+    boundaries.append({k: op[k] for k in ('job_id', 'suite', 'budget', 'seed', 'boundary', 'allowed_next', 'pair_gpu_seconds', 'latest_gpu_seconds')})
+for path in pulls:
+    for row in f.read(root / path)['files']:
+        assert f.sha(root / row['relative']) == row['sha256'], row['relative']
+sources.update(['.local/root_pull_review_one_20261017T2116.py', '.local/reconcile_parallel_progress_20261018.py', '.local/finalize_parallel_review_20261017T2116.py'])
+folder = root / (base + 'preflight/parallel_review_batch_20261017T2116_audit_sources')
+assert not folder.exists()
+folder.mkdir()
+for path in sorted(sources):
+    src = root / path
+    assert src.is_file() and not src.is_symlink()
+    dest = folder / (src.name + '.txt')
+    assert not dest.exists()
+    dest.write_bytes(src.read_bytes())
+    name = dest.relative_to(root).as_posix()
+    source_map[path] = name
+    refs.add(name)
+with f.supervisor_lock():
+    s = f.read(f.STATE)
+    jobs = f.refresh(s)
+    p = s['formal_main_progress']
+    active = [j for j in jobs if j['status'] in f.ACTIVE | {'SUBMITTED'}]
+    assert len(active) == 8 and all(j['mode'] == 'train' and j['gpus'] == 1 for j in active)
+    assert {j['job_id'] for j in active} == set(new_ids)
+    assert len({j['stage_key'] for j in active}) == 8
+    assert p['trained_arms'] == 2 and p['root_and_independent_reviewed_arm_updates'] == 91000
+    assert p['completed_development_trials'] == 600 and p['completed_final_trials'] == 0
+    assert not p['test_opened'] and not p['global_release_created']
+    closed = [next(j for j in jobs if j['job_id'] == job) for job in ids]
+    assert all(j['status'] == 'COMPLETED' and j['exit_code'] == '0:0' for j in closed)
+    assert sum(j['elapsed_seconds'] * j['gpus'] for j in closed) == 33066
+    for j in active:
+        assert f.sha(root / j['invocation']) == j['invocation_sha256']
+        refs.update([j['invocation'], base + 'submissions/' + j['job_id'] + '.json'])
+        pair = p['parallel_execution']['pair_tracking'][f"{j['suite']}_k{j['visual_tokens']}_seed{j['training_seed']}"]
+        assert pair['active_job_id'] == j['job_id']
+        refs.add(pair['latest_resume_precheck'])
+        assert f.sha(root / pair['latest_resume_precheck']) == pair['latest_resume_precheck_sha256']
+    now = datetime.now(timezone.utc)
+    local = now.astimezone(timezone(timedelta(hours=8)))
+    value = dict(schema='formal_main_v2', kind='root_incremental_parallel_training_review',
+        reviewed_utc=now.isoformat(), completed_training_arms=2, expected_training_arms=72,
+        cumulative_reviewed_arm_updates=91000, newly_reviewed_arm_updates=8000,
+        reviewed_boundaries=boundaries, completed_development_trials=600, new_development_trials=0,
+        completed_final_trials=0, final_states_sealed=True,
+        new_terminal_jobs=[dict(job_id=j['job_id'], GPU_seconds=j['elapsed_seconds'] * j['gpus']) for j in closed],
+        new_closed_GPU_seconds=33066, closed_cost_is_included_in_snapshot_not_additional=True,
+        all_formal_cost_snapshot=s['current_round_cost'], active_jobs=[dict(job_id=j['job_id'], status=j['status'], suite=j['suite'], budget=j['visual_tokens'], seed=j['training_seed'], segment_end=j['segment_end']) for j in active],
+        new_submissions=new_ids, pull_file_entries=sum(len(f.read(root / name)['files']) for name in pulls),
+        audit_source_archive_map=source_map, evidence_sha256={path: f.sha(root / path) for path in sorted(refs)},
+        audit_note='Unique windows are counted from the actual committed sample-ID set. Scheduled repeated traversal is distinct from failed or uncommitted replay; later audits must not require unique windows to equal all sample uses.',
+        scientific_settings_changed=False, weights_copied=False)
+    f.write(root / batch, value)
+    p['latest_incremental_review'] = dict(path=batch, sha256=f.sha(root / batch))
+    s['next_actions'].append('Keep both registered raw development originals locally and deliver them through the nonweight archive; do not force-add raw paths. Run the pinned Git-index reconstruction guard for every delivery.')
+    s['next_actions'].append('For later multi-pass training boundaries, independently recompute unique windows from the committed sample-ID set; scheduled repeated traversal is legal and is not failed replay. Do not change the frozen sample order or training protocol.')
+    s['updated_utc'] = now.isoformat()
+    s['updated_date'] = local.strftime('%Y-%m-%d')
+    f.write(f.STATE, s)
+    line = (f"{local:%Y-%m-%d %H:%M}进度：完整训练2/72组，累计91000次臂更新通过root及独立复核，8个单卡训练作业并行。"
+            f"正式轮累计临时{s['current_round_cost']['allocated_gpu_seconds']} GPU秒（{s['current_round_cost']['allocated_gpu_hours']:.6f}小时），含运行中与历史失败分配。"
+            '本批8个分段全部通过，未发现训练失败或重放；Object128 seed17验收到4500、Spatial128 seed17到4000、Goal128 seed17到3000，其余本批分段见收据。空闲卡已接续8个作业。\n\n'
+            '[本轮原始回存、恢复复核与全部成本](../' + batch + ')。开发仍600条，最终0/35200；不重复已完成的Long首批六方法开发评测。科学设置和5000步/11次验证不变，最终初态继续封存。\n\n')
+    for name in ('正式主实验规划.md', '完整实验计划.md', '实验进度.md'):
+        doc = root / 'docs' / name
+        heading, sep, body = doc.read_bytes().partition(b'\n')
+        assert sep
+        doc.write_bytes(heading + sep + b'\n' + line.encode('utf-8') + body)
+print(json.dumps(dict(receipt=batch, sha256=f.sha(root / batch), cost=value['all_formal_cost_snapshot'],
+    reviewed_updates=91000, active_jobs=8, pulls=value['pull_file_entries'])))

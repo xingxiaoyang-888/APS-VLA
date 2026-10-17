@@ -1,0 +1,55 @@
+"""Root serial invocation of existing terminal pull and actual-resume reviewer."""
+from pathlib import Path
+from datetime import datetime, timezone
+import argparse, hashlib, json, subprocess, sys
+
+root = Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser()
+parser.add_argument('--job-id', required=True)
+parser.add_argument('--pull-receipt')
+args = parser.parse_args()
+assert args.job_id.isdigit()
+out = root / '.local' / ('root_pull_review_2116_' + args.job_id + '.json')
+assert not out.exists()
+state = json.loads((root / 'results/experiment_supervisor/state.json').read_bytes())
+job = next(j for j in state['registered_jobs'] if j['job_id'] == args.job_id)
+assert job['experiment'] == 'formal_main_v2' and job['mode'] == 'train'
+own = [j for j in state['registered_jobs'] if j.get('stage_key') == job['stage_key']]
+assert max(own, key=lambda j: j['submitted_utc'])['job_id'] == job['job_id']
+assert all(j['status'] == 'COMPLETED' and j['exit_code'] == '0:0' for j in own)
+operations = []
+
+def run(command):
+    started = datetime.now(timezone.utc).isoformat()
+    r = subprocess.run(command, cwd=root, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    operations.append(dict(command=command, started_utc=started, exit_code=r.returncode,
+        stdout=r.stdout.decode('utf-8'), stderr=r.stderr.decode('utf-8')))
+    if r.returncode:
+        out.write_text(json.dumps(dict(status='failed', job_id=args.job_id, operations=operations), indent=2) + '\n', encoding='utf-8', newline='\n')
+        print(r.stderr.decode('utf-8'), flush=True)
+        raise SystemExit(r.returncode)
+    return json.loads(r.stdout)
+
+if args.pull_receipt:
+    pull_path = root / args.pull_receipt
+else:
+    command = [sys.executable, '-B', 'scripts/pull_formal_results.py']
+    for j in own:
+        command.extend(['--job-id', j['job_id']])
+    pulled = run(command)
+    assert pulled['status'] == 'verified_nonweight_snapshot' and not pulled['skipped_jobs']
+    pull_path = Path(pulled['receipt'])
+pull = pull_path.relative_to(root).as_posix()
+reviewed = run([sys.executable, '-B', 'scripts/review_formal_segment.py', '--job-id', args.job_id,
+    '--source-inventory', 'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json',
+    '--pull-receipt', pull, '--verify-server-resume'])
+assert reviewed['status'] == 'passed'
+review = f"results/formal_main_v2/{job['suite']}/k{job['visual_tokens']}/seed{job['training_seed']}/training/segment_reviews/{job['job_id']}.json"
+sha = lambda p: hashlib.sha256((root / p).read_bytes()).hexdigest()
+value = dict(status='passed', job_id=job['job_id'], suite=job['suite'], budget=job['visual_tokens'],
+    seed=job['training_seed'], boundary=job['segment_end'], root_review=review, root_sha256=sha(review),
+    pull=pull, pull_sha256=sha(pull), pair_gpu_seconds=reviewed['pair_allocated_gpu_seconds'],
+    latest_gpu_seconds=job['elapsed_seconds'] * job['gpus'], histories=[j['job_id'] for j in own],
+    allowed_next=reviewed['allowed_next_segment_end'], operations=operations)
+out.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8', newline='\n')
+print(json.dumps({k:v for k,v in value.items() if k != 'operations'}), flush=True)

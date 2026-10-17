@@ -1,0 +1,41 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_parallel_resume_precheck",
+  "pair": "libero_10_k256_seed23",
+  "previous_job_id": "3020310",
+  "target_boundary": 3000,
+  "checked_utc": "2026-10-17T21:17:51.369695+00:00",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "root_review": "results/formal_main_v2/libero_10/k256/seed23/training/segment_reviews/3020310.json",
+  "root_review_sha256": "73909f21d426e30e314b199dcbbcad9b100d1e595c02c8768524126364eb8a1c",
+  "independent_review": "results/formal_main_v2/libero_10/k256/seed23/training/segment_reviews/3020310_independent.json",
+  "independent_review_sha256": "cf8f108a9f2463c6177bf2dd8bbfa5001388d9cbca95a8d58689f38ec18a92f7",
+  "server_resume_checks": [
+    {
+      "arm": "A",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k256/seed23/A/resume.pt",
+      "exists": true,
+      "bytes": 32072870,
+      "sha256": "08385ab0b96d7630a194f8e272550c6028393008831fb98892f161722c609282"
+    },
+    {
+      "arm": "B",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k256/seed23/B/resume.pt",
+      "exists": true,
+      "bytes": 36453252,
+      "sha256": "94e0182733aef0d16f2669efa90ab7e7d356cbf84ed4206d2c8b22f0c9822d8e"
+    }
+  ],
+  "active_GPU_job_ids_before": [
+    "3021089",
+    "3021090",
+    "3021092",
+    "3021094"
+  ],
+  "active_GPU_jobs_before": 4,
+  "max_active_GPU_jobs": 8,
+  "reason": "Fill available slot with explicitly targeted, independently reviewed pair.",
+  "scientific_settings_changed": false,
+  "weights_copied": false,
+  "final_states_opened": false
+}
