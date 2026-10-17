@@ -1,12 +1,12 @@
 {
   "checkpoint_unchanged": true,
-  "completed_trials": 132,
+  "completed_trials": 252,
   "cost": {
-    "known_attempt_wall_seconds": 2150.8048485359177,
-    "known_policy_calls": 4877,
-    "known_wall_seconds": 1692.9247440388426,
-    "policy_calls_total": 4877,
-    "recorded_result_attempts": 132,
+    "known_attempt_wall_seconds": 3720.937511877157,
+    "known_policy_calls": 9167,
+    "known_wall_seconds": 2971.5955114858225,
+    "policy_calls_total": 9167,
+    "recorded_result_attempts": 252,
     "scope": "Includes every episode attempt; all allocations require Slurm reconciliation. Not inference latency.",
     "unfinished_attempts_unknown_cost": 0
   },
@@ -28,18 +28,18 @@
         },
         "2": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "3": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         },
         "4": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "5": {
           "success_rate": null,
@@ -67,9 +67,9 @@
           "trials": 0
         }
       },
-      "success_rate": 1.0,
-      "successes": 22,
-      "trials": 22
+      "success_rate": 0.9761904761904762,
+      "successes": 41,
+      "trials": 42
     },
     "B128_seed17": {
       "per_task": {
@@ -85,18 +85,18 @@
         },
         "2": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "3": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         },
         "4": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "5": {
           "success_rate": null,
@@ -124,9 +124,9 @@
           "trials": 0
         }
       },
-      "success_rate": 1.0,
-      "successes": 22,
-      "trials": 22
+      "success_rate": 0.9761904761904762,
+      "successes": 41,
+      "trials": 42
     },
     "dense": {
       "per_task": {
@@ -142,18 +142,18 @@
         },
         "2": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "3": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         },
         "4": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "5": {
           "success_rate": null,
@@ -181,9 +181,9 @@
           "trials": 0
         }
       },
-      "success_rate": 1.0,
-      "successes": 22,
-      "trials": 22
+      "success_rate": 0.9761904761904762,
+      "successes": 41,
+      "trials": 42
     },
     "uniform128": {
       "per_task": {
@@ -199,18 +199,18 @@
         },
         "2": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "3": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.8,
+          "successes": 8,
+          "trials": 10
         },
         "4": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 1.0,
+          "successes": 2,
+          "trials": 2
         },
         "5": {
           "success_rate": null,
@@ -238,9 +238,9 @@
           "trials": 0
         }
       },
-      "success_rate": 0.6818181818181818,
-      "successes": 15,
-      "trials": 22
+      "success_rate": 0.7857142857142857,
+      "successes": 33,
+      "trials": 42
     },
     "uniform256": {
       "per_task": {
@@ -255,19 +255,19 @@
           "trials": 10
         },
         "2": {
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
+        },
+        "3": {
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
+        },
+        "4": {
           "success_rate": 1.0,
           "successes": 2,
           "trials": 2
-        },
-        "3": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
-        },
-        "4": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
         },
         "5": {
           "success_rate": null,
@@ -295,9 +295,9 @@
           "trials": 0
         }
       },
-      "success_rate": 1.0,
-      "successes": 22,
-      "trials": 22
+      "success_rate": 0.9523809523809523,
+      "successes": 40,
+      "trials": 42
     },
     "uniform64": {
       "per_task": {
@@ -312,19 +312,19 @@
           "trials": 10
         },
         "2": {
-          "success_rate": 0.5,
-          "successes": 1,
-          "trials": 2
+          "success_rate": 0.8,
+          "successes": 8,
+          "trials": 10
         },
         "3": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.4,
+          "successes": 4,
+          "trials": 10
         },
         "4": {
-          "success_rate": null,
+          "success_rate": 0.0,
           "successes": 0,
-          "trials": 0
+          "trials": 2
         },
         "5": {
           "success_rate": null,
@@ -352,15 +352,15 @@
           "trials": 0
         }
       },
-      "success_rate": 0.6363636363636364,
-      "successes": 14,
-      "trials": 22
+      "success_rate": 0.5952380952380952,
+      "successes": 25,
+      "trials": 42
     }
   },
   "paired_AB": {
     "k128_seed17": {
       "B_minus_A_success_rate": null,
-      "completed_pairs": 22,
+      "completed_pairs": 42,
       "expected_pairs": 100,
       "per_task": {
         "0": {
@@ -372,16 +372,16 @@
           "pairs": 10
         },
         "2": {
-          "B_minus_A": null,
-          "pairs": 2
+          "B_minus_A": 0.0,
+          "pairs": 10
         },
         "3": {
-          "B_minus_A": null,
-          "pairs": 0
+          "B_minus_A": 0.0,
+          "pairs": 10
         },
         "4": {
           "B_minus_A": null,
-          "pairs": 0
+          "pairs": 2
         },
         "5": {
           "B_minus_A": null,
@@ -558,6 +558,146 @@
           "B_success": true,
           "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0008:env-0",
           "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0014:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0016:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0019:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0022:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0023:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0027:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0038:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it:state-0043:env-0",
+          "task_id": 2
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0003:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0007:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0009:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": false,
+          "B_minus_A": 0,
+          "B_success": false,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0011:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0014:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0020:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0024:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0025:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0039:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it:state-0047:env-0",
+          "task_id": 3
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate:state-0006:env-0",
+          "task_id": 4
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate:state-0014:env-0",
+          "task_id": 4
         }
       ]
     }
@@ -723,7 +863,7 @@
       "gpu": "NVIDIA L40",
       "numpy": "1.26.4",
       "python": "3.11.7",
-      "slurm_job_id": "3017161",
+      "slurm_job_id": "3017959",
       "torch": "2.2.0+cu121"
     },
     "schema": "formal_main_v2",
@@ -833,6 +973,6 @@
   "status": "incomplete",
   "suite": "libero_10",
   "test_opened": false,
-  "trials_jsonl_sha256": "a3a3cd8786a35e7f84bf3e3c84c594569dff6584961759e52500bccea86190c5",
+  "trials_jsonl_sha256": "f1c718d819714153291df97405b6fa32e7637d2c00979d7593a8ed93a1fb0235",
   "unique_initial_states": 100
 }

@@ -1,0 +1,91 @@
+{
+  "completion_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training/component_compatibility/3017922/completion.json",
+  "completion_source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/component_compatibility_invocations/3017922/completion.json",
+  "component_artifacts": [
+    {
+      "bytes": 42494,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training/component_compatibility/3017922/identity.json",
+      "sha256": "e70758863c0994524bf46becbf75e50a903f182e0b38c31ded080e3649c97b94",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/component_compatibility_invocations/3017922/identity.json"
+    },
+    {
+      "bytes": 51712,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training/component_compatibility/3017922/events.jsonl",
+      "sha256": "8501689abc527794c3924542e20ca7f2961430acaa8050a32e37835a20fae911",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/component_compatibility_invocations/3017922/events.jsonl"
+    }
+  ],
+  "component_compatibility": {
+    "adapter": "scripts/ops/formal_goal_component_adapter.py",
+    "files": {
+      "configs/experiments/formal_main_v2_goal_component_compat_v1.json": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84",
+      "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+      "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+      "scripts/server/run_formal_goal_asset_stage.py": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039"
+    },
+    "kind": "goal_component_filename_compatibility",
+    "registration": "configs/experiments/formal_main_v2_goal_component_compat_v1.json",
+    "schema": "formal_main_v2",
+    "slurm": "scripts/server/formal_goal_asset_main.slurm",
+    "suite": "libero_goal",
+    "version": "formal-goal-components-v1",
+    "wrapper": "scripts/server/run_formal_goal_asset_stage.py"
+  },
+  "component_files_unchanged": true,
+  "cost_scope": "Nested diagnostic only; count the entire Slurm allocation once",
+  "errors": [],
+  "exit_code": 0,
+  "inner_exit_code": 0,
+  "inner_job_receipt": {
+    "bytes": 3084,
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/job_receipts/3017922.json",
+    "sha256": "be009051dea46a260dcce96302c92fff4627921aa3da1684000ea2774a97539e"
+  },
+  "invocation_sha256": "4b8ac395ee38e1cddf0e6388d4a84ac45e1bfc586412bd263478a02a45290ea5",
+  "job_id": "3017922",
+  "kind": "formal_goal_component_completion",
+  "metadata_artifacts": [
+    {
+      "bytes": 41058,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training/compatibility/3017922/identity.json",
+      "sha256": "e172cb33f7189c8335c97201ea91f7a352f3c67bc64c27f82a7965d2b97c3c80",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/compatibility_invocations/3017922/identity.json"
+    },
+    {
+      "bytes": 48626,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training/compatibility/3017922/compatibility_events.jsonl",
+      "sha256": "2b3db46034b005d07352c97e9dcb7093e408955b3c8c820c09068185e6a5742a",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/compatibility_invocations/3017922/compatibility_events.jsonl"
+    }
+  ],
+  "original_loader_restored": true,
+  "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training",
+  "runtime_compatibility": {
+    "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+    "files": {
+      "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+      "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+      "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+      "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+      "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+      "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996"
+    },
+    "kind": "asset_metadata_compatibility",
+    "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+    "schema": "formal_main_v2",
+    "slurm": "scripts/server/formal_asset_main.slurm",
+    "version": "formal-asset-metadata-compat-v1",
+    "wrapper": "scripts/server/run_formal_asset_stage.py"
+  },
+  "schema": "formal_main_v2",
+  "source_inputs_unchanged": true,
+  "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "stage": "train",
+  "stage_key": "libero_goal_train_k128_seed17",
+  "started_utc": "2026-10-17T12:30:43.638475+00:00",
+  "status": "returned",
+  "suite": "libero_goal",
+  "version": "formal-goal-components-v1",
+  "wall_seconds": 3966.0202825404704
+}

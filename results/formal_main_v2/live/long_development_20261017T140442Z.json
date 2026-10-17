@@ -1,0 +1,30 @@
+{
+  "observed_utc": "2026-10-17T14:04:42.964916+00:00",
+  "not_a_terminal_receipt": true,
+  "events": 507,
+  "event_counts": {
+    "invocation": 3,
+    "start": 252,
+    "result": 252
+  },
+  "invocation_job_ids": [
+    "3016981",
+    "3017161",
+    "3017959"
+  ],
+  "live_terminal_trials": 252,
+  "live_error_results": 0,
+  "result_status_counts": {
+    "completed": 252
+  },
+  "last_event_utc": "2026-10-17T13:05:17.850165+00:00",
+  "job_id": "3018505",
+  "status": "RUNNING",
+  "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01",
+  "invocation_sha256": "32b92237d6c4788aeca8104ce8b2975fc01a29ac54d37809c93bd4cc8e14d540",
+  "source_program": "from pathlib import Path\nfrom datetime import datetime,timezone\nfrom collections import Counter\nimport json\np=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01')/'trials.jsonl'\ncounts=Counter();statuses=Counter();ids=[];last=None\nif p.exists():\n with p.open('rb') as stream:\n  for raw in stream:\n   if not raw.endswith(b'\\n'):continue\n   row=json.loads(raw);counts[row['event']]+=1;last=row['created_utc']\n   if row['event']=='invocation':ids.append(row['slurm_job_id'])\n   if row['event']=='result':statuses[row['status']]+=1\nprint(json.dumps(dict(observed_utc=datetime.now(timezone.utc).isoformat(),not_a_terminal_receipt=True,events=sum(counts.values()),event_counts=dict(counts),invocation_job_ids=ids,live_terminal_trials=counts['result'],live_error_results=statuses['error'],result_status_counts=dict(statuses),last_event_utc=last)))\n",
+  "historical_probe_correction": {
+    "path": "results/formal_main_v2/live/long_development_20261017T140359Z.json",
+    "reason": "Prior root live-only counter used job_id/utc instead of slurm_job_id/created_utc, giving missing invocation IDs/timestamp. Counts were correct; this probe uses actual ledger keys. No experiment, job, scientific source, or GPU allocation changed."
+  }
+}
