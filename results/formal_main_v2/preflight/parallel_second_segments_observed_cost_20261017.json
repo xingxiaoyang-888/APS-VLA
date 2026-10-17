@@ -1,0 +1,1527 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "observed_parallel_second_segment_costs",
+  "status": "measured_engineering_only",
+  "observed_utc": "2026-10-17T07:51:11.510893+00:00",
+  "included_job_ids": [
+    "3012597",
+    "3012495",
+    "3012496",
+    "3012507",
+    "3012508",
+    "3012509",
+    "3012524",
+    "3012528"
+  ],
+  "scope": "Eight completed500-update pair allocations: seven resumed segments and one fresh Object segment. Immutable review/pull snapshots; no current supervisor state.",
+  "rows": [
+    {
+      "job_id": "3012597",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "seed": 17,
+      "segment_kind": "resumed500",
+      "start_update": 4000,
+      "end_update": 4500,
+      "allocated_GPU_seconds": 3959,
+      "node": "gpu4010",
+      "job_at_review": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 3959,
+        "exit_code": "0:0",
+        "experiment": "formal_main_v2",
+        "gpus": 1,
+        "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed17_attempt09.json",
+        "invocation_sha256": "09b00bd51ebf05cd40bdc2da4c5a715d1e5c66c053f7340ca24c1c4ff55483e3",
+        "job_id": "3012597",
+        "mode": "train",
+        "name": "cti-formal",
+        "node": "gpu4010",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed17/training",
+        "segment_end": 4500,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "stage_key": "libero_10_train_k128_seed17",
+        "status": "COMPLETED",
+        "submitted_utc": "2026-10-16T21:02:21.723542+00:00",
+        "suite": "libero_10",
+        "training_seed": 17,
+        "visual_tokens": 128
+      },
+      "job_snapshot_source": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3012597.json",
+        "sha256": "930cb89c231d0acc5f8a184b2df4eb1e65c2b12aed1ffeddb4f816a7166c93ec"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3012597_independent.json",
+        "sha256": "69483a0fec438da1fe27329c73992ed4254b661463b28eedf6fd925ff917a2bd"
+      },
+      "arms": {
+        "A": {
+          "resumed": true,
+          "start_update": 4000,
+          "end_update": 4500,
+          "start_cursor": 32000,
+          "end_cursor": 36000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 2488.254804994911,
+            "mean_seconds": 4.976509609989822,
+            "median_seconds": 4.935734796337783,
+            "max_seconds": 13.681167697533965
+          },
+          "full_validation": [
+            {
+              "update": 4500,
+              "seconds": 19.76916734315455,
+              "window_forwards": 165
+            }
+          ],
+          "full_validation_total_seconds": 19.76916734315455,
+          "peak_cuda_memory_allocated_bytes": 18278419968,
+          "peak_cuda_memory_reserved_bytes": 18886950912,
+          "attempt_wall_seconds": 2527.480166302994,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T210540_4af1cf73a474/cost_events.jsonl",
+            "sha256": "11b2ad2389984d28d7dad674ac246a15e4377dc5134e5cf1416fa9e174006a23"
+          }
+        },
+        "B": {
+          "resumed": true,
+          "start_update": 4000,
+          "end_update": 4500,
+          "start_cursor": 32000,
+          "end_cursor": 36000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 1149.5863199774176,
+            "mean_seconds": 2.2991726399548353,
+            "median_seconds": 2.287878228351474,
+            "max_seconds": 3.0329665020108223
+          },
+          "full_validation": [
+            {
+              "update": 4500,
+              "seconds": 19.085758028551936,
+              "window_forwards": 165
+            }
+          ],
+          "full_validation_total_seconds": 19.085758028551936,
+          "peak_cuda_memory_allocated_bytes": 18289154048,
+          "peak_cuda_memory_reserved_bytes": 18891145216,
+          "attempt_wall_seconds": 1190.5682074744254,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T214807_16a7621724d7/cost_events.jsonl",
+            "sha256": "828acf91d7bf1eb5a1a5dc461fbc30d43a12f67d504a37fc46d192428bf0405c"
+          }
+        }
+      },
+      "cache_event_counts": {
+        "shard_index_verified": 32,
+        "cache_hit": 4818,
+        "cache_miss": 3513,
+        "feature_generate_start": 3513,
+        "feature_generate_end": 3513,
+        "cache_eviction": 3514,
+        "cache_publish": 3513
+      },
+      "cache_event_counts_by_arm": {
+        "A": {
+          "shard_index_verified": 32,
+          "cache_hit": 653,
+          "cache_miss": 3513,
+          "feature_generate_start": 3513,
+          "feature_generate_end": 3513,
+          "cache_eviction": 3514,
+          "cache_publish": 3513
+        },
+        "B": {
+          "cache_hit": 4165
+        }
+      },
+      "cache_hit_lookup_including_wait": {
+        "n": 4818,
+        "total_seconds": 235.33340060152113,
+        "mean_seconds": 0.048844624450294964,
+        "median_seconds": 0.0437139505520463,
+        "max_seconds": 0.29517821967601776
+      },
+      "cache_miss_publish_including_wait_and_generation": {
+        "n": 3513,
+        "total_seconds": 1519.554428230971,
+        "mean_seconds": 0.4325517871423203,
+        "median_seconds": 0.40559006854891777,
+        "max_seconds": 5.43084966391325
+      },
+      "nested_feature_generation": {
+        "n": 3513,
+        "total_seconds": 1016.3355712071061,
+        "mean_seconds": 0.28930702283151327,
+        "median_seconds": 0.2673620395362377,
+        "max_seconds": 5.155874479562044
+      },
+      "bytes_published_including_republications": 23436149980,
+      "bytes_evicted_not_unique_current_disk": 23438307864,
+      "cache_namespace_sha256": [
+        "36f57c665a987642e8a4c50f910c4d2255d1d3660a92ee2660fa07d10b4ddcbe"
+      ],
+      "raw_cache": {
+        "path": "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3012597_ce483bc2f236.jsonl",
+        "sha256": "3f4ecab6edf2eb139f522edf14375b5030d76165c2f13f7ab3afbae1c386d3cf"
+      }
+    },
+    {
+      "job_id": "3012495",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "seed": 23,
+      "segment_kind": "resumed500",
+      "start_update": 500,
+      "end_update": 1000,
+      "allocated_GPU_seconds": 5150,
+      "node": "gpu4041",
+      "job_at_review": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 5150,
+        "exit_code": "0:0",
+        "experiment": "formal_main_v2",
+        "gpus": 1,
+        "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed23_attempt02.json",
+        "invocation_sha256": "aa918b44891359fbbdef10164200ee68d742bd2c479979eb05ba7b9830cd234a",
+        "job_id": "3012495",
+        "mode": "train",
+        "name": "cti-formal",
+        "node": "gpu4041",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed23/training",
+        "segment_end": 1000,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "stage_key": "libero_10_train_k128_seed23",
+        "status": "COMPLETED",
+        "submitted_utc": "2026-10-16T19:58:43.333563+00:00",
+        "suite": "libero_10",
+        "training_seed": 23,
+        "visual_tokens": 128
+      },
+      "job_snapshot_source": {
+        "path": "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3012495.json",
+        "sha256": "04c057b82a2c4ae9f7a558d8c1e402fb43ca553333192a404826335902c7caf3"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3012495_independent.json",
+        "sha256": "a5dca5ad765ba0322a39d994b81c2c68d54148748e29246a72a88083d6185fe8"
+      },
+      "arms": {
+        "A": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 3453.0327866282314,
+            "mean_seconds": 6.906065573256463,
+            "median_seconds": 6.459265080280602,
+            "max_seconds": 14.892356801778078
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 23.683371536433697,
+              "window_forwards": 165
+            }
+          ],
+          "full_validation_total_seconds": 23.683371536433697,
+          "peak_cuda_memory_allocated_bytes": 18279714304,
+          "peak_cuda_memory_reserved_bytes": 18870173696,
+          "attempt_wall_seconds": 3499.2466058544815,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_10/k128/seed23/training/A/attempts/20261016T200147_9d99320ff899/cost_events.jsonl",
+            "sha256": "9e81c12d32eea45b4a708e6df54515b88be0dfe74064ff9f21eca85f85478762"
+          }
+        },
+        "B": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 1307.1245191376656,
+            "mean_seconds": 2.6142490382753314,
+            "median_seconds": 2.5807596631348133,
+            "max_seconds": 3.446599744260311
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 23.679670421406627,
+              "window_forwards": 165
+            }
+          ],
+          "full_validation_total_seconds": 23.679670421406627,
+          "peak_cuda_memory_allocated_bytes": 18289399808,
+          "peak_cuda_memory_reserved_bytes": 18876465152,
+          "attempt_wall_seconds": 1356.3189338929951,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_10/k128/seed23/training/B/attempts/20261016T210029_84c1e789e533/cost_events.jsonl",
+            "sha256": "6483130b9142be638ee9ea6f89462952a7b09514d13b9bea0c447835fce2638d"
+          }
+        }
+      },
+      "cache_event_counts": {
+        "shard_index_verified": 32,
+        "cache_hit": 5256,
+        "cache_miss": 3075,
+        "feature_generate_start": 3075,
+        "feature_generate_end": 3075,
+        "cache_eviction": 3075,
+        "cache_publish": 3075
+      },
+      "cache_event_counts_by_arm": {
+        "A": {
+          "shard_index_verified": 32,
+          "cache_hit": 1091,
+          "cache_miss": 3075,
+          "feature_generate_start": 3075,
+          "feature_generate_end": 3075,
+          "cache_eviction": 3075,
+          "cache_publish": 3075
+        },
+        "B": {
+          "cache_hit": 4165
+        }
+      },
+      "cache_hit_lookup_including_wait": {
+        "n": 5256,
+        "total_seconds": 411.49299170449376,
+        "mean_seconds": 0.07829014301835878,
+        "median_seconds": 0.05969080049544573,
+        "max_seconds": 1.3834787476807833
+      },
+      "cache_miss_publish_including_wait_and_generation": {
+        "n": 3075,
+        "total_seconds": 2409.1957416646183,
+        "mean_seconds": 0.7834782899722336,
+        "median_seconds": 0.5668646600097418,
+        "max_seconds": 8.086436165496707
+      },
+      "nested_feature_generation": {
+        "n": 3075,
+        "total_seconds": 1778.9313887190074,
+        "mean_seconds": 0.5785142727541487,
+        "median_seconds": 0.3205612041056156,
+        "max_seconds": 7.9032981768250465
+      },
+      "bytes_published_including_republications": 20513694516,
+      "bytes_evicted_not_unique_current_disk": 20514975796,
+      "cache_namespace_sha256": [
+        "36f57c665a987642e8a4c50f910c4d2255d1d3660a92ee2660fa07d10b4ddcbe"
+      ],
+      "raw_cache": {
+        "path": "results/formal_main_v2/libero_10/k128/seed23/training/cache_events/3012495_ff63527061bb.jsonl",
+        "sha256": "bd0b9668017301747c0f6afbbbc73027fbb21bb80ec070bf23cfe4ecb0c6e5a8"
+      }
+    },
+    {
+      "job_id": "3012496",
+      "suite": "libero_10",
+      "visual_tokens": 128,
+      "seed": 41,
+      "segment_kind": "resumed500",
+      "start_update": 500,
+      "end_update": 1000,
+      "allocated_GPU_seconds": 4235,
+      "node": "gpu4042",
+      "job_at_review": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 4235,
+        "exit_code": "0:0",
+        "experiment": "formal_main_v2",
+        "gpus": 1,
+        "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed41_attempt02.json",
+        "invocation_sha256": "f033a619e8145c58a4dd635fca2050624b6f3b4a6ab91c706318eb91df3b9e37",
+        "job_id": "3012496",
+        "mode": "train",
+        "name": "cti-formal",
+        "node": "gpu4042",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed41/training",
+        "segment_end": 1000,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "stage_key": "libero_10_train_k128_seed41",
+        "status": "COMPLETED",
+        "submitted_utc": "2026-10-16T19:58:54.258777+00:00",
+        "suite": "libero_10",
+        "training_seed": 41,
+        "visual_tokens": 128
+      },
+      "job_snapshot_source": {
+        "path": "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3012496.json",
+        "sha256": "e7169234eda0b66c6746c96686093d5a1a32a753dac37edea317eb62b384b0b2"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3012496_independent.json",
+        "sha256": "71eebba4674517b7299f5e1fc4e0d4f0c583a33d555e44290046527b7c5a5039"
+      },
+      "arms": {
+        "A": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 2608.863669158891,
+            "mean_seconds": 5.217727338317782,
+            "median_seconds": 5.146160983480513,
+            "max_seconds": 14.02446591667831
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 25.139972226694226,
+              "window_forwards": 165
+            }
+          ],
+          "full_validation_total_seconds": 25.139972226694226,
+          "peak_cuda_memory_allocated_bytes": 18277371392,
+          "peak_cuda_memory_reserved_bytes": 18895339520,
+          "attempt_wall_seconds": 2653.847074231133,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_10/k128/seed41/training/A/attempts/20261016T200237_926cceab659f/cost_events.jsonl",
+            "sha256": "aa4ba8581fb5355c6f67bdc656fdc5f5d297045d22a5bbcae0b55a075a240f3a"
+          }
+        },
+        "B": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 1281.6401963625103,
+            "mean_seconds": 2.5632803927250207,
+            "median_seconds": 2.5357626294717193,
+            "max_seconds": 3.578413998708129
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 27.941815845668316,
+              "window_forwards": 165
+            }
+          ],
+          "full_validation_total_seconds": 27.941815845668316,
+          "peak_cuda_memory_allocated_bytes": 18289154048,
+          "peak_cuda_memory_reserved_bytes": 18899533824,
+          "attempt_wall_seconds": 1330.7743181362748,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_10/k128/seed41/training/B/attempts/20261016T204711_8f7dd65c3037/cost_events.jsonl",
+            "sha256": "2ea73e85515f64f9680f9e0871df16b7a18c4b480b0b6c982b17b5f2b0604f7b"
+          }
+        }
+      },
+      "cache_event_counts": {
+        "shard_index_verified": 32,
+        "cache_hit": 5210,
+        "cache_miss": 3121,
+        "feature_generate_start": 3121,
+        "feature_generate_end": 3121,
+        "cache_eviction": 3121,
+        "cache_publish": 3121
+      },
+      "cache_event_counts_by_arm": {
+        "A": {
+          "shard_index_verified": 32,
+          "cache_hit": 1045,
+          "cache_miss": 3121,
+          "feature_generate_start": 3121,
+          "feature_generate_end": 3121,
+          "cache_eviction": 3121,
+          "cache_publish": 3121
+        },
+        "B": {
+          "cache_hit": 4165
+        }
+      },
+      "cache_hit_lookup_including_wait": {
+        "n": 5210,
+        "total_seconds": 409.13903484120965,
+        "mean_seconds": 0.07852956522863909,
+        "median_seconds": 0.05587061494588852,
+        "max_seconds": 1.280810408294201
+      },
+      "cache_miss_publish_including_wait_and_generation": {
+        "n": 3121,
+        "total_seconds": 1584.896912008524,
+        "mean_seconds": 0.5078170176252881,
+        "median_seconds": 0.45988610945641994,
+        "max_seconds": 8.854984300211072
+      },
+      "nested_feature_generation": {
+        "n": 3121,
+        "total_seconds": 961.601083740592,
+        "mean_seconds": 0.3081067234029452,
+        "median_seconds": 0.2745698597282171,
+        "max_seconds": 8.707954807206988
+      },
+      "bytes_published_including_republications": 20821078268,
+      "bytes_evicted_not_unique_current_disk": 20822227196,
+      "cache_namespace_sha256": [
+        "36f57c665a987642e8a4c50f910c4d2255d1d3660a92ee2660fa07d10b4ddcbe"
+      ],
+      "raw_cache": {
+        "path": "results/formal_main_v2/libero_10/k128/seed41/training/cache_events/3012496_74320adeff80.jsonl",
+        "sha256": "7409829f090a8c79e5ab8d4b14ae092b8ebdfe9654b0b23bc513c6605668e550"
+      }
+    },
+    {
+      "job_id": "3012507",
+      "suite": "libero_object",
+      "visual_tokens": 128,
+      "seed": 17,
+      "segment_kind": "fresh_first500",
+      "start_update": 0,
+      "end_update": 500,
+      "allocated_GPU_seconds": 4023,
+      "node": "gpu4001",
+      "job_at_review": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 4023,
+        "exit_code": "0:0",
+        "experiment": "formal_main_v2",
+        "gpus": 1,
+        "invocation": "results/formal_main_v2/invocations/libero_object_train_k128_seed17_attempt01.json",
+        "invocation_sha256": "bd345da15c64a981f153ad8b16c3bc66e32a68002f907fc4a4101758eaeddfe8",
+        "job_id": "3012507",
+        "mode": "train",
+        "name": "cti-formal",
+        "node": "gpu4001",
+        "purpose": "Registered Object/Goal original acceptance/train with audited metadata projection; final states sealed",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k128/seed17/training",
+        "runtime_compatibility": {
+          "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+          "files": {
+            "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+            "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+            "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+            "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+            "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+            "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996"
+          },
+          "kind": "asset_metadata_compatibility",
+          "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+          "schema": "formal_main_v2",
+          "slurm": "scripts/server/formal_asset_main.slurm",
+          "version": "formal-asset-metadata-compat-v1",
+          "wrapper": "scripts/server/run_formal_asset_stage.py"
+        },
+        "segment_end": 500,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "stage_key": "libero_object_train_k128_seed17",
+        "status": "COMPLETED",
+        "submitted_utc": "2026-10-16T20:03:03.128645+00:00",
+        "suite": "libero_object",
+        "training_seed": 17,
+        "visual_tokens": 128
+      },
+      "job_snapshot_source": {
+        "path": "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3012507.json",
+        "sha256": "1a2ce98e71de23aa490b3ddce29f3fcb843b91733f72882682ec46aa4ef008d7"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3012507_independent.json",
+        "sha256": "3f34200fa322a9016e153e1502914d893f49ff0ea741d7b02080959b0c9d62ca"
+      },
+      "arms": {
+        "A": {
+          "resumed": false,
+          "start_update": 0,
+          "end_update": 500,
+          "start_cursor": 0,
+          "end_cursor": 4000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 2427.437546848785,
+            "mean_seconds": 4.85487509369757,
+            "median_seconds": 4.743739477591589,
+            "max_seconds": 6.995390533003956
+          },
+          "full_validation": [
+            {
+              "update": 0,
+              "seconds": 86.66791583178565,
+              "window_forwards": 204
+            },
+            {
+              "update": 500,
+              "seconds": 21.5694911419414,
+              "window_forwards": 204
+            }
+          ],
+          "full_validation_total_seconds": 108.23740697372705,
+          "peak_cuda_memory_allocated_bytes": 18222259712,
+          "peak_cuda_memory_reserved_bytes": 18874368000,
+          "attempt_wall_seconds": 2555.534226480406,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_object/k128/seed17/training/A/attempts/20261016T200626_88222064eb01/cost_events.jsonl",
+            "sha256": "574a5d0c16f31a178f196b4b7e897efa67560ede536fa3554a05c4e3f4332d41"
+          }
+        },
+        "B": {
+          "resumed": false,
+          "start_update": 0,
+          "end_update": 500,
+          "start_cursor": 0,
+          "end_cursor": 4000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 1166.967282823287,
+            "mean_seconds": 2.3339345656465738,
+            "median_seconds": 2.329771429533139,
+            "max_seconds": 2.6348513760603964
+          },
+          "full_validation": [
+            {
+              "update": 0,
+              "seconds": 16.018449815921485,
+              "window_forwards": 204
+            },
+            {
+              "update": 500,
+              "seconds": 22.191494164057076,
+              "window_forwards": 204
+            }
+          ],
+          "full_validation_total_seconds": 38.20994397997856,
+          "peak_cuda_memory_allocated_bytes": 18231945216,
+          "peak_cuda_memory_reserved_bytes": 18878562304,
+          "attempt_wall_seconds": 1225.9558598902076,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_object/k128/seed17/training/B/attempts/20261016T204920_957c194a7081/cost_events.jsonl",
+            "sha256": "9b9a7411df0e3db3c68a9e642b7049dd2f6d5ed863fa934dac9e1e198f47e371"
+          }
+        }
+      },
+      "cache_event_counts": {
+        "shard_index_verified": 32,
+        "cache_hit": 4613,
+        "cache_miss": 4204,
+        "feature_generate_start": 4204,
+        "feature_generate_end": 4204,
+        "cache_publish": 4204
+      },
+      "cache_event_counts_by_arm": {
+        "A": {
+          "shard_index_verified": 32,
+          "cache_hit": 205,
+          "cache_miss": 4204,
+          "feature_generate_start": 4204,
+          "feature_generate_end": 4204,
+          "cache_publish": 4204
+        },
+        "B": {
+          "cache_hit": 4408
+        }
+      },
+      "cache_hit_lookup_including_wait": {
+        "n": 4613,
+        "total_seconds": 197.72953903209418,
+        "mean_seconds": 0.042863546289203164,
+        "median_seconds": 0.04248266201466322,
+        "max_seconds": 0.128010465297848
+      },
+      "cache_miss_publish_including_wait_and_generation": {
+        "n": 4204,
+        "total_seconds": 1528.0091214105487,
+        "mean_seconds": 0.36346553791877945,
+        "median_seconds": 0.33340022154152393,
+        "max_seconds": 1.7406948949210346
+      },
+      "nested_feature_generation": {
+        "n": 4204,
+        "total_seconds": 1280.995139125269,
+        "mean_seconds": 0.3047086439403589,
+        "median_seconds": 0.2773409557994455,
+        "max_seconds": 1.7054238952696323
+      },
+      "bytes_published_including_republications": 27938291152,
+      "bytes_evicted_not_unique_current_disk": 0,
+      "cache_namespace_sha256": [
+        "2d64d22a66c08591c5e66040bf47055c486bfb0c108c36001389ea22f434bc58"
+      ],
+      "raw_cache": {
+        "path": "results/formal_main_v2/libero_object/k128/seed17/training/cache_events/3012507_b01fd814ecea.jsonl",
+        "sha256": "c3bba81fbda2e7083c65de86986957d15262125294bcfcf1888c5956a0281fba"
+      }
+    },
+    {
+      "job_id": "3012508",
+      "suite": "libero_spatial",
+      "visual_tokens": 128,
+      "seed": 17,
+      "segment_kind": "resumed500",
+      "start_update": 500,
+      "end_update": 1000,
+      "allocated_GPU_seconds": 3646,
+      "node": "gpu4001",
+      "job_at_review": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 3646,
+        "exit_code": "0:0",
+        "experiment": "formal_main_v2",
+        "gpus": 1,
+        "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k128_seed17_attempt02.json",
+        "invocation_sha256": "57e2c5c18938f0a2fb8d7adec36b60265620d5aab4110e6ddda01e0081add626",
+        "job_id": "3012508",
+        "mode": "train",
+        "name": "cti-formal",
+        "node": "gpu4001",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed17/training",
+        "segment_end": 1000,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "stage_key": "libero_spatial_train_k128_seed17",
+        "status": "COMPLETED",
+        "submitted_utc": "2026-10-16T20:03:32.770123+00:00",
+        "suite": "libero_spatial",
+        "training_seed": 17,
+        "visual_tokens": 128
+      },
+      "job_snapshot_source": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3012508.json",
+        "sha256": "7cc6955f2ac6773e1b8428273f4226af2d95a0edc7f2eb176815234f7dacfb86"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3012508_independent.json",
+        "sha256": "e1797a9ff834a5b5b1b95b09e1786eec4cff137c2cebd8b15b3b2ebbc3c37d1f"
+      },
+      "arms": {
+        "A": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 2153.3683872227557,
+            "mean_seconds": 4.306736774445511,
+            "median_seconds": 4.252406566403806,
+            "max_seconds": 12.050257145892829
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 23.80206518759951,
+              "window_forwards": 189
+            }
+          ],
+          "full_validation_total_seconds": 23.80206518759951,
+          "peak_cuda_memory_allocated_bytes": 18247693824,
+          "peak_cuda_memory_reserved_bytes": 18895339520,
+          "attempt_wall_seconds": 2196.6666996818967,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed17/training/A/attempts/20261016T200556_ad4eb033ff2f/cost_events.jsonl",
+            "sha256": "558e7fe23f8e20b88239480a985b66b93ea06e665dc104267b7eb81823ad2297"
+          }
+        },
+        "B": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 1218.8082506344654,
+            "mean_seconds": 2.4376165012689306,
+            "median_seconds": 2.426234876504168,
+            "max_seconds": 3.4884446808137
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 25.84962426079437,
+              "window_forwards": 189
+            }
+          ],
+          "full_validation_total_seconds": 25.84962426079437,
+          "peak_cuda_memory_allocated_bytes": 18257379328,
+          "peak_cuda_memory_reserved_bytes": 18899533824,
+          "attempt_wall_seconds": 1265.8044280898757,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed17/training/B/attempts/20261016T204252_a447cc507293/cost_events.jsonl",
+            "sha256": "00653cd2ef1f5d7b96ab94d83ecd290541ff561d312beb1d727e441a0fe92e91"
+          }
+        }
+      },
+      "cache_event_counts": {
+        "shard_index_verified": 16,
+        "cache_hit": 5527,
+        "cache_miss": 2852,
+        "feature_generate_start": 2852,
+        "feature_generate_end": 2852,
+        "cache_publish": 2852
+      },
+      "cache_event_counts_by_arm": {
+        "A": {
+          "shard_index_verified": 16,
+          "cache_hit": 1338,
+          "cache_miss": 2852,
+          "feature_generate_start": 2852,
+          "feature_generate_end": 2852,
+          "cache_publish": 2852
+        },
+        "B": {
+          "cache_hit": 4189
+        }
+      },
+      "cache_hit_lookup_including_wait": {
+        "n": 5527,
+        "total_seconds": 332.5546499835327,
+        "mean_seconds": 0.0601691062029189,
+        "median_seconds": 0.054174670949578285,
+        "max_seconds": 1.1037058527581394
+      },
+      "cache_miss_publish_including_wait_and_generation": {
+        "n": 2852,
+        "total_seconds": 1115.0335907880217,
+        "mean_seconds": 0.3909654946662068,
+        "median_seconds": 0.35511631495319307,
+        "max_seconds": 6.927749079186469
+      },
+      "nested_feature_generation": {
+        "n": 2852,
+        "total_seconds": 877.2106372630224,
+        "mean_seconds": 0.30757736229418736,
+        "median_seconds": 0.27409747149795294,
+        "max_seconds": 6.682110800873488
+      },
+      "bytes_published_including_republications": 19065291504,
+      "bytes_evicted_not_unique_current_disk": 0,
+      "cache_namespace_sha256": [
+        "d47d069c14e23dc446a493c127901efcee0c27cde36ccf81be62d84dc2554aee"
+      ],
+      "raw_cache": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed17/training/cache_events/3012508_6c31b1aecbc6.jsonl",
+        "sha256": "7ffa47e4ad29468bc91dff0b519888972e47ce3122cc4a8016db37066018ad65"
+      }
+    },
+    {
+      "job_id": "3012509",
+      "suite": "libero_spatial",
+      "visual_tokens": 128,
+      "seed": 23,
+      "segment_kind": "resumed500",
+      "start_update": 500,
+      "end_update": 1000,
+      "allocated_GPU_seconds": 3645,
+      "node": "gpu4002",
+      "job_at_review": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 3645,
+        "exit_code": "0:0",
+        "experiment": "formal_main_v2",
+        "gpus": 1,
+        "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k128_seed23_attempt02.json",
+        "invocation_sha256": "47ee3337be116313d0e998a462b1fdb58ae106bb69cd1c6595aedc722e4fbaaf",
+        "job_id": "3012509",
+        "mode": "train",
+        "name": "cti-formal",
+        "node": "gpu4002",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training",
+        "segment_end": 1000,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "stage_key": "libero_spatial_train_k128_seed23",
+        "status": "COMPLETED",
+        "submitted_utc": "2026-10-16T20:03:44.761306+00:00",
+        "suite": "libero_spatial",
+        "training_seed": 23,
+        "visual_tokens": 128
+      },
+      "job_snapshot_source": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3012509.json",
+        "sha256": "ffcbf054aae82ea4757665d40b59fc4a5960d73172ae2cd6ef21670f15d43544"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3012509_independent.json",
+        "sha256": "a4011d0ad2cf7210f67e8a8e32e4cbfab2847f32942922d6a9d3ad60ffba71d0"
+      },
+      "arms": {
+        "A": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 2098.8731759758666,
+            "mean_seconds": 4.197746351951733,
+            "median_seconds": 4.15243496093899,
+            "max_seconds": 12.376188113354146
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 20.793064187280834,
+              "window_forwards": 189
+            }
+          ],
+          "full_validation_total_seconds": 20.793064187280834,
+          "peak_cuda_memory_allocated_bytes": 18247693824,
+          "peak_cuda_memory_reserved_bytes": 18895339520,
+          "attempt_wall_seconds": 2141.116941090673,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/A/attempts/20261016T200715_77af835501a8/cost_events.jsonl",
+            "sha256": "b74757d6e122d3a595488776755afd31c4a3938d9b838584f25d98bd73242141"
+          }
+        },
+        "B": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 1216.3880910398439,
+            "mean_seconds": 2.432776182079688,
+            "median_seconds": 2.4211250068619847,
+            "max_seconds": 3.146394827403128
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 23.511060488410294,
+              "window_forwards": 189
+            }
+          ],
+          "full_validation_total_seconds": 23.511060488410294,
+          "peak_cuda_memory_allocated_bytes": 18257379328,
+          "peak_cuda_memory_reserved_bytes": 18901630976,
+          "attempt_wall_seconds": 1260.7911717006937,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T204315_d0dcaac7d037/cost_events.jsonl",
+            "sha256": "82adad4bb0351b174650c55777a43d5db89a9c13f8dd2d9dea7af17b481795ad"
+          }
+        }
+      },
+      "cache_event_counts": {
+        "shard_index_verified": 16,
+        "cache_hit": 5544,
+        "cache_miss": 2835,
+        "feature_generate_start": 2835,
+        "feature_generate_end": 2835,
+        "cache_publish": 2835
+      },
+      "cache_event_counts_by_arm": {
+        "A": {
+          "shard_index_verified": 16,
+          "cache_hit": 1355,
+          "cache_miss": 2835,
+          "feature_generate_start": 2835,
+          "feature_generate_end": 2835,
+          "cache_publish": 2835
+        },
+        "B": {
+          "cache_hit": 4189
+        }
+      },
+      "cache_hit_lookup_including_wait": {
+        "n": 5544,
+        "total_seconds": 342.3816032400355,
+        "mean_seconds": 0.06175714344156484,
+        "median_seconds": 0.055408282205462456,
+        "max_seconds": 0.8552999254316092
+      },
+      "cache_miss_publish_including_wait_and_generation": {
+        "n": 2835,
+        "total_seconds": 1076.0416374942288,
+        "mean_seconds": 0.3795561331549308,
+        "median_seconds": 0.3480542041361332,
+        "max_seconds": 6.883870028890669
+      },
+      "nested_feature_generation": {
+        "n": 2835,
+        "total_seconds": 838.3147106654942,
+        "mean_seconds": 0.29570183797724664,
+        "median_seconds": 0.2689917953684926,
+        "max_seconds": 6.7951619029045105
+      },
+      "bytes_published_including_republications": 18952166644,
+      "bytes_evicted_not_unique_current_disk": 0,
+      "cache_namespace_sha256": [
+        "d47d069c14e23dc446a493c127901efcee0c27cde36ccf81be62d84dc2554aee"
+      ],
+      "raw_cache": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/cache_events/3012509_4004ba071f67.jsonl",
+        "sha256": "cbec2fcf01ec362b9ff3c6998d03fca00b2a5ad230fcbac7cc5de894c21e4f51"
+      }
+    },
+    {
+      "job_id": "3012524",
+      "suite": "libero_spatial",
+      "visual_tokens": 128,
+      "seed": 41,
+      "segment_kind": "resumed500",
+      "start_update": 500,
+      "end_update": 1000,
+      "allocated_GPU_seconds": 4076,
+      "node": "gpu4041",
+      "job_at_review": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 4076,
+        "exit_code": "0:0",
+        "experiment": "formal_main_v2",
+        "gpus": 1,
+        "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k128_seed41_attempt02.json",
+        "invocation_sha256": "dfbda90af9b46b4e92c8ff4d3fcd7267a5b519cc8e5a3740d19db42ef5e80e58",
+        "job_id": "3012524",
+        "mode": "train",
+        "name": "cti-formal",
+        "node": "gpu4041",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed41/training",
+        "segment_end": 1000,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "stage_key": "libero_spatial_train_k128_seed41",
+        "status": "COMPLETED",
+        "submitted_utc": "2026-10-16T20:11:42.997853+00:00",
+        "suite": "libero_spatial",
+        "training_seed": 41,
+        "visual_tokens": 128
+      },
+      "job_snapshot_source": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3012524.json",
+        "sha256": "7c523760374a83f03cf3c1893f07dddc1f5aeef72a9df2bb9669e01aa5889806"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3012524_independent.json",
+        "sha256": "209da9388dca89395acb319d21d1f813fc7552204cb74f37baf0de00a75cf2de"
+      },
+      "arms": {
+        "A": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 2456.69249230437,
+            "mean_seconds": 4.913384984608739,
+            "median_seconds": 4.526944011449814,
+            "max_seconds": 12.475922919809818
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 27.97971030138433,
+              "window_forwards": 189
+            }
+          ],
+          "full_validation_total_seconds": 27.97971030138433,
+          "peak_cuda_memory_allocated_bytes": 18248250880,
+          "peak_cuda_memory_reserved_bytes": 18886950912,
+          "attempt_wall_seconds": 2506.440104868263,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed41/training/A/attempts/20261016T201457_043135915212/cost_events.jsonl",
+            "sha256": "b30afa9808d37edf7879b353429282fae8e85cd091558bd84058747d061fe434"
+          }
+        },
+        "B": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 1223.4282428305596,
+            "mean_seconds": 2.4468564856611192,
+            "median_seconds": 2.4366246787831187,
+            "max_seconds": 2.8237541671842337
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 22.582865182310343,
+              "window_forwards": 189
+            }
+          ],
+          "full_validation_total_seconds": 22.582865182310343,
+          "peak_cuda_memory_allocated_bytes": 18257379328,
+          "peak_cuda_memory_reserved_bytes": 18891145216,
+          "attempt_wall_seconds": 1271.6595295425504,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed41/training/B/attempts/20261016T205703_c385f11789f0/cost_events.jsonl",
+            "sha256": "201972b05966b44d8715ecddc983d539d821a1a37925961ae0649c38cf9b8918"
+          }
+        }
+      },
+      "cache_event_counts": {
+        "shard_index_verified": 16,
+        "cache_hit": 5858,
+        "cache_miss": 2521,
+        "feature_generate_start": 2521,
+        "feature_generate_end": 2521,
+        "cache_publish": 2521
+      },
+      "cache_event_counts_by_arm": {
+        "A": {
+          "shard_index_verified": 16,
+          "cache_hit": 1669,
+          "cache_miss": 2521,
+          "feature_generate_start": 2521,
+          "feature_generate_end": 2521,
+          "cache_publish": 2521
+        },
+        "B": {
+          "cache_hit": 4189
+        }
+      },
+      "cache_hit_lookup_including_wait": {
+        "n": 5858,
+        "total_seconds": 336.067461585626,
+        "mean_seconds": 0.057368976030321955,
+        "median_seconds": 0.05187367647886276,
+        "max_seconds": 0.5634161550551653
+      },
+      "cache_miss_publish_including_wait_and_generation": {
+        "n": 2521,
+        "total_seconds": 1389.2723540533334,
+        "mean_seconds": 0.5510798707073913,
+        "median_seconds": 0.3953041583299637,
+        "max_seconds": 4.042229361832142
+      },
+      "nested_feature_generation": {
+        "n": 2521,
+        "total_seconds": 1153.6194392181933,
+        "mean_seconds": 0.457603902902893,
+        "median_seconds": 0.29368261620402336,
+        "max_seconds": 3.853693000972271
+      },
+      "bytes_published_including_republications": 16851948508,
+      "bytes_evicted_not_unique_current_disk": 0,
+      "cache_namespace_sha256": [
+        "d47d069c14e23dc446a493c127901efcee0c27cde36ccf81be62d84dc2554aee"
+      ],
+      "raw_cache": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed41/training/cache_events/3012524_bdc95fbadd49.jsonl",
+        "sha256": "070f9d3813e72e01d7d7b750c144d763a4dd08e25b7e3d9e55151531f54ab6c3"
+      }
+    },
+    {
+      "job_id": "3012528",
+      "suite": "libero_10",
+      "visual_tokens": 256,
+      "seed": 17,
+      "segment_kind": "resumed500",
+      "start_update": 500,
+      "end_update": 1000,
+      "allocated_GPU_seconds": 5095,
+      "node": "gpu4041",
+      "job_at_review": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 5095,
+        "exit_code": "0:0",
+        "experiment": "formal_main_v2",
+        "gpus": 1,
+        "invocation": "results/formal_main_v2/invocations/libero_10_train_k256_seed17_attempt02.json",
+        "invocation_sha256": "9f36247fcea256dbd039ff69de8c5308e0c6bd422d6d54e800ffef9388f863f3",
+        "job_id": "3012528",
+        "mode": "train",
+        "name": "cti-formal",
+        "node": "gpu4041",
+        "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k256/seed17/training",
+        "segment_end": 1000,
+        "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+        "stage_key": "libero_10_train_k256_seed17",
+        "status": "COMPLETED",
+        "submitted_utc": "2026-10-16T20:16:14.418426+00:00",
+        "suite": "libero_10",
+        "training_seed": 17,
+        "visual_tokens": 256
+      },
+      "job_snapshot_source": {
+        "path": "results/formal_main_v2/libero_10/k256/seed17/training/segment_reviews/3012528.json",
+        "sha256": "23ba90f0b45b25561f998bca13103dfdb39fa1135faffddeb81e4ccbc43d73c1"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_10/k256/seed17/training/segment_reviews/3012528_independent.json",
+        "sha256": "40bead6a0ae2ed856787f8eb7cd31c6c84782fb603f8b2c5306e82932d22cc87"
+      },
+      "arms": {
+        "A": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 3431.669820526615,
+            "mean_seconds": 6.86333964105323,
+            "median_seconds": 6.292731896042824,
+            "max_seconds": 15.17579117976129
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 23.401806131005287,
+              "window_forwards": 165
+            }
+          ],
+          "full_validation_total_seconds": 23.401806131005287,
+          "peak_cuda_memory_allocated_bytes": 18277371392,
+          "peak_cuda_memory_reserved_bytes": 18895339520,
+          "attempt_wall_seconds": 3476.3151964209974,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_10/k256/seed17/training/A/attempts/20261016T201938_19135236c507/cost_events.jsonl",
+            "sha256": "825c3d4ddf25bc72075247e33b3d06c5c103a3119b2fb4da8d59df70ff75a327"
+          }
+        },
+        "B": {
+          "resumed": true,
+          "start_update": 500,
+          "end_update": 1000,
+          "start_cursor": 4000,
+          "end_cursor": 8000,
+          "actual_update_count": 500,
+          "actual_forward_backward_samples": 4000,
+          "update_durations_including_record_fetch": {
+            "n": 500,
+            "total_seconds": 1258.4091649204493,
+            "mean_seconds": 2.5168183298408984,
+            "median_seconds": 2.49482511729002,
+            "max_seconds": 3.025003794580698
+          },
+          "full_validation": [
+            {
+              "update": 1000,
+              "seconds": 20.093260122463107,
+              "window_forwards": 165
+            }
+          ],
+          "full_validation_total_seconds": 20.093260122463107,
+          "peak_cuda_memory_allocated_bytes": 18289154048,
+          "peak_cuda_memory_reserved_bytes": 18899533824,
+          "attempt_wall_seconds": 1305.4456464592367,
+          "raw_attempt": {
+            "path": "results/formal_main_v2/libero_10/k256/seed17/training/B/attempts/20261016T211757_e9bdd4f47e22/cost_events.jsonl",
+            "sha256": "0f7526bd446a08471c6ac254f857a4b88382a77c0dd4d20e19847fb04211bd88"
+          }
+        }
+      },
+      "cache_event_counts": {
+        "cache_orphan_cleanup": 1,
+        "shard_index_verified": 32,
+        "cache_hit": 5032,
+        "cache_miss": 3299,
+        "feature_generate_start": 3299,
+        "feature_generate_end": 3299,
+        "cache_eviction": 3299,
+        "cache_publish": 3299
+      },
+      "cache_event_counts_by_arm": {
+        "A": {
+          "shard_index_verified": 32,
+          "cache_hit": 867,
+          "cache_miss": 3299,
+          "feature_generate_start": 3299,
+          "feature_generate_end": 3299,
+          "cache_eviction": 3299,
+          "cache_publish": 3299
+        },
+        "B": {
+          "cache_hit": 4165
+        }
+      },
+      "cache_hit_lookup_including_wait": {
+        "n": 5032,
+        "total_seconds": 336.5579077862203,
+        "mean_seconds": 0.06688352698454299,
+        "median_seconds": 0.0558099253103137,
+        "max_seconds": 0.9657673221081495
+      },
+      "cache_miss_publish_including_wait_and_generation": {
+        "n": 3299,
+        "total_seconds": 2409.9678277932107,
+        "mean_seconds": 0.7305146492249806,
+        "median_seconds": 0.5409259516745806,
+        "max_seconds": 7.54317326284945
+      },
+      "nested_feature_generation": {
+        "n": 3299,
+        "total_seconds": 1751.64295659028,
+        "mean_seconds": 0.530961793449615,
+        "median_seconds": 0.3138108365237713,
+        "max_seconds": 7.425595812499523
+      },
+      "bytes_published_including_republications": 22007699380,
+      "bytes_evicted_not_unique_current_disk": 22005666228,
+      "cache_namespace_sha256": [
+        "36f57c665a987642e8a4c50f910c4d2255d1d3660a92ee2660fa07d10b4ddcbe"
+      ],
+      "raw_cache": {
+        "path": "results/formal_main_v2/libero_10/k256/seed17/training/cache_events/3012528_8e1261428266.jsonl",
+        "sha256": "acbe890642f870fb38ae4e80d53e64d0e8519861770187855ee5971ace6b6ade"
+      }
+    }
+  ],
+  "total_included_allocation_GPU_seconds": 33829,
+  "aggregate_counts": {
+    "jobs": 8,
+    "arms": 16,
+    "completed_updates": 8000,
+    "forward_backward_samples": 64000,
+    "full_validation_calls": 18,
+    "full_validation_window_forwards": 3270,
+    "fresh_first500_jobs": 1,
+    "resumed500_jobs": 7,
+    "cache_event_counts": {
+      "shard_index_verified": 208,
+      "cache_hit": 41858,
+      "cache_miss": 25420,
+      "feature_generate_start": 25420,
+      "feature_generate_end": 25420,
+      "cache_eviction": 13009,
+      "cache_publish": 25420,
+      "cache_orphan_cleanup": 1
+    },
+    "bytes_published_including_republications": 169586319952,
+    "bytes_evicted_not_unique_current_disk": 86781177084
+  },
+  "suite_admission_snapshot": [
+    {
+      "suite": "libero_10",
+      "acceptance_job_id": "3005020",
+      "root_review": {
+        "path": "results/formal_main_v2/libero_10/acceptance/root_review.json",
+        "sha256": "7c013d75170725debd716de9780feceb4d27d143263e316e9acf2d6010117fdf"
+      },
+      "status": "passed"
+    },
+    {
+      "suite": "libero_spatial",
+      "acceptance_job_id": "3012294",
+      "root_review": {
+        "path": "results/formal_main_v2/libero_spatial/acceptance/root_review.json",
+        "sha256": "fee55c4f78f0f4953b96bf9364eb1051a591b91b3a9f092efc52bfdee99b8f68"
+      },
+      "status": "passed"
+    },
+    {
+      "suite": "libero_object",
+      "acceptance_job_id": "3012482",
+      "root_review": {
+        "path": "results/formal_main_v2/libero_object/acceptance/root_review.json",
+        "sha256": "2fd415c47d8852678b4d83296ffcff4709d97765debe7f4e41a17a7ae02daaa2"
+      },
+      "status": "passed"
+    },
+    {
+      "suite": "libero_goal",
+      "acceptance_job_id": "3012579",
+      "root_review": {
+        "path": "results/formal_main_v2/libero_goal/acceptance/root_review.json",
+        "sha256": "d994d25717d59f3b709944f3e8b2582c173ebd14febb853f49e5eec61ce8dddc"
+      },
+      "status": "passed"
+    }
+  ],
+  "separate_goal_acceptance_not_included_in_batch_total": {
+    "successful_GPU_seconds": 524,
+    "failed_GPU_seconds": 201,
+    "total_GPU_seconds": 725,
+    "independent_review": {
+      "path": "results/formal_main_v2/libero_goal/acceptance/3012579_independent.json",
+      "sha256": "7524b37fdd89968b72ccbe4ffbd88baf10d81af632825d3582f24a86ca4fdc4a"
+    }
+  },
+  "formal_completion_snapshot": {
+    "completed_5000_update_arms": 0,
+    "registered_arms": 72,
+    "basis": "Root-authorized static archived batch evidence; no current job or remaining wall-time claim.",
+    "final_evaluation_opened": false
+  },
+  "aggregation_definition": {
+    "row_job_identity": "Matching immutable registered_pair_jobs_at_review entry in SHA-bound root review; state.json not read",
+    "update_samples": "All update_end.seconds of the one complete own attempt; exact start/end cursor;500 updates per arm; no filtering",
+    "full_validation": "All validation_end seconds/window_forwards SHA-matched to raw artifacts. Fresh0+500 each arm; resumed only new boundary",
+    "memory_peak": "Maximum recorded peak_cuda_memory_allocated/reserved_bytes over all events in this arm attempt",
+    "cache": "All own JSONL event counts/timings retained; publication/eviction bytes may count repeated logical keys",
+    "statistics": "statistics.mean,statistics.median,sum,max over all finite nonnegative timings; all spikes retained",
+    "cost": "Unique terminal Slurm one-L40 elapsed_seconds only; no phase/cache time added"
+  },
+  "limitations": [
+    "33829 GPU seconds covers only these eight allocations, not all formal training or all project cost.",
+    "Update includes provider fetch/generation and training. Validation/checkpoint work follows outside that update timer; feature generation nests inside cache publication and provider calls.",
+    "cache_hit.seconds includes stripe/SQLite wait, integrity checks, deserialization and recency transaction; it is not pure lock wait. cache_publish also includes generation/serialization/eviction, not pure I/O.",
+    "A precedes B using shared provider/cache; concurrent peers change hits/misses/contention. No causal A/B training speed or causal token-budget acceleration is identified.",
+    "Object is fresh0-to500 with two validations per arm; other jobs resume their next500 with one validation per arm. Totals are not matched identical protocols.",
+    "No linear72-arm extrapolation, remaining wall-clock estimate, final success/latency claim or live job/cost state is produced.",
+    "All original raw data and failures remain retained; this summary does not replace the unique Slurm cost ledger."
+  ],
+  "evidence_sha256": {
+    "results/formal_main_v2/pulls/20261017T073805Z_c9ab5124acc6/receipt.json": "16b6597851a8c7597e579db78a6ef5effd5a0d07da47aead6412279694a3c746",
+    "results/formal_main_v2/pulls/20261017T073805Z_c9ab5124acc6/inventory_before.json": "06747513c20ff26e2107b25ac9b38f7c2fcc06b389764986b141247695b29c28",
+    "results/formal_main_v2/pulls/20261017T073805Z_c9ab5124acc6/inventory_after.json": "06747513c20ff26e2107b25ac9b38f7c2fcc06b389764986b141247695b29c28",
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "src/cti_vla/training/formal_future.py": "3f4d2f933aa276d26dccfc2ce16d145f8bf40c7c1446ffddbb7342a763bc097b",
+    "src/cti_vla/training/formal_records.py": "b774b9e96a04eaca6bc8df51327b8012500bd37cc85122a0331582382e344da5",
+    ".local/summarize_parallel_first_segments.py": "57c181c44bd373df7086de262909375e99b2657fbb8600b86aca24d52ab092ea",
+    "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3012597.json": "930cb89c231d0acc5f8a184b2df4eb1e65c2b12aed1ffeddb4f816a7166c93ec",
+    "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3012597_independent.json": "69483a0fec438da1fe27329c73992ed4254b661463b28eedf6fd925ff917a2bd",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261015T185251_8f5497b6f0fa/cost_events.jsonl": "f8844f5ff502f14f1f2adcea636a279fb098044df2f02e4433fe5019549da664",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261015T200037_53ed164408b2/cost_events.jsonl": "e5cd82903216994b97f3d4fd04ca58b3de68417dad323cd928a832429d4feaad",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T062723_6d095117e170/cost_events.jsonl": "519b42a0150d9376c784e70450bb80ed6d82f037a88ac297c0ef9349726871aa",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T073946_ce33a39dbe61/cost_events.jsonl": "3146cd86914ebb26c314dc88e6d0d195bf0bd84a2790bf1e0cadec498d25e1aa",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T104106_11819ba3e9af/cost_events.jsonl": "1d9b56b75e2d2ffab845914efb126a88301b4eebc4373575fa90b55302f48355",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T153259_8103cd2fc4b6/cost_events.jsonl": "fd1a810e98ef186fa08566dc32c8e5e7498e2ec060e8e2dc0a0b47127bbf15d3",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T175521_7afea2e7d508/cost_events.jsonl": "1255370560f47b1c820a50b468a86af08cc3791e6317c54ca6446fe8eb8c8d14",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T193425_a07f2fcf42b2/cost_events.jsonl": "b8d4a6158263ff7816bfa825a4809dff0b209a9b8eb132eb0a14bf9dca0e5d32",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T210540_4af1cf73a474/cost_events.jsonl": "11b2ad2389984d28d7dad674ac246a15e4377dc5134e5cf1416fa9e174006a23",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/attempts/20261016T210540_4af1cf73a474/validation_04500.json": "6d4fa27bb9f2b7bfa7abb220c5048cd93b8ead1b9f66419d2c550b3c3cfe166c",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261015T193238_336fb73b8320/cost_events.jsonl": "c719d02a3e126206987cd34d4a984d32ef988a7664031937ef0ad57f7fa2fa45",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261015T204514_381d667a42a0/cost_events.jsonl": "2b74f99f7d4260d3b9fac3a0baa10e806c327d931034e581eedd15ca167df021",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T070808_f9fea9795e45/cost_events.jsonl": "cb35a27549bc01b4c34135be248bd7b45c79d1b660fd45e4f10aa32a4ae267f7",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T082001_67cf9fb2c1b2/cost_events.jsonl": "8c49179685ea38b4b225d452e75b03a9bfa43795ff75799d4d744e44c1351011",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T112114_8452ffe6db85/cost_events.jsonl": "075733b52f9d79d79b6d7aeb20d6ea41a2fc7e2d23ed610b4d8ce4ab1c688db8",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T161254_0644a39bcaba/cost_events.jsonl": "244f5011f5a034bd189c6d8cb63c268829c356190eeb476d407891a2fa2744ec",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T183845_22b66c351090/cost_events.jsonl": "ced745be3e2ab3cb7524940e07ca17e85c14bc50abebb8902cdd0d285dd1fa01",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T201959_ad6837fa4935/cost_events.jsonl": "44738997b4f83a808642a06231b4bfbe93ba53c263e32bfc717f78e83330dfe9",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T214807_16a7621724d7/cost_events.jsonl": "828acf91d7bf1eb5a1a5dc461fbc30d43a12f67d504a37fc46d192428bf0405c",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/attempts/20261016T214807_16a7621724d7/validation_04500.json": "ed2dc4cd24d299279e9e785625d1afef19ba832ba08ac7e60089765ebbc8f1cc",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3005060_f80ee5824084.jsonl": "0b1fc4ce8cc62ac6e4f4b7e0ae9154298be11edf4d5e10967e78acd86fc510fc",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3005253_7ae6ca671862.jsonl": "42a08dd35ad8819b34720ffe1859513929da8dd41741a1a389d42fa731929c8d",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3007549_df3bea0ca2ae.jsonl": "483e288d73e1f226ff26267c91fc5d5d0fd8a0e2c2830935855984ae29739fd4",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3008000_b78f7fe55f82.jsonl": "bc42589d5479312f3ef97163c2b22f64ed806320db851c4968ee0039adb366b0",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3009076_71d909596469.jsonl": "b229c83d647267f3885aad9eccdb6928a81353ec4d96ea74b2de114d413c4fd3",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3011093_6c10fb8b76d0.jsonl": "7448209774a7fcf6b13f8632e8ee6574c4e02cfe8e081200007c42eb8d33f150",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3012151_a03e3b2b18ac.jsonl": "26f1f39a814fbbf440cd275b80169535d2be6daf4c35d408a6a3231e41d94595",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3012446_a38bf2cdf00e.jsonl": "3af36a7dbaeb53a52bb329793fed3c53b1fa1c320c5275d781dd90fb72e5df69",
+    "results/formal_main_v2/libero_10/k128/seed17/training/cache_events/3012597_ce483bc2f236.jsonl": "3f4ecab6edf2eb139f522edf14375b5030d76165c2f13f7ab3afbae1c386d3cf",
+    "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3012495.json": "04c057b82a2c4ae9f7a558d8c1e402fb43ca553333192a404826335902c7caf3",
+    "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3012495_independent.json": "a5dca5ad765ba0322a39d994b81c2c68d54148748e29246a72a88083d6185fe8",
+    "results/formal_main_v2/libero_10/k128/seed23/training/A/attempts/20261016T184435_e1a040df741d/cost_events.jsonl": "850f90e7ffb5e87487a0c487d7de15ad2bd2749ea5aa91149d405e3feb3dfe96",
+    "results/formal_main_v2/libero_10/k128/seed23/training/A/attempts/20261016T200147_9d99320ff899/cost_events.jsonl": "9e81c12d32eea45b4a708e6df54515b88be0dfe74064ff9f21eca85f85478762",
+    "results/formal_main_v2/libero_10/k128/seed23/training/A/attempts/20261016T200147_9d99320ff899/validation_01000.json": "767b431bba53bb36b6b0972a64cf2a95f7b8a32532462b92eec2285c74724d76",
+    "results/formal_main_v2/libero_10/k128/seed23/training/B/attempts/20261016T192641_3ce23f0fab4b/cost_events.jsonl": "3b32c0e91692bc6915a5d98566ff2bcdd031f15feb168ac3a74c724818e84afb",
+    "results/formal_main_v2/libero_10/k128/seed23/training/B/attempts/20261016T210029_84c1e789e533/cost_events.jsonl": "6483130b9142be638ee9ea6f89462952a7b09514d13b9bea0c447835fce2638d",
+    "results/formal_main_v2/libero_10/k128/seed23/training/B/attempts/20261016T210029_84c1e789e533/validation_01000.json": "ce2ec48c29b50a1e0cff0c5a41d16ea580883697adc4f66b24288d894361a4f6",
+    "results/formal_main_v2/libero_10/k128/seed23/training/cache_events/3012319_38d765592a6c.jsonl": "338d303b0e9d3c581649cb75c364d447b7073b3a9599f7f6e5943da99fb4e11c",
+    "results/formal_main_v2/libero_10/k128/seed23/training/cache_events/3012495_ff63527061bb.jsonl": "bd0b9668017301747c0f6afbbbc73027fbb21bb80ec070bf23cfe4ecb0c6e5a8",
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3012496.json": "e7169234eda0b66c6746c96686093d5a1a32a753dac37edea317eb62b384b0b2",
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3012496_independent.json": "71eebba4674517b7299f5e1fc4e0d4f0c583a33d555e44290046527b7c5a5039",
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/attempts/20261016T184547_dd20174834bb/cost_events.jsonl": "c1fb1dd4bc7cf87fa2ee94ef3f08cf4771c23b1312bf3db807408096b075514d",
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/attempts/20261016T200237_926cceab659f/cost_events.jsonl": "aa4ba8581fb5355c6f67bdc656fdc5f5d297045d22a5bbcae0b55a075a240f3a",
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/attempts/20261016T200237_926cceab659f/validation_01000.json": "cd219e4bb8f3bc01cdc7b126810b5740a6f9b559b8caa6d9f0b03f540690bbd4",
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/attempts/20261016T192806_9da44cac4632/cost_events.jsonl": "162c243fa0f63e3cb38ba2979fae6774629681fc0beaee385ef66a207421a537",
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/attempts/20261016T204711_8f7dd65c3037/cost_events.jsonl": "2ea73e85515f64f9680f9e0871df16b7a18c4b480b0b6c982b17b5f2b0604f7b",
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/attempts/20261016T204711_8f7dd65c3037/validation_01000.json": "78a49ba95173ffeb0f02ba10fce9d2d717026d42f3b709b63a47e2cecbe0de74",
+    "results/formal_main_v2/libero_10/k128/seed41/training/cache_events/3012321_693d23b07b34.jsonl": "9f73cf66fb9101be707f02580caa0ecb7937364f7ddc251b17e3d6f75122b583",
+    "results/formal_main_v2/libero_10/k128/seed41/training/cache_events/3012496_74320adeff80.jsonl": "7409829f090a8c79e5ab8d4b14ae092b8ebdfe9654b0b23bc513c6605668e550",
+    "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3012507.json": "1a2ce98e71de23aa490b3ddce29f3fcb843b91733f72882682ec46aa4ef008d7",
+    "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3012507_independent.json": "3f34200fa322a9016e153e1502914d893f49ff0ea741d7b02080959b0c9d62ca",
+    "results/formal_main_v2/libero_object/k128/seed17/training/A/attempts/20261016T200626_88222064eb01/cost_events.jsonl": "574a5d0c16f31a178f196b4b7e897efa67560ede536fa3554a05c4e3f4332d41",
+    "results/formal_main_v2/libero_object/k128/seed17/training/A/attempts/20261016T200626_88222064eb01/validation_00000.json": "06de997cf4f17404b1f3ce3ca341ea87d26f7642d15be4305a147e8966720931",
+    "results/formal_main_v2/libero_object/k128/seed17/training/A/attempts/20261016T200626_88222064eb01/validation_00500.json": "26c0a7d5ed4a9810ca8aaf2acc81e166b4bd9e10c275a17c1a722af268110ccc",
+    "results/formal_main_v2/libero_object/k128/seed17/training/B/attempts/20261016T204920_957c194a7081/cost_events.jsonl": "9b9a7411df0e3db3c68a9e642b7049dd2f6d5ed863fa934dac9e1e198f47e371",
+    "results/formal_main_v2/libero_object/k128/seed17/training/B/attempts/20261016T204920_957c194a7081/validation_00000.json": "c725fdd3b559d6848960757afdbe1b8acef960c763ea0a76f8ff15930a1948df",
+    "results/formal_main_v2/libero_object/k128/seed17/training/B/attempts/20261016T204920_957c194a7081/validation_00500.json": "b0e00ba37d607d10ed1d6709d632b66b9489e73da5e7269714b91dea088452a7",
+    "results/formal_main_v2/libero_object/k128/seed17/training/cache_events/3012507_b01fd814ecea.jsonl": "c3bba81fbda2e7083c65de86986957d15262125294bcfcf1888c5956a0281fba",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3012508.json": "7cc6955f2ac6773e1b8428273f4226af2d95a0edc7f2eb176815234f7dacfb86",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3012508_independent.json": "e1797a9ff834a5b5b1b95b09e1786eec4cff137c2cebd8b15b3b2ebbc3c37d1f",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/A/attempts/20261016T184409_af68f49d59f2/cost_events.jsonl": "3131524d7f41626f369c6869841c97713f7386155a4b24cee3f636f8ff1b8f0c",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/A/attempts/20261016T200556_ad4eb033ff2f/cost_events.jsonl": "558e7fe23f8e20b88239480a985b66b93ea06e665dc104267b7eb81823ad2297",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/A/attempts/20261016T200556_ad4eb033ff2f/validation_01000.json": "85ce1efab026efb687fb8366a865e6a94f04ca250a6b3a45331e088d4fcac6d2",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/B/attempts/20261016T193625_0d79682c79c0/cost_events.jsonl": "4299efb0b4a158d30f67c6204a0ffedbd582c8ea4063f860ecd920d907b83355",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/B/attempts/20261016T204252_a447cc507293/cost_events.jsonl": "00653cd2ef1f5d7b96ab94d83ecd290541ff561d312beb1d727e441a0fe92e91",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/B/attempts/20261016T204252_a447cc507293/validation_01000.json": "2e40c86f146119090dc0f60b41c01ebd0b92c9fcfcb2e87881122185f05dee61",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/cache_events/3012324_d5902f1625bc.jsonl": "b3c0f651680bc84f0168fd599098eb18fed5feb62bac83200f6dc340a6dcb9fa",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/cache_events/3012508_6c31b1aecbc6.jsonl": "7ffa47e4ad29468bc91dff0b519888972e47ce3122cc4a8016db37066018ad65",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3012509.json": "ffcbf054aae82ea4757665d40b59fc4a5960d73172ae2cd6ef21670f15d43544",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3012509_independent.json": "a4011d0ad2cf7210f67e8a8e32e4cbfab2847f32942922d6a9d3ad60ffba71d0",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/A/attempts/20261016T184411_41f03bc9751b/cost_events.jsonl": "014975920547ffb5fac8863d57fc4192433d32595baac9eee51d2ebd8826c712",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/A/attempts/20261016T200715_77af835501a8/cost_events.jsonl": "b74757d6e122d3a595488776755afd31c4a3938d9b838584f25d98bd73242141",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/A/attempts/20261016T200715_77af835501a8/validation_01000.json": "e73ca509aa9ac979b66796a87282d872d6e724b74e8b1995058a67073ed5b739",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T193435_1ae31203fb89/cost_events.jsonl": "263136300052f731bae8ec52a0c43556f5d01e389859c025686231d92add46eb",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T204315_d0dcaac7d037/cost_events.jsonl": "82adad4bb0351b174650c55777a43d5db89a9c13f8dd2d9dea7af17b481795ad",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T204315_d0dcaac7d037/validation_01000.json": "a3981f415bfa54753487ee15218a8f6605ff9bced9588ac4901b3497cb4af414",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/cache_events/3012325_e7feaf095cef.jsonl": "047ea0a1c79be20ede2f45837e5fdfeef389384b86ed4f2807630b80573a8f78",
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/cache_events/3012509_4004ba071f67.jsonl": "cbec2fcf01ec362b9ff3c6998d03fca00b2a5ad230fcbac7cc5de894c21e4f51",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3012524.json": "7c523760374a83f03cf3c1893f07dddc1f5aeef72a9df2bb9669e01aa5889806",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3012524_independent.json": "209da9388dca89395acb319d21d1f813fc7552204cb74f37baf0de00a75cf2de",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/A/attempts/20261016T184448_370acdeeb4d4/cost_events.jsonl": "d7ba54c31f5075019bd5d097c733715edd50527f361413cb8f98ec833e74909f",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/A/attempts/20261016T201457_043135915212/cost_events.jsonl": "b30afa9808d37edf7879b353429282fae8e85cd091558bd84058747d061fe434",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/A/attempts/20261016T201457_043135915212/validation_01000.json": "f08f06fe21bda43a788d861e553b0b7856dc52e0e6a7329cb90de9e5f6767bdd",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/B/attempts/20261016T193502_f8fd681bfa25/cost_events.jsonl": "11a0859bc83849a71d54bc88a760cce39f55f46df14c0e4f78ab303b51f1d1ea",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/B/attempts/20261016T205703_c385f11789f0/cost_events.jsonl": "201972b05966b44d8715ecddc983d539d821a1a37925961ae0649c38cf9b8918",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/B/attempts/20261016T205703_c385f11789f0/validation_01000.json": "0d61389544b804f529d0e8859d4170d883739657ba037d66266d4afe62e80cd9",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/cache_events/3012326_21dd375591a1.jsonl": "65da8e1df6773df3543751abf54482f2617736703c00b727b267e7c308db70bc",
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/cache_events/3012524_bdc95fbadd49.jsonl": "070f9d3813e72e01d7d7b750c144d763a4dd08e25b7e3d9e55151531f54ab6c3",
+    "results/formal_main_v2/libero_10/k256/seed17/training/segment_reviews/3012528.json": "23ba90f0b45b25561f998bca13103dfdb39fa1135faffddeb81e4ccbc43d73c1",
+    "results/formal_main_v2/libero_10/k256/seed17/training/segment_reviews/3012528_independent.json": "40bead6a0ae2ed856787f8eb7cd31c6c84782fb603f8b2c5306e82932d22cc87",
+    "results/formal_main_v2/libero_10/k256/seed17/training/A/attempts/20261016T184359_e165d4612cb0/cost_events.jsonl": "28454a72fb9a0d4eac97432c46a2cf39491032aac37d154b31a8b54a48db44ae",
+    "results/formal_main_v2/libero_10/k256/seed17/training/A/attempts/20261016T201938_19135236c507/cost_events.jsonl": "825c3d4ddf25bc72075247e33b3d06c5c103a3119b2fb4da8d59df70ff75a327",
+    "results/formal_main_v2/libero_10/k256/seed17/training/A/attempts/20261016T201938_19135236c507/validation_01000.json": "708daae18b924921595f595d6569890a0ab9af888edb80ae061a2ec6797b124e",
+    "results/formal_main_v2/libero_10/k256/seed17/training/B/attempts/20261016T194616_457b808af52a/cost_events.jsonl": "95593bd762b1c389c6e73cc161dde1aac1e10a7c54daf456c312e5f712dae471",
+    "results/formal_main_v2/libero_10/k256/seed17/training/B/attempts/20261016T211757_e9bdd4f47e22/cost_events.jsonl": "0f7526bd446a08471c6ac254f857a4b88382a77c0dd4d20e19847fb04211bd88",
+    "results/formal_main_v2/libero_10/k256/seed17/training/B/attempts/20261016T211757_e9bdd4f47e22/validation_01000.json": "81b6817047b3755bcbcdfd5627e31d189a1d93c7ad80e6e584ad43d13964c7f4",
+    "results/formal_main_v2/libero_10/k256/seed17/training/cache_events/3012322_159d0eee663a.jsonl": "65170e5e943c3907dafa5c24bbf77a312f515c286076f4d2cdef554cea00b30d",
+    "results/formal_main_v2/libero_10/k256/seed17/training/cache_events/3012528_8e1261428266.jsonl": "acbe890642f870fb38ae4e80d53e64d0e8519861770187855ee5971ace6b6ade",
+    "results/formal_main_v2/libero_10/acceptance/root_review.json": "7c013d75170725debd716de9780feceb4d27d143263e316e9acf2d6010117fdf",
+    "results/formal_main_v2/libero_spatial/acceptance/root_review.json": "fee55c4f78f0f4953b96bf9364eb1051a591b91b3a9f092efc52bfdee99b8f68",
+    "results/formal_main_v2/libero_object/acceptance/root_review.json": "2fd415c47d8852678b4d83296ffcff4709d97765debe7f4e41a17a7ae02daaa2",
+    "results/formal_main_v2/libero_goal/acceptance/root_review.json": "d994d25717d59f3b709944f3e8b2582c173ebd14febb853f49e5eec61ce8dddc",
+    "results/formal_main_v2/libero_goal/acceptance/3012579_independent.json": "7524b37fdd89968b72ccbe4ffbd88baf10d81af632825d3582f24a86ca4fdc4a"
+  }
+}

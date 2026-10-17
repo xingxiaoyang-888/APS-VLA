@@ -4,6 +4,8 @@ Counterfactual Token Influence for Efficient Vision-Language-Action Policies。
 
 CTI-VLA 是独立研究项目，项目根目录为 F:/CTI-VLA。当前主线 G1-F 检验未来状态辅助监督能否改善视觉 token 剪枝：冻结 OpenVLA-OFT，训练轻量 DIE 选择器，允许软门控梯度经过冻结 VLA；未来预测头仅在训练使用。模型权重及训练 checkpoint 保存在服务器。
 
+当前执行[正式主实验 formal_main_v2](docs/正式主实验规划.md)：四套件、总256／128／64 tokens、seed17／23／41、A/B共72组，各5000更新。按[并行登记](docs/正式并行执行登记.md)最多8个独立单GPU作业同步推进；四套件自身GPU验收均已通过。分段结果与完整完成组数见[最新进度](docs/实验进度.md)。全部checkpoint及四套件开发结果冻结并通过root全局release后才开放最终初态，目前仍封存。
+
 2026-10-15：Long seed17/23/41有界对照全部完成，动作监督A与动作＋未来监督B的闭环成功数依次为26/27、26/27、27/29（每组30）；三seed均值87.78%/92.22%，B−A为+4.44个百分点。相同30个开发初态跨seed重复，不能算90个独立初态；B离线动作误差均略差。见 [三种子实验结论](docs/G1-F-Long三种子实验结论.md)。本轮停止，不自动扩大，test封存；这些是开发结果，不是正式test或任务难度机制证明。
 
 历史路线保留：G0工程验收通过；原逐token删除标签G1及小步长诊断未通过继续条件，暂缓扩大。Spatial G1-F首轮未观察到未来监督增量。完整历史见 [实验进度](docs/实验进度.md)，旧DIWA数字仍只作为历史资料。
@@ -32,11 +34,11 @@ python scripts/smoke_conditional_pipeline.py --output results/smoke/conditional_
 ## 实现边界
 
 - 统一原序 gather、原位置编号、attention mask 和动作切片；OFT 必须使用固定的双向 SDPA fork。
-- 当前DIE只读取当前观测、语言和归一化proprio；部署一次硬Top-k，每视角64、共128 tokens，未来头移除。
+- 当前DIE只读取当前观测、语言和归一化proprio；部署一次硬Top-k，两视角等额，总256／128／64 tokens，未来头移除；128为主要比较预算。
 - 当前特征、完整教师动作与未来目标detach；软门控损失允许经过冻结VLA回传至DIE，VLA参数不更新。实际执行动作只供训练期未来头使用，未来信息不得进入部署输入。
 - 旧signed删除标签回归及分阶段Top-k保留为历史实现，暂缓扩大；旧标签缓存不兼容均值替换标签。
 - LIBERO 按完整轨迹内容 ID 划分，覆盖时间早中晚。时间阶段不等同于抓取/接触等语义阶段。
-- G1-F软门控训练、硬剪枝开发闭环与完整 observation-to-action profiler已有实测；Spatial与Long结果独立归档。当前没有自动扩展或开启test的授权。
+- G1-F小规模开发结果独立归档，不充当正式主表。当前授权限于formal_main_v2已登记矩阵，最终评测须先满足全局release；不扩大方法、任务、预算或超参数搜索。
 
 ## 目录
 

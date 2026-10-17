@@ -1,0 +1,47 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_operational_retry_record",
+  "recorded_utc": "2026-10-17T07:50:03.974370+00:00",
+  "scientific_training_failed": false,
+  "additional_GPU_jobs": 0,
+  "additional_GPU_seconds": 0,
+  "events": [
+    {
+      "operation": "Goal acceptance nonweight pull",
+      "error": "Remote transfer failed: client_loop: send disconnect: Connection reset\r\n",
+      "failed_receipt": "results/formal_main_v2/pulls/20261016T210233Z_16fdf50f3030/receipt.json",
+      "failed_receipt_sha256": "f7f4acae8062cc27950b85bd071b4b3b05ccbad2fbd3f7969ce97cc7396690e4",
+      "recovery": "Repeated exactly the registered three acceptance jobs; no Slurm resubmission, no weights copied.",
+      "successful_receipt": "results/formal_main_v2/pulls/20261017T073238Z_2122a2c3405e/receipt.json",
+      "successful_receipt_sha256": "1dd150d669825d069098d0bcb22968df1a688663c046f0d4e7b582cd863b2468"
+    },
+    {
+      "operation": "Root segment review",
+      "error": "Seven concurrently started root CLI reviews were rejected by existing nonblocking supervisor lock (PermissionError13).",
+      "successful_concurrent_job": "3012597",
+      "rejected_job_ids": [
+        "3012495",
+        "3012496",
+        "3012507",
+        "3012508",
+        "3012509",
+        "3012524",
+        "3012528"
+      ],
+      "recovery": "Re-ran the original review CLI serially; all passed using full264-file history and actual server resume hashes. No locks or gates bypassed.",
+      "command_logs": "results/formal_main_v2/preflight/parallel_batch2_reviews",
+      "pull_receipt": "results/formal_main_v2/pulls/20261017T073805Z_c9ab5124acc6/receipt.json",
+      "pull_receipt_sha256": "16b6597851a8c7597e579db78a6ef5effd5a0d07da47aead6412279694a3c746"
+    },
+    {
+      "operation": "Object continuation CLI",
+      "error": "Missing required --runtime-registration rejected at argparse before submission.",
+      "recovery": "Supplied original formal_main_v2_asset_execution_v1.json; exactly one registered Slurm continuation3016472."
+    },
+    {
+      "operation": "Fresh Long batch accounting",
+      "error": "Immediate sacct refresh after3016435 was incomplete and stopped the batch.",
+      "recovery": "Retained known job ID, waited for accounting visibility and refreshed; never resubmitted3016435."
+    }
+  ]
+}

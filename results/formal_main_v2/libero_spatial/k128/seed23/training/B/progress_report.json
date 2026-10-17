@@ -1,110 +1,110 @@
 {
   "arm": "B",
-  "attempted_forward_backward_samples_completed": 4000,
-  "committed_samples": 4000,
+  "attempted_forward_backward_samples_completed": 8000,
+  "committed_samples": 8000,
   "committed_sampling_by_task": {
     "0": {
       "phase_sample_counts": {
-        "early": 96,
-        "late": 108,
-        "middle": 99
+        "early": 218,
+        "late": 212,
+        "middle": 220
       },
-      "samples": 303,
+      "samples": 650,
       "unique_episodes": 31,
-      "unique_windows": 303
+      "unique_windows": 650
     },
     "1": {
       "phase_sample_counts": {
-        "early": 145,
-        "late": 155,
-        "middle": 149
+        "early": 288,
+        "late": 293,
+        "middle": 296
       },
-      "samples": 449,
+      "samples": 877,
       "unique_episodes": 31,
-      "unique_windows": 449
+      "unique_windows": 877
     },
     "2": {
       "phase_sample_counts": {
-        "early": 118,
-        "late": 133,
-        "middle": 133
+        "early": 258,
+        "late": 259,
+        "middle": 271
       },
-      "samples": 384,
+      "samples": 788,
       "unique_episodes": 32,
-      "unique_windows": 384
+      "unique_windows": 788
     },
     "3": {
       "phase_sample_counts": {
-        "early": 110,
-        "late": 97,
-        "middle": 107
+        "early": 207,
+        "late": 207,
+        "middle": 218
       },
-      "samples": 314,
+      "samples": 632,
       "unique_episodes": 30,
-      "unique_windows": 314
+      "unique_windows": 632
     },
     "4": {
       "phase_sample_counts": {
-        "early": 172,
-        "late": 167,
-        "middle": 177
+        "early": 341,
+        "late": 324,
+        "middle": 351
       },
-      "samples": 516,
+      "samples": 1016,
       "unique_episodes": 30,
-      "unique_windows": 516
+      "unique_windows": 1016
     },
     "5": {
       "phase_sample_counts": {
-        "early": 110,
-        "late": 114,
-        "middle": 123
+        "early": 229,
+        "late": 228,
+        "middle": 235
       },
-      "samples": 347,
+      "samples": 692,
       "unique_episodes": 27,
-      "unique_windows": 347
+      "unique_windows": 692
     },
     "6": {
       "phase_sample_counts": {
-        "early": 142,
-        "late": 142,
-        "middle": 148
+        "early": 272,
+        "late": 284,
+        "middle": 289
       },
-      "samples": 432,
+      "samples": 845,
       "unique_episodes": 32,
-      "unique_windows": 432
+      "unique_windows": 845
     },
     "7": {
       "phase_sample_counts": {
-        "early": 130,
-        "late": 141,
-        "middle": 103
+        "early": 254,
+        "late": 271,
+        "middle": 227
       },
-      "samples": 374,
+      "samples": 752,
       "unique_episodes": 25,
-      "unique_windows": 374
+      "unique_windows": 752
     },
     "8": {
       "phase_sample_counts": {
-        "early": 151,
-        "late": 132,
-        "middle": 124
+        "early": 273,
+        "late": 256,
+        "middle": 259
       },
-      "samples": 407,
+      "samples": 788,
       "unique_episodes": 33,
-      "unique_windows": 407
+      "unique_windows": 788
     },
     "9": {
       "phase_sample_counts": {
-        "early": 185,
-        "late": 145,
-        "middle": 144
+        "early": 329,
+        "late": 326,
+        "middle": 305
       },
-      "samples": 474,
+      "samples": 960,
       "unique_episodes": 31,
-      "unique_windows": 474
+      "unique_windows": 960
     }
   },
-  "effective_epochs": 0.11526381004524104,
+  "effective_epochs": 0.23052762009048208,
   "evaluations": [
     {
       "artifact_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T193435_1ae31203fb89/validation_00000.json",
@@ -121,6 +121,14 @@
       "candidate_sha256": "fc45e765c607f4ee14a8f6b7300453b5b0cf2188001274aa0d456c42b51775a2",
       "update": 500,
       "validation_metric": 0.026131202126483594
+    },
+    {
+      "artifact_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T204315_d0dcaac7d037/validation_01000.json",
+      "artifact_sha256": "a3981f415bfa54753487ee15218a8f6605ff9bced9588ac4901b3497cb4af414",
+      "candidate_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k128/seed23/B/candidates/20261016T204315_d0dcaac7d037_update01000.pt",
+      "candidate_sha256": "4d0e3bdeb18290a28550806551037bde2240bfa861990cbb58332d664b0fe182",
+      "update": 1000,
+      "validation_metric": 0.025897678859561447
     }
   ],
   "final_deployment_receipt_emitted": false,
@@ -304,21 +312,22 @@
   },
   "initial_scorer_sha256": "0b5afb698921d8d3fd10c42b15c5a178eb6a666c32df187f4961a98bab98c051",
   "job_ids": [
-    "3012325"
+    "3012325",
+    "3012509"
   ],
-  "next_sample_cursor": 4000,
+  "next_sample_cursor": 8000,
   "peak_cuda_memory_allocated_bytes": 18257379328,
-  "peak_cuda_memory_reserved_bytes": 18884853760,
+  "peak_cuda_memory_reserved_bytes": 18901630976,
   "planned_updates": 5000,
   "resume_checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k128/seed23/B/resume.pt",
-  "resume_sha256": "576a70f008a5aabb57e4ed09f435340dc3ee1596c02f09c1da02ea6c80486fdb",
+  "resume_sha256": "e98011b830d1a7629cb45b8706f0d4d2bbafb44b7670de13580108a80e4cce05",
   "sample_order_sha256": "54a2b3f24b2f66a663c0bfc4a4d0a2713f4a16d842fdfd75ce3fe010f1cc93fc",
   "schema": "formal_main_v2",
   "status": "checkpointed",
   "stop_reason": "registered_engineering_segment_boundary",
   "train_pool_windows": 34703,
-  "training_updates_completed": 500,
-  "unique_committed_windows": 4000,
+  "training_updates_completed": 1000,
+  "unique_committed_windows": 8000,
   "vla_parameters_unchanged": true,
-  "wall_seconds_this_attempt": 1280.4021562170237
+  "wall_seconds_this_attempt": 1260.9373866887763
 }

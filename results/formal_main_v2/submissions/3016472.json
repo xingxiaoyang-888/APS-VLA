@@ -1,0 +1,37 @@
+{
+  "job_id": "3016472",
+  "name": "cti-formal",
+  "experiment": "formal_main_v2",
+  "mode": "train",
+  "stage_key": "libero_object_train_k128_seed17",
+  "suite": "libero_object",
+  "visual_tokens": 128,
+  "training_seed": 17,
+  "segment_end": 1000,
+  "status": "SUBMITTED",
+  "gpus": 1,
+  "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k128/seed17/training",
+  "invocation": "results/formal_main_v2/invocations/libero_object_train_k128_seed17_attempt02.json",
+  "invocation_sha256": "e22ebb1275baaa711640e7dd39fc16bc755fd0665f02c894cba24b714c74171b",
+  "runtime_compatibility": {
+    "schema": "formal_main_v2",
+    "kind": "asset_metadata_compatibility",
+    "version": "formal-asset-metadata-compat-v1",
+    "wrapper": "scripts/server/run_formal_asset_stage.py",
+    "slurm": "scripts/server/formal_asset_main.slurm",
+    "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+    "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+    "files": {
+      "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+      "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+      "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+      "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+      "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+      "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+    }
+  },
+  "submitted_utc": "2026-10-17T07:46:48.136304+00:00",
+  "purpose": "Registered Object/Goal original acceptance/train with audited metadata projection; final states sealed"
+}

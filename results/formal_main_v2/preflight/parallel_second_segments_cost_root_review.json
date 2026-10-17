@@ -1,0 +1,35 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_parallel_cost_recount",
+  "status": "passed",
+  "reviewed_utc": "2026-10-17T07:53:27.345818+00:00",
+  "input": "results/formal_main_v2/preflight/parallel_second_segments_observed_cost_20261017.json",
+  "input_sha256": "f8e6e11ca2acdcb979e435ceb6c480bc1902d02b993c1f94b0e22887f7351cdd",
+  "raw_evidence_files_checked": 112,
+  "jobs": 8,
+  "arms": 16,
+  "allocated_GPU_seconds": 33829,
+  "updates": 8000,
+  "validation_calls": 18,
+  "validation_windows": 3270,
+  "cache_event_counts": {
+    "shard_index_verified": 208,
+    "cache_hit": 41858,
+    "cache_miss": 25420,
+    "feature_generate_start": 25420,
+    "feature_generate_end": 25420,
+    "cache_eviction": 13009,
+    "cache_publish": 25420,
+    "cache_orphan_cleanup": 1
+  },
+  "published_bytes": 169586319952,
+  "checks": [
+    "All112 bound file SHA independently rehashed",
+    "All8 immutable job identities and allocations matched",
+    "Every update duration/median/max and full validation observation recomputed from raw event files",
+    "Peak allocated/reserved GPU memory and every cache timing/count/byte aggregate independently matched"
+  ],
+  "not_all_formal_cost": true,
+  "additional_GPU_seconds": 0,
+  "scientific_results_inferred": false
+}
