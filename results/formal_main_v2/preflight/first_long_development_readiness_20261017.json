@@ -1,0 +1,362 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "first_long_development_readiness_independent",
+  "reviewed_utc": "2026-10-17T09:25:56.671536+00:00",
+  "status": "scientific_sources_ready_production_closed_pending_cpu_and_capacity_gate",
+  "review_scope": "Local read-only planning and SHA/metadata recomputation; not a submitted plan, CPU integration test, GPU result or release.",
+  "scientific_sources_ready": true,
+  "production_enabled": false,
+  "cpu_integration_executed_by_this_reviewer": false,
+  "read_evidence_sha256": {
+    "AGENTS.md": "f32733b595a747a9f82f5ac5949ee62cfa5a9fc750c97f5e4fb97d0f6a9e4510",
+    "docs/正式主实验规划.md": "f81ceba91545a8ccac57dda42305c4221d43b165b860aeeb3defc4fd3e3ba5e8",
+    "docs/正式下游作业入口.md": "f7437a675f4cf9a043b7d3d781600b18e3c0d062fc54c018fb6a2f831d3a3558",
+    "docs/正式资产清单下游接入待办.md": "907c39984d1342af51bc3cc9f82caed7d7418d5f8e9dead4e6649e49bc21428d",
+    "configs/experiments/formal_main_v2.json": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+    "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+    "scripts/review_formal_downstream.py": "0c678c0c077b17a3dff5ef5147622bf2c5e3cc0218b6be9ecc998b3bb82a6ba6",
+    "scripts/analyze_formal.py": "7f9573877f8a3662bd06dae9362823fd478283ed14cc86a6c3763f6fb4f682f1",
+    "scripts/ops/formal_asset_downstream_review.py": "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699",
+    "scripts/ops/formal_asset_evaluation_adapter.py": "5762e163a00845c3404dbee87b724289bd6cef40cbb644cbec668bc4f7dbd688",
+    "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+    "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24",
+    "scripts/pull_formal_results.py": "b1b141ddb75fd8641d6f5e7f68dbfea462e1fe907ced2f2a98338a1145d77061",
+    "src/cti_vla/evaluation/formal_trials.py": "93a0971dbc8bbf4cb462490b0b00a337d92f015af83b798bb635163a9cb864f6",
+    "src/cti_vla/evaluation/formal_runtime.py": "4029b0ddd1b6059f9f3586cd21aadd76fd15b516f79b201313a0291a2d64a8f8",
+    "src/cti_vla/training/formal_future.py": "3f4d2f933aa276d26dccfc2ce16d145f8bf40c7c1446ffddbb7342a763bc097b",
+    "src/cti_vla/evaluation/teacher_diagnostics.py": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd",
+    "results/formal_main_v2/execution/libero_10_development_references_v1.json": "767007059484e48540d0f2f23c9eaca9f5ea7bc914c334cb87ffe639bde408d3",
+    "results/formal_main_v2/execution/libero_10_development_references_v1.json.evidence.json": "b2ff6f368e55fd109e3a5abb771ecf80186b2e226071735eadbb1e5f9550c210",
+    "results/formal_main_v2/preflight/long_references_downstream_dry_plan.json": "818aa6a4640c1cdc6e7be9d32993a8e1afd42ed1f75b37c42316551924a09cbb",
+    "results/formal_main_v2/preflight/long_references_downstream_dry_plan_review.json": "f15884cfd5e5f67f36a1ad17e3f81e35eac85a03a8033e05a1745654b2c3ed24",
+    "results/formal_main_v2/repairs/code_fingerprint_marshal2_v1/development_references_readonly_plan.json": "7af4f4b309507e869d0d7c239bb9f8f839ab75ff21c59d27368613560f868909",
+    "results/formal_main_v2/preflight/asset_downstream_consumers_static_independent_20261017.json": "ec77bde65c971943d131459652fdf09b690af2cc38cf19bf1d1ed0126d705fd5",
+    "results/formal_main_v2/libero_10/acceptance/root_review.json": "7c013d75170725debd716de9780feceb4d27d143263e316e9acf2d6010117fdf",
+    "results/formal_main_v2/libero_10/acceptance/attempt02/input_acceptance.json": "bb07ff7f78c80b68cc455e46163db1794f200aeaf91cd7d21379a6170979b6e3",
+    "configs/manifests/formal_main_v2/libero_10/initial_states/development.json": "46a06087483151e36198167e7d4e5313c50b63172e09128d65a3650112f0a268",
+    "results/formal_main_v2/libero_10/k128/seed17/training/training_summary.json": "55e62868361a834384868b9f6cd48abada2cd09ee2ad206228b0c0670de66ce9",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/training_report.json": "78d71a2b89a8e432cfc2d551da4558a08328b02d4f1e944b85945bba10737396",
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/deployment_receipt.json": "e02c30a5e16674b22aef9c8372a4fce6bd2ca5dc8aa94dec3399037f1c4f981b",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/training_report.json": "6434f79fe5f70c099cf11cc7b2722b0abbfdbe942d72bbc06f8cd92c14362779",
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/deployment_receipt.json": "a0160b18a6d69ed0df4df40f7d401e85295409a2ff854a8f307cbcb459a936b4",
+    "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3016464.json": "d63782dd426d72f586d96cdff26bbd65c05ae11c230069c972f1ae3613279e81",
+    "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3016464_independent.json": "4c3d4a8b4d4c905ecdd26af4b044f30dc0b4dc620b55fc1aeee46add9599059b",
+    "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3016464_selected_server.json": "65bc8cc71f13307aa469328e0fc48188aefab0aec5cc9eb3f5a4a37e550f840a"
+  },
+  "frozen_source": {
+    "inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "files_checked": 173,
+    "all_exact": true,
+    "logical_source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+    "training_source_files": 63,
+    "training_source_projection_sha256": "36b4654ba1479a040c5415258f5e043abfff41fc4ed4200f81dd5bc4638d7662"
+  },
+  "first_batch": {
+    "suite": "libero_10",
+    "methods": [
+      "dense",
+      "uniform256",
+      "uniform128",
+      "uniform64",
+      "A128_seed17",
+      "B128_seed17"
+    ],
+    "method_count": 6,
+    "unique_development_initial_states": 100,
+    "task_counts": {
+      "0": 10,
+      "1": 10,
+      "2": 10,
+      "3": 10,
+      "4": 10,
+      "5": 10,
+      "6": 10,
+      "7": 10,
+      "8": 10,
+      "9": 10
+    },
+    "expected_unique_trials": 600,
+    "environment": {
+      "environment_seed": 0,
+      "runtime_seed": 17,
+      "wait_steps": 10,
+      "action_chunk": 8,
+      "max_steps": 520
+    },
+    "reference_identities": [
+      {
+        "method_id": "dense",
+        "identity_equal_to_current_registered_construction": true,
+        "identity_sha256": "b4ff8179d1f91a5b3b64a79464a0e194a351e2aee1ed9417ff4ed530fe0e0c15"
+      },
+      {
+        "method_id": "uniform256",
+        "identity_equal_to_current_registered_construction": true,
+        "identity_sha256": "3f34937d5921f7bcb0f8441c40f2136de425c3235df4cf0761793367bb651d89"
+      },
+      {
+        "method_id": "uniform128",
+        "identity_equal_to_current_registered_construction": true,
+        "identity_sha256": "844a0b38b518db9b7a992b793c189a957d73d39b131d829097ae15ec87bf25bc"
+      },
+      {
+        "method_id": "uniform64",
+        "identity_equal_to_current_registered_construction": true,
+        "identity_sha256": "b9740ee97f4280f43baee0aad47b44f09b20c0d9277a67511c06b74358cded9a"
+      }
+    ],
+    "selected_formal_models": [
+      {
+        "method_id": "A128_seed17",
+        "completed_updates": 5000,
+        "selected_update": 4500,
+        "checkpoint_sha256": "80d3182841a7ac741da6e70fde49d1d32ceb38b9db316fbeae545e757d79fa82",
+        "checkpoint_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed17/A/best.pt",
+        "receipt": "results/formal_main_v2/libero_10/k128/seed17/training/A/deployment_receipt.json"
+      },
+      {
+        "method_id": "B128_seed17",
+        "completed_updates": 5000,
+        "selected_update": 5000,
+        "checkpoint_sha256": "ca8145cc0179ecf2fe80d6e3abb7e81f920c7fd4e8af43755c0245425f895952",
+        "checkpoint_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed17/B/best.pt",
+        "receipt": "results/formal_main_v2/libero_10/k128/seed17/training/B/deployment_receipt.json"
+      }
+    ],
+    "current_completed_training_arms": 2,
+    "current_development_trials": 0,
+    "reference_results_reusable_now": false,
+    "reference_reuse_reason": "Four formal reference identities reconstruct exactly, but their400 registered trials were never executed. Do not promote historical pilot rows.",
+    "new_execution_manifest_required": true,
+    "proposed_manifest": "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json",
+    "new_deployment_receipts_required": false,
+    "deployment_receipt_reason": "Use the existing real completed A/B deployment receipts and selected server best.pt proof; no substitute checkpoints.",
+    "expected_output_relative": "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01",
+    "old_reference_manifest": "Keep unchanged as unexecuted history; do not also submit it after the six-method group.",
+    "old_dry_plan": "Do not reuse old plan/controller SHA; regenerate and review from current accepted tooling."
+  },
+  "observed_mutable_context": {
+    "state_path": "results/experiment_supervisor/state.json",
+    "state_sha256_at_observation_only": "373e42f06a80155a7403977a0564c81de6a9f6e04e7dae52de202341017caa99",
+    "not_part_of_future_immutable_proof": true,
+    "active_requests": [
+      {
+        "job_id": "3016595",
+        "mode": "train",
+        "status": "RUNNING",
+        "suite": "libero_spatial",
+        "segment_end": 1500
+      },
+      {
+        "job_id": "3016666",
+        "mode": "train",
+        "status": "RUNNING",
+        "suite": "libero_10",
+        "segment_end": 1500
+      },
+      {
+        "job_id": "3016667",
+        "mode": "train",
+        "status": "RUNNING",
+        "suite": "libero_10",
+        "segment_end": 1500
+      },
+      {
+        "job_id": "3016675",
+        "mode": "train",
+        "status": "RUNNING",
+        "suite": "libero_10",
+        "segment_end": 1500
+      },
+      {
+        "job_id": "3016676",
+        "mode": "train",
+        "status": "RUNNING",
+        "suite": "libero_10",
+        "segment_end": 1500
+      },
+      {
+        "job_id": "3016677",
+        "mode": "train",
+        "status": "RUNNING",
+        "suite": "libero_spatial",
+        "segment_end": 1500
+      },
+      {
+        "job_id": "3016709",
+        "mode": "train",
+        "status": "RUNNING",
+        "suite": "libero_spatial",
+        "segment_end": 1500
+      },
+      {
+        "job_id": "3016722",
+        "mode": "train",
+        "status": "RUNNING",
+        "suite": "libero_10",
+        "segment_end": 1000
+      }
+    ],
+    "active_request_count": 8,
+    "pending_submission": null,
+    "formal_downstream_jobs": 0,
+    "proposed_manifest_exists": false,
+    "proposed_output_exists": false,
+    "fresh_locked_refresh_required_at_submission": true
+  },
+  "blocking_gates": [
+    {
+      "id": "cpu_consumer_chain",
+      "status": "pending_other_agents",
+      "detail": "Current four-consumer integration CPU/root acceptance remains pending. Prior static/helper-only reviews do not enable production."
+    },
+    {
+      "id": "capacity_before_any_submission_write",
+      "status": "implemented_static_diff_verified_cpu_test_pending",
+      "audited_controller_sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+      "finding": "Current E04 plan/submit_plan/main lacks a complete-project<=8 activity guard; its pending/overlap checks alone allow a ninth distinct request.",
+      "minimal_fix": "Under existing lock+fresh refresh, reject >=8 nonterminal project requests including SUBMITTED/PENDING and conservatively CPU before invocation/pending/remote writes; add CPU boundary coverage.",
+      "root_response": "Root assigned train64 the bounded repair. New operational SHA/tests need acceptance; this receipt binds the observed pre-fix version.",
+      "followup": {
+        "reviewed_utc": "2026-10-17T09:26:49.094491+00:00",
+        "new_controller_sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+        "original_controller_sha256": "e760ea45d1f62edb7cb85487290a59f07e999ca0ab1f8aef2ed12b4095303d61",
+        "exact_only_difference": "    # Count requests, not assigned GPUs: submitted/pending, CPU allocations and\n    # unknown states all occupy a slot until the registered job is terminal.\n    if sum(job[\"status\"] not in TERMINAL for job in formal_jobs(state)) >= 8:\n        raise ValueError(\"Formal project capacity reached: 8 nonterminal requests; no submission written\")\n",
+        "removing_exact_insertion_reconstructs_original_sha256": true,
+        "guard_placement": "First action in submit_plan, before invocation/pending writes and remote prepare/submit; main retains original lock+fresh refresh.",
+        "count_semantics": "formal_jobs normalizes statuses, limits this project, includesCPU/SUBMITTED/PENDING/unknown/empty as nonterminal, excludes known terminal/otherproject. >=8 rejects.",
+        "tests_run_by_this_reviewer": 0,
+        "capacity_cpu_tests": "pending train64/root result",
+        "production_enabled": false
+      }
+    },
+    {
+      "id": "available_slot_and_reviewed_plan",
+      "status": "recheck_at_execution",
+      "detail": "Observed8 active requests. Root waits for a genuine free slot and rechecks no duplicate/pending plus reviewed planSHA under the same lock; no ninth card."
+    }
+  ],
+  "root_only_next_steps": [
+    {
+      "step": 1,
+      "action": "Complete CPU chain and capacity repair, review/freeze new operational hashes; keep173 scientific source bytes unchanged.",
+      "execute_now": false
+    },
+    {
+      "step": 2,
+      "action": "Build the new six-method execution manifest from completed real receipts.",
+      "command": "python -B scripts/formal_execution_manifests.py development --suite libero_10 --methods dense uniform256 uniform128 uniform64 A128_seed17 B128_seed17 --source-inventory results/formal_main_v2/source/formal_main_v2_run_564be0995e.json --output results/formal_main_v2/execution/libero_10_development_first_pair_v1.json",
+      "expected_outputs": [
+        "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json",
+        "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json.evidence.json"
+      ]
+    },
+    {
+      "step": 3,
+      "action": "Generate, save and review a fresh plan; target all600 trials, development only.",
+      "command": "python -B scripts/ops/formal_downstream_supervisor.py plan --stage development --execution-manifest results/formal_main_v2/execution/libero_10_development_first_pair_v1.json",
+      "plan_sha256": "NOT_GENERATED"
+    },
+    {
+      "step": 4,
+      "action": "Only after root CPU gate and real free slot, submit the exact reviewed plan.",
+      "command_template": "python -B scripts/ops/formal_downstream_supervisor.py submit --stage development --execution-manifest results/formal_main_v2/execution/libero_10_development_first_pair_v1.json --root-submit --expected-plan-sha256 <REAL_REVIEWED_PLAN_SHA256>",
+      "resources": {
+        "gpus": 1,
+        "partition": "L40",
+        "cpus": 7,
+        "memory": "64G",
+        "time": "04:00:00",
+        "automatic_requeue": false
+      }
+    },
+    {
+      "step": 5,
+      "action": "After terminal accounting, root pulls every job sharing the run, retaining failed/resumed costs.",
+      "command_template": "python -B scripts/pull_formal_results.py --job-id <REGISTERED_JOB_ID> [--job-id <PRIOR_JOB_ID> ...]"
+    },
+    {
+      "step": 6,
+      "action": "Root reconstructs trial/adapter source identity and complete costs; completion requires600 unique terminal method/state trials.",
+      "command_template": "python -B scripts/review_formal_downstream.py --job-id <LATEST_REGISTERED_JOB_ID> --pull-receipt <VERIFIED_PULL_RECEIPT> --write --root-review --output results/formal_main_v2/downstream_reviews/<LATEST_REGISTERED_JOB_ID>.json"
+    },
+    {
+      "step": 7,
+      "action": "For incomplete run only, retain manifest/output and old ledger prefix; latest root review authorizes explicit resume, failures additionally need reviewed bounded repair.",
+      "resume_plan_template": "python -B scripts/ops/formal_downstream_supervisor.py plan --stage development --execution-manifest results/formal_main_v2/execution/libero_10_development_first_pair_v1.json --resume --prior-review results/formal_main_v2/downstream_reviews/<LATEST_REGISTERED_JOB_ID>.json",
+      "engineering_slice_note": "If root later registers --stop-after,600 remains the target and same-ledger completion is required. This audit registers no slice."
+    }
+  ],
+  "subset_to_global_contract": {
+    "first_batch_completion_is": "6methods/600trials only; Long development remains incomplete",
+    "remaining_long_methods": [
+      "A256_seed17",
+      "B256_seed17",
+      "A256_seed23",
+      "B256_seed23",
+      "A256_seed41",
+      "B256_seed41",
+      "A128_seed23",
+      "B128_seed23",
+      "A128_seed41",
+      "B128_seed41",
+      "A64_seed17",
+      "B64_seed17",
+      "A64_seed23",
+      "B64_seed23",
+      "A64_seed41",
+      "B64_seed41"
+    ],
+    "remaining_long_method_count": 16,
+    "remaining_long_trials": 1600,
+    "future_runs": "Use disjoint method subsets. E04 rejects overlap; do not submit all22 development methods again over the first6.",
+    "resumed_runs": "List a persistent run directory once with its latest complete root review; do not count attempts as independent output batches.",
+    "development_index_schema": "formal_main_v2",
+    "development_index_kind": "development_output_index",
+    "index_contract": {
+      "suites": "All4 suite keys -> disjoint completed raw run directories",
+      "root_reviews": "All4 suite keys -> one explicit {path,sha256} latest complete root review per directory"
+    },
+    "global_checks": [
+      "Rebuild each root receipt from original raw evidence and immutable registered-job snapshots.",
+      "Every subset identity/shared source projection equals the selected full22 matrix.",
+      "Rebuild config/panel/report/trials and reject duplicate method/terminal trials or incomplete100-state methods.",
+      "Require22methods/2200trials per suite,88instances/8800development trials overall.",
+      "Require72 completed selectors+16references+4suite development receipts+fresh server-only72-best checkpoint inventory and explicit global root release before final values."
+    ],
+    "global_freeze_attempted": false,
+    "first_batch_cannot_unlock_final": true,
+    "final_rule_unchanged": "After complete global release, eachsuite final uses all22methods in one persistent ledger; development subset batches do not change that rule."
+  },
+  "limitations": [
+    "No new manifest or plan executed; future job/pull/plan values remain explicit placeholders.",
+    "No prior pilot success or latency is reused.",
+    "5000training completion does not establish development success or speed.",
+    "Pinned source helper conservatively rejects any failed training history; never omit failures. This chosen pair has ten successful training allocations.",
+    "Recheck operational hashes and locked live capacity before actual submission.",
+    "Capacity guard implemented and exact insertion statically verified after the original finding; tests/root integration acceptance remain pending. Prior static receipt was preserved unchanged."
+  ],
+  "local_audit_adaptations": [
+    {
+      "kind": "receipt_assembly_syntax_error",
+      "effect": "First in-memory receipt assembly had an unclosed Python list and stopped before any output; corrected assembly only.",
+      "gpu_seconds": 0,
+      "original_evidence_changed": false
+    }
+  ],
+  "actions": {
+    "network_calls": 0,
+    "ssh_calls": 0,
+    "gpu_calls": 0,
+    "submitted_jobs": 0,
+    "tests_run": 0,
+    "checkpoint_or_weight_bytes_read": false,
+    "sealed_state_values_read": false,
+    "state_changed": false,
+    "production_files_changed": false,
+    "git_changed": false,
+    "only_new_file": "results/formal_main_v2/preflight/first_long_development_readiness_20261017.json"
+  }
+}

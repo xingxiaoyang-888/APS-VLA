@@ -26,6 +26,7 @@ from cti_vla.evaluation.teacher_diagnostics import json_signature
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "formal-main-v2-analysis-1"
 CACHE_INTEGRATION_VERSION = "formal-cache-evidence-integration-v1"
+ROOT_PROVENANCE_VERSION = "formal-root-evidence-consumption-v1"
 CACHE_SCOPE = ("Independent disk-cache operation cost estimate under the registered isolated-cache schedule; "
     "not a complete independent training GPU bill. Actual Slurm allocations remain the only measured GPU total. "
     "Shared-run incremental cache/phase times are diagnostic and are never added to that total.")
@@ -51,21 +52,36 @@ class Evidence:
     def __init__(self, project_root):
         self.root = Path(project_root).resolve()
         self.seen = {}
+        self.forbidden_paths = set()
+        self.root_allocations = {}
+        self.root_reviews = []
+        self.root_helper = self.root_evidence = None
 
     def path(self, ref, label):
         if not isinstance(ref, dict) or not ref.get("path") or not ref.get("sha256"):
             raise PendingEvidence(label + ": missing path/SHA256 reference")
         raw = Path(ref["path"])
-        path = (self.root / raw).resolve() if not raw.is_absolute() else raw.resolve()
-        if (self.root not in path.parents or path.suffix.lower() not in (".json", ".jsonl")
-                or path.name.lower() in ("sealed_final.json", "init_states_test.json")
-                or "sealed_final" in path.name.lower()):
+        direct = self.root / raw if not raw.is_absolute() else raw
+        if (".." in direct.parts or direct in self.forbidden_paths
+                or direct.suffix.lower() not in (".json", ".jsonl")
+                or any("sealed" in p.lower() or p.lower() in ("weights", "checkpoints") for p in direct.parts)
+                or direct.name.lower() == "init_states_test.json"
+                or (direct.name == "panel.json" and "final" in direct.parts)):
             raise ValueError("analysis accepts project nonweight receipts/results only; never sealed state values: " + label)
+        path = direct.resolve()
+        if (self.root not in path.parents or path in self.forbidden_paths
+                or path.suffix.lower() not in (".json", ".jsonl")
+                or any("sealed" in p.lower() or p.lower() in ("weights", "checkpoints") for p in path.parts)
+                or path.name.lower() == "init_states_test.json"
+                or (path.name == "panel.json" and "final" in path.parts)):
+            raise ValueError("analysis resolved a forbidden metadata target: " + label)
         if not path.is_file():
             raise PendingEvidence(label + ": " + str(path))
         digest = file_sha256(path)
         if digest != ref["sha256"]:
             raise ValueError("immutable evidence SHA256 mismatch: " + label)
+        if str(path) in self.seen and self.seen[str(path)] != digest:
+            raise ValueError("analysis evidence changed between reads: " + label)
         self.seen[str(path)] = digest
         return path
 
@@ -93,6 +109,140 @@ class Evidence:
     def unchanged(self):
         if any(file_sha256(path) != sha for path, sha in self.seen.items()):
             raise ValueError("analysis evidence changed while it was being read")
+
+
+def root_manifest_evidence(reader):
+    """The manifest auditor uses path/watch, unlike this module's ref Reader."""
+    if reader.root_helper is None:
+        path = reader.root / "scripts/formal_execution_manifests.py"
+        if not path.is_file():
+            raise PendingEvidence("root manifest auditor is missing")
+        checksum = file_sha256(path)
+        spec = importlib.util.spec_from_file_location("formal_analysis_manifest_auditor", path)
+        module = importlib.util.module_from_spec(spec)
+        raw = path.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != checksum:
+            raise ValueError("Root manifest auditor changed before compilation")
+        exec(compile(raw, str(path), "exec"), module.__dict__)
+        reader.root_helper = module
+        reader.root_evidence = module.Evidence(reader.root)
+        if reader.root_evidence.watch(path) != checksum:
+            raise ValueError("Root manifest auditor changed while loading")
+    return reader.root_helper, reader.root_evidence
+
+
+def merge_root_evidence(reader):
+    _, evidence = root_manifest_evidence(reader)
+    for relative, checksum in evidence.files.items():
+        if relative == "results/experiment_supervisor/state.json":
+            raise ValueError("Mutable supervisor state cannot be analysis evidence")
+        path = evidence.path(relative)
+        if path in reader.forbidden_paths:
+            raise ValueError("Root proof attempted to expose final state values")
+        if str(path) in reader.seen and reader.seen[str(path)] != checksum:
+            raise ValueError("Root proof conflicts with earlier analysis evidence")
+        reader.seen[str(path)] = checksum
+    evidence.unchanged()
+
+
+def verify_global_root_evidence(reader, refs, registration):
+    helper, evidence = root_manifest_evidence(reader)
+    matrix_path = reader.path(refs["global_freeze"], "global freeze root proof")
+    release_path = reader.path(refs["release"], "global release root proof")
+    if matrix_path.name != "global_freeze.json" or release_path != matrix_path.parent / "root_release.json":
+        raise ValueError("Analysis must consume one immutable root freeze/release directory")
+    try:
+        helper.release_global(evidence, registration, evidence.relative(matrix_path.parent), release=False)
+    except (helper.MissingEvidence, FileNotFoundError) as error:
+        raise PendingEvidence("global root provenance: " + str(error)) from error
+    # Frozen development proofs also contribute their exact failed/retried
+    # allocation identities to the same final ledger, never another subtotal.
+    for suite in SUITES:
+        roots = evidence.read(matrix_path.parent / "development_root_reviews" / (suite + ".json"))
+        for item in roots["reviews"]:
+            saved = evidence.read(item["reference"]["path"])
+            if evidence.watch(item["reference"]["path"]) != item["reference"]["sha256"]:
+                raise ValueError("Frozen development root review changed")
+            record_root_allocations(reader, saved)
+    merge_root_evidence(reader)
+
+
+def record_root_allocations(reader, report):
+    """Keep job identity for the one Slurm ledger; do not sum nested durations."""
+    rows = list(report.get("cost", {}).get("allocations", []))
+    rows.extend(report.get("source_provenance", {}).get("registered_source_jobs", []))
+    if not rows:
+        raise ValueError("Root result is missing its allocation/source-job identities")
+    for row in rows:
+        job = str(row.get("job_id", ""))
+        status = str(row.get("status", "")).split()
+        if (not job.isascii() or not job.isdigit() or not status
+                or status[0].rstrip("+") not in TERMINAL_JOBS
+                or type(row.get("elapsed_seconds")) is not int or row["elapsed_seconds"] < 0
+                or row.get("gpus") != 1 or not isinstance(row.get("exit_code"), str)):
+            raise ValueError("Root allocation identity/cost is incomplete")
+        value = dict(job_id=job, status=status[0].rstrip("+"), exit_code=row["exit_code"],
+            elapsed_seconds=row["elapsed_seconds"], gpus=row["gpus"])
+        if job in reader.root_allocations and reader.root_allocations[job] != value:
+            raise ValueError("Root proofs disagree about the same allocation")
+        reader.root_allocations[job] = value
+
+
+def verify_root_output(reader, refs, *, suite, stage):
+    reference = refs.get("root_review")
+    if not reference:
+        raise PendingEvidence(suite + ":" + stage + ": missing root_review reference")
+    # Establish the output's forbidden value path lexically before any loader.
+    config_ref = refs.get("config", {})
+    if not isinstance(config_ref.get("path"), str):
+        raise PendingEvidence(suite + ":" + stage + ": missing config reference")
+    raw = Path(config_ref["path"])
+    output = (reader.root / raw if not raw.is_absolute() else raw).parent
+    if stage == "final":
+        reader.forbidden_paths.add(output / "panel.json")
+    config_path = reader.path(config_ref, suite + ":" + stage + ":config")
+    helper, evidence = root_manifest_evidence(reader)
+    if stage == "final":
+        evidence.forbidden_paths.add(output / "panel.json")
+    try:
+        report = helper.review_downstream_output(evidence, reference, expected_stage=stage,
+            suite=suite, run_root=config_path.parent)
+    except (helper.MissingEvidence, FileNotFoundError) as error:
+        raise PendingEvidence(suite + ":" + stage + ":root proof: " + str(error)) from error
+    names = {"config": "config.json", "report": "closed_loop_report.json", "trials": "trials.jsonl"} if stage == "final" else {
+        "config": "config.json", "measurements": "measurements.json", "summary": "summary.json", "calls": "calls.jsonl"}
+    for key, name in names.items():
+        path = reader.path(refs.get(key), suite + ":" + stage + ":" + key)
+        if (path != config_path.parent / name
+                or report["files"].get(evidence.relative(path)) != refs[key]["sha256"]):
+            raise ValueError("Analysis raw output is not the exact root-reviewed SHA pull")
+    record_root_allocations(reader, report)
+    # The original root producer validates collection and prior-review chains.
+    # Include their job/cost identities as well, even if a failed attempt made
+    # no policy calls and hence never appears in the successful timing journal.
+    for relative in list(evidence.files):
+        if relative.startswith("results/formal_main_v2/downstream_reviews/") and relative.endswith(".json"):
+            item = evidence.read(relative)
+            if item.get("kind") == "root_downstream_review":
+                record_root_allocations(reader, item)
+    merge_root_evidence(reader)
+    reader.root_reviews.append(dict(suite=suite, stage=stage, reference=reference,
+        job_id=report["job_id"], source_provenance_sha256=json_signature(report["source_provenance"]),
+        scientific_complete=True, allocation_job_ids=[r["job_id"] for r in report["cost"]["allocations"]]))
+    return report
+
+
+def verify_root_accounting(reader, accounting):
+    indexed = {str(row.get("job_id")): row for row in accounting.get("jobs", [])}
+    for job, expected in reader.root_allocations.items():
+        actual = indexed.get(job)
+        if actual is None:
+            raise PendingEvidence("GPU accounting omits a root-reviewed allocation: " + job)
+        status = str(actual.get("status", "")).split()
+        value = dict(job_id=job, status=status[0].rstrip("+") if status else "",
+            exit_code=actual.get("exit_code"), elapsed_seconds=actual.get("elapsed_seconds"), gpus=actual.get("gpus"))
+        if value != expected:
+            raise ValueError("Slurm accounting differs from root-reviewed allocation: " + job)
 
 
 def require_registration(registration):
@@ -657,9 +807,16 @@ def analyze(evidence, registration, *, project_root):
         for suite in SUITES:
             spec = evidence.get("suites", {}).get(suite, {})
             missing.extend(f"{suite}:{k}" for k in ("final_registry", "runs", "windows", "full_profile", "component_profile") if not spec.get(k))
+            for index, run in enumerate(spec.get("runs", [])):
+                if not isinstance(run, dict) or not run.get("root_review"):
+                    missing.append(f"{suite}:final:{index}:root_review")
+            for name in ("full_profile", "component_profile"):
+                if spec.get(name) and not spec[name].get("root_review"):
+                    missing.append(f"{suite}:{name}:root_review")
         missing.extend(k for k in ("training", "accounting", "root_cost_inventory") if not evidence.get(k))
         if missing:
             raise PendingEvidence(*missing)
+        verify_global_root_evidence(reader, evidence, registration)
         registries, all_rows, attempts, latency, window_manifests, observed_jobs = {}, [], [], {}, {}, set()
         for suite in SUITES:
             spec = evidence["suites"][suite]
@@ -675,6 +832,7 @@ def analyze(evidence, registration, *, project_root):
                     if row["suite"] == suite and row["method"] in ("A", "B")):
                 raise ValueError("validation manifest differs from selected models")
             for run in spec["runs"]:
+                verify_root_output(reader, run, suite=suite, stage="final")
                 rows, cost = read_final_run(reader, run, registry=registries[suite], matrix=matrix,
                     release=release, registration_sha=json_signature(registration))
                 all_rows.extend(rows)
@@ -684,6 +842,7 @@ def analyze(evidence, registration, *, project_root):
             latency[suite] = {}
             for name, expected_pass in (("full_profile", "full"), ("component_profile", "components")):
                 refs = spec[name]
+                verify_root_output(reader, refs, suite=suite, stage=expected_pass)
                 paths = {key: reader.path(refs.get(key), suite + ":" + name + ":" + key)
                     for key in ("config", "measurements", "summary", "calls")}
                 if len({p.parent for p in paths.values()}) != 1 or {p.name for p in paths.values()} != {"config.json", "measurements.json", "summary.json", "calls.jsonl"}:
@@ -712,7 +871,10 @@ def analyze(evidence, registration, *, project_root):
                 or inventory.get("issued_by") != "root" or inventory.get("complete") is not True
                 or inventory.get("registration_sha256") != json_signature(registration)):
             raise PendingEvidence("root final cost inventory is not complete")
-        cost = summarize_cost(reader.read(evidence["accounting"], "Slurm accounting"),
+        accounting = reader.read(evidence["accounting"], "Slurm accounting")
+        verify_root_accounting(reader, accounting)
+        observed_jobs.update(reader.root_allocations)
+        cost = summarize_cost(accounting,
             expected_job_ids=inventory["job_ids"], observed_job_ids=observed_jobs)
         cache_cost = recompute_cache_cost(reader, evidence, registration, matrix, cost)
         statistics = summarize_success(outcomes, state_ids=state_ids)
@@ -720,6 +882,8 @@ def analyze(evidence, registration, *, project_root):
         return {**base, "status": "completed_core_analysis", "success": statistics, "latency": latency,
             "diagnostics": diagnostics, "cost": cost, "retained_failed_attempts": attempts,
             "standalone_cache_cost": cache_cost, **cache_delivery_fields(cache_cost, core_complete=True),
+            "root_provenance": dict(version=ROOT_PROVENANCE_VERSION, reviews=reader.root_reviews,
+                allocation_job_ids=sorted(reader.root_allocations, key=int), mutable_supervisor_state_read=False),
             "read_evidence_sha256": reader.seen, "new_experiments_authorized": False}
     except PendingEvidence as exc:
         reader.unchanged()

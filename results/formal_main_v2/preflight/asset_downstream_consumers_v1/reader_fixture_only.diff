@@ -1,0 +1,14 @@
+--- initial/test_formal_analysis.py
++++ final/test_formal_analysis.py
+@@ -169,6 +169,11 @@
+     assert path.read_bytes() == raw
+     path.write_bytes(b'{bad json}\n')
+     before = path.read_bytes()
++    with pytest.raises(ValueError, match="between reads"):
++        reader.lines({"path": path.name, "sha256": file_sha256(path)}, "trial")
++    # A new audit must independently reject malformed bytes without repair;
++    # the first audit must never accept the rewritten file as its old input.
++    reader = a.Evidence(tmp_path)
+     with pytest.raises(ValueError, match="without repair"):
+         reader.lines({"path": path.name, "sha256": file_sha256(path)}, "trial")
+     assert path.read_bytes() == before and len(list(tmp_path.iterdir())) == 1

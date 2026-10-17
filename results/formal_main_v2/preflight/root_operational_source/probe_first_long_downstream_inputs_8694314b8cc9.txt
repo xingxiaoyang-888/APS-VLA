@@ -1,0 +1,57 @@
+"""Read-only exact-plan server precheck before any pending submission writes."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+import shlex
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+plan_path = ROOT / 'results/formal_main_v2/preflight/long_first_pair_development_plan_v1.json'
+plan = f.read(plan_path)
+request = dict(watched=plan['invocation']['watched_files'],
+    publish={f.P + '/' + name: sha for name, sha in plan['publish_files'].items()},
+    output=plan['invocation']['run_root'], expected_output_exists=plan['output_must_exist'])
+assert all(name.startswith((f.P + '/', f.H + '/')) for name in request['watched'])
+assert not any('sealed' in name.lower() or name.endswith('/final.json') for name in request['watched'])
+code = '''from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json
+r=REQUEST
+rows=[]
+for name,want in r['watched'].items():
+ p=Path(name)
+ row=dict(path=name,expected_sha256=want,exists=p.exists(),canonical=(not p.is_symlink() and p.resolve()==p))
+ if row['exists'] and p.is_file() and row['canonical']:
+  h=hashlib.sha256()
+  with p.open('rb') as stream:
+   for block in iter(lambda:stream.read(8<<20),b''):h.update(block)
+  row.update(sha256=h.hexdigest(),bytes=p.stat().st_size,status='matched' if h.hexdigest()==want else 'mismatch')
+ elif not row['exists'] and name in r['publish']:row['status']='missing_allowed_exact_publication'
+ else:row['status']='blocked'
+ rows.append(row)
+print(json.dumps(dict(observed_utc=datetime.now(timezone.utc).isoformat(),rows=rows,
+ output_exists=Path(r['output']).exists(),expected_output_exists=r['expected_output_exists'])))
+'''.replace('REQUEST', repr(request), 1)
+reply = subprocess.run(f.SSH + [shlex.quote(f.H + '/venv/bin/python') + ' -B -'],
+    input=code, capture_output=True, text=True, encoding='utf-8', check=True, timeout=180)
+value = json.loads(reply.stdout)
+blocked = [row for row in value['rows'] if row['status'] not in ('matched','missing_allowed_exact_publication')]
+assert value['output_exists'] is False
+record = dict(schema='formal_main_v2', kind='root_readonly_prepublication_server_input_probe',
+    status='passed_for_preparation' if not blocked else 'blocked_before_submission',
+    plan=plan_path.relative_to(ROOT).as_posix(), plan_file_sha256=f.sha(plan_path), plan_sha256=plan['plan_sha256'],
+    checked_utc=datetime.now(timezone.utc).isoformat(), actual=value, source_program=code,
+    source_program_sha256=hashlib.sha256(code.encode()).hexdigest(), GPU_seconds=0,
+    files_written_server=0, weights_copied=False, sealed_state_values_read=False, submitted=False)
+out = ROOT / ('results/formal_main_v2/preflight/' + (sys.argv[1] if len(sys.argv) > 1 else 'long_first_pair_development_server_inputs_v1.json'))
+assert out.parent == ROOT / 'results/formal_main_v2/preflight' and out.suffix == '.json'
+assert not out.exists()
+f.write(out, record)
+print(json.dumps({'status':record['status'],'matched':sum(r['status']=='matched' for r in value['rows']),
+    'missing_publications':[r['path'] for r in value['rows'] if r['status']=='missing_allowed_exact_publication'],
+    'blocked':blocked,'record':out.relative_to(ROOT).as_posix()},ensure_ascii=False))

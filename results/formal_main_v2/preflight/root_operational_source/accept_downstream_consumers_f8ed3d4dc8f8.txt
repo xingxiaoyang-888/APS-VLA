@@ -1,0 +1,127 @@
+"""Root-only, evidence-bound CPU integration acceptance, never final release."""
+from pathlib import Path
+from datetime import datetime, timezone
+import argparse
+import hashlib
+import json
+import sys
+import xml.etree.ElementTree as ET
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--independent', required=True)
+parser.add_argument('--independent-sha256', required=True)
+args = parser.parse_args()
+evidence = {}
+
+def check(name, expected=None):
+    p = root / name
+    p.resolve().relative_to(root)
+    assert p.suffix not in ('.pt', '.pth', '.safetensors', '.bin', '.pkl', '.pickle')
+    checksum = f.sha(p)
+    assert expected is None or checksum == expected, name
+    assert name not in evidence or evidence[name] == checksum, name
+    evidence[name] = checksum
+    return checksum
+
+def read(name, expected=None):
+    check(name, expected)
+    return f.read(root / name)
+
+deploy_path = 'results/formal_main_v2/preflight/asset_downstream_consumers_cpu_review.json'
+train_path = 'results/formal_main_v2/preflight/asset_consumers_integration_v1_cpu_review.json'
+deploy = read(deploy_path, '8530da98558cf8379309750716899fe2fc425640cb593c3951291d85205e45a7')
+train = read(train_path, '1170e5dd59168fbe6599990aa5867a1b9cce1c6b4335e174085ef8b10fdb4301')
+independent = read(args.independent, args.independent_sha256)
+assert independent['status'].startswith('passed'), independent['status']
+for name, sha in independent['read_evidence_sha256'].items():
+    check(name, sha)
+assert deploy['status'] == 'passed_cpu_consumer_integration'
+assert train['status'] == 'passed_scoped_cpu_checks'
+assert deploy['gpu_seconds'] == train['gpu_seconds'] == 0
+for mapping in (deploy['archive_files_sha256'], deploy['consumers_sha256'],
+                train['current_files_sha256'], train['protected_files_before_after_sha256']):
+    for name, sha in mapping.items():
+        check(name, sha)
+for name, value in train['history_archive_files'].items():
+    check(name, value['sha256'])
+    assert (root / name).stat().st_size == value['bytes']
+inv_name = 'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+inventory = read(inv_name, '5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926')
+assert len(inventory['files']) == 173
+for name, sha in inventory['files'].items():
+    check(name, sha)
+
+latest, rounds = {}, []
+for receipt in deploy['rounds']:
+    name, sha = receipt['junit']['path'], receipt['junit']['sha256']
+    check(name, sha)
+    cases = ET.parse(root / name).getroot().findall('.//testcase')
+    rounds.append(dict(path=name, sha256=sha, cases=len(cases)))
+    for case in cases:
+        latest[(case.attrib['classname'], case.attrib['name'])] = not any(
+            case.find(tag) is not None for tag in ('failure', 'error', 'skipped'))
+assert len(latest) == 74 and all(latest.values())
+for receipt in train['test_runs']:
+    name, sha = receipt['junit'], receipt['junit_sha256']
+    check(name, sha)
+    cases = ET.parse(root / name).getroot().findall('.//testcase')
+    rounds.append(dict(path=name, sha256=sha, cases=len(cases)))
+    for case in cases:
+        key = (case.attrib['classname'], case.attrib['name'])
+        assert key not in latest, key
+        latest[key] = not any(case.find(tag) is not None for tag in ('failure', 'error', 'skipped'))
+assert len(latest) == 157 and all(latest.values())
+plan_name = 'results/formal_main_v2/preflight/long_first_pair_development_plan_v1.json'
+plan = read(plan_name)
+assert plan['plan_sha256'] == 'd8bf3a5a9a4c435d9b81a74083afacdebd8a6d80ec7980fb34fa006b4a84f3d5'
+for name in ('long_first_pair_development_plan_independent_v1.json',
+             'long_first_pair_development_server_inputs_v2.json',
+             'long_first_pair_development_config_sync_v1.json'):
+    check('results/formal_main_v2/preflight/' + name)
+
+out_rel = 'results/formal_main_v2/preflight/asset_downstream_consumers_root_acceptance_20261017.json'
+assert not (root / out_rel).exists()
+record = dict(schema='formal_main_v2', kind='root_downstream_CPU_integration_acceptance',
+    status='passed_cpu_consumer_integration', reviewed_by='root', reviewed_utc=datetime.now(timezone.utc).isoformat(),
+    consumer_reviews=[deploy_path, train_path], independent_review=args.independent,
+    independent_review_sha256=args.independent_sha256, current_distinct_cases_final_passed=len(latest),
+    test_rounds=rounds, single_unified_test_run_claimed=False, historical_failures_retained=True,
+    consumers_sha256=deploy['consumers_sha256'], frozen_files_verified=173,
+    deployment_science_changed=False, actual_GPU_downstream_verified=False,
+    CPU_scope_and_standins=dict(train=train['scope'], deploy=deploy['scope']),
+    production_code_integration_accepted=True, global_final_release_created=False,
+    final_states_opened=False, additional_GPU_seconds=0,
+    remaining_gates=['Actual per-job GPU invocation, raw trials, SHA pull and root review before continuation.',
+                     'All72 selected+16 references+four suites development+globalfreeze+rootrelease before final.',
+                     'Failed training histories remain fail-closed; never drop failures or allocation costs.'],
+    first_development_plan=dict(path=plan_name, plan_sha256=plan['plan_sha256']),
+    read_evidence_sha256=dict(sorted(evidence.items())))
+f.write(root / out_rel, record)
+with f.supervisor_lock():
+    state = f.read(f.STATE)
+    p = state['formal_main_progress']
+    assert p['test_opened'] is False and p['global_release_created'] is False
+    p['downstream_asset_consumer_integration'] = dict(status=record['status'], root_review=out_rel,
+        root_review_sha256=f.sha(root / out_rel), production_enabled=True,
+        actual_GPU_downstream_verified=False, current_distinct_cases_final_passed=157)
+    p['asset_metadata_compatibility'].update(production_integration_complete=True,
+        pending='CPU code integration passed. Actual Object/Goal downstream GPU receipts still require per-job review; final remains globally sealed.')
+    audit = p['downstream_entrypoint_audit']
+    audit['prior_operational_source_identity'] = {k: audit.get(k) for k in ('current_controller_sha256', 'current_wrapper_sha256')}
+    audit.update(current_controller_sha256=f.sha(root / 'scripts/ops/formal_downstream_supervisor.py'),
+        current_wrapper_sha256=f.sha(root / 'scripts/server/run_formal_downstream.py'), latest_consumer_acceptance=out_rel)
+    p['first_long_development'] = dict(status='CPU_accepted_preregistered_waiting_free_slot',
+        execution_manifest='results/formal_main_v2/execution/libero_10_development_first_pair_v1.json',
+        plan=plan_name, plan_sha256=plan['plan_sha256'], methods=6, target_trials=600,
+        first_stop_after=12, completed_trials=0, final_states_opened=False)
+    p['parallel_resource_calibration'] = dict(path='results/formal_main_v2/preflight/parallel_observed_resource_calibration_20261017.json',
+        sha256=f.sha(root / 'results/formal_main_v2/preflight/parallel_observed_resource_calibration_20261017.json'),
+        root_check='results/formal_main_v2/preflight/parallel_resource_calibration_root_check_20261017.json',
+        conditional_only_not_ETA=True, remaining_evaluation_profile_cost_unknown=True)
+    state['updated_utc'] = datetime.now(timezone.utc).isoformat()
+    f.write(f.STATE, state)
+print(json.dumps(dict(status=record['status'],root_review=out_rel,sha256=f.sha(root/out_rel),verified_files=len(evidence),distinct_cases=len(latest))))

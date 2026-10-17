@@ -79,7 +79,7 @@ def options(invocation):
 
 
 class CandidateEvidence:
-    """Run the unmodified E04 consumer before publishing any passed artifact."""
+    """Verify a candidate in memory before publishing any passed artifact."""
     def __init__(self, evidence, candidate):
         self.evidence, self.candidate = evidence, candidate
 
@@ -103,7 +103,7 @@ def pulled_candidate(evidence, scheduler, job, pull_path, jobs):
         adapter_sha256=scheduler.ADAPTER_SHA256, invocation_sha256=job["invocation_sha256"], run_root=job["run_root"],
         execution_manifest_sha256=job["execution_manifest_sha256"], terminal_status=job["status"], exit_code=job["exit_code"],
         scientific_complete=False, pull_receipt=pull_path, files={row["relative"]: row["sha256"] for row in pull.get("files", [])})
-    checked = scheduler.require_root_review(CandidateEvidence(evidence, candidate), "in_memory_candidate", jobs, expected_stage=job["mode"])
+    checked = scheduler.verify_review_pull(CandidateEvidence(evidence, candidate), "in_memory_candidate", jobs, expected_stage=job["mode"])
     candidate["files"] = checked["verified_files"]
     before = evidence.read(str(PurePosixPath(pull_path).parent / "inventory_before.json"))
     require(not any(str(r.get("job_id")) == job["job_id"] for r in before.get("missing", [])), "Incomplete terminal pull inventory")
@@ -115,7 +115,6 @@ def pulled_candidate(evidence, scheduler, job, pull_path, jobs):
 
 
 def validate_invocation(evidence, scheduler, helper, state, job, invocation):
-    load("scripts/server/run_formal_downstream.py").validate_shape(invocation)
     fields = ("stage_key", "suite", "method_ids", "run_root", "source_sha256", "adapter_sha256", "execution_manifest_sha256")
     require(all(invocation.get(k) == job.get(k) for k in fields) and invocation["stage"] == job["mode"], "Registered invocation/job mismatch")
     for name, checksum in invocation["support_files"].items():
@@ -157,6 +156,18 @@ def validate_invocation(evidence, scheduler, helper, state, job, invocation):
     value = scheduler.validate_inputs(args, state, evidence.project, helper)
     for name, checksum in value["evidence"].files.items():
         require(evidence.watch(name) == checksum, "Gate inputs changed")
+    scheduler.validate_invocation_shape(evidence, job, invocation, value["source_provenance"])
+    require(invocation.get("source_provenance") == value["source_provenance"], "Invocation original source provenance differs")
+    require(job.get("source_provenance_sha256") == scheduler.signature(value["source_provenance"]),
+        "Registered downstream job lost its source provenance identity")
+    prefix = scheduler.resume_prefix_inputs(invocation)
+    if prefix:
+        prior = evidence.read(invocation["prior_review"])
+        require(evidence.watch(invocation["prior_review"]) == invocation["root_evidence_sha256"].get(invocation["prior_review"]),
+            "Resume original root review changed")
+        for path, checksum in prefix.items():
+            require(prior.get("files", {}).get(remote_relative(path, scheduler)) == checksum,
+                "Resume execution-before prefix SHA differs from the prior root review")
     require(invocation["source_inventory_sha256"] == evidence.watch(args.source_inventory)
             and invocation["registration_sha256"] == evidence.watch(scheduler.REGISTRATION)
             and invocation["execution_manifest_sha256"] == evidence.watch(manifest_path), "Invocation immutable input hash mismatch")
@@ -331,6 +342,67 @@ def adapters(evidence, scheduler, value, job, config, files):
             sha(receipt.get(field)); require(initial.get(field) == receipt[field], "Profiler function identity changed")
     receipt["verified_official_sources"] = verified
     return receipt
+
+
+def verify_saved_provenance(evidence, report, jobs, *, scheduler=None):
+    """Leaf verifier shared by E04 and release consumers; no recursive review.
+
+    This rechecks source and actual runtime provenance. The full review() still
+    rebuilds scientific trials/profiling and cost independently. No mutable
+    supervisor file or final state values are opened here.
+    """
+    scheduler = scheduler or load("scripts/ops/formal_downstream_supervisor.py")
+    selected = [j for j in jobs if j.get("job_id") == report.get("job_id")]
+    require(len(selected) == 1, "Saved review job is not uniquely registered")
+    job = selected[0]
+    snapshot = report.get("registered_jobs_at_review")
+    require(isinstance(snapshot, list) and snapshot, "Immutable registered job snapshot missing")
+    saved = scheduler.formal_jobs({"registered_jobs": snapshot})
+    require(len(saved) == len(snapshot) and all(j["status"] in scheduler.TERMINAL for j in saved),
+        "Review job snapshot must contain only registered terminal formal jobs")
+    current = {j["job_id"]: j for j in jobs}
+    provenance = scheduler.provenance_helper(evidence)
+    for item in saved:
+        actual = current.get(item["job_id"])
+        require(actual is not None and provenance.job_identity(item) == provenance.job_identity(actual),
+            "Saved terminal job identity differs from registered accounting")
+        for key in ("method_ids", "adapter_sha256", "execution_manifest_sha256", "downstream_asset_compatibility", "source_provenance_sha256"):
+            require(item.get(key) == actual.get(key), "Saved downstream execution identity changed: " + key)
+    require(job["job_id"] in {j["job_id"] for j in saved}, "Review omitted its own terminal allocation")
+    inventory = evidence.read(scheduler.SOURCE_INVENTORY)
+    registration = evidence.read(scheduler.REGISTRATION)
+    invocation = evidence.read(job["invocation"])
+    require(evidence.watch(job["invocation"]) == job["invocation_sha256"], "Saved invocation SHA differs")
+    manifest = evidence.read(remote_relative(invocation["execution_manifest"], scheduler))
+    require(evidence.watch(remote_relative(invocation["execution_manifest"], scheduler)) == invocation["execution_manifest_sha256"],
+        "Saved execution manifest SHA differs")
+    proof = scheduler.source_provenance(evidence, registration=registration, suite=job["suite"],
+        inventory=inventory, rows=manifest["methods"], jobs=jobs)
+    require(report.get("source_provenance") == proof == invocation.get("source_provenance")
+        and job.get("source_provenance_sha256") == scheduler.signature(proof), "Saved source proof cannot be rebuilt")
+    scheduler.validate_invocation_shape(evidence, job, invocation, proof)
+    raw_jobs = report.get("raw_invocation_job_ids")
+    require(isinstance(raw_jobs, list) and raw_jobs, "Saved review omitted its raw invocation allocations")
+    require(report.get("cost") == allocation_cost(evidence, scheduler, jobs, job, invocation, raw_jobs),
+        "Saved review allocation history/cost cannot be rebuilt")
+    if job["suite"] in scheduler.ASSET_SUITES:
+        output = remote_relative(job["run_root"], scheduler)
+        value = dict(invocation=invocation, output=output, registration=registration, inventory=inventory)
+        config = evidence.read(output + "/config.json")
+        old = adapters(evidence, scheduler, value, job, config, report["files"])
+        runtime = provenance.review_invocation(evidence, job=job, invocation=invocation,
+            wrapper_receipt=evidence.read(f"results/{scheduler.ROUND}/job_receipts/{job['job_id']}.json"),
+            inventory=inventory, pull_receipt=report["pull_receipt"],
+            source_provenance=proof, legacy_adapter_review=old)
+        require(report.get("asset_runtime_review") == runtime, "Saved actual runtime proof cannot be rebuilt")
+    else:
+        receipt = evidence.read(f"results/{scheduler.ROUND}/job_receipts/{job['job_id']}.json")
+        require("asset_runtime_review" not in report and not any(k in receipt for k in (
+            "downstream_asset_compatibility", "asset_compatibility_artifacts", "runtime_compatibility", "component_compatibility")),
+            "Legacy runtime cannot retain an asset compatibility claim")
+        require(not any("/asset_compatibility/" in name for name in report.get("files", {})),
+            "Legacy output contains unexpected asset execution artifacts")
+    return proof
 
 
 def trajectory(row, identity, *, selection=True):
@@ -689,10 +761,14 @@ def review(job_id, pull_receipt, *, project=ROOT, state=None, scheduler=None, he
     # These root-only analysis dependencies are outside the frozen GPU map.
     # Bind the actual imported files too, so an audit remains attributable.
     audit_paths = [Path(__file__).resolve(), Path(helper.__file__).resolve(), Path(scheduler.__file__).resolve(),
-        ROOT / "scripts/analyze_formal.py", ROOT / scheduler.ADAPTER, ROOT / scheduler.WRAPPER]
+        ROOT / "scripts/analyze_formal.py", ROOT / scheduler.ADAPTER, ROOT / scheduler.WRAPPER,
+        ROOT / scheduler.ASSET_REVIEW]
     audit_sources = {p.relative_to(ROOT).as_posix(): scheduler.digest(p) for p in audit_paths}
     evidence = helper.Evidence(Path(project).resolve())
-    state = state if state is not None else evidence.read(scheduler.STATE)
+    # The caller holds the supervisor lock. Only immutable terminal job
+    # projections are retained; unrelated jobs changing state must not invalidate
+    # an old root audit or become part of its stable evidence file map.
+    state = state if state is not None else json.loads(evidence.path(scheduler.STATE).read_text(encoding="utf-8"))
     jobs = scheduler.formal_jobs(state)
     matches = [j for j in jobs if j["job_id"] == str(job_id)]
     require(len(matches) == 1 and matches[0].get("mode") in scheduler.STAGES, "Not a uniquely registered downstream job")
@@ -708,6 +784,16 @@ def review(job_id, pull_receipt, *, project=ROOT, state=None, scheduler=None, he
     config = evidence.read(output + "/config.json")
     value["checkpoint"] = runtime_inputs(evidence, scheduler, value, config)
     adapter = adapters(evidence, scheduler, value, job, config, candidate["files"])
+    candidate["source_provenance"] = value["source_provenance"]
+    candidate["registered_jobs_at_review"] = [dict(j) for j in state.get("registered_jobs", [])
+        if j.get("experiment") == scheduler.ROUND
+        and str(j.get("status", "")).split() and str(j["status"]).split()[0].rstrip("+") in scheduler.TERMINAL]
+    if job["suite"] in scheduler.ASSET_SUITES:
+        candidate["asset_runtime_review"] = scheduler.provenance_helper(evidence).review_invocation(evidence,
+            job=job, invocation=invocation,
+            wrapper_receipt=evidence.read(f"results/{scheduler.ROUND}/job_receipts/{job['job_id']}.json"),
+            inventory=value["inventory"], pull_receipt=pull_receipt,
+            source_provenance=value["source_provenance"], legacy_adapter_review=adapter)
     if job["mode"] in ("development", "final"):
         result = rollout(evidence, scheduler, value, job, config, adapter)
     else:

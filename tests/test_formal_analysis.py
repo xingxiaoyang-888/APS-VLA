@@ -169,6 +169,11 @@ def test_readonly_journal_keeps_incomplete_tail_and_rejects_corruption(tmp_path)
     assert path.read_bytes() == raw
     path.write_bytes(b'{bad json}\n')
     before = path.read_bytes()
+    with pytest.raises(ValueError, match="between reads"):
+        reader.lines({"path": path.name, "sha256": file_sha256(path)}, "trial")
+    # A new audit must independently reject malformed bytes without repair;
+    # the first audit must never accept the rewritten file as its old input.
+    reader = a.Evidence(tmp_path)
     with pytest.raises(ValueError, match="without repair"):
         reader.lines({"path": path.name, "sha256": file_sha256(path)}, "trial")
     assert path.read_bytes() == before and len(list(tmp_path.iterdir())) == 1
@@ -504,7 +509,8 @@ def test_original_cache_replay_to_analysis_and_renderer_layered(tmp_path, monkey
     """Exercise real cache identity/closure/replay through both public entrypoints.
 
     Existing suites test core statistics/profiles and full journal decoding.
-    Here those independent expensive layers use their synthetic contract;
+    Here those independent expensive layers, including root provenance, use
+    their explicit synthetic contract; this is not an actual root-audit test.
     cache completion is computed, never supplied as a completed summary.
     Identical synthetic streams memoize the real full40000 replay, no proxies.
     """
@@ -562,16 +568,21 @@ def test_original_cache_replay_to_analysis_and_renderer_layered(tmp_path, monkey
         training=[dict(suite=x["suite"], method_id=f"{x['arm']}{x['visual_tokens']}_seed{x['seed']}", report=x["report"], receipt=x["receipt"])
             for x in cache_manifest["training"]], suites={})
     for suite in a.SUITES:
-        spec = dict(windows=cache_manifest["suites"][suite]["windows"], final_registry=ref(tmp_path, f"{suite}/registry.json", {}), runs=[{}])
+        root_stub = ref(tmp_path, f"{suite}/synthetic_root_gate.json", {"synthetic_gate_stub": True})
+        spec = dict(windows=cache_manifest["suites"][suite]["windows"], final_registry=ref(tmp_path, f"{suite}/registry.json", {}),
+            runs=[dict(root_review=root_stub)])
         for pass_name, key in (("full", "full_profile"), ("components", "component_profile")):
             config = dict(global_freeze_sha256=core["global_freeze"]["sha256"], slurm_job_id="1000", panel={}, runtime={},
                 manifest={"methods": [{"identity": x} for x in instances if x["suite"] == suite]})
             spec[key] = {field: ref(tmp_path, f"{suite}/{pass_name}/{field}." + ("jsonl" if field == "calls" else "json"),
                 config if field == "config" else [])
                 for field in ("config", "measurements", "summary", "calls")}
+            spec[key]["root_review"] = root_stub
         core["suites"][suite] = spec
     monkeypatch.setattr(a, "validate_freeze_matrix", lambda *args, **kw: None)
     monkeypatch.setattr(a, "validate_final_release", lambda *args, **kw: None)
+    monkeypatch.setattr(a, "verify_global_root_evidence", lambda *args, **kw: None)
+    monkeypatch.setattr(a, "verify_root_output", lambda *args, **kw: None)
     monkeypatch.setattr(a, "read_registry", lambda *args, **kw: {})
     monkeypatch.setattr(a, "read_final_run", lambda *args, **kw: ([], dict(job_ids=["1000"])))
     monkeypatch.setattr(a, "assemble_outcomes", lambda *args, **kw: (None, None))

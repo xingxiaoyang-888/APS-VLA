@@ -97,7 +97,8 @@ def begin(p, *, job_id="500", status="COMPLETED"):
         suite=inv["suite"], method_ids=inv["method_ids"], stage_key=inv["stage_key"], source_sha256=inv["source_sha256"],
         adapter_sha256=inv["adapter_sha256"], status=status, exit_code="0:0" if status == "COMPLETED" else "1:0",
         elapsed_seconds=3600, gpus=1, run_root=inv["run_root"], invocation=plan["invocation_relative"],
-        invocation_sha256=p.scheduler.digest(p.root / plan["invocation_relative"]), execution_manifest_sha256=inv["execution_manifest_sha256"], submitted_utc="2026-01-01")
+        invocation_sha256=p.scheduler.digest(p.root / plan["invocation_relative"]), execution_manifest_sha256=inv["execution_manifest_sha256"], submitted_utc="2026-01-01",
+        source_provenance_sha256=p.scheduler.signature(inv["source_provenance"]))
     p.state["registered_jobs"].append(job)
     output = plan["output_relative"]
     manifest = json.loads((p.root / p.args.execution_manifest).read_text())

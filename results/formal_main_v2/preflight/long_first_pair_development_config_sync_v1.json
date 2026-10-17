@@ -1,0 +1,38 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_missing_nonweight_config_publication",
+  "status": "verified",
+  "created_utc": "2026-10-17T09:38:05.928966+00:00",
+  "preflight": "results/formal_main_v2/preflight/long_first_pair_development_server_inputs_v1.json",
+  "preflight_sha256": "12b95f4a236a2fc770b0af7d7aa66d4515960e0de181b87fed7998a3989fd695",
+  "diagnosis": "Training read these exact configurations from the immutable snapshot; the downstream registration also requires canonical project-root copies, which were absent.",
+  "bounded_fix": "Publish only the two identical snapshot files with SHA validation and no existing-file replacement; no changed source, settings, methods or checkpoint.",
+  "actual": {
+    "utc": "2026-10-17T09:38:10.436046+00:00",
+    "files": [
+      {
+        "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2.json",
+        "target": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/experiments/formal_main_v2.json",
+        "sha256": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+        "bytes": 26636,
+        "previously_present": false,
+        "identical_to_frozen_snapshot": true
+      },
+      {
+        "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2/libero_10_k128_seed17.json",
+        "target": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/experiments/formal_main_v2/libero_10_k128_seed17.json",
+        "sha256": "0f51aa0233389b77b113ddab13e910f6442d42661bb3be0746cd0519aaa37215",
+        "bytes": 3321,
+        "previously_present": false,
+        "identical_to_frozen_snapshot": true
+      }
+    ]
+  },
+  "source_program": "from pathlib import Path\nfrom datetime import datetime,timezone\nimport hashlib,json,os,uuid\nrows=[{'source': '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2.json', 'target': '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/experiments/formal_main_v2.json', 'sha256': 'a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9'}, {'source': '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2/libero_10_k128_seed17.json', 'target': '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/experiments/formal_main_v2/libero_10_k128_seed17.json', 'sha256': '0f51aa0233389b77b113ddab13e910f6442d42661bb3be0746cd0519aaa37215'}]\nout=[]\nfor row in rows:\n src,dst=Path(row['source']),Path(row['target'])\n if src.is_symlink() or src.resolve()!=src or dst.is_symlink() or dst.resolve()!=dst:raise ValueError('Noncanonical config path')\n data=src.read_bytes()\n if hashlib.sha256(data).hexdigest()!=row['sha256']:raise ValueError('Frozen config changed')\n existed=dst.exists()\n if existed:\n  if not dst.is_file() or hashlib.sha256(dst.read_bytes()).hexdigest()!=row['sha256']:raise ValueError('Existing config differs; refuse overwrite')\n else:\n  dst.parent.mkdir(parents=True,exist_ok=True)\n  tmp=dst.parent/(dst.name+'.'+uuid.uuid4().hex+'.partial')\n  with tmp.open('xb') as stream:stream.write(data)\n  if hashlib.sha256(tmp.read_bytes()).hexdigest()!=row['sha256']:raise ValueError('Copy SHA changed')\n  os.link(tmp,dst)\n  tmp.unlink()\n if hashlib.sha256(dst.read_bytes()).hexdigest()!=row['sha256']:raise ValueError('Published config SHA differs')\n out.append(dict(row,bytes=len(data),previously_present=existed,identical_to_frozen_snapshot=True))\nprint(json.dumps(dict(utc=datetime.now(timezone.utc).isoformat(),files=out)))\n",
+  "source_program_sha256": "b7806557c09b71e9e70641a27c29c591c81d18469bdab7ae29724fd55530c60c",
+  "GPU_seconds": 0,
+  "jobs_submitted": 0,
+  "weights_read_or_copied": false,
+  "sealed_state_values_read": false,
+  "scientific_settings_changed": false
+}

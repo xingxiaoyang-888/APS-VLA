@@ -1,0 +1,64 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_first_long_development_preregistration",
+  "registered_utc": "2026-10-17T09:32:50.297487+00:00",
+  "suite": "libero_10",
+  "methods": [
+    "dense",
+    "uniform256",
+    "uniform128",
+    "uniform64",
+    "A128_seed17",
+    "B128_seed17"
+  ],
+  "execution_manifest": "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json",
+  "execution_manifest_sha256": "d8c22787050b3223390627d74a804505c62f470b064bab112c2c230c4369051a",
+  "manifest_evidence": "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json.evidence.json",
+  "manifest_evidence_sha256": "7e7e88282814562e381f70cb230a4334ad0d1619ee2a8258ee6fdbdcb74e1b6a",
+  "plan": "results/formal_main_v2/preflight/long_first_pair_development_plan_v1.json",
+  "plan_file_sha256": "3638cda6b4011715d25c2cc3442881ca66152463eb539dbbfa3d6a8847c40692",
+  "plan_sha256": "d8bf3a5a9a4c435d9b81a74083afacdebd8a6d80ec7980fb34fa006b4a84f3d5",
+  "command": [
+    "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "-B",
+    "scripts/ops/formal_downstream_supervisor.py",
+    "plan",
+    "--stage",
+    "development",
+    "--execution-manifest",
+    "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json",
+    "--stop-after",
+    "12"
+  ],
+  "source_files_sha256": {
+    "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+    "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+    "scripts/review_formal_downstream.py": "0c678c0c077b17a3dff5ef5147622bf2c5e3cc0218b6be9ecc998b3bb82a6ba6",
+    "scripts/analyze_formal.py": "7f9573877f8a3662bd06dae9362823fd478283ed14cc86a6c3763f6fb4f682f1"
+  },
+  "output_relative": "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01",
+  "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_8c843c1d4ee8383c_attempt01.json",
+  "unique_development_initial_states": 100,
+  "target_terminal_trials": 600,
+  "initial_engineering_slice": 12,
+  "initial_state_ids_in_first_slice": [
+    "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0000:env-0",
+    "libero_10:LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket:state-0001:env-0"
+  ],
+  "stopping_rule": "Original fixed state-major/method-minor order; first2 development states times6 methods. Resume the same600-trial ledger after root audit; never rerun completed trials.",
+  "slice_reason": "First actual formal downstream interface and throughput check within the registered4h allocation; remaining slice sizes depend on measured duration only, never success outcomes.",
+  "scope": "Development only.600 is a subset of Long22x100 and is not the complete suite development gate.",
+  "old_four_reference_plan": "Preserved unexecuted history; do not additionally submit duplicate dense/uniform trials.",
+  "production_enabled": false,
+  "remaining_gates": [
+    "Final CPU consumer/regression evidence and root release for this entrypoint",
+    "Recompute identical planSHA and check a genuine free slot, no pending/overlap under the original supervisor lock"
+  ],
+  "global_final_release": false,
+  "sealed_states_opened": false,
+  "weights_copied": false,
+  "GPU_seconds": 0,
+  "jobs_submitted": 0,
+  "state_unchanged_at_preparation": true,
+  "state_sha256_observation_only": "50ea4a506f7b656df96533b9a41622b46f9545067768defd550c38394a91779a"
+}

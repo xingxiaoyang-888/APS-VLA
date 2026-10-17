@@ -1,0 +1,44 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_parallel_resume_precheck",
+  "pair": "libero_goal_k128_seed17",
+  "previous_job_id": "3016460",
+  "target_boundary": 1000,
+  "checked_utc": "2026-10-17T09:51:20.815032+00:00",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "root_review": "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3016460.json",
+  "root_review_sha256": "c575c69bcb5d6887f270705b544152dabbad9fd24507a63af059b69b90f5307b",
+  "independent_review": "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3016460_independent.json",
+  "independent_review_sha256": "d023e5020b2edfeac3a67e3e40bca9fa204c7f8ad2a28276ec58f0b0be2e26cc",
+  "server_resume_checks": [
+    {
+      "arm": "A",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k128/seed17/A/resume.pt",
+      "exists": true,
+      "bytes": 32070502,
+      "sha256": "f734f3214823319842441e8069569b3b234b5a46f7597e76a48b05894508b4bf"
+    },
+    {
+      "arm": "B",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k128/seed17/B/resume.pt",
+      "exists": true,
+      "bytes": 36450884,
+      "sha256": "fa32e088880e753c6a50cffde877cd18e22d6716e6f8162e4ea25ba5e586b5d7"
+    }
+  ],
+  "active_GPU_job_ids_before": [
+    "3016666",
+    "3016667",
+    "3016675",
+    "3016676",
+    "3016709",
+    "3016722",
+    "3016791"
+  ],
+  "active_GPU_jobs_before": 7,
+  "max_active_GPU_jobs": 8,
+  "reason": "Fill available slot with explicitly targeted, independently reviewed pair.",
+  "scientific_settings_changed": false,
+  "weights_copied": false,
+  "final_states_opened": false
+}

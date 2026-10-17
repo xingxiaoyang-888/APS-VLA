@@ -42,7 +42,8 @@ def project(tmp_path, monkeypatch):
     state = {"registered_jobs": [], "pending_submission": None, "current_round_cost": {"registered_jobs": 0}}
     def save(name, data):
         fixtures.save(helper, tmp_path / name, data)
-    for relative in (t.ADAPTER, t.WRAPPER, "scripts/ops/formal_downstream_supervisor.py", "scripts/formal_execution_manifests.py"):
+    for relative in (t.ADAPTER, t.WRAPPER, t.ASSET_REVIEW, "scripts/review_formal_downstream.py",
+                     "scripts/ops/formal_downstream_supervisor.py", "scripts/formal_execution_manifests.py"):
         path = tmp_path / relative
         path.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / relative, path)
@@ -92,6 +93,16 @@ def project(tmp_path, monkeypatch):
     save(t.REGISTRATION, p.registration)
     inventory = {**source_info, "source_root_server": str(t.P / "snapshots" / t.FROZEN_NAME), "source_sha256": t.FROZEN_SHA256}
     monkeypatch.setattr(t, "check_source", lambda evidence, helper, source: (inventory, p.sources))
+    # These pre-existing scheduler/science tests isolate the newly added full
+    # provenance gate. They do not claim to reproduce actual GPU acceptance or
+    # every5000-update training history; the dedicated provenance suite does.
+    real_provenance = module(t.ASSET_REVIEW)
+    monkeypatch.setattr(t, "provenance_helper", lambda evidence: real_provenance)
+    def synthetic_source_provenance(evidence, *, registration, suite, inventory, rows, jobs):
+        return dict(schema=t.ROUND, kind="asset_downstream_source_provenance", status="verified",
+            suite=suite, synthetic_upstream_provenance_standin=True,
+            method_bindings={row["identity"]["method_id"]: row["identity"] for row in rows})
+    monkeypatch.setattr(t, "source_provenance", synthetic_source_provenance)
     state["current_round_cost"]["registered_jobs"] = len(state["registered_jobs"])
     args = SimpleNamespace(stage="development", execution_manifest=f"results/{t.ROUND}/execution/dev.json",
         source_inventory=t.SOURCE_INVENTORY, output_relative=None, freeze_directory=None, profile_panel=None,
@@ -118,7 +129,8 @@ def retained_attempt(p, *, status="COMPLETED", complete=False, unfinished=False)
         exit_code="0:0" if status.split()[0].rstrip("+") == "COMPLETED" else "1:0", elapsed_seconds=35, gpus=1,
         run_root=invocation["run_root"], invocation=first["invocation_relative"],
         invocation_sha256=t.digest(p.root / first["invocation_relative"]),
-        execution_manifest_sha256=invocation["execution_manifest_sha256"], submitted_utc="2002-01-01")
+        execution_manifest_sha256=invocation["execution_manifest_sha256"], submitted_utc="2002-01-01",
+        source_provenance_sha256=t.signature(invocation["source_provenance"]))
     p.state["registered_jobs"].append(job)
     manifest = json.loads((p.root / p.args.execution_manifest).read_text())
     spec = p.registration["suites"]["libero_10"]
@@ -170,7 +182,12 @@ def retained_attempt(p, *, status="COMPLETED", complete=False, unfinished=False)
         invocation_sha256=job["invocation_sha256"], run_root=job["run_root"], execution_manifest_sha256=job["execution_manifest_sha256"],
         terminal_status=status.split()[0].rstrip("+"), exit_code=job["exit_code"], scientific_complete=complete,
         pull_receipt=pull_relative, run_signature=sig, completed_trials=len(completed),
-        unfinished_attempts_unknown_cost=int(unfinished))
+        unfinished_attempts_unknown_cost=int(unfinished), source_provenance=invocation["source_provenance"],
+        registered_jobs_at_review=deepcopy(p.state["registered_jobs"]))
+    review["raw_invocation_job_ids"] = [job_id]
+    normalized = t.formal_jobs(p.state)
+    review["cost"] = module("scripts/review_formal_downstream.py").allocation_cost(
+        p.helper.Evidence(p.root), t, normalized, next(j for j in normalized if j["job_id"] == job_id), invocation, [job_id])
     result = SimpleNamespace(first=first, job=job, output=output, ledger=ledger_path, review=review,
         review_relative=review_relative, pull_relative=pull_relative, receipt_name=receipt_name)
     repull_attempt(p, result)
@@ -465,6 +482,51 @@ def test_unreviewed_or_changed_plan_never_reaches_transport(project):
     with pytest.raises(ValueError, match="changed reviewed plan"):
         t.submit_plan(value, p.state, project=p.root, supervisor=fake_supervisor(p), transport=NoTransport(), expected_plan_sha256="0" * 64)
     assert not (p.root / value["invocation_relative"]).exists()
+
+
+def test_eight_active_project_requests_refused_before_any_write_or_transport(tmp_path):
+    t = module("scripts/ops/formal_downstream_supervisor.py")
+    statuses = ["RUNNING", "SUBMITTED", "PENDING", "CONFIGURING", "COMPLETING", "REQUEUED", None, "UNKNOWN_NEW_STATE"]
+    state = dict(registered_jobs=[dict(job_id=str(9000+i), experiment=t.ROUND,
+        status=status, gpus=int(i != 2), mode="acceptance" if i == 2 else "train")
+        for i, status in enumerate(statuses)], pending_submission=None)
+    before = deepcopy(state)
+    value = dict(invocation_relative="results/formal_main_v2/invocations/never_written.json")
+    value["plan_sha256"] = t.signature(value)
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Full capacity must not write or invoke transport")
+    with pytest.raises(ValueError, match="capacity reached"):
+        t.submit_plan(value, state, project=tmp_path,
+            supervisor=SimpleNamespace(STATE=tmp_path / "state.json", write=forbidden),
+            transport=SimpleNamespace(prepare=forbidden, submit=forbidden),
+            expected_plan_sha256=value["plan_sha256"])
+    assert state == before and not list(tmp_path.iterdir())
+
+
+def test_seven_active_requests_allow_submit_and_ignore_other_projects_and_terminal(project):
+    p, t = project, project.scheduler
+    value = make_plan(p)
+    p.state["registered_jobs"].extend(dict(job_id=str(9100+i), experiment=t.ROUND,
+        status=status, gpus=int(i != 2), mode="acceptance" if i == 2 else "train")
+        for i, status in enumerate(["RUNNING", "SUBMITTED", "PENDING", "CONFIGURING", "COMPLETING", None, "UNKNOWN_NEW_STATE"]))
+    p.state["registered_jobs"].extend([
+        dict(job_id="9200", experiment="another_project", status="RUNNING", gpus=1),
+        dict(job_id="9201", experiment=t.ROUND, status="CANCELLED by 15016", gpus=1),
+        dict(job_id="9202", experiment=t.ROUND, status="COMPLETED+", gpus=1),
+        dict(job_id="9203", experiment=t.ROUND, status="TIMEOUT+", gpus=1)])
+    calls = []
+    def prepare(value, path):
+        calls.append("prepare")
+        assert path.is_file()
+    def submit(command):
+        calls.append("submit")
+        return SimpleNamespace(returncode=0, stdout="9300\n")
+    job = t.submit_plan(value, p.state, project=p.root, supervisor=fake_supervisor(p),
+        transport=SimpleNamespace(prepare=prepare, submit=submit), expected_plan_sha256=value["plan_sha256"])
+    assert job["job_id"] == "9300" and p.state["pending_submission"] is None
+    assert calls == ["prepare", "submit"]
+    assert sum(j["status"] not in t.TERMINAL for j in t.formal_jobs(p.state)) == 8
+    assert p.state["current_round_cost"]["registered_jobs"] == len(t.formal_jobs(p.state))
 
 
 def test_existing_output_and_new_resume_flag_are_not_guessed(project):

@@ -1652,7 +1652,7 @@
       "visual_tokens": 128,
       "training_seed": 17,
       "segment_end": 1500,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "gpus": 1,
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
       "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
@@ -1662,7 +1662,7 @@
       "submitted_utc": "2026-10-17T08:26:44.831298+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 3371,
+      "elapsed_seconds": 3593,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4004"
     },
@@ -1686,7 +1686,7 @@
       "submitted_utc": "2026-10-17T08:48:15.378931+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2081,
+      "elapsed_seconds": 4198,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4004"
     },
@@ -1710,7 +1710,7 @@
       "submitted_utc": "2026-10-17T08:48:25.565119+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2071,
+      "elapsed_seconds": 4188,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4041"
     },
@@ -1734,7 +1734,7 @@
       "submitted_utc": "2026-10-17T08:50:12.712699+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 1964,
+      "elapsed_seconds": 4081,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4004"
     },
@@ -1758,7 +1758,7 @@
       "submitted_utc": "2026-10-17T08:50:27.911752+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 1949,
+      "elapsed_seconds": 4066,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4004"
     },
@@ -1772,7 +1772,7 @@
       "visual_tokens": 128,
       "training_seed": 23,
       "segment_end": 1500,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "gpus": 1,
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
       "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
@@ -1782,7 +1782,7 @@
       "submitted_utc": "2026-10-17T08:50:39.254356+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 1937,
+      "elapsed_seconds": 3621,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -1806,7 +1806,7 @@
       "submitted_utc": "2026-10-17T09:02:57.828350+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 1199,
+      "elapsed_seconds": 3316,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4005"
     },
@@ -1830,7 +1830,105 @@
       "submitted_utc": "2026-10-17T09:07:09.129751+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 947,
+      "elapsed_seconds": 3064,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4010"
+    },
+    {
+      "job_id": "3016791",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_object_train_k128_seed17",
+      "suite": "libero_object",
+      "visual_tokens": 128,
+      "training_seed": 17,
+      "segment_end": 1500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k128/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_object_train_k128_seed17_attempt03.json",
+      "invocation_sha256": "2a804d49b725bbfa890b126aa2871bf62a075ebac0899e1a7201448faf81b148",
+      "runtime_compatibility": {
+        "schema": "formal_main_v2",
+        "kind": "asset_metadata_compatibility",
+        "version": "formal-asset-metadata-compat-v1",
+        "wrapper": "scripts/server/run_formal_asset_stage.py",
+        "slurm": "scripts/server/formal_asset_main.slurm",
+        "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+        "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+        "files": {
+          "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+          "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+          "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+          "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+          "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+          "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+        }
+      },
+      "submitted_utc": "2026-10-17T09:27:28.777166+00:00",
+      "purpose": "Registered Object/Goal original acceptance/train with audited metadata projection; final states sealed",
+      "exit_code": "0:0",
+      "elapsed_seconds": 1843,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4010"
+    },
+    {
+      "job_id": "3016905",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_goal_train_k128_seed17",
+      "suite": "libero_goal",
+      "visual_tokens": 128,
+      "training_seed": 17,
+      "segment_end": 1000,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_goal_train_k128_seed17_attempt02.json",
+      "invocation_sha256": "f3a0785987d23459935988c321f3d7bc1afe8953a59a75d45d2d0afd9d68a3d4",
+      "runtime_compatibility": {
+        "schema": "formal_main_v2",
+        "kind": "asset_metadata_compatibility",
+        "version": "formal-asset-metadata-compat-v1",
+        "wrapper": "scripts/server/run_formal_asset_stage.py",
+        "slurm": "scripts/server/formal_asset_main.slurm",
+        "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+        "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+        "files": {
+          "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+          "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+          "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+          "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+          "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+          "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+        }
+      },
+      "component_compatibility": {
+        "schema": "formal_main_v2",
+        "kind": "goal_component_filename_compatibility",
+        "version": "formal-goal-components-v1",
+        "suite": "libero_goal",
+        "wrapper": "scripts/server/run_formal_goal_asset_stage.py",
+        "adapter": "scripts/ops/formal_goal_component_adapter.py",
+        "slurm": "scripts/server/formal_goal_asset_main.slurm",
+        "registration": "configs/experiments/formal_main_v2_goal_component_compat_v1.json",
+        "files": {
+          "scripts/server/run_formal_goal_asset_stage.py": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039",
+          "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+          "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+          "configs/experiments/formal_main_v2_goal_component_compat_v1.json": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84"
+        }
+      },
+      "submitted_utc": "2026-10-17T09:51:21.268290+00:00",
+      "purpose": "Registered Goal stage with official50000 component paths and metadata evidence; final states sealed",
+      "exit_code": "0:0",
+      "elapsed_seconds": 409,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     }
@@ -1985,7 +2083,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "8 registered GPU jobs active; all four suites own GPU acceptance passed. Formal completed2/72; 31000 cumulative arm updates have passed common-boundary review. Development0, final0/35200; final states sealed. See per-pair tracking and latest live evidence for individual update counters.",
+  "current_work": "8 registered GPU jobs active; all four suites own GPU acceptance passed. Formal completed2/72; 33000 cumulative arm updates have passed common-boundary review. Development0, final0/35200; final states sealed. See per-pair tracking and latest live evidence for individual update counters.",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -2006,7 +2104,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-17T09:22:59.420767+00:00",
+  "last_supervision_utc": "2026-10-17T09:58:15.754790+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -2054,9 +2152,9 @@
   "pending_submission": null,
   "next_allowed_action": "Keep up to8 independent GPU jobs; on each terminal pair pull all history and verify both arms, optimizer/RNG/sample cursor and actual server resume SHA before own next500. Final5000 pair requires training_summary/training_report/deployment_receipt, all11 validations, and separate stable server hashes of both registered selected best.pt matching report and deployment receipt before counting2 completed arms; no5500 continuation.",
   "current_round_cost": {
-    "registered_jobs": 52,
-    "allocated_gpu_seconds": 150425,
-    "allocated_gpu_hours": 41.78472222222222,
+    "registered_jobs": 54,
+    "allocated_gpu_seconds": 167285,
+    "allocated_gpu_hours": 46.46805555555556,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -3168,6 +3266,36 @@
         "independent_review": "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3016464_independent.json",
         "allocated_gpu_seconds": 4967,
         "not_completed_formal_training": false
+      },
+      {
+        "job_id": "3016595",
+        "suite": "libero_spatial",
+        "visual_tokens": 128,
+        "seed": 17,
+        "updates_by_arm": {
+          "A": 1500,
+          "B": 1500
+        },
+        "status": "passed_root_and_independent_review",
+        "root_review": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3016595.json",
+        "independent_review": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3016595_independent.json",
+        "allocated_gpu_seconds": 3593,
+        "not_completed_formal_training": true
+      },
+      {
+        "job_id": "3016677",
+        "suite": "libero_spatial",
+        "visual_tokens": 128,
+        "seed": 23,
+        "updates_by_arm": {
+          "A": 1500,
+          "B": 1500
+        },
+        "status": "passed_root_and_independent_review",
+        "root_review": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3016677.json",
+        "independent_review": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3016677_independent.json",
+        "allocated_gpu_seconds": 3621,
+        "not_completed_formal_training": true
       }
     ],
     "downstream_entrypoint_audit": {
@@ -3199,8 +3327,13 @@
         "training_affected": false
       },
       "previous_adapter_sha256": "260f1525455ef00e74edc1b53f913a7fc955d06c5f4905794e640c1ff7798e5e",
-      "current_controller_sha256": "d02317ed08bc377ec60e532916a37fbc620b811e03d4ade0f039f5f613a5120a",
-      "current_wrapper_sha256": "2b7db31f5e3ea80a8036017b9175e8fb28fbce644f6e0f10e2924341ccf993db"
+      "current_controller_sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+      "current_wrapper_sha256": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24",
+      "prior_operational_source_identity": {
+        "current_controller_sha256": "d02317ed08bc377ec60e532916a37fbc620b811e03d4ade0f039f5f613a5120a",
+        "current_wrapper_sha256": "2b7db31f5e3ea80a8036017b9175e8fb28fbce644f6e0f10e2924341ccf993db"
+      },
+      "latest_consumer_acceptance": "results/formal_main_v2/preflight/asset_downstream_consumers_root_acceptance_20261017.json"
     },
     "development_reference_registration": {
       "status": "preregistered_not_executed",
@@ -3276,54 +3409,6 @@
       "per_suite_acceptance_and_per_pair_resume_gates_retained": true,
       "active_trainings": [
         {
-          "job_id": "3016595",
-          "suite": "libero_spatial",
-          "visual_tokens": 128,
-          "training_seed": 17,
-          "segment_end": 1500,
-          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed17/training",
-          "status": "RUNNING",
-          "gpus": 1,
-          "node": "gpu4004",
-          "elapsed_seconds": 3371,
-          "arms": {
-            "A": {
-              "this_job_attempt_starts": [
-                {
-                  "attempt_id": "20261017T083023_d42243bc0265",
-                  "utc": "2026-10-17T08:30:23.752056+00:00",
-                  "resumed": true,
-                  "completed_update": 1000,
-                  "next_sample_cursor": 8000
-                }
-              ],
-              "this_job_updates_completed_in_memory": 1500,
-              "this_job_last_checkpoint_update": 1500,
-              "this_job_last_update_seconds": 3.9664090937003493,
-              "last_event": "attempt_end",
-              "last_event_utc": "2026-10-17T09:04:48.395591+00:00"
-            },
-            "B": {
-              "this_job_attempt_starts": [
-                {
-                  "attempt_id": "20261017T090508_11c287bb9d2b",
-                  "utc": "2026-10-17T09:05:08.548275+00:00",
-                  "resumed": true,
-                  "completed_update": 1000,
-                  "next_sample_cursor": 8000
-                }
-              ],
-              "this_job_updates_completed_in_memory": 1437,
-              "this_job_last_checkpoint_update": 1400,
-              "this_job_last_update_seconds": 2.431989485397935,
-              "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T09:23:04.546188+00:00"
-            }
-          },
-          "failures": [],
-          "not_a_completion_receipt": true
-        },
-        {
           "job_id": "3016666",
           "suite": "libero_10",
           "visual_tokens": 128,
@@ -3333,7 +3418,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4004",
-          "elapsed_seconds": 2081,
+          "elapsed_seconds": 3713,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3345,19 +3430,27 @@
                   "next_sample_cursor": 8000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1349,
-              "this_job_last_checkpoint_update": 1300,
-              "this_job_last_update_seconds": 4.408848692663014,
-              "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T09:23:04.489101+00:00"
+              "this_job_updates_completed_in_memory": 1500,
+              "this_job_last_checkpoint_update": 1500,
+              "this_job_last_update_seconds": 5.672391056083143,
+              "last_event": "attempt_end",
+              "last_event_utc": "2026-10-17T09:38:53.381277+00:00"
             },
             "B": {
-              "this_job_attempt_starts": [],
-              "this_job_updates_completed_in_memory": null,
-              "this_job_last_checkpoint_update": null,
-              "this_job_last_update_seconds": null,
-              "last_event": null,
-              "last_event_utc": null
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261017T093911_52da0d3d93a4",
+                  "utc": "2026-10-17T09:39:11.993059+00:00",
+                  "resumed": true,
+                  "completed_update": 1000,
+                  "next_sample_cursor": 8000
+                }
+              ],
+              "this_job_updates_completed_in_memory": 1238,
+              "this_job_last_checkpoint_update": 1200,
+              "this_job_last_update_seconds": 2.712767138145864,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-17T09:50:15.933539+00:00"
             }
           },
           "failures": [],
@@ -3373,7 +3466,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4041",
-          "elapsed_seconds": 2071,
+          "elapsed_seconds": 3703,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3385,19 +3478,27 @@
                   "next_sample_cursor": 8000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1330,
-              "this_job_last_checkpoint_update": 1300,
-              "this_job_last_update_seconds": 6.142882753163576,
-              "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T09:22:25.046168+00:00"
+              "this_job_updates_completed_in_memory": 1500,
+              "this_job_last_checkpoint_update": 1500,
+              "this_job_last_update_seconds": 6.311474421992898,
+              "last_event": "attempt_end",
+              "last_event_utc": "2026-10-17T09:40:50.525903+00:00"
             },
             "B": {
-              "this_job_attempt_starts": [],
-              "this_job_updates_completed_in_memory": null,
-              "this_job_last_checkpoint_update": null,
-              "this_job_last_update_seconds": null,
-              "last_event": null,
-              "last_event_utc": null
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261017T094110_515ab752901e",
+                  "utc": "2026-10-17T09:41:10.153308+00:00",
+                  "resumed": true,
+                  "completed_update": 1000,
+                  "next_sample_cursor": 8000
+                }
+              ],
+              "this_job_updates_completed_in_memory": 1182,
+              "this_job_last_checkpoint_update": 1150,
+              "this_job_last_update_seconds": 2.7626829128712416,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-17T09:49:36.693183+00:00"
             }
           },
           "failures": [],
@@ -3413,7 +3514,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4004",
-          "elapsed_seconds": 1964,
+          "elapsed_seconds": 3596,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3425,19 +3526,27 @@
                   "next_sample_cursor": 8000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1311,
-              "this_job_last_checkpoint_update": 1300,
-              "this_job_last_update_seconds": 5.004204552620649,
-              "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T09:23:03.634830+00:00"
+              "this_job_updates_completed_in_memory": 1500,
+              "this_job_last_checkpoint_update": 1500,
+              "this_job_last_update_seconds": 5.809787105768919,
+              "last_event": "attempt_end",
+              "last_event_utc": "2026-10-17T09:42:16.783718+00:00"
             },
             "B": {
-              "this_job_attempt_starts": [],
-              "this_job_updates_completed_in_memory": null,
-              "this_job_last_checkpoint_update": null,
-              "this_job_last_update_seconds": null,
-              "last_event": null,
-              "last_event_utc": null
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261017T094235_a36b2dc131d6",
+                  "utc": "2026-10-17T09:42:35.791133+00:00",
+                  "resumed": true,
+                  "completed_update": 1000,
+                  "next_sample_cursor": 8000
+                }
+              ],
+              "this_job_updates_completed_in_memory": 1168,
+              "this_job_last_checkpoint_update": 1150,
+              "this_job_last_update_seconds": 2.8701977161690593,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-17T09:50:16.413104+00:00"
             }
           },
           "failures": [],
@@ -3453,7 +3562,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4004",
-          "elapsed_seconds": 1949,
+          "elapsed_seconds": 3581,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3465,59 +3574,27 @@
                   "next_sample_cursor": 8000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1311,
-              "this_job_last_checkpoint_update": 1300,
-              "this_job_last_update_seconds": 4.956983163021505,
-              "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T09:23:05.037325+00:00"
+              "this_job_updates_completed_in_memory": 1500,
+              "this_job_last_checkpoint_update": 1500,
+              "this_job_last_update_seconds": 5.787911164574325,
+              "last_event": "attempt_end",
+              "last_event_utc": "2026-10-17T09:42:19.598692+00:00"
             },
             "B": {
-              "this_job_attempt_starts": [],
-              "this_job_updates_completed_in_memory": null,
-              "this_job_last_checkpoint_update": null,
-              "this_job_last_update_seconds": null,
-              "last_event": null,
-              "last_event_utc": null
-            }
-          },
-          "failures": [],
-          "not_a_completion_receipt": true
-        },
-        {
-          "job_id": "3016677",
-          "suite": "libero_spatial",
-          "visual_tokens": 128,
-          "training_seed": 23,
-          "segment_end": 1500,
-          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training",
-          "status": "RUNNING",
-          "gpus": 1,
-          "node": "gpu4010",
-          "elapsed_seconds": 1937,
-          "arms": {
-            "A": {
               "this_job_attempt_starts": [
                 {
-                  "attempt_id": "20261017T085348_f6e3ffa18925",
-                  "utc": "2026-10-17T08:53:48.782823+00:00",
+                  "attempt_id": "20261017T094237_d10558a7ed39",
+                  "utc": "2026-10-17T09:42:37.927533+00:00",
                   "resumed": true,
                   "completed_update": 1000,
                   "next_sample_cursor": 8000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1425,
-              "this_job_last_checkpoint_update": 1400,
-              "this_job_last_update_seconds": 4.502014867961407,
+              "this_job_updates_completed_in_memory": 1168,
+              "this_job_last_checkpoint_update": 1150,
+              "this_job_last_update_seconds": 2.8356301030144095,
               "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T09:23:05.284658+00:00"
-            },
-            "B": {
-              "this_job_attempt_starts": [],
-              "this_job_updates_completed_in_memory": null,
-              "this_job_last_checkpoint_update": null,
-              "this_job_last_update_seconds": null,
-              "last_event": null,
-              "last_event_utc": null
+              "last_event_utc": "2026-10-17T09:50:16.348149+00:00"
             }
           },
           "failures": [],
@@ -3533,7 +3610,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4005",
-          "elapsed_seconds": 1199,
+          "elapsed_seconds": 2831,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3545,19 +3622,27 @@
                   "next_sample_cursor": 8000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1194,
-              "this_job_last_checkpoint_update": 1150,
-              "this_job_last_update_seconds": 3.902290603145957,
-              "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T09:23:05.438240+00:00"
+              "this_job_updates_completed_in_memory": 1500,
+              "this_job_last_checkpoint_update": 1500,
+              "this_job_last_update_seconds": 6.022403771057725,
+              "last_event": "attempt_end",
+              "last_event_utc": "2026-10-17T09:48:42.471195+00:00"
             },
             "B": {
-              "this_job_attempt_starts": [],
-              "this_job_updates_completed_in_memory": null,
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261017T094904_f3094affcb0e",
+                  "utc": "2026-10-17T09:49:04.872910+00:00",
+                  "resumed": true,
+                  "completed_update": 1000,
+                  "next_sample_cursor": 8000
+                }
+              ],
+              "this_job_updates_completed_in_memory": 1028,
               "this_job_last_checkpoint_update": null,
-              "this_job_last_update_seconds": null,
-              "last_event": null,
-              "last_event_utc": null
+              "this_job_last_update_seconds": 2.473270505666733,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-17T09:50:16.995448+00:00"
             }
           },
           "failures": [],
@@ -3573,7 +3658,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4010",
-          "elapsed_seconds": 947,
+          "elapsed_seconds": 2579,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3585,11 +3670,51 @@
                   "next_sample_cursor": 4000
                 }
               ],
-              "this_job_updates_completed_in_memory": 622,
-              "this_job_last_checkpoint_update": 600,
-              "this_job_last_update_seconds": 7.279714517295361,
+              "this_job_updates_completed_in_memory": 885,
+              "this_job_last_checkpoint_update": 850,
+              "this_job_last_update_seconds": 6.379327787086368,
               "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T09:23:05.542320+00:00"
+              "last_event_utc": "2026-10-17T09:50:17.056035+00:00"
+            },
+            "B": {
+              "this_job_attempt_starts": [],
+              "this_job_updates_completed_in_memory": null,
+              "this_job_last_checkpoint_update": null,
+              "this_job_last_update_seconds": null,
+              "last_event": null,
+              "last_event_utc": null
+            }
+          },
+          "failures": [],
+          "not_a_completion_receipt": true
+        },
+        {
+          "job_id": "3016791",
+          "suite": "libero_object",
+          "visual_tokens": 128,
+          "training_seed": 17,
+          "segment_end": 1500,
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k128/seed17/training",
+          "status": "RUNNING",
+          "gpus": 1,
+          "node": "gpu4010",
+          "elapsed_seconds": 1358,
+          "arms": {
+            "A": {
+              "this_job_attempt_starts": [
+                {
+                  "attempt_id": "20261017T093104_2c20038f6a74",
+                  "utc": "2026-10-17T09:31:04.290039+00:00",
+                  "resumed": true,
+                  "completed_update": 1000,
+                  "next_sample_cursor": 8000
+                }
+              ],
+              "this_job_updates_completed_in_memory": 1211,
+              "this_job_last_checkpoint_update": 1200,
+              "this_job_last_update_seconds": 6.046817395836115,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-17T09:50:17.280996+00:00"
             },
             "B": {
               "this_job_attempt_starts": [],
@@ -3617,9 +3742,9 @@
       "batch1_registration": "results/formal_main_v2/preflight/parallel_batch1_training_registration.json",
       "batch1_registration_sha256": "1aaac02ec8d122e80e06cb4a98fa13e9e4183bd48fd66ad12ab065d83ae57bff",
       "latest_live_observation": {
-        "path": "results/formal_main_v2/live/parallel_20261017T092304Z.json",
-        "sha256": "047660693df4f7024c738aacfa7f427696eaa39eeb1f7381f1d5e48483723da5",
-        "observed_utc": "2026-10-17T09:23:04.330497+00:00"
+        "path": "results/formal_main_v2/live/parallel_20261017T095015Z.json",
+        "sha256": "1171ddf36339766a84cc840f4dd2973dee19546dd249331b321724d51321f77f",
+        "observed_utc": "2026-10-17T09:50:15.928032+00:00"
       },
       "registered_requested_active_GPU_jobs": 8,
       "actual_running_allocated_GPUs": 8,
@@ -3691,28 +3816,28 @@
           "latest_resume_precheck_sha256": "e4f6bbbe7b0cff417be544feb68bd0ef536416902d03eb1e23e00e4605e93cdc"
         },
         "libero_spatial_k128_seed17": {
-          "active_job_id": "3016595",
+          "active_job_id": null,
           "segment_target": 1500,
-          "last_root_reviewed_common_update": 1000,
+          "last_root_reviewed_common_update": 1500,
           "next_segment_requires_own_terminal_pull_and_root_review": true,
-          "root_review": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3012508.json",
+          "root_review": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3016595.json",
           "no_restart_or_duplicate_submission": true,
-          "last_completed_job_id": "3012508",
-          "allowed_next_segment_end": 1500,
-          "independent_review": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3012508_independent.json",
+          "last_completed_job_id": "3016595",
+          "allowed_next_segment_end": 2000,
+          "independent_review": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3016595_independent.json",
           "latest_resume_precheck": "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_spatial_k128_seed17_20261017T082644Z.json",
           "latest_resume_precheck_sha256": "84406d20a3b33871f188cf50ce5f0da4b12c4ef1a30a440ac46fd3a4535e0653"
         },
         "libero_spatial_k128_seed23": {
-          "active_job_id": "3016677",
+          "active_job_id": null,
           "segment_target": 1500,
-          "last_root_reviewed_common_update": 1000,
+          "last_root_reviewed_common_update": 1500,
           "next_segment_requires_own_terminal_pull_and_root_review": true,
-          "root_review": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3012509.json",
+          "root_review": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3016677.json",
           "no_restart_or_duplicate_submission": true,
-          "last_completed_job_id": "3012509",
-          "allowed_next_segment_end": 1500,
-          "independent_review": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3012509_independent.json",
+          "last_completed_job_id": "3016677",
+          "allowed_next_segment_end": 2000,
+          "independent_review": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3016677_independent.json",
           "latest_resume_precheck": "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_spatial_k128_seed23_20261017T085038Z.json",
           "latest_resume_precheck_sha256": "fa48b50a6a2f98e705ef035378e2c2f6305c282af7ef014c6971ab446d7dbfb2"
         },
@@ -3736,9 +3861,11 @@
           "independent_review": "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3016472_independent.json",
           "next_segment_requires_own_terminal_pull_and_root_review": true,
           "no_restart_or_duplicate_submission": true,
-          "active_job_id": null,
-          "segment_target": 1000,
-          "last_completed_job_id": "3016472"
+          "active_job_id": "3016791",
+          "segment_target": 1500,
+          "last_completed_job_id": "3016472",
+          "latest_resume_precheck": "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_object_k128_seed17_20261017T092728Z.json",
+          "latest_resume_precheck_sha256": "8b059a3785dc53c572d373efa3dc608b654e566a16c3e0adc10d921de7b3563a"
         },
         "libero_10_k256_seed23": {
           "active_job_id": "3016722",
@@ -3791,15 +3918,17 @@
           "last_completed_job_id": "3016459"
         },
         "libero_goal_k128_seed17": {
-          "active_job_id": null,
-          "segment_target": 500,
+          "active_job_id": "3016905",
+          "segment_target": 1000,
           "last_root_reviewed_common_update": 500,
           "allowed_next_segment_end": 1000,
           "root_review": "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3016460.json",
           "independent_review": "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3016460_independent.json",
           "next_segment_requires_own_terminal_pull_and_root_review": true,
           "no_restart_or_duplicate_submission": true,
-          "last_completed_job_id": "3016460"
+          "last_completed_job_id": "3016460",
+          "latest_resume_precheck": "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_goal_k128_seed17_20261017T095120Z.json",
+          "latest_resume_precheck_sha256": "1cf934c30022a7d1b2102e670a85b59fa9f818942da85900a7e89a0bc48345ac"
         }
       },
       "CPU_probe_independent_review": "results/formal_main_v2/preflight/fs_parallel_probe/3012316/independent_review.json",
@@ -3813,11 +3942,20 @@
       "ready_queue": [
         {
           "stage": "train",
-          "pair": "libero_object_k128_seed17",
-          "segment_end": 1500,
+          "pair": "libero_spatial_k128_seed17",
+          "segment_end": 2000,
           "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
-          "root_review": "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3016472.json",
-          "independent_review": "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3016472_independent.json",
+          "root_review": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3016595.json",
+          "independent_review": "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3016595_independent.json",
+          "requires_refresh_and_exact_resume_SHA": true
+        },
+        {
+          "stage": "train",
+          "pair": "libero_spatial_k128_seed23",
+          "segment_end": 2000,
+          "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
+          "root_review": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3016677.json",
+          "independent_review": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3016677_independent.json",
           "requires_refresh_and_exact_resume_SHA": true
         },
         {
@@ -3845,15 +3983,6 @@
           "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
           "root_review": "results/formal_main_v2/libero_10/k64/seed41/training/segment_reviews/3016459.json",
           "independent_review": "results/formal_main_v2/libero_10/k64/seed41/training/segment_reviews/3016459_independent.json",
-          "requires_refresh_and_exact_resume_SHA": true
-        },
-        {
-          "stage": "train",
-          "pair": "libero_goal_k128_seed17",
-          "segment_end": 1000,
-          "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
-          "root_review": "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3016460.json",
-          "independent_review": "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3016460_independent.json",
           "requires_refresh_and_exact_resume_SHA": true
         }
       ],
@@ -3933,13 +4062,13 @@
       "root_review_sha256": "ef3dedb2d6907b6e08d70da5048d969e5433a15eae5c51c35e157f6e5c438fa4",
       "independent_review": "results/formal_main_v2/preflight/asset_metadata_adapter_independent_review.json",
       "independent_review_sha256": "2a8270078f48443377756a1ecb4de7aa4b76270e3b451ba2723e5e56e985b2de",
-      "production_integration_complete": false,
+      "production_integration_complete": true,
       "affected_suites": [
         "libero_object",
         "libero_goal"
       ],
       "new_GPU_jobs": 2,
-      "pending": "New downstream composition and reviewer are CPU candidates; builder/controller/root-review/analysis consumers still gate Object/Goal deployment.",
+      "pending": "CPU code integration passed. Actual Object/Goal downstream GPU receipts still require per-job review; final remains globally sealed.",
       "execution_registration": "configs/experiments/formal_main_v2_asset_execution_v1.json",
       "execution_registration_sha256": "4356a807b4a1e2084b8de13c939f6588721be05e21b370932d388561188bc1d6",
       "execution_root_review": "results/formal_main_v2/preflight/asset_execution_root_review.json",
@@ -3979,7 +4108,7 @@
       "successful_GPU_seconds": 524,
       "all_attempt_GPU_seconds": 725
     },
-    "root_and_independent_reviewed_arm_updates": 31000,
+    "root_and_independent_reviewed_arm_updates": 33000,
     "downstream_asset_cpu_candidates": {
       "status": "CPU_candidates_passed_four_consumers_pending",
       "root_review": "results/formal_main_v2/preflight/asset_downstream_candidates_root_review.json",
@@ -4038,6 +4167,32 @@
     "first_completed_pair_summary": {
       "path": "results/formal_main_v2/preflight/first_completed_pair_summary_20261017.json",
       "sha256": "d10c2264109a1e64241fc9b2d6d28f05026be6737cb3e27b745875db72180550"
+    },
+    "downstream_asset_consumer_integration": {
+      "status": "passed_cpu_consumer_integration",
+      "root_review": "results/formal_main_v2/preflight/asset_downstream_consumers_root_acceptance_20261017.json",
+      "root_review_sha256": "0c8ee679a4058a837b9fe1458f53387c1af67be8262c4790316296477bb457a8",
+      "production_enabled": true,
+      "actual_GPU_downstream_verified": false,
+      "current_distinct_cases_final_passed": 157
+    },
+    "first_long_development": {
+      "status": "CPU_accepted_preregistered_waiting_free_slot",
+      "execution_manifest": "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json",
+      "plan": "results/formal_main_v2/preflight/long_first_pair_development_plan_v1.json",
+      "plan_sha256": "d8bf3a5a9a4c435d9b81a74083afacdebd8a6d80ec7980fb34fa006b4a84f3d5",
+      "methods": 6,
+      "target_trials": 600,
+      "first_stop_after": 12,
+      "completed_trials": 0,
+      "final_states_opened": false
+    },
+    "parallel_resource_calibration": {
+      "path": "results/formal_main_v2/preflight/parallel_observed_resource_calibration_20261017.json",
+      "sha256": "351587c5a18d458ac320bad46c5c1b04b2a2454af2a01c2dc87d1accc43644bd",
+      "root_check": "results/formal_main_v2/preflight/parallel_resource_calibration_root_check_20261017.json",
+      "conditional_only_not_ETA": true,
+      "remaining_evaluation_profile_cost_unknown": true
     }
   },
   "formal_main_source_snapshot": {
@@ -4050,10 +4205,10 @@
   "next_actions": [
     "Keep up to8 independent GPU jobs; on each terminal pair pull all history and verify both arms, optimizer/RNG/sample cursor and actual server resume SHA before own next500. Final5000 pair requires training_summary/training_report/deployment_receipt, all11 validations, and separate stable server hashes of both registered selected best.pt matching report and deployment receipt before counting2 completed arms; no5500 continuation.",
     "Use ready_queue reviewed pairs as slots free; do not restart or resubmit existing work.",
-    "Complete explicit Object/Goal downstream evidence chain in builder/controller/root-review/analysis after CPU candidates pass; global72+16+four-suite dev release still required.",
+    "Use the CPU-accepted downstream consumers for registered development; review actual GPU receipts before continuation. Global72+16+four-suite dev release still required.",
     "First Long completed pair enables its registered development work after independent terminal review; do not open final states."
   ],
-  "updated_utc": "2026-10-17T09:23:54.637187+00:00",
+  "updated_utc": "2026-10-17T09:58:15.768305+00:00",
   "execution_authorization_update": {
     "user_requested_parallel_multi_GPU": true,
     "registration": "configs/experiments/formal_main_v2_parallel_execution_v1.json",

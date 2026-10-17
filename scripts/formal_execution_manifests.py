@@ -23,7 +23,13 @@ P = PurePosixPath("/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA")
 H = PurePosixPath("/share/home/u15016/XXY_CVPR/CTI-VLA")
 SCHEMA = "formal_main_v2"
 REGISTRATION = "configs/experiments/formal_main_v2.json"
-WEIGHT_SUFFIXES = {".pt", ".pth", ".bin", ".safetensors", ".ckpt"}
+SOURCE_INVENTORY = "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json"
+SOURCE_REVIEW = "scripts/ops/formal_asset_downstream_review.py"
+SOURCE_REVIEW_SHA256 = "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699"
+DOWNSTREAM_REVIEW = "scripts/review_formal_downstream.py"
+DOWNSTREAM_SUPERVISOR = "scripts/ops/formal_downstream_supervisor.py"
+MUTABLE_STATE = "results/experiment_supervisor/state.json"
+WEIGHT_SUFFIXES = {".pt", ".pth", ".bin", ".safetensors", ".ckpt", ".pkl", ".pickle", ".init", ".pruned_init"}
 SUITES = ("libero_spatial", "libero_object", "libero_goal", "libero_10")
 BUDGETS, SEEDS = (256, 128, 64), (17, 23, 41)
 CHECKPOINT_INVENTORY_MAX_AGE_SECONDS = 3600
@@ -83,14 +89,28 @@ class Evidence:
     def __init__(self, project):
         self.project = Path(project).resolve()
         self.files = {}
+        self.forbidden_paths = set()
+        self.source_provenance = {}
 
     def path(self, value):
         path = Path(value)
-        path = (self.project / path).resolve() if not path.is_absolute() else path.resolve()
+        path = self.project / path if not path.is_absolute() else path
+        # Lexical checks precede resolve/stat: a bad metadata reference must
+        # never follow a sealed-state/weight target, including through a link.
+        if (".." in path.parts or path in self.forbidden_paths
+                or set(s.lower() for s in path.suffixes) & WEIGHT_SUFFIXES
+                or any("sealed" in p.lower() or p.lower() in ("weights", "checkpoints") for p in path.parts)
+                or path.name.lower() == "init_states_test.json"
+                or (path.name == "panel.json" and "final" in path.parts)):
+            raise ValueError("This tool cannot access weights or final state values: " + str(value))
+        path = path.resolve()
         if self.project not in path.parents:
             raise ValueError("Metadata must remain inside CTI-VLA: " + str(value))
-        if path.suffix.lower() in WEIGHT_SUFFIXES or "sealed_final" in path.name.lower():
-            raise ValueError("This tool cannot access weights or sealed final values: " + str(value))
+        if (path in self.forbidden_paths or set(s.lower() for s in path.suffixes) & WEIGHT_SUFFIXES
+                or any("sealed" in p.lower() or p.lower() in ("weights", "checkpoints") for p in path.parts)
+                or path.name.lower() == "init_states_test.json"
+                or (path.name == "panel.json" and "final" in path.parts)):
+            raise ValueError("Resolved metadata target is a forbidden value file: " + str(value))
         return path
 
     def relative(self, path):
@@ -121,6 +141,65 @@ class Evidence:
         for relative, checksum in self.files.items():
             if digest(self.path(relative)) != checksum:
                 raise ValueError("Evidence changed during this audit: " + relative)
+
+
+def load_audit_module(evidence, relative, *, expected_sha256=None):
+    """Load an explicitly SHA-bound root auditor, never a GPU entrypoint."""
+    path = evidence.path(relative)
+    checksum = evidence.watch(path)
+    if expected_sha256 is not None and checksum != expected_sha256:
+        raise ValueError("Pinned audit implementation changed: " + relative)
+    spec = importlib.util.spec_from_file_location("formal_manifest_" + path.stem, path)
+    module = importlib.util.module_from_spec(spec)
+    # Execute the bytes whose SHA was just bound, independent of any .pyc.
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != checksum:
+        raise ValueError("Audit implementation changed before compilation: " + relative)
+    exec(compile(raw, str(path), "exec"), module.__dict__)
+    if evidence.watch(path) != checksum:
+        raise ValueError("Audit implementation changed while loading: " + relative)
+    return module
+
+
+def source_review_module(evidence):
+    return load_audit_module(evidence, SOURCE_REVIEW, expected_sha256=SOURCE_REVIEW_SHA256)
+
+
+def source_snapshot_jobs(evidence, registration, suite, method_rows=()):
+    """Use original terminal root snapshots; never read mutable supervisor state."""
+    saved = evidence.read(f"results/{SCHEMA}/{suite}/acceptance/root_review.json")
+    jobs = [saved.get("job_at_review")]
+    wanted = {(r["identity"]["visual_tokens"], r["identity"]["training_seed"])
+        for r in method_rows if r["identity"]["method"] in ("A", "B")}
+    for pair in registration["pairs"]:
+        if pair["suite"] != suite or (pair["visual_tokens"], pair["seed"]) not in wanted:
+            continue
+        directory = pair_directory(evidence, pair)
+        summary = evidence.read(directory / "training_summary.json")
+        final = evidence.read(directory / "segment_reviews" / (str(summary.get("job_id")) + ".json"))
+        history = final.get("registered_pair_jobs_at_review")
+        if not isinstance(history, list) or not history:
+            raise ValueError("Completed5000 training requires its immutable full job history")
+        jobs.extend(history)
+    by_id = {}
+    for job in jobs:
+        if not isinstance(job, dict) or not str(job.get("job_id", "")).isdigit():
+            raise ValueError("Original root source audit lacks a registered job snapshot")
+        key = str(job["job_id"])
+        if key in by_id and by_id[key] != job:
+            raise ValueError("Conflicting immutable source job snapshots")
+        by_id[key] = job
+    return [by_id[key] for key in sorted(by_id, key=int)]
+
+
+def source_provenance_for_rows(evidence, registration, suite, rows, *, inventory=None, jobs=None):
+    auditor = source_review_module(evidence)
+    inventory = evidence.read(SOURCE_INVENTORY) if inventory is None else inventory
+    jobs = source_snapshot_jobs(evidence, registration, suite, rows) if jobs is None else jobs
+    proof = auditor.review_source_provenance(evidence, registration=registration, suite=suite,
+        inventory=inventory, method_rows=rows, jobs=jobs)
+    evidence.source_provenance[suite] = proof
+    return proof
 
 
 def source_contract(evidence, inventory_path):
@@ -286,14 +365,6 @@ def load_suite_acceptance(evidence, registration, suite, sources):
     from cti_vla.training.formal_resume_acceptance import require_formal_resume_acceptance, verify_resume_journal
     spec = registration["suites"][suite]
     review = evidence.read(f"results/{SCHEMA}/{suite}/acceptance/root_review.json")
-    # Metadata compatibility is currently authorized only for acceptance/train.
-    # Do not silently drop its extra provenance when building deployment/final
-    # identities. The downstream adapter and receipts must be integrated first.
-    compat_spec = importlib.util.spec_from_file_location("formal_execution_asset_compat_gate",
-        ROOT / "scripts/ops/formal_asset_compat_review.py")
-    compat = importlib.util.module_from_spec(compat_spec)
-    compat_spec.loader.exec_module(compat)
-    compat.reject_unintegrated_consumer(suite=suite, review=review, consumer="Formal execution manifests")
     base = evidence.path(review["output_relative"])
     expected_parent = evidence.path(f"results/{SCHEMA}/{suite}/acceptance")
     if (review.get("status") != "passed" or expected_parent not in base.parents
@@ -302,6 +373,11 @@ def load_suite_acceptance(evidence, registration, suite, sources):
     names = ["input_acceptance.json", "input_calls.jsonl", "operator_calls.jsonl", "resume_acceptance.json",
         "f03_calls.jsonl", "acceptance_complete.json", *[f"f01_k{k}.json" for k in FORMAL_BUDGETS]]
     evidence.require([base / name for name in names])
+    # This operational proof is additional to every original scientific gate
+    # below. Legacy suites also require their original immutable root history.
+    inventory = evidence.read(SOURCE_INVENTORY)
+    acceptance_provenance = source_review_module(evidence).review_suite_acceptance(evidence,
+        suite=suite, inventory=inventory, jobs=source_snapshot_jobs(evidence, registration, suite))
     for name, checksum in review.get("files", {}).items():
         if evidence.watch(base / name) != checksum:
             raise ValueError("Acceptance file differs from its root review: " + name)
@@ -354,7 +430,8 @@ def load_suite_acceptance(evidence, registration, suite, sources):
         evidence.watch(base / name)
     return dict(f00=f00, f00_path=f00_path, f00_sha=f00_sha, f01s=f01s,
         resume_sha=evidence.watch(resume_path), resume_journal_sha=evidence.watch(resume_journal),
-        window_sha=shared["window_manifest_sha256"], protocol_sha=evidence.watch(spec["protocol"]))
+        window_sha=shared["window_manifest_sha256"], protocol_sha=evidence.watch(spec["protocol"]),
+        acceptance_provenance=acceptance_provenance)
 
 
 def pair_directory(evidence, pair):
@@ -449,7 +526,9 @@ def suite_rows(evidence, registration, suite, sources, method_ids):
         if pair["suite"] == suite and any(f"{arm}{pair['visual_tokens']}_seed{pair['seed']}" in method_ids for arm in ("A", "B")):
             for row in selected_pair(evidence, pair, gate, sources):
                 candidates[row["identity"]["method_id"]] = row
-    return [candidates[mid] for mid in expected_method_ids() if mid in method_ids]
+    rows = [candidates[mid] for mid in expected_method_ids() if mid in method_ids]
+    source_provenance_for_rows(evidence, registration, suite, rows)
+    return rows
 
 
 def make_execution(registration, suite, rows, *, split="development", matrix=None, release=None):
@@ -462,6 +541,72 @@ def make_execution(registration, suite, rows, *, split="development", matrix=Non
         value.update(global_freeze=matrix, release=release)
     validate_execution_manifest(value, registration_sha256=json_signature(registration))
     return value
+
+
+def review_downstream_output(evidence, reference, *, expected_stage, suite, run_root=None):
+    """Rebuild a root result using its immutable job snapshot and raw evidence.
+
+    This never reads current supervisor state. A stored ``scientific_complete``
+    flag is insufficient: the original root producer must derive it again.
+    """
+    if (not isinstance(reference, dict) or set(reference) != {"path", "sha256"}
+            or not isinstance(reference["path"], str) or not isinstance(reference["sha256"], str)
+            or len(reference["sha256"]) != 64 or any(c not in "0123456789abcdef" for c in reference["sha256"])):
+        raise ValueError("A root review requires an explicit path/SHA256 reference")
+    relative = PurePosixPath(reference["path"])
+    if (relative.is_absolute() or ".." in relative.parts or ":" in str(relative) or "\\" in str(relative)
+            or str(relative) != reference["path"]
+            or not str(relative).startswith(f"results/{SCHEMA}/downstream_reviews/")):
+        raise ValueError("Root review must be an immutable project-relative downstream review")
+    if evidence.watch(reference["path"]) != reference["sha256"]:
+        raise ValueError("Root downstream review SHA changed")
+    saved = evidence.read(reference["path"])
+    output = PurePosixPath(saved.get("run_root", "/invalid"))
+    if P not in output.parents or ".." in output.parts:
+        raise ValueError("Root downstream output is outside its registered server project")
+    output_relative = output.relative_to(P).as_posix()
+    if expected_stage == "final":
+        evidence.forbidden_paths.add(evidence.project / output_relative / "panel.json")
+    if run_root is not None and evidence.relative(run_root) != output_relative:
+        raise ValueError("Root review belongs to another output directory")
+    if (saved.get("schema") != SCHEMA or saved.get("kind") != "root_downstream_review"
+            or saved.get("status") != "passed" or saved.get("reviewed_by") != "root"
+            or saved.get("stage") != expected_stage or saved.get("scientific_complete") is not True
+            or saved.get("source_provenance", {}).get("suite") != suite):
+        raise ValueError("A complete matching suite/stage root review is required")
+    snapshot = saved.get("registered_jobs_at_review")
+    if not isinstance(snapshot, list) or not snapshot:
+        raise ValueError("Root review lacks its immutable registered-job snapshot")
+    scheduler = load_audit_module(evidence, DOWNSTREAM_SUPERVISOR)
+    reviewer = load_audit_module(evidence, DOWNSTREAM_REVIEW)
+    state = dict(registered_jobs=snapshot)
+    jobs = scheduler.formal_jobs(state)
+    if any(j.get("status") not in scheduler.TERMINAL for j in jobs) or len(jobs) != len(snapshot):
+        raise ValueError("Root review job snapshots must all be terminal formal allocations")
+    matches = [j for j in jobs if j["job_id"] == saved.get("job_id")]
+    if len(matches) != 1 or matches[0].get("suite") != suite:
+        raise ValueError("Root review job snapshot belongs to another suite")
+    scheduler.require_root_review(evidence, reference["path"], jobs, expected_stage=expected_stage)
+    rebuilt = reviewer.review(saved["job_id"], saved["pull_receipt"], project=evidence.project,
+        state=state, scheduler=scheduler, helper=sys.modules.get(__name__) or load_audit_module(evidence, "scripts/formal_execution_manifests.py"))
+    # Only the wall-clock audit timestamp changes when repeating an audit.
+    # Scientific results, source/runtime proofs, costs, audit implementation and
+    # the complete evidence map must be exactly reproducible.
+    if ({k: v for k, v in saved.items() if k != "reviewed_utc"}
+            != {k: v for k, v in rebuilt.items() if k != "reviewed_utc"}):
+        raise ValueError("Saved root review does not exactly rebuild from original evidence")
+    if rebuilt.get("scientific_complete") is not True:
+        raise ValueError("Raw evidence did not establish scientific completion")
+    for mapping in (rebuilt.get("files"), rebuilt.get("evidence_sha256"), rebuilt.get("audit_source_sha256")):
+        if not isinstance(mapping, dict) or not mapping:
+            raise ValueError("Rebuilt root review is missing immutable evidence hashes")
+        for path, checksum in mapping.items():
+            if path == MUTABLE_STATE:
+                raise ValueError("Mutable supervisor state cannot enter a frozen root proof")
+            if evidence.watch(path) != checksum:
+                raise ValueError("Rebuilt root evidence changed: " + path)
+    evidence.unchanged()
+    return rebuilt
 
 
 def preflight_all_pairs(evidence, registration):
@@ -484,11 +629,13 @@ def build_global(evidence, registration, sources, development_index, output_dire
     evidence.require([checkpoint_inventory])
     index = evidence.read(development_index)
     if (index.get("schema") != SCHEMA or index.get("kind") != "development_output_index"
-            or set(index.get("suites", {})) != set(FORMAL_SUITES)):
-        raise ValueError("Development index must explicitly list all four suites' raw output directories")
+            or set(index.get("suites", {})) != set(FORMAL_SUITES)
+            or set(index.get("root_reviews", {})) != set(FORMAL_SUITES)):
+        raise ValueError("Development index must list all four suites' raw outputs and SHA-bound root reviews")
     all_rows, suites, artifacts = {}, {}, {}
     for suite in FORMAL_SUITES:
         rows = suite_rows(evidence, registration, suite, sources, expected_method_ids())
+        provenance = evidence.source_provenance[suite]
         all_rows[suite] = rows
         identities = [row["identity"] for row in rows]
         states_root = evidence.path(registration["suites"][suite]["initial_states_root"])
@@ -500,6 +647,25 @@ def build_global(evidence, registration, sources, development_index, output_dire
         directories = [evidence.path(path) for path in index["suites"][suite]]
         if not directories or len(set(directories)) != len(directories):
             raise ValueError("Development index contains missing or duplicate output directories")
+        references = index["root_reviews"][suite]
+        if (not isinstance(references, list) or len(references) != len(directories)
+                or len({r.get("path") for r in references if isinstance(r, dict)}) != len(references)):
+            raise ValueError("Every development output requires exactly one complete latest root review")
+        reviewed_outputs, root_records = set(), []
+        for reference in references:
+            checked = review_downstream_output(evidence, reference, expected_stage="development", suite=suite)
+            output = evidence.path(PurePosixPath(checked["run_root"]).relative_to(P).as_posix())
+            if output not in directories or output in reviewed_outputs:
+                raise ValueError("Development root reviews omit, duplicate or change an output directory")
+            reviewed_outputs.add(output)
+            source = checked["source_provenance"]
+            if (source["shared_projection"] != provenance["shared_projection"]
+                    or any(provenance["method_bindings"].get(mid) != binding
+                        for mid, binding in source["method_bindings"].items())):
+                raise ValueError("Development root review used another selected source identity")
+            root_records.append(dict(reference=reference, output=evidence.relative(output),
+                job_id=checked["job_id"], source_provenance_sha256=canonical_signature(source),
+                completed_trials=checked["completed_trials"], cost=checked["cost"]))
         for directory in directories:
             for name in ("config.json", "panel.json", "closed_loop_report.json", "trials.jsonl"):
                 evidence.watch(directory / name)
@@ -517,8 +683,15 @@ def build_global(evidence, registration, sources, development_index, output_dire
             raise ValueError("Development and final index registries overlap")
         completion_name = f"development_completion/{suite}.json"
         artifacts[completion_name] = completion
+        provenance_name = f"source_provenance/{suite}.json"
+        roots_name = f"development_root_reviews/{suite}.json"
+        artifacts[provenance_name] = provenance
+        artifacts[roots_name] = dict(schema=SCHEMA, kind="development_root_reviews", suite=suite,
+            reviews=root_records, source_provenance_sha256=canonical_signature(provenance))
         suites[suite] = dict(development_panel_sha256=evidence.watch(dev_path),
             development_completion_sha256=hashlib.sha256(encoded(completion)).hexdigest(),
+            source_provenance_sha256=hashlib.sha256(encoded(provenance)).hexdigest(),
+            development_root_reviews_sha256=hashlib.sha256(encoded(artifacts[roots_name])).hexdigest(),
             final_registry_sha256=evidence.watch(registry_path), panel_source_sha256=json_signature(panel["source"]),
             development_completed=True, development_unique_initial_states=100, development_method_ids=expected_method_ids())
     matrix = dict(schema=SCHEMA, kind="global_final_freeze", registration_sha256=json_signature(registration),
@@ -571,6 +744,26 @@ def release_global(evidence, registration, directory, *, release=False, created_
     for suite, row in matrix["suites"].items():
         if evidence.watch(directory / "development_completion" / (suite + ".json")) != row["development_completion_sha256"]:
             raise ValueError("Global freeze is not bound to its rebuilt development receipt")
+        proof_path = directory / "source_provenance" / (suite + ".json")
+        roots_path = directory / "development_root_reviews" / (suite + ".json")
+        if (evidence.watch(proof_path) != row.get("source_provenance_sha256")
+                or evidence.watch(roots_path) != row.get("development_root_reviews_sha256")):
+            raise ValueError("Global freeze omits selected-source or development root proofs")
+        proof, roots = evidence.read(proof_path), evidence.read(roots_path)
+        if (proof.get("status") != "verified" or proof.get("suite") != suite
+                or proof.get("helper_sha256") != SOURCE_REVIEW_SHA256
+                or roots.get("schema") != SCHEMA or roots.get("kind") != "development_root_reviews"
+                or roots.get("suite") != suite or not roots.get("reviews")
+                or roots.get("source_provenance_sha256") != canonical_signature(proof)):
+            raise ValueError("Frozen source/development root proof identity is incomplete")
+        expected = {r["method_id"]: r for r in matrix["instances"] if r["suite"] == suite}
+        if ({mid: value.get("identity") for mid, value in proof.get("method_bindings", {}).items()} != expected
+                or any(audit["files"].get(name) != checksum for name, checksum in proof.get("evidence_sha256", {}).items())):
+            raise ValueError("Frozen source proofs differ from the complete88-instance identity/evidence map")
+        for item in roots["reviews"]:
+            reference = item.get("reference", {})
+            if audit["files"].get(reference.get("path")) != reference.get("sha256"):
+                raise ValueError("Development root review is not bound by freeze evidence")
     rows = evidence.read(directory / "execution_rows.json")
     from cti_vla.evaluation.formal_trials import expected_method_ids
     if (rows.get("schema") != SCHEMA or rows.get("kind") != "frozen_execution_rows"
@@ -647,6 +840,7 @@ def main(argv=None):
                 immutable_write(evidence.path(args.output), manifest)
                 immutable_write(evidence.path(args.output + ".evidence.json"), dict(schema=SCHEMA,
                     kind="development_execution_evidence", manifest_sha256=json_signature(manifest),
+                    source_provenance=evidence.source_provenance[args.suite],
                     files=evidence.files, checkpoint_bytes_read_locally=False, test_opened=False))
                 result = dict(status="development_manifest_written", methods=len(rows), output=args.output, test_opened=False)
             else:

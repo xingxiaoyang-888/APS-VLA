@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="37" time="140.591" timestamp="2026-10-17T17:41:25.109616" hostname="Xingxiaoyang"><testcase classname="tests.test_formal_execution_manifests" name="test_receipt_constructs_server_identity_without_accessing_any_weight" time="2.616" /><testcase classname="tests.test_formal_execution_manifests" name="test_development_rejects_incomplete_or_mismatched_training[partial]" time="2.354" /><testcase classname="tests.test_formal_execution_manifests" name="test_development_rejects_incomplete_or_mismatched_training[later_tie]" time="2.602" /><testcase classname="tests.test_formal_execution_manifests" name="test_development_rejects_incomplete_or_mismatched_training[wrong_hash]" time="3.079" /><testcase classname="tests.test_formal_execution_manifests" name="test_development_rejects_incomplete_or_mismatched_training[f03]" time="2.309" /><testcase classname="tests.test_formal_execution_manifests" name="test_development_rejects_incomplete_or_mismatched_training[pair_order]" time="2.776" /><testcase classname="tests.test_formal_execution_manifests" name="test_development_rejects_incomplete_or_mismatched_training[missing_finalization]" time="2.635" /><testcase classname="tests.test_formal_execution_manifests" name="test_missing_formal_receipts_report_all_missing_and_never_freeze" time="3.085" /><testcase classname="tests.test_formal_execution_manifests" name="test_complete_matrix_raw8800_and_explicit_release_never_read_sealed_values" time="43.470" /><testcase classname="tests.test_formal_execution_manifests" name="test_raw_development_not_summary_claim_controls_freeze" time="13.955" /><testcase classname="tests.test_formal_execution_manifests" name="test_changed_evidence_blocks_release_and_preserves_existing_freeze" time="20.457" /><testcase classname="tests.test_formal_execution_manifests" name="test_actual_failed_suite_review_cannot_generate_even_dense" time="0.071" /><testcase classname="tests.test_formal_execution_manifests" name="test_actual_missing_f03_evidence_cannot_generate_dense" time="0.062" /><testcase classname="tests.test_formal_execution_manifests" name="test_frozen_inventory_also_binds_registration_bytes" time="0.164" /><testcase classname="tests.test_formal_execution_manifests" name="test_registration_requires_all36_exact_pairs_and_server_only_weights[pair_bytes]" time="2.233" /><testcase classname="tests.test_formal_execution_manifests" name="test_registration_requires_all36_exact_pairs_and_server_only_weights[server_weights]" time="2.077" /><testcase classname="tests.test_formal_execution_manifests" name="test_registration_requires_all36_exact_pairs_and_server_only_weights[missing_pair]" time="2.212" /><testcase classname="tests.test_formal_execution_manifests" name="test_checkpoint_inventory_requires72_fresh_exact_server_hashes[missing]" time="2.836" /><testcase classname="tests.test_formal_execution_manifests" name="test_checkpoint_inventory_requires72_fresh_exact_server_hashes[duplicate]" time="2.711" /><testcase classname="tests.test_formal_execution_manifests" name="test_checkpoint_inventory_requires72_fresh_exact_server_hashes[path]" time="2.764" /><testcase classname="tests.test_formal_execution_manifests" name="test_checkpoint_inventory_requires72_fresh_exact_server_hashes[hash]" time="3.936" /><testcase classname="tests.test_formal_execution_manifests" name="test_checkpoint_inventory_requires72_fresh_exact_server_hashes[absent]" time="3.289" /><testcase classname="tests.test_formal_execution_manifests" name="test_checkpoint_inventory_requires72_fresh_exact_server_hashes[unstable]" time="2.779" /><testcase classname="tests.test_formal_execution_manifests" name="test_checkpoint_inventory_requires72_fresh_exact_server_hashes[stale]" time="2.642" /><testcase classname="tests.test_formal_execution_manifests" name="test_checkpoint_inventory_requires72_fresh_exact_server_hashes[source]" time="2.436" /><testcase classname="tests.test_formal_analysis" name="test_missing_freeze_release_pending_never_touches_final_reference" time="0.007" /><testcase classname="tests.test_formal_analysis" name="test_valid_gate_with_missing_results_reports_explicit_pending_no_fake_main_table" time="0.063" /><testcase classname="tests.test_formal_analysis" name="test_analysis_reader_never_opens_sealed_values_weights_or_outside_project[sealed_final.json]" time="0.004" /><testcase classname="tests.test_formal_analysis" name="test_analysis_reader_never_opens_sealed_values_weights_or_outside_project[init_states_test.json]" time="0.004" /><testcase classname="tests.test_formal_analysis" name="test_analysis_reader_never_opens_sealed_values_weights_or_outside_project[model.pt]" time="0.006" /><testcase classname="tests.test_formal_analysis" name="test_analysis_reader_never_opens_sealed_values_weights_or_outside_project[../other.json]" time="0.005" /><testcase classname="tests.test_formal_analysis" name="test_readonly_journal_keeps_incomplete_tail_and_rejects_corruption" time="0.041"><failure message="AssertionError: Regex pattern did not match.&#10; Regex: 'without repair'&#10; Input: 'analysis evidence changed between reads: trial'">tmp_path = WindowsPath('F:/CTI-VLA/.local/pytest_asset_consumers_legacy_20261017_v1/test_readonly_journal_keeps_in0')
+
+    def test_readonly_journal_keeps_incomplete_tail_and_rejects_corruption(tmp_path):
+        reader = a.Evidence(tmp_path)
+        path = tmp_path / "trials.jsonl"
+        raw = b'{"event":"start"}\n{"event":'
+        path.write_bytes(raw)
+        with pytest.raises(a.PendingEvidence, match="tail retained"):
+            reader.lines({"path": path.name, "sha256": file_sha256(path)}, "trial")
+        assert path.read_bytes() == raw
+        path.write_bytes(b'{bad json}\n')
+        before = path.read_bytes()
+        with pytest.raises(ValueError, match="without repair"):
+&gt;           reader.lines({"path": path.name, "sha256": file_sha256(path)}, "trial")
+
+tests\test_formal_analysis.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\analyze_formal.py:92: in lines
+    return list(self.iter_lines(ref, label))
+scripts\analyze_formal.py:95: in iter_lines
+    path = self.path(ref, label)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;formal_analysis_under_test.Evidence object at 0x000001C088E6C7F0&gt;
+ref = {'path': 'trials.jsonl', 'sha256': '76f729618983b9b983729ee4385e61b3ee7ffd4a0bc797ec95bfa791b7ee33f1'}
+label = 'trial'
+
+    def path(self, ref, label):
+        if not isinstance(ref, dict) or not ref.get("path") or not ref.get("sha256"):
+            raise PendingEvidence(label + ": missing path/SHA256 reference")
+        raw = Path(ref["path"])
+        direct = self.root / raw if not raw.is_absolute() else raw
+        if (".." in direct.parts or direct in self.forbidden_paths
+                or direct.suffix.lower() not in (".json", ".jsonl")
+                or any("sealed" in p.lower() or p.lower() in ("weights", "checkpoints") for p in direct.parts)
+                or direct.name.lower() == "init_states_test.json"
+                or (direct.name == "panel.json" and "final" in direct.parts)):
+            raise ValueError("analysis accepts project nonweight receipts/results only; never sealed state values: " + label)
+        path = direct.resolve()
+        if (self.root not in path.parents or path in self.forbidden_paths
+                or path.suffix.lower() not in (".json", ".jsonl")
+                or any("sealed" in p.lower() or p.lower() in ("weights", "checkpoints") for p in path.parts)
+                or path.name.lower() == "init_states_test.json"
+                or (path.name == "panel.json" and "final" in path.parts)):
+            raise ValueError("analysis resolved a forbidden metadata target: " + label)
+        if not path.is_file():
+            raise PendingEvidence(label + ": " + str(path))
+        digest = file_sha256(path)
+        if digest != ref["sha256"]:
+            raise ValueError("immutable evidence SHA256 mismatch: " + label)
+        if str(path) in self.seen and self.seen[str(path)] != digest:
+&gt;           raise ValueError("analysis evidence changed between reads: " + label)
+E           ValueError: analysis evidence changed between reads: trial
+
+scripts\analyze_formal.py:84: ValueError
+
+During handling of the above exception, another exception occurred:
+
+tmp_path = WindowsPath('F:/CTI-VLA/.local/pytest_asset_consumers_legacy_20261017_v1/test_readonly_journal_keeps_in0')
+
+    def test_readonly_journal_keeps_incomplete_tail_and_rejects_corruption(tmp_path):
+        reader = a.Evidence(tmp_path)
+        path = tmp_path / "trials.jsonl"
+        raw = b'{"event":"start"}\n{"event":'
+        path.write_bytes(raw)
+        with pytest.raises(a.PendingEvidence, match="tail retained"):
+            reader.lines({"path": path.name, "sha256": file_sha256(path)}, "trial")
+        assert path.read_bytes() == raw
+        path.write_bytes(b'{bad json}\n')
+        before = path.read_bytes()
+&gt;       with pytest.raises(ValueError, match="without repair"):
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'without repair'
+E        Input: 'analysis evidence changed between reads: trial'
+
+tests\test_formal_analysis.py:172: AssertionError</failure></testcase><testcase classname="tests.test_formal_analysis" name="test_reader_rejects_changed_immutable_sha" time="0.029" /><testcase classname="tests.test_formal_analysis" name="test_gpu_cost_counts_actual_shared_and_failed_jobs_once" time="0.001" /><testcase classname="tests.test_formal_analysis" name="test_all_terminal_failure_allocations_are_charged_without_cache_estimate" time="0.001" /><testcase classname="tests.test_formal_analysis" name="test_cli_missing_evidence_manifest_outputs_pending" time="0.027" /><testcase classname="tests.test_formal_analysis" name="test_cache_reference_sensitive_paths_rejected_before_hash" time="0.197" /></testsuite></testsuites>

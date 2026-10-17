@@ -16,6 +16,7 @@ import re
 import shlex
 import subprocess
 import sys
+from types import SimpleNamespace
 import uuid
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -28,6 +29,11 @@ TERMINAL = {"COMPLETED", "FAILED", "CANCELLED", "TIMEOUT", "OUT_OF_MEMORY", "NOD
 REGISTRATION = "configs/experiments/formal_main_v2.json"
 STATE = "results/experiment_supervisor/state.json"
 ADAPTER = "scripts/ops/formal_evaluation_adapter.py"
+ASSET_ADAPTER = "scripts/ops/formal_asset_evaluation_adapter.py"
+ASSET_REVIEW = "scripts/ops/formal_asset_downstream_review.py"
+ASSET_ADAPTER_SHA256 = "5762e163a00845c3404dbee87b724289bd6cef40cbb644cbec668bc4f7dbd688"
+ASSET_REVIEW_SHA256 = "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699"
+ASSET_SUITES = ("libero_object", "libero_goal")
 WRAPPER = "scripts/server/run_formal_downstream.py"
 ADAPTER_SHA256 = "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd"
 FROZEN_NAME = "formal_main_v2_run_564be0995e"
@@ -145,6 +151,102 @@ def check_completed_training(evidence, helper, registration, rows, jobs):
             raise ValueError("Final training invocation/audit is not bound")
 
 
+def provenance_helper(evidence):
+    """Load the independently audited, read-only provenance implementation."""
+    if evidence.watch(ASSET_REVIEW) != ASSET_REVIEW_SHA256:
+        raise ValueError("Audited downstream provenance helper changed")
+    return load(ASSET_REVIEW, evidence.project)
+
+
+def source_provenance(evidence, *, registration, suite, inventory, rows, jobs):
+    # Pass the complete registered history. Failed/omitted training attempts are
+    # not filtered into an apparently successful source proof.
+    return provenance_helper(evidence).review_source_provenance(evidence,
+        registration=registration, suite=suite, inventory=inventory,
+        method_rows=rows, jobs=jobs)
+
+
+def asset_contract(evidence, suite, proof):
+    if suite not in ASSET_SUITES:
+        if any(k in proof for k in ("metadata_implementation", "component_implementation")):
+            raise ValueError("Legacy suite cannot acquire asset compatibility")
+        return None
+    if evidence.watch(ASSET_ADAPTER) != ASSET_ADAPTER_SHA256:
+        raise ValueError("Audited downstream asset entrypoint changed")
+    child = load(ASSET_ADAPTER, evidence.project)
+    value = dict(schema=ROUND, kind="formal_downstream_asset_compatibility", version=child.VERSION,
+        suite=suite, entrypoint=ASSET_ADAPTER, evaluation_adapter=ADAPTER,
+        wrapper=WRAPPER, controller="scripts/ops/formal_downstream_supervisor.py",
+        metadata_implementation=proof.get("metadata_implementation"), legacy_stage_wrappers_executed=False,
+        files={name: evidence.watch(name) for name in sorted(child.contract_files(suite))})
+    if suite == "libero_goal":
+        value["component_implementation"] = proof.get("component_implementation")
+    elif "component_implementation" in proof:
+        raise ValueError("Object cannot acquire Goal component compatibility")
+    return child.validate_contract(value, suite, evidence.project)
+
+
+def validate_invocation_shape(evidence, job, invocation, proof):
+    """Local counterpart of the parent shape gate, without server path I/O.
+
+    The parent repeats its own validation on the server. This checks actual
+    Object/Goal contracts rather than disguising them as a legacy invocation.
+    """
+    stage, suite = invocation.get("stage"), invocation.get("suite")
+    compatible = suite in ASSET_SUITES
+    if (("downstream_asset_compatibility" in invocation) != compatible
+            or any(k in obj for obj in (job, invocation) for k in ("runtime_compatibility", "component_compatibility"))):
+        raise ValueError("Suite requires its actual downstream execution contract")
+    if (invocation.get("schema") != ROUND or invocation.get("kind") != "formal_downstream_invocation"
+            or invocation.get("version") != VERSION or stage not in STAGES
+            or invocation.get("source_root") != str(P / "snapshots" / FROZEN_NAME)
+            or invocation.get("source_sha256") != FROZEN_SHA256
+            or invocation.get("entrypoint") != (ASSET_ADAPTER if compatible else ADAPTER)
+            or invocation.get("adapter_sha256") != ADAPTER_SHA256 or invocation.get("wrapper") != WRAPPER
+            or invocation.get("scientific_settings_changed") is not False or invocation.get("final_values_read_locally") is not False
+            or type(invocation.get("resume")) is not bool
+            or not re.fullmatch(r"[A-Za-z0-9_-]+", invocation.get("stage_key", ""))):
+        raise ValueError("Unregistered downstream wrapper/adapter identity")
+    if compatible:
+        expected = asset_contract(evidence, suite, proof)
+        if invocation.get("downstream_asset_compatibility") != expected:
+            raise ValueError("Actual downstream contract differs from accepted implementation sources")
+        provenance_helper(evidence).downstream_contract(evidence, job=job, invocation=invocation, source_provenance=proof)
+    else:
+        if "downstream_asset_compatibility" in job or "asset_runtime_review" in proof:
+            raise ValueError("Legacy runtime cannot carry an asset execution proof")
+        load(WRAPPER, evidence.project).validate_shape(invocation)
+        asset_contract(evidence, suite, proof)
+    argv = invocation.get("argv")
+    if not isinstance(argv, list) or not argv or any(not isinstance(x, str) or "\0" in x for x in argv):
+        raise ValueError("Invalid registered downstream argv")
+    flags = [x for x in argv[1:] if x.startswith("--")]
+    if (argv[0] != ("evaluate" if stage in ("development", "final") else stage)
+            or "--prepare-only" in flags or len(flags) != len(set(flags))
+            or ("--resume" in flags) != invocation["resume"]
+            or (stage in ("collect", "full", "components") and "--uncontended-gpu" not in flags)):
+        raise ValueError("Stage/resume/uncontended-GPU arguments differ")
+
+
+def resume_prefix_inputs(invocation):
+    """Exactly two pre-execution hashes, never a generic mutable-file list."""
+    if not (invocation.get("suite") in ASSET_SUITES and "downstream_asset_compatibility" in invocation
+            and invocation.get("stage") in ("development", "final") and invocation.get("resume") is True):
+        return {}
+    output = PurePosixPath(invocation["run_root"]).relative_to(P).as_posix()
+    expected = {output + "/trials.jsonl", output + "/closed_loop_report.json"}
+    root_files = invocation.get("root_evidence_sha256", {})
+    result = {}
+    for name in expected:
+        checksum = root_files.get(name)
+        if not re.fullmatch(r"[a-f0-9]{64}", str(checksum)) or str(P / name) in invocation.get("watched_files", {}):
+            raise ValueError("Resume must retain both original SHA hashes outside immutable post-run watches")
+        result[str(P / name)] = checksum
+    if not invocation.get("prior_review") or not invocation.get("prior_job_ids"):
+        raise ValueError("Resume prefix requires its original root audit and registered history")
+    return result
+
+
 def validate_inputs(args, state, project, helper):
     from cti_vla.data.formal_initial_states import load_formal_development_panel
     from cti_vla.evaluation import formal_trials as trials, formal_profiling as profiling
@@ -176,6 +278,8 @@ def validate_inputs(args, state, project, helper):
     if acceptance.get("status") != "passed" or acceptance.get("source_sha256") != FROZEN_SHA256:
         raise ValueError("Suite acceptance root review differs from this source")
     check_completed_training(evidence, helper, registration, rows, jobs)
+    proof = source_provenance(evidence, registration=registration, suite=suite,
+        inventory=inventory, rows=rows, jobs=jobs)
     spec = registration["suites"][suite]
     development_path = spec["initial_states_root"] + "/development.json"
     matrix = release = None
@@ -228,12 +332,15 @@ def validate_inputs(args, state, project, helper):
         raise ValueError("Rollout stages cannot accept timing panel flags")
     return dict(evidence=evidence, inventory=inventory, sources=sources, registration=registration, manifest=manifest,
         suite=suite, methods=identifiers, acceptance=acceptance, gate_job=gate_job,
-        development_path=development_path, development=development, matrix=matrix, release=release, panel_artifacts=panel_artifacts)
+        development_path=development_path, development=development, matrix=matrix, release=release,
+        panel_artifacts=panel_artifacts, source_provenance=proof)
 
 
-def require_root_review(evidence, path, jobs, *, expected_stage):
-    """Consume a root-written audit, and independently recheck stable SHA pulls.
-    Producing this audit is deliberately outside the scheduler's remit.
+def verify_review_pull(evidence, path, jobs, *, expected_stage):
+    """Verify raw transfer/job identity before the producer performs science.
+
+    This is not a continuation/release gate: callers must consume the finished
+    audit through require_root_review after science and provenance are rebuilt.
     """
     report = evidence.read(path)
     matches = [j for j in jobs if str(j["job_id"]) == report.get("job_id")]
@@ -312,6 +419,19 @@ def require_root_review(evidence, path, jobs, *, expected_stage):
             raise ValueError("Wrapper copied another job's adapter evidence")
     report = dict(report)
     report["verified_files"] = {name: evidence.watch(name) for name in sorted(required)}
+    return report
+
+
+def require_root_review(evidence, path, jobs, *, expected_stage):
+    """Consume a finished audit, rechecking raw SHA pulls and both proofs.
+
+    The reviewer leaf does not call validate_inputs or this consumer. Loading
+    it here therefore creates no recursive review/scheduler dependency.
+    """
+    report = verify_review_pull(evidence, path, jobs, expected_stage=expected_stage)
+    reviewer = load("scripts/review_formal_downstream.py", evidence.project)
+    evidence.watch("scripts/review_formal_downstream.py")
+    reviewer.verify_saved_provenance(evidence, report, jobs, scheduler=SimpleNamespace(**globals()))
     return report
 
 
@@ -450,7 +570,9 @@ def plan(args, state, *, project=ROOT, helper=None):
         argv.append("--resume")
     if stage in ("collect", "full", "components"):
         argv.append("--uncontended-gpu")
-    support = {ADAPTER: evidence.watch(ADAPTER), WRAPPER: evidence.watch(WRAPPER),
+    compatible = asset_contract(evidence, suite, value["source_provenance"])
+    support = compatible["files"] if compatible else {
+        ADAPTER: evidence.watch(ADAPTER), WRAPPER: evidence.watch(WRAPPER),
         "scripts/ops/formal_downstream_supervisor.py": evidence.watch("scripts/ops/formal_downstream_supervisor.py")}
     # Runtime repeats every actual gate/checkpoint check. Local-only review and
     # pull files are bound to the invocation, not falsely assumed on the server.
@@ -473,10 +595,17 @@ def plan(args, state, *, project=ROOT, helper=None):
         watched[str(P / relative(name))] = evidence.watch(name)
     if review:
         watched.update({str(P / name): sha for name, sha in review["verified_files"].items()})
+        if compatible and mode == "evaluate" and args.resume:
+            # The original audit and execution-before hashes remain in root
+            # evidence. Only these two append/rebuilt outputs change in place.
+            for name in (output + "/trials.jsonl", output + "/closed_loop_report.json"):
+                if review["verified_files"].get(name) != evidence.watch(name):
+                    raise ValueError("Compatible resume lost its original ledger/report SHA")
+                del watched[str(P / name)]
     invocation = dict(schema=ROUND, kind="formal_downstream_invocation", version=VERSION, stage=stage, stage_key=key,
         suite=suite, method_ids=value["methods"], source_root=str(source), source_sha256=FROZEN_SHA256,
         source_inventory=str(P / args.source_inventory), source_inventory_sha256=evidence.watch(args.source_inventory),
-        entrypoint=ADAPTER, adapter_sha256=ADAPTER_SHA256, wrapper=WRAPPER, wrapper_sha256=support[WRAPPER],
+        entrypoint=ASSET_ADAPTER if compatible else ADAPTER, adapter_sha256=ADAPTER_SHA256, wrapper=WRAPPER, wrapper_sha256=support[WRAPPER],
         support_files=support, argv=argv, run_root=str(P / output), resume=bool(args.resume),
         execution_manifest=str(P / args.execution_manifest), execution_manifest_sha256=evidence.watch(args.execution_manifest),
         registration_sha256=evidence.watch(REGISTRATION), watched_files=dict(sorted(watched.items())),
@@ -484,7 +613,11 @@ def plan(args, state, *, project=ROOT, helper=None):
         prior_job_ids=[j["job_id"] for j in prior], prior_review=args.prior_review,
         prior_allocation_cost=[{k: j.get(k) for k in ("job_id", "status", "raw_status", "exit_code", "elapsed_seconds", "gpus")} for j in prior],
         repair_record=args.repair_record, stop_after=args.stop_after,
+        source_provenance=value["source_provenance"],
         scientific_settings_changed=False, final_values_read_locally=False)
+    if compatible:
+        invocation["downstream_asset_compatibility"] = compatible
+    resume_prefix_inputs(invocation)
     evidence.unchanged()
     invrel = f"results/{ROUND}/invocations/{key}_attempt{len(prior)+1:02d}.json"
     if local(project, invrel).exists():
@@ -525,7 +658,10 @@ class Transport:
 
     def prepare(self, value, invpath):
         uploads = {**value["publish_files"], value["invocation_relative"]: digest(invpath)}
-        watched = {**value["invocation"]["watched_files"], str(P / value["invocation_relative"]): digest(invpath)}
+        # These exact resume-prefix hashes are checked before execution, but
+        # remain excluded from the child's post-run immutable-file comparison.
+        watched = {**value["invocation"]["watched_files"], **resume_prefix_inputs(value["invocation"]),
+            str(P / value["invocation_relative"]): digest(invpath)}
         request = dict(watched=watched, uploads={str(P / name): sha for name, sha in uploads.items()},
             output=value["invocation"]["run_root"], exists=value["output_must_exist"])
         code = """import hashlib,json,os
@@ -574,6 +710,10 @@ t.unlink()
 
 def submit_plan(value, state, *, project, supervisor, transport, expected_plan_sha256):
     """Caller holds the original supervisor lock and refreshed registered IDs."""
+    # Count requests, not assigned GPUs: submitted/pending, CPU allocations and
+    # unknown states all occupy a slot until the registered job is terminal.
+    if sum(job["status"] not in TERMINAL for job in formal_jobs(state)) >= 8:
+        raise ValueError("Formal project capacity reached: 8 nonterminal requests; no submission written")
     if state.get("pending_submission") is not None or value.get("plan_sha256") != expected_plan_sha256:
         raise ValueError("Unresolved submission or changed reviewed plan")
     if signature({k: v for k, v in value.items() if k != "plan_sha256"}) != value["plan_sha256"]:
@@ -603,6 +743,9 @@ def submit_plan(value, state, *, project, supervisor, transport, expected_plan_s
         execution_manifest_sha256=invocation["execution_manifest_sha256"], status="SUBMITTED", gpus=1,
         submitted_utc=invocation["registered_utc"], resume=invocation["resume"], prior_job_ids=invocation["prior_job_ids"],
         purpose="Registered frozen formal downstream stage; all attempts and GPU allocations retained")
+    if "downstream_asset_compatibility" in invocation:
+        job["downstream_asset_compatibility"] = invocation["downstream_asset_compatibility"]
+    job["source_provenance_sha256"] = signature(invocation["source_provenance"])
     state["registered_jobs"].append(job)
     state["pending_submission"] = None
     state["stage"] = ROUND + "_" + invocation["stage"]

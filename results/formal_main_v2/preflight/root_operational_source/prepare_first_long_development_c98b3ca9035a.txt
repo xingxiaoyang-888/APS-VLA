@@ -1,0 +1,72 @@
+"""Prepare a reviewable development plan; never submit or release final data."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = ROOT / 'results/formal_main_v2/preflight'
+PLAN = BASE / 'long_first_pair_development_plan_v1.json'
+RECORD = BASE / 'long_first_pair_development_registration_v1.json'
+assert not PLAN.exists() and not RECORD.exists()
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+manifest_rel = 'results/formal_main_v2/execution/libero_10_development_first_pair_v1.json'
+manifest = json.loads((ROOT / manifest_rel).read_text(encoding='utf-8'))
+methods = ['dense', 'uniform256', 'uniform128', 'uniform64', 'A128_seed17', 'B128_seed17']
+assert [row['identity']['method_id'] for row in manifest['methods']] == methods
+assert manifest['suite'] == 'libero_10' and manifest['split'] == 'development'
+source_expected = {
+    'scripts/formal_execution_manifests.py': '614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89',
+    'scripts/ops/formal_downstream_supervisor.py': 'f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571',
+    'scripts/review_formal_downstream.py': '0c678c0c077b17a3dff5ef5147622bf2c5e3cc0218b6be9ecc998b3bb82a6ba6',
+    'scripts/analyze_formal.py': '7f9573877f8a3662bd06dae9362823fd478283ed14cc86a6c3763f6fb4f682f1',
+}
+assert all(sha(ROOT / path) == digest for path, digest in source_expected.items())
+state_path = ROOT / 'results/experiment_supervisor/state.json'
+state_sha = sha(state_path)
+command = [sys.executable, '-B', 'scripts/ops/formal_downstream_supervisor.py', 'plan',
+    '--stage', 'development', '--execution-manifest', manifest_rel, '--stop-after', '12']
+run = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding='utf-8')
+if run.returncode:
+    failure = dict(schema='formal_main_v2', kind='actual_development_plan_preparation_failure', command=command,
+        returncode=run.returncode, stdout=run.stdout, stderr=run.stderr, source_sha256=source_expected,
+        created_utc=datetime.now(timezone.utc).isoformat(), GPU_seconds=0, submitted=False)
+    failed = BASE / 'long_first_pair_development_plan_failure_v1.json'
+    with failed.open('x', encoding='utf-8', newline='\n') as stream:
+        json.dump(failure, stream, ensure_ascii=False, indent=2)
+        stream.write('\n')
+    raise RuntimeError(run.stderr or run.stdout)
+value = json.loads(run.stdout)
+assert sha(state_path) == state_sha
+assert value['kind'] == 'formal_downstream_plan' and value['invocation']['stage'] == 'development'
+assert value['invocation']['method_ids'] == methods and value['invocation']['resume'] is False
+assert value['invocation']['argv'][-2:] == ['--stop-after', '12']
+assert not (ROOT / value['output_relative']).exists()
+assert not (ROOT / value['invocation_relative']).exists()
+with PLAN.open('x', encoding='utf-8', newline='\n') as stream:
+    stream.write(run.stdout)
+panel = json.loads((ROOT / manifest['development_panel']).read_text(encoding='utf-8'))
+assert len(panel['states']) == 100
+record = dict(schema='formal_main_v2', kind='root_first_long_development_preregistration',
+    registered_utc=datetime.now(timezone.utc).isoformat(), suite='libero_10', methods=methods,
+    execution_manifest=manifest_rel, execution_manifest_sha256=sha(ROOT / manifest_rel),
+    manifest_evidence=manifest_rel + '.evidence.json', manifest_evidence_sha256=sha(ROOT / (manifest_rel + '.evidence.json')),
+    plan=PLAN.relative_to(ROOT).as_posix(), plan_file_sha256=sha(PLAN), plan_sha256=value['plan_sha256'], command=command,
+    source_files_sha256=source_expected, output_relative=value['output_relative'], invocation_relative=value['invocation_relative'],
+    unique_development_initial_states=100, target_terminal_trials=600, initial_engineering_slice=12,
+    initial_state_ids_in_first_slice=[row['trial_id'] for row in panel['states'][:2]],
+    stopping_rule='Original fixed state-major/method-minor order; first2 development states times6 methods. Resume the same600-trial ledger after root audit; never rerun completed trials.',
+    slice_reason='First actual formal downstream interface and throughput check within the registered4h allocation; remaining slice sizes depend on measured duration only, never success outcomes.',
+    scope='Development only.600 is a subset of Long22x100 and is not the complete suite development gate.',
+    old_four_reference_plan='Preserved unexecuted history; do not additionally submit duplicate dense/uniform trials.',
+    production_enabled=False, remaining_gates=['Final CPU consumer/regression evidence and root release for this entrypoint',
+        'Recompute identical planSHA and check a genuine free slot, no pending/overlap under the original supervisor lock'],
+    global_final_release=False, sealed_states_opened=False, weights_copied=False, GPU_seconds=0, jobs_submitted=0,
+    state_unchanged_at_preparation=True, state_sha256_observation_only=state_sha)
+with RECORD.open('x', encoding='utf-8', newline='\n') as stream:
+    json.dump(record, stream, ensure_ascii=False, indent=2)
+    stream.write('\n')
+print(json.dumps({'plan_sha256':value['plan_sha256'], 'registration':RECORD.relative_to(ROOT).as_posix(),
+    'target_trials':600, 'initial_engineering_slice':12, 'submitted':False}, ensure_ascii=False))

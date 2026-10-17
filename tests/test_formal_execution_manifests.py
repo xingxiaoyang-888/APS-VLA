@@ -34,7 +34,11 @@ def save(tool, path, value):
 
 @pytest.fixture
 def project(tmp_path, monkeypatch, tool):
-    """Real receipt and ledger validators; substitute only previously-tested GPU gates."""
+    """Core receipt/ledger regression; GPU and new operational root proofs are isolated.
+
+    The separate asset-consumer suite exercises the real provenance/audit
+    boundary. These historical synthetic5000 records are not actual root jobs.
+    """
     sources = {"src/cti_vla/training/formal_future.py": "a" * 64}
     registration = dict(schema=tool.SCHEMA, suites={}, pairs=[])
     gates = {}
@@ -138,13 +142,31 @@ def project(tmp_path, monkeypatch, tool):
             evidence.watch(path)
         return gate
     monkeypatch.setattr(tool, "load_suite_acceptance", accepted)
+    def source_proof(evidence, reg, suite, rows, **kwargs):
+        value = dict(schema=tool.SCHEMA, kind="asset_downstream_source_provenance", status="verified", suite=suite,
+            helper_sha256=tool.SOURCE_REVIEW_SHA256, shared_projection=dict(suite=suite, synthetic=True),
+            method_bindings={row["identity"]["method_id"]: dict(suite=suite,
+                method_id=row["identity"]["method_id"], identity=row["identity"]) for row in rows},
+            evidence_sha256={name: checksum for name, checksum in evidence.files.items()
+                if not name.startswith("results/formal_main_v2/downstream_reviews/")},
+            registered_source_jobs=[], scientific_gates_replaced=False)
+        evidence.source_provenance[suite] = value
+        return value
+    monkeypatch.setattr(tool, "source_provenance_for_rows", source_proof)
+    def root_review(evidence, reference, *, expected_stage, suite, run_root=None):
+        assert expected_stage == "development"
+        assert evidence.watch(reference["path"]) == reference["sha256"]
+        value = evidence.read(reference["path"])
+        assert value["synthetic_operational_gate_stub"] is True
+        return value
+    monkeypatch.setattr(tool, "review_downstream_output", root_review)
     return SimpleNamespace(root=tmp_path, tool=tool, sources=sources, registration=registration, gates=gates,
         selector_identities=selector_identities)
 
 
 def write_development_runs(project):
     t, root, registration = project.tool, project.root, project.registration
-    index = dict(schema=t.SCHEMA, kind="development_output_index", suites={})
+    index = dict(schema=t.SCHEMA, kind="development_output_index", suites={}, root_reviews={})
     for suite in runtime.FORMAL_SUITES:
         ev = t.Evidence(root)
         rows = t.suite_rows(ev, registration, suite, project.sources, trials.expected_method_ids())
@@ -171,6 +193,11 @@ def write_development_runs(project):
             provenance={"run_signature": signature}, checkpoint_unchanged=True)
         save(t, directory / "closed_loop_report.json", report)
         index["suites"][suite] = [relative]
+        review_path = f"results/formal_main_v2/downstream_reviews/synthetic_{suite}.json"
+        save(t, root / review_path, dict(synthetic_operational_gate_stub=True, run_root=str(t.P / relative),
+            job_id="100", source_provenance=ev.source_provenance[suite], completed_trials=2200,
+            cost=dict(allocations=[])))
+        index["root_reviews"][suite] = [dict(path=review_path, sha256=t.digest(root / review_path))]
     save(t, root / "development_index.json", index)
     return index
 
