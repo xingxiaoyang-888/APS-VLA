@@ -1,0 +1,37 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_git_delivery_pathspec_repair",
+  "status": "passed",
+  "recorded_utc": "2026-10-17T20:02:26.168780+00:00",
+  "original_error": "Windows CreateProcess WinError206 before force-add process launch",
+  "original_stage_source_archive": "results/formal_main_v2/preflight/root_operational_source/stage_parallel_review_20261017T1948.py.txt",
+  "original_stage_source_sha256": "c9e7e28cc5d5ae70afc445cffb8452290375f57d3cb59620e556d53570e1f3bc",
+  "required_manifest": "results/formal_main_v2/preflight/parallel_review_batch_20261017T1948_git_required.json",
+  "required_manifest_sha256": "f4f0dc04df86848db5b2364ad1218c1dbe4bce4d3e20517a424832563324e45e",
+  "pathspec_sha256": "943f56a4aa14dcda08cad1e230d20cd05b23595697f896991dd25ebe64b0a499",
+  "pathspec_bytes": 67838,
+  "exact_path_count": 670,
+  "omitted_archived_raw_paths": [
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl",
+    "results/formal_main_v2/preflight/long_sixth_development_raw_v1/17_trials.jsonl"
+  ],
+  "original_required_hashes_all_rechecked": true,
+  "retry_command": [
+    "git",
+    "add",
+    "-f",
+    "--pathspec-from-file=F:\\CTI-VLA\\.local\\parallel_review_1948_required_paths.nul",
+    "--pathspec-file-nul"
+  ],
+  "retry_exit_code": 0,
+  "retry_stdout": "",
+  "retry_stderr": "",
+  "source_archive_sha256": "522fa1849e6eb5dcfe2fa34b67fd45d78f7bfb5bfd931d9b9e7f19ea91c3a843",
+  "failure_record_sha256": "3a7cea0296679a663bcf9dd165ccf80f91ce150a79504e80d5803ad9c7a28f9e",
+  "scientific_settings_changed": false,
+  "frozen_runtime_source_changed": false,
+  "raw_originals_changed": false,
+  "weights_added": false,
+  "GPU_seconds": 0,
+  "index_only_full_reconstruction_still_required": true
+}

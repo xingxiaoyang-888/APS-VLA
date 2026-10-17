@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "job_id": "3020307",
+  "suite": "libero_object",
+  "budget": 128,
+  "seed": 17,
+  "boundary": 4000,
+  "root_review": "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3020307.json",
+  "root_sha256": "1cd565a443197be9c3640387218cfa849106a181aa9b8c997e53b769107170b9",
+  "pull": "results/formal_main_v2/pulls/20261017T194955Z_122b5392c7cb/receipt.json",
+  "pull_sha256": "79791d83e89e0a05292c3283564a302f0067878bf7920885ea9dd152a07c619b",
+  "pair_gpu_seconds": 33438,
+  "latest_gpu_seconds": 4069,
+  "histories": [
+    "3012507",
+    "3016472",
+    "3016791",
+    "3017857",
+    "3018426",
+    "3019280",
+    "3019902",
+    "3020307"
+  ],
+  "allowed_next": 4500,
+  "operations": [
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/review_formal_segment.py",
+        "--job-id",
+        "3020307",
+        "--source-inventory",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "--pull-receipt",
+        "results/formal_main_v2/pulls/20261017T194955Z_122b5392c7cb/receipt.json",
+        "--verify-server-resume"
+      ],
+      "started_utc": "2026-10-17T19:50:47.515263+00:00",
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"passed\",\r\n  \"job_id\": \"3020307\",\r\n  \"completed_by_arm\": {\r\n    \"A\": 4000,\r\n    \"B\": 4000\r\n  },\r\n  \"allowed_next_segment_end\": 4500,\r\n  \"continuation\": \"advance_one_registered_boundary\",\r\n  \"server_resume_checklist\": [\r\n    {\r\n      \"arm\": \"A\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k128/seed17/A/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"842621cbbed84ca579fc106c416ccf027451bff78ef7fd6f27d229d6ec02e1ed\"\r\n    },\r\n    {\r\n      \"arm\": \"B\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k128/seed17/B/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"643c9622fcd677464c49b04e788112a134c592b328aed2ae7dc335c79bb28220\"\r\n    }\r\n  ],\r\n  \"pair_allocated_gpu_seconds\": 33438\r\n}\r\n",
+      "stderr": ""
+    }
+  ]
+}

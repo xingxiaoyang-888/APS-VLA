@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "job_id": "3020247",
+  "suite": "libero_10",
+  "budget": 64,
+  "seed": 17,
+  "boundary": 3000,
+  "root_review": "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3020247.json",
+  "root_sha256": "bfd85b0c23c058fbd86d9c3b79fd8b7d234cf237cd4f3123b9534db514009b70",
+  "pull": "results/formal_main_v2/pulls/20261017T195610Z_50a188b81a4a/receipt.json",
+  "pull_sha256": "c035163c5c59a443f8bad5102c480896003a9e4a13db5880c71e6c2f4b65df30",
+  "pair_gpu_seconds": 26284,
+  "latest_gpu_seconds": 4313,
+  "histories": [
+    "3012323",
+    "3016431",
+    "3016676",
+    "3017847",
+    "3019111",
+    "3020247"
+  ],
+  "allowed_next": 3500,
+  "operations": [
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/pull_formal_results.py",
+        "--job-id",
+        "3012323",
+        "--job-id",
+        "3016431",
+        "--job-id",
+        "3016676",
+        "--job-id",
+        "3017847",
+        "--job-id",
+        "3019111",
+        "--job-id",
+        "3020247"
+      ],
+      "started_utc": "2026-10-17T19:56:09.427793+00:00",
+      "exit_code": 0,
+      "stdout": "{\"status\": \"verified_nonweight_snapshot\", \"files\": 62, \"skipped_jobs\": [], \"receipt\": \"F:\\\\CTI-VLA\\\\results\\\\formal_main_v2\\\\pulls\\\\20261017T195610Z_50a188b81a4a\\\\receipt.json\", \"weights_copied\": false, \"scientific_completion_inferred\": false}\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/review_formal_segment.py",
+        "--job-id",
+        "3020247",
+        "--source-inventory",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "--pull-receipt",
+        "results/formal_main_v2/pulls/20261017T195610Z_50a188b81a4a/receipt.json",
+        "--verify-server-resume"
+      ],
+      "started_utc": "2026-10-17T19:56:20.927221+00:00",
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"passed\",\r\n  \"job_id\": \"3020247\",\r\n  \"completed_by_arm\": {\r\n    \"A\": 3000,\r\n    \"B\": 3000\r\n  },\r\n  \"allowed_next_segment_end\": 3500,\r\n  \"continuation\": \"advance_one_registered_boundary\",\r\n  \"server_resume_checklist\": [\r\n    {\r\n      \"arm\": \"A\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k64/seed17/A/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"265cf8431c319407ac1ce8e37fd11f63b4fcfef9a2470a803ef4ff868a9812be\"\r\n    },\r\n    {\r\n      \"arm\": \"B\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k64/seed17/B/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"5e400ea7a2a4318f92a0e9c5ae61472a5432ce06da4befe3c4f5d745497390d0\"\r\n    }\r\n  ],\r\n  \"pair_allocated_gpu_seconds\": 26284\r\n}\r\n",
+      "stderr": ""
+    }
+  ]
+}
