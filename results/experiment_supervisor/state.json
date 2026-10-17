@@ -3852,7 +3852,7 @@
       "submitted_utc": "2026-10-17T22:51:29.317935+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2454,
+      "elapsed_seconds": 3234,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -3876,7 +3876,7 @@
       "submitted_utc": "2026-10-17T22:51:33.875468+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2449,
+      "elapsed_seconds": 3229,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -3900,7 +3900,7 @@
       "submitted_utc": "2026-10-17T22:51:38.611067+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2445,
+      "elapsed_seconds": 3225,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -3914,7 +3914,7 @@
       "visual_tokens": 64,
       "training_seed": 23,
       "segment_end": 3000,
-      "status": "RUNNING",
+      "status": "COMPLETED",
       "gpus": 1,
       "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
       "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
@@ -3924,7 +3924,7 @@
       "submitted_utc": "2026-10-17T22:51:43.168723+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2439,
+      "elapsed_seconds": 2682,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -3948,7 +3948,7 @@
       "submitted_utc": "2026-10-17T22:51:47.770626+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2435,
+      "elapsed_seconds": 3215,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -3972,7 +3972,7 @@
       "submitted_utc": "2026-10-17T22:56:17.396203+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2165,
+      "elapsed_seconds": 2945,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -4029,7 +4029,7 @@
       "submitted_utc": "2026-10-17T22:59:14.005998+00:00",
       "purpose": "Registered Goal stage with official50000 component paths and metadata evidence; final states sealed",
       "exit_code": "0:0",
-      "elapsed_seconds": 1987,
+      "elapsed_seconds": 2767,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -4127,7 +4127,31 @@
       "submitted_utc": "2026-10-17T23:20:07.121722+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 736,
+      "elapsed_seconds": 1516,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4010"
+    },
+    {
+      "job_id": "3021463",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_10_train_k64_seed17",
+      "suite": "libero_10",
+      "visual_tokens": 64,
+      "training_seed": 17,
+      "segment_end": 4000,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k64/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_10_train_k64_seed17_attempt08.json",
+      "invocation_sha256": "3a42bc011802e7556cbcc9dc7bb461c1d9aca3c727378aaba7420e6602525d7e",
+      "submitted_utc": "2026-10-17T23:39:00.277193+00:00",
+      "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+      "exit_code": "0:0",
+      "elapsed_seconds": 382,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     }
@@ -4282,7 +4306,7 @@
     "skipped": 0,
     "junit": "results/g0_20261014_v1/runtime_cpu_tests.xml"
   },
-  "current_work": "8 registered single-GPU training jobs active. Completed4/72 arms and99000/360000 reviewed arm updates. Long600 and Object12 development trials verified; Object first actual GPU metadata/deployment gate passed. Final0/35200, sealed.",
+  "current_work": "8 registered GPU jobs active; all four suites own GPU acceptance passed. Formal completed4/72; 100000 cumulative arm updates have passed common-boundary review. Development612, final0/35200; final states sealed. See per-pair tracking and latest live evidence for individual update counters.",
   "restrictions": [
     "No formal G1 labels before G0 acceptance",
     "Do not access offline/final closed-loop test for development",
@@ -4303,7 +4327,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-17T23:32:25.318349+00:00",
+  "last_supervision_utc": "2026-10-17T23:45:24.984331+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -4351,9 +4375,9 @@
   "pending_submission": null,
   "next_allowed_action": "Keep up to8 independent GPU jobs; on each terminal pair pull all history and verify both arms, optimizer/RNG/sample cursor and actual server resume SHA before own next500. Final5000 pair requires training_summary/training_report/deployment_receipt, all11 validations, and separate stable server hashes of both registered selected best.pt matching report and deployment receipt before counting2 completed arms; no5500 continuation.",
   "current_round_cost": {
-    "registered_jobs": 127,
-    "allocated_gpu_seconds": 451787,
-    "allocated_gpu_hours": 125.49638888888889,
+    "registered_jobs": 128,
+    "allocated_gpu_seconds": 457872,
+    "allocated_gpu_hours": 127.18666666666667,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -6485,6 +6509,21 @@
         "independent_review": "results/formal_main_v2/libero_10/k256/seed23/training/segment_reviews/3021095_independent.json",
         "allocated_gpu_seconds": 3788,
         "not_completed_formal_training": true
+      },
+      {
+        "job_id": "3021352",
+        "suite": "libero_10",
+        "visual_tokens": 64,
+        "seed": 23,
+        "updates_by_arm": {
+          "A": 3000,
+          "B": 3000
+        },
+        "status": "passed_root_and_independent_review",
+        "root_review": "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3021352.json",
+        "independent_review": "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3021352_independent.json",
+        "allocated_gpu_seconds": 2682,
+        "not_completed_formal_training": true
       }
     ],
     "downstream_entrypoint_audit": {
@@ -6721,46 +6760,6 @@
           "not_a_completion_receipt": true
         },
         {
-          "job_id": "3021352",
-          "suite": "libero_10",
-          "visual_tokens": 64,
-          "training_seed": 23,
-          "segment_end": 3000,
-          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k64/seed23/training",
-          "status": "RUNNING",
-          "gpus": 1,
-          "node": "gpu4010",
-          "elapsed_seconds": 1144,
-          "arms": {
-            "A": {
-              "this_job_attempt_starts": [
-                {
-                  "attempt_id": "20261017T225526_f3b1bf0dff9d",
-                  "utc": "2026-10-17T22:55:26.263868+00:00",
-                  "resumed": true,
-                  "completed_update": 2500,
-                  "next_sample_cursor": 20000
-                }
-              ],
-              "this_job_updates_completed_in_memory": 2898,
-              "this_job_last_checkpoint_update": 2850,
-              "this_job_last_update_seconds": 2.341764446347952,
-              "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T23:10:58.123684+00:00"
-            },
-            "B": {
-              "this_job_attempt_starts": [],
-              "this_job_updates_completed_in_memory": null,
-              "this_job_last_checkpoint_update": null,
-              "this_job_last_update_seconds": null,
-              "last_event": null,
-              "last_event_utc": null
-            }
-          },
-          "failures": [],
-          "not_a_completion_receipt": true
-        },
-        {
           "job_id": "3021353",
           "suite": "libero_10",
           "visual_tokens": 64,
@@ -6955,8 +6954,8 @@
           "latest_resume_precheck_sha256": "1c6d58107a4c54f1724a1102f558b7ac6935161ea47ef110f99ccbce7bfd5d2d"
         },
         "libero_10_k64_seed17": {
-          "active_job_id": null,
-          "segment_target": 3500,
+          "active_job_id": "3021463",
+          "segment_target": 4000,
           "last_root_reviewed_common_update": 3500,
           "next_segment_requires_own_terminal_pull_and_root_review": true,
           "root_review": "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3021090.json",
@@ -6964,8 +6963,8 @@
           "allowed_next_segment_end": 4000,
           "last_completed_job_id": "3021090",
           "independent_review": "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3021090_independent.json",
-          "latest_resume_precheck": "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_10_k64_seed17_20261017T211737Z.json",
-          "latest_resume_precheck_sha256": "8fcecf5756a54d1af0016c61b0b7d27711dd2558a17a75d4415df2093cd63d9a"
+          "latest_resume_precheck": "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_10_k64_seed17_20261017T233859Z.json",
+          "latest_resume_precheck_sha256": "001ff8d48e19c473a649f58f016bc95f488ec313d7fc961cc6bfb995f21b50e3"
         },
         "libero_spatial_k128_seed17": {
           "active_job_id": "3021362",
@@ -7051,16 +7050,16 @@
           "latest_resume_precheck_sha256": "c48dbac37e44491d419d348238c52bdfcad0eca463e6d277110b3457eba47160"
         },
         "libero_10_k64_seed23": {
-          "active_job_id": "3021352",
+          "active_job_id": null,
           "segment_target": 3000,
-          "last_root_reviewed_common_update": 2500,
-          "allowed_next_segment_end": 3000,
-          "root_review": "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3020800.json",
-          "independent_review": "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3020800_independent.json",
+          "last_root_reviewed_common_update": 3000,
+          "allowed_next_segment_end": 3500,
+          "root_review": "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3021352.json",
+          "independent_review": "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3021352_independent.json",
           "next_segment_requires_own_terminal_pull_and_root_review": true,
           "no_restart_or_duplicate_submission": true,
           "fresh_registration": "results/formal_main_v2/preflight/parallel_batch2_fresh_registration.json",
-          "last_completed_job_id": "3020800",
+          "last_completed_job_id": "3021352",
           "latest_resume_precheck": "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_10_k64_seed23_20261017T225142Z.json",
           "latest_resume_precheck_sha256": "e28a8f5f8f64c151fead8c58d96ed254908a4ee24cb6001b4a919bcdfecff6d1"
         },
@@ -7103,15 +7102,6 @@
       "ready_queue": [
         {
           "stage": "train",
-          "pair": "libero_10_k64_seed17",
-          "segment_end": 4000,
-          "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
-          "root_review": "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3021090.json",
-          "independent_review": "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3021090_independent.json",
-          "requires_refresh_and_exact_resume_SHA": true
-        },
-        {
-          "stage": "train",
           "pair": "libero_spatial_k128_seed23",
           "segment_end": 4000,
           "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
@@ -7135,6 +7125,15 @@
           "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
           "root_review": "results/formal_main_v2/libero_10/k256/seed23/training/segment_reviews/3021095.json",
           "independent_review": "results/formal_main_v2/libero_10/k256/seed23/training/segment_reviews/3021095_independent.json",
+          "requires_refresh_and_exact_resume_SHA": true
+        },
+        {
+          "stage": "train",
+          "pair": "libero_10_k64_seed23",
+          "segment_end": 3500,
+          "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
+          "root_review": "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3021352.json",
+          "independent_review": "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3021352_independent.json",
           "requires_refresh_and_exact_resume_SHA": true
         }
       ],
@@ -7260,7 +7259,7 @@
       "successful_GPU_seconds": 524,
       "all_attempt_GPU_seconds": 725
     },
-    "root_and_independent_reviewed_arm_updates": 99000,
+    "root_and_independent_reviewed_arm_updates": 100000,
     "downstream_asset_cpu_candidates": {
       "status": "CPU_candidates_passed_four_consumers_pending",
       "root_review": "results/formal_main_v2/preflight/asset_downstream_candidates_root_review.json",
@@ -7485,8 +7484,8 @@
       "final_commit_reconstruction_required": true
     },
     "latest_incremental_review": {
-      "path": "results/formal_main_v2/preflight/parallel_increment_object12_20261018.json",
-      "sha256": "693021e6119d23d0962b3ca6a608b2a77ae0bc229ae411d1a60f25d7fb9cadc8"
+      "path": "results/formal_main_v2/preflight/parallel_review_tail_20261017T2250.json",
+      "sha256": "913b046473bae78e8a70e2d94411886b9272dde89f61d07f1aa2ffb346ebcc9a"
     },
     "first_object_development": {
       "status": "first12_verified_waiting_free_GPU_slot",
@@ -7549,10 +7548,9 @@
     "Keep up to8 independent GPU jobs; on each terminal pair pull all history and verify both arms, optimizer/RNG/sample cursor and actual server resume SHA before own next500. Final5000 pair requires training_summary/training_report/deployment_receipt, all11 validations, and separate stable server hashes of both registered selected best.pt matching report and deployment receipt before counting2 completed arms; no5500 continuation.",
     "Use ready_queue reviewed pairs as slots free; do not restart or resubmit existing work.",
     "Use the CPU-accepted downstream consumers for registered development; review actual GPU receipts before continuation. Global72+16+four-suite dev release still required.",
-    "Long first six methods already have600 verified development trials; do not repeat them. Remaining deployment instances require their own completed5000 and checkpoint identity reviews; final states remain sealed.",
-    "Resume the same600-trial ledger after explicit next-segment preregistration and fresh exact input/checkpoint verification when a parallel slot is available. Do not repeat the completed12."
+    "Long first six methods already have600 verified development trials; do not repeat them. Remaining deployment instances require their own completed5000 and checkpoint identity reviews; final states remain sealed."
   ],
-  "updated_utc": "2026-10-17T23:32:25.341869+00:00",
+  "updated_utc": "2026-10-17T23:45:25.012328+00:00",
   "execution_authorization_update": {
     "user_requested_parallel_multi_GPU": true,
     "registration": "configs/experiments/formal_main_v2_parallel_execution_v1.json",

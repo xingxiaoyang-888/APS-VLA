@@ -1,0 +1,89 @@
+"""Exact staging and pinned archive-index verification of the late increment."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib, json, subprocess, sys
+
+root = Path(__file__).resolve().parents[1]
+base = 'results/formal_main_v2/'
+batch_name = base + 'preflight/parallel_review_tail_20261017T2250.json'
+required_name = base + 'preflight/parallel_review_tail_20261017T2250_git_required.json'
+proof_name = base + 'preflight/parallel_review_tail_20261017T2250_git_delivery.json'
+assert not (root / required_name).exists() and not (root / proof_name).exists()
+sha = lambda data: hashlib.sha256(data).hexdigest()
+def git(*args):
+    return subprocess.check_output(['git', *args], cwd=root)
+def ref(name):
+    path = root / name
+    assert path.is_file() and not path.is_symlink()
+    data = path.read_bytes()
+    return dict(path=name,sha256=sha(data),bytes=len(data))
+assert not git('diff','--cached','--name-only').strip()
+assert git('rev-parse','HEAD').decode().strip() == 'b1e3c864a07bfc2659e0a8dc1a5a4feb75ad2fda'
+batch = json.loads((root / batch_name).read_bytes())
+required = {}
+for name, checksum in batch['evidence_sha256'].items():
+    row = ref(name)
+    assert row['sha256'] == checksum
+    required[name] = row
+for name in (batch_name, 'results/experiment_supervisor/state.json', base + 'slurm_accounting.json'):
+    required[name] = ref(name)
+snapshot_name = base + 'nonweight_archives/v1/snapshots/long_dev600_20261018.json'
+assert ref(snapshot_name)['sha256'] == 'ac7e4dce68abeddb147dd412f83afffbc5041715868547d6f60811e5fca137f0'
+snapshot = json.loads((root / snapshot_name).read_bytes())
+raw_names = {r['path'] for r in snapshot['files']}
+assert len(raw_names) == 2
+for row in snapshot['files']:
+    current = ref(row['path'])
+    assert all(current[k] == row[k] for k in ('path','bytes','sha256'))
+    required[current['path']] = current
+required[snapshot_name] = ref(snapshot_name)
+changed = git('ls-files','--modified','--others','--exclude-standard','-z','--',
+    'docs','results/formal_main_v2','results/experiment_supervisor/state.json','results/slurm').decode().split('\0')
+ordinary = sorted({x for x in changed if x and x not in raw_names})
+for name in ordinary:
+    if not name.endswith('.md'):
+        required[name] = ref(name)
+data = dict(schema='cti_nonweight_archive_stage_v1',kind='required_files',files=[required[k] for k in sorted(required)])
+(root / required_name).write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8',newline='\n')
+def add(names,label,force=False):
+    spec = root / '.local' / ('stage_tail_2250_' + label + '.nul')
+    assert not spec.exists()
+    spec.write_bytes(b''.join((':(literal)' + name).encode('utf-8')+b'\0' for name in sorted(names)))
+    subprocess.run(['git','add']+(['-f'] if force else [])+['--pathspec-from-file='+str(spec),'--pathspec-file-nul'],cwd=root,check=True)
+add(ordinary+[required_name],'ordinary')
+add(set(required)-raw_names,'required',True)
+before, changes = git('ls-files','--stage','-z'), git('diff','--cached','--name-status','-z')
+pins = {'scripts/ops/nonweight_archive.py':'f81284b3c56fbfd1cce339c4ea98b20943c8cd0866b4e8b94c38ac3cdbd1e3c2',
+    'scripts/ops/check_nonweight_archive_stage.py':'ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6'}
+assert all(ref(name)['sha256'] == checksum for name,checksum in pins.items())
+command = [sys.executable,'-B','scripts/ops/check_nonweight_archive_stage.py','--project-root',str(root),
+    '--snapshot',snapshot_name,'--snapshot-sha256','ac7e4dce68abeddb147dd412f83afffbc5041715868547d6f60811e5fca137f0',
+    '--required-files',required_name]
+for name in sorted(raw_names):
+    command.extend(['--raw-path',name])
+print(json.dumps(dict(status='staged_guard_running',required_count=len(required))),flush=True)
+process = subprocess.run(command,cwd=root,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+assert process.returncode == 0, process.stderr.decode('utf-8',errors='replace')
+report = json.loads(process.stdout)
+assert report['status'] == 'verified_index_archive_delivery'
+assert report['index_sha256'] == sha(before) and report['staged_changes_sha256'] == sha(changes)
+assert report['head'] == 'b1e3c864a07bfc2659e0a8dc1a5a4feb75ad2fda'
+assert report['required_count'] == len(required) and report['frozen_files_verified_in_worktree_and_index'] == 173
+assert len(report['raw_paths_restored_exactly']) == 2 and report['gpu_seconds'] == 0
+assert before == git('ls-files','--stage','-z') and changes == git('diff','--cached','--name-status','-z')
+proof = dict(schema='formal_main_v2',kind='root_git_index_nonweight_delivery',status='passed',
+    reviewed_utc=datetime.now(timezone.utc).isoformat(),guard_result=report,guard_command=command,
+    unchanged_index_until_guard_return=True,scientific_settings_changed=False,
+    no_weights_delivered=True,final_state_values_opened=False)
+payload = (json.dumps(proof,indent=2,sort_keys=True)+'\n').encode('utf-8')
+with (root / proof_name).open('xb') as stream:
+    stream.write(payload)
+subprocess.run(['git','add','--',proof_name],cwd=root,check=True)
+old_rows,new_rows = set(before.split(b'\0'))-{b''},set(git('ls-files','--stage','-z').split(b'\0'))-{b''}
+assert not old_rows-new_rows and len(new_rows-old_rows)==1
+assert next(iter(new_rows-old_rows)).split(b'\t',1)[1].decode()==proof_name
+assert git('show',':'+proof_name)==payload
+subprocess.run(['git','diff','--cached','--check'],cwd=root,check=True)
+assert not git('diff','--name-only').strip()
+print(json.dumps(dict(status='passed',proof=proof_name,sha256=sha(payload),required_count=len(required),
+    frozen_files=173,restored_raw_paths=2,commit_not_performed=True)))
