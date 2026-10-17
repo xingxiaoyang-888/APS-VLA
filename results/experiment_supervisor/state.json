@@ -1928,7 +1928,7 @@
       "submitted_utc": "2026-10-17T09:51:21.268290+00:00",
       "purpose": "Registered Goal stage with official50000 component paths and metadata evidence; final states sealed",
       "exit_code": "0:0",
-      "elapsed_seconds": 3248,
+      "elapsed_seconds": 3621,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -1986,7 +1986,7 @@
       "submitted_utc": "2026-10-17T10:06:50.615023+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2322,
+      "elapsed_seconds": 2695,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4004"
     },
@@ -2010,7 +2010,7 @@
       "submitted_utc": "2026-10-17T10:07:05.383008+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2307,
+      "elapsed_seconds": 2680,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4004"
     },
@@ -2034,7 +2034,7 @@
       "submitted_utc": "2026-10-17T10:07:17.870374+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2295,
+      "elapsed_seconds": 2668,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4004"
     },
@@ -2058,7 +2058,7 @@
       "submitted_utc": "2026-10-17T10:10:33.410347+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 2099,
+      "elapsed_seconds": 2472,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -2082,7 +2082,7 @@
       "submitted_utc": "2026-10-17T10:15:29.790225+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 1803,
+      "elapsed_seconds": 2176,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4001"
     },
@@ -2118,7 +2118,7 @@
       "purpose": "Registered frozen formal downstream stage; all attempts and GPU allocations retained",
       "source_provenance_sha256": "fe03ea9666c95989a0ba4a622632da8f2eda299509f3040e138014d78bf06d96",
       "exit_code": "0:0",
-      "elapsed_seconds": 850,
+      "elapsed_seconds": 1223,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     },
@@ -2142,7 +2142,7 @@
       "submitted_utc": "2026-10-17T10:39:56.818794+00:00",
       "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
       "exit_code": "0:0",
-      "elapsed_seconds": 335,
+      "elapsed_seconds": 708,
       "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
       "node": "gpu4010"
     }
@@ -2318,7 +2318,7 @@
     "failed_queries": 0,
     "scientific_status": "no_go"
   },
-  "last_supervision_utc": "2026-10-17T10:45:35.168481+00:00",
+  "last_supervision_utc": "2026-10-17T10:53:15.710796+00:00",
   "method_revision": {
     "proposal_id": "g1r-anchor-swap-v0",
     "status": "historical_draft_suspended_by_user_g1_future_direction",
@@ -2367,8 +2367,8 @@
   "next_allowed_action": "Keep up to8 independent GPU jobs; on each terminal pair pull all history and verify both arms, optimizer/RNG/sample cursor and actual server resume SHA before own next500. Final5000 pair requires training_summary/training_report/deployment_receipt, all11 validations, and separate stable server hashes of both registered selected best.pt matching report and deployment receipt before counting2 completed arms; no5500 continuation.",
   "current_round_cost": {
     "registered_jobs": 62,
-    "allocated_gpu_seconds": 189255,
-    "allocated_gpu_hours": 52.57083333333333,
+    "allocated_gpu_seconds": 192239,
+    "allocated_gpu_hours": 53.39972222222222,
     "final": false,
     "historical_jobs_excluded": true
   },
@@ -3740,7 +3740,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4010",
-          "elapsed_seconds": 3248,
+          "elapsed_seconds": 3621,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3768,11 +3768,11 @@
                   "next_sample_cursor": 4000
                 }
               ],
-              "this_job_updates_completed_in_memory": 590,
-              "this_job_last_checkpoint_update": 550,
-              "this_job_last_update_seconds": 2.3728547245264053,
+              "this_job_updates_completed_in_memory": 746,
+              "this_job_last_checkpoint_update": 700,
+              "this_job_last_update_seconds": 2.3538201432675123,
               "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T10:45:41.211639+00:00"
+              "last_event_utc": "2026-10-17T10:51:53.054874+00:00"
             }
           },
           "failures": [],
@@ -3788,7 +3788,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4004",
-          "elapsed_seconds": 2322,
+          "elapsed_seconds": 2695,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3816,11 +3816,11 @@
                   "next_sample_cursor": 12000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1593,
-              "this_job_last_checkpoint_update": 1550,
-              "this_job_last_update_seconds": 2.287787616252899,
-              "last_event": "sample_end",
-              "last_event_utc": "2026-10-17T10:45:41.870837+00:00"
+              "this_job_updates_completed_in_memory": 1755,
+              "this_job_last_checkpoint_update": 1750,
+              "this_job_last_update_seconds": 2.294319102540612,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-17T10:51:53.688046+00:00"
             }
           },
           "failures": [],
@@ -3836,7 +3836,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4004",
-          "elapsed_seconds": 2307,
+          "elapsed_seconds": 2680,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3848,11 +3848,11 @@
                   "next_sample_cursor": 4000
                 }
               ],
-              "this_job_updates_completed_in_memory": 876,
-              "this_job_last_checkpoint_update": 850,
-              "this_job_last_update_seconds": 5.336319456808269,
-              "last_event": "sample_end",
-              "last_event_utc": "2026-10-17T10:45:42.064558+00:00"
+              "this_job_updates_completed_in_memory": 938,
+              "this_job_last_checkpoint_update": 900,
+              "this_job_last_update_seconds": 5.530440071597695,
+              "last_event": "sample_start",
+              "last_event_utc": "2026-10-17T10:51:53.529788+00:00"
             },
             "B": {
               "this_job_attempt_starts": [],
@@ -3876,7 +3876,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4004",
-          "elapsed_seconds": 2295,
+          "elapsed_seconds": 2668,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3904,11 +3904,11 @@
                   "next_sample_cursor": 4000
                 }
               ],
-              "this_job_updates_completed_in_memory": 722,
-              "this_job_last_checkpoint_update": 700,
-              "this_job_last_update_seconds": 2.737365148961544,
+              "this_job_updates_completed_in_memory": 841,
+              "this_job_last_checkpoint_update": 800,
+              "this_job_last_update_seconds": 2.553563361056149,
               "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T10:45:42.347214+00:00"
+              "last_event_utc": "2026-10-17T10:51:54.130590+00:00"
             }
           },
           "failures": [],
@@ -3924,7 +3924,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4010",
-          "elapsed_seconds": 2099,
+          "elapsed_seconds": 2472,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3936,11 +3936,11 @@
                   "next_sample_cursor": 4000
                 }
               ],
-              "this_job_updates_completed_in_memory": 876,
-              "this_job_last_checkpoint_update": 850,
-              "this_job_last_update_seconds": 5.530993131920695,
+              "this_job_updates_completed_in_memory": 938,
+              "this_job_last_checkpoint_update": 900,
+              "this_job_last_update_seconds": 5.894715882837772,
               "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T10:45:41.970352+00:00"
+              "last_event_utc": "2026-10-17T10:51:53.628622+00:00"
             },
             "B": {
               "this_job_attempt_starts": [],
@@ -3964,7 +3964,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4001",
-          "elapsed_seconds": 1803,
+          "elapsed_seconds": 2176,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -3976,11 +3976,11 @@
                   "next_sample_cursor": 12000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1770,
-              "this_job_last_checkpoint_update": 1750,
-              "this_job_last_update_seconds": 5.607189500238746,
+              "this_job_updates_completed_in_memory": 1828,
+              "this_job_last_checkpoint_update": 1800,
+              "this_job_last_update_seconds": 7.253072360996157,
               "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T10:45:42.442825+00:00"
+              "last_event_utc": "2026-10-17T10:51:54.390011+00:00"
             },
             "B": {
               "this_job_attempt_starts": [],
@@ -4004,7 +4004,7 @@
           "status": "RUNNING",
           "gpus": 1,
           "node": "gpu4010",
-          "elapsed_seconds": 335,
+          "elapsed_seconds": 708,
           "arms": {
             "A": {
               "this_job_attempt_starts": [
@@ -4016,11 +4016,11 @@
                   "next_sample_cursor": 12000
                 }
               ],
-              "this_job_updates_completed_in_memory": 1514,
-              "this_job_last_checkpoint_update": null,
-              "this_job_last_update_seconds": 7.033185062929988,
+              "this_job_updates_completed_in_memory": 1572,
+              "this_job_last_checkpoint_update": 1550,
+              "this_job_last_update_seconds": 5.58207687549293,
               "last_event": "sample_start",
-              "last_event_utc": "2026-10-17T10:45:43.338518+00:00"
+              "last_event_utc": "2026-10-17T10:51:55.122949+00:00"
             },
             "B": {
               "this_job_attempt_starts": [],
@@ -4048,9 +4048,9 @@
       "batch1_registration": "results/formal_main_v2/preflight/parallel_batch1_training_registration.json",
       "batch1_registration_sha256": "1aaac02ec8d122e80e06cb4a98fa13e9e4183bd48fd66ad12ab065d83ae57bff",
       "latest_live_observation": {
-        "path": "results/formal_main_v2/live/parallel_20261017T104541Z.json",
-        "sha256": "c1841cdc7093ba68582904ea89f7a17396afb9068b8e78673603199dd60ae14e",
-        "observed_utc": "2026-10-17T10:45:41.045457+00:00"
+        "path": "results/formal_main_v2/live/parallel_20261017T105153Z.json",
+        "sha256": "c30c335aab2ec9ffd6dc8174ce5b7f12b42debcadc7cdf3fa3627c1ae9237759",
+        "observed_utc": "2026-10-17T10:51:53.150023+00:00"
       },
       "registered_requested_active_GPU_jobs": 8,
       "actual_running_allocated_GPUs": 8,
@@ -4532,7 +4532,7 @@
       "continuation_plan": "results/formal_main_v2/preflight/long_first_pair_development_plan_v2.json",
       "continuation_plan_sha256": "fce3deca8aa088a3da39139bf3122a93a594ce8305e863f66e6425e90b6fc356",
       "continuation_independent_review": "results/formal_main_v2/preflight/long_first_pair_development_plan_independent_v2.json",
-      "latest_live": "results/formal_main_v2/live/long_development_20261017T103602Z.json"
+      "latest_live": "results/formal_main_v2/live/long_development_20261017T105315Z.json"
     },
     "parallel_resource_calibration": {
       "path": "results/formal_main_v2/preflight/parallel_observed_resource_calibration_20261017.json",
@@ -4555,7 +4555,7 @@
     "Use the CPU-accepted downstream consumers for registered development; review actual GPU receipts before continuation. Global72+16+four-suite dev release still required.",
     "First Long completed pair enables its registered development work after independent terminal review; do not open final states."
   ],
-  "updated_utc": "2026-10-17T10:45:39.300710+00:00",
+  "updated_utc": "2026-10-17T10:53:15.710796+00:00",
   "execution_authorization_update": {
     "user_requested_parallel_multi_GPU": true,
     "registration": "configs/experiments/formal_main_v2_parallel_execution_v1.json",
