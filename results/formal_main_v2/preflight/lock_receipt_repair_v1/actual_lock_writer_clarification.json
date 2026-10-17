@@ -1,0 +1,15 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "lock_writer_attribution_clarification",
+  "created_utc": "2026-10-17T10:44:42.109452+00:00",
+  "job_id": "3016981",
+  "clarification": "For this actual adapter invocation, the existing formal_evaluation_adapter.run evaluate branch creates the .evaluation.lock at line423 before calling the frozen execute function. The frozen eval_formal_selector_libero CLI exclusive_output at line39 uses the same filename, but its CLI main was not the entrypoint of this job. Prior references to that CLI establish the filename convention, not the actual caller. The narrow lock-only audit fix and all SHA checks are unaffected.",
+  "earlier_record_retained": "results/formal_main_v2/preflight/lock_receipt_repair_v1/repair_review.json",
+  "read_evidence_sha256": {
+    "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+    "scripts/eval_formal_selector_libero.py": "de5a2b0a20f8121b57da8a1f766e4f5b48f3c86e214eae7aa3d08d642753f887",
+    "results/formal_main_v2/invocations/libero_10_development_8c843c1d4ee8383c_attempt01.json": "80661acb759f4e1fb470a5a1082ee7ecde13008861a4781dd18cbe654742da7e"
+  },
+  "source_changed": false,
+  "new_tests_or_GPU_calls": 0
+}

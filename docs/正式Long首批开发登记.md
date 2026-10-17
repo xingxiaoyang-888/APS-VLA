@@ -4,7 +4,7 @@
 
 作业3016981完成，完整分配437 GPU秒。原始25行ledger包含12条终态，恰为固定前2个开发初态×6方法；491次策略调用、硬预算、packing、单次前向、动作队列及A/B选中checkpoint身份均通过root和独立复核。两条达到控制步上限仍未成功的试次完整保留。当前为12/600，不能据这两个初态判断整体成功率或加速收益，最终评测仍封存。
 
-根审计器最初将冻结评测CLI正常生成的`.evaluation.lock`误判为异常排除。修正仅允许development/final下精确run目录的该锁及精确排除原因，其他缺失、SHA、来源和最终面板检查保持。50项聚焦CPU测试及独立审核通过；173冻结文件未变，原GPU作业未重跑。旧157项CPU验收保留其原源码身份，不声称在修正版本重新执行。见[修正附录](../results/formal_main_v2/preflight/downstream_lock_root_acceptance_20261017.json)。
+根审计器最初将既有评测入口正常生成的`.evaluation.lock`误判为异常排除。修正仅允许development/final下精确run目录的该锁及精确排除原因，其他缺失、SHA、来源和最终面板检查保持。50项聚焦CPU测试及独立审核通过；173冻结文件未变，原GPU作业未重跑。旧157项CPU验收保留其原源码身份，不声称在修正版本重新执行。见[修正附录](../results/formal_main_v2/preflight/downstream_lock_root_acceptance_20261017.json)。
 
 已登记下一段显式resume、新增上限120条，正常完成后累计132/600，保持同一清单、目录、初态顺序和原ledger。分段大小仅根据已测试次耗时和原4小时时限确定，不依据成功率。首12条原始9份文件已逐字节归档，旧437 GPU秒继续计账。提交前核对203个服务器输入及两份选中checkpoint实际SHA，并受8个活动请求上限约束。
 
