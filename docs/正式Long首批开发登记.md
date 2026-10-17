@@ -1,5 +1,13 @@
 # Long首批正式开发登记
 
+## 2026-10-17 23:40：372条验收与下一段
+
+作业3018505新增120条并通过root与独立复核，累计372/600条、62个唯一开发初态（task0–5各10，task6为2）。原252条43612200字节前缀精确保留；累计13538次策略/视觉/packing调用、107208控制动作，未来头调用0。旧31＋新34＝65条任务失败完整保留，运行错误0。固定开发前缀不足以判断全套件或最终成功率，也不是完整O2A测速结果。
+
+本段2115 GPU秒，四段437＋2193＋1835＋2115＝6580秒已计入总账。第四次15份非权重原文件逐字节归档；下一段保持原600条、6方法、初态顺序与A@4500/B@5000，新增120条至492（之后余108）。独立计划重建及209个服务器输入＋2份best权重SHA核验通过后已提交3019176。未更改任何科学设置或依据结果选择任务。
+
+证据：[根审计](../results/formal_main_v2/downstream_reviews/3018505.json)、[实际独审](../results/formal_main_v2/preflight/long_fourth_development_real_independent_20261017.json)、[原字节归档](../results/formal_main_v2/preflight/long_fourth_development_raw_v1/receipt.json)、[v5登记](../results/formal_main_v2/preflight/long_first_pair_development_registration_v5.json)、[v5独审](../results/formal_main_v2/preflight/long_first_pair_development_plan_independent_v5.json)、[服务器SHA](../results/formal_main_v2/preflight/long_first_pair_development_server_inputs_v6.json)。
+
 ## 2026-10-17 22:04：252条验收与下一段
 
 作业3017959新增120条并通过root和独立复核，累计252/600条、42个唯一开发初态（task0–3各10，task4为2）。旧132条原始23279202字节前缀完整保留；累计9167次策略/视觉/packing调用、72534控制动作，未来头调用0。31条控制步耗尽的任务失败全部保留，本段新增16条，运行错误0。这是固定开发前缀，不作为全套件成功率、正式盲测或完整O2A结论。
