@@ -1,0 +1,29 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "first_completed_pair_review_requirements",
+  "status": "read_only_operational_preparation",
+  "created_utc": "2026-10-17T08:17:20.540895+00:00",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "root_and_independent_static_review": true,
+  "reviewed_files_sha256": {
+    "scripts/review_formal_segment.py": "566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790",
+    "src/cti_vla/training/formal_future.py": "3f4d2f933aa276d26dccfc2ce16d145f8bf40c7c1446ffddbb7342a763bc097b",
+    "scripts/run_formal_future.py": "5f36a9e315d7c25e439e0a4747c0d67ab1ff3671909e9d39569f1836d1717c00"
+  },
+  "prerequisites": [
+    "Registered final5000 allocation must be COMPLETED/0:0; pull all pair history with stable raw SHA and allocation accounting.",
+    "Read training_summary.json and both training_report.json, not the retained4500 progress reports. Require completed5000,40000 committed sample uses per arm and all11 validation nodes; independently recompute task-macro hard teacher L1 and earliest minimum.",
+    "Require matching deployment_receipt.json and selected model identities. The final best.pt is rewritten with training_complete=true and need not have the earlier candidate-file SHA.",
+    "The current root segment command hashes only resume.pt. Separately hash exactly both registered server best.pt paths with stable size/mtime, bind final job/invocation/pull/deployment SHA, and require equality with both deployment_receipt.checkpoint_sha256 and training_report.best_checkpoint_sha256.",
+    "Record2 completed selectors only after root and independent terminal review plus selected server SHA proof. allowed_next_segment_end=None, resume_required=false, no5500 training."
+  ],
+  "bookkeeping_limitations": [
+    ".local/record_parallel_boundary.py currently hardcodes0/72 and Resume to None; do not use it unchanged at5000.",
+    ".local/record_root_terminal_boundary.py rejects5000. Historical0/72 snapshots remain immutable."
+  ],
+  "current_training_completion_claimed": false,
+  "weights_copied": false,
+  "final_states_read": false,
+  "new_GPU_jobs": 0,
+  "final_release_authorized_by_this_note": false
+}

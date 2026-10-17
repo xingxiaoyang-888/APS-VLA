@@ -1,0 +1,45 @@
+--- source24-tested-helper-65dfd25d
++++ final-helper-6d9af874
+@@ -75,17 +75,23 @@
+ 
+ class ScopedEvidence:
+     """Adapt either root evidence API; exclude unrelated mutable caller reads."""
+-    def __init__(self, parent):
++    def __init__(self, parent, *, forbidden_paths=()):
+         self.parent = parent
+         self.root = Path(getattr(parent, "root", getattr(parent, "project", ""))).resolve()
+         require(self.root.is_dir(), "missing project evidence root")
+         self.project = self.root
+         self.hashes = {}
+         self.files = self.hashes
++        self.forbidden_paths = set(getattr(parent, "forbidden_paths", ()))
++        for name in forbidden_paths:
++            path = Path(name)
++            self.forbidden_paths.add(path if path.is_absolute() else self.root / path)
+ 
+     def path(self, name):
+         path = Path(name)
+         path = path if path.is_absolute() else self.root / path
++        require(".." not in path.parts, "evidence traversal is forbidden before path resolution")
++        require(path not in self.forbidden_paths, "final rollout state-value panel is forbidden")
+         require(not (set(s.lower() for s in path.suffixes) & FORBIDDEN)
+             and not any("sealed" in p.lower() or p.lower() in ("weights", "checkpoints") for p in path.parts),
+             "weights and sealed states are forbidden")
+@@ -612,7 +618,8 @@
+     The caller must rebuild trials/profile coverage and count every allocation.
+     Incomplete or failing outer compatibility proof is rejected, not repaired.
+     """
+-    scoped=ScopedEvidence(evidence)
++    output_relative = remote_relative(job["run_root"])
++    scoped=ScopedEvidence(evidence, forbidden_paths=([output_relative + "/panel.json"] if job.get("mode") == "final" else []))
+     require(isinstance(source_provenance,dict) and source_provenance.get("status")=="verified"
+         and source_provenance.get("kind")=="asset_downstream_source_provenance","source provenance missing")
+     execution_relative=remote_relative(invocation["execution_manifest"])
+@@ -636,6 +643,7 @@
+     require(scoped.read(receipt_path)==wrapper_receipt,"parent job receipt argument differs")
+     same(wrapper_receipt,dict(schema=SCHEMA,kind="formal_downstream_job_receipt",job_id=job["job_id"],stage=job["mode"],
+         stage_key=job["stage_key"],run_root=job["run_root"],source_sha256=SOURCE_SHA256,adapter_sha256=OLD_ADAPTER_SHA256,
++        wrapper_sha256=value["files"][WRAPPER],stage_completed_claimed=False,
+         invocation_sha256=job["invocation_sha256"],downstream_asset_compatibility=value,status="returned",exit_code=0),"parent wrapper receipt")
+     base=PurePosixPath(job["run_root"])/"asset_compatibility"/job["job_id"]
+     global_base=P/f"results/{SCHEMA}/downstream_asset_invocations"/job["job_id"]

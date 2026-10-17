@@ -17,6 +17,7 @@ import uuid
 P = Path("/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA")
 ROUND = "formal_main_v2"
 ADAPTER = "scripts/ops/formal_evaluation_adapter.py"
+ASSET_ADAPTER = "scripts/ops/formal_asset_evaluation_adapter.py"
 WRAPPER = "scripts/server/run_formal_downstream.py"
 CONTROLLER = "scripts/ops/formal_downstream_supervisor.py"
 ADAPTER_SHA = "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd"
@@ -54,28 +55,58 @@ def publish(path, value):
 def safe(path, *, root=P, allow_development=False):
     path = Path(path)
     parts = [p.lower() for p in path.parts]
-    if (not path.is_absolute() or root not in path.parents or path.resolve() != path
+    if (not path.is_absolute() or root not in path.parents
             or any("sealed" in p or p in ("weights", "checkpoints") for p in parts)
             or set(path.suffixes) & {".pt", ".pth", ".bin", ".ckpt", ".safetensors", ".pkl", ".pickle", ".init", ".pruned_init"}
             or ("initial_states" in parts and not (allow_development and path.name == "development.json"))):
         raise ValueError("Wrapper may only hash explicit nonweight, nonsealed paths")
+    if path.resolve() != path:
+        raise ValueError("Wrapper may only hash canonical nonweight paths")
     return path
+
+
+def asset_adapter_module(invocation, *, project=None):
+    """Load only the registered, suite-specific outer entrypoint, before use."""
+    project = P if project is None else Path(project)
+    if (invocation.get("suite") not in ("libero_object", "libero_goal")
+            or any(k in invocation for k in ("runtime_compatibility", "component_compatibility"))):
+        raise ValueError("Downstream execution must not impersonate historical stage contracts")
+    support = invocation.get("support_files", {})
+    path = safe(project / ASSET_ADAPTER, root=project)
+    checksum = support.get(ASSET_ADAPTER)
+    if not re.fullmatch(r"[a-f0-9]{64}", str(checksum)) or sha(path) != checksum:
+        raise ValueError("Registered downstream asset entrypoint changed")
+    spec = importlib.util.spec_from_file_location("registered_downstream_asset_adapter", path)
+    adapter = importlib.util.module_from_spec(spec)
+    exec(compile(path.read_bytes(), str(path), "exec"), adapter.__dict__)
+    contract = adapter.validate_contract(invocation.get("downstream_asset_compatibility"),
+        invocation["suite"], project)
+    if support != contract["files"] or invocation.get("wrapper_sha256") != support[WRAPPER]:
+        raise ValueError("Actual downstream support differs from its explicit contract")
+    return adapter
 
 
 def validate_shape(invocation):
     stage = invocation.get("stage")
+    compatible = "downstream_asset_compatibility" in invocation
+    if ((invocation.get("suite") in ("libero_object", "libero_goal")) != compatible
+            or any(k in invocation for k in ("runtime_compatibility", "component_compatibility"))):
+        raise ValueError("Suite requires its explicit downstream contract, not a historical stage contract")
+    entrypoint = ASSET_ADAPTER if compatible else ADAPTER
     if (invocation.get("schema") != ROUND or invocation.get("kind") != "formal_downstream_invocation"
             or invocation.get("version") != "formal-downstream-root-v1"
             or stage not in ("development", "final", "collect", "full", "components")
             or invocation.get("source_root") != SOURCE.as_posix() or invocation.get("source_sha256") != FROZEN_SHA
-            or invocation.get("entrypoint") != ADAPTER or invocation.get("adapter_sha256") != ADAPTER_SHA
+            or invocation.get("entrypoint") != entrypoint or invocation.get("adapter_sha256") != ADAPTER_SHA
             or invocation.get("wrapper") != WRAPPER or invocation.get("scientific_settings_changed") is not False
             or invocation.get("final_values_read_locally") is not False
             or type(invocation.get("resume")) is not bool
             or not re.fullmatch(r"[A-Za-z0-9_-]+", invocation.get("stage_key", ""))):
         raise ValueError("Unregistered downstream wrapper/adapter identity")
     support = invocation.get("support_files", {})
-    if set(support) != {ADAPTER, WRAPPER, CONTROLLER} or support[ADAPTER] != ADAPTER_SHA or support[WRAPPER] != invocation.get("wrapper_sha256"):
+    if compatible:
+        asset_adapter_module(invocation)
+    elif set(support) != {ADAPTER, WRAPPER, CONTROLLER} or support[ADAPTER] != ADAPTER_SHA or support[WRAPPER] != invocation.get("wrapper_sha256"):
         raise ValueError("Downstream support file allowlist differs")
     argv = invocation.get("argv")
     if not isinstance(argv, list) or any(not isinstance(x, str) or "\0" in x for x in argv):
@@ -162,6 +193,57 @@ def archive_adapter_evidence(*, root, output, job_id, invocation):
     return artifacts, receipts
 
 
+def archive_asset_evidence(*, root, output, job_id, invocation, invocation_sha256):
+    """Preserve the child's three raw artifacts, including partial failures."""
+    if not re.fullmatch(r"[0-9]+", job_id):
+        raise ValueError("Invalid Slurm asset evidence identity")
+    source = root / "results/formal_main_v2/downstream_asset_invocations" / job_id
+    artifacts, completion = [], None
+    for name in ("identity.json", "events.jsonl", "completion.json"):
+        path = safe(source / name, root=root)
+        if not path.exists():
+            continue
+        before = path.stat()
+        data = path.read_bytes()
+        after = path.stat()
+        if (before.st_size, before.st_mtime_ns, before.st_ino) != (after.st_size, after.st_mtime_ns, after.st_ino):
+            raise ValueError("Asset compatibility evidence changed after child exit")
+        target = safe(output / "asset_compatibility" / job_id / name, root=root)
+        publish_bytes(target, data)
+        checksum = hashlib.sha256(data).hexdigest()
+        if sha(path) != checksum or sha(target) != checksum:
+            raise ValueError("Asset compatibility archive changed bytes")
+        artifacts.append(dict(source=str(path), path=str(target), sha256=checksum, bytes=len(data)))
+        if name.endswith(".json"):
+            row = json.loads(data)
+            expected = dict(job_id=job_id, invocation_sha256=invocation_sha256,
+                suite=invocation["suite"], stage=invocation["stage"], stage_key=invocation["stage_key"],
+                source_sha256=FROZEN_SHA, execution_manifest_sha256=invocation["execution_manifest_sha256"],
+                downstream_asset_compatibility=invocation["downstream_asset_compatibility"],
+                legacy_stage_wrappers_executed=False,
+                kind="formal_downstream_asset_identity" if name == "identity.json" else "formal_downstream_asset_completion")
+            if any(row.get(k) != v for k, v in expected.items()):
+                raise ValueError("Asset compatibility evidence is not this exact invocation")
+            if name == "completion.json":
+                completion = row
+    return artifacts, completion
+
+
+def require_asset_completion(artifacts, completion, adapter_artifacts, adapter_receipts):
+    if (len(artifacts) != 3 or {Path(a["path"]).name for a in artifacts} != {"identity.json", "events.jsonl", "completion.json"}
+            or not isinstance(completion, dict)
+            or any(completion.get(k) != v for k, v in dict(status="returned", exit_code=0,
+                loader_bindings_restored=True, original_adapter_run_unchanged=True,
+                source_inputs_unchanged=True, scientific_completion_not_inferred=True).items())):
+        raise ValueError("Successful child lacks complete restored asset compatibility evidence")
+    proof = completion.get("legacy_adapter_proof") or {}
+    if (len(adapter_receipts) != 1 or len(adapter_artifacts) != 2 or proof.get("status") != "returned"
+            or completion.get("legacy_adapter_artifacts") != adapter_artifacts
+            or proof.get("receipt") not in adapter_artifacts or proof.get("journal") not in adapter_artifacts
+            or proof.get("receipt") == proof.get("journal")):
+        raise ValueError("Asset completion does not bind this job's original adapter evidence")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--invocation", type=Path, required=True)
@@ -184,6 +266,9 @@ def main():
         adapter_sha256=ADAPTER_SHA, wrapper_sha256=invocation["wrapper_sha256"],
         started_utc=datetime.now(timezone.utc).isoformat(), stage_completed_claimed=False,
         cost_scope="Complete Slurm allocation is billed separately, including preflight and every failed attempt")
+    compatible = "downstream_asset_compatibility" in invocation
+    if compatible:
+        receipt["downstream_asset_compatibility"] = invocation["downstream_asset_compatibility"]
     code = 1
     try:
         from contextlib import ExitStack
@@ -200,7 +285,10 @@ def main():
                 lock = stack.enter_context((locks / (name + ".lock")).open("a"))
                 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             verify(invocation)
-            result = subprocess.run([sys.executable, str(P / ADAPTER), *invocation["argv"]], cwd=SOURCE)
+            command = ([sys.executable, str(P / ASSET_ADAPTER), "--invocation", str(path),
+                "--invocation-sha256", args.invocation_sha256] if compatible
+                else [sys.executable, str(P / ADAPTER), *invocation["argv"]])
+            result = subprocess.run(command, cwd=SOURCE)
             code = result.returncode
     except BaseException as error:
         receipt.update(error_type=type(error).__name__, error=str(error))
@@ -208,6 +296,12 @@ def main():
         try:
             artifacts, adapter_receipts = archive_adapter_evidence(root=P, output=output, job_id=job, invocation=invocation)
             receipt.update(adapter_artifacts=artifacts, adapter_receipts=adapter_receipts)
+            if compatible:
+                asset_artifacts, asset_completion = archive_asset_evidence(root=P, output=output, job_id=job,
+                    invocation=invocation, invocation_sha256=args.invocation_sha256)
+                receipt["asset_compatibility_artifacts"] = asset_artifacts
+                if code == 0:
+                    require_asset_completion(asset_artifacts, asset_completion, artifacts, adapter_receipts)
             for name, expected in invocation["support_files"].items():
                 if sha(safe(P / name)) != expected:
                     raise ValueError("Support bytes changed during execution")

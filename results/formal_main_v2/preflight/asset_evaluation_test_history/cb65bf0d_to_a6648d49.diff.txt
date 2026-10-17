@@ -1,0 +1,61 @@
+--- test_formal_asset_evaluation_adapter.py@cb65bf0d159fe9104453de1e859c9dcb66e1c058d5824d3fcc38b7704ff04873
++++ test_formal_asset_evaluation_adapter.py@a6648d4963a9c4c78497980dd2afc8552623f88c9246fa4060a9e3c1b9adb44c
+@@ -155,6 +155,13 @@
+                  "input_acceptance", "development_panel", "release", "global_freeze", "panel"):
+         if name in args: watched[str(args[name])] = sha(Path(args[name]))
+     inv["watched_files"] = watched
++    if previous:
++        # This fixture represents the root-approved partition for the future
++        # compatible E04 branch. It is not proof that the production plan
++        # builder has been integrated. The original adapter still owns the
++        # exact ledger-prefix and frozen config/panel checks.
++        inv["root_evidence_sha256"] = {(output / name).relative_to(p).as_posix(): sha(output / name)
++            for name in ("trials.jsonl", "closed_loop_report.json")}
+     path = p / f"results/formal_main_v2/invocations/synthetic_downstream_{job}.json"
+     write(path, inv)
+     return SimpleNamespace(job=job, path=path, value=inv, output=output, manifest=manifest, manifest_path=mp, args=args)
+@@ -322,12 +329,16 @@
+ 
+ 
+ @pytest.mark.parametrize("suite", ["libero_object", "libero_goal"])
+-def test_explicit_resume_preserves_prefix_and_does_not_repeat_terminal(project, suite):
++def test_explicit_resume_partition_preserves_prefix_and_does_not_repeat_terminal(project, suite):
+     first = new_case(project, suite=suite)
+     run_case(project, first)
+     ledger = first.output / "trials.jsonl"
+     before = ledger.read_bytes()
+     second = new_case(project, suite=suite, previous=first)
++    for name in ("trials.jsonl", "closed_loop_report.json"):
++        path = first.output / name
++        assert str(path) not in second.value["watched_files"]
++        assert second.value["root_evidence_sha256"][path.relative_to(project.project).as_posix()] == sha(path)
+     run_case(project, second)
+     after = ledger.read_bytes()
+     assert after.startswith(before)
+@@ -335,6 +346,26 @@
+     done = [r["trial_id"] for r in rows if r["event"] == "result"]
+     assert len(done) == len(set(done)) == 2
+     assert [r["slurm_job_id"] for r in rows if r["event"] == "invocation"] == [first.job, second.job]
++
++
++def test_legacy_e04_all_output_watch_refuses_legitimate_resume(project):
++    first = new_case(project, suite="libero_goal")
++    run_case(project, first)
++    before = (first.output / "trials.jsonl").read_bytes()
++    second = new_case(project, suite="libero_goal", previous=first)
++    # Reproduce the existing E04 plan's verified_files -> watched_files mapping
++    # over actual first-attempt outputs. No fabricated successful root review
++    # or production builder integration is claimed by this CPU fixture.
++    for path in first.output.rglob("*"):
++        if path.is_file():
++            second.value["watched_files"][str(path)] = sha(path)
++    write(second.path, second.value)
++    result = run_case(project, second, expected=1)
++    assert result["legacy_adapter_proof"]["status"] == "returned"
++    assert result["source_inputs_unchanged"] is False
++    assert any("immutable source/input bytes changed" in row["error"] for row in result["errors"])
++    after = (first.output / "trials.jsonl").read_bytes()
++    assert len(after) > len(before) and after.startswith(before)
+ 
+ 
+ @pytest.mark.parametrize("behavior", ["early", "after_load", "zero", "duplicate_component", "duplicate_metadata", "wrong_manifest", "mutate_run_code", "system_exit_zero", "mutate_input"])
