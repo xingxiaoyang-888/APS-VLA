@@ -1,0 +1,64 @@
+"""Root bookkeeping for the already submitted first Object development slice."""
+from pathlib import Path
+from datetime import datetime, timezone
+import json, sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+job_id = sys.argv[1]
+assert job_id.isdigit()
+base = 'results/formal_main_v2/'
+outrel = base + 'preflight/object_first_pair_development_submission_root.json'
+assert not (root / outrel).exists()
+refs = [base + 'preflight/object_first_pair_development_' + name + '.json' for name in
+        ('registration_v1', 'plan_v1', 'root_review_v1', 'server_inputs_v1', 'server_inputs_v2', 'config_sync_v1')]
+values = [f.read(root / name) for name in refs]
+registration, plan, review, first_probe, probe, publication = values
+assert review['status'] == 'passed_cpu_only' and review['plan_rebuilt_equal']
+assert probe['status'] == 'passed_for_preparation' and publication['status'] == 'verified'
+assert all(row['status'] in ('matched', 'missing_allowed_exact_publication') for row in probe['actual']['rows'])
+assert all(f.sha(root / name) == checksum for name, checksum in review['read_evidence_sha256'].items())
+with f.supervisor_lock():
+    state = f.read(f.STATE)
+    jobs = f.refresh(state)
+    assert state['pending_submission'] is None
+    job = next(j for j in jobs if j['job_id'] == job_id)
+    assert job['mode'] == 'development' and job['suite'] == 'libero_object'
+    assert job['status'] in f.ACTIVE | {'SUBMITTED'}
+    assert job['method_ids'] == registration['methods']
+    assert job['invocation'] == plan['invocation_relative']
+    inv = f.read(root / job['invocation'])
+    assert inv['plan_sha256'] == plan['plan_sha256'] == review['plan_sha256']
+    assert all(inv[k] == value for k, value in plan['invocation'].items())
+    assert inv['stop_after'] == 12 and not inv['resume']
+    assert len([j for j in jobs if j['status'] in f.ACTIVE | {'SUBMITTED'}]) == 8
+    progress = state['formal_main_progress']
+    assert progress['trained_arms'] == 4 and progress['completed_development_trials'] == 600
+    assert not progress['test_opened'] and not progress['global_release_created']
+    assert 'first_object_development' not in progress
+    progress['first_object_development'] = dict(status='first12_submitted_pending_actual_GPU_review',
+        execution_manifest=registration['execution_manifest'], execution_manifest_sha256=registration['execution_manifest_sha256'],
+        plan=registration['plan'], plan_sha256=registration['plan_sha256'],
+        registration=refs[0], root_plan_review=refs[2], server_inputs=refs[4],
+        methods=6, target_trials=600, first_stop_after=12, completed_trials=0,
+        unique_verified_development_initial_states=0, full_suite_development_complete=False,
+        actual_object_downstream_GPU_accepted=False, active_job_id=job_id, active_job_status=job['status'],
+        job_id=job_id, invocation=job['invocation'], invocation_sha256=job['invocation_sha256'],
+        selected_training_job_id='3021103', final_states_opened=False,
+        next='Pull and independently review the first12 actual Object trials, metadata restoration, exact ledger and costs before explicit continuation on this same600-trial run; no trial reruns.')
+    refs.extend([job['invocation'], base + 'submissions/' + job_id + '.json'])
+    value = dict(schema='formal_main_v2', kind='root_first_object_development_submission', status='submitted_pending_actual_GPU_review',
+        recorded_utc=datetime.now(timezone.utc).isoformat(), job_id=job_id, invocation=job['invocation'],
+        invocation_sha256=job['invocation_sha256'], plan_sha256=plan['plan_sha256'], target_trials=600, first_slice=12,
+        actual_completed_trials=0, training_arms_complete=4, final_states_sealed=True,
+        scientific_settings_changed=False, weights_copied=False, evidence_sha256={name: f.sha(root / name) for name in refs})
+    f.write(root / outrel, value)
+    progress['first_object_development']['submission_root_review'] = outrel
+    progress['first_object_development']['submission_root_review_sha256'] = f.sha(root / outrel)
+    state['updated_utc'] = value['recorded_utc']
+    f.write(f.STATE, state)
+doc = root / 'docs/正式Object首批开发登记.md'
+doc.write_text(doc.read_text(encoding='utf-8') + '\n已提交作业' + job_id + '，首段12条。当前尚无已验收Object开发试次；实际GPU产物须另行回存和复核。\n', encoding='utf-8', newline='\n')
+print(json.dumps(dict(job_id=job_id, status=value['status'], record=outrel, sha256=f.sha(root / outrel))))

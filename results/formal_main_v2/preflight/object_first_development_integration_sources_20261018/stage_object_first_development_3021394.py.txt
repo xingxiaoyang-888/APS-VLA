@@ -1,0 +1,44 @@
+"""Stage only the12 verified raw Object files before the batch's normal stager."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+import subprocess
+
+root = Path(__file__).resolve().parents[1]
+base = 'results/formal_main_v2/'
+review_name = base + 'downstream_reviews/3021394.json'
+record_name = base + 'preflight/object_first_development_stage_exact_20261018.json'
+assert not (root / record_name).exists()
+assert not subprocess.check_output(['git', 'diff', '--cached', '--name-only'], cwd=root).strip()
+digest = lambda data: hashlib.sha256(data).hexdigest()
+review = json.loads((root / review_name).read_bytes())
+assert review['status'] == 'passed' and review['completed_trials'] == 12
+assert len(review['files']) == 12
+increment = json.loads((root / (base + 'preflight/parallel_increment_object12_20261018.json')).read_bytes())
+assert increment['status'] == 'passed_first12_engineering_gate'
+for name, checksum in review['files'].items():
+    assert name in increment['evidence_sha256'] and increment['evidence_sha256'][name] == checksum
+    assert name.startswith(base) or name in {
+        'results/slurm/cti-formal-downstream_3021394.out',
+        'results/slurm/cti-formal-downstream_3021394.err'}
+    assert '..' not in Path(name).parts and not (root / name).is_symlink()
+    assert (root / name).suffix in ('.json', '.jsonl', '.out', '.err')
+    assert digest((root / name).read_bytes()) == checksum
+pathspec = root / '.local/stage_object_3021394_raw.nul'
+assert not pathspec.exists()
+pathspec.write_bytes(b''.join((':(literal)' + name).encode('utf-8') + b'\0' for name in sorted(review['files'])))
+subprocess.run(['git', 'add', '-f', '--pathspec-from-file=' + str(pathspec), '--pathspec-file-nul'], cwd=root, check=True)
+for name, checksum in review['files'].items():
+    assert digest(subprocess.check_output(['git', 'show', ':' + name], cwd=root)) == checksum
+record = dict(schema='formal_main_v2', kind='root_exact_additional_current_pull_staging',
+    status='verified', checked_utc=datetime.now(timezone.utc).isoformat(), job_id='3021394',
+    root_review=review_name, root_review_sha256=digest((root / review_name).read_bytes()),
+    exact_staged_files=review['files'], files=12,
+    source_sha256=digest(Path(__file__).read_bytes()),
+    reason='Additional first Object terminal pull after the eight-training-pull batch was sealed; every one of its12 raw files is explicitly staged and SHA verified, including ignored journals. The pinned full-index archive guard follows before delivery.',
+    scientific_settings_changed=False, weights_delivered=False)
+with (root / record_name).open('x', encoding='utf-8', newline='\n') as stream:
+    stream.write(json.dumps(record, indent=2, sort_keys=True) + '\n')
+print(json.dumps(dict(status='verified', files=12, record=record_name,
+    sha256=digest((root / record_name).read_bytes()))))

@@ -1,0 +1,67 @@
+"""Root reconstruction of the registered Object development candidate, CPU only."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib, json, subprocess, sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path[:0] = [str(root / 'scripts'), str(root / 'src')]
+import formal_execution_manifests as m
+
+base = 'results/formal_main_v2/'
+regrel = base + 'preflight/object_first_pair_development_registration_v1.json'
+planrel = base + 'preflight/object_first_pair_development_plan_v1.json'
+manifestrel = base + 'execution/libero_object_development_first_pair_v1.json'
+outrel = base + 'preflight/object_first_pair_development_root_review_v1.json'
+logrel = '.local/object_development_root_plan_rebuild.log'
+sha = lambda n: hashlib.sha256((root / n).read_bytes()).hexdigest()
+read = lambda n: json.loads((root / n).read_bytes())
+assert not (root / outrel).exists() and not (root / logrel).exists()
+assert sha(regrel) == '4ef8d98a9e4e919bbe0b909459987c30fb50d1d0abad2eba2e958a4ec115fa5d'
+assert sha(planrel) == '67649b0be589ebd2c7e23de16b1babbd4234c5f947015bc85aee08ff0a53cd9a'
+assert sha(manifestrel) == '34062573869c7b947fbd3c37b09da476bec673e8e16fc4ea49c6ce8c5932db5a'
+candidate, plan, manifest = read(regrel), read(planrel), read(manifestrel)
+assert candidate['status'] == 'prepared_not_submitted'
+assert all(sha(n) == h for n, h in candidate['read_evidence_sha256'].items())
+methods = ['dense', 'uniform256', 'uniform128', 'uniform64', 'A128_seed17', 'B128_seed17']
+e = m.Evidence(root)
+registration = m.registration_contract(e, 'configs/experiments/formal_main_v2.json')
+sources = m.source_contract(e, base + 'source/formal_main_v2_run_564be0995e.json')
+rows = m.suite_rows(e, registration, 'libero_object', sources, methods)
+rebuilt = m.make_execution(registration, 'libero_object', rows)
+panelrel = registration['suites']['libero_object']['initial_states_root'] + '/development.json'
+rebuilt.update(development_panel=panelrel, development_panel_sha256=e.watch(panelrel))
+e.unchanged()
+assert rebuilt == manifest
+assert manifest['environment'] == dict(max_steps=280, action_chunk=8, wait_steps=10, environment_seed=0, runtime_seed=17)
+assert [x['identity']['method_id'] for x in manifest['methods']] == methods
+assert all(x['identity']['future_head_deployed'] is False for x in manifest['methods'])
+state = read('results/experiment_supervisor/state.json')
+completed = state['formal_main_progress']['completed_training_pairs']['libero_object_k128_seed17']
+assert completed['job_id'] == '3021103' and completed['trained_arms'] == 2
+assert completed['allowed_next_segment_end'] is None
+assert not state['formal_main_progress']['test_opened']
+command = [sys.executable, '-B', 'scripts/ops/formal_downstream_supervisor.py', 'plan', '--stage', 'development', '--execution-manifest', manifestrel, '--stop-after', '12']
+r = subprocess.run(command, cwd=root, capture_output=True)
+(root / logrel).write_text(json.dumps(dict(command=command, returncode=r.returncode, stdout=r.stdout.decode('utf-8'), stderr=r.stderr.decode('utf-8')), ensure_ascii=False) + '\n', encoding='utf-8', newline='\n')
+assert r.returncode == 0, r.stderr.decode('utf-8')
+actual = json.loads(r.stdout)
+assert actual == plan
+assert plan['plan_sha256'] == '524f52b19055b6e636322289e2d54bcb628adc12a197fb687501129b5b737501'
+assert plan['invocation']['entrypoint'] == 'scripts/ops/formal_asset_evaluation_adapter.py'
+assert plan['invocation']['stop_after'] == 12 and not plan['invocation']['resume']
+assert len(plan['invocation']['downstream_asset_compatibility']['files']) == 10
+assert not (root / plan['invocation_relative']).exists()
+assert not (root / plan['output_relative']).exists()
+assert all(sha(n) == h for n, h in candidate['read_evidence_sha256'].items())
+inputs = {**candidate['read_evidence_sha256'], **e.files}
+for n in (regrel, planrel, manifestrel, manifestrel + '.evidence.json', logrel, '.local/review_object_development_plan_root.py'):
+    inputs[n] = sha(n)
+value = dict(schema='formal_main_v2', kind='root_first_object_development_plan_reconstruction', status='passed_cpu_only', reviewed_utc=datetime.now(timezone.utc).isoformat(),
+    registration=regrel, execution_manifest=manifestrel, plan=planrel, plan_sha256=plan['plan_sha256'],
+    manifest_rebuilt_equal=True, plan_rebuilt_equal=True, selected_pair_job='3021103', methods=methods, environment=manifest['environment'],
+    unique_development_initial_states=100, target_terminal_trials=600, first_slice=12, actual_object_downstream_GPU_accepted=False,
+    checkpoint_bytes_read_locally=False, sealed_states_read=False, GPU_seconds=0, jobs_submitted=0,
+    remaining_gates=['Exact server source/input/support and selected best hashes, fresh capacity and duplicate guards before root submit.', 'Actual first12 Object adapter and ledger review before any continuation.'],
+    read_evidence_sha256=dict(sorted(inputs.items())))
+(root / outrel).write_text(json.dumps(value, indent=2, ensure_ascii=False) + '\n', encoding='utf-8', newline='\n')
+print(json.dumps(dict(status=value['status'], path=outrel, sha256=sha(outrel), files=len(inputs), plan_sha256=plan['plan_sha256'])))

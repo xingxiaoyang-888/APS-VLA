@@ -22,3 +22,9 @@ root已在实际Git暂存区执行完整提取、验证和恢复：两份110,234
 后续不要强制重新加入上述原件。新增大日志须单独登记精确路径、SHA和字节数，先存齐块与来源，再用`scripts/ops/check_nonweight_archive_stage.py`检查真实暂存区；原有通用stage检查器不适用于已登记的原件索引迁移。缺块、SHA变化、未登记删除、权重及封存状态输入必须拒绝。
 
 [本次映射](../results/formal_main_v2/nonweight_archives/v1/snapshots/long_dev600_20261018.json)、[迁移登记](../results/formal_main_v2/preflight/long_dev600_archive_v1/migration_registration.json)、[精确ignore登记](../results/formal_main_v2/preflight/long_dev600_archive_v1/exact_ignore_registration.json)、[独立工程审核](../results/formal_main_v2/preflight/nonweight_archive_stage_independent_20261018.json)。旧codec审核中的`.gitattributes`和`.gitignore`历史SHA分别对应各修正目录中保存的原件，不修改历史审核收据。
+
+2250批次保留了一次暂存准备失败：旧回存收据中的3份Spatial进度文件已经合法推进，不能用旧SHA核验当前文件。已从对应历史Git提交恢复旧字节副本；当前8份回存的全部664条文件记录仍逐项核验。历史收据与修正前后脚本均保留，无GPU重跑。
+
+Object新增12份实际开发产物全部进入本批精确交付。另一个依赖是此前已提交且未改的Object开发初态面板：仅固定`configs/manifests/formal_main_v2/libero_object/initial_states/development.json`及SHA `6b7e6dd9fb5b6351ee47c7bb30eab911e7c144d700cd88f7e5162641738b2d6a`，单独检查HEAD、index和工作区原字节一致，并要求无任何暂存或未暂存变化。通用守卫的状态路径禁令保持原样；此既有文件不重新暂存，所有新改文件仍完整受守卫检查。检查前后还要求全Git索引不变；任一身份不符即停止交付，不自动修复或放宽路径。
+
+[旧进度原字节与有界修正](../results/formal_main_v2/preflight/parallel_review_batch_20261017T2250_staging_repair/root_review.json)、[既有开发面板身份](../results/formal_main_v2/preflight/object_existing_development_panel_index_20261018.json)、[本批实际交付核验](../results/formal_main_v2/preflight/parallel_review_batch_20261017T2250_git_delivery.json)。

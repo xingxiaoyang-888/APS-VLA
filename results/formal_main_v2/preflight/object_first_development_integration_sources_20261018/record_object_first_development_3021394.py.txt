@@ -1,0 +1,152 @@
+"""Root integration of the first actual Object development engineering gate."""
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+import json
+import sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+base = 'results/formal_main_v2/'
+outrel = base + 'preflight/parallel_increment_object12_20261018.json'
+rr = base + 'downstream_reviews/3021394.json'
+ir = base + 'preflight/object_first_development_real_independent_20261018.json'
+archive = base + 'preflight/object_first_development_raw_v1/receipt.json'
+assert not (root / outrel).exists()
+review, independent = f.read(root / rr), f.read(root / ir)
+assert review['status'] == independent['status'] == 'passed'
+assert independent['root_review_sha256'] == f.sha(root / rr)
+assert review['completed_trials'] == independent['completed_trials'] == 12
+assert independent['unique_observed_development_initial_states'] == 2
+assert not review['scientific_complete'] and not review['final_state_values_read']
+assert review['cost']['all_attempt_gpu_seconds'] == review['cost']['current_gpu_seconds'] == 386
+assert review['asset_runtime_review']['status'] == 'verified'
+assert review['asset_runtime_review']['loader_bindings_restored']
+assert review['asset_runtime_review']['source_inputs_unchanged']
+assert review['asset_runtime_review']['metadata_loads'] == 1
+assert review['asset_runtime_review']['component_loads'] == 0
+
+refs = {rr, ir, archive, review['pull_receipt']}
+sources = {'.local/archive_object_first_development.py',
+    '.local/record_object_first_development_3021394.py', '.local/verify_2250_git_delivery.py',
+    '.local/stage_object_first_development_3021394.py',
+    '.local/stage_parallel_review_20261017T2250_delivery.py',
+    '.local/fill_reviewed_pair_slot.py'}
+for name, checksum in independent['read_evidence_sha256'].items():
+    assert f.sha(root / name) == checksum, name
+    if name.startswith('.local/'):
+        sources.add(name)
+    else:
+        refs.add(name)
+assert independent['read_evidence_sha256'][rr] == f.sha(root / rr)
+for name, checksum in review['files'].items():
+    assert f.sha(root / name) == checksum
+    refs.add(name)
+for item in f.read(root / archive)['files']:
+    assert f.sha(root / item['archive']) == item['sha256']
+    refs.add(item['archive'])
+run = base + 'libero_object/downstream/development/8c843c1d4ee8383c/attempt01'
+rows = [json.loads(line) for line in (root / run / 'trials.jsonl').read_bytes().splitlines()]
+completed = [row for row in rows if row['event'] == 'result']
+assert len(completed) == len({r['trial_id'] for r in completed}) == 12
+assert len({r['state_trial_id'] for r in completed}) == 2
+assert all(row['status'] == 'completed' and row['suite'] == 'libero_object' and row['split'] == 'development' for row in completed)
+assert sum(not row['success'] for row in completed) == 3
+assert all(row['success'] or row['termination'] == 'task_horizon' and row['control_steps'] == 280 for row in completed)
+chunks = [chunk for row in completed for chunk in row['chunks']]
+assert len(chunks) == sum(row['policy_calls'] for row in completed) == 269
+assert all(chunk['metadata'][key] == 1 for chunk in chunks for key in ('policy_calls', 'packing_calls', 'vision_calls'))
+assert all(chunk['metadata']['future_head_calls'] == 0 for chunk in chunks)
+assert sum(row['control_steps'] for row in completed) == 2103
+
+folder = root / (base + 'preflight/object_first_development_integration_sources_20261018')
+assert not folder.exists()
+folder.mkdir()
+source_map = {}
+for name in sorted(sources):
+    source = root / name
+    assert source.is_file() and not source.is_symlink()
+    target = folder / (source.name + '.txt')
+    assert not target.exists()
+    target.write_bytes(source.read_bytes())
+    source_map[name] = target.relative_to(root).as_posix()
+    refs.add(source_map[name])
+
+with f.supervisor_lock():
+    state = f.read(f.STATE)
+    jobs = f.refresh(state)
+    job = next(j for j in jobs if j['job_id'] == '3021394')
+    assert job['status'] == 'COMPLETED' and job['exit_code'] == '0:0'
+    assert job['elapsed_seconds'] * job['gpus'] == 386
+    active = [j for j in jobs if j['status'] in f.ACTIVE | {'SUBMITTED'}]
+    assert len(active) == 8 and len({j['stage_key'] for j in active}) == 8
+    assert all(j['mode'] == 'train' and j['gpus'] == 1 for j in active)
+    assert any(j['job_id'] == '3021418' and j['segment_end'] == 4000 for j in active)
+    p = state['formal_main_progress']
+    d = p['first_object_development']
+    assert p['trained_arms'] == 4 and p['root_and_independent_reviewed_arm_updates'] == 99000
+    assert p['completed_development_trials'] == 600 and d['completed_trials'] == 0
+    assert p['completed_final_trials'] == 0 and not p['test_opened'] and not p['global_release_created']
+    new_job = next(j for j in jobs if j['job_id'] == '3021418')
+    refs.update([new_job['invocation'], base + 'submissions/3021418.json',
+        p['parallel_execution']['pair_tracking']['libero_10_k256_seed17']['latest_resume_precheck']])
+    assert f.sha(root / new_job['invocation']) == new_job['invocation_sha256']
+    now = datetime.now(timezone.utc)
+    receipt = dict(schema='formal_main_v2', kind='root_first_object_actual_development_integration',
+        status='passed_first12_engineering_gate', recorded_utc=now.isoformat(),
+        job_id='3021394', completed_development_trials=612, object_development_trials=12,
+        object_expected_trials=600, object_unique_initial_states=2,
+        runtime_errors=0, task_horizon_failures=3,
+        calls=dict(policy=269, vision=269, packing=269, executed_control_actions=2103, future_head=0),
+        allocated_GPU_seconds=386, cost_included_in_global_snapshot_not_additional=True,
+        completed_training_arms=4, cumulative_reviewed_arm_updates=99000,
+        all_formal_cost_snapshot=state['current_round_cost'],
+        active_jobs=[dict(job_id=j['job_id'], suite=j['suite'], budget=j['visual_tokens'],
+            seed=j['training_seed'], segment_end=j['segment_end'], status=j['status']) for j in active],
+        new_training_submission='3021418', root_review=rr, independent_review=ir,
+        raw_archive=archive, audit_source_archive_map=source_map,
+        evidence_sha256={name: f.sha(root / name) for name in sorted(refs)},
+        actual_GPU_gate='Object metadata adapter loaded once, no Goal component path; bindings restored and source inputs unchanged. All269 action chunks use one vision/packing/policy forward with zero future-head calls.',
+        conclusion='Only the first two development initial states across six methods; engineering acceptance, not a suite success-rate claim or evidence of B benefit.',
+        continuation='Resume the same600-trial ledger after explicit next-segment preregistration and fresh exact input/checkpoint verification when a parallel slot is available. Do not repeat the completed12.',
+        completed_final_trials=0, final_states_opened=False, scientific_settings_changed=False, weights_copied=False)
+    f.write(root / outrel, receipt)
+    d.update(status='first12_verified_waiting_free_GPU_slot', completed_trials=12,
+        unique_verified_development_initial_states=2, actual_object_downstream_GPU_accepted=True,
+        allocated_GPU_seconds=386, actual_policy_calls=269, actual_control_actions=2103,
+        runtime_errors=0, task_horizon_failures=3, active_job_id=None, active_job_status=None,
+        last_verified_job_id='3021394', latest_root_review=rr, latest_root_review_sha256=f.sha(root / rr),
+        latest_independent_review=ir, latest_independent_review_sha256=f.sha(root / ir), latest_raw_archive=archive,
+        verified_segments=[dict(job_id='3021394', new_trials=12, cumulative_trials=12,
+            allocated_GPU_seconds=386, root_review=rr, independent_review=ir)], next=receipt['continuation'])
+    p['completed_development_trials'] = 612
+    p['latest_incremental_review'] = dict(path=outrel, sha256=f.sha(root / outrel))
+    p['parallel_execution']['registered_requested_active_GPU_jobs'] = len(active)
+    p['parallel_execution']['actual_running_allocated_GPUs'] = sum(j['gpus'] for j in active if j['status'] == 'RUNNING')
+    state['current_work'] = '8 registered single-GPU training jobs active. Completed4/72 arms and99000/360000 reviewed arm updates. Long600 and Object12 development trials verified; Object first actual GPU metadata/deployment gate passed. Final0/35200, sealed.'
+    state['next_actions'] = [item for item in state['next_actions'] if 'job3021394 runs only' not in item]
+    state['next_actions'].append(receipt['continuation'])
+    state['updated_utc'] = now.isoformat()
+    state['updated_date'] = now.astimezone(timezone(timedelta(hours=8))).strftime('%Y-%m-%d')
+    f.write(f.STATE, state)
+
+    local = now.astimezone(timezone(timedelta(hours=8)))
+    detail = (f'{local:%Y-%m-%d %H:%M}进度：完整训练4/72组，累计99000/360000臂更新已复核（27.5%），8个单卡训练作业并行。'
+        f"正式轮累计临时{state['current_round_cost']['allocated_gpu_seconds']} GPU秒（{state['current_round_cost']['allocated_gpu_hours']:.6f}小时），含运行中与历史失败分配。"
+        'Object首批12条已通过root和独立审计，实际部署兼容及恢复正常；269次单前向、0未来头调用，3条任务失败、0运行错误，386 GPU秒全部计账。\n\n'
+        '[本次增量与原始证据](../' + outrel + ')。总开发验收612条（Long600＋Object12）；Object只有2个唯一初态，属于接口验收，不作套件收益判断。'
+        '空闲槽已续Long256 seed17至4000，Object原600清单待空闲槽再登记续跑；不重跑已完成12条。最终0/35200，继续封存。\n\n')
+    for name in ('正式主实验规划.md', '完整实验计划.md', '实验进度.md'):
+        path = root / 'docs' / name
+        heading, sep, body = path.read_bytes().partition(b'\n')
+        assert sep
+        path.write_bytes(heading + sep + b'\n' + detail.encode('utf-8') + body)
+    object_doc = root / 'docs/正式Object首批开发登记.md'
+    with object_doc.open('ab') as stream:
+        stream.write(('\n后续实际验收：3021394以0:0结束，12条/2初态通过root及独立审计；269次策略、视觉和packing，2103控制动作，0未来头。'
+            '3条horizon失败和0运行错误全部保留，实际分配386 GPU秒。原始12份证据另存不可变副本，后续沿同一600条清单续跑，不重复前12条；此小面板不支持套件成功率或未来监督收益结论。'
+            '\n\n证据：[root](../' + rr + ')、[独立审计](../' + ir + ')、[原始字节归档](../' + archive + ')。\n').encode('utf-8'))
+print(json.dumps(dict(receipt=outrel, sha256=f.sha(root / outrel),
+    object_development=12, all_verified_development=612, active_training=8,
+    cost=receipt['all_formal_cost_snapshot'])))
