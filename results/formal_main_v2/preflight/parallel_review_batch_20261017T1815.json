@@ -1,0 +1,207 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_incremental_parallel_training_review",
+  "reviewed_utc": "2026-10-17T18:28:46.343339+00:00",
+  "completed_training_arms": 2,
+  "expected_training_arms": 72,
+  "cumulative_reviewed_arm_updates": 75000,
+  "newly_reviewed_arm_updates": 4000,
+  "reviewed_boundaries": [
+    {
+      "job_id": "3019840",
+      "pair": "libero_10/k128/seed23",
+      "completed_by_arm": {
+        "A": 3000,
+        "B": 3000
+      },
+      "next_boundary": 3500,
+      "pair_allocated_gpu_seconds": 30108,
+      "root_rehashed_independent_evidence_files": 272
+    },
+    {
+      "job_id": "3019841",
+      "pair": "libero_10/k128/seed41",
+      "completed_by_arm": {
+        "A": 3000,
+        "B": 3000
+      },
+      "next_boundary": 3500,
+      "pair_allocated_gpu_seconds": 29823,
+      "root_rehashed_independent_evidence_files": 273
+    },
+    {
+      "job_id": "3019843",
+      "pair": "libero_10/k256/seed41",
+      "completed_by_arm": {
+        "A": 2000,
+        "B": 2000
+      },
+      "next_boundary": 2500,
+      "pair_allocated_gpu_seconds": 19528,
+      "root_rehashed_independent_evidence_files": 252
+    },
+    {
+      "job_id": "3019845",
+      "pair": "libero_10/k64/seed41",
+      "completed_by_arm": {
+        "A": 2000,
+        "B": 2000
+      },
+      "next_boundary": 2500,
+      "pair_allocated_gpu_seconds": 19050,
+      "root_rehashed_independent_evidence_files": 246
+    }
+  ],
+  "completed_development_trials": 600,
+  "new_development_trials": 0,
+  "completed_final_trials": 0,
+  "final_states_sealed": true,
+  "new_terminal_jobs": [
+    {
+      "job_id": "3019840",
+      "GPU_seconds": 5489
+    },
+    {
+      "job_id": "3019841",
+      "GPU_seconds": 5485
+    },
+    {
+      "job_id": "3019843",
+      "GPU_seconds": 5422
+    },
+    {
+      "job_id": "3019845",
+      "GPU_seconds": 5410
+    }
+  ],
+  "new_closed_GPU_seconds": 21806,
+  "all_formal_cost_snapshot": {
+    "registered_jobs": 102,
+    "allocated_gpu_seconds": 349484,
+    "allocated_gpu_hours": 97.07888888888888,
+    "final": false,
+    "historical_jobs_excluded": true
+  },
+  "active_jobs": [
+    {
+      "job_id": "3020124",
+      "status": "RUNNING",
+      "suite": "libero_goal",
+      "budget": 128,
+      "seed": 17,
+      "segment_end": 2500
+    },
+    {
+      "job_id": "3020154",
+      "status": "RUNNING",
+      "suite": "libero_spatial",
+      "budget": 128,
+      "seed": 23,
+      "segment_end": 3000
+    },
+    {
+      "job_id": "3020238",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 256,
+      "seed": 17,
+      "segment_end": 3000
+    },
+    {
+      "job_id": "3020247",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 64,
+      "seed": 17,
+      "segment_end": 3000
+    },
+    {
+      "job_id": "3020306",
+      "status": "RUNNING",
+      "suite": "libero_spatial",
+      "budget": 128,
+      "seed": 41,
+      "segment_end": 3000
+    },
+    {
+      "job_id": "3020307",
+      "status": "RUNNING",
+      "suite": "libero_object",
+      "budget": 128,
+      "seed": 17,
+      "segment_end": 4000
+    },
+    {
+      "job_id": "3020309",
+      "status": "RUNNING",
+      "suite": "libero_spatial",
+      "budget": 128,
+      "seed": 17,
+      "segment_end": 3500
+    },
+    {
+      "job_id": "3020310",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 256,
+      "seed": 23,
+      "segment_end": 2500
+    }
+  ],
+  "new_submissions": [
+    "3020306",
+    "3020307",
+    "3020309",
+    "3020310"
+  ],
+  "pull_file_entries": 212,
+  "audit_source_archive_map": {
+    ".local/audit_training_segment_3019840.py": "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019840.py.txt",
+    ".local/audit_training_segment_3019840.log": "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019840.log.txt",
+    ".local/deploy64_audit_training_segment_3019841.py": "results/formal_main_v2/preflight/root_operational_source/deploy64_audit_training_segment_3019841.py.txt",
+    ".local/deploy64_audit_training_segment_3019841.log": "results/formal_main_v2/preflight/root_operational_source/deploy64_audit_training_segment_3019841.log.txt",
+    ".local/audit_training_segment_3019843_profile_long.py": "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019843_profile_long.py.txt",
+    ".local/audit_training_segment_3019843_profile_long_a1.log": "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019843_profile_long_a1.log.txt",
+    ".local/audit_training_segment_3019843_profile_long_a1_invocation.json": "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019843_profile_long_a1_invocation.json.txt",
+    ".local/audit_training_segment_3019845.py": "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019845.py.txt",
+    ".local/audit_training_segment_3019845.log": "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019845.log.txt"
+  },
+  "evidence_sha256": {
+    "results/formal_main_v2/invocations/libero_10_train_k256_seed23_attempt05.json": "95ba148b04c2bcebd1469e97578c831ad8239d445ff85f0bdfe2212b56cf99a0",
+    "results/formal_main_v2/invocations/libero_object_train_k128_seed17_attempt08.json": "8620770334e7f6b098318fe7612cadf14beaf1d108f0658680ee7f4cf9832af7",
+    "results/formal_main_v2/invocations/libero_spatial_train_k128_seed17_attempt07.json": "f7b2dca9f0d05d962c0c467fb2587932114e3da109f7bc25787df1b3f4d43200",
+    "results/formal_main_v2/invocations/libero_spatial_train_k128_seed41_attempt06.json": "f91a4331e339d73ed22cc6d6351eca27b7952bca9d377595799379a294aafda4",
+    "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3019840.json": "0cbe5f86b2e7631131595fce4d752396b6505d6234dfd04561447fcee331f5a3",
+    "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3019840_independent.json": "7d0855ad5887fce1c868a1e52e0b1c8c06e3c87de294c37bfcc374a000216229",
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3019841.json": "cf29653cf63aea83e9397424d77a282ba19c6e86b3bc463b1e40e3e5bffdb35c",
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3019841_independent.json": "396c1123bf18b71613d548b7fcd6d8fb8c9933180395a6b820a0bce13e2d45fa",
+    "results/formal_main_v2/libero_10/k256/seed41/training/segment_reviews/3019843.json": "fdb7ad958466a467d053bcc6e3629f32bd935faae560782c2d781295229e36f9",
+    "results/formal_main_v2/libero_10/k256/seed41/training/segment_reviews/3019843_independent.json": "f253d4b721c77d0a02d885c857c5fba2c926fdabed60ebbacc9023106b38aa6b",
+    "results/formal_main_v2/libero_10/k64/seed41/training/segment_reviews/3019845.json": "7b7c0176b475197e71e85d3c94293d708dcffb36211d657b1bcf97f72e5ce76d",
+    "results/formal_main_v2/libero_10/k64/seed41/training/segment_reviews/3019845_independent.json": "bfb3383006bf0ce9c5c078bb7d5060b8fece9955d38097f00b030f8004fb6cca",
+    "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_10_k256_seed23_20261017T182025Z.json": "9a6a6a102741a1a687f0080eece17d95fccd06a6a2289ca4012b3ca67f3a33e1",
+    "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_object_k128_seed17_20261017T181953Z.json": "58d71fcfe46f37448f237ebd4325920c9c97df8dc50aa9640fc9f59383297146",
+    "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_spatial_k128_seed17_20261017T182016Z.json": "801aa18df055f331b17add8ef9b5a1e157beff19b275dfab33b3f911ad17371c",
+    "results/formal_main_v2/preflight/parallel_resume_prechecks/libero_spatial_k128_seed41_20261017T181940Z.json": "0a42147a419c43a4f90df3e1cedc2765aa4d60fdd9fe2a997a9973863bf0a246",
+    "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019840.log.txt": "fafd7d2b2209027cdddecc8846eabd098dc849c849e24a91733d7a1be1b934c5",
+    "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019840.py.txt": "333599b051d1aae884e1a06832ad54dde611947522ded5bb7c3cf9a22ed3292e",
+    "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019843_profile_long.py.txt": "bc28a8347049e437248f17c2c40f88706f31b3e8ca25b759bd21ec008b246f82",
+    "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019843_profile_long_a1.log.txt": "e672b5972a888f532bdb161a09183c451a6f0e41d54db95c01fbc0b1451aa9b6",
+    "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019843_profile_long_a1_invocation.json.txt": "59e441f3a461deecf18513385604454b82d38492b9dc818bd951c331941975d9",
+    "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019845.log.txt": "aea757e0bc82bb7b951b8d1eabe6c11145485a62aa71ea975122dcc2023d0dff",
+    "results/formal_main_v2/preflight/root_operational_source/audit_training_segment_3019845.py.txt": "c24616ac2ea14713c56859d0d62137f211e47fec14f2d8fc99006c6c4da20f47",
+    "results/formal_main_v2/preflight/root_operational_source/deploy64_audit_training_segment_3019841.log.txt": "385ea9ff8737d642f14d713780e391c8b59118a8e71fd67238ada8d60aea7b74",
+    "results/formal_main_v2/preflight/root_operational_source/deploy64_audit_training_segment_3019841.py.txt": "a740aa7a0d22f108160104f54062541c35281b3323972092dda16d86f0472ec6",
+    "results/formal_main_v2/preflight/root_operational_source/finalize_parallel_review_20261017T1815.py.txt": "99a4126f4dbca1ed98298149b8918e065d91afc658f3cee6e9be24081b435787",
+    "results/formal_main_v2/pulls/20261017T182054Z_d19f65961b0c/receipt.json": "74115d382d81aa8fcf52710d9c32d3a62f1966aec7214958b0c2831efbbe92f5",
+    "results/formal_main_v2/pulls/20261017T182213Z_15f995a9ca6e/receipt.json": "0671beb6295c2d39005bb34c68bb79da9a9383d5bed11be51657e4f0a6565db9",
+    "results/formal_main_v2/pulls/20261017T182343Z_185b0d0ae8e6/receipt.json": "81c08a1384ce114097572687553434b8ec972282c7bc4707444edaf7a83469ea",
+    "results/formal_main_v2/pulls/20261017T182515Z_d8021c194703/receipt.json": "7a065826d039b85a2c578454c6f34df69c50b156e8a249675016f6d63f1b51bc",
+    "results/formal_main_v2/submissions/3020306.json": "e31593b36967e50ef3505738da2a74998491993c7ff614e1374578a592849bb0",
+    "results/formal_main_v2/submissions/3020307.json": "5a015ea67e52f086ba6b3cd783201cc9e68990eb3b77103eaa8e78ebb8f68f73",
+    "results/formal_main_v2/submissions/3020309.json": "0009e2101dce226ad5ea397fddc77582c494727bb4eec45667d3eed30c23fccd",
+    "results/formal_main_v2/submissions/3020310.json": "04fa364d5788156f36bdf170e3d724285fce338fbb3d6541404c2db3883feb99"
+  },
+  "scientific_settings_changed": false,
+  "weights_copied": false
+}
