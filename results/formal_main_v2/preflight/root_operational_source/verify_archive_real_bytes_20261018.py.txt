@@ -1,0 +1,81 @@
+"""Exercise the reviewed codec in isolated project copies; no raw migration."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import importlib.util
+import json
+import shutil
+import sys
+import time
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+source_code = root / 'scripts/ops/nonweight_archive.py'
+spec = importlib.util.spec_from_file_location('cti_archive_real_bytes_check', source_code)
+codec = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(codec)
+start = time.perf_counter()
+base = 'results/formal_main_v2/'
+out = base + 'preflight/nonweight_archive_real_roundtrip_20261018.json'
+assert not (root / out).exists()
+archive_receipt = base + 'preflight/long_fifth_development_raw_v1/receipt.json'
+ar = f.read(root / archive_receipt)
+row = next(x for x in ar['files'] if x['archive'].endswith('/15_trials.jsonl'))
+relative = row['archive']
+original = root / relative
+assert f.sha(original) == row['sha256'] and original.stat().st_size == row['bytes'] == 86664845
+input_before = (original.stat().st_size, original.stat().st_mtime_ns, f.sha(original))
+work = root / '.local/nonweight_archive_real_roundtrip_20261018'
+assert not work.exists()
+assert work.resolve().is_relative_to((root / '.local').resolve())
+source, clone = work / 'source', work / 'clone'
+source.mkdir(parents=True)
+clone.mkdir()
+for rel in (relative, archive_receipt):
+    dest = source / rel
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(root / rel, dest)
+request_rel = base + 'preflight/nonweight_archive_real_roundtrip_request.json'
+request = dict(schema=codec.SCHEMA, kind='archive_request',
+    files=[dict(path=relative, sha256=row['sha256'], bytes=row['bytes'])],
+    provenance=[dict(path=archive_receipt, sha256=f.sha(root / archive_receipt), bytes=(root / archive_receipt).stat().st_size)])
+(source / request_rel).write_bytes(codec.encoded(request))
+snapshot = codec.PREFIX + '/snapshots/real_fifth_development.json'
+packed = codec.pack(source, request_rel, snapshot)
+packed_again = codec.pack(source, request_rel, snapshot)
+assert packed['snapshot_sha256'] == packed_again['snapshot_sha256']
+value, evidence, objects, chunks = codec.verified_plan(source, snapshot, packed['snapshot_sha256'])
+assert len(value['files']) == 1 and len(chunks) == 6
+for rel, (ref, role) in evidence.items():
+    dest = clone / rel
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(source / rel, dest)
+    assert f.sha(dest) == ref['sha256'] and dest.stat().st_size == ref['bytes']
+assert not (clone / relative).exists()
+verification = codec.verify(clone, snapshot, packed['snapshot_sha256'])
+restored = codec.restore(clone, snapshot, packed['snapshot_sha256'])
+assert restored['paths'][0]['action'] == 'restored'
+repeated = codec.restore(clone, snapshot, packed['snapshot_sha256'])
+assert repeated['paths'][0]['action'] == 'same_bytes_present'
+assert f.sha(clone / relative) == row['sha256'] and (clone / relative).stat().st_size == row['bytes']
+assert input_before == (original.stat().st_size, original.stat().st_mtime_ns, f.sha(original))
+all_chunks = [dict(ref) for ref in chunks.values()]
+assert all(x['bytes'] < 32 * 1024 * 1024 for x in all_chunks)
+result = dict(schema='formal_main_v2', kind='root_archive_real_bytes_roundtrip', status='passed',
+    observed_utc=datetime.now(timezone.utc).isoformat(), local_wall_seconds=time.perf_counter()-start,
+    source_input=dict(path=relative, sha256=row['sha256'], bytes=row['bytes']),
+    scope='Only read the already reviewed immutable fifth development JSONL; all codec writes/restoration occurred in isolated source/clone copies under .local. Existing evidence, original paths, supervisor state and Git index were not changed.',
+    codec_implementation='scripts/ops/nonweight_archive.py', codec_implementation_sha256=f.sha(source_code),
+    script='.local/verify_archive_real_bytes_20261018.py', script_sha256=f.sha(Path(__file__)),
+    archive_receipt=archive_receipt, archive_receipt_sha256=f.sha(root / archive_receipt),
+    request=request, source_copy=source.relative_to(root).as_posix(), clone_copy=clone.relative_to(root).as_posix(),
+    packed=packed, same_snapshot_on_repeat=True, verification=verification, restored=restored,
+    repeated_restore_same_bytes=True, compressed_chunks=all_chunks,
+    total_compressed_chunk_bytes=sum(x['bytes'] for x in all_chunks),
+    real_source_size_mtime_sha_unchanged=True, existing_raw_files_migrated=0, gpu_seconds=0,
+    weights_copied=False, server_accessed=False, scientific_settings_changed=False)
+f.write(root / out, result)
+print(json.dumps(dict(receipt=out, sha256=f.sha(root / out), original_bytes=row['bytes'],
+    compressed_bytes=result['total_compressed_chunk_bytes'], unique_chunks=len(chunks), wall_seconds=result['local_wall_seconds'])))

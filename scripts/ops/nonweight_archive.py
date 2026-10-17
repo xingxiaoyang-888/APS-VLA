@@ -1,0 +1,534 @@
+"""Byte-exact, local-only JSONL archives; never changes Git or original files.
+
+This is an operational codec, not a scientific/terminal-job validator. Inputs
+are explicit SHA/size-bound requests selected by the existing root review.
+"""
+from __future__ import annotations
+
+import argparse
+from contextlib import contextmanager
+import gzip
+import hashlib
+import io
+import json
+import os
+from pathlib import Path, PurePosixPath
+import platform
+import re
+import stat
+import sys
+import uuid
+import zlib
+
+
+SCHEMA = "cti_nonweight_archive_v1"
+VERSION = "nonweight-archive-1"
+PREFIX = "results/formal_main_v2/nonweight_archives/v1"
+CHUNK_BYTES = 16 << 20
+COMPRESSED_LIMIT = 32 << 20  # Strictly smaller, even for incompressible input.
+METADATA_LIMIT = 16 << 20
+MAX_FILES = 4096
+CODEC = {"name": "gzip", "mtime": 0, "filename": "", "level": 6}
+GZIP_HEADER = b"\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff"
+DENIED_PARTS = {"weights", "models", "checkpoint", "checkpoints", "test", ".git"}
+DENIED_STATE_STEMS = ("init_state", "initial_state", "final_state", "test_state", "sealed")
+DENIED_SUFFIXES = {".pt", ".pth", ".bin", ".ckpt", ".safetensors", ".pkl", ".pickle",
+                   ".npz", ".npy", ".init", ".bddl", ".h5", ".hdf5", ".onnx"}
+
+
+class ArchiveError(ValueError):
+    pass
+
+
+def require(value, message):
+    if not value:
+        raise ArchiveError(message)
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def checksum(value):
+    require(isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value), "Invalid SHA256")
+    return value
+
+
+def integer(value, *, minimum=0):
+    require(type(value) is int and value >= minimum, "Invalid byte count/index")
+    return value
+
+
+def exact(value, keys, label):
+    require(isinstance(value, dict) and set(value) == set(keys), label + " fields differ")
+
+
+def encoded(value):
+    return (json.dumps(value, sort_keys=True, ensure_ascii=False, indent=2, allow_nan=False) + "\n").encode("utf-8")
+
+
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        require(key not in result, "Duplicate JSON key")
+        result[key] = value
+    return result
+
+
+def decoded(data):
+    try:
+        return json.loads(data, object_pairs_hook=unique_object,
+                          parse_constant=lambda _: (_ for _ in ()).throw(ArchiveError("Nonfinite JSON")))
+    except (UnicodeError, json.JSONDecodeError) as error:
+        raise ArchiveError("Invalid archive metadata JSON") from error
+
+
+def lexical(value, role):
+    """All lexical rejection precedes filesystem access, including resolve/stat."""
+    require(isinstance(value, str) and value and "\\" not in value, "Use a project-relative POSIX path")
+    path = PurePosixPath(value)
+    require(not path.is_absolute() and str(path) == value and ".." not in path.parts
+            and len(path.parts) > 1 and path.parts[0] == "results", "Path outside project results")
+    for part in path.parts:
+        lower = part.lower()
+        require(part not in (".", "..") and part == part.rstrip(". ")
+                and not any(c in part for c in '\\:*?"<>|') and not any(ord(c) < 32 for c in part)
+                and re.fullmatch(r"(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\..*)?", part, re.I) is None,
+                "Unsafe or aliased filename")
+        require(lower not in DENIED_PARTS and not any(stem in lower for stem in DENIED_STATE_STEMS),
+                "Weights or sealed-state paths are forbidden")
+    require(not ({s.lower() for s in path.suffixes} & DENIED_SUFFIXES), "Forbidden weight/state suffix")
+    require(path.name.lower() != "panel.json", "State-value panels are not archive inputs")
+    if role == "raw":
+        require(path.suffix == ".jsonl" and not value.startswith(PREFIX + "/"), "Only explicit original JSONL inputs")
+    elif role == "metadata":
+        require(path.suffix == ".json" and not value.startswith(PREFIX + "/"), "Expected external results JSON metadata")
+    elif role == "snapshot":
+        require(path.parent.as_posix() == PREFIX + "/snapshots" and path.suffix == ".json", "Invalid snapshot path")
+    elif role == "archive":
+        require(value.startswith(PREFIX + "/"), "Archive path outside its fixed namespace")
+    else:
+        raise ArchiveError("Unknown path role")
+    return path
+
+
+def no_link(path, *, directory=False):
+    try:
+        info = path.lstat()
+    except FileNotFoundError:
+        return None
+    require(not stat.S_ISLNK(info.st_mode) and not (getattr(info, "st_file_attributes", 0) & 0x400),
+            "Symlink/junction/reparse-point path refused")
+    require(stat.S_ISDIR(info.st_mode) if directory else stat.S_ISREG(info.st_mode), "Not a regular file/directory")
+    return info
+
+
+def project_root(value):
+    path = Path(value).absolute()
+    for parent in reversed((path, *path.parents)):
+        require(no_link(parent, directory=True) is not None, "Project root must already exist without links")
+    return path
+
+
+def checked_path(root, relative, role):
+    parts = lexical(relative, role).parts
+    current = root
+    for part in parts[:-1]:
+        current = current / part
+        no_link(current, directory=True)
+    path = root.joinpath(*parts)
+    no_link(path)
+    return path
+
+
+def ensure_parent(root, relative):
+    parts = lexical(relative, "archive").parts
+    current = root
+    for part in parts[:-1]:
+        current = current / part
+        if no_link(current, directory=True) is None:
+            try:
+                current.mkdir()
+            except FileExistsError:
+                pass
+            require(no_link(current, directory=True) is not None, "Parent publication failed")
+
+
+def stable_id(info):
+    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+
+@contextmanager
+def opened(root, relative, role):
+    path = checked_path(root, relative, role)
+    before = no_link(path)
+    require(before is not None, "Missing required file: " + relative)
+    flags = os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0)
+    with os.fdopen(os.open(path, flags), "rb") as stream:
+        initial = os.fstat(stream.fileno())
+        require(stat.S_ISREG(initial.st_mode) and stable_id(before) == stable_id(initial), "File changed before read")
+        yield stream
+        current = no_link(checked_path(root, relative, role))
+        require(stable_id(initial) == stable_id(os.fstat(stream.fileno()))
+                and current is not None and stable_id(initial) == stable_id(current),
+                "File changed during read: " + relative)
+
+
+def hash_file(root, relative, role):
+    value, size = hashlib.sha256(), 0
+    with opened(root, relative, role) as stream:
+        for block in iter(lambda: stream.read(1 << 20), b""):
+            size += len(block)
+            value.update(block)
+    return {"path": relative, "sha256": value.hexdigest(), "bytes": size}
+
+
+def reference(value, role):
+    exact(value, ("path", "sha256", "bytes"), "File reference")
+    lexical(value["path"], role)
+    checksum(value["sha256"])
+    integer(value["bytes"])
+    return value
+
+
+def verify_ref(root, ref, role):
+    reference(ref, role)
+    require(hash_file(root, ref["path"], role) == ref, "File SHA/bytes differ: " + ref["path"])
+
+
+def read_json(root, ref, role):
+    reference(ref, role)
+    require(ref["bytes"] <= METADATA_LIMIT, "Metadata exceeds the bound")
+    with opened(root, ref["path"], role) as stream:
+        data = stream.read(METADATA_LIMIT + 1)
+    require(len(data) == ref["bytes"] and digest(data) == ref["sha256"], "Metadata SHA/bytes differ")
+    return decoded(data)
+
+
+def unique_paths(rows):
+    names = [row["path"].casefold() for row in rows]
+    require(len(names) == len(set(names)), "Duplicate or Windows-aliased path")
+
+
+def request_value(value):
+    exact(value, ("schema", "kind", "files", "provenance"), "Archive request")
+    require(value["schema"] == SCHEMA and value["kind"] == "archive_request", "Unknown request format")
+    for field, role in (("files", "raw"), ("provenance", "metadata")):
+        rows = value[field]
+        require(isinstance(rows, list) and 1 <= len(rows) <= MAX_FILES, "Explicit bounded file/provenance list required")
+        for row in rows:
+            reference(row, role)
+        unique_paths(rows)
+    return value
+
+
+def producer():
+    return {"version": VERSION, "script_sha256": digest(Path(__file__).read_bytes()),
+            "python": platform.python_version(), "zlib": zlib.ZLIB_RUNTIME_VERSION}
+
+
+def producer_value(value):
+    exact(value, ("version", "script_sha256", "python", "zlib"), "Producer")
+    require(value["version"] == VERSION, "Unsupported archive implementation version")
+    checksum(value["script_sha256"])
+    require(all(isinstance(value[key], str) and value[key] for key in ("python", "zlib")), "Missing codec version")
+
+
+@contextmanager
+def operation_lock(root):
+    relative = PREFIX + "/.writer.lock"
+    ensure_parent(root, relative)
+    path = checked_path(root, relative, "archive")
+    fd = os.open(path, os.O_RDWR | os.O_CREAT | getattr(os, "O_BINARY", 0) | getattr(os, "O_NOFOLLOW", 0), 0o600)
+    with os.fdopen(fd, "r+b") as stream:
+        if os.fstat(stream.fileno()).st_size == 0:
+            stream.write(b"\0"); stream.flush()
+        stream.seek(0)
+        try:
+            if os.name == "nt":
+                import msvcrt
+                msvcrt.locking(stream.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as error:
+            raise ArchiveError("Another archive operation holds the project lock") from error
+        try:
+            yield
+        finally:
+            stream.seek(0)
+            if os.name == "nt":
+                msvcrt.locking(stream.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(stream.fileno(), fcntl.LOCK_UN)
+
+
+def publish(root, relative, data, role="archive"):
+    """Exclusive single-file publication; never replace a different file."""
+    path = checked_path(root, relative, role)
+    expected = {"path": relative, "sha256": digest(data), "bytes": len(data)}
+    if no_link(path) is not None:
+        verify_ref(root, expected, role)
+        return expected
+    ensure_parent(root, relative)
+    temporary = path.with_name("." + path.name + "." + uuid.uuid4().hex + ".partial")
+    try:
+        with temporary.open("xb") as stream:
+            stream.write(data); stream.flush(); os.fsync(stream.fileno())
+        checked_path(root, relative, role)
+        try:
+            os.link(temporary, path)
+        except FileExistsError:
+            verify_ref(root, expected, role)
+        verify_ref(root, expected, role)
+    finally:
+        if temporary.exists():
+            temporary.unlink()  # Only this invocation's newly created temporary.
+    return expected
+
+
+def compress(raw):
+    buffer = io.BytesIO()
+    with gzip.GzipFile(fileobj=buffer, mode="wb", filename="", mtime=0, compresslevel=6) as stream:
+        stream.write(raw)
+    value = buffer.getvalue()
+    require(value.startswith(GZIP_HEADER) and len(value) < COMPRESSED_LIMIT, "Unexpected or oversized gzip chunk")
+    return value
+
+
+def chunk_bytes(root, row):
+    ref = {"path": row["path"], "sha256": row["compressed_sha256"], "bytes": row["compressed_bytes"]}
+    with opened(root, ref["path"], "archive") as stream:
+        data = stream.read(COMPRESSED_LIMIT)
+    require(len(data) == ref["bytes"] and digest(data) == ref["sha256"] and data.startswith(GZIP_HEADER),
+            "Compressed chunk SHA/bytes/header differ")
+    try:
+        decoder = zlib.decompressobj(16 + zlib.MAX_WBITS)
+        raw = decoder.decompress(data, row["raw_bytes"] + 1)
+    except zlib.error as error:
+        raise ArchiveError("Invalid gzip payload") from error
+    require(decoder.eof and not decoder.unused_data and not decoder.unconsumed_tail,
+            "Truncated, concatenated, trailing or oversized gzip payload")
+    require(len(raw) == row["raw_bytes"] and digest(raw) == row["raw_sha256"], "Raw chunk SHA/bytes differ")
+    return raw
+
+
+def object_value(value, expected_sha, expected_bytes):
+    exact(value, ("schema", "kind", "original_sha256", "original_bytes", "raw_chunk_bytes", "codec", "producer", "chunks"), "Object manifest")
+    require(value["schema"] == SCHEMA and value["kind"] == "jsonl_object"
+            and value["original_sha256"] == expected_sha and value["original_bytes"] == expected_bytes
+            and value["raw_chunk_bytes"] == CHUNK_BYTES and encoded(value["codec"]) == encoded(CODEC), "Object format/identity differs")
+    integer(value["original_bytes"]); producer_value(value["producer"])
+    rows = value["chunks"]
+    require(isinstance(rows, list) and len(rows) == (expected_bytes + CHUNK_BYTES - 1) // CHUNK_BYTES, "Chunk count differs")
+    offset = 0
+    for index, row in enumerate(rows):
+        exact(row, ("index", "offset", "raw_bytes", "raw_sha256", "compressed_bytes", "compressed_sha256", "path"), "Chunk")
+        require(integer(row["index"]) == index and integer(row["offset"]) == offset, "Chunk index/order/offset differs")
+        require(integer(row["raw_bytes"], minimum=1) == min(CHUNK_BYTES, expected_bytes - offset), "Raw chunk span differs")
+        require(integer(row["compressed_bytes"], minimum=1) < COMPRESSED_LIMIT, "Compressed chunk exceeds bound")
+        checksum(row["raw_sha256"]); checksum(row["compressed_sha256"])
+        require(row["path"] == PREFIX + "/chunks/sha256/" + row["compressed_sha256"] + ".gz", "Chunk path differs from content address")
+        lexical(row["path"], "archive")
+        offset += row["raw_bytes"]
+    return value
+
+
+def verify_object(root, ref, expected_sha, expected_bytes, sink=None):
+    require(ref["path"] == PREFIX + "/sha256/" + expected_sha + "/manifest.json", "Object path differs from raw content address")
+    value = object_value(read_json(root, ref, "archive"), expected_sha, expected_bytes)
+    whole, size = hashlib.sha256(), 0
+    for row in value["chunks"]:
+        raw = chunk_bytes(root, row); whole.update(raw); size += len(raw)
+        if sink is not None:
+            sink.write(raw)
+    require(whole.hexdigest() == expected_sha and size == expected_bytes, "Reconstructed whole-file SHA/bytes differ")
+    return value
+
+
+def verified_plan(root, snapshot, snapshot_sha256):
+    lexical(snapshot, "snapshot"); checksum(snapshot_sha256)
+    snap_ref = hash_file(root, snapshot, "snapshot")
+    require(snap_ref["sha256"] == snapshot_sha256, "Snapshot SHA differs")
+    value = read_json(root, snap_ref, "snapshot")
+    exact(value, ("schema", "kind", "raw_chunk_bytes", "producer", "request", "provenance", "files"), "Snapshot")
+    require(value["schema"] == SCHEMA and value["kind"] == "archive_snapshot" and value["raw_chunk_bytes"] == CHUNK_BYTES, "Unknown snapshot format")
+    producer_value(value["producer"])
+    request = request_value(read_json(root, value["request"], "metadata"))
+    require(value["provenance"] == sorted(request["provenance"], key=lambda r: r["path"]), "Provenance differs from request")
+    require(value["request"]["path"] not in {r["path"] for r in request["provenance"]}, "Self-referencing request")
+    evidence = {snap_ref["path"]: (snap_ref, "snapshot"), value["request"]["path"]: (value["request"], "metadata")}
+    for ref in value["provenance"]:
+        verify_ref(root, ref, "metadata"); evidence[ref["path"]] = (ref, "metadata")
+    rows = value["files"]
+    require(isinstance(rows, list) and len(rows) == len(request["files"]), "Snapshot file count differs")
+    expected_rows = sorted(request["files"], key=lambda r: r["path"])
+    objects, chunk_refs = {}, {}
+    for row, expected in zip(rows, expected_rows):
+        exact(row, ("path", "sha256", "bytes", "manifest"), "Snapshot file")
+        require({k: row[k] for k in ("path", "sha256", "bytes")} == expected, "Snapshot mapping differs from explicit request")
+        reference(expected, "raw"); reference(row["manifest"], "archive")
+        key = row["sha256"]
+        if key in objects:
+            require(objects[key][0] == row["manifest"] and objects[key][1]["original_bytes"] == row["bytes"], "Conflicting object mapping")
+        else:
+            obj = verify_object(root, row["manifest"], key, row["bytes"])
+            objects[key] = (row["manifest"], obj)
+            evidence[row["manifest"]["path"]] = (row["manifest"], "archive")
+            for part in obj["chunks"]:
+                ref = {"path": part["path"], "sha256": part["compressed_sha256"], "bytes": part["compressed_bytes"]}
+                if ref["path"] in chunk_refs:
+                    require(chunk_refs[ref["path"]] == ref, "Conflicting compressed blob reference")
+                chunk_refs[ref["path"]] = ref; evidence[ref["path"]] = (ref, "archive")
+    for ref, role in evidence.values():
+        verify_ref(root, ref, role)
+    return value, evidence, objects, chunk_refs
+
+
+def summary(snapshot, snapshot_sha256, value, objects, chunks, status):
+    return {"schema": SCHEMA, "status": status, "snapshot": snapshot, "snapshot_sha256": snapshot_sha256,
+            "files": len(value["files"]), "original_bytes": sum(r["bytes"] for r in value["files"]),
+            "unique_objects": len(objects), "unique_compressed_chunks": len(chunks),
+            "verifier": producer(), "scientific_completion_inferred": False, "gpu_seconds": 0}
+
+
+def verify(project, snapshot, snapshot_sha256):
+    root = project_root(project)
+    value, _, objects, chunks = verified_plan(root, snapshot, snapshot_sha256)
+    return summary(snapshot, snapshot_sha256, value, objects, chunks, "verified")
+
+
+def pack(project, files_list, snapshot):
+    root = project_root(project)
+    lexical(files_list, "metadata"); lexical(snapshot, "snapshot")
+    request_ref = hash_file(root, files_list, "metadata")
+    request = request_value(read_json(root, request_ref, "metadata"))
+    require(files_list not in {r["path"] for r in request["provenance"]}, "Self-referencing request")
+    # Validate every input before publishing any content-addressed object.
+    for field, role in (("files", "raw"), ("provenance", "metadata")):
+        for ref in request[field]:
+            verify_ref(root, ref, role)
+    with operation_lock(root):
+        objects, mappings = {}, []
+        for original in sorted(request["files"], key=lambda r: r["path"]):
+            key = original["sha256"]
+            if key not in objects:
+                name = PREFIX + "/sha256/" + key + "/manifest.json"
+                path = checked_path(root, name, "archive")
+                if no_link(path) is not None:
+                    ref = hash_file(root, name, "archive")
+                    verify_object(root, ref, key, original["bytes"])
+                else:
+                    whole, offset, parts = hashlib.sha256(), 0, []
+                    with opened(root, original["path"], "raw") as stream:
+                        for index, raw in enumerate(iter(lambda: stream.read(CHUNK_BYTES), b"")):
+                            blob = compress(raw); whole.update(raw)
+                            part_ref = publish(root, PREFIX + "/chunks/sha256/" + digest(blob) + ".gz", blob)
+                            parts.append({"index": index, "offset": offset, "raw_bytes": len(raw), "raw_sha256": digest(raw),
+                                          "compressed_bytes": len(blob), "compressed_sha256": part_ref["sha256"], "path": part_ref["path"]})
+                            offset += len(raw)
+                    require(whole.hexdigest() == key and offset == original["bytes"], "Original changed while packing")
+                    obj = {"schema": SCHEMA, "kind": "jsonl_object", "original_sha256": key,
+                           "original_bytes": offset, "raw_chunk_bytes": CHUNK_BYTES, "codec": CODEC,
+                           "producer": producer(), "chunks": parts}
+                    ref = publish(root, name, encoded(obj))
+                    verify_object(root, ref, key, offset)
+                objects[key] = ref
+            mappings.append(dict(original, manifest=objects[key]))
+        for field, role in (("files", "raw"), ("provenance", "metadata")):
+            for ref in request[field]:
+                verify_ref(root, ref, role)
+        verify_ref(root, request_ref, "metadata")
+        value = {"schema": SCHEMA, "kind": "archive_snapshot", "raw_chunk_bytes": CHUNK_BYTES,
+                 "producer": producer(), "request": request_ref,
+                 "provenance": sorted(request["provenance"], key=lambda r: r["path"]), "files": mappings}
+        ref = publish(root, snapshot, encoded(value), "snapshot")
+        result = verify(root, snapshot, ref["sha256"])
+        result["status"] = "packed_verified"
+        result["originals_retained"] = True
+        return result
+
+
+def restore(project, snapshot, snapshot_sha256):
+    root = project_root(project)
+    with operation_lock(root):
+        value, evidence, objects, chunks = verified_plan(root, snapshot, snapshot_sha256)
+        missing, statuses, temporaries = [], {}, []
+        # Global path/content validation first: a late bad chunk or conflicting
+        # existing original cannot leave earlier original paths restored.
+        for row in value["files"]:
+            path = checked_path(root, row["path"], "raw")
+            if no_link(path) is None:
+                missing.append(row)
+            else:
+                verify_ref(root, {k: row[k] for k in ("path", "sha256", "bytes")}, "raw")
+                statuses[row["path"]] = "same_bytes_present"
+        try:
+            for row in missing:
+                path = checked_path(root, row["path"], "raw")
+                # Parent directories are created only after the entire package
+                # and every existing destination have passed validation.
+                current = root
+                for part in PurePosixPath(row["path"]).parts[:-1]:
+                    current = current / part
+                    if no_link(current, directory=True) is None:
+                        current.mkdir()
+                        no_link(current, directory=True)
+                temporary = path.with_name("." + path.name + "." + uuid.uuid4().hex + ".partial")
+                temporaries.append((row, temporary))
+                with temporary.open("xb") as stream:
+                    verify_object(root, row["manifest"], row["sha256"], row["bytes"], sink=stream)
+                    stream.flush(); os.fsync(stream.fileno())
+            for ref, role in evidence.values():
+                verify_ref(root, ref, role)
+            # Recheck every destination after staging, before any publication.
+            for row in value["files"]:
+                path = checked_path(root, row["path"], "raw")
+                require(no_link(path) is not None or row["path"] not in statuses,
+                        "An existing original disappeared before publication")
+                if no_link(path) is not None:
+                    verify_ref(root, {k: row[k] for k in ("path", "sha256", "bytes")}, "raw")
+            for row, temporary in temporaries:
+                path = checked_path(root, row["path"], "raw")
+                try:
+                    os.link(temporary, path)
+                    statuses[row["path"]] = "restored"
+                except FileExistsError:
+                    statuses[row["path"]] = "same_bytes_present"
+                verify_ref(root, {k: row[k] for k in ("path", "sha256", "bytes")}, "raw")
+            for row in value["files"]:
+                verify_ref(root, {k: row[k] for k in ("path", "sha256", "bytes")}, "raw")
+        finally:
+            for _, temporary in temporaries:
+                if temporary.exists():
+                    temporary.unlink()
+        result = summary(snapshot, snapshot_sha256, value, objects, chunks, "restored_verified")
+        result["paths"] = [{"path": row["path"], "sha256": row["sha256"], "bytes": row["bytes"],
+                            "action": statuses[row["path"]]} for row in value["files"]]
+        return result
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    commands = parser.add_subparsers(dest="command", required=True)
+    for name in ("pack", "verify", "restore"):
+        command = commands.add_parser(name)
+        command.add_argument("--project-root", type=Path, required=True)
+        command.add_argument("--snapshot", required=True)
+        if name == "pack":
+            command.add_argument("--files-list", required=True)
+        else:
+            command.add_argument("--snapshot-sha256", required=True)
+    args = parser.parse_args(argv)
+    try:
+        result = (pack(args.project_root, args.files_list, args.snapshot) if args.command == "pack"
+                  else {"verify": verify, "restore": restore}[args.command](args.project_root, args.snapshot, args.snapshot_sha256))
+    except (ArchiveError, OSError) as error:
+        print(json.dumps({"status": "rejected", "error_type": type(error).__name__, "error": str(error)}, ensure_ascii=False), file=sys.stderr)
+        return 2
+    print(json.dumps(result, sort_keys=True, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
