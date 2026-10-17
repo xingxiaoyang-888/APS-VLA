@@ -1,110 +1,110 @@
 {
   "arm": "B",
-  "attempted_forward_backward_samples_completed": 16000,
-  "committed_samples": 16000,
+  "attempted_forward_backward_samples_completed": 20000,
+  "committed_samples": 20000,
   "committed_sampling_by_task": {
     "0": {
       "phase_sample_counts": {
-        "early": 435,
-        "late": 422,
-        "middle": 414
+        "early": 543,
+        "late": 538,
+        "middle": 541
       },
-      "samples": 1271,
+      "samples": 1622,
       "unique_episodes": 31,
-      "unique_windows": 1271
+      "unique_windows": 1622
     },
     "1": {
       "phase_sample_counts": {
-        "early": 604,
-        "late": 578,
-        "middle": 582
+        "early": 741,
+        "late": 736,
+        "middle": 727
       },
-      "samples": 1764,
+      "samples": 2204,
       "unique_episodes": 31,
-      "unique_windows": 1764
+      "unique_windows": 2204
     },
     "2": {
       "phase_sample_counts": {
-        "early": 543,
-        "late": 549,
-        "middle": 524
+        "early": 677,
+        "late": 672,
+        "middle": 677
       },
-      "samples": 1616,
+      "samples": 2026,
       "unique_episodes": 32,
-      "unique_windows": 1616
+      "unique_windows": 2026
     },
     "3": {
       "phase_sample_counts": {
-        "early": 429,
-        "late": 437,
-        "middle": 422
+        "early": 533,
+        "late": 539,
+        "middle": 516
       },
-      "samples": 1288,
+      "samples": 1588,
       "unique_episodes": 30,
-      "unique_windows": 1288
+      "unique_windows": 1588
     },
     "4": {
       "phase_sample_counts": {
-        "early": 659,
-        "late": 675,
-        "middle": 690
+        "early": 814,
+        "late": 839,
+        "middle": 852
       },
-      "samples": 2024,
+      "samples": 2505,
       "unique_episodes": 30,
-      "unique_windows": 2024
+      "unique_windows": 2505
     },
     "5": {
       "phase_sample_counts": {
-        "early": 454,
-        "late": 436,
-        "middle": 431
-      },
-      "samples": 1321,
-      "unique_episodes": 27,
-      "unique_windows": 1321
-    },
-    "6": {
-      "phase_sample_counts": {
-        "early": 579,
-        "late": 545,
-        "middle": 564
-      },
-      "samples": 1688,
-      "unique_episodes": 32,
-      "unique_windows": 1688
-    },
-    "7": {
-      "phase_sample_counts": {
-        "early": 500,
-        "late": 503,
-        "middle": 466
-      },
-      "samples": 1469,
-      "unique_episodes": 25,
-      "unique_windows": 1469
-    },
-    "8": {
-      "phase_sample_counts": {
-        "early": 560,
-        "late": 537,
+        "early": 561,
+        "late": 536,
         "middle": 549
       },
       "samples": 1646,
-      "unique_episodes": 33,
+      "unique_episodes": 27,
       "unique_windows": 1646
+    },
+    "6": {
+      "phase_sample_counts": {
+        "early": 735,
+        "late": 696,
+        "middle": 704
+      },
+      "samples": 2135,
+      "unique_episodes": 32,
+      "unique_windows": 2135
+    },
+    "7": {
+      "phase_sample_counts": {
+        "early": 624,
+        "late": 614,
+        "middle": 607
+      },
+      "samples": 1845,
+      "unique_episodes": 25,
+      "unique_windows": 1845
+    },
+    "8": {
+      "phase_sample_counts": {
+        "early": 718,
+        "late": 645,
+        "middle": 696
+      },
+      "samples": 2059,
+      "unique_episodes": 33,
+      "unique_windows": 2059
     },
     "9": {
       "phase_sample_counts": {
-        "early": 648,
-        "late": 629,
-        "middle": 636
+        "early": 796,
+        "late": 761,
+        "middle": 813
       },
-      "samples": 1913,
+      "samples": 2370,
       "unique_episodes": 31,
-      "unique_windows": 1913
+      "unique_windows": 2370
     }
   },
-  "effective_epochs": 0.46105524018096417,
+  "effective_epochs": 0.5763190502262052,
   "evaluations": [
     {
       "artifact_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261016T193435_1ae31203fb89/validation_00000.json",
@@ -145,6 +145,14 @@
       "candidate_sha256": "6e6cb14c1c17c0110d04cbd954b306b6d6565f917b09bd4c08ed1c3ca1440b3f",
       "update": 2000,
       "validation_metric": 0.024344134946752874
+    },
+    {
+      "artifact_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261017T155517_359f938c8f00/validation_02500.json",
+      "artifact_sha256": "73c293910e6769ebb1be5e294e2132a421b56eb2a0518b426513f299fa4d37e0",
+      "candidate_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k128/seed23/B/candidates/20261017T155517_359f938c8f00_update02500.pt",
+      "candidate_sha256": "42ce6ef7c23feabc405b07f679b7dc9cfe08ef58f31804ef0c11c258921aaa18",
+      "update": 2500,
+      "validation_metric": 0.024128491021027522
     }
   ],
   "final_deployment_receipt_emitted": false,
@@ -331,21 +339,22 @@
     "3012325",
     "3012509",
     "3016677",
-    "3017851"
+    "3017851",
+    "3019105"
   ],
-  "next_sample_cursor": 16000,
+  "next_sample_cursor": 20000,
   "peak_cuda_memory_allocated_bytes": 18257379328,
   "peak_cuda_memory_reserved_bytes": 18901630976,
   "planned_updates": 5000,
   "resume_checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k128/seed23/B/resume.pt",
-  "resume_sha256": "cb5f61de00a7982917e02d9f47eb21dedaaafabed8cdca12d79f7bbca21c7449",
+  "resume_sha256": "28e43ba95c4d8a19c0a68d14ef0fbe8366da55a7d4dd0afb88a07ab870ce2389",
   "sample_order_sha256": "54a2b3f24b2f66a663c0bfc4a4d0a2713f4a16d842fdfd75ce3fe010f1cc93fc",
   "schema": "formal_main_v2",
   "status": "checkpointed",
   "stop_reason": "registered_engineering_segment_boundary",
   "train_pool_windows": 34703,
-  "training_updates_completed": 2000,
-  "unique_committed_windows": 16000,
+  "training_updates_completed": 2500,
+  "unique_committed_windows": 20000,
   "vla_parameters_unchanged": true,
-  "wall_seconds_this_attempt": 1228.9830927848816
+  "wall_seconds_this_attempt": 1266.6776895467192
 }

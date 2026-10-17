@@ -1,0 +1,52 @@
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+import shlex
+import subprocess
+import sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+base = 'results/formal_main_v2/'
+plan_rel = base + 'preflight/long_first_pair_development_plan_v6.json'
+out = root / (base + 'preflight/long_first_pair_development_server_inputs_v7.json')
+assert not out.exists()
+plan = f.read(root / plan_rel)
+assert plan['invocation']['resume'] and plan['invocation']['stop_after'] == 108
+request = dict(plan['invocation']['watched_files'])
+manifest = f.read(root / (base + 'execution/libero_10_development_first_pair_v1.json'))
+selected = [m for m in manifest['methods'] if 'checkpoint' in m]
+assert len(selected) == 2
+for method in selected:
+    request[method['checkpoint']] = method['identity']['checkpoint_sha256']
+assert len(request) == len(plan['invocation']['watched_files']) + 2
+assert all(name.startswith((f.P + '/', f.H + '/')) for name in request)
+assert not any('sealed' in name.lower() or name.endswith('/final.json') for name in request)
+code = '''from pathlib import Path
+from datetime import datetime,timezone
+import json,hashlib
+request=REQUEST
+rows=[]
+for name,want in request.items():
+ p=Path(name);before=p.stat();h=hashlib.sha256()
+ with p.open('rb') as stream:
+  for block in iter(lambda:stream.read(8<<20),b''):h.update(block)
+ after=p.stat();stable=(before.st_size,before.st_mtime_ns,before.st_ino)==(after.st_size,after.st_mtime_ns,after.st_ino)
+ rows.append(dict(path=name,sha256=h.hexdigest(),expected_sha256=want,bytes=after.st_size,stable_during_hash=stable,status='matched' if stable and h.hexdigest()==want else 'blocked'))
+print(json.dumps(dict(observed_utc=datetime.now(timezone.utc).isoformat(),rows=rows)))
+'''.replace('REQUEST', repr(request), 1)
+reply = subprocess.run(f.SSH + [shlex.quote(f.H + '/venv/bin/python') + ' -B -'], input=code, capture_output=True, text=True, encoding='utf-8', check=True, timeout=180)
+actual = json.loads(reply.stdout)
+assert len(actual['rows']) == len(request)
+assert all(row['status'] == 'matched' for row in actual['rows'])
+record = dict(schema='formal_main_v2', kind='root_readonly_exact_resume_server_input_probe', status='passed',
+    plan=plan_rel, plan_file_sha256=f.sha(root / plan_rel), plan_sha256=plan['plan_sha256'],
+    checked_utc=datetime.now(timezone.utc).isoformat(), watched_files=len(plan['invocation']['watched_files']),
+    selected_checkpoint_files=2, actual=actual, source_program=code,
+    source_program_sha256=hashlib.sha256(code.encode()).hexdigest(),
+    GPU_seconds=0, weights_copied=False, sealed_state_values_read=False, files_written_server=0, submitted=False)
+f.write(out, record)
+print(json.dumps(dict(path=out.relative_to(root).as_posix(), sha256=f.sha(out), watched_files=record['watched_files'], checkpoints=2, matched=len(actual['rows']))))

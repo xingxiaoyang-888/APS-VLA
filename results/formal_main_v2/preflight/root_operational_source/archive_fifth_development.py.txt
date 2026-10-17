@@ -1,0 +1,44 @@
+from pathlib import Path
+from datetime import datetime, timezone
+import json
+import sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+base = 'results/formal_main_v2/'
+rr = base + 'downstream_reviews/3019176.json'
+pull = base + 'pulls/20261017T165318Z_e5e22b70edf6/receipt.json'
+r = f.read(root / rr)
+assert r['status'] == 'passed' and r['completed_trials'] == 492
+assert r['cost']['all_attempt_gpu_seconds'] == 8684
+assert r['cost']['current_gpu_seconds'] == 2104
+folder = root / (base + 'preflight/long_fifth_development_raw_v1')
+assert not folder.exists()
+files = []
+for rel, want in sorted(r['files'].items()):
+    source = root / rel
+    own_slurm = {f'results/slurm/cti-formal-downstream_3019176.{suffix}' for suffix in ('out', 'err')}
+    assert (rel.startswith(base) or rel in own_slurm) and '..' not in Path(rel).parts
+    assert source.suffix in {'.json', '.jsonl', '.txt', '.out', '.err', '.log'}
+    assert f.sha(source) == want
+    files.append((rel, source.read_bytes(), want))
+folder.mkdir()
+rows = []
+for index, (rel, data, want) in enumerate(files, 1):
+    destination = folder / f'{index:02d}_{Path(rel).name}'
+    with destination.open('xb') as stream:
+        stream.write(data)
+    assert f.sha(destination) == want
+    rows.append(dict(original=rel, archive=destination.relative_to(root).as_posix(), sha256=want, bytes=len(data)))
+receipt = dict(schema='formal_main_v2', kind='immutable_fifth_development_nonweight_archive',
+    archived_utc=datetime.now(timezone.utc).isoformat(), job_id='3019176',
+    prior_job_ids=['3016981', '3017161', '3017959', '3018505'],
+    pull_receipt=pull, pull_receipt_sha256=f.sha(root / pull),
+    root_review=rr, root_review_sha256=f.sha(root / rr), files=rows,
+    weights_copied=False, sealed_states_copied=False,
+    preparation_correction='Initial local allowlist omitted the two registered results/slurm/cti-formal-downstream_3019176 out/err files. It failed before any archive directory or file was created. The allowlist now includes only those exact files already bound by the root review; raw bytes, puller, scientific source and GPU allocations unchanged.')
+f.write(folder / 'receipt.json', receipt)
+print(json.dumps(dict(receipt=(folder / 'receipt.json').relative_to(root).as_posix(),
+    sha256=f.sha(folder / 'receipt.json'), files=len(rows), bytes=sum(x['bytes'] for x in rows))))

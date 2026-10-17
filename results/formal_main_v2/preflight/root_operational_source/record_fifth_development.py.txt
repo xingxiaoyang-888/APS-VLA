@@ -1,0 +1,50 @@
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+import json
+import sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+base = 'results/formal_main_v2/'
+rr = base + 'downstream_reviews/3019176.json'
+ir = base + 'preflight/long_fifth_development_real_independent_20261018.json'
+archive = base + 'preflight/long_fifth_development_raw_v1/receipt.json'
+r, i = f.read(root / rr), f.read(root / ir)
+assert r['status'] == i['status'] == 'passed'
+assert i['root_review_sha256'] == f.sha(root / rr)
+assert f.sha(root / ir) == '9c490ac734000aec9245c7aae73e5a38f61602e44e3c91ad18dcd4fcc285aa53'
+for rel, want in i['read_evidence_sha256'].items():
+    assert f.sha(root / rel) == want, rel
+assert r['completed_trials'] == i['completed_trials'] == 492
+assert i['unique_observed_development_initial_states'] == 82
+assert r['cost']['all_attempt_gpu_seconds'] == i['cost']['all_allocated_gpu_seconds'] == 8684
+with f.supervisor_lock():
+    s = f.read(f.STATE)
+    jobs = f.refresh(s)
+    j = next(j for j in jobs if j['job_id'] == '3019176')
+    assert j['status'] == 'COMPLETED' and j['exit_code'] == '0:0'
+    assert j['elapsed_seconds'] * j['gpus'] == 2104
+    p = s['formal_main_progress']
+    d = p['first_long_development']
+    assert d['completed_trials'] == p['completed_development_trials'] == 372
+    assert not any(x['job_id'] == '3019176' for x in d['verified_segments'])
+    d.update(status='first492_verified_remaining108_preregistered', completed_trials=492,
+        allocated_GPU_seconds=8684, actual_policy_calls=i['calls']['policy'],
+        actual_control_actions=i['calls']['executed_control_actions'], task_horizon_failures=85,
+        runtime_errors=0, active_job_id=None, active_job_status=None,
+        last_verified_job_id='3019176', unique_verified_development_initial_states=82,
+        latest_root_review=rr, latest_root_review_sha256=f.sha(root / rr),
+        latest_independent_review=ir, latest_independent_review_sha256=f.sha(root / ir),
+        latest_raw_archive=archive)
+    d['verified_segments'].append(dict(job_id='3019176', new_trials=120,
+        cumulative_trials=492, allocated_GPU_seconds=2104, root_review=rr, independent_review=ir))
+    p['completed_development_trials'] = 492
+    assert not p['test_opened'] and not p['global_release_created'] and p['completed_final_trials'] == 0
+    now = datetime.now(timezone.utc)
+    s['updated_utc'] = now.isoformat()
+    s['updated_date'] = now.astimezone(timezone(timedelta(hours=8))).strftime('%Y-%m-%d')
+    f.write(f.STATE, s)
+    print(json.dumps(dict(verified_trials=492, unique_initial_states=82, cost_seconds=8684,
+        final_states_sealed=True, root_review=rr, independent_review=ir)))

@@ -1,0 +1,32 @@
+{
+  "observed_utc": "2026-10-17T17:06:56.664288+00:00",
+  "not_a_terminal_receipt": true,
+  "events": 989,
+  "event_counts": {
+    "invocation": 5,
+    "start": 492,
+    "result": 492
+  },
+  "invocation_job_ids": [
+    "3016981",
+    "3017161",
+    "3017959",
+    "3018505",
+    "3019176"
+  ],
+  "live_terminal_trials": 492,
+  "live_error_results": 0,
+  "result_status_counts": {
+    "completed": 492
+  },
+  "last_event_utc": "2026-10-17T16:04:37.482068+00:00",
+  "job_id": "3019954",
+  "status": "RUNNING",
+  "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01",
+  "invocation_sha256": "a213174c582fdab35b62f164dc4b0495b9b68b47fdcbdb7f74fbcbb10d032e3e",
+  "source_program": "from pathlib import Path\nfrom datetime import datetime,timezone\nfrom collections import Counter\nimport json\np=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01')/'trials.jsonl'\ncounts=Counter();statuses=Counter();ids=[];last=None\nif p.exists():\n with p.open('rb') as stream:\n  for raw in stream:\n   if not raw.endswith(b'\\n'):continue\n   row=json.loads(raw);counts[row['event']]+=1;last=row['created_utc']\n   if row['event']=='invocation':ids.append(row['slurm_job_id'])\n   if row['event']=='result':statuses[row['status']]+=1\nprint(json.dumps(dict(observed_utc=datetime.now(timezone.utc).isoformat(),not_a_terminal_receipt=True,events=sum(counts.values()),event_counts=dict(counts),invocation_job_ids=ids,live_terminal_trials=counts['result'],live_error_results=statuses['error'],result_status_counts=dict(statuses),last_event_utc=last)))\n",
+  "historical_probe_correction": {
+    "path": "results/formal_main_v2/live/long_development_20261017T140359Z.json",
+    "reason": "Prior root live-only counter used job_id/utc instead of slurm_job_id/created_utc, giving missing invocation IDs/timestamp. Counts were correct; this probe uses actual ledger keys. No experiment, job, scientific source, or GPU allocation changed."
+  }
+}
