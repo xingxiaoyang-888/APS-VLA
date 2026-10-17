@@ -1,0 +1,33 @@
+from pathlib import Path
+import json,subprocess,hashlib
+root=Path.cwd()
+p='results/formal_main_v2/preflight/'
+paths=['scripts/ops/nonweight_archive.py','tests/test_nonweight_archive.py','docs/非权重归档说明.md',p+'nonweight_archive_candidate_v1_20261018',p+'nonweight_archive_candidate_v2_20261018',p+'nonweight_archive_independent_20261018.json',p+'nonweight_archive_real_roundtrip_20261018.json',p+'nonweight_archive_root_acceptance_20261018.json',p+'root_operational_source',p+'git_frozen_bytes_repair_20261018',p+'git_frozen_bytes_repair_independent_20261018.json']
+assert (root/(p+'git_frozen_bytes_repair_20261018/root_review.json')).exists()
+subprocess.run(['git','add','--',*paths],check=True)
+subprocess.run(['git','add','-f','--',p+'nonweight_archive_candidate_v1_20261018/05_nonweight_archive_train64_20261018_a1.log',p+'nonweight_archive_candidate_v2_20261018/05_nonweight_archive_train64_20261018_a2.log'],check=True)
+entries={}
+for row in subprocess.check_output(['git','ls-files','--stage','-z']).split(b'\0'):
+ if row:
+  h,name=row.split(b'\t',1);mode,oid,stage=h.split(); entries[name.decode()]=(mode,oid,stage)
+changed=[s for s in subprocess.check_output(['git','diff','--cached','--name-only','-z']).decode().split('\0') if s]
+inv=json.loads((root/'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json').read_bytes())
+reg=json.loads((root/(p+'git_frozen_bytes_repair_20261018/registration.json')).read_bytes())
+assert sorted(set(changed)&set(inv['files']))==sorted(r['path'] for r in reg['files'])
+checks=set(changed)|set(inv['files'])
+acc=json.loads((root/(p+'nonweight_archive_root_acceptance_20261018.json')).read_bytes())
+for name,want in acc['read_evidence_sha256'].items():
+ actual=reg['original_attributes_archive'] if name=='.gitattributes' else name
+ assert hashlib.sha256((root/actual).read_bytes()).hexdigest()==want,actual
+ checks.add(actual)
+for name in sorted(checks):
+ b=(root/name).read_bytes();mode,oid,stage=entries[name]
+ assert mode==b'100644' and stage==b'0',name
+ assert len(b)<=100*1024*1024,name
+ if name.endswith('.md') and name in changed:
+  b=b.replace(b'\r\n',b'\n')
+ assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest().encode()==oid,name
+ assert Path(name).suffix not in {'.pt','.pth','.ckpt','.safetensors','.bin','.pkl','.pickle'},name
+for name,want in inv['files'].items():
+ assert hashlib.sha256((root/name).read_bytes()).hexdigest()==want
+print(json.dumps({'staged':len(changed),'exact_index_bindings':len(checks),'frozen_worktree_and_index':173,'historical_attributes_resolved':True,'frozen_representation_changes':3,'new_GPU_seconds':0}))

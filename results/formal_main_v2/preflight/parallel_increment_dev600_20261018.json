@@ -1,0 +1,140 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_incremental_development_and_training_review",
+  "reviewed_utc": "2026-10-17T18:08:01.150601+00:00",
+  "completed_training_arms": 2,
+  "expected_training_arms": 72,
+  "cumulative_reviewed_arm_updates": 71000,
+  "completed_development_trials": 600,
+  "first_Long_development_unique_initial_states": 100,
+  "first_Long_deployment_instances": 6,
+  "first_Long_full_suite_development_complete": false,
+  "completed_final_trials": 0,
+  "final_states_sealed": true,
+  "new_terminal_jobs": [
+    {
+      "job_id": "3019954",
+      "GPU_seconds": 1847
+    },
+    {
+      "job_id": "3019842",
+      "GPU_seconds": 3347
+    },
+    {
+      "job_id": "3019844",
+      "GPU_seconds": 4064
+    },
+    {
+      "job_id": "3019902",
+      "GPU_seconds": 3858
+    }
+  ],
+  "new_closed_GPU_seconds": 13116,
+  "all_formal_cost_snapshot": {
+    "registered_jobs": 98,
+    "allocated_gpu_seconds": 339813,
+    "allocated_gpu_hours": 94.3925,
+    "final": false,
+    "historical_jobs_excluded": true
+  },
+  "active_jobs": [
+    {
+      "job_id": "3019840",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 128,
+      "seed": 23,
+      "segment_end": 3000
+    },
+    {
+      "job_id": "3019841",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 128,
+      "seed": 41,
+      "segment_end": 3000
+    },
+    {
+      "job_id": "3019843",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 256,
+      "seed": 41,
+      "segment_end": 2000
+    },
+    {
+      "job_id": "3019845",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 64,
+      "seed": 41,
+      "segment_end": 2000
+    },
+    {
+      "job_id": "3020124",
+      "status": "RUNNING",
+      "suite": "libero_goal",
+      "budget": 128,
+      "seed": 17,
+      "segment_end": 2500
+    },
+    {
+      "job_id": "3020154",
+      "status": "RUNNING",
+      "suite": "libero_spatial",
+      "budget": 128,
+      "seed": 23,
+      "segment_end": 3000
+    },
+    {
+      "job_id": "3020238",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 256,
+      "seed": 17,
+      "segment_end": 3000
+    },
+    {
+      "job_id": "3020247",
+      "status": "RUNNING",
+      "suite": "libero_10",
+      "budget": 64,
+      "seed": 17,
+      "segment_end": 3000
+    }
+  ],
+  "new_submissions": [
+    "3020124",
+    "3020154",
+    "3020238",
+    "3020247"
+  ],
+  "pull_file_entries": 225,
+  "evidence_sha256": {
+    "results/formal_main_v2/analysis/long_first_six_methods_development_20261018.json": "7ebe7d39dba3a21c6b1dc8f2731dd9a279cd8a9b5ba1fa7d4bad310d48d93e0f",
+    "results/formal_main_v2/downstream_reviews/3019954.json": "cde7e784bced622a6a30169af1f3c34ece8b710da8a6d65ab804454457c5d9ba",
+    "results/formal_main_v2/invocations/libero_10_train_k256_seed17_attempt06.json": "afa79243690af4ef8c06f3eec3e2a6b9987c4b782160bf4e14ee9f20461ce536",
+    "results/formal_main_v2/invocations/libero_10_train_k64_seed17_attempt06.json": "ed6016a856f9b56d926b5eafebfaac8fb27ebb0ab55c0cc5465b13dfda8073df",
+    "results/formal_main_v2/invocations/libero_goal_train_k128_seed17_attempt05.json": "2047a4aeff4f908f79d462ae1433494ee6c94b4e50cc9727e0fbb1360472a93a",
+    "results/formal_main_v2/invocations/libero_spatial_train_k128_seed23_attempt06.json": "7b8a7135c862d2db9a5fce4e9cacbf0a11689dc9aad61ac47fc24298f3da2f37",
+    "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3019844.json": "9e9983f5307ec1edde827e74a70fb8bb9a6be19a1ee453ea9f26008fbe7129dc",
+    "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3019844_independent.json": "c140f100a53c05db0ca1a475bac1cee88e268cae50bbbfbab9a7f13f5e89041a",
+    "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3019902.json": "363ed0837bb651aa51a1d7dd5dd47b0ada4a0ec63d9c5430c9376e89f9884090",
+    "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3019902_independent.json": "5efe45f6de83ab921eec80bfb5bb5d402ab0f6e861bee2f80b32db1946f0b97a",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3019842.json": "f0edc4c998d1ba729414a9fda54e56054bd42f61c8b63c11b9c074d964555da7",
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3019842_independent.json": "d186dc73c6c38169ec2d5d8f6bb1b61994758b54af46456ff3a9210feae03f4d",
+    "results/formal_main_v2/preflight/long_dev600_archive_v1/root_delivery_summary.json": "0c909dfe6b8b429c0c4d238583e1d00e53abacec9e939111f28c4b05df251dae",
+    "results/formal_main_v2/preflight/long_sixth_development_raw_v1/receipt.json": "b3a2dd8e132fb985c6e32b356017dcb1840d41ad99af7ffec9630457ca1202c1",
+    "results/formal_main_v2/preflight/long_sixth_development_real_independent_20261018.json": "f920678a126c575abdc3ae21d24bf6d6e97e73f6b1a69c897681c07c2d41b126",
+    "results/formal_main_v2/preflight/root_operational_source/finalize_dev600_increment_20261018.py.txt": "dc8edc1cb3f733492162769b0898abf4c12ed9bcde8172dfc4d67acceedb2077",
+    "results/formal_main_v2/pulls/20261017T174014Z_6a431952b07c/receipt.json": "3e91bb98ddd09693c7c5614fc27f0e425b1762ab353ff25228492ab006ebe116",
+    "results/formal_main_v2/pulls/20261017T174821Z_ce8ffa1139ca/receipt.json": "ece48e6eb234b8627c42f317c6f7d8f9568fdab30d02760e7aff0a339c3631fb",
+    "results/formal_main_v2/pulls/20261017T180036Z_0d330eeb5558/receipt.json": "fe8dabf1552b125a72786e2507f7a9882da3adc71d054f96a902d7b688e7abc6",
+    "results/formal_main_v2/pulls/20261017T180435Z_7187dca86dca/receipt.json": "e3c54a4be024258185e393a6046ee8fd51877e45f7ecc2dba20dcf90972a9a0c",
+    "results/formal_main_v2/submissions/3020124.json": "0e23a7fb4dc778524668aeb9a2a2575c40a41a8dfa29a150e9da646282957710",
+    "results/formal_main_v2/submissions/3020154.json": "986273fd74c5cf61aa8469b2c90e51e8593b134ea830f3b3dd4ac001e4fc152e",
+    "results/formal_main_v2/submissions/3020238.json": "e2eb2bcaf141c6fa12a67aee75a8abad8a8cc237bf4a4066057f2aea8d568dc9",
+    "results/formal_main_v2/submissions/3020247.json": "f4dd0cc56da00f05c4937d3284fe600470aff43828ca4345b9a4184ee3eb04e9"
+  },
+  "scientific_settings_changed": false
+}

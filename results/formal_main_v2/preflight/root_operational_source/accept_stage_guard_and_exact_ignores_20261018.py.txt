@@ -1,0 +1,73 @@
+from pathlib import Path
+from datetime import datetime, timezone
+import base64
+import hashlib
+import json
+
+root = Path(__file__).resolve().parents[1]
+base = 'results/formal_main_v2/preflight/'
+folder = base + 'long_dev600_archive_v1/'
+def sha(p): return hashlib.sha256((root / p).read_bytes()).hexdigest()
+def read(p): return json.loads((root / p).read_bytes())
+ip = base + 'nonweight_archive_stage_independent_20261018.json'
+assert sha(ip) == '36610e151621f7909e328a049f3c738c59a8a674718dd7ac337aa5eed6b24048'
+i = read(ip)
+assert i['status'] == 'passed_cpu_index_delivery_guard_only' and not i['blocking_findings']
+assert int(i['independent_execution']['junit']['tests']) == 19
+assert i['independent_execution']['junit']['failures'] == i['independent_execution']['junit']['errors'] == '0'
+for name, want in i['read_evidence_sha256'].items():
+    assert sha(name) == want, name
+embedded = {}
+for row in i['embedded_evidence']:
+    assert row['encoding'] == 'base64'
+    data = base64.b64decode(row['data'], validate=True)
+    assert len(data) == row['bytes'] and hashlib.sha256(data).hexdigest() == row['sha256']
+    embedded[row['original_path']] = dict(receipt=ip, sha256=row['sha256'], bytes=row['bytes'])
+old = (root / '.gitignore').read_bytes()
+assert hashlib.sha256(old).hexdigest() == 'd8d3e1d9c862763e9f86220c0d5a5c326ce84b92fbafe5485149cb4f0b277189'
+request = read(folder + 'request.json')
+names = [r['path'] for r in request['files']]
+assert len(names) == 2
+old_path, new_path = folder + 'original.gitignore.txt', folder + 'proposed.gitignore.txt'
+assert not (root / old_path).exists() and not (root / new_path).exists()
+(root / old_path).write_bytes(old)
+new = old + b'\n# Exact originals delivered by long_dev600_20261018 content-addressed archive.\n' + ''.join('/'+name+'\n' for name in names).encode('utf-8')
+(root / new_path).write_bytes(new)
+historical = []
+for path in [base+'nonweight_archive_independent_20261018.json', base+'nonweight_archive_root_acceptance_20261018.json', ip]:
+    value = read(path)
+    assert value['read_evidence_sha256']['.gitignore'] == sha(old_path)
+    historical.append(dict(receipt=path, receipt_sha256=sha(path), historical_path='.gitignore', historical_sha256=sha(old_path), original_bytes_archive=old_path))
+registration = dict(schema='formal_main_v2', kind='exact_two_raw_ignore_addendum',
+    registered_utc=datetime.now(timezone.utc).isoformat(), status='registered_before_ignore_change',
+    original=old_path, original_sha256=sha(old_path), proposed=new_path, proposed_sha256=sha(new_path),
+    added_rules=['/'+name for name in names], broad_ignore_rules_added=False,
+    original_files_retained=True, historical_byte_bindings=historical,
+    reason='Raw JSONL was not previously ignored. Two exact paths prevent accidental re-add after complete archive delivery; every other raw file remains visible.',
+    scientific_files_changed=False, GPU_seconds=0)
+rp = folder + 'exact_ignore_registration.json'
+(root / rp).write_text(json.dumps(registration, indent=2)+'\n', encoding='utf-8', newline='\n')
+resolved = {}
+for name, want in i['read_evidence_sha256'].items():
+    if name.startswith('.local/'):
+        if name in embedded: resolved[name] = embedded[name]
+        else:
+            assert name == '.local/check_scientific_stage.py'
+            archive=base+'root_operational_source/check_scientific_stage_20261018.py.txt'
+            assert sha(archive)==want
+            resolved[name]=dict(archive=archive, sha256=want)
+checks = {old_path if p=='.gitignore' else p: v for p,v in i['read_evidence_sha256'].items() if not p.startswith('.local/')}
+checks.update({ip:sha(ip), rp:sha(rp), new_path:sha(new_path)})
+acceptance = dict(schema='formal_main_v2', kind='root_archive_stage_guard_acceptance',
+    status='passed_CPU_engineering_actual_raw_delivery_pending', created_utc=datetime.now(timezone.utc).isoformat(),
+    independent_review=ip, independent_review_sha256=sha(ip), author_final_tests=38, independent_tests=19,
+    independent_evidence_rehashed=len(i['read_evidence_sha256']), embedded_evidence=resolved,
+    read_evidence_sha256=checks, exact_ignore_registration=rp,
+    original_ignores_resolved_to_archive=True, archived_raw_delivery_claimed=False,
+    frozen_files_unchanged=173, scientific_settings_changed=False, GPU_seconds=0)
+out = base+'nonweight_archive_stage_root_acceptance_20261018.json'
+assert not (root / out).exists()
+(root / out).write_text(json.dumps(acceptance,indent=2)+'\n',encoding='utf-8',newline='\n')
+(root / '.gitignore').write_bytes(new)
+assert sha('.gitignore') == sha(new_path)
+print(json.dumps(dict(root_acceptance=out, sha256=sha(out), exact_ignore_rules=len(names))))

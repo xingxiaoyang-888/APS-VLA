@@ -1,0 +1,44 @@
+from pathlib import Path
+from datetime import datetime, timezone
+import json
+import sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+base = 'results/formal_main_v2/'
+rr = base + 'downstream_reviews/3019954.json'
+pull = base + 'pulls/20261017T174014Z_6a431952b07c/receipt.json'
+r = f.read(root / rr)
+assert r['status'] == 'passed' and r['completed_trials'] == 600
+assert r['cost']['all_attempt_gpu_seconds'] == 10531
+assert r['cost']['current_gpu_seconds'] == 1847
+folder = root / (base + 'preflight/long_sixth_development_raw_v1')
+assert not folder.exists()
+files = []
+for rel, want in sorted(r['files'].items()):
+    source = root / rel
+    own_slurm = {f'results/slurm/cti-formal-downstream_3019954.{suffix}' for suffix in ('out', 'err')}
+    assert (rel.startswith(base) or rel in own_slurm) and '..' not in Path(rel).parts
+    assert source.suffix in {'.json', '.jsonl', '.txt', '.out', '.err', '.log'}
+    assert f.sha(source) == want
+    files.append((rel, source.read_bytes(), want))
+folder.mkdir()
+rows = []
+for index, (rel, data, want) in enumerate(files, 1):
+    destination = folder / f'{index:02d}_{Path(rel).name}'
+    with destination.open('xb') as stream:
+        stream.write(data)
+    assert f.sha(destination) == want
+    rows.append(dict(original=rel, archive=destination.relative_to(root).as_posix(), sha256=want, bytes=len(data)))
+receipt = dict(schema='formal_main_v2', kind='immutable_sixth_development_nonweight_archive',
+    archived_utc=datetime.now(timezone.utc).isoformat(), job_id='3019954',
+    prior_job_ids=['3016981', '3017161', '3017959', '3018505', '3019176'],
+    pull_receipt=pull, pull_receipt_sha256=f.sha(root / pull),
+    root_review=rr, root_review_sha256=f.sha(root / rr), files=rows,
+    weights_copied=False, sealed_states_copied=False,
+    preparation_correction='Exact own Slurm out/err allowlist inherited from fifth archive correction; no raw changes, scientific runtime edits, or GPU replay.')
+f.write(folder / 'receipt.json', receipt)
+print(json.dumps(dict(receipt=(folder / 'receipt.json').relative_to(root).as_posix(),
+    sha256=f.sha(folder / 'receipt.json'), files=len(rows), bytes=sum(x['bytes'] for x in rows))))

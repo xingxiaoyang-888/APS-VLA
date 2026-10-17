@@ -1,12 +1,12 @@
 {
   "checkpoint_unchanged": true,
-  "completed_trials": 492,
+  "completed_trials": 600,
   "cost": {
-    "known_attempt_wall_seconds": 7438.9565503960475,
-    "known_policy_calls": 18220,
-    "known_wall_seconds": 5891.314007570036,
-    "policy_calls_total": 18220,
-    "recorded_result_attempts": 492,
+    "known_attempt_wall_seconds": 9019.167615502141,
+    "known_policy_calls": 23179,
+    "known_wall_seconds": 7220.8080032793805,
+    "policy_calls_total": 23179,
+    "recorded_result_attempts": 600,
     "scope": "Includes every episode attempt; all allocations require Slurm reconciliation. Not inference latency.",
     "unfinished_attempts_unknown_cost": 0
   },
@@ -58,18 +58,18 @@
         },
         "8": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "9": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         }
       },
-      "success_rate": 0.975609756097561,
-      "successes": 80,
-      "trials": 82
+      "success_rate": 0.97,
+      "successes": 97,
+      "trials": 100
     },
     "B128_seed17": {
       "per_task": {
@@ -114,19 +114,19 @@
           "trials": 10
         },
         "8": {
-          "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         },
         "9": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         }
       },
-      "success_rate": 0.9634146341463414,
-      "successes": 79,
-      "trials": 82
+      "success_rate": 0.95,
+      "successes": 95,
+      "trials": 100
     },
     "dense": {
       "per_task": {
@@ -172,18 +172,18 @@
         },
         "8": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "9": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.8,
+          "successes": 8,
+          "trials": 10
         }
       },
-      "success_rate": 0.9512195121951219,
-      "successes": 78,
-      "trials": 82
+      "success_rate": 0.94,
+      "successes": 94,
+      "trials": 100
     },
     "uniform128": {
       "per_task": {
@@ -228,19 +228,19 @@
           "trials": 10
         },
         "8": {
-          "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         },
         "9": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         }
       },
-      "success_rate": 0.7439024390243902,
-      "successes": 61,
-      "trials": 82
+      "success_rate": 0.77,
+      "successes": 77,
+      "trials": 100
     },
     "uniform256": {
       "per_task": {
@@ -286,18 +286,18 @@
         },
         "8": {
           "success_rate": 1.0,
-          "successes": 2,
-          "trials": 2
+          "successes": 10,
+          "trials": 10
         },
         "9": {
-          "success_rate": null,
-          "successes": 0,
-          "trials": 0
+          "success_rate": 0.9,
+          "successes": 9,
+          "trials": 10
         }
       },
-      "success_rate": 0.9024390243902439,
-      "successes": 74,
-      "trials": 82
+      "success_rate": 0.91,
+      "successes": 91,
+      "trials": 100
     },
     "uniform64": {
       "per_task": {
@@ -342,25 +342,25 @@
           "trials": 10
         },
         "8": {
-          "success_rate": 0.0,
-          "successes": 0,
-          "trials": 2
+          "success_rate": 0.4,
+          "successes": 4,
+          "trials": 10
         },
         "9": {
-          "success_rate": null,
+          "success_rate": 0.0,
           "successes": 0,
-          "trials": 0
+          "trials": 10
         }
       },
-      "success_rate": 0.4268292682926829,
-      "successes": 35,
-      "trials": 82
+      "success_rate": 0.39,
+      "successes": 39,
+      "trials": 100
     }
   },
   "paired_AB": {
     "k128_seed17": {
-      "B_minus_A_success_rate": null,
-      "completed_pairs": 82,
+      "B_minus_A_success_rate": -0.02,
+      "completed_pairs": 100,
       "expected_pairs": 100,
       "per_task": {
         "0": {
@@ -396,12 +396,12 @@
           "pairs": 10
         },
         "8": {
-          "B_minus_A": null,
-          "pairs": 2
+          "B_minus_A": -0.1,
+          "pairs": 10
         },
         "9": {
-          "B_minus_A": null,
-          "pairs": 0
+          "B_minus_A": 0.0,
+          "pairs": 10
         }
       },
       "results": [
@@ -978,6 +978,132 @@
           "B_success": true,
           "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0019:env-0",
           "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": -1,
+          "B_success": false,
+          "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0021:env-0",
+          "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0022:env-0",
+          "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0024:env-0",
+          "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0027:env-0",
+          "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0043:env-0",
+          "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0044:env-0",
+          "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0047:env-0",
+          "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE8_put_both_moka_pots_on_the_stove:state-0048:env-0",
+          "task_id": 8
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0002:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0010:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0011:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0023:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0028:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": false,
+          "B_minus_A": 0,
+          "B_success": false,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0037:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0041:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0042:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0045:env-0",
+          "task_id": 9
+        },
+        {
+          "A_success": true,
+          "B_minus_A": 0,
+          "B_success": true,
+          "state_trial_id": "libero_10:KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it:state-0047:env-0",
+          "task_id": 9
         }
       ]
     }
@@ -1143,7 +1269,7 @@
       "gpu": "NVIDIA L40",
       "numpy": "1.26.4",
       "python": "3.11.7",
-      "slurm_job_id": "3019176",
+      "slurm_job_id": "3019954",
       "torch": "2.2.0+cu121"
     },
     "schema": "formal_main_v2",
@@ -1250,9 +1376,9 @@
   },
   "schema": "formal_main_v2",
   "split": "development",
-  "status": "incomplete",
+  "status": "completed",
   "suite": "libero_10",
   "test_opened": false,
-  "trials_jsonl_sha256": "e3fee8ce43e5b497b0c1d3ff7c99887d26fd8be2ac59fab1f30b32043337854e",
+  "trials_jsonl_sha256": "0f8b8d265fce7d77728e5c8923420ad40eb780a26289fd8094837ea2a851c136",
   "unique_initial_states": 100
 }

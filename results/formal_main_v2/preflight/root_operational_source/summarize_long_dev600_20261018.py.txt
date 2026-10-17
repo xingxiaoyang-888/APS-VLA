@@ -1,0 +1,58 @@
+from pathlib import Path
+from datetime import datetime, timezone
+from collections import Counter
+import hashlib
+import json
+
+root = Path(__file__).resolve().parents[1]
+base = 'results/formal_main_v2/'
+def sha(p): return hashlib.sha256((root / p).read_bytes()).hexdigest()
+rp = base + 'downstream_reviews/3019954.json'
+ip = base + 'preflight/long_sixth_development_real_independent_20261018.json'
+ap = base + 'preflight/long_sixth_development_raw_v1/receipt.json'
+r, i = [json.loads((root / p).read_bytes()) for p in (rp, ip)]
+assert r['status'] == i['status'] == 'passed'
+assert sha(ip) == 'f920678a126c575abdc3ae21d24bf6d6e97e73f6b1a69c897681c07c2d41b126'
+for path, want in i['read_evidence_sha256'].items():
+    assert sha(path) == want, path
+s = r['reconstructed_summary']
+assert s['completed_trials'] == 600 and s['unique_initial_states'] == 100
+paired = s['paired_AB']['k128_seed17']
+counts = Counter((x['A_success'], x['B_success']) for x in paired['results'])
+value = dict(schema='formal_main_v2', kind='first_six_method_development_summary',
+    created_utc=datetime.now(timezone.utc).isoformat(), suite='libero_10', split='development',
+    completed_trials=600, unique_initial_states=100, methods=s['methods'],
+    paired_AB=dict(completed_pairs=100, seed=17, visual_tokens=128,
+        B_minus_A_success_rate=paired['B_minus_A_success_rate'], per_task=paired['per_task'],
+        both_success=counts[(True, True)], A_only=counts[(True, False)],
+        B_only=counts[(False, True)], both_failure=counts[(False, False)]),
+    calls=i['calls'], task_horizon_failures=107, runtime_errors=0,
+    allocated_GPU_seconds=10531, final_state_values_read=False,
+    full_suite_development_complete=False, main_result=False,
+    conclusion='At Long128 seed17, B is 2 percentage points below A on the same100 development states. This does not establish benefit or equivalence. Continue only the fixed registered matrix; do not tune or reselect.',
+    full_O2A_latency_status='pending_same_formal_checkpoints',
+    evidence={p:sha(p) for p in (rp, ip, ap, r['pull_receipt'])})
+out = base + 'analysis/long_first_six_methods_development_20261018.json'
+(root / out).parent.mkdir(parents=True, exist_ok=True)
+assert not (root / out).exists()
+(root / out).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
+methods = ['dense','uniform256','uniform128','uniform64','A128_seed17','B128_seed17']
+lines = ['# 正式Long首批600条开发结果', '',
+    '2026-10-18：原登记的6个部署实例在全部10任务、每任务10开发初态上完成600条闭环，root与独立复核均通过。最终评测仍封存。', '',
+    '主预算seed17：A为97/100，B为95/100，B−A为−2个百分点。这一开发结果未显示未来监督增益；不据此换任务、调参或重新选模。其他种子、预算和套件继续执行原矩阵。', '',
+    '| 任务编号 | Dense | 均匀256 | 均匀128 | 均匀64 | A128 seed17 | B128 seed17 | B−A |',
+    '|---|---:|---:|---:|---:|---:|---:|---:|']
+for task in range(10):
+    counts_task = [s['methods'][m]['per_task'][str(task)]['successes'] for m in methods]
+    delta = counts_task[-1]-counts_task[-2]
+    lines.append('| '+str(task)+' | '+' | '.join(str(x)+'/10' for x in counts_task)+' | '+f'{delta*10:+d}pp'+' |')
+lines += ['| 合计 | '+' | '.join(str(s['methods'][m]['successes'])+'/100' for m in methods)+' | −2pp |', '',
+    f"A/B配对：共同成功{counts[(True, True)]}、仅A成功{counts[(True, False)]}、仅B成功{counts[(False, True)]}、共同失败{counts[(False, False)]}。共有100个唯一初态；重复部署不增加独立初态数。", '',
+    '共107条任务超时失败、0运行错误，全部保留。核对23179次策略/视觉/packing调用和183676个实际执行动作，未来头调用为0。6次Slurm分配合计10531 GPU秒（2.925278小时），含加载、等待与全部失败；本次最后108条新增1847 GPU秒。', '',
+    '本页是开发结果，不是封存主表，也不是完整Long套件开发验收：当前仅完成22个部署实例中的6个。完整O2A和分项测速尚待相同正式checkpoint实测；不套用小实验或Spatial延迟。三seed主统计和10000次初态簇bootstrap待正式清单齐备后统一执行。', '',
+    'A选中update4500，B选中update5000，沿用固定validation规则。所有科学参数、数据划分及checkpoint身份保持不变。', '',
+    '[逐任务机器结果](../'+out+')；[root审核](../'+rp+')；[独立审核](../'+ip+')。', '']
+doc = root / 'docs/正式Long首批600开发结果.md'
+assert not doc.exists()
+doc.write_text('\n'.join(lines), encoding='utf-8', newline='\n')
+print(json.dumps(dict(summary=out, sha256=sha(out), paired=value['paired_AB'], GPU_seconds=10531)))

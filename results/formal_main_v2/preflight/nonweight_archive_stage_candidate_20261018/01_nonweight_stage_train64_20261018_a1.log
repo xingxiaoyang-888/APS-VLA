@@ -1,0 +1,24 @@
+.F..................................                                     [100%]
+================================== FAILURES ===================================
+________________ test_real_173_frozen_bytes_fresh_process_cli _________________
+
+tmp_path = WindowsPath('F:/CTI-VLA/.local/pytest_nonweight_stage_train64_20261018_a1/test_real_173_frozen_bytes_fre0')
+
+    def test_real_173_frozen_bytes_fresh_process_cli(tmp_path):
+        case = make_project(tmp_path / "real_source_copy", actual_frozen=True)
+        root = case["root"]; before = (root / ".git/index").read_bytes()
+        cmd = [sys.executable, "-B", str(SCRIPT), "--project-root", str(root), "--snapshot", SNAPSHOT,
+               "--snapshot-sha256", case["snapshot_sha"], "--required-files", REQUIRED]
+        for path in case["raw"]: cmd += ["--raw-path", path]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+>       assert result.returncode == 0, result.stderr
+E       AssertionError: {"status": "rejected", "error_type": "StageError", "error": "Weight directory forbidden"}
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe', '-B', 'F:\\CTI-VLA...ode=2, stdout='', stderr='{"status": "rejected", "error_type": "StageError", "error": "Weight directory forbidden"}\n').returncode
+
+tests\test_nonweight_archive_stage.py:143: AssertionError
+- generated xml file: F:\CTI-VLA\.local\nonweight_stage_train64_20261018_a1.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_nonweight_archive_stage.py::test_real_173_frozen_bytes_fresh_process_cli
+1 failed, 35 passed in 87.13s (0:01:27)

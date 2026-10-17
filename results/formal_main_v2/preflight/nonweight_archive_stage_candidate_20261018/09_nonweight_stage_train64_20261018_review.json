@@ -1,0 +1,146 @@
+{
+  "codec_sha256": "f81284b3c56fbfd1cce339c4ea98b20943c8cd0866b4e8b94c38ac3cdbd1e3c2",
+  "correction": "Only .py files under src/scripts/tests may have a models directory; weight suffixes and weights/checkpoints or data/models directories remain forbidden. Codec unchanged. Historical 35-pass/1-fail run is retained, not called current-version success.",
+  "frozen_inventory": {
+    "all_worktree_hashes_match": true,
+    "files": 173,
+    "path": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926"
+  },
+  "gpu_seconds": 0,
+  "interface": {
+    "api": "check(project,snapshot,snapshot_sha256,raw_paths,required_files)",
+    "raw_paths": "Exact all snapshot original .jsonl paths; none may remain in the index.",
+    "required_files_schema": {
+      "files": [
+        {
+          "bytes": "integer",
+          "path": "explicit project-relative path",
+          "sha256": "lowercase64hex"
+        }
+      ],
+      "kind": "required_files",
+      "schema": "cti_nonweight_archive_stage_v1"
+    },
+    "scratch": "New project .local/nonweight-index-review-* retained; only index closure is restored there."
+  },
+  "not_asserted": [
+    "Does not independently establish scientific/terminal-job completion",
+    "Does not inspect unpublished commit history for earlier oversized blobs",
+    "Does not migrate originals, modify .gitignore or stage/add/remove/commit anything in the actual project"
+  ],
+  "real_archive_migrated": false,
+  "rounds": [
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "tests/test_nonweight_archive_stage.py",
+        "--basetemp=.local/pytest_nonweight_stage_train64_20261018_a1",
+        "--junitxml=.local/nonweight_stage_train64_20261018_a1.xml",
+        "-q"
+      ],
+      "evidence_sha256": {
+        ".local/nonweight_stage_train64_20261018_a1.log": "7c69e59293f6cf389406c6b1dd6f028c970fe32da2a56a7caab8f56b18b11c9d",
+        ".local/nonweight_stage_train64_20261018_a1.xml": "f088ae6d10a01aee409c8ffcce4b0a7f8adba7a637abd3c2623c98cf10b5a376",
+        ".local/nonweight_stage_train64_20261018_a1_source.py.txt": "ee4c14144c9adf1daf3a785a2e0da332997b0fca21cdee745477ba4b24b491af",
+        ".local/nonweight_stage_train64_20261018_a1_test.py.txt": "8267c53e3b36292715b2672c6a3f5604ce632d427ed3571fe914f33207a3d070"
+      },
+      "failure_reason": "The initial generic models directory guard rejected real src/cti_vla/models/*.py; production pins and data codec were not wrong.",
+      "junit": {
+        "errors": "0",
+        "failures": "1",
+        "hostname": "Xingxiaoyang",
+        "name": "pytest",
+        "skipped": "0",
+        "tests": "36",
+        "time": "87.065",
+        "timestamp": "2026-10-18T01:39:43.943670"
+      },
+      "round": 1,
+      "source_sha256": {
+        "scripts/ops/check_nonweight_archive_stage.py": "ee4c14144c9adf1daf3a785a2e0da332997b0fca21cdee745477ba4b24b491af",
+        "tests/test_nonweight_archive_stage.py": "8267c53e3b36292715b2672c6a3f5604ce632d427ed3571fe914f33207a3d070"
+      }
+    },
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "tests/test_nonweight_archive_stage.py",
+        "-k",
+        "real_173 or weight_staged",
+        "--basetemp=.local/pytest_nonweight_stage_train64_20261018_a2",
+        "--junitxml=.local/nonweight_stage_train64_20261018_a2.xml",
+        "-q"
+      ],
+      "evidence_sha256": {
+        ".local/nonweight_stage_train64_20261018_a2.log": "b01ab01209c6ad045788d45544c719483a60849891f4dfe178d23c2ecfb8462b",
+        ".local/nonweight_stage_train64_20261018_a2.xml": "59342db6cc7d9f08847906366dea6b60520e6484acbebd92521504afd7fcbd81"
+      },
+      "junit": {
+        "errors": "0",
+        "failures": "0",
+        "hostname": "Xingxiaoyang",
+        "name": "pytest",
+        "skipped": "0",
+        "tests": "5",
+        "time": "33.076",
+        "timestamp": "2026-10-18T01:42:05.575878"
+      },
+      "round": 2,
+      "source_sha256": {
+        "scripts/ops/check_nonweight_archive_stage.py": "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6",
+        "tests/test_nonweight_archive_stage.py": "3ac6ae2df397edbc2b34d0aa6251b4c676e04f7e641a4c9ce889ccf08c985c8d"
+      }
+    },
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "tests/test_nonweight_archive_stage.py",
+        "--basetemp=.local/pytest_nonweight_stage_train64_20261018_a3",
+        "--junitxml=.local/nonweight_stage_train64_20261018_a3.xml",
+        "-q"
+      ],
+      "evidence_sha256": {
+        ".local/nonweight_stage_train64_20261018_a3.log": "4e02718be6b62461841e8dfaa138788496b42f84b4be7007fecbd2b64e688eeb",
+        ".local/nonweight_stage_train64_20261018_a3.xml": "f2170f325e65990d0bb977471fe9c3dedadb6920458c5958ef2157a53b540ac9"
+      },
+      "junit": {
+        "errors": "0",
+        "failures": "0",
+        "hostname": "Xingxiaoyang",
+        "name": "pytest",
+        "skipped": "0",
+        "tests": "38",
+        "time": "114.106",
+        "timestamp": "2026-10-18T01:43:21.378587"
+      },
+      "round": 3,
+      "source_sha256": {
+        "scripts/ops/check_nonweight_archive_stage.py": "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6",
+        "tests/test_nonweight_archive_stage.py": "3ac6ae2df397edbc2b34d0aa6251b4c676e04f7e641a4c9ce889ccf08c985c8d"
+      }
+    }
+  ],
+  "schema": "nonweight_archive_stage_cpu_review_v1",
+  "source173_changed": false,
+  "source_sha256": {
+    "scripts/ops/check_nonweight_archive_stage.py": "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6",
+    "tests/test_nonweight_archive_stage.py": "3ac6ae2df397edbc2b34d0aa6251b4c676e04f7e641a4c9ce889ccf08c985c8d"
+  },
+  "status": "final_38_tests_passed_independent_pending",
+  "test_substitutions": [
+    "Most tests monkeypatch only frozen inventory SHA/count with complete two-file synthetic inventory; final fresh-process test copies all original173 files, real frozen inventory and production pins.",
+    "Size-limit and unsafe mode/unmerged tests replace only specific Git protocol metadata responses for bounded fixtures; no actual weight or over100MiB payload is read.",
+    "Git repo, index blobs, archive codec extraction/verify/restore, whole byte equality and index-race detection are actual implementations.",
+    "Every test Git mutation is confined to a new repository below F:/CTI-VLA/.local; all original raw data and real Git index are outside test mutation scope."
+  ]
+}
