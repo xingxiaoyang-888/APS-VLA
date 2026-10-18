@@ -1,0 +1,136 @@
+from __future__ import annotations
+
+import ast
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import xml.etree.ElementTree as ET
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent.parent
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main():
+    before = json.loads((HERE / 'before.json').read_bytes())
+    run = json.loads((HERE / 'run.json').read_bytes())
+    evidence = before['read_evidence_sha256']
+    assert run['exit_code'] == 0 and not run['protected_drift']
+    assert evidence == run['after_sha256']
+    for rel, digest in evidence.items():
+        assert sha(ROOT / rel) == digest, rel
+    own_test = (HERE / 'test_independent_adapter_v2.py').read_text(encoding='utf-8')
+    prior_test = (ROOT / '.local/action_execution_compat_independent_0626/test_independent_adapter.py').read_text(encoding='utf-8')
+    for a, b in [('.local/action_execution_compat_v1_candidate/adapter.py', '.local/action_execution_compat_v2_candidate/adapter.py'),
+                 ('d7132596293958f35bc029707136fddf4450d76efad49b8ab96b65d6c8a9f0d9', '958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863'),
+                 ('independent_action_candidate_0626', 'independent_action_candidate_v2_0626')]:
+        prior_test = prior_test.replace(a, b)
+    assert own_test.split('@pytest.mark.parametrize("body_raises", [False, True])')[0].rstrip() == prior_test.rstrip()
+    sources = [ROOT / '.local' / name / 'adapter.py' for name in
+               ('action_execution_compat_v1_candidate', 'action_execution_compat_v2_candidate')]
+    trees = [ast.parse(p.read_bytes()) for p in sources]
+    funcs = [{n.name: n for n in t.body if isinstance(n, ast.FunctionDef)} for t in trees]
+    dump = lambda node: ast.dump(node, include_attributes=False)
+    changed = sorted(name for name in funcs[0] if dump(funcs[0][name]) != dump(funcs[1][name]))
+    assert changed == ['derive_function', 'install_action_execution_compat']
+    derive = funcs[1]['derive_function']
+    added = [n for n in derive.body if isinstance(n, ast.Expr) and isinstance(n.value, ast.Call)
+             and isinstance(n.value.func, ast.Name) and n.value.func.id == '_check_chunk_construction']
+    assert len(added) == 1
+    derive.body.remove(added[0])
+    assert dump(derive) == dump(funcs[0]['derive_function'])
+    assignments = [{n.targets[0].id: n.value for n in t.body
+                    if isinstance(n, ast.Assign) and len(n.targets) == 1 and isinstance(n.targets[0], ast.Name)} for t in trees]
+    assert dump(assignments[0]['_BRANCH']) == dump(assignments[1]['_BRANCH'])
+    xml = ET.parse(HERE / 'independent_v2.xml').getroot()
+    suites = xml.findall('.//testsuite')
+    totals = {k: sum(int(s.attrib[k]) for s in suites) for k in ('tests', 'failures', 'errors', 'skipped')}
+    assert totals == dict(tests=13, failures=0, errors=0, skipped=0), totals
+    assert len(xml.findall('.//testcase')) == 13
+    own_log = (HERE / 'independent_v2.log').read_text(encoding='utf-8')
+    constructor_observations = []
+    slot_observations = []
+    for line in own_log.splitlines():
+        for prefix, target in [('UNKNOWN_CONSTRUCTION_OBSERVATION ', constructor_observations),
+                               ('UNRECOVERABLE_CONSTRUCTION_OBSERVATION ', slot_observations)]:
+            if prefix in line:
+                target.append(json.loads(line.split(prefix, 1)[1]))
+    assert len(constructor_observations) == len(slot_observations) == 2
+    assert all(not r['installed'] and not r['nonfinite_action_reached_synthetic_environment'] for r in constructor_observations)
+    assert all(r['fresh_runtime_required'] and not r['policy_chunk_construction_restored']
+               and r['same_class_reentry_rejected'] for r in slot_observations)
+    prior = json.loads((ROOT / 'results/formal_main_v2/preflight/action_execution_compat_CPU_independent_0626.json').read_bytes())
+    assert prior['status'] == 'blocked_unknown_PolicyChunk_constructor_identity'
+    for path in [HERE / name for name in ('before.json', 'run.json', 'v1_to_v2.diff', 'independent_v2.xml',
+                 'independent_v2.log', 'finalize_review.py')]:
+        evidence[path.relative_to(ROOT).as_posix()] = sha(path)
+    v1_test = ROOT / '.local/action_execution_compat_v1_candidate/test_adapter.py'
+    assert sha(v1_test) == '575dc1aa17d4a5a2f35de7ca8b57c1c75dd8933b2cf531129208c827ab8947cd'
+    evidence[v1_test.relative_to(ROOT).as_posix()] = sha(v1_test)
+    report = {
+        'schema': 'formal_main_v2',
+        'kind': 'action_execution_compatibility_v2_independent_CPU_review',
+        'created_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        'status': 'passed_bounded_CPU_candidate_review_pending_runtime_integration_and_GPU',
+        'candidate': sources[1].relative_to(ROOT).as_posix(),
+        'candidate_sha256': sha(sources[1]),
+        'author_review': '.local/action_execution_compat_v2_candidate/candidate_review.json',
+        'author_review_sha256': evidence['.local/action_execution_compat_v2_candidate/candidate_review.json'],
+        'prior_v1_blockers_retained': {
+            'receipt': 'results/formal_main_v2/preflight/action_execution_compat_CPU_independent_0626.json',
+            'v1_candidate_sha256': sha(sources[0]),
+            'original_two_failed_tests_unchanged': True,
+            'same_two_v2_observations': constructor_observations,
+            'meaning': 'Both unknown generated-init replacement and borrowed-validator class substitution now reject before installation; no policy call or nonfinite action reaches the synthetic environment.'},
+        'independent_tests': {
+            **totals, 'passed': 13, 'junit_seconds': sum(float(s.attrib['time']) for s in suites),
+            'wall_seconds': run['wall_seconds'], 'command': run['command'],
+            'cwd': run['cwd'], 'environment_overrides': run['environment_overrides'],
+            'original_eleven_cases_preserved_except_candidate_path_SHA_module_name': True,
+            'new_tests': 'Two independent __new__ tamper cases with ordinary exit and runner exception; both prove explicit failure, constructor unrestored, same-class quarantine, restored aliases, unchanged RNG, and acceptance of a genuinely fresh frozen class.',
+            'failures_in_this_review': 0,
+            'not_rerun': 'Author 44 original plus 15 construction tests; original source/XML/log and 58/59 first attempt are SHA bound and checked, not counted as independent executions.'},
+        'static_checks': {
+            'changed_existing_adapter_functions': changed,
+            'derive_function_change_is_one_constructor_gate_only': True,
+            'one_registered_range_if_deletion_independently_derived_and_bytecode_compared': True,
+            'existing_run_loop_other_AST_unchanged': True,
+            'no_action_clipping_scaling_or_method_specific_branch': True,
+            'four_method_extreme_finite_actions_byte_exact': True,
+            'frozen173_exact_before_and_after': True,
+            'all202_preexisting_watched_evidence_exact_before_and_after': True,
+            'source_change_during_scope_checked_in_disposable_copy_only': True,
+            'constructor_reference_uses_same_Python_runtime_frozen_class_AST': True,
+            'original_finite_shape_validator_retained': True,
+            'bindings_generatorclose_emitter_failure_and_unknown_alias_checked': True},
+        'unrecoverable_constructor_observations': slot_observations,
+        'remaining': [
+            'Server Python/runtime compatibility, actual controller identity and real GPU execution are not tested by this CPU receipt.',
+            'Actual consumer integration and new execution identity remain separately gated by root and independent acceptance.',
+            'Historical per-trial new/old execution equivalence, reuse authorization, and final global release remain separate and ungranted.',
+            'Quarantine requires discarding the failed runtime; this receipt does not claim arbitrary interpreter tampering can be repaired.'],
+        'scope': {
+            'actual': 'Candidate and exact frozen class/function AST, all173 byte checks, both run_episode aliases, source-watch behavior, and CPU constructor/execution assertions.',
+            'stand_ins': 'Synthetic NumPy arrays/environment and deterministic clock; no torch, model, simulator, actual initial-state values, or controller instance loaded.',
+            'writes': HERE.relative_to(ROOT).as_posix() + '/ only',
+            'new_GPU_seconds': 0, 'SSH_Slurm_Git_shared_state_used': False,
+            'production_source_or_prior_evidence_modified': False,
+            'real_initial_states_read': False, 'results_receipt_published': False},
+        'deployment_authorized': False, 'historical_reuse_authorized': False,
+        'final_release_authorized': False, 'blocking_findings_within_this_bounded_CPU_review': [],
+        'read_evidence_sha256': evidence,
+    }
+    output = HERE / 'independent_review.json'
+    with output.open('x', encoding='utf-8', newline='\n') as stream:
+        json.dump(report, stream, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
+        stream.write('\n')
+    print(json.dumps({'path': output.as_posix(), 'sha256': sha(output), 'status': report['status'],
+                      'tests': totals, 'read_evidence_count': len(evidence)}, ensure_ascii=False))
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,106 @@
+from __future__ import annotations
+
+import datetime
+import difflib
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent.parent
+INV = 'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+V1 = '.local/action_execution_compat_v1_candidate'
+V2 = '.local/action_execution_compat_v2_candidate'
+PIN = {
+    INV: '5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926',
+    V1 + '/adapter.py': 'd7132596293958f35bc029707136fddf4450d76efad49b8ab96b65d6c8a9f0d9',
+    V2 + '/adapter.py': '958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863',
+    V2 + '/candidate_review.json': 'af6f2f4a869fef0d4db29cecc310f9657d4f27efe1236f27e888fa5e89e37d9c',
+    '.local/action_execution_compat_independent_0626/test_independent_adapter.py': '797a1934f4c84e650f9ad9f3011171bc75f92abbc019115f96c22a1d6a1b30f4',
+    'results/formal_main_v2/preflight/action_execution_compat_CPU_independent_0626.json': 'fb60c2d881ba26805693e91d9952209ed9592df2b475956f7681fc1cab863a48',
+    'configs/experiments/formal_main_v2_action_execution_compat_v1.json': '0917bff60e632a5be3c2db50b16daa0b904e4754a3ba31334802060f75d3eefe',
+    'docs/正式动作执行兼容修正登记.md': '06682ec87400cfdd41bf3947d14140a8a95cff4b1f1121063812bd5e60a7d938',
+}
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def write(name, value):
+    path = HERE / name
+    with path.open('x', encoding='utf-8', newline='\n') as stream:
+        json.dump(value, stream, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
+        stream.write('\n')
+
+
+def main():
+    for rel, expected in PIN.items():
+        assert sha(ROOT / rel) == expected, rel
+    inventory = json.loads((ROOT / INV).read_bytes())
+    assert len(inventory['files']) == 173
+    watched = dict(PIN)
+    for rel, expected in inventory['files'].items():
+        assert sha(ROOT / rel) == expected, rel
+        watched[rel] = expected
+    for prefix, names in {
+        V2: ['test_adapter.py', 'test_constructor_identity.py', 'README.md',
+             'tests_initial.xml', 'tests_initial.log', 'tests_initial_run.json',
+             'tests_final.xml', 'tests_final.log', 'tests_final_run.json', 'static_delta.json', 'v1_sources.json'],
+        V2 + '/attempt01_sources': ['adapter.py', 'README.md', 'test_adapter.py', 'test_constructor_identity.py'],
+        '.local/action_execution_compat_independent_0626': ['construction_v1.log', 'construction_v1.xml', 'remaining_v1.log', 'remaining_v1.xml'],
+    }.items():
+        for name in names:
+            rel = prefix + '/' + name
+            watched[rel] = sha(ROOT / rel)
+    assert (ROOT / V2 / 'test_adapter.py').read_bytes() == (ROOT / V1 / 'test_adapter.py').read_bytes()
+    author = json.loads((ROOT / V2 / 'candidate_review.json').read_bytes())
+    assert author['candidate_sha256'] == PIN[V2 + '/adapter.py']
+    for entry in ('first_run', 'final_run'):
+        run = author[entry]
+        prefix = ROOT / V2 / ('attempt01_sources' if entry == 'first_run' else '')
+        for name, digest in run['run']['source_sha256'].items():
+            assert sha(prefix / name) == digest, (entry, name)
+        suites = ET.parse(ROOT / V2 / run['XML']).getroot().findall('.//testsuite')
+        totals = {key: sum(int(s.attrib[key]) for s in suites) for key in ('tests', 'failures', 'errors', 'skipped')}
+        assert totals == {key: run['junit'][key] for key in totals}, (entry, totals)
+    watched[str(Path(__file__).relative_to(ROOT)).replace('\\', '/')] = sha(Path(__file__))
+    test = HERE / 'test_independent_adapter_v2.py'
+    watched[test.relative_to(ROOT).as_posix()] = sha(test)
+    write('before.json', {'created_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                          'read_evidence_sha256': watched, 'frozen173_verified': True})
+    diff = ''.join(difflib.unified_diff(
+        (ROOT / V1 / 'adapter.py').read_text(encoding='utf-8').splitlines(keepends=True),
+        (ROOT / V2 / 'adapter.py').read_text(encoding='utf-8').splitlines(keepends=True),
+        fromfile=V1 + '/adapter.py', tofile=V2 + '/adapter.py'))
+    with (HERE / 'v1_to_v2.diff').open('x', encoding='utf-8', newline='\n') as stream:
+        stream.write(diff)
+    args = [sys.executable, '-B', '-m', 'pytest', test.relative_to(ROOT).as_posix(), '-q', '-s', '-p', 'no:cacheprovider',
+            '--basetemp=' + (HERE / 'pytest_v2').relative_to(ROOT).as_posix(),
+            '--junitxml=' + (HERE / 'independent_v2.xml').relative_to(ROOT).as_posix()]
+    env = dict(os.environ, PYTEST_DISABLE_PLUGIN_AUTOLOAD='1', PYTHONDONTWRITEBYTECODE='1')
+    start = time.perf_counter()
+    result = subprocess.run(args, cwd=ROOT, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    seconds = time.perf_counter() - start
+    with (HERE / 'independent_v2.log').open('xb') as stream:
+        stream.write(result.stdout)
+    after = {rel: sha(ROOT / rel) for rel in watched}
+    drift = {rel: {'before': expected, 'after': after[rel]} for rel, expected in watched.items() if expected != after[rel]}
+    write('run.json', {'command': args, 'cwd': ROOT.as_posix(), 'environment_overrides': {
+        'PYTEST_DISABLE_PLUGIN_AUTOLOAD': '1', 'PYTHONDONTWRITEBYTECODE': '1'},
+        'exit_code': result.returncode, 'wall_seconds': seconds, 'protected_drift': drift,
+        'after_sha256': after, 'new_GPU_seconds': 0})
+    print(result.stdout.decode('utf-8', errors='replace'))
+    print(json.dumps({'exit_code': result.returncode, 'wall_seconds': seconds, 'protected_files': len(watched),
+                      'protected_drift': drift}, ensure_ascii=False))
+    assert not drift
+    return result.returncode
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

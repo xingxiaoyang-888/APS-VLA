@@ -1,0 +1,51 @@
+{
+  "status": "passed",
+  "job_id": "3023656",
+  "suite": "libero_spatial",
+  "budget": 256,
+  "seed": 23,
+  "boundary": 500,
+  "root_review": "results/formal_main_v2/libero_spatial/k256/seed23/training/segment_reviews/3023656.json",
+  "root_sha256": "24058cbb5eeebaf06b21418552e787b2373b2803180d39ca28597d407e7d602e",
+  "pull": "results/formal_main_v2/pulls/20261018T065501Z_ffec169dcb73/receipt.json",
+  "pull_sha256": "319d061ccf1ecde1347ae67401251291c2e885134f986582d6b746c0e25dab48",
+  "pair_gpu_seconds": 4446,
+  "latest_gpu_seconds": 4446,
+  "histories": [
+    "3023656"
+  ],
+  "allowed_next": 1000,
+  "operations": [
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/pull_formal_results.py",
+        "--job-id",
+        "3023656"
+      ],
+      "started_utc": "2026-10-18T06:55:00.555830+00:00",
+      "exit_code": 0,
+      "stdout": "{\"status\": \"verified_nonweight_snapshot\", \"files\": 17, \"skipped_jobs\": [], \"receipt\": \"F:\\\\CTI-VLA\\\\results\\\\formal_main_v2\\\\pulls\\\\20261018T065501Z_ffec169dcb73\\\\receipt.json\", \"weights_copied\": false, \"scientific_completion_inferred\": false}\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/review_formal_segment.py",
+        "--job-id",
+        "3023656",
+        "--source-inventory",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "--pull-receipt",
+        "results/formal_main_v2/pulls/20261018T065501Z_ffec169dcb73/receipt.json",
+        "--verify-server-resume"
+      ],
+      "started_utc": "2026-10-18T06:55:14.655311+00:00",
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"passed\",\r\n  \"job_id\": \"3023656\",\r\n  \"completed_by_arm\": {\r\n    \"A\": 500,\r\n    \"B\": 500\r\n  },\r\n  \"allowed_next_segment_end\": 1000,\r\n  \"continuation\": \"advance_one_registered_boundary\",\r\n  \"server_resume_checklist\": [\r\n    {\r\n      \"arm\": \"A\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k256/seed23/A/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"d3b0919224de280528b77aca8b83a196a6f7c1cc1323946e228ad31ad78a000d\"\r\n    },\r\n    {\r\n      \"arm\": \"B\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k256/seed23/B/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"486c4a2d6f4fa8ee36261f23139c09565360ea31ba3d8e1901722eb98bf67a40\"\r\n    }\r\n  ],\r\n  \"pair_allocated_gpu_seconds\": 4446\r\n}\r\n",
+      "stderr": ""
+    }
+  ]
+}

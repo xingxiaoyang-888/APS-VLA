@@ -1,0 +1,93 @@
+"""Bounded regression for the two independent v1 construction failures."""
+import copy
+from types import FunctionType
+
+import numpy as np
+import pytest
+
+from test_adapter import modules, scope, m
+
+
+def bypass_init(self, normalized_actions, environment_actions, metadata):
+    object.__setattr__(self, "normalized_actions", normalized_actions)
+    object.__setattr__(self, "environment_actions", environment_actions)
+    object.__setattr__(self, "metadata", metadata)
+
+
+def substitute(old, runtime):
+    # Precisely the independent failure: borrow the pinned, unused validator.
+    return type("PolicyChunk", (object,), {"__module__": runtime.__name__,
+        "__init__": bypass_init, "__post_init__": old.__post_init__})
+
+
+@pytest.mark.parametrize("mutation", ["replace_generated_init", "substitute_class_borrowing_validator",
+    "custom_new", "custom_getattribute", "init_defaults", "init_closure"])
+def test_unknown_construction_rejected_before_install(modules, mutation):
+    runtime, trials, _ = modules
+    original_runner, original_alias, cls = runtime.run_episode, trials.run_episode, runtime.PolicyChunk
+    if mutation == "replace_generated_init": cls.__init__ = bypass_init
+    elif mutation == "substitute_class_borrowing_validator": runtime.PolicyChunk = substitute(cls, runtime)
+    elif mutation == "custom_new": cls.__new__ = staticmethod(lambda *args, **kw: object.__new__(cls))
+    elif mutation == "custom_getattribute": cls.__getattribute__ = lambda self, key: object.__getattribute__(self, key)
+    elif mutation == "init_defaults": cls.__init__.__defaults__ = (None, None, None)
+    elif mutation == "init_closure": cls.__init__.__closure__[0].cell_contents = type("FakeObject", (), {})
+    events = []
+    with pytest.raises(ValueError, match="PolicyChunk"):
+        with scope(modules, events): pytest.fail("unknown constructor entered installation")
+    assert runtime.run_episode is original_runner and trials.run_episode is original_alias
+    assert not events and not m._LOCK.locked()
+
+
+@pytest.mark.parametrize("mutation", ["replace_init", "replace_class", "init_defaults", "init_code",
+    "post_init", "init_closure", "custom_new", "init_qualname"])
+def test_scope_construction_tampering_rejected_and_bindings_restored(modules, mutation):
+    runtime, trials, _ = modules
+    original_runner, cls = runtime.run_episode, runtime.PolicyChunk
+    original_init = cls.__init__; original_post = cls.__post_init__
+    init_code, init_defaults = original_init.__code__, copy.deepcopy(original_init.__defaults__)
+    original_cells = tuple(c.cell_contents for c in original_init.__closure__ or ())
+    events = []
+    with pytest.raises(RuntimeError, match="tampering"):
+        with scope(modules, events):
+            if mutation == "replace_init": cls.__init__ = bypass_init
+            elif mutation == "replace_class": runtime.PolicyChunk = substitute(cls, runtime)
+            elif mutation == "init_defaults": cls.__init__.__defaults__ = (None, None, None)
+            elif mutation == "init_code":
+                # Keep free-variable arity so the code assignment itself succeeds.
+                def maker():
+                    captured = object
+                    def bad(self, normalized_actions, environment_actions, metadata):
+                        captured.__setattr__(self, "environment_actions", environment_actions)
+                    return bad
+                cls.__init__.__code__ = maker().__code__
+            elif mutation == "post_init": cls.__post_init__ = lambda self: None
+            elif mutation == "init_closure": cls.__init__.__closure__[0].cell_contents = type("FakeObject", (), {})
+            elif mutation == "custom_new": cls.__new__ = staticmethod(lambda *args, **kw: object.__new__(cls))
+            elif mutation == "init_qualname": cls.__init__.__qualname__ = "Unknown.__init__"
+    assert runtime.run_episode is original_runner and trials.run_episode is original_runner
+    assert runtime.PolicyChunk is cls and cls.__init__ is original_init and cls.__post_init__ is original_post
+    assert cls.__init__.__code__ is init_code and cls.__init__.__defaults__ == init_defaults
+    assert all(c.cell_contents is v for c, v in zip(cls.__init__.__closure__ or (), original_cells))
+    assert events[-1]["policy_chunk_construction_intact"] is False
+    assert events[-1]["policy_chunk_construction_restored"] is True
+    assert events[-1]["finite_shape_and_observation_helpers_intact"] is False
+    assert events[-1]["original_bindings_restored"] and not m._LOCK.locked()
+    # The restored construction still runs the original finite-value validator.
+    with pytest.raises(ValueError, match="finite"):
+        cls(np.zeros((8, 7)), np.full((8, 7), np.nan), {})
+    with scope(modules): pass
+
+
+def test_reference_constructor_identity_is_explicit_and_same_runtime(modules):
+    runtime, trials, _ = modules
+    cls = runtime.PolicyChunk
+    events = []
+    with scope(modules, events) as identity:
+        proof = identity["policy_chunk_construction"]
+        assert runtime.PolicyChunk is cls and proof["same_runtime_reference"] is True
+        assert proof["construction_function_code_sha256"]["__init__"] == m.code_sha256(cls.__init__.__code__)
+        assert set(proof["construction_function_code_sha256"]) == set(m._CONSTRUCTION_FUNCTIONS)
+        assert identity["ast_proof"]["removed_if_count"] == 1
+        assert identity["ast_proof"]["other_AST_nodes_unchanged"] is True
+    assert events[-1]["policy_chunk_construction_intact"] is True
+    assert events[-1]["policy_chunk_construction_restored"] is True
