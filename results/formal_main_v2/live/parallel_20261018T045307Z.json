@@ -1,0 +1,133 @@
+{
+  "schema": "formal_main_v2",
+  "observed_utc": "2026-10-18T04:53:07.331716+00:00",
+  "provisional_live_read": true,
+  "not_a_completion_receipt": true,
+  "jobs": [
+    {
+      "job_id": "3022808",
+      "suite": "libero_spatial",
+      "visual_tokens": 128,
+      "training_seed": 23,
+      "segment_end": 5000,
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k128/seed23/training",
+      "status": "RUNNING",
+      "gpus": 1,
+      "node": "gpu4012",
+      "elapsed_seconds": 3663,
+      "arms": {
+        "A": {
+          "this_job_attempt_starts": [
+            {
+              "attempt_id": "20261018T035554_047b2752b6ac",
+              "utc": "2026-10-18T03:55:54.372757+00:00",
+              "resumed": true,
+              "completed_update": 4500,
+              "next_sample_cursor": 36000
+            }
+          ],
+          "this_job_updates_completed_in_memory": 5000,
+          "this_job_last_checkpoint_update": 5000,
+          "this_job_last_update_seconds": 4.174176320433617,
+          "last_event": "attempt_end",
+          "last_event_utc": "2026-10-18T04:31:27.418259+00:00"
+        },
+        "B": {
+          "this_job_attempt_starts": [
+            {
+              "attempt_id": "20261018T043147_aaa1419f8082",
+              "utc": "2026-10-18T04:31:47.081006+00:00",
+              "resumed": true,
+              "completed_update": 4500,
+              "next_sample_cursor": 36000
+            }
+          ],
+          "this_job_updates_completed_in_memory": 4964,
+          "this_job_last_checkpoint_update": 4950,
+          "this_job_last_update_seconds": 2.7830460239201784,
+          "last_event": "sample_start",
+          "last_event_utc": "2026-10-18T04:53:07.994685+00:00"
+        }
+      },
+      "failures": []
+    },
+    {
+      "job_id": "3022998",
+      "suite": "libero_10",
+      "visual_tokens": 64,
+      "training_seed": 41,
+      "segment_end": 4000,
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k64/seed41/training",
+      "status": "RUNNING",
+      "gpus": 1,
+      "node": "gpu4010",
+      "elapsed_seconds": 1499,
+      "arms": {
+        "A": {
+          "this_job_attempt_starts": [
+            {
+              "attempt_id": "20261018T043203_042ab3829712",
+              "utc": "2026-10-18T04:32:03.754339+00:00",
+              "resumed": true,
+              "completed_update": 3500,
+              "next_sample_cursor": 28000
+            }
+          ],
+          "this_job_updates_completed_in_memory": 3998,
+          "this_job_last_checkpoint_update": 3950,
+          "this_job_last_update_seconds": 2.4076417703181505,
+          "last_event": "sample_start",
+          "last_event_utc": "2026-10-18T04:53:08.388188+00:00"
+        },
+        "B": {
+          "this_job_attempt_starts": [],
+          "this_job_updates_completed_in_memory": null,
+          "this_job_last_checkpoint_update": null,
+          "this_job_last_update_seconds": null,
+          "last_event": null,
+          "last_event_utc": null
+        }
+      },
+      "failures": []
+    },
+    {
+      "job_id": "3023005",
+      "suite": "libero_spatial",
+      "visual_tokens": 256,
+      "training_seed": 17,
+      "segment_end": 500,
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k256/seed17/training",
+      "status": "RUNNING",
+      "gpus": 1,
+      "node": "gpu4010",
+      "elapsed_seconds": 1414,
+      "arms": {
+        "A": {
+          "this_job_attempt_starts": [
+            {
+              "attempt_id": "20261018T043314_bca443feb294",
+              "utc": "2026-10-18T04:33:14.286195+00:00",
+              "resumed": false,
+              "completed_update": 0,
+              "next_sample_cursor": 0
+            }
+          ],
+          "this_job_updates_completed_in_memory": 261,
+          "this_job_last_checkpoint_update": 250,
+          "this_job_last_update_seconds": 4.869713032618165,
+          "last_event": "sample_start",
+          "last_event_utc": "2026-10-18T04:53:08.797010+00:00"
+        },
+        "B": {
+          "this_job_attempt_starts": [],
+          "this_job_updates_completed_in_memory": null,
+          "this_job_last_checkpoint_update": null,
+          "this_job_last_update_seconds": null,
+          "last_event": null,
+          "last_event_utc": null
+        }
+      },
+      "failures": []
+    }
+  ]
+}

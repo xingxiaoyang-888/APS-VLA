@@ -1,0 +1,86 @@
+"""Finish delivery after the byte guard passed and raw XML whitespace was flagged."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+import subprocess
+
+ROOT=Path(__file__).resolve().parents[1]
+B='results/formal_main_v2/preflight/'
+PROOF=B+'parallel_review_batch_20261018T0452_git_delivery.json'
+OUT=B+'parallel_review_batch_20261018T0452_git_delivery_finish.json'
+SOURCE=B+'parallel_review_batch_20261018T0452_git_delivery_finish.py.txt'
+RAW=[B+'object_action_range_probe_independent_cpu_v1/author_initial_tests.xml',
+     B+'object_action_range_probe_v1_CPU_sources_0452/012_object_action_range_probe_v1_initial_tests.xml.txt']
+
+
+def sha(data):return hashlib.sha256(data).hexdigest()
+def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT)
+
+
+def main():
+    assert not (ROOT/OUT).exists() and not (ROOT/SOURCE).exists()
+    proof_bytes=(ROOT/PROOF).read_bytes()
+    assert sha(proof_bytes)=='b45082e53a1fb4737c672f545fc11717db9e4cd3c72e69f70c68930070a0a55d'
+    proof=json.loads(proof_bytes);report=proof['guard_result']
+    assert report['status']=='verified_index_archive_delivery' and report['required_count']==1660
+    assert report['frozen_files_verified_in_worktree_and_index']==173 and len(report['raw_paths_restored_exactly'])==2
+    assert git('rev-parse','HEAD').decode().strip()=='fad47a89ecaf1ccb697a10454f79aaf36bcf19cd'
+    index=git('ls-files','--stage','-z')
+    records=[x for x in index.split(b'\0') if x]
+    proof_records=[x for x in records if x.split(b'\t',1)[1].decode()==PROOF]
+    assert len(proof_records)==1
+    prior_index=b'\0'.join(x for x in records if x not in proof_records)+b'\0'
+    assert sha(prior_index)==report['index_sha256']
+    changes=git('diff','--cached','--name-status','-z')
+    addition=b'A\0'+PROOF.encode()+b'\0';assert changes.count(addition)==1
+    assert sha(changes.replace(addition,b''))==report['staged_changes_sha256']
+    assert git('show',':'+PROOF)==proof_bytes
+    assert not git('diff','--name-only').strip()
+    required=json.loads((ROOT/(B+'parallel_review_batch_20261018T0452_git_required.json')).read_text())
+    rows={x['path']:x for x in required['files']}
+    frozen=[]
+    for name in RAW:
+        data=(ROOT/name).read_bytes()
+        assert sha(data)==rows[name]['sha256'] and len(data)==rows[name]['bytes']
+        assert git('show',':'+name)==data
+        line=data.splitlines()[23]
+        assert line==b'.local\\test_object_action_range_probe_v1.py:242: '
+        frozen.append(dict(path=name,sha256=sha(data),bytes=len(data),line=24,
+            trailing_whitespace_preserved_in_immutable_original_failure_log=True))
+    assert frozen[0]['sha256']==frozen[1]['sha256']
+    process=subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,capture_output=True)
+    assert process.returncode==2 and not process.stderr
+    expected=b''.join((name+':24: trailing whitespace.\n+.local\\test_object_action_range_probe_v1.py:242: \r\n').encode() for name in RAW)
+    assert process.stdout==expected,(process.stdout,expected)
+    command=['git','diff','--cached','--check','--','.',*[':(exclude)'+name for name in RAW]]
+    checked=subprocess.run(command,cwd=ROOT,capture_output=True)
+    assert checked.returncode==0 and not checked.stdout and not checked.stderr
+    payload=Path(__file__).read_bytes();(ROOT/SOURCE).write_bytes(payload)
+    result=dict(schema='formal_main_v2',kind='root_git_delivery_raw_log_whitespace_resolution',status='passed',
+        reviewed_utc=datetime.now(timezone.utc).isoformat(),prior_guard_proof=dict(path=PROOF,sha256=sha(proof_bytes)),
+        byte_archive_guard_passed=True,byte_archive_guard_not_bypassed_or_rerun=True,
+        all_1660_required_files_and_173_sources_covered_by_unchanged_guard_index=True,
+        index_unchanged_since_guard_except_proof_file=True,prior_index_sha256=sha(prior_index),
+        original_helper_exit_code=1,original_cause='Post-guard git diff --check rejected two identical original failed-test XML archives for a preserved trailing space.',
+        reproduced_full_format_check_exit_code=process.returncode,
+        reproduced_full_format_check_output=process.stdout.decode(),
+        exactly_pinned_raw_log_format_exceptions=frozen,
+        all_other_staged_files_format_check_command=command,all_other_staged_files_format_check_passed=True,
+        no_source_document_or_evidence_bytes_trimmed=True,no_global_whitespace_rule_changed=True,
+        root_finish_source=dict(path=SOURCE,sha256=sha(payload)),GPU_seconds=0,GPU_jobs_rerun=0,
+        final_states_opened=False,weights_copied=False)
+    data=(json.dumps(result,ensure_ascii=False,indent=2,sort_keys=True)+'\n').encode()
+    (ROOT/OUT).write_bytes(data)
+    subprocess.run(['git','add','--',SOURCE,OUT],cwd=ROOT,check=True)
+    assert git('show',':'+SOURCE)==payload and git('show',':'+OUT)==data
+    final_records=[x for x in git('ls-files','--stage','-z').split(b'\0') if x]
+    added_names={SOURCE,OUT}
+    unchanged=b'\0'.join(x for x in final_records if x.split(b'\t',1)[1].decode() not in added_names)+b'\0'
+    assert unchanged==index
+    subprocess.run(command,cwd=ROOT,check=True)
+    assert not git('diff','--name-only').strip()
+    print(json.dumps(dict(status='passed',receipt=OUT,sha256=sha(data),unchanged_byte_guard=True,raw_format_exceptions=2)))
+
+
+if __name__=='__main__':main()

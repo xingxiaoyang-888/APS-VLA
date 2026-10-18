@@ -1,0 +1,192 @@
+"""Publish this independent CPU audit only; no runtime or supervisor mutation."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import importlib.util
+import json
+import xml.etree.ElementTree as ET
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / 'results/formal_main_v2/preflight/object_action_range_probe_cpu_independent_0452.json'
+PACKAGE = ROOT / 'results/formal_main_v2/preflight/object_action_range_probe_independent_cpu_v1'
+READ = {}
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def read(relative, expected=None):
+    path = ROOT / relative
+    assert path.resolve().is_relative_to(ROOT)
+    assert not any(s in relative.lower() for s in ('sealed_final', 'final_registry', '.pruned_init'))
+    assert path.suffix.lower() not in {'.pt', '.pth', '.bin', '.ckpt', '.safetensors', '.init'}
+    data = path.read_bytes()
+    checksum = digest(data)
+    if expected is not None:
+        assert checksum == expected, relative
+    if relative in READ:
+        assert READ[relative] == checksum, relative
+    READ[relative] = checksum
+    return data
+
+
+def jread(relative, expected=None):
+    return json.loads(read(relative, expected))
+
+
+assert not OUT.exists() and not PACKAGE.exists()
+before_ref = '.local/object_action_range_independent_train64_v1/before_tests.json'
+before = jread(before_ref, '5b784078fefb5a510228d003be714a9d832abec0484b79ddba343febfbcd90ae')
+for relative, checksum in before['evidence_sha256'].items():
+    read(relative, checksum)
+assert len(before['evidence_sha256']) == 210 and before['frozen_files'] == 173
+
+probe_ref = '.local/object_action_range_probe_v1.py'
+probe_sha = '35172726d214c1e16ed7bbd4a15b6bfa6185eccf3f072ecd4b271ced24469fa7'
+read(probe_ref, probe_sha)
+spec = importlib.util.spec_from_file_location('independent_record_probe', ROOT / probe_ref)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)  # Module import only; never execute(), gpu_body(), or main().
+registration = jread(module.REG, module.REG_SHA)
+inventory = jread(registration['fixed_identity']['source_inventory'],
+                  '5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926')
+dependencies = jread('.local/object_action_range_probe_v1_dependencies_review_fixed.json',
+                     'bb675bc978a8c91264570d4d25826e3ff2cb58485484c155477d3668dbed8b6f')
+assert dependencies['snapshot_files'] == inventory['files'] and len(inventory['files']) == 173
+assert dependencies['candidate_sha256'] == probe_sha
+original_invocation = jread(module.INVOCATION, module.INVOCATION_SHA)
+argv = original_invocation['argv']
+assert argv.count('--input-acceptance') == 1
+f00 = argv[argv.index('--input-acceptance') + 1].removeprefix(module.P.as_posix() + '/')
+expected_project = {name: value for name, value in registration['read_evidence_sha256'].items()
+                    if name not in inventory['files']}
+expected_project.update(module.META_FILES)
+expected_project[module.REG] = module.REG_SHA
+expected_project[module.INVOCATION] = module.INVOCATION_SHA
+expected_project[f00] = registration['fixed_identity']['dense_deployment_identity']['input_acceptance_sha256']
+assert expected_project == dependencies['project_files'] and len(expected_project) == 18
+for relative, checksum in expected_project.items():
+    module.metadata_path(ROOT, relative)
+    read(relative, checksum)
+
+test_ref = '.local/test_object_action_range_probe_independent_train64_v1.py'
+xml_ref = '.local/object_probe_independent_train64_v1_tests.xml'
+log_ref = '.local/object_probe_independent_train64_v1_tests.log'
+xml = ET.fromstring(read(xml_ref))
+suites = list(xml.iter('testsuite'))
+counts = {k: sum(int(s.attrib.get(k, 0)) for s in suites) for k in ('tests', 'failures', 'errors', 'skipped')}
+assert counts == dict(tests=59, failures=0, errors=0, skipped=0)
+seconds = sum(float(s.attrib.get('time', 0)) for s in suites)
+read(test_ref); read(log_ref)
+read('results/setup/runtime_sources.json')
+read('.local/object_action_range_independent_train64_v1/guard_self_conflict_reproduction.json',
+     'c1eb0379ff250e301e179dabbc2b39f19c40beff435749963843b8b9a8af3840')
+
+copies = {
+    'probe.reviewed.py.txt': probe_ref,
+    'launcher.reviewed.py.txt': '.local/run_object_action_probe_registered_v1.py',
+    'wrapper.reviewed.slurm.txt': '.local/object_action_range_probe_v1.slurm',
+    'submit.reviewed.py.txt': '.local/submit_object_action_probe_0452.py',
+    'independent_tests.py.txt': test_ref,
+    'independent_tests.xml': xml_ref,
+    'independent_tests.log': log_ref,
+    'before_tests.json': before_ref,
+    'blocked_candidate_923605.py.txt': '.local/object_action_range_independent_train64_v1/candidate_923605_source.py.txt',
+    'blocked_scope_reproduction.json': '.local/object_action_range_independent_train64_v1/guard_self_conflict_reproduction.json',
+    'author_candidate_review.json': '.local/object_action_range_probe_v1_candidate.json',
+    'author_final_tests.py.txt': '.local/test_object_action_range_probe_v1.py',
+    'author_final_tests.xml': '.local/object_action_range_probe_v1_review_fixed_tests.xml',
+    'author_final_tests.log': '.local/object_action_range_probe_v1_review_fixed_tests.log',
+    'author_initial_source.py.txt': '.local/object_action_range_probe_v1_initial_source.py.txt',
+    'author_initial_tests.py.txt': '.local/object_action_range_probe_v1_initial_test.py.txt',
+    'author_initial_tests.xml': '.local/object_action_range_probe_v1_initial_tests.xml',
+    'author_first_corrected_tests.py.txt': '.local/object_action_range_probe_v1_review_blocked_tests.py.txt',
+    'author_first_corrected_tests.xml': '.local/object_action_range_probe_v1_final_tests.xml',
+    'author_first_corrected_tests.log': '.local/object_action_range_probe_v1_final_tests.log',
+    'dependencies.reviewed.json': '.local/object_action_range_probe_v1_dependencies_review_fixed.json',
+    'receipt_producer.py.txt': Path(__file__).relative_to(ROOT).as_posix(),
+}
+PACKAGE.mkdir(parents=True)
+archived = []
+for name, source in copies.items():
+    data = read(source)
+    destination = PACKAGE / name
+    with destination.open('xb') as stream:
+        stream.write(data)
+    relative = destination.relative_to(ROOT).as_posix()
+    assert read(relative) == data
+    archived.append(dict(source=source, path=relative, sha256=digest(data), bytes=len(data)))
+
+# End-of-audit rehash includes every read dependency and every new raw-byte copy.
+for relative, expected in dict(READ).items():
+    read(relative, expected)
+
+receipt = dict(
+    schema='formal_main_v2', kind='bounded_object_action_range_probe_independent_CPU_audit',
+    version='object-action-range-independent-cpu-v1',
+    status='passed_cpu_independent_review', reviewed_utc=datetime.now(timezone.utc).isoformat(),
+    reviewer='train64', candidate_sha256=probe_sha,
+    registration_path=module.REG, registration_sha256=module.REG_SHA,
+    implementation_files={p: READ[p] for p in (probe_ref,
+        '.local/run_object_action_probe_registered_v1.py', '.local/object_action_range_probe_v1.slurm',
+        '.local/submit_object_action_probe_0452.py')},
+    independent_tests=dict(source=test_ref, source_sha256=READ[test_ref],
+        command="& 'C:/Users/augus/AppData/Local/Programs/Python/Python310/python.exe' -B -m pytest .local/test_object_action_range_probe_independent_train64_v1.py -q --basetemp=.local/pytest_object_probe_independent_train64_v1 --junitxml=.local/object_probe_independent_train64_v1_tests.xml 2>&1 | Tee-Object -FilePath .local/object_probe_independent_train64_v1_tests.log\nexit $LASTEXITCODE",
+        passed=59, failed=0, errors=0, skipped=0, console_seconds=3.35, junit_seconds=seconds,
+        junit=dict(path=xml_ref, sha256=READ[xml_ref]), raw_log=dict(path=log_ref, sha256=READ[log_ref])),
+    author_tests_reviewed=dict(final_passed=49, final_failed=0, historical_39_passed_2_failed_preserved=True,
+                              intermediate_41_passed_before_independent_findings_preserved=True),
+    findings=[
+        dict(id='scope_rehash', status='fixed_and_independently_tested',
+             detail='The old923605 candidate rehashed its prepared development panel inside the state-I/O ban; synthetic reproduction is preserved. The full rehash now occurs after scope exit and again in finally; tampering fails.'),
+        dict(id='state_lexical_boundary', status='fixed_and_independently_tested',
+             detail='Alternate init/initial/final/test-state names and test/sealed paths are rejected before path I/O. Only the exact registered development panel is read during prepare; runtime state-value I/O is blocked. Python source filenames remain allowed.'),
+        dict(id='launcher_binding', status='fixed_and_independently_tested',
+             detail='Launcher requires probe, launcher, wrapper and registration identities; positive and missing/mismatched wrapper, prior output, timeout and child-failure cases are covered.'),
+        dict(id='capacity_unknown_state', status='fixed_and_independently_tested',
+             detail='Submit gate counts every status outside the explicit normalized terminal set. Eight including unknown/CPU refuses before transport; seven may dispatch once; duplicate/pending refuse and ambiguous sbatch retains pending.'),
+        dict(id='hf_cache_import_order', status='fixed_and_statically_verified',
+             detail='Transformers import follows explicit offline HF cache setup; actual GPU body remains unexecuted locally.')],
+    verified_boundaries=dict(
+        single_preregistered_development_row_and_SHA=True,
+        seven_checkpoints_fail_closed=True, exact_wait10_and_recorded56_controls=True,
+        no_environment_step_at56=True, no_success_measurement_or_trial_completion=True,
+        native_then_token_same_raw_input_and_Python_NumPy_CPU_CUDA_rng=True,
+        actual_pre_hooks_stop_second_backbone_or_vision_call=True,
+        native_head_recapture_counted_separately_in_source=True,
+        actual_controller_object_bound_function_and_config_checked=True,
+        exceptions_do_not_report_passed=True,
+        original_t56_or_eighth_chunk_values_not_claimed_available=True,
+        no_clipping_guard_change_or_replacement_result=True,
+        one_attempt_no_retry_and_900_second_Slurm_bound=True),
+    deployment_dependency_review=dict(project_files=18, frozen_snapshot_files=173,
+        additional_runtime_files=3, expected_total=194,
+        manifest_path='.local/object_action_range_probe_v1_dependencies_review_fixed.json',
+        manifest_sha256=READ['.local/object_action_range_probe_v1_dependencies_review_fixed.json'],
+        project_set_independently_derived_from_registration_metadata_adapter_invocation_F00=True,
+        snapshot_set_equal_to_pinned_inventory=True,
+        assembled_root_deployment_map_not_yet_created_or_executed=True),
+    protected_bytes=dict(frozen_inventory_sha256='5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926',
+        frozen_173_all_match=True, all_210_pretest_evidence_match_after=True,
+        original_600_archive_and_live_ledger_sha256='d93ad5a4eb4ae3edb7a9b20e640a72fe4971ca0e4eeb62eea71acc4d71a257d1',
+        original_600_results_modified=False),
+    scope=dict(actual_code='Original candidate replay, capture, guards, journal, execute, launcher and submit main paths; frozen observation-hash function from original AST.',
+        explicit_stand_ins=['Synthetic simulator/controller and arrays; no official environment.',
+            'CPU/CUDA Torch RNG and neural module hooks are stand-ins; Python/NumPy RNG are real.',
+            'Outer execute tests replace GPU body and metadata event context; author separately executes the real existing metadata installer/strict parser without weights.',
+            'Launcher tests use synthetic fcntl and subprocess; submit tests use synthetic upstream root proof, in-memory state, remote hashing and transport. No real scheduler or supervisor operations.'],
+        actual_GPU_reconstruction_or_capture_verified=False, actual_controller_or_model_values_verified=False,
+        final_states_or_full_official_initial_state_files_read=False,
+        remaining='Root must bind and rehash the exact194 deployment files, refresh capacity/duplicate state under its lock, run at most the one registered GPU attempt, then independently inspect all actual checkpoints, arrays, controller evidence, unchanged hashes and complete Slurm cost. CPU approval is not a diagnostic result or authorization for clipping, retries, new rollouts or final release.'),
+    activity=dict(GPU_seconds=0, SSH_calls=0, Slurm_submissions=0, weights_read=False,
+                  shared_state_modified=False, Git_modified=False, frozen_source_modified=False),
+    archived_raw_bytes=archived,
+    evidence_sha256=dict(sorted(READ.items())), read_evidence_sha256=dict(sorted(READ.items())),
+)
+with OUT.open('x', encoding='utf-8', newline='\n') as stream:
+    json.dump(receipt, stream, ensure_ascii=False, indent=2)
+    stream.write('\n')
+print(json.dumps(dict(path=OUT.relative_to(ROOT).as_posix(), sha256=digest(OUT.read_bytes()),
+    status=receipt['status'], evidence_files=len(READ), tests=59,
+    implementations=receipt['implementation_files']), ensure_ascii=False))

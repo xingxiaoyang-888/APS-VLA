@@ -1,0 +1,127 @@
+"""Root records actual capture diagnosis and a separate future engineering plan."""
+from datetime import datetime, timezone
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+B = 'results/formal_main_v2/'
+OUT = B + 'preflight/object_action_range_probe_root_integration_0452.json'
+CPU = B + 'preflight/object_action_range_probe_v1_CPU_root_0452.json'
+GPU = B + 'preflight/object_action_range_probe_GPU_root_0452.json'
+IND = B + 'preflight/object_action_range_probe_GPU_independent_0452.json'
+PLAN = 'configs/experiments/formal_main_v2_action_execution_compat_v1.json'
+PLAN_IND = B + 'preflight/action_execution_compat_registration_independent_0452.json'
+PULL = B + 'pulls/20261018T052537Z_211f20566eec/receipt.json'
+
+
+def main():
+    assert not (ROOT / OUT).exists()
+    refs = {}
+    spec = importlib.util.spec_from_file_location('_path_guard', ROOT / '.local/stage_verify_parallel_0452_candidate.py')
+    guard = importlib.util.module_from_spec(spec); spec.loader.exec_module(guard)
+
+    def include(name, expected=None):
+        guard.safe_name(name, guard.PANEL_PINS)
+        assert 'final_registry' not in name.lower()
+        if name == guard.HISTORICAL_SOURCE['path'] and expected == guard.HISTORICAL_SOURCE['sha256']:
+            for row in guard.check_source_version_resolution(): include(row['path'], row['sha256'])
+            name = guard.HISTORICAL_ARCHIVE['path']
+        path = ROOT / name
+        assert path.is_file() and not path.is_symlink(), name
+        h = f.sha(path)
+        assert expected is None or expected == h, name
+        assert name not in refs or refs[name] == h, name
+        refs[name] = h
+        return path
+
+    def receipt(name):
+        r = f.read(include(name))
+        for key in ('read_evidence_sha256', 'evidence_sha256'):
+            for path, h in r.get(key, {}).items(): include(path, h)
+        return r
+
+    cpu, root, ind = [receipt(n) for n in (CPU, GPU, IND)]
+    assert refs[GPU] == '59bc45a85d2666d5a62927c6a94420f293d61345858e73872acf4aec18e52d59'
+    assert refs[IND] == 'a121ba8fe256f78ee47d1348e2c5fc74d8b4419b604f0805eaf59b87de48db02'
+    assert root['status'] == ind['status'] == 'passed_capture_only_diagnosis'
+    assert ind['root_review_sha256'] == refs[GPU]
+    assert root['allocated_GPU_seconds'] == ind['cost']['allocated_GPU_seconds'] == 263
+    assert root['new_trials'] == ind['new_trials'] == 0
+    assert root['new_success_outcomes'] == ind['new_success_outcomes'] == 0
+    assert root['final_states_opened'] is ind['final_states_opened'] is False
+    assert ind['checks']['raw_events'] == 155 and ind['checks']['environment_steps'] == 66
+    assert ind['checks']['exact_deployed_inputs'] == 194 and ind['checks']['frozen_source_files'] == 173
+    assert ind['checks']['original_statuses'] == dict(completed=599, policy_error=1)
+    assert root['measured_violations'] == ind['measured_violations']['frozen_token_dense']
+    plan, plan_ind = receipt(PLAN), receipt(PLAN_IND)
+    assert plan['status'] == 'registered_not_implemented_or_executed'
+    assert plan_ind['status'].startswith('passed'), plan_ind['status']
+    assert plan['basis']['root_review_sha256'] == refs[GPU]
+    assert plan_ind.get('read_evidence_sha256', plan_ind.get('evidence_sha256', {}))[PLAN] == refs[PLAN]
+    for name in ('docs/正式动作执行兼容修正登记.md',
+            '.local/fill_fresh_spatial_pair_0452.py', '.local/check_fill_fresh_spatial_pair_0452.py',
+            '.local/fill_fresh_spatial_pair_0452_cpu_review.json',
+            '.local/check_object_action_range_probe_3023495_independent_final.log',
+            '.local/integrate_action_probe_0452.py'):
+        include(name)
+    fresh = receipt('.local/fill_fresh_spatial_pair_0452_independent_review.json')
+    assert fresh['status'] == 'passed_for_root_use_subject_to_all_live_prechecks'
+    assert refs['.local/fill_fresh_spatial_pair_0452.py'] == '56cfe082cb8fb71dac67f26669fb1a67dd669002bdc1b906f96176cab99beaa4'
+    pull = receipt(PULL)
+    for row in pull['files']: include(row['relative'], row['sha256'])
+    assert pull['accounting_after']['jobs']['3023495']['elapsed_seconds'] == 263
+    now = datetime.now(timezone.utc).isoformat()
+    docname = 'docs/正式动作范围诊断结果.md'
+    doc = ROOT / docname
+    assert not doc.exists()
+    doc.write_text('''# 正式动作范围诊断结果
+
+作业3023495已通过root和独立复核，使用263 GPU秒。原Object开发600条（599正常终态、1次policy_error）全部保留，诊断新增任务成功率记录为0。
+
+- 重放10个等待步和原56个实际动作，共66个环境步；t0/8/16/24/32/40/48的7个已有观测哈希完全一致。重建t56后不再推进环境。
+- 官方native与冻结token Dense各一次VLA、一次视觉编码，normalized、physical及postprocessed三层动作逐字节相同。零起始第7行第2列为normalized 1.078125，经反归一化及原后处理为1.010742197890625。
+- 实际绑定OSC控制器使用delta分支，调用带np.clip的scale_action；CTI额外范围检查提前拒绝该有限值。因此该重建输入存在执行约定差异，未发现native/token动作差异。
+- 173个冻结源码、194项部署输入、基座与模型参数检查通过；未来头与DIE调用均为0。原失败的第8个chunk和t56观测未记录，无法声称上述数值就是原失败幅度；未测之后是否成功。
+
+[root复核](../results/formal_main_v2/preflight/object_action_range_probe_GPU_root_0452.json)与[独立复核](../results/formal_main_v2/preflight/object_action_range_probe_GPU_independent_0452.json)包含原始事件、数组与控制器证据。CPU审计器首次哈希序列化错误及修复记录保留，无GPU重跑。
+
+[统一执行兼容修正](正式动作执行兼容修正登记.md)仅已登记，尚未实现或运行。新增闭环继续暂停，训练保持并行；不改科学设置，不重选模型，最终初态继续封存。
+''', encoding='utf-8', newline='\n')
+    include(docname)
+    value = dict(schema='formal_main_v2', kind='root_action_range_diagnosis_and_registration_integration',
+        status='passed_diagnosis_registered_future_uniform_correction', reviewed_utc=now,
+        job_id='3023495', allocated_GPU_seconds=263, cost_included_in_global_snapshot=True,
+        current_engineering_pulls=[PULL],
+        CPU_root_review=CPU, GPU_root_review=GPU, GPU_independent_review=IND,
+        correction_registration=PLAN, correction_registration_independent_review=PLAN_IND,
+        diagnostic_result_doc=docname, measured_violations=root['measured_violations'],
+        original_failed_magnitude_known=False, new_trials=0, new_success_outcomes=0,
+        existing_1212_development_records_retained=True, original_Object_policy_error_retained=True,
+        uniform_correction_implemented=False, new_rollouts_held=True, training_continues=True,
+        final_states_opened=False, weights_copied=False, evidence_sha256=refs)
+    with f.supervisor_lock():
+        state = f.read(f.STATE)
+        issue = state['formal_main_progress']['downstream_action_range_issue']
+        assert issue['probe_job_id'] == '3023495' and issue['new_rollouts_held']
+        f.write(ROOT / OUT, value)
+        issue.update(status='diagnosis_passed_uniform_correction_registered_pending_implementation',
+            probe_GPU_root_review=GPU, probe_GPU_root_review_sha256=refs[GPU],
+            probe_GPU_independent_review=IND, probe_GPU_independent_review_sha256=refs[IND],
+            root_integration=OUT, root_integration_sha256=f.sha(ROOT / OUT),
+            correction_registration=PLAN, correction_registration_sha256=refs[PLAN],
+            correction_registration_independent_review=PLAN_IND,
+            correction_registration_independent_review_sha256=refs[PLAN_IND],
+            probe_GPU_seconds=263, new_success_outcomes=0,
+            next='Implement and independently audit the separately registered uniform action-execution adapter; bind exact scope, prior-trial equivalence, execution identities and O2A. Then preregister bounded GPU acceptance before new development rollouts. Keep training parallel; final remains sealed.')
+        state['updated_utc'] = now
+        f.write(f.STATE, state)
+    print(json.dumps(dict(receipt=OUT, sha256=f.sha(ROOT/OUT), evidence_files=len(refs))))
+
+
+if __name__ == '__main__':
+    main()

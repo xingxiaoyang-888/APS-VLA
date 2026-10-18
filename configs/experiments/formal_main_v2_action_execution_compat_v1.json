@@ -1,0 +1,75 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "uniform_action_execution_engineering_registration",
+  "version": "formal-main-v2-controller-exec-v1",
+  "status": "registered_not_implemented_or_executed",
+  "registered_utc": "2026-10-18T05:33:00Z",
+  "purpose": "Match the pinned official LIBERO controller execution contract for every formal method without changing predicted actions or the scientific experiment.",
+  "basis": {
+    "diagnostic_job_id": "3023495",
+    "root_review": "results/formal_main_v2/preflight/object_action_range_probe_GPU_root_0452.json",
+    "root_review_sha256": "59bc45a85d2666d5a62927c6a94420f293d61345858e73872acf4aec18e52d59",
+    "observed_reconstructed_component": 1.010742197890625,
+    "official_native_and_frozen_token_arrays_exact_equal": true,
+    "original_failed_chunk_was_not_recorded": true,
+    "captured_eighth_chunk_was_not_executed": true,
+    "root_acceptance_requires_independent_GPU_review": true
+  },
+  "scope": {
+    "suites": ["libero_10", "libero_spatial", "libero_object", "libero_goal"],
+    "methods": ["dense", "uniform", "A", "B"],
+    "all_registered_budgets_and_seeds": true,
+    "total_deployment_instances": 88,
+    "training_and_checkpoint_selection_changed": false,
+    "no_new_scientific_experiment": true
+  },
+  "implementation_contract": {
+    "frozen_source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "frozen_source_inventory_sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "frozen_source_aggregate_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+    "frozen_source_count": 173,
+    "do_not_edit_frozen_source_or_training_snapshots": true,
+    "target_module": "src/cti_vla/evaluation/libero_runtime.py",
+    "target_module_sha256": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+    "target_function": "run_episode",
+    "only_execution_change": "Remove the exact pre-execution rejection for abs(environment_actions)>1.00001; forward finite PolicyChunk environment_actions unchanged to the pinned simulator/controller.",
+    "allowed_mechanism": "A separately hashed, scoped adapter derived from the exact pinned function, with an exact AST diff gate, identity binding and restoration checks; any wider change requires a separate recorded engineering revision.",
+    "retain": ["PolicyChunk shape and finite validation", "policy watchdog", "reset and wait=10", "chunk=8", "task-specific control horizon", "success criterion", "original action postprocessing", "raw action and error recording"],
+    "forbid": ["new clipping outside the simulator", "renormalizing or rescaling predicted actions", "changing gripper processing", "replacing or retraining checkpoints", "modifying token selection or packing", "future inputs or heads at deployment", "method-specific execution exceptions"],
+    "controller_preconditions": "Verify the actual bound controller class, use_delta, input/output limits and pinned scale_action/set_goal source for each suite before acceptance; environment handles its existing clipping.",
+    "execution_identity": "Bind adapter SHA, registration SHA, official environment/controller hashes and old policy/checkpoint identity into a new execution identity; do not silently relabel old receipts."
+  },
+  "acceptance_sequence": [
+    "Independent review of the completed capture-only GPU diagnostic.",
+    "CPU exact-AST scope review, unchanged finite/shape/error behavior, restoration and no-RNG-draw tests, finite over-range pass-through and invalid-input rejection tests.",
+    "Read-only audit of all existing development raw chunks and terminal events, with old/new execution-identity mapping and immutable source hashes.",
+    "Root and independent review of implementation, all evidence and exact CPU acceptance before any GPU invocation.",
+    "Preregister a bounded engineering GPU invocation within the existing eight-slot limit; exercise actual controller binding and Dense/uniform/A/B interfaces without reading final states. Invocation must name fixed existing development observations/states, methods, exact limits and accounting before submission.",
+    "Root and independent review of that GPU acceptance before releasing new development rollouts or any runtime reuse. Final global release remains separately blocked."
+  ],
+  "historical_development": {
+    "retain_all_1212_terminal_records": true,
+    "retain_Object_600_including_one_policy_error": true,
+    "never_overwrite_old_ledger_or_success_count": true,
+    "normal_trial_reuse_rule": "Reuse only after exact identity/action-trace audit proves the removed branch was never taken, all emitted chunks were finite and within the former threshold, controller and environment were identical, and the adapter adds no numerical or RNG change. Each reused trial gets an explicit equivalence receipt linking old and new execution identities.",
+    "failed_trial_rule": "The prior policy_error remains a prior execution failure. After compatibility acceptance, the same fixed development initial state may run once under the newly registered execution identity in a separate ledger; this is a linked engineering correction, not an overwrite or an extra independent initial state. Its exact invocation must be registered first; no automatic retry.",
+    "no_outcome_based_reuse_selection": true,
+    "no_development_outcome_used_for_checkpoint_reselection": true
+  },
+  "timing": {
+    "same_execution_identity_for_closed_loop_and_O2A": true,
+    "O2A_boundary": "Raw observation and instruction ready to CPU executable action chunk ready; include original preprocessing, vision, DIE, packing, VLA and action postprocessing; simulator/controller steps remain excluded.",
+    "new_external_action_clip_in_O2A": false,
+    "no_prior_latency_reuse_without_identity_audit": true,
+    "keep_registered_panels_50_warmups_20_repeats_and_all_spikes": true
+  },
+  "cost_and_stop": {
+    "count_all_acceptance_replays_failures_and_allocations": true,
+    "new_rollouts_held_until_acceptance": true,
+    "training_continues": true,
+    "no_GPU_job_authorized_by_this_registration_alone": true,
+    "final_states_remain_sealed": true,
+    "global_release_72_selectors_16_references_four_suite_dev_required": true,
+    "unresolved_controller_identity_or_wider_diff_stops_adoption": true
+  }
+}

@@ -1,0 +1,276 @@
+"""CPU-only tests. Synthetic arrays/env/RNG CUDA stand-ins are never results."""
+import builtins
+import copy
+import importlib.util
+import io
+import json
+import os
+from pathlib import Path
+import random
+import shutil
+import sys
+from types import SimpleNamespace
+
+import numpy as np
+import pytest
+
+ROOT=Path(__file__).resolve().parents[1]
+PATH=ROOT/".local/object_action_range_probe_v1.py"
+spec=importlib.util.spec_from_file_location("object_probe_cpu_candidate",PATH)
+m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+
+
+class FakeEnv:
+    def __init__(self,done_at=None):
+        self.actions=[];self.done_at=done_at;self.resets=0;self.state=None
+    def reset(self):self.resets+=1
+    def set_init_state(self,state):self.state=state.copy();return {"position":0}
+    def step(self,action):
+        self.actions.append(list(action))
+        return {"position":max(0,len(self.actions)-10)},0,len(self.actions)==self.done_at,{}
+
+
+def obs_hash(obs):return m.signature(obs)
+def actions():return np.linspace(-.9,.9,56*7).reshape(56,7).tolist()
+def checks():return [{"control_step":i,"observation_sha256":obs_hash({"position":i})} for i in range(0,56,8)]
+
+
+@pytest.fixture
+def journal(tmp_path):
+    j=m.Journal(tmp_path,"synthetic_cpu")
+    yield j
+    j.close()
+
+
+def test_replay_exact56_and_hard_stop(journal):
+    env=FakeEnv();a=actions()
+    gate,obs=m.replay_to56(env,[1.,2.],a,checks(),obs_hash,[0]*6+[-1],journal)
+    assert env.actions==[[0]*6+[-1]]*10+a and gate.steps==66 and gate.locked
+    assert obs=={"position":56} and env.resets==1
+    with pytest.raises(RuntimeError,match="forbidden"):
+        gate.step([0]*7,kind="recorded_control",index=56)
+    assert len(env.actions)==66
+    assert [x["control_step"] for x in journal.events if x["event"]=="observation_checkpoint"]==list(range(0,56,8))
+
+
+@pytest.mark.parametrize("bad_step",range(0,56,8))
+def test_every_mismatch_stops_before_that_action(journal,bad_step):
+    env=FakeEnv();c=checks();c[bad_step//8]["observation_sha256"]="0"*64
+    with pytest.raises(ValueError,match="mismatch"):
+        m.replay_to56(env,[1.],actions(),c,obs_hash,[0]*6+[-1],journal)
+    assert len(env.actions)==10+bad_step
+    assert journal.events[-1]["event"]=="observation_checkpoint" and not journal.events[-1]["equal"]
+    assert not any(x["event"] in ("capture_start","reconstruction_complete") for x in journal.events)
+
+
+@pytest.mark.parametrize("done_at",[1,10,11,66])
+def test_premature_done_stops_without_capture(journal,done_at):
+    env=FakeEnv(done_at)
+    with pytest.raises(RuntimeError,match="premature"):
+        m.replay_to56(env,[1.],actions(),checks(),obs_hash,[0]*6+[-1],journal)
+    assert len(env.actions)==done_at
+    assert not any(x["event"]=="reconstruction_complete" for x in journal.events)
+
+
+@pytest.mark.parametrize("bad",["count","nan","range","checkpoints"])
+def test_bad_prefix_rejected_before_env_reset(journal,bad):
+    env=FakeEnv();a=actions();c=checks()
+    if bad=="count":a.pop()
+    elif bad=="nan":a[0][0]=float("nan")
+    elif bad=="range":a[0][0]=1.1
+    else:c.pop()
+    with pytest.raises(ValueError):m.replay_to56(env,[1.],a,c,obs_hash,[0]*6+[-1],journal)
+    assert env.resets==0 and not env.actions
+
+
+@pytest.mark.parametrize("path",["../x","sealed_final.json",m.PANEL.replace("development.json","final_registry.json"),
+    "external/LIBERO/init_states/a.pruned_init","results/final/panel.json","checkpoints/a.pt","results/other/panel.json"])
+def test_metadata_forbidden_before_resolve(monkeypatch,tmp_path,path):
+    def forbidden(*a,**kw):raise AssertionError("resolve/stat must not precede lexical guard")
+    monkeypatch.setattr(Path,"resolve",forbidden)
+    with pytest.raises(ValueError,match="unapproved"):
+        m.metadata_path(tmp_path,path)
+
+
+@pytest.mark.parametrize("reader",["builtin","path","os"])
+def test_runtime_state_io_guard_restores_after_exception(tmp_path,reader):
+    p=tmp_path/"x.pruned_init";p.write_bytes(b"synthetic-do-not-read")
+    old=(builtins.open,io.open,os.open)
+    with pytest.raises(PermissionError):
+        with m.reject_state_file_reads():
+            if reader=="builtin":builtins.open(p,"rb")
+            elif reader=="path":p.read_bytes()
+            else:os.open(p,os.O_RDONLY)
+    assert old==(builtins.open,io.open,os.open)
+
+
+def test_real_development_row_unique_hash_only():
+    reg=json.loads((ROOT/m.REG).read_bytes());panel=json.loads((ROOT/m.PANEL).read_bytes())
+    row=m.select_state(panel,reg["initial_state"])
+    assert row["task_id"]==8 and row["source_state_index"]==49 and len(row["initial_state"])==110
+    bad=copy.deepcopy(panel);bad["states"].append(copy.deepcopy(row))
+    with pytest.raises(ValueError,match="unique"):m.select_state(bad,reg["initial_state"])
+    bad=copy.deepcopy(panel);r=next(r for r in bad["states"] if r["trial_id"]==row["trial_id"]);r["initial_state"][0]+=1
+    with pytest.raises(ValueError,match="differs"):m.select_state(bad,reg["initial_state"])
+
+
+class Tensor:
+    def __init__(self,values):self.values=list(values)
+    def clone(self):return Tensor(self.values)
+    def tolist(self):return list(self.values)
+
+
+class FakeTorch:
+    def __init__(self):
+        self.cpu=Tensor([1,2]);self.gpu=[Tensor([3,4])]
+        self.cuda=SimpleNamespace(get_rng_state_all=lambda:[x.clone() for x in self.gpu],set_rng_state_all=self.set_gpu)
+    def set_gpu(self,x):self.gpu=[v.clone() for v in x]
+    def get_rng_state(self):return self.cpu.clone()
+    def set_rng_state(self,x):self.cpu=x.clone()
+
+
+def test_pair_same_raw_input_rng_and_no_env_access(journal):
+    fake=FakeTorch();random.seed(17);np.random.seed(17);seen=[];saved=m.rng_state(fake)
+    def capture(name,obs,instruction):
+        seen.append((name,copy.deepcopy(obs),instruction,random.random(),float(np.random.random()),fake.cpu.tolist(),fake.gpu[0].tolist()))
+        fake.cpu.values[0]+=1;fake.gpu[0].values[0]+=1
+        a=np.zeros((8,7),dtype=np.float32);a[0,0]=1.2
+        return dict(normalized=a,physical=a.copy(),postprocessed=a.copy(),calls={"vla_backbone":1,"vision":1},metadata={"synthetic":True})
+    result=m.capture_pair({"position":56},"synthetic",capture,snapshot_rng=lambda:m.rng_state(fake),reset_rng=lambda s:m.restore_rng(fake,s),
+        hash_rng=m.rng_digest,observation_hash=obs_hash,journal=journal)
+    assert seen[0][0]=="official_native_dense" and seen[1][0]=="frozen_token_dense" and seen[0][1:]==seen[1][1:]
+    assert m.rng_digest(m.rng_state(fake))==m.rng_digest(saved)
+    assert result["env_steps_after_t56"]==0 and not result["success_collected"]
+    assert all(v["exact_equal"] for v in result["comparisons"].values())
+    assert all(v["frozen_guard_rejects"] and len(v["violating_components"])==1 for v in result["captures"].values())
+
+
+@pytest.mark.parametrize("bad",["extra_forward","mutated_observation","capture_exception","nonfinite"])
+def test_capture_failures_no_false_completion_and_rng_restored(journal,bad):
+    fake=FakeTorch();saved=m.rng_state(fake)
+    def capture(name,obs,instruction):
+        random.random();np.random.random();fake.cpu.values[0]+=1
+        if bad=="capture_exception":raise RuntimeError("synthetic capture failure")
+        if bad=="mutated_observation":obs["position"]+=1
+        a=np.zeros((8,7));
+        if bad=="nonfinite":a[0,0]=float("inf")
+        return dict(normalized=a,physical=a,postprocessed=a,calls={"vla_backbone":2 if bad=="extra_forward" else 1,"vision":1},metadata={})
+    with pytest.raises((ValueError,RuntimeError)):
+        m.capture_pair({"position":56},"synthetic",capture,snapshot_rng=lambda:m.rng_state(fake),reset_rng=lambda s:m.restore_rng(fake,s),
+            hash_rng=m.rng_digest,observation_hash=obs_hash,journal=journal)
+    assert m.rng_digest(m.rng_state(fake))==m.rng_digest(saved)
+    assert not any(x["event"]=="capture_complete" for x in journal.events)
+
+
+def test_output_exclusive_and_jsonl_prefix_preserved(journal,tmp_path):
+    journal.emit("synthetic_start")
+    before=journal.path.read_bytes()
+    m.publish(tmp_path,"proof.json",{"synthetic":True})
+    with pytest.raises(FileExistsError):m.publish(tmp_path,"proof.json",{"replace":True})
+    assert json.loads((tmp_path/"proof.json").read_bytes())=={"synthetic":True}
+    journal.emit("synthetic_failure",error="expected CPU fixture")
+    assert journal.path.read_bytes().startswith(before)
+    assert [json.loads(x)["seq"] for x in journal.path.read_bytes().splitlines()]==[0,1]
+
+
+class HookModule:
+    def __init__(self):self.hooks=[]
+    def register_forward_pre_hook(self,fn):
+        self.hooks.append(fn)
+        return SimpleNamespace(remove=lambda:self.hooks.remove(fn))
+    def call(self):
+        for h in self.hooks:h(self,())
+
+
+def test_forward_hooks_count_and_cleanup_on_failure():
+    modules=[HookModule() for _ in range(3)]
+    c=SimpleNamespace(vla=SimpleNamespace(language_model=SimpleNamespace(model=modules[0]),vision_backbone=modules[1]),
+        action_head=SimpleNamespace(model=modules[2]))
+    with pytest.raises(RuntimeError):
+        with m.forward_counters(c) as calls:
+            for x in modules:x.call()
+            assert calls=={"vla_backbone":1,"vision":1,"action_head":1}
+            raise RuntimeError("synthetic")
+    assert all(not x.hooks for x in modules)
+
+
+class SyntheticController:
+    def __init__(self,control_delta=True):
+        self.use_delta=control_delta
+        self.input_min=np.array([-1.,-1.]);self.input_max=np.array([1.,1.])
+        self.output_min=np.array([-.1,-.1]);self.output_max=np.array([.1,.1])
+    def scale_action(self,action):
+        return np.clip(action,self.input_min,self.input_max)
+    def set_goal(self,action):
+        if self.use_delta:return self.scale_action(action)
+        return action
+
+
+@pytest.mark.parametrize("mode",["actual","constructor_default","wrong_config","wrong_source"])
+def test_actual_bound_controller_evidence(tmp_path,mode):
+    controller=SyntheticController()
+    config={} if mode=="constructor_default" else {"control_delta":mode!="wrong_config"}
+    env=SimpleNamespace(env=SimpleNamespace(robots=[SimpleNamespace(controller=controller,controller_config=config)]))
+    item=dict(path=str(Path(__file__).resolve()),sha256=m.sha(__file__))
+    reg={"actual_controller_evidence":{"installed_source_reference_from_root_diagnosis":{
+        "controllers/base_controller.py":dict(item),"controllers/osc.py":dict(item)}}}
+    if mode=="wrong_source":reg["actual_controller_evidence"]["installed_source_reference_from_root_diagnosis"]["controllers/osc.py"]["sha256"]="0"*64
+    if mode.startswith("wrong"):
+        with pytest.raises(ValueError):m.actual_controller(env,reg,m.Evidence(tmp_path))
+    else:
+        r=m.actual_controller(env,reg,m.Evidence(tmp_path))
+        assert r["actual_use_delta"] and r["set_goal_dispatches_to_bound_scale_action"] and not r["captured_action_applied"]
+        assert r["limits"]["input_min"]==[-1.,-1.]
+
+
+def test_gpu_cli_default_refuses_before_io(monkeypatch,tmp_path):
+    def no_io(*a,**k):raise AssertionError("must reject before source/GPU I/O")
+    monkeypatch.setattr(m,"sha",no_io)
+    args=SimpleNamespace(execute_gpu=False,job_id="123",project_root=tmp_path,source_root=tmp_path,script_sha256="0"*64)
+    with pytest.raises(ValueError,match="Slurm"):m.execute(args)
+
+
+def test_real_registered_nonweight_prepare(tmp_path):
+    """Real archived ledger/config; synthetic directory transport, no GPU/source edits."""
+    reg=json.loads((ROOT/m.REG).read_bytes());inventory=json.loads((ROOT/reg["fixed_identity"]["source_inventory"]).read_bytes())
+    project=tmp_path/"synthetic_project";source=project/"snapshots"/m.SOURCE_NAME
+    def cp(rel,destroot=project):
+        dest=destroot/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/rel,dest)
+    for rel in inventory["files"]:cp(rel,source)
+    for rel in {m.REG,m.INVOCATION,*reg["read_evidence_sha256"],*m.META_FILES,
+            "results/formal_main_v2/libero_object/acceptance/attempt02/input_acceptance.json"}:cp(rel)
+    prepared=m.prepare(project,source)
+    assert prepared["record"]["control_steps"]==56 and prepared["state"]["source_state_index"]==49
+    prepared["evidence"].unchanged()
+    original=(source/"src/cti_vla/evaluation/libero_runtime.py").read_bytes()
+    (source/"src/cti_vla/evaluation/libero_runtime.py").write_bytes(original+b"\n# synthetic mutation\n")
+    with pytest.raises(ValueError,match="changed"):m.prepare(project,source)
+
+
+def test_real_metadata_installer_only_one_object_load(tmp_path):
+    """Audited installer+original strict parser; no model/checkpoint I/O."""
+    reg=json.loads((ROOT/m.REG).read_bytes());inventory=json.loads((ROOT/reg["fixed_identity"]["source_inventory"]).read_bytes())
+    project=tmp_path/"synthetic_adapter_project";source=project/"snapshots"/m.SOURCE_NAME
+    for rel in inventory["files"]:
+        dest=source/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/rel,dest)
+    for rel in m.META_FILES:
+        dest=project/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/rel,dest)
+    inv=project/reg["fixed_identity"]["source_inventory"];inv.parent.mkdir(parents=True,exist_ok=True)
+    inventory["source_root_server"]=str(source)
+    inv.write_text(json.dumps(inventory),encoding="utf-8")
+    old={k:v for k,v in sys.modules.items() if k=="cti_vla" or k.startswith("cti_vla.")}
+    for k in old:del sys.modules[k]
+    rows=[]
+    adapter=m.load_module(project/m.META,"_probe_synthetic_real_metadata")
+    try:
+        with adapter.install_asset_metadata_compat(project_root=project,source_root=source,registration_path=project/m.META_REG,
+                expected_adapter_sha256=m.META_FILES[m.META],emit=lambda event,**kw:rows.append(dict(event=event,**kw))):
+            from cti_vla.evaluation import checkpoint_manifest
+            asset=checkpoint_manifest.load_checkpoint_manifest(source/"configs/assets/openvla_oft_libero_object.json")
+            assert asset.revision=="4c89574e1c538b6c102f43f0526d60a9d3650148"
+        assert [x["event"] for x in rows]==["asset_metadata_compat_enter","asset_metadata_compat_load_start","asset_metadata_compat_load_complete","asset_metadata_compat_exit"]
+        assert rows[-1]["original_loader_restored"] and rows[-1]["adapted_calls_completed"]==1 and rows[-1]["passthrough_calls"]==0
+    finally:
+        for k in list(sys.modules):
+            if k=="cti_vla" or k.startswith("cti_vla."):del sys.modules[k]
+        sys.modules.update(old)

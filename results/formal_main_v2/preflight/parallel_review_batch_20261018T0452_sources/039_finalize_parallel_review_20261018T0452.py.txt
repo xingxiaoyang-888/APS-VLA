@@ -1,0 +1,207 @@
+"""Root records eight actually reviewed boundaries and registered continuations."""
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+import argparse
+import importlib.util
+import json
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+BASE = 'results/formal_main_v2/'
+BATCH = BASE + 'preflight/parallel_review_batch_20261018T0452.json'
+PARENT = 'fad47a89ecaf1ccb697a10454f79aaf36bcf19cd'
+JOBS = ['3022596', '3022597', '3022598', '3022599', '3022615', '3022617', '3022775', '3022808']
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--engineering-receipt', action='append', default=[])
+    parser.add_argument('--supplemental-training-receipt', action='append', default=[])
+    args = parser.parse_args()
+    assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT).decode().strip() == PARENT
+    assert not (ROOT / BATCH).exists()
+    prior = json.loads(subprocess.check_output(['git', 'show', 'HEAD:results/experiment_supervisor/state.json'], cwd=ROOT))
+    old_ids = {j['job_id'] for j in prior['registered_jobs']}
+    refs, sources, pulls, boundaries = set(), set(), set(), []
+    spec = importlib.util.spec_from_file_location('_delivery_paths_0452', ROOT / '.local/stage_verify_parallel_0452_candidate.py')
+    guard = importlib.util.module_from_spec(spec); spec.loader.exec_module(guard)
+
+    def include(name, checksum=None):
+        guard.safe_name(name, guard.PANEL_PINS)
+        assert 'final_registry' not in name.lower(), name
+        if name == guard.HISTORICAL_SOURCE['path'] and checksum == guard.HISTORICAL_SOURCE['sha256']:
+            for row in guard.check_source_version_resolution():
+                include(row['path'], row['sha256'])
+            name = guard.HISTORICAL_ARCHIVE['path']
+        path = ROOT / name
+        assert path.is_file() and not path.is_symlink(), name
+        for parent in path.parents:
+            if parent == ROOT: break
+            assert not parent.is_symlink(), name
+        if name in guard.PANEL_PINS:
+            assert f.sha(path) == guard.PANEL_PINS[name]
+        if checksum is not None:
+            assert f.sha(path) == checksum, name
+        (sources if name.startswith('.local/') else refs).add(name)
+
+    def include_previous_pull_versions(pull):
+        for row in f.read(ROOT / pull)['files']:
+            if not row.get('previous_version'):
+                continue
+            relative = Path(row['previous_version']).relative_to(ROOT).as_posix()
+            expected = (Path(pull).parent / 'previous_versions' / row['relative']).as_posix()
+            assert relative == expected, (relative, expected)
+            include(relative, row['previous_sha256'])
+
+    for jid in JOBS:
+        operation = '.local/root_pull_review_2250_' + jid + '.json'
+        op = f.read(ROOT / operation)
+        root_review = op['root_review']
+        ind_name = root_review.removesuffix('.json') + '_independent.json'
+        rr, ir = f.read(ROOT / root_review), f.read(ROOT / ind_name)
+        assert op['status'] == rr['status'] == ir['status'] == 'passed'
+        assert op['job_id'] == rr['job_id'] == ir['job_id'] == jid
+        assert rr['completed_by_arm'] == dict.fromkeys(('A', 'B'), op['boundary'])
+        assert op['allowed_next'] == rr['allowed_next_segment_end'] == ir['allowed_next_segment_end']
+        assert op['allowed_next'] == (None if op['boundary'] == 5000 else op['boundary'] + 500)
+        include(root_review, op['root_sha256'])
+        include(ind_name); include(operation)
+        for name, checksum in ir['read_evidence_sha256'].items():
+            include(name, checksum)
+        pull = op['pull']; pulls.add(pull); include(pull, op['pull_sha256'])
+        for row in f.read(ROOT / pull)['files']:
+            include(row['relative'], row['sha256'])
+        include_previous_pull_versions(pull)
+        if op['boundary'] == 5000:
+            selected = root_review.removesuffix('.json') + '_selected_server.json'
+            include(selected, ir['read_evidence_sha256'][selected])
+            assert f.read(ROOT / selected)['status'] == 'passed'
+        boundaries.append({k: op[k] for k in ('job_id', 'suite', 'budget', 'seed', 'boundary', 'allowed_next', 'pair_gpu_seconds', 'latest_gpu_seconds')})
+    assert sum(row['latest_gpu_seconds'] for row in boundaries) == 34712
+    engineering = []
+    for name in args.engineering_receipt:
+        include(name); engineering.append(name)
+        value = f.read(ROOT / name)
+        for key in ('read_evidence_sha256', 'evidence_sha256'):
+            for path, checksum in value.get(key, {}).items():
+                include(path, checksum)
+        for pull in value.get('current_engineering_pulls', []):
+            include(pull); pulls.add(pull); engineering.append(pull)
+            for row in f.read(ROOT / pull)['files']:
+                include(row['relative'], row['sha256'])
+    supplemental = []
+    for name in args.supplemental_training_receipt:
+        include(name)
+        value = f.read(ROOT / name)
+        assert value['kind'] == 'root_additional_training_boundary_review' and value['status'] == 'passed'
+        assert value['newly_completed_arms'] == 0 and value['final_states_opened'] is False
+        for path, checksum in value['evidence_sha256'].items(): include(path, checksum)
+        include_previous_pull_versions(value['terminal_pull'])
+        supplemental.append(value)
+    for name in ('.local/root_pull_review_one_20261017T2250.py', '.local/record_parallel_boundary.py',
+            '.local/root_accept_boundary_0018.py', '.local/review_selected_pair_server.py',
+            '.local/fill_fresh_spatial_slot_0318.py', '.local/fill_reviewed_pair_slot.py',
+            '.local/reconcile_parallel_progress_20261018.py', '.local/read_parallel_live.py',
+            '.local/audit_training_finals_20261018_round0318.py',
+            '.local/finalize_parallel_review_20261018T0452.py', '.local/stage_verify_parallel_0452_candidate.py',
+            '.local/finalize_parallel_review_20261018T0452_failed_v1.py.txt',
+            '.local/finalize_parallel_review_20261018T0452_failed_v1.json',
+            '.local/test_stage_verify_parallel_0452_candidate.py', '.local/stage_verify_parallel_0452_candidate_cpu.log'):
+        include(name)
+    # All independent actual audit logs are retained, including their source
+    # helper paths already listed in each evidence map.
+    for jid in JOBS:
+        name = '.local/audit_training_segment_' + jid + '.log'
+        if (ROOT / name).exists(): include(name)
+    with f.supervisor_lock():
+        state = f.read(f.STATE); jobs = f.refresh(state)
+        p = state['formal_main_progress']; par = p['parallel_execution']
+        active = [j for j in jobs if j['status'] in f.ACTIVE | {'SUBMITTED'}]
+        assert state['pending_submission'] is None
+        assert len(active) <= 8 and len({j['stage_key'] for j in active}) == len(active)
+        assert all(j['gpus'] in (0, 1) for j in active)
+        assert p['trained_arms'] == 18
+        updates = sum(2 * x.get('last_root_reviewed_common_update', 0) for x in par['pair_tracking'].values())
+        assert updates >= 130000
+        assert p['completed_final_trials'] == 0 and not p['test_opened'] and not p['global_release_created']
+        assert p['completed_development_trials'] == 1212
+        new_jobs = [j for j in jobs if j['job_id'] not in old_ids]
+        assert {j['job_id'] for j in new_jobs} >= {'3023228', '3023249', '3023274', '3023285', '3023299'}
+        for job in new_jobs:
+            include(job['invocation'], job['invocation_sha256'])
+            include(BASE + 'submissions/' + job['job_id'] + '.json')
+            if job['mode'] == 'train':
+                pair = par['pair_tracking'][f"{job['suite']}_k{job['visual_tokens']}_seed{job['training_seed']}"]
+                key = 'fresh_start_precheck' if job['segment_end'] == 500 else 'latest_resume_precheck'
+                include(pair[key], pair[key + '_sha256'])
+                record = f.read(ROOT / pair[key])
+                for name, checksum in record.get('evidence_sha256', {}).items(): include(name, checksum)
+        for path in (ROOT / (BASE + 'live')).glob('parallel_20261018T*.json'):
+            rel = path.relative_to(ROOT).as_posix()
+            tracked = subprocess.run(['git', 'ls-files', '--error-unmatch', '--', rel], cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0
+            if not tracked: include(rel)
+        changed = subprocess.check_output(['git', 'ls-files', '--modified', '--others', '--exclude-standard', '-z', '--',
+            'results/formal_main_v2', 'results/slurm'], cwd=ROOT).decode().split('\0')
+        unknown = [name for name in changed if name and not name.endswith('.md')
+            and name != BASE + 'slurm_accounting.json' and name not in refs]
+        assert not unknown, ('unbound_current_nonweight_files', unknown)
+        folder = ROOT / (BASE + 'preflight/parallel_review_batch_20261018T0452_sources')
+        assert not folder.exists(); folder.mkdir()
+        source_map = {}
+        for ix, name in enumerate(sorted(sources), 1):
+            dest = folder / (f'{ix:03d}_' + Path(name).name + '.txt')
+            dest.write_bytes((ROOT / name).read_bytes())
+            archived = dest.relative_to(ROOT).as_posix(); refs.add(archived); source_map[name] = archived
+        now = datetime.now(timezone.utc); local = now.astimezone(timezone(timedelta(hours=8)))
+        value = dict(schema='formal_main_v2', kind='root_incremental_parallel_training_review', status='passed',
+            reviewed_utc=now.isoformat(), parent_delivered_commit=PARENT,
+            completed_training_arms=18, expected_training_arms=72, newly_completed_training_arms=8,
+            cumulative_reviewed_arm_updates=updates, newly_reviewed_arm_updates=8000+sum(x['newly_reviewed_arm_updates'] for x in supplemental),
+            reviewed_boundaries=boundaries, core_eight_boundaries_GPU_seconds=34712,
+            supplemental_training_review_receipts=args.supplemental_training_receipt,
+            current_batch_closed_GPU_seconds=34712+sum(x['current_allocated_GPU_seconds'] for x in supplemental),
+            closed_cost_is_included_in_snapshot_not_additional=True, all_formal_cost_snapshot=state['current_round_cost'],
+            completed_development_trials=1212, new_development_trials=0, completed_final_trials=0, final_states_sealed=True,
+            new_submission_job_ids=[j['job_id'] for j in new_jobs],
+            active_jobs=[{k:j.get(k) for k in ('job_id','status','mode','suite','visual_tokens','training_seed','segment_end')} for j in active],
+            current_terminal_pulls=sorted(pulls), audit_source_archive_map=source_map,
+            new_engineering_evidence=sorted(set(engineering)),
+            evidence_sha256={name:f.sha(ROOT / name) for name in sorted(refs)},
+            additional_downstream_rollouts_held_for_runtime_diagnosis=True,
+            training_continues=True, scientific_settings_changed=False, weights_copied=False,
+            selected_offline_errors_do_not_establish_closed_loop_benefit=True)
+        f.write(ROOT / BATCH, value)
+        p['latest_incremental_review'] = dict(path=BATCH, sha256=f.sha(ROOT / BATCH))
+        p['root_and_independent_reviewed_arm_updates'] = updates
+        issue = p['downstream_action_range_issue']
+        assert issue['new_rollouts_held'] and issue['training_continues']
+        state['current_work'] = (f'Formal completed18/72 arms; {updates}/360000 arm updates reviewed. '
+            f'{len(active)} registered allocations active. Object execution-contract discrepancy confirmed by root and independent review; uniform compatibility correction registered, not implemented. New rollouts held; training continues. '
+            'Development1212 retained, final0/35200 and sealed.')
+        state['next_actions'] = [issue['next'],
+            'Root fill up to8 registered singleGPU slots only after own suite acceptance and per-pair terminal/root/independent/serverSHA review. Never restart completed5000 pairs.',
+            'Retain all72 training identities and matched development; final remains blocked until72+16+four-suite dev and global root release.',
+            'Preserve original Object600 including1 Dense policy_error; no outcome replacement or automatic retry.']
+        state['updated_utc'] = now.isoformat(); state['updated_date'] = local.strftime('%Y-%m-%d')
+        f.write(f.STATE, state)
+        text = (f'\n{local:%Y-%m-%d %H:%M}进度：完整训练18/72组。新增Goal128 seed17、Long256 seed17、Long64 seed17、Spatial128 seed23共8组完成5000步，'
+            '全部11次验证、优化器/RNG/样本游标及选中权重实际SHA均通过root与独立复核。'
+            f'累计{updates}/360000次臂更新通过边界审核；当前{len(active)}个登记作业并行。'
+            f"正式轮已分配{state['current_round_cost']['allocated_gpu_hours']:.6f} GPU小时（含运行中及失败）。\n\n"
+            f'本轮另外{4+len(supplemental)}对分段已通过并续至各自下一500步；Spatial64 seed17与Spatial256 seed23从头启动。未扩矩阵或修改科学设置。'
+            '开发仍1212条；Object有界诊断已通过双重复核：重建输入的官方Dense与冻结token Dense动作完全一致，有限分量1.010742被CTI提前拒绝，而实际绑定控制器会截断。诊断只重放前56步并捕获、不继续任务，263 GPU秒已计入总账。原600条含1次policy_error完整保留。统一执行兼容修正已登记但尚未实现/验收，新增闭环暂停而训练继续。'
+            '离线误差不替代成功率—延迟结果。最终0/35200，继续封存。'
+            f'\n\n[本批真实产物、审计与成本](../{BATCH})；[统一工程修正登记](正式动作执行兼容修正登记.md)。\n\n')
+        for name in ('正式主实验规划.md', '完整实验计划.md', '实验进度.md'):
+            doc = ROOT / 'docs' / name
+            first, sep, body = doc.read_bytes().partition(b'\n'); assert sep
+            doc.write_bytes(first + sep + text.encode() + body)
+    print(json.dumps(dict(receipt=BATCH, sha256=f.sha(ROOT / BATCH), completed_arms=18, active_jobs=len(active), cost=state['current_round_cost'])))
+
+
+if __name__ == '__main__':
+    main()

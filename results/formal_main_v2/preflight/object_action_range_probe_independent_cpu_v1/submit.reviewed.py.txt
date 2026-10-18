@@ -1,0 +1,131 @@
+"""Root submits exactly one reviewed, SHA-pinned diagnostic within eight slots."""
+from pathlib import Path
+from datetime import datetime, timezone
+import argparse
+import json
+import shlex
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+BASE = 'results/formal_main_v2/'
+STAGE = 'libero_object_action_range_probe_v1'
+S = f.P + '/snapshots/formal_main_v2_run_564be0995e'
+OUT = BASE + 'engineering/object_action_range_probe_v1'
+ENTRY = OUT + '/source/probe.py'
+LAUNCHER = OUT + '/source/launcher.py'
+WRAPPER = OUT + '/source/probe.slurm'
+INV = BASE + 'invocations/' + STAGE + '_attempt01.json'
+REG = 'configs/experiments/formal_main_v2_object_action_range_probe_v1.json'
+REG_SHA = 'c87c76f8a3175bd760551c530f65990d08a88ab6a41d2771b44120e9cea25a3d'
+TERMINAL = {'COMPLETED', 'FAILED', 'CANCELLED', 'TIMEOUT', 'OUT_OF_MEMORY',
+    'NODE_FAIL', 'PREEMPTED', 'BOOT_FAIL', 'DEADLINE', 'REVOKED'}
+
+
+def reserves_slot(job):
+    # Unknown/transition states remain occupied. Never submit a ninth request
+    # merely because the scheduler spells an active state differently.
+    words = str(job.get('status', '')).split()
+    return not words or words[0].rstrip('+') not in TERMINAL
+
+
+def remote_hashes(paths):
+    script = ('from pathlib import Path;import hashlib,json;names=' + repr(paths) + ';'
+        'print(json.dumps({n:hashlib.sha256(Path(n).read_bytes()).hexdigest() if Path(n).is_file() else None for n in names}))')
+    return json.loads(f.remote(shlex.quote(f.H + '/venv/bin/python') + ' -c ' + shlex.quote(script)))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--root-review', required=True)
+    args = parser.parse_args()
+    rr = f.read(ROOT / args.root_review)
+    assert rr['status'] == 'passed_cpu_root_review' and rr['registration_sha256'] == REG_SHA
+    assert rr['maximum_attempts'] == 1 and not rr['automatic_retry'] and not rr['GPU_submitted']
+    assert rr['new_trials'] == 0 and rr['final_states_opened'] is False
+    assert f.sha(ROOT / REG) == REG_SHA
+    review = f.read(ROOT / rr['independent_review'])
+    assert f.sha(ROOT / rr['independent_review']) == rr['independent_review_sha256']
+    assert review['status'] == 'passed_cpu_independent_review'
+    for name, checksum in rr['evidence_sha256'].items():
+        assert f.sha(ROOT / name) == checksum, name
+    mapping = rr['deployment_files']
+    assert isinstance(mapping, dict) and len(mapping) >= 190
+    for name, row in mapping.items():
+        assert '\\' not in name and ':' not in name and '..' not in Path(name).parts
+        assert row['server'].startswith(f.P + '/')
+        assert f.sha(ROOT / name) == row['sha256'], name
+    assert {mapping[x]['server'] for x in (ENTRY, LAUNCHER, WRAPPER)} == {f.P + '/' + x for x in (ENTRY, LAUNCHER, WRAPPER)}
+    watched = {row['server']:row['sha256'] for row in mapping.values()}
+    assert len(watched) == len(mapping)
+    assert watched[f.P + '/' + REG] == REG_SHA
+    with f.supervisor_lock():
+        state = f.read(f.STATE); jobs = f.refresh(state)
+        assert state['pending_submission'] is None
+        active = [j for j in jobs if reserves_slot(j)]
+        assert len({j['stage_key'] for j in active}) == len(active)
+        if len(active) >= 8:
+            print(json.dumps(dict(submitted=False, reason='all8slotsoccupied')))
+            return
+        assert not any(j.get('stage_key') == STAGE for j in jobs), 'A diagnostic attempt already exists'
+        assert not (ROOT / INV).exists(), 'Unresolved prior invocation; inspect, never retry'
+        # Check all expected identities before copying only missing project files.
+        observed = remote_hashes(list(watched))
+        assert all(h is None or h == watched[n] for n,h in observed.items()), 'Existing remote dependency differs; no overwrite'
+        missing = [n for n,h in observed.items() if h is None]
+        inverse = {row['server']:name for name,row in mapping.items()}
+        for remote in missing:
+            assert remote.startswith(f.P + '/')
+            f.remote('mkdir -p ' + shlex.quote(str(Path(remote).parent).replace('\\','/')))
+            subprocess.run(['scp', '-q', str(ROOT / inverse[remote]), 'tongji-cvpr:' + remote], check=True)
+        assert remote_hashes(list(watched)) == watched
+        check = ('from pathlib import Path;import json;p=Path(' + repr(f.P + '/' + OUT) + ');'
+            'print(json.dumps([x.name for x in p.iterdir() if x.is_dir() and x.name.isdigit()] if p.exists() else []))')
+        assert json.loads(f.remote(shlex.quote(f.H + '/venv/bin/python') + ' -c ' + shlex.quote(check))) == [], 'Existing server attempt output'
+        now = datetime.now(timezone.utc).isoformat()
+        invocation = dict(schema='formal_main_v2', stage='engineering', stage_key=STAGE, suite='libero_object',
+            source_root=S, source_sha256='dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e',
+            entrypoint_server=f.P + '/' + ENTRY, entrypoint_sha256=watched[f.P + '/' + ENTRY],
+            wrapper_sha256=watched[f.P + '/' + WRAPPER], watched_files=watched,
+            registration_sha256=REG_SHA, root_review=args.root_review, root_review_sha256=f.sha(ROOT / args.root_review),
+            independent_review=rr['independent_review'], independent_review_sha256=rr['independent_review_sha256'],
+            registered_utc=now, maximum_attempts=1, automatic_retry=False, GPU_count=1,
+            wall_limit_seconds=900, new_trials=0, final_states_opened=False,
+            active_job_ids_before=[j['job_id'] for j in active], max_active_jobs=8)
+        f.write(ROOT / INV, invocation)
+        subprocess.run(['scp', '-q', str(ROOT / INV), 'tongji-cvpr:' + f.P + '/' + INV], check=True)
+        inv_sha = f.sha(ROOT / INV)
+        assert remote_hashes([f.P + '/' + INV])[f.P + '/' + INV] == inv_sha
+        state['pending_submission'] = dict(stage_key=STAGE, invocation=INV, invocation_sha256=inv_sha, utc=now)
+        f.write(f.STATE, state)
+        export = 'ALL,INVOCATION=' + f.P + '/' + INV + ',INVOCATION_SHA256=' + inv_sha
+        command = 'cd ' + shlex.quote(f.P) + ' && sbatch --parsable --export=' + shlex.quote(export) + ' ' + shlex.quote(f.P + '/' + WRAPPER)
+        answer = subprocess.run(f.SSH + [command], capture_output=True, text=True)
+        jid = answer.stdout.strip().split(';')[0]
+        if answer.returncode or not jid.isdigit():
+            raise RuntimeError('Unknown sbatch outcome; pending preserved: ' + answer.stdout + answer.stderr)
+        job = dict(job_id=jid, name='cti-action-probe', experiment='formal_main_v2', mode='engineering',
+            stage_key=STAGE, suite='libero_object', visual_tokens=512, training_seed=None, segment_end=None,
+            status='SUBMITTED', gpus=1, source_root=S, source_sha256=invocation['source_sha256'],
+            run_root=f.P + '/' + OUT + '/' + jid, invocation=INV, invocation_sha256=inv_sha, submitted_utc=now,
+            purpose='Single registered t56 capture-only action-range diagnosis; no additional trial or failed-chunk action execution')
+        state['registered_jobs'].append(job); state['pending_submission'] = None
+        state['current_round_cost']['registered_jobs'] += 1
+        p = state['formal_main_progress']; par = p['parallel_execution']
+        par['registered_requested_active_GPU_jobs'] = len(active) + 1
+        issue = p['downstream_action_range_issue']
+        issue.update(status='bounded_capture_only_GPU_diagnostic_submitted', probe_job_id=jid,
+            CPU_root_review=args.root_review, CPU_root_review_sha256=f.sha(ROOT / args.root_review),
+            probe_invocation=INV, probe_invocation_sha256=inv_sha,
+            next='Pull and independently audit the one registered capture-only diagnostic after terminal; no automatic retry or new rollouts. Training continues within8 slots.')
+        state['next_actions'].insert(0, issue['next']); state['updated_utc'] = now
+        f.write(f.STATE, state)
+        f.write(ROOT / (BASE + 'submissions/' + jid + '.json'), job)
+        print(json.dumps(job), flush=True)
+
+
+if __name__ == '__main__':
+    main()

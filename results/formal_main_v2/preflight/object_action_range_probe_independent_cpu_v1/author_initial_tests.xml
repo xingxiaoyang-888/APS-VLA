@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="41" time="15.825" timestamp="2026-10-18T13:03:13.565380" hostname="Xingxiaoyang"><testcase classname=".local.test_object_action_range_probe_v1" name="test_replay_exact56_and_hard_stop" time="0.092" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_every_mismatch_stops_before_that_action[0]" time="0.018" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_every_mismatch_stops_before_that_action[8]" time="0.029" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_every_mismatch_stops_before_that_action[16]" time="0.047" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_every_mismatch_stops_before_that_action[24]" time="0.043" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_every_mismatch_stops_before_that_action[32]" time="0.054" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_every_mismatch_stops_before_that_action[40]" time="0.067" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_every_mismatch_stops_before_that_action[48]" time="0.070" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_premature_done_stops_without_capture[1]" time="0.008" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_premature_done_stops_without_capture[10]" time="0.020" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_premature_done_stops_without_capture[11]" time="0.021" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_premature_done_stops_without_capture[66]" time="0.082" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_bad_prefix_rejected_before_env_reset[count]" time="0.006" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_bad_prefix_rejected_before_env_reset[nan]" time="0.005" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_bad_prefix_rejected_before_env_reset[range]" time="0.007" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_bad_prefix_rejected_before_env_reset[checkpoints]" time="0.005" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_metadata_forbidden_before_resolve[../x]" time="0.006" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_metadata_forbidden_before_resolve[sealed_final.json]" time="0.006" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_metadata_forbidden_before_resolve[configs/manifests/formal_main_v2/libero_object/initial_states/final_registry.json]" time="0.004" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_metadata_forbidden_before_resolve[external/LIBERO/init_states/a.pruned_init]" time="0.005" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_metadata_forbidden_before_resolve[results/final/panel.json]" time="0.005" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_metadata_forbidden_before_resolve[checkpoints/a.pt]" time="0.003" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_metadata_forbidden_before_resolve[results/other/panel.json]" time="0.003" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_runtime_state_io_guard_restores_after_exception[builtin]" time="0.004" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_runtime_state_io_guard_restores_after_exception[path]" time="0.017"><failure message="Failed: DID NOT RAISE &lt;class 'PermissionError'&gt;">tmp_path = WindowsPath('F:/CTI-VLA/.local/pytest_object_action_range_probe_v1_initial/test_runtime_state_io_guard_re1')
+reader = 'path'
+
+    @pytest.mark.parametrize("reader",["builtin","path","os"])
+    def test_runtime_state_io_guard_restores_after_exception(tmp_path,reader):
+        p=tmp_path/"x.pruned_init";p.write_bytes(b"synthetic-do-not-read")
+        old=(builtins.open,io.open,os.open)
+&gt;       with pytest.raises(PermissionError):
+E       Failed: DID NOT RAISE &lt;class 'PermissionError'&gt;
+
+.local\test_object_action_range_probe_v1.py:99: Failed</failure></testcase><testcase classname=".local.test_object_action_range_probe_v1" name="test_runtime_state_io_guard_restores_after_exception[os]" time="0.004" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_real_development_row_unique_hash_only" time="0.014" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_pair_same_raw_input_rng_and_no_env_access" time="0.013" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_capture_failures_no_false_completion_and_rng_restored[extra_forward]" time="0.006" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_capture_failures_no_false_completion_and_rng_restored[mutated_observation]" time="0.009" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_capture_failures_no_false_completion_and_rng_restored[capture_exception]" time="0.007" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_capture_failures_no_false_completion_and_rng_restored[nonfinite]" time="0.008" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_output_exclusive_and_jsonl_prefix_preserved" time="0.064" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_forward_hooks_count_and_cleanup_on_failure" time="0.001" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_actual_bound_controller_evidence[actual]" time="0.066" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_actual_bound_controller_evidence[constructor_default]" time="0.057" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_actual_bound_controller_evidence[wrong_config]" time="0.052" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_actual_bound_controller_evidence[wrong_source]" time="0.031" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_gpu_cli_default_refuses_before_io" time="0.007" /><testcase classname=".local.test_object_action_range_probe_v1" name="test_real_registered_nonweight_prepare" time="5.768"><failure message="ValueError: original source/panel argument differs">tmp_path = WindowsPath('F:/CTI-VLA/.local/pytest_object_action_range_probe_v1_initial/test_real_registered_nonweight0')
+
+    def test_real_registered_nonweight_prepare(tmp_path):
+        """Real archived ledger/config; synthetic directory transport, no GPU/source edits."""
+        reg=json.loads((ROOT/m.REG).read_bytes());inventory=json.loads((ROOT/reg["fixed_identity"]["source_inventory"]).read_bytes())
+        project=tmp_path/"synthetic_project";source=project/"snapshots"/m.SOURCE_NAME
+        def cp(rel,destroot=project):
+            dest=destroot/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/rel,dest)
+        for rel in inventory["files"]:cp(rel,source)
+        for rel in {m.REG,m.INVOCATION,*reg["read_evidence_sha256"],*m.META_FILES,
+                "results/formal_main_v2/libero_object/acceptance/attempt02/input_acceptance.json"}:cp(rel)
+&gt;       prepared=m.prepare(project,source)
+
+.local\test_object_action_range_probe_v1.py:242: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+project = WindowsPath('F:/CTI-VLA/.local/pytest_object_action_range_probe_v1_initial/test_real_registered_nonweight0/synthetic_project')
+source = WindowsPath('F:/CTI-VLA/.local/pytest_object_action_range_probe_v1_initial/test_real_registered_nonweight0/synthetic_project/snapshots/formal_main_v2_run_564be0995e')
+
+    def prepare(project, source):
+        """Read only nonweight evidence; no simulator/model imports or state files."""
+        e = Evidence(project)
+        registration = e.json(REG, REG_SHA)
+        inventory = e.json(registration["fixed_identity"]["source_inventory"],
+            registration["read_evidence_sha256"][registration["fixed_identity"]["source_inventory"]])
+        if (len(inventory["files"]) != 173 or inventory["source_sha256"] != registration["fixed_identity"]["frozen_runtime_source_sha256"]
+                or Path(source) != Path(project) / "snapshots" / SOURCE_NAME):
+            raise ValueError("frozen source identity differs")
+        for name, checksum in inventory["files"].items():
+            metadata_path(source, name)
+            path = Path(source) / name
+            if sha(path) != checksum:
+                raise ValueError("frozen source bytes changed: " + name)
+            e.seen[str(path)] = checksum
+        for relative, checksum in registration["read_evidence_sha256"].items():
+            if relative in inventory["files"]:
+                if inventory["files"][relative] != checksum:
+                    raise ValueError("historical source reference differs from frozen snapshot")
+                # Exact-byte historical references resolve to the registered snapshot;
+                # no dependency on mutable project/src copies on the server.
+                continue
+            e.bytes(relative, checksum)
+        for relative, checksum in META_FILES.items():
+            e.bytes(relative, checksum)
+        original = registration["original_evidence"]
+        diagnosis = e.json(original["root_diagnosis"])
+        config = e.json(original["raw_config"])
+        archive = e.json(original["immutable_archive"])
+        ledger = e.bytes(original["raw_ledger"])
+        if not ledger.endswith(b"\n"):
+            raise ValueError("incomplete original ledger")
+        matches = [json.loads(line) for line in ledger.splitlines() if original["trial_id"].encode() in line]
+        terminal = [r for r in matches if r.get("event") == "result" and r.get("trial_id") == original["trial_id"]]
+        if len(terminal) != 1 or terminal[0] != diagnosis["policy_error"]:
+            raise ValueError("diagnosis differs from the unique raw terminal record")
+        record = terminal[0]
+        if (record["status"] != "policy_error" or record["method"] != "dense" or record["control_steps"] != 56
+                or record["policy_calls"] != 8 or len(record["executed_actions"]) != 56 or len(record["chunks"]) != 7
+                or record["run_signature"] != original["run_signature"]):
+            raise ValueError("registered failure boundary differs")
+        checkpoints = [{"control_step": x["control_step"], "observation_sha256": x["observation_sha256"]} for x in record["chunks"]]
+        if checkpoints != registration["reconstruction"]["mandatory_exact_checkpoints"] or signature(record["executed_actions"]) != registration["reconstruction"]["executed_actions_source"]["canonical_json_sha256"]:
+            raise ValueError("action/checkpoint prefix differs")
+        for name in (original["raw_ledger"], original["raw_config"]):
+            rows = [r for r in archive["files"] if r["archive"] == name]
+            if len(rows) != 1 or rows[0]["sha256"] != e.seen[str(Path(project) / name)]:
+                raise ValueError("immutable archive mapping differs")
+        panel = e.json(PANEL, registration["initial_state"]["source_sha256"])
+        state = select_state(panel, registration["initial_state"])
+        dense = next(r["identity"] for r in config["manifest"]["methods"] if r["identity"]["method_id"] == "dense")
+        if (dense != registration["fixed_identity"]["dense_deployment_identity"] or config["runtime"] != registration["fixed_identity"]["runtime"]
+                or config["manifest"]["environment"] != dict(action_chunk=8,environment_seed=0,max_steps=280,runtime_seed=17,wait_steps=10)):
+            raise ValueError("original deployment/config differs")
+        invocation = e.json(INVOCATION, INVOCATION_SHA)
+        argv = invocation["argv"]
+        def arg(name):
+            if argv.count(name) != 1:
+                raise ValueError("ambiguous original invocation argument: " + name)
+            return argv[argv.index(name) + 1]
+        if arg("--source-root") != inventory["source_root_server"] or arg("--development-panel") != str(P / PANEL):
+&gt;           raise ValueError("original source/panel argument differs")
+E           ValueError: original source/panel argument differs
+
+.local\object_action_range_probe_v1.py:194: ValueError</failure></testcase><testcase classname=".local.test_object_action_range_probe_v1" name="test_real_metadata_installer_only_one_object_load" time="7.199" /></testsuite></testsuites>

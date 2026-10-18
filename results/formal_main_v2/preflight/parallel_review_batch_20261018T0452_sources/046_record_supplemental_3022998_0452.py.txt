@@ -1,0 +1,39 @@
+"""Root records the one additional boundary completed during this heartbeat."""
+from pathlib import Path
+from datetime import datetime, timezone
+import json
+import sys
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
+import formal_supervisor as f
+
+NAME='results/formal_main_v2/preflight/parallel_review_supplement_3022998_0452.json'
+assert not (ROOT/NAME).exists()
+op_name='.local/root_pull_review_2250_3022998.json'
+op=f.read(ROOT/op_name)
+rr=op['root_review'];ir=rr.removesuffix('.json')+'_independent.json'
+ind=f.read(ROOT/ir)
+assert op['status']==ind['status']=='passed' and op['allowed_next']==ind['allowed_next_segment_end']==4500
+assert op['latest_gpu_seconds']==2980 and op['pair_gpu_seconds']==33891
+evidence=dict(ind['read_evidence_sha256'])
+for n in (op_name,rr,ir,op['pull'],'.local/record_supplemental_3022998_0452.py',
+        '.local/audit_training_segment_3022998_execution.log'):
+    evidence[n]=f.sha(ROOT/n)
+for row in f.read(ROOT/op['pull'])['files']:
+    assert row['relative'] not in evidence or evidence[row['relative']]==row['sha256']
+    evidence[row['relative']]=row['sha256']
+for n,h in evidence.items():assert f.sha(ROOT/n)==h,n
+state=f.read(f.STATE);pair=state['formal_main_progress']['parallel_execution']['pair_tracking']['libero_10_k64_seed41']
+assert pair['last_completed_job_id']=='3022998' and pair['last_root_reviewed_common_update']==4000
+assert pair['active_job_id']=='3023516' and pair['allowed_next_segment_end']==4500
+value=dict(schema='formal_main_v2',kind='root_additional_training_boundary_review',status='passed',
+    reviewed_utc=datetime.now(timezone.utc).isoformat(),job_id='3022998',suite='libero_10',visual_tokens=64,seed=41,
+    completed_updates_by_arm=dict(A=4000,B=4000),allowed_next_segment_end=4500,
+    resumed_job_id='3023516',newly_reviewed_arm_updates=1000,newly_completed_arms=0,
+    pair_allocated_GPU_seconds=33891,current_allocated_GPU_seconds=2980,
+    cost_included_in_global_snapshot=True,root_review=rr,independent_review=ir,
+    terminal_pull=op['pull'],evidence_sha256=evidence,scientific_settings_changed=False,
+    final_states_opened=False,weights_copied=False)
+f.write(ROOT/NAME,value)
+print(json.dumps(dict(receipt=NAME,sha256=f.sha(ROOT/NAME),files=len(evidence))))

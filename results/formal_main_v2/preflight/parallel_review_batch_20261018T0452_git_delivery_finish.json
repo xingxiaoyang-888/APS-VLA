@@ -1,0 +1,56 @@
+{
+  "GPU_jobs_rerun": 0,
+  "GPU_seconds": 0,
+  "all_1660_required_files_and_173_sources_covered_by_unchanged_guard_index": true,
+  "all_other_staged_files_format_check_command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check",
+    "--",
+    ".",
+    ":(exclude)results/formal_main_v2/preflight/object_action_range_probe_independent_cpu_v1/author_initial_tests.xml",
+    ":(exclude)results/formal_main_v2/preflight/object_action_range_probe_v1_CPU_sources_0452/012_object_action_range_probe_v1_initial_tests.xml.txt"
+  ],
+  "all_other_staged_files_format_check_passed": true,
+  "byte_archive_guard_not_bypassed_or_rerun": true,
+  "byte_archive_guard_passed": true,
+  "exactly_pinned_raw_log_format_exceptions": [
+    {
+      "bytes": 12798,
+      "line": 24,
+      "path": "results/formal_main_v2/preflight/object_action_range_probe_independent_cpu_v1/author_initial_tests.xml",
+      "sha256": "7a963c61fccc57651b350b2f5efc907efa963156c2ec5a95b8134dc85a5e7411",
+      "trailing_whitespace_preserved_in_immutable_original_failure_log": true
+    },
+    {
+      "bytes": 12798,
+      "line": 24,
+      "path": "results/formal_main_v2/preflight/object_action_range_probe_v1_CPU_sources_0452/012_object_action_range_probe_v1_initial_tests.xml.txt",
+      "sha256": "7a963c61fccc57651b350b2f5efc907efa963156c2ec5a95b8134dc85a5e7411",
+      "trailing_whitespace_preserved_in_immutable_original_failure_log": true
+    }
+  ],
+  "final_states_opened": false,
+  "index_unchanged_since_guard_except_proof_file": true,
+  "kind": "root_git_delivery_raw_log_whitespace_resolution",
+  "no_global_whitespace_rule_changed": true,
+  "no_source_document_or_evidence_bytes_trimmed": true,
+  "original_cause": "Post-guard git diff --check rejected two identical original failed-test XML archives for a preserved trailing space.",
+  "original_helper_exit_code": 1,
+  "prior_guard_proof": {
+    "path": "results/formal_main_v2/preflight/parallel_review_batch_20261018T0452_git_delivery.json",
+    "sha256": "b45082e53a1fb4737c672f545fc11717db9e4cd3c72e69f70c68930070a0a55d"
+  },
+  "prior_index_sha256": "63083079808de56338896f5539d79d51cdd4c65211bb075d73b55bca8f6137c9",
+  "reproduced_full_format_check_exit_code": 2,
+  "reproduced_full_format_check_output": "results/formal_main_v2/preflight/object_action_range_probe_independent_cpu_v1/author_initial_tests.xml:24: trailing whitespace.\n+.local\\test_object_action_range_probe_v1.py:242: \r\nresults/formal_main_v2/preflight/object_action_range_probe_v1_CPU_sources_0452/012_object_action_range_probe_v1_initial_tests.xml.txt:24: trailing whitespace.\n+.local\\test_object_action_range_probe_v1.py:242: \r\n",
+  "reviewed_utc": "2026-10-18T05:49:51.081333+00:00",
+  "root_finish_source": {
+    "path": "results/formal_main_v2/preflight/parallel_review_batch_20261018T0452_git_delivery_finish.py.txt",
+    "sha256": "0943c0aa0acb557ccebb243cb7ac7e30368bf8880407bd681e12c6ad44798c29"
+  },
+  "schema": "formal_main_v2",
+  "status": "passed",
+  "weights_copied": false
+}

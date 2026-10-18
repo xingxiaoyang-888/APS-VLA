@@ -1,0 +1,97 @@
+"""Static-only check: never import or execute the root submission candidate."""
+import ast
+import hashlib
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+OLD = '.local/fill_fresh_spatial_slot_0318.py'
+NEW = '.local/fill_fresh_spatial_pair_0452.py'
+OUT = '.local/fill_fresh_spatial_pair_0452_cpu_review.json'
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+old, new = (ROOT / OLD).read_text(encoding='utf-8'), (ROOT / NEW).read_text(encoding='utf-8')
+assert sha(ROOT / OLD) == '728c18f174d72eecf378133686aeeebf446a000cc24a971e0d7aa16c2fde2d41'
+tree = ast.parse(new)
+reversed_changes = new.replace("parser.add_argument('--seed', type=int, choices=(17, 23, 41), required=True)\n", '')
+reversed_changes = reversed_changes.replace("suite, seed, budget = 'libero_spatial', args.seed, args.budget", "suite, seed, budget = 'libero_spatial', 17, args.budget")
+reversed_changes = reversed_changes.replace(
+    "    terminal = {'COMPLETED', 'FAILED', 'CANCELLED', 'TIMEOUT', 'OUT_OF_MEMORY',\n"
+    "        'NODE_FAIL', 'BOOT_FAIL', 'DEADLINE', 'PREEMPTED', 'REVOKED'}\n"
+    "    # Unknown, missing, pending and transitional statuses conservatively occupy a slot.\n"
+    "    active = [j for j in jobs if str(j.get('status', '')).strip().upper().split(' ', 1)[0].rstrip('+') not in terminal]",
+    "    active = [j for j in jobs if j['status'] in f.ACTIVE | {'SUBMITTED'}]")
+assert reversed_changes == old, 'Unexpected changes beyond seed argument and conservative capacity classification'
+
+arguments = {n.args[0].value: n for n in ast.walk(tree) if isinstance(n, ast.Call)
+    and isinstance(n.func, ast.Attribute) and n.func.attr == 'add_argument'}
+for option, choices in (('--seed', (17, 23, 41)), ('--budget', (256, 64))):
+    values = {kw.arg: kw.value for kw in arguments[option].keywords}
+    assert ast.literal_eval(values['choices']) == choices and ast.literal_eval(values['required']) is True
+assert set(arguments) == {'--budget', '--seed'}
+
+block = next(n for n in tree.body if isinstance(n, ast.With))
+assert ast.unparse(block.items[0].context_expr) == 'f.supervisor_lock()'
+assignments = {n.targets[0].id: n for n in block.body if isinstance(n, ast.Assign)
+    and len(n.targets) == 1 and isinstance(n.targets[0], ast.Name)}
+terminal = ast.literal_eval(assignments['terminal'].value)
+expression = compile(ast.Expression(assignments['active'].value), '<isolated-pure-capacity-expression>', 'eval')
+def occupied(jobs):
+    return eval(expression, {'__builtins__': {'str': str}, 'jobs': jobs, 'terminal': terminal})
+capacity_cases = []
+for status in sorted(terminal) + ['CANCELLED by 15016', 'CANCELLED+', ' completed ']:
+    assert occupied([{'status': status}]) == []
+    capacity_cases.append({'status': status, 'occupied': 0})
+for status in ['RUNNING', 'PENDING', 'CONFIGURING', 'COMPLETING', 'SUBMITTED', 'UNKNOWN',
+        'REQUEUED', 'REQUEUE_HOLD', 'RESIZING', 'SUSPENDED', 'SPECIAL_EXIT', '', None, 'OUT_OF_ME+']:
+    assert len(occupied([{'status': status}])) == 1
+    capacity_cases.append({'status': status, 'occupied': 1})
+assert len(occupied([{}])) == 1
+capacity_cases.append({'status_key': 'missing', 'occupied': 1})
+assert len(occupied([{'status': 'UNKNOWN'}] * 8)) == 8
+assert len(occupied([{'status': 'RUNNING'}] * 9)) == 9
+statements = [ast.unparse(n) for n in block.body]
+assert statements.index('jobs = f.refresh(state)') < statements.index('assert state[\'pending_submission\'] is None')
+assert "assert len(active) <= 8 and len({j['stage_key'] for j in active}) == len(active)" in statements
+stop = next(n for n in block.body if isinstance(n, ast.If) and ast.unparse(n.test) == 'len(active) == 8')
+assert any(isinstance(n, ast.Raise) and ast.unparse(n.exc) == 'SystemExit(0)' for n in stop.body)
+launch = assignments['launch'].value
+launch_kw = {kw.arg: ast.unparse(kw.value) for kw in launch.keywords}
+assert launch_kw['segment'] == '500' and launch_kw['resume'] == 'False' and launch_kw['repair_record'] == 'None'
+assert launch_kw['stage'] == "'train'" and launch_kw['suite'] == 'suite' and launch_kw['seed'] == 'seed'
+assert launch_kw['budget'] == 'budget' and launch_kw['wall_seconds'] == '12600'
+assert statements.index('f.submit(launch, state, jobs)') > statements.index('f.write(ROOT / prereg, value)')
+
+protected = [OLD, 'scripts/formal_supervisor.py']
+value = dict(schema='formal_main_v2', kind='fresh_spatial_pair_candidate_static_review',
+    status='CPU_static_gates_passed_not_executed_or_submitted', created_utc=datetime.now(timezone.utc).isoformat(),
+    candidate={'path': NEW, 'sha256': sha(ROOT / NEW)}, original={'path': OLD, 'sha256': sha(ROOT / OLD)},
+    checker={'path': Path(__file__).relative_to(ROOT).as_posix(), 'sha256': sha(Path(__file__))},
+    command='python -B .local/check_fill_fresh_spatial_pair_0452.py',
+    allowed={'suite': 'libero_spatial', 'visual_tokens': [256, 64], 'seed': [17, 23, 41],
+        'start_updates_each_arm': 0, 'end_updates_each_arm': 500, 'schedule_updates': 5000},
+    changes=['Add required --seed choices17/23/41 and propagate selected seed through existing registered-pair selection.',
+        'Count every status outside an explicit terminal set as occupied, including unknown/missing statuses and CPU allocations.'],
+    exact_reverse_diff_equals_original=True, AST_parses=True, capacity_cases=capacity_cases,
+    additional_capacity_checks={'8_occupied_stops_before_remote_prechecks_or_submit': True, '9_occupied_assertion_fails': True},
+    unchanged_gate_scope=['Root supervisor lock and fresh registered-accounting refresh.',
+        'Unknown pending_submission blocks; duplicate same pair in any historical registered job blocks fresh restart.',
+        'Original scientific registration/pair SHA, 173 frozen source files, own Spatial F00/F01/F03 and root receipt.',
+        'Pinned independent acceptance and two-node shared-cache-lock evidence.',
+        'No local output/pair tracking; root remote output/checkpoint absence and cache filesystem/free-space checks before writing prereg.',
+        'Existing formal_supervisor.submit, resume=False, 5000 schedule and only first500 boundary; no hyperparameter change.'],
+    limits=['Only AST and isolated pure status expression evaluated. Candidate was not imported or executed.',
+        'No current availability/eligibility or remote state claim; root must perform all original fresh checks under lock at use.',
+        'This covers a registered matrix pair only; not an expansion or a GPU result.'],
+    invocation_examples=['python -B .local/fill_fresh_spatial_pair_0452.py --budget 256 --seed 23',
+        'python -B .local/fill_fresh_spatial_pair_0452.py --budget 64 --seed 23'],
+    activity={'SSH': False, 'Slurm': False, 'GPU_seconds': 0, 'state_written': False, 'Git_used': False},
+    read_evidence_sha256={r: sha(ROOT / r) for r in protected + [NEW, Path(__file__).relative_to(ROOT).as_posix()]})
+with (ROOT / OUT).open('x', encoding='utf-8', newline='\n') as stream:
+    json.dump(value, stream, ensure_ascii=False, indent=2)
+    stream.write('\n')
+print(json.dumps({'path': OUT, 'sha256': sha(ROOT / OUT), 'candidate_sha256': sha(ROOT / NEW),
+    'capacity_cases': len(capacity_cases), 'candidate_executed': False}, indent=2))

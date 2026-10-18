@@ -1,0 +1,97 @@
+"""Root signs only stable independent CPU evidence, never a GPU result."""
+from pathlib import Path
+from datetime import datetime, timezone
+import argparse
+import hashlib
+import json
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+BASE = 'results/formal_main_v2/'
+OUT = BASE + 'engineering/object_action_range_probe_v1/source/'
+RECEIPT = BASE + 'preflight/object_action_range_probe_v1_CPU_root_0452.json'
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument('--independent', required=True)
+    args = p.parse_args()
+    assert not (ROOT / RECEIPT).exists()
+    author_name = '.local/object_action_range_probe_v1_candidate.json'
+    dependencies_name = '.local/object_action_range_probe_v1_dependencies_review_fixed.json'
+    author, dep, independent = (f.read(ROOT / n) for n in (author_name, dependencies_name, args.independent))
+    assert f.sha(ROOT / author_name) == 'a08df17e6f9e40e7fbe224ded8eed114f524cfe6bb5eaa921c5716ed2878e07b'
+    assert f.sha(ROOT / dependencies_name) == 'bb675bc978a8c91264570d4d25826e3ff2cb58485484c155477d3668dbed8b6f'
+    assert author['candidate']['sha256'] == dep['candidate_sha256'] == '35172726d214c1e16ed7bbd4a15b6bfa6185eccf3f072ecd4b271ced24469fa7'
+    assert independent['status'] == 'passed_cpu_independent_review'
+    refs = {author_name:f.sha(ROOT / author_name), dependencies_name:f.sha(ROOT / dependencies_name), args.independent:f.sha(ROOT / args.independent)}
+    for obj in (author, independent):
+        for key in ('evidence_sha256', 'read_evidence_sha256'):
+            for n,h in obj.get(key, {}).items():
+                assert f.sha(ROOT / n) == h, n
+                assert n not in refs or refs[n] == h
+                refs[n] = h
+    code = {'.local/object_action_range_probe_v1.py':'probe.py',
+        '.local/run_object_action_probe_registered_v1.py':'launcher.py',
+        '.local/object_action_range_probe_v1.slurm':'probe.slurm'}
+    review_maps = independent.get('evidence_sha256', independent.get('read_evidence_sha256'))
+    assert isinstance(review_maps, dict)
+    for name in (*code, '.local/submit_object_action_probe_0452.py'):
+        assert review_maps[name] == f.sha(ROOT / name), name
+    for n in ('.local/prepare_object_probe_CPU_root_0452.py', '.local/submit_object_action_probe_0452.py'):
+        refs[n] = f.sha(ROOT / n)
+    mapping = {}
+    for name,h in dep['project_files'].items():
+        assert f.sha(ROOT / name) == h, name
+        mapping[name] = dict(server=f.P + '/' + name, sha256=h)
+        refs[name] = h
+    assert len(dep['snapshot_files']) == 173
+    for name,h in dep['snapshot_files'].items():
+        assert f.sha(ROOT / name) == h, name
+        assert name not in mapping
+        mapping[name] = dict(server=f.P + '/' + dep['snapshot_root'] + '/' + name, sha256=h)
+        refs[name] = h
+    for source, target in code.items():
+        dest = ROOT / OUT / target
+        assert not dest.exists(); dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes((ROOT / source).read_bytes())
+        name = dest.relative_to(ROOT).as_posix()
+        refs[name] = f.sha(dest)
+        mapping[name] = dict(server=f.P + '/' + name, sha256=refs[name])
+    assert len(mapping) == 194
+    folder = ROOT / (BASE + 'preflight/object_action_range_probe_v1_CPU_sources_0452')
+    assert not folder.exists(); folder.mkdir()
+    archives = {}
+    for index,n in enumerate(sorted(n for n in refs if n.startswith('.local/')), 1):
+        dest = folder / (f'{index:03d}_' + Path(n).name + '.txt')
+        dest.write_bytes((ROOT / n).read_bytes()); rel = dest.relative_to(ROOT).as_posix()
+        assert f.sha(dest) == refs[n]; archives[n] = rel; refs[rel] = refs[n]
+    # Keep local audit references as versioned exact-byte archives for Git.
+    evidence = {n:h for n,h in refs.items() if not n.startswith('.local/')}
+    ind_archive = archives.get(args.independent, args.independent)
+    value = dict(schema='formal_main_v2', kind='root_bounded_action_probe_CPU_review', status='passed_cpu_root_review',
+        reviewed_utc=datetime.now(timezone.utc).isoformat(), registration_sha256=author['preregistration']['sha256'],
+        candidate_sha256=author['candidate']['sha256'], independent_review=ind_archive,
+        independent_review_sha256=f.sha(ROOT / ind_archive), author_receipt=archives[author_name],
+        dependency_manifest=archives[dependencies_name], deployment_files=mapping,
+        source_archive_map=archives, evidence_sha256=evidence,
+        author_tests_passed=49, independent_CPU_review_passed=True, GPU_submitted=False,
+        actual_environment_and_controller_not_yet_verified=True, original_failed_action_values_still_unknown=True,
+        maximum_attempts=1, automatic_retry=False, GPU_count=1, wall_limit_seconds=900,
+        new_trials=0, final_states_opened=False, weights_copied=False, scientific_runtime_modified=False,
+        root_checks=['Reviewed replay exact56 and all7 checkpoint abort paths; no eighth-chunk execution.',
+            'Read native/token policy implementations: both capture paths bypass run_episode only, no frozen policy or packing change.',
+            'Native physical/normalized recapture and actual forward counters retained; same input and saved RNG paired.',
+            'Reviewed actual controller binding evidence requirements; no conclusion before GPU capture.',
+            'One canonical development vector and no sealed/all50 payload I/O;18 project dependencies and173 snapshot files pinned.',
+            'External launcher, wrapper and root-only capacity/duplicate/pending submission boundaries reviewed.'],
+        retained_CPU_failures=True, run_permission='Root may submit the exact single registered diagnostic after fresh capacity/dependency verification; this is not a scientific outcome.')
+    f.write(ROOT / RECEIPT, value)
+    print(json.dumps(dict(receipt=RECEIPT, sha256=f.sha(ROOT / RECEIPT), deployment_files=len(mapping), archived_sources=len(archives))))
+
+
+if __name__ == '__main__':
+    main()
