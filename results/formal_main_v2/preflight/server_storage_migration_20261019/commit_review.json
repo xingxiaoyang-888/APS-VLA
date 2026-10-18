@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-18T16:32:27.893308+00:00",
+  "status": "passed",
+  "frozen_source_files_verified": 173,
+  "changed_state_fields": [
+    "current_round_cost",
+    "formal_main_progress",
+    "last_supervision_utc",
+    "next_actions",
+    "registered_jobs",
+    "storage_policy",
+    "updated_utc"
+  ],
+  "job_rows_unchanged": 228,
+  "only_job_status_and_elapsed_changed": true,
+  "scientific_progress_unchanged": true,
+  "stage_secret_marker_and_weight_extension_check": "passed",
+  "diff_check": "passed",
+  "prior_root_check": {
+    "status": "stopped_before_commit",
+    "reason": "Initial expected state-field list omitted last_supervision_utc, which the unchanged f.refresh updates.",
+    "before": "2026-10-18T13:58:29.741929+00:00",
+    "after": "2026-10-18T16:27:38.104032+00:00",
+    "bounded_resolution": "Inspected timestamp and every job/progress field; permitted the observed refresh timestamp only. No runtime/source/scientific edit."
+  }
+}
