@@ -1,0 +1,96 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_selected_pair_server_SHA_review",
+  "status": "passed",
+  "reviewed_utc": "2026-10-18T03:29:58.263039+00:00",
+  "job_id": "3021781",
+  "suite": "libero_10",
+  "visual_tokens": 128,
+  "seed": 41,
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "invocation_sha256": "8482c7a602fd424ae28dfa2cd25874125eb3968575e4e065b9bdb87933d1b3ec",
+  "registered_terminal_job": {
+    "job_id": "3021781",
+    "name": "cti-formal",
+    "experiment": "formal_main_v2",
+    "mode": "train",
+    "stage_key": "libero_10_train_k128_seed41",
+    "suite": "libero_10",
+    "visual_tokens": 128,
+    "training_seed": 41,
+    "segment_end": 5000,
+    "status": "COMPLETED",
+    "gpus": 1,
+    "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+    "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+    "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k128/seed41/training",
+    "invocation": "results/formal_main_v2/invocations/libero_10_train_k128_seed41_attempt10.json",
+    "invocation_sha256": "8482c7a602fd424ae28dfa2cd25874125eb3968575e4e065b9bdb87933d1b3ec",
+    "submitted_utc": "2026-10-18T01:56:37.175339+00:00",
+    "purpose": "Registered formal-main stage; no final states or scientific settings expansion",
+    "exit_code": "0:0",
+    "elapsed_seconds": 4825,
+    "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+    "node": "gpu4012"
+  },
+  "root_segment_review": "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3021781.json",
+  "input_sha256": {
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3021781.json": "7806513de84156e302df90951282dfb89ed829a433695e1cf5a964c729d463bc",
+    "results/formal_main_v2/pulls/20261018T032828Z_52b33cae232e/receipt.json": "ee9c85f771d581bc96594b8a5aa3b61b031c65ce6da98a1517361f8501be3657",
+    "configs/experiments/formal_main_v2.json": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+    "results/formal_main_v2/invocations/libero_10_train_k128_seed41_attempt10.json": "8482c7a602fd424ae28dfa2cd25874125eb3968575e4e065b9bdb87933d1b3ec",
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/deployment_receipt.json": "fab6c0de1ed8eb7f8a331f642363d1242c189efd28535c81e461394a0c27504a",
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/training_report.json": "2008372f74fda98387cbea19be63654116a38a689d98dd144a34c301473162ce",
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/deployment_receipt.json": "dbe2718bbf614e87d7e482d9039b0172f1622a80271b02e6349069c2e677c19a",
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/training_report.json": "febc941d54e1ada8dc45836e50758828e5faa8ac704f875882e6a10c148bef84"
+  },
+  "server_selected_checks": [
+    {
+      "arm": "A",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed41/A/best.pt",
+      "exists": true,
+      "bytes": 10688651,
+      "sha256": "97306fae8cb74755a65364ac70417c019d6fda1646678e5f2f35682b1235b1c3",
+      "device": 46,
+      "inode": 98655749395,
+      "mtime_ns": 1792292139000000000,
+      "stable_during_hash": true
+    },
+    {
+      "arm": "B",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed41/B/best.pt",
+      "exists": true,
+      "bytes": 10688651,
+      "sha256": "e9b75ec590397fdc58e22f6b10b559a1cef4bafa3e94557363bd6e946a504019",
+      "device": 46,
+      "inode": 99473401610,
+      "mtime_ns": 1792293401000000000,
+      "stable_during_hash": true
+    }
+  ],
+  "selected": [
+    {
+      "arm": "A",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed41/A/best.pt",
+      "expected_sha256": "97306fae8cb74755a65364ac70417c019d6fda1646678e5f2f35682b1235b1c3",
+      "selected_update": 3500,
+      "validation_metric": 0.01940816727792105
+    },
+    {
+      "arm": "B",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed41/B/best.pt",
+      "expected_sha256": "e9b75ec590397fdc58e22f6b10b559a1cef4bafa3e94557363bd6e946a504019",
+      "selected_update": 3500,
+      "validation_metric": 0.019878969758726835
+    }
+  ],
+  "probe_program_sha256": "8b61ec7e5e470ce95f655e137efeeafc8fce8c8971fe3b2193468d07c176ba2b",
+  "probe_program": "import hashlib,json,os,stat\nfrom pathlib import Path\nspecs=[{'arm': 'A', 'path': '/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed41/A/best.pt', 'expected_sha256': '97306fae8cb74755a65364ac70417c019d6fda1646678e5f2f35682b1235b1c3', 'selected_update': 3500, 'validation_metric': 0.01940816727792105}, {'arm': 'B', 'path': '/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k128/seed41/B/best.pt', 'expected_sha256': 'e9b75ec590397fdc58e22f6b10b559a1cef4bafa3e94557363bd6e946a504019', 'selected_update': 3500, 'validation_metric': 0.019878969758726835}]\nout=[]\nfor row in specs:\n p=Path(row['path'])\n for parent in [*reversed(p.parents),p]:\n  if parent.is_symlink(): raise ValueError('Symlink checkpoint path')\n fd=os.open(p,os.O_RDONLY|os.O_NOFOLLOW)\n with os.fdopen(fd,'rb') as handle:\n  before=os.fstat(handle.fileno())\n  if not stat.S_ISREG(before.st_mode): raise ValueError('Not a regular selected checkpoint')\n  h=hashlib.sha256()\n  for block in iter(lambda:handle.read(8<<20),b''): h.update(block)\n  after=os.fstat(handle.fileno())\n  current=os.stat(p,follow_symlinks=False)\n  identity=lambda s:(s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns)\n  if not identity(before)==identity(after)==identity(current): raise ValueError('Selected checkpoint changed during hash')\n out.append(dict(arm=row['arm'],path=str(p),exists=True,bytes=after.st_size,sha256=h.hexdigest(),\n  device=after.st_dev,inode=after.st_ino,mtime_ns=after.st_mtime_ns,stable_during_hash=True))\nprint(json.dumps(out))\n",
+  "remote_returncode": 0,
+  "weights_copied": false,
+  "weights_deserialized": false,
+  "additional_GPU_seconds": 0,
+  "final_states_opened": false,
+  "global_release": false,
+  "scope": "Only two exact registered completed-pair best.pt files; not global72 checkpoint inventory."
+}

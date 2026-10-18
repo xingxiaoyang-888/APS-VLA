@@ -31,3 +31,11 @@
 原600条清单的剩余468条已登记并提交`3021844`，同账本显式恢复、原132条不重跑。已观测132条最大单trial尝试耗时19.433788秒，1.5倍余量乘468再加整段首次分配386秒，估计14028.519秒；这是工程估计，不是后续任务耗时上界。保留4小时时限，若未完成则保存前缀并审核后续跑。方法、初态、环境及checkpoint身份不变，不开放最终集。
 
 [v3登记](../results/formal_main_v2/preflight/object_first_pair_development_registration_v3.json)；[root重建及提交](../results/formal_main_v2/preflight/object_first_pair_development_submission_root_v3.json)。
+
+2026-10-18 12:11：作业`3021844`实际产物经root与独立审计通过，新增468、累计600/600条，100个唯一开发初态；79条时限内未成功、1运行错误。累计6713 GPU秒已含全局账单。该六方法面板不代表本套件所有22部署实例完成，更不开放最终评测。
+
+[原始回存与复核](../results/formal_main_v2/preflight/object_third_development_root_integration_0318.json)。
+
+该600条包含1条Dense在task8/source49的policy_error（第8次调用、控制步56），保留在失败分母；其余599条正常结束，另有79条horizon失败。逐方法成功数/100：Dense98、均匀256为93、均匀128为86、均匀64为49、A128 seed17为98、B128 seed17为96。这里只覆盖6/22实例，不作未来监督有效或等效结论。root收据的scientific_complete仅表示登记终态覆盖完整；当前运行接口问题尚未解决，不作为全局release资格。
+
+[动作范围诊断](../results/formal_main_v2/preflight/object_action_range_diagnosis_0318.json)；[有界诊断登记](正式动作范围诊断登记.md)。

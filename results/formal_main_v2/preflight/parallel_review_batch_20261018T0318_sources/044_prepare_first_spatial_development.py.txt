@@ -1,0 +1,245 @@
+"""Prepare first formal Spatial development through original CPU CLIs; never submit."""
+from pathlib import Path, PurePosixPath
+from datetime import datetime, timezone
+from collections import Counter
+import hashlib
+import json
+import os
+import subprocess
+import sys
+
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = "results/formal_main_v2/preflight"
+MANIFEST = "results/formal_main_v2/execution/libero_spatial_development_first_pair_v1.json"
+PLAN = BASE + "/spatial_first_pair_development_plan_v1.json"
+RECORD = BASE + "/spatial_first_pair_development_registration_v1.json"
+SELF = ".local/prepare_first_spatial_development.py"
+LOG = ".local/prepare_first_spatial_development.log"
+REGISTRATION = "configs/experiments/formal_main_v2.json"
+INVENTORY = "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json"
+REVIEW_ROOT = "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews"
+ROOT_REVIEW = REVIEW_ROOT + "/3021362.json"
+INDEPENDENT_REVIEW = REVIEW_ROOT + "/3021362_independent.json"
+SELECTED_REVIEW = REVIEW_ROOT + "/3021362_selected_server.json"
+ACCEPTANCE_REVIEW = "results/formal_main_v2/libero_spatial/acceptance/root_review.json"
+STATE = "results/experiment_supervisor/state.json"
+METHODS = ["dense", "uniform256", "uniform128", "uniform64", "A128_seed17", "B128_seed17"]
+ENVIRONMENT = dict(max_control_steps=220, action_chunk=8, wait_steps=10, env_seed=0, runtime_seed=17)
+EXECUTION_ENVIRONMENT = dict(max_steps=220, action_chunk=8, wait_steps=10, environment_seed=0, runtime_seed=17)
+EXPECTED = {
+    REGISTRATION: "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+    INVENTORY: "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    ROOT_REVIEW: "3f3b00a9e141aae0e7105c7b28a906f0db0835f1af7c8dcf6853cc30608c94fb",
+    INDEPENDENT_REVIEW: "dcac42df8b98bdf5c2ee4496396442f1444fdc5027cb8ffc523d29232d976c60",
+    SELECTED_REVIEW: "fb25effd1838a939ef697a206a0a11297265fddfcd936eafa86327d5c498692c",
+    ACCEPTANCE_REVIEW: "fee55c4f78f0f4953b96bf9364eb1051a591b91b3a9f092efc52bfdee99b8f68",
+    "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+    "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+    "scripts/review_formal_downstream.py": "753edb55ce21fd43f85499e136a7e52093ecf9feaeafadf0f01cece8fa267202",
+    "scripts/analyze_formal.py": "7f9573877f8a3662bd06dae9362823fd478283ed14cc86a6c3763f6fb4f682f1",
+    "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+    "scripts/ops/formal_asset_downstream_review.py": "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699",
+    "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24",
+    BASE + "/asset_downstream_consumers_root_acceptance_20261017.json": "0c8ee679a4058a837b9fe1458f53387c1af67be8262c4790316296477bb457a8",
+    BASE + "/downstream_lock_root_acceptance_20261017.json": "56b8546ede7740c8ebcf7c1079aadd4048dfe06b98351f0f58b8fe4007da0c27",
+    ".local/prepare_first_object_development.py": "edab6330bbeab459baada618c105077e2b886b2e43ad7b4c316c15bad08c6610",
+}
+BEST = {
+    "A": (4000, "68953d2b4f0325b54df698b3ed7aadb19ac1d53b2b53bb9e0b8ff7abb0c84a40"),
+    "B": (5000, "ea56dea4fd9f67c99c2b149b123a2112ae7e5971249fe86f697128000d7d1b7e"),
+}
+
+
+def local(path):
+    name = PurePosixPath(path)
+    assert not name.is_absolute() and ".." not in name.parts and "\\" not in path
+    assert not any("sealed" in part.lower() or part.lower() in ("test", "final", "checkpoints", "weights") for part in name.parts)
+    assert name.suffix.lower() not in (".pt", ".pth", ".bin", ".safetensors", ".npz", ".npy", ".pkl", ".init")
+    assert "accounting" not in name.parts
+    if "initial_states" in name.parts:
+        assert path == "configs/manifests/formal_main_v2/libero_spatial/initial_states/development.json"
+    value = ROOT / path
+    assert value.is_file() and not value.is_symlink()
+    return value
+
+
+def sha(path):
+    h = hashlib.sha256()
+    with local(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(8 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def read(path):
+    return json.loads(local(path).read_bytes())
+
+
+def signature(value):
+    return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+
+
+def existing_development(state):
+    jobs = []
+    for job in state["registered_jobs"]:
+        if job.get("experiment") != "formal_main_v2":
+            continue
+        if job.get("suite") == "libero_spatial" and (job.get("mode") == "development" or "/downstream/" in str(job.get("run_root", ""))):
+            jobs.append({key: job.get(key) for key in ("job_id", "mode", "status", "run_root", "invocation")})
+    return dict(registered_downstream_jobs=jobs,
+        execution_files=[p.relative_to(ROOT).as_posix() for p in (ROOT / "results/formal_main_v2/execution").glob("*spatial*")],
+        invocation_files=[p.relative_to(ROOT).as_posix() for p in (ROOT / "results/formal_main_v2/invocations").glob("*spatial*development*")],
+        runtime_directory_exists=(ROOT / "results/formal_main_v2/libero_spatial/downstream").exists())
+
+
+def main():
+    for output in (MANIFEST, MANIFEST + ".evidence.json", PLAN, RECORD, LOG):
+        if (ROOT / output).exists():
+            raise ValueError("Preparation refuses existing output: " + output)
+    for path, digest in EXPECTED.items():
+        if sha(path) != digest:
+            raise ValueError("Pinned preparation evidence differs: " + path)
+    registration = read(REGISTRATION)
+    spec = registration["suites"]["libero_spatial"]
+    assert spec["environment"] == ENVIRONMENT
+    inventory = read(INVENTORY)
+    assert len(inventory["files"]) == 173
+    assert all(sha(path) == digest for path, digest in inventory["files"].items())
+    root, independent, selected = [read(name) for name in (ROOT_REVIEW, INDEPENDENT_REVIEW, SELECTED_REVIEW)]
+    assert all(item["status"] == "passed" and item["suite"] == "libero_spatial"
+        and item["visual_tokens"] == 128 and item["seed"] == 17 for item in (root, independent, selected))
+    assert root["job_id"] == independent["job_id"] == selected["job_id"] == "3021362"
+    assert root["completed_by_arm"] == {"A": 5000, "B": 5000}
+    assert root["continuation"] == "formal_training_complete_no_extension"
+    assert independent["formal_training_complete"] and independent["final_selection_complete"]
+    assert independent["allowed_next_segment_end"] is None and not independent["resume_required"]
+    assert independent["root_review_sha256"] == EXPECTED[ROOT_REVIEW]
+    assert independent["selected_server_review_sha256"] == EXPECTED[SELECTED_REVIEW]
+    assert independent["frozen_source_files_verified"] == 173
+    for path, digest in independent["read_evidence_sha256"].items():
+        assert sha(path) == digest, path
+    assert selected["remote_returncode"] == 0 and not selected["weights_copied"]
+    for path, digest in selected["input_sha256"].items():
+        assert sha(path) == digest, path
+    assert {row["arm"] for row in selected["selected"]} == set(BEST)
+    for item in selected["selected"]:
+        arm = item["arm"]
+        assert (item["selected_update"], item["expected_sha256"]) == BEST[arm]
+        assert independent["arms"][arm]["selected_update"] == BEST[arm][0]
+        assert independent["arms"][arm]["selected_checkpoint_sha256"] == BEST[arm][1]
+        actual = [row for row in selected["server_selected_checks"] if row["arm"] == arm]
+        assert len(actual) == 1 and actual[0]["exists"] and actual[0]["stable_during_hash"]
+        assert actual[0]["path"] == item["path"] and actual[0]["sha256"] == item["expected_sha256"]
+    state_before = sha(STATE)
+    state = read(STATE)
+    before = existing_development(state)
+    assert before == dict(registered_downstream_jobs=[], execution_files=[], invocation_files=[], runtime_directory_exists=False)
+    commands = [
+        [sys.executable, "-B", "scripts/formal_execution_manifests.py", "development", "--suite", "libero_spatial",
+         "--methods", *METHODS, "--source-inventory", INVENTORY, "--output", MANIFEST],
+        [sys.executable, "-B", "scripts/ops/formal_downstream_supervisor.py", "plan",
+         "--stage", "development", "--execution-manifest", MANIFEST, "--stop-after", "12"],
+    ]
+    runs = []
+    with (ROOT / LOG).open("x", encoding="utf-8", newline="\n") as log:
+        for command in commands:
+            result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+                env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+            run = dict(command=command, returncode=result.returncode, stdout=result.stdout, stderr=result.stderr)
+            log.write(json.dumps(run, ensure_ascii=False) + "\n")
+            log.flush()
+            runs.append(run)
+            if result.returncode:
+                raise RuntimeError("Original CPU entrypoint rejected preparation; retained in " + LOG)
+    assert json.loads(runs[0]["stdout"])["status"] == "development_manifest_written"
+    manifest, manifest_evidence = read(MANIFEST), read(MANIFEST + ".evidence.json")
+    value = json.loads(runs[1]["stdout"])
+    assert manifest["suite"] == "libero_spatial" and manifest["split"] == "development"
+    assert manifest["environment"] == EXECUTION_ENVIRONMENT
+    assert [row["identity"]["method_id"] for row in manifest["methods"]] == METHODS
+    assert all(row["identity"]["future_head_deployed"] is False for row in manifest["methods"])
+    for row in manifest["methods"][-2:]:
+        arm = row["identity"]["method"]
+        assert row["identity"]["checkpoint_sha256"] == BEST[arm][1]
+        assert row["identity"]["model_revision"] == spec["model_revision"]
+        assert row["checkpoint"] == next(item["path"] for item in selected["selected"] if item["arm"] == arm)
+    invocation = value["invocation"]
+    assert value["kind"] == "formal_downstream_plan" and invocation["stage"] == "development"
+    assert invocation["suite"] == "libero_spatial" and invocation["method_ids"] == METHODS
+    assert invocation["resume"] is False and invocation["prior_job_ids"] == []
+    assert invocation["argv"][-2:] == ["--stop-after", "12"]
+    assert invocation["entrypoint"] == "scripts/ops/formal_evaluation_adapter.py"
+    assert "downstream_asset_compatibility" not in invocation
+    assert set(invocation["support_files"]) == {
+        "scripts/ops/formal_evaluation_adapter.py", "scripts/server/run_formal_downstream.py",
+        "scripts/ops/formal_downstream_supervisor.py"}
+    assert invocation["scientific_settings_changed"] is False and invocation["final_values_read_locally"] is False
+    assert not any(flag in invocation["argv"] for flag in ("--sealed-final", "--final-registry", "--release", "--resume"))
+    assert value["resources"] == dict(job_name="cti-formal-downstream", account="p_p15016",
+        qos="cpu-500_core-l40-8_card-a800-8_card", partition="L40", nodes=1, ntasks=1,
+        cpus_per_task=7, gres="gpu:l40:1", mem="64G", time="04:00:00")
+    assert not value["output_must_exist"] and not (ROOT / value["output_relative"]).exists()
+    assert not (ROOT / value["invocation_relative"]).exists()
+    assert value["plan_sha256"] == signature({k: v for k, v in value.items() if k != "plan_sha256"})
+    panel_path = spec["initial_states_root"] + "/development.json"
+    assert manifest["development_panel"] == panel_path and manifest["development_panel_sha256"] == sha(panel_path)
+    panel = read(panel_path)
+    assert panel["suite"] == "libero_spatial" and len(panel["states"]) == 100
+    assert len({row["trial_id"] for row in panel["states"]}) == 100
+    assert Counter(row["task_id"] for row in panel["states"]) == {i: 10 for i in range(10)}
+    assert [(row["task_id"], row["source_state_index"]) for row in panel["states"][:2]] == [(0, 3), (0, 5)]
+    ordered_trials = [row["trial_id"] + ":" + method for row in panel["states"] for method in METHODS]
+    assert len(ordered_trials) == len(set(ordered_trials)) == 600
+    with (ROOT / PLAN).open("x", encoding="utf-8", newline="\n") as stream:
+        stream.write(runs[1]["stdout"])
+    evidence = {**EXPECTED, **independent["read_evidence_sha256"], **manifest_evidence["files"],
+        **invocation["root_evidence_sha256"], **selected["input_sha256"],
+        MANIFEST: sha(MANIFEST), MANIFEST + ".evidence.json": sha(MANIFEST + ".evidence.json"),
+        PLAN: sha(PLAN), LOG: sha(LOG), SELF: sha(SELF)}
+    assert STATE not in evidence
+    assert all(sha(path) == digest for path, digest in evidence.items())
+    state_after = read(STATE)
+    after = existing_development(state_after)
+    assert after["registered_downstream_jobs"] == [] and after["invocation_files"] == []
+    assert after["runtime_directory_exists"] is False
+    assert set(after["execution_files"]) == {MANIFEST, MANIFEST + ".evidence.json"}
+    record = dict(schema="formal_main_v2", kind="candidate_first_spatial_development_preregistration",
+        status="prepared_not_submitted", prepared_utc=datetime.now(timezone.utc).isoformat(), suite="libero_spatial", methods=METHODS,
+        environment=ENVIRONMENT, execution_environment=EXECUTION_ENVIRONMENT,
+        execution_manifest=MANIFEST, execution_manifest_sha256=sha(MANIFEST),
+        manifest_evidence=MANIFEST + ".evidence.json", manifest_evidence_sha256=sha(MANIFEST + ".evidence.json"),
+        plan=PLAN, plan_file_sha256=sha(PLAN), plan_sha256=value["plan_sha256"], commands=commands,
+        output_relative=value["output_relative"], invocation_relative=value["invocation_relative"],
+        selected_checkpoints=selected["selected"], source_files_sha256={p: s for p, s in EXPECTED.items() if p.startswith("scripts/")},
+        frozen_scientific_files_verified=173, root_training_review=ROOT_REVIEW, independent_training_review=INDEPENDENT_REVIEW,
+        selected_server_review=SELECTED_REVIEW, selected_server_review_is_historical_not_a_new_probe=True,
+        unique_development_initial_states=100, target_terminal_trials=600,
+        original_trial_order_sha256=signature(ordered_trials), initial_engineering_slice=12,
+        initial_state_ids_in_first_slice=[row["trial_id"] for row in panel["states"][:2]],
+        exact_first12_trial_ids=ordered_trials[:12], remaining_after_first12=588,
+        stopping_rule="Original fixed state-major/method-minor order: first2 development states times6 methods. After root audit, explicitly resume the same600-trial ledger; completed trials are never rerun.",
+        slice_reason="First actual formal Spatial downstream interface and throughput acceptance. Fix12 trials before outcomes; later engineering boundaries may use measured duration, never success or failure outcomes.",
+        scope="Only6 of22 registered Spatial methods, each on the same100 development states. This is not full suite development, full O2A timing, global release, a final result, or proof of a success/latency benefit.",
+        reference_reuse="None: no existing formal Spatial downstream job/manifest/ledger was found. Generate four references with Spatial's own official registered base/environment; no pilot selectors or historical outcome substitution.",
+        duplicate_check=dict(before=before, after=after, state_observation_only=True, current_capacity_or_submission_gate_satisfied=False),
+        resources=value["resources"], actual_spatial_downstream_gpu_verified=False,
+        metadata_or_component_adaptation=False, production_enabled=False,
+        remaining_gates=["Root independently rebuilds the original plan with its latest state and requires the identical plan SHA.",
+            "Root verifies original Transport server input/source/support hashes and separately probes only the two registered Spatial best.pt files for fresh stable SHA; Transport itself does not hash selected checkpoint bytes.",
+            "Root holds the original supervisor lock, refreshes jobs, and checks no unresolved submission, same-ledger duplicate, or ninth active request. The local plan is not a current capacity clearance.",
+            "After the first12 trials, root and independent review verify actual Spatial frozen-source adapter restoration, raw policy/packing/one-forward/zero-future-head evidence, environment220/10/8, trial identity/order and all Slurm cost before explicit continuation.",
+            "Any infrastructure failure or unfinished trial is retained and reviewed before repair/resume; task-horizon failures remain ordinary outcomes without rerun or sample replacement."],
+        global_final_release=False, sealed_states_opened=False, weights_copied=False, GPU_seconds=0, jobs_submitted=0,
+        state_observation_only=dict(before_sha256=state_before, after_sha256=sha(STATE), immutable_dependency=False, written=False),
+        read_evidence_sha256=dict(sorted(evidence.items())))
+    with (ROOT / RECORD).open("x", encoding="utf-8", newline="\n") as stream:
+        json.dump(record, stream, ensure_ascii=False, indent=2, allow_nan=False)
+        stream.write("\n")
+    print(json.dumps(dict(status=record["status"], registration=RECORD, registration_sha256=sha(RECORD),
+        manifest_sha256=sha(MANIFEST), plan_file_sha256=sha(PLAN), plan_sha256=value["plan_sha256"],
+        environment=ENVIRONMENT, target_trials=600, initial_engineering_slice=12, submitted=False), ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

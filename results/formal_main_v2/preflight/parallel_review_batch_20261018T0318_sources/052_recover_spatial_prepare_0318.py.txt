@@ -1,0 +1,100 @@
+"""Root-only, one-shot recovery of a proven pre-sbatch missing canonical config."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib, inspect, json, sys
+
+root=Path(__file__).resolve().parents[1]
+sys.path[:0]=[str(root/'scripts'),str(root/'scripts/ops')]
+import formal_supervisor as f
+import formal_downstream_supervisor as c
+
+base='results/formal_main_v2/'
+pre=base+'preflight/spatial_first_pair_development_'
+diagrel=base+'preflight/spatial_first_prepare_failure_diagnosis_0318.json'
+fixrel=base+'preflight/spatial_prepare_recovery_0318.json'
+regrel,planrel=pre+'registration_v1.json',pre+'plan_v1.json'
+reviewrel,freshrel,subrel=pre+'root_review_v1.json',pre+'selected_server_v1.json',pre+'submission_root_v1.json'
+assert not (root/fixrel).exists() and not (root/subrel).exists()
+assert f.sha(root/diagrel)=='50920691780f4736787d5d514007ad179fe48e4f031e97d0e6be4a2a5ba785a5'
+assert f.sha(root/'scripts/ops/formal_downstream_supervisor.py')=='f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571'
+diag,reg,value=f.read(root/diagrel),f.read(root/regrel),f.read(root/planrel)
+assert f.sha(root/planrel)=='e8c4f5e782501237de21197fc24533ea1e1698f310d7d2e8034c906348bed600'
+assert value['plan_sha256']==c.signature({k:v for k,v in value.items() if k!='plan_sha256'})==reg['plan_sha256']
+assert f.read(root/reviewrel)['status']=='passed_cpu_only'
+assert f.read(root/freshrel)['status']=='passed'
+refs=dict(reg['read_evidence_sha256'])
+for rel,checksum in refs.items(): assert f.sha(root/rel)==checksum,rel
+missing=[x for x in diag['result']['files'] if x['status'] not in ('match','missing_publish')]
+config='configs/experiments/formal_main_v2/libero_spatial_k128_seed17.json'
+config_sha='4bb617aaffa4a76d16634b42d9d6a4c6d1de7cc2e7e7cc79c29729fd7bc8f9cd'
+assert len(missing)==1 and missing[0]['path']==str(c.P/config) and missing[0]['expected_sha256']==config_sha
+assert f.sha(root/config)==config_sha and not diag['result']['output_exists']
+source=inspect.getsource(c.submit_plan)
+# The recovery executes the unchanged original prepare-to-registration tail.
+# It does NOT clear/rewrite pending or create another invocation to bypass it.
+tail=source[source.index('    transport.prepare(value, path)'):]
+assert tail.count('transport.submit(')==1
+program='def recover_original_tail(value,state,project,supervisor,transport,path,invocation,helper):\n'+tail
+scope=dict(c.__dict__)
+exec(compile(program,'<unchanged-original-submit-tail>','exec'),scope)
+transport=c.Transport(root)
+with f.supervisor_lock():
+    state=f.read(f.STATE)
+    pending=state['pending_submission']
+    assert pending==diag['pending_snapshot'] and pending['phase']=='preparing_downstream'
+    invpath=root/pending['invocation'];inv=f.read(invpath)
+    assert f.sha(invpath)==pending['invocation_sha256']
+    assert inv=={**value['invocation'],'registered_utc':pending['utc'],'plan_sha256':value['plan_sha256']}
+    jobs=f.refresh(state);live=[j for j in c.formal_jobs(state) if j['status'] not in c.TERMINAL]
+    assert len(live)<8 and not any(j.get('run_root')==inv['run_root'] for j in jobs)
+    p=state['formal_main_progress']
+    assert 'first_spatial_development' not in p and not p['test_opened'] and not p['global_release_created']
+    # A missing remote invocation plus no output and the unchanged preparing
+    # phase prove this exact runtime could not have been submitted by this path.
+    publish_program="""import hashlib,json,os,uuid
+from pathlib import Path
+target,source,sha,invocation,output=VALUES
+p,s=Path(target),Path(source)
+assert all(not x.is_symlink() and x.resolve()==x for x in (p,s,Path(invocation),Path(output)))
+assert not p.exists() and not Path(invocation).exists() and not Path(output).exists()
+data=s.read_bytes();assert hashlib.sha256(data).hexdigest()==sha
+p.parent.mkdir(parents=True,exist_ok=True)
+t=p.with_name(p.name+'.'+uuid.uuid4().hex+'.partial')
+with t.open('xb') as stream:
+ stream.write(data);stream.flush();os.fsync(stream.fileno())
+assert hashlib.sha256(t.read_bytes()).hexdigest()==sha
+os.link(t,p);t.unlink()
+assert hashlib.sha256(p.read_bytes()).hexdigest()==sha
+print(json.dumps(dict(target=target,source=source,bytes=len(data),sha256=sha,exclusive_publication=True,output_absent=True,invocation_absent=True)))
+""".replace('VALUES',repr((str(c.P/config),inv['source_root']+'/'+config,config_sha,str(c.P/pending['invocation']),inv['run_root'])),1)
+    publication=json.loads(transport.remote(publish_program))
+    assert publication['sha256']==config_sha and publication['exclusive_publication']
+    refs.update({n:f.sha(root/n) for n in (diagrel,regrel,planrel,reviewrel,freshrel,config,pending['invocation'],'.local/recover_spatial_prepare_0318.py')})
+    repair=dict(schema='formal_main_v2',kind='bounded_pre_submission_missing_config_recovery',
+        status='exact_config_published_before_original_prepare_retry',recorded_utc=datetime.now(timezone.utc).isoformat(),
+        original_failure='Missing registered canonical Spatial pair config; original prepare failed before any sbatch call.',
+        original_pending=pending.copy(),original_invocation_preserved=True,original_controller_sha256=f.sha(root/'scripts/ops/formal_downstream_supervisor.py'),
+        publication=publication,publication_program=publish_program,original_submit_tail=tail,
+        original_submit_tail_sha256=hashlib.sha256(tail.encode()).hexdigest(),active_requests_before=len(live),
+        additional_failure_GPU_seconds=0,scientific_settings_changed=False,weights_copied=False,final_states_opened=False,
+        read_evidence_sha256=dict(sorted(refs.items())))
+    f.write(root/fixrel,repair)
+    helper=c.load('scripts/formal_execution_manifests.py',root)
+    job=scope['recover_original_tail'](value,state,root,f,transport,invpath,inv,helper)
+    record=dict(schema='formal_main_v2',kind='root_first_spatial_development_submission',status='submitted_pending_actual_GPU_review',
+        recorded_utc=datetime.now(timezone.utc).isoformat(),job_id=job['job_id'],invocation=job['invocation'],invocation_sha256=job['invocation_sha256'],
+        plan_sha256=reg['plan_sha256'],completed_before=0,initial_stop_after=12,total_target=600,root_reconstruction=reviewrel,
+        original_transport_prepare_passed=True,no_prior_trials_to_rerun=True,pre_submission_recovery=fixrel,
+        final_states_opened=False,weights_copied=False,scientific_settings_changed=False,
+        evidence_sha256={n:f.sha(root/n) for n in (regrel,planrel,reviewrel,freshrel,fixrel,job['invocation'],base+'submissions/'+job['job_id']+'.json')})
+    f.write(root/subrel,record)
+    p['first_spatial_development']=dict(status='first12_submitted_pending_actual_GPU_review',completed_trials=0,target_first_subset_trials=600,
+        unique_verified_development_initial_states=0,active_job_id=job['job_id'],active_job_status=job['status'],latest_job_id=job['job_id'],
+        next_stop_after=12,expected_cumulative_trials=12,registration=regrel,root_plan_review=reviewrel,latest_plan=planrel,
+        latest_plan_sha256=reg['plan_sha256'],invocation=job['invocation'],invocation_sha256=job['invocation_sha256'],verified_segments=[],
+        latest_submission_root_review=subrel,latest_submission_root_review_sha256=f.sha(root/subrel),pre_submission_recovery=fixrel,
+        next='Root and independent review of actual first12 GPU trials and complete nonweight ledger required before continuation. Final stays sealed.')
+    p['parallel_execution']['registered_requested_active_GPU_jobs']=len(live)+1
+    state['updated_utc']=record['recorded_utc'];f.write(f.STATE,state)
+print(json.dumps(dict(status=record['status'],job_id=job['job_id'],recovery=fixrel,recovery_sha256=f.sha(root/fixrel),
+    submission=subrel,submission_sha256=f.sha(root/subrel),invocation_sha256=job['invocation_sha256'])),flush=True)

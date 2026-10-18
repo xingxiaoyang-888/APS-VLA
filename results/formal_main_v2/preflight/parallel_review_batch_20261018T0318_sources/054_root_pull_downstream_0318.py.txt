@@ -1,0 +1,76 @@
+"""Root serial terminal pull/review and immutable nonweight archive for own jobs."""
+from pathlib import Path
+from datetime import datetime,timezone
+import argparse,json,subprocess,sys
+root=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(root/'scripts'))
+import formal_supervisor as f
+ap=argparse.ArgumentParser();ap.add_argument('--job-id',required=True);a=ap.parse_args()
+assert a.job_id in ('3021844','3022743')
+base='results/formal_main_v2/'
+out=base+'preflight/downstream_terminal_0318_'+a.job_id+'_operations.json'
+assert not (root/out).exists()
+s=f.read(f.STATE)
+assert s['pending_submission'] is None
+j=next(x for x in s['registered_jobs'] if x['job_id']==a.job_id)
+assert j['experiment']=='formal_main_v2' and j['mode']=='development' and j['status']=='COMPLETED' and j['exit_code']=='0:0'
+own=[x for x in s['registered_jobs'] if x.get('run_root')==j['run_root']]
+assert max(own,key=lambda x:x['submitted_utc'])['job_id']==a.job_id
+assert all(x['status']=='COMPLETED' and x['exit_code']=='0:0' for x in own)
+if a.job_id=='3021844':
+    old=f.read(root/(base+'preflight/object_second_development_raw_v2/receipt.json'))
+    for row in old['files']:
+        assert f.sha(root/row['archive'])==f.sha(root/row['original'])==row['sha256']
+else:
+    assert not (root/Path(j['run_root']).relative_to(Path(s['project_root_server']))).exists()
+ops=[]
+def run(command):
+    start=datetime.now(timezone.utc).isoformat()
+    r=subprocess.run(command,cwd=root,capture_output=True)
+    row=dict(command=command,started_utc=start,returncode=r.returncode,stdout=r.stdout.decode(),stderr=r.stderr.decode())
+    ops.append(row)
+    if r.returncode:
+        f.write(root/out,dict(status='failed',job_id=a.job_id,operations=ops))
+        print(row['stderr'],flush=True);raise SystemExit(r.returncode)
+    return json.loads(row['stdout'])
+cmd=[sys.executable,'-B','scripts/pull_formal_results.py']
+for x in own:cmd.extend(['--job-id',x['job_id']])
+pulled=run(cmd)
+assert pulled['status']=='verified_nonweight_snapshot' and not pulled['skipped_jobs']
+pull=Path(pulled['receipt']).relative_to(root).as_posix()
+rr=base+'downstream_reviews/'+a.job_id+'.json'
+assert not (root/rr).exists()
+print(json.dumps(dict(status='stable_pull_complete_root_review_running',job_id=a.job_id,pull=pull)),flush=True)
+run([sys.executable,'-B','scripts/review_formal_downstream.py','--job-id',a.job_id,'--pull-receipt',pull,'--write','--root-review','--output',rr])
+r=f.read(root/rr)
+assert r['status']=='passed' and not r['final_state_values_read']
+folder=base+'preflight/'+('object_third' if a.job_id=='3021844' else 'spatial_first')+'_development_raw_v1'
+assert not (root/folder).exists()
+entries=f.read(root/pull)['files']
+pulled_map={x['relative']:x['sha256'] for x in entries}
+assert len(pulled_map)==len(entries)
+assert all(pulled_map[n]==h for n,h in r['files'].items())
+own_logs={f'results/slurm/cti-formal-downstream_{x["job_id"]}.{suffix}' for x in own for suffix in ('out','err')}
+items=[]
+for n,h in sorted(pulled_map.items()):
+    p=root/n
+    assert (n.startswith(base) or n in own_logs) and '..' not in Path(n).parts
+    assert p.is_file() and not p.is_symlink() and p.suffix in ('.json','.jsonl','.txt','.out','.err','.log')
+    assert f.sha(p)==h
+    items.append((n,p.read_bytes(),h))
+(root/folder).mkdir()
+rows=[]
+for idx,(n,data,h) in enumerate(items,1):
+    target=root/folder/(f'{idx:02d}_'+Path(n).name)
+    with target.open('xb') as stream:stream.write(data)
+    assert f.sha(target)==h
+    rows.append(dict(original=n,archive=target.relative_to(root).as_posix(),sha256=h,bytes=len(data)))
+archive=folder+'/receipt.json'
+f.write(root/archive,dict(schema='formal_main_v2',kind='immutable_complete_development_nonweight_archive',
+    archived_utc=datetime.now(timezone.utc).isoformat(),job_id=a.job_id,pull_receipt=pull,pull_receipt_sha256=f.sha(root/pull),
+    root_review=rr,root_review_sha256=f.sha(root/rr),files=rows,weights_copied=False,sealed_states_copied=False,scientific_settings_changed=False))
+v=dict(status='passed_root_and_archive_pending_independent_review',job_id=a.job_id,root_review=rr,root_sha256=f.sha(root/rr),
+    pull=pull,pull_sha256=f.sha(root/pull),archive=archive,archive_sha256=f.sha(root/archive),
+    completed_trials=r['completed_trials'],cost=r['cost'],operations=ops)
+f.write(root/out,v)
+print(json.dumps({k:v for k,v in v.items() if k!='operations'}),flush=True)

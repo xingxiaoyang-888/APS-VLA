@@ -1,0 +1,199 @@
+"""Root integrates this heartbeat's immutable evidence and real progress only."""
+from pathlib import Path
+from datetime import datetime,timezone,timedelta
+import json,subprocess,sys
+root=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(root/'scripts'))
+import formal_supervisor as f
+base='results/formal_main_v2/'
+batch=base+'preflight/parallel_review_batch_20261018T0318.json'
+assert not (root/batch).exists()
+parent='fee1befa20681fd87228e17d3be04577d0e11430'
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=root).decode().strip()==parent
+prior=json.loads(subprocess.check_output(['git','show','HEAD:results/experiment_supervisor/state.json'],cwd=root))
+old_ids={j['job_id'] for j in prior['registered_jobs']}
+refs,sources,pulls,boundaries=set(),set(),set(),[]
+def collect(mapping):
+    for n,h in mapping.items():
+        assert f.sha(root/n)==h,n
+        (sources if n.startswith('.local/') else refs).add(n)
+def include(n):
+    assert (root/n).is_file() and not (root/n).is_symlink(),n
+    (sources if n.startswith('.local/') else refs).add(n)
+def pull_files(n):
+    pulls.add(n);include(n)
+    for row in f.read(root/n)['files']:
+        assert f.sha(root/row['relative'])==row['sha256'],row['relative']
+        include(row['relative'])
+ids=['3021761','3021757','3021758','3021774','3021781','3021759','3021811']
+for jid in ids:
+    oprel='.local/root_pull_review_2250_'+jid+'.json';op=f.read(root/oprel)
+    rr=op['root_review'];ir=rr.removesuffix('.json')+'_independent.json'
+    r,i=f.read(root/rr),f.read(root/ir)
+    assert op['status']==r['status']==i['status']=='passed'
+    assert op['job_id']==r['job_id']==i['job_id']==jid
+    assert f.sha(root/rr)==op['root_sha256'] and f.sha(root/op['pull'])==op['pull_sha256']
+    assert r['completed_by_arm']==dict.fromkeys(('A','B'),op['boundary'])
+    assert r['allowed_next_segment_end']==i['allowed_next_segment_end']==op['allowed_next']
+    collect(i['read_evidence_sha256'])
+    for n in (rr,ir,oprel):include(n)
+    pull_files(op['pull'])
+    if op['boundary']==5000:
+        selected=rr.removesuffix('.json')+'_selected_server.json'
+        assert i['read_evidence_sha256'][selected]==f.sha(root/selected)
+        assert f.read(root/selected)['status']=='passed' and op['allowed_next'] is None
+        include(selected)
+    else:assert op['allowed_next']==op['boundary']+500
+    boundaries.append({k:op[k] for k in ('job_id','suite','budget','seed','boundary','allowed_next','pair_gpu_seconds','latest_gpu_seconds')})
+assert sum(x['latest_gpu_seconds'] for x in boundaries)==29078
+
+summary=base+'preflight/long128_three_seed_training_summary_v1.json'
+long_summary=f.read(root/summary)
+assert f.sha(root/summary)=='d1bfb1078e69375415e112613dd70fd3b68bb9ac7a4bcd3b030db52a05e64606'
+collect(long_summary['read_evidence_sha256']);include(summary)
+include('docs/正式Long128三种子训练记录.md')
+
+pre=base+'preflight/spatial_first_pair_development_'
+spatial_required=[pre+'registration_v1.json',pre+'plan_v1.json',pre+'root_review_v1.json',pre+'selected_server_v1.json',
+    pre+'submission_root_v1.json',base+'preflight/spatial_first_prepare_failure_diagnosis_0318.json',
+    base+'preflight/spatial_prepare_recovery_0318.json']
+for n in spatial_required:
+    v=f.read(root/n);include(n)
+    for key in ('read_evidence_sha256','evidence_sha256'):
+        if key in v:collect(v[key])
+assert f.read(root/(pre+'submission_root_v1.json'))['job_id']=='3022743'
+assert f.read(root/(base+'preflight/spatial_prepare_recovery_0318.json'))['additional_failure_GPU_seconds']==0
+for p in (root/(base+'preflight/spatial_prepare_failure_0318')).iterdir():
+    assert p.is_file() and not p.is_symlink();include(p.relative_to(root).as_posix())
+
+diagnosis=base+'preflight/object_action_range_diagnosis_0318.json'
+v=f.read(root/diagnosis)
+assert f.sha(root/diagnosis)=='799c9e4380a31de8b614c12592871373af6b8e7948259010eaf8c938cfdf0e48'
+assert v['status']=='frozen_precheck_differs_from_official_execution_path' and v['GPU_seconds']==0 and v['new_trials']==0
+collect(v['read_evidence_sha256']);include(diagnosis)
+probe_plan='configs/experiments/formal_main_v2_object_action_range_probe_v1.json'
+probe=f.read(root/probe_plan);include(probe_plan);include('docs/正式动作范围诊断登记.md')
+for key in ('read_evidence_sha256','evidence_sha256'):
+    if key in probe:collect(probe[key])
+include('.local/prepare_spatial_development_continuation_v2.py')
+
+downstream=[]
+for jid,label in [('3021844','object_third'),('3022743','spatial_first')]:
+    integration=base+'preflight/'+label+'_development_root_integration_0318.json'
+    if not (root/integration).exists():continue
+    v=f.read(root/integration)
+    assert v['status']=='passed' and v['job_id']==jid
+    rr,ir,archive=v['root_review'],v['independent_review'],v['raw_archive']
+    r,i,a=f.read(root/rr),f.read(root/ir),f.read(root/archive)
+    assert r['status']==i['status']=='passed' and i['root_review_sha256']==f.sha(root/rr)
+    collect(i['read_evidence_sha256']);collect(v['evidence_sha256'])
+    for n in (integration,rr,ir,archive,base+'preflight/downstream_terminal_0318_'+jid+'_operations.json'):include(n)
+    pull_files(r['pull_receipt'])
+    for row in a['files']:
+        assert f.sha(root/row['archive'])==f.sha(root/row['original'])==row['sha256']
+        include(row['archive']);include(row['original'])
+    downstream.append(v)
+
+# Include any explicit reviewed Spatial continuation without interpreting an
+# active server ledger as completed evidence.
+spatial_continuation=pre+'submission_root_v2.json'
+if (root/spatial_continuation).exists():
+    sub=f.read(root/spatial_continuation);include(spatial_continuation)
+    collect(sub['evidence_sha256'])
+    rv=f.read(root/sub['root_reconstruction']);collect(rv['read_evidence_sha256'])
+
+for n in ('.local/root_pull_review_one_20261017T2250.py','.local/fill_reviewed_pair_slot.py',
+    '.local/record_parallel_boundary.py','.local/root_accept_boundary_0018.py',
+    '.local/reconcile_parallel_progress_20261018.py','.local/diagnose_spatial_prepare_0318.py',
+    '.local/root_pull_downstream_0318.py','.local/finalize_parallel_review_20261018T0318.py',
+    '.local/stage_verify_parallel_0318.py'):
+    include(n)
+with f.supervisor_lock():
+    state=f.read(f.STATE);jobs=f.refresh(state);p=state['formal_main_progress'];par=p['parallel_execution']
+    assert state['pending_submission'] is None
+    active=[j for j in jobs if j['status'] in f.ACTIVE|{'SUBMITTED'}]
+    assert len(active)<=8 and len({j['stage_key'] for j in active})==len(active) and all(j['gpus']==1 for j in active)
+    assert p['trained_arms']==10 and p['root_and_independent_reviewed_arm_updates']==122000
+    assert p['completed_final_trials']==0 and not p['test_opened'] and not p['global_release_created']
+    assert p['completed_development_trials']==732+sum(v['new_trials'] for v in downstream)
+    new_jobs=[j for j in jobs if j['job_id'] not in old_ids]
+    assert len(new_jobs)>=7
+    for j in new_jobs:
+        assert f.sha(root/j['invocation'])==j['invocation_sha256']
+        include(j['invocation']);include(base+'submissions/'+j['job_id']+'.json')
+        if j['mode']=='train':
+            pair=par['pair_tracking'][f"{j['suite']}_k{j['visual_tokens']}_seed{j['training_seed']}"]
+            assert f.sha(root/pair['latest_resume_precheck'])==pair['latest_resume_precheck_sha256']
+            include(pair['latest_resume_precheck'])
+    folder=root/(base+'preflight/parallel_review_batch_20261018T0318_sources')
+    assert not folder.exists()
+    for n in sources:assert (root/n).is_file() and not (root/n).is_symlink(),n
+    folder.mkdir();source_map={}
+    for ix,n in enumerate(sorted(sources),1):
+        dest=folder/(f'{ix:03d}_'+Path(n).name+'.txt');dest.write_bytes((root/n).read_bytes())
+        name=dest.relative_to(root).as_posix();source_map[n]=name;refs.add(name)
+    now=datetime.now(timezone.utc);local=now.astimezone(timezone(timedelta(hours=8)))
+    value=dict(schema='formal_main_v2',kind='root_incremental_parallel_training_and_development_review',status='passed',
+        reviewed_utc=now.isoformat(),parent_delivered_commit=parent,completed_training_arms=10,expected_training_arms=72,
+        newly_completed_training_arms=4,cumulative_reviewed_arm_updates=122000,newly_reviewed_arm_updates=7000,
+        reviewed_boundaries=boundaries,completed_development_trials=p['completed_development_trials'],
+        new_development_trials=sum(v['new_trials'] for v in downstream),completed_final_trials=0,final_states_sealed=True,
+        Long128_three_seed_training_summary=summary,Long128_six_arms_complete=True,offline_error_not_closed_loop_gain=True,
+        Spatial_missing_config_recovery=base+'preflight/spatial_prepare_recovery_0318.json',failed_prepare_GPU_seconds=0,
+        Object_retained_policy_errors=1,Object_action_range_diagnosis=diagnosis,bounded_diagnostic_registration=probe_plan,
+        additional_downstream_rollouts_held_for_runtime_diagnosis=True,ongoing_training_unaffected=True,
+        new_downstream_integrations=[v['self_path'] for v in downstream],
+        current_batch_closed_GPU_seconds=29078+sum(v['current_GPU_seconds'] for v in downstream),
+        closed_cost_is_included_in_snapshot_not_additional=True,all_formal_cost_snapshot=state['current_round_cost'],
+        active_jobs=[{k:j.get(k) for k in ('job_id','status','mode','suite','visual_tokens','training_seed','segment_end')} for j in active],
+        new_submission_job_ids=[j['job_id'] for j in new_jobs],current_terminal_pulls=sorted(pulls),
+        pull_file_entries=sum(len(f.read(root/n)['files']) for n in pulls),audit_source_archive_map=source_map,
+        evidence_sha256={n:f.sha(root/n) for n in sorted(refs)},scientific_settings_changed=False,weights_copied=False)
+    f.write(root/batch,value)
+    p['latest_incremental_review']=dict(path=batch,sha256=f.sha(root/batch))
+    p['Long128_three_seed_training_summary']=dict(path=summary,sha256=f.sha(root/summary),trained_arms=6,
+        note='All six complete; seeds23/41 development and same-checkpoint O2A still pending. No future-supervision benefit inferred.')
+    p['downstream_action_range_issue']=dict(status='diagnosed_execution_path_difference_bounded_probe_pending_implementation',
+        diagnosis=diagnosis,diagnosis_sha256=f.sha(root/diagnosis),registration=probe_plan,registration_sha256=f.sha(root/probe_plan),
+        job_id='3021844',retained_policy_errors=1,new_rollouts_held=True,training_continues=True,
+        existing_trial_outcomes_replaced=False,final_release_blocked=True,
+        next='Implement and CPU-audit the registered bounded t56 diagnostic, then root may submit it in a free slot within8. Capture the missing chunk and compare pinned official/token Dense; no subsequent task success, no replacement of the original600. Review any common engineering correction and downstream identity implications before resuming closed-loop expansion.')
+    for key in ('first_object_development','first_spatial_development'):
+        if key in p:state['next_actions'].append(p[key]['next'])
+    state['next_actions'].insert(0,p['downstream_action_range_issue']['next'])
+    state['current_work']+= ' Object recorded1 Dense policy_error: new downstream rollouts held for the bounded registered runtime diagnosis; existing training continues.'
+    state['next_actions'].append('Long128 seeds17/23/41 trained: preserve all six identities; complete remaining development and matched O2A. Offline teacher L1 directions alone do not establish future-supervision benefit.')
+    state['next_actions'].append('Deliver all nonweight raw evidence through the pinned index archive guard; do not force-add either large Long ledger.')
+    state['updated_utc']=now.isoformat();state['updated_date']=local.strftime('%Y-%m-%d');f.write(f.STATE,state)
+    obj=p['first_object_development']['completed_trials'];spa=p['first_spatial_development']['completed_trials']
+    text=(f'{local:%Y-%m-%d %H:%M}进度：完整训练10/72组，累计122000/360000次臂更新通过双重复核（33.89%）。'
+        f'本批7个500步分段通过；Long128三种子A/B共6组全部完成5000步。当前{len(active)}个单卡作业并行。'
+        f"正式轮累计临时{state['current_round_cost']['allocated_gpu_seconds']} GPU秒（{state['current_round_cost']['allocated_gpu_hours']:.6f}小时），含运行中及失败分配。\n\n"
+        f'已核开发终态Long600＋Object{obj}＋Spatial{spa}＝{p["completed_development_trials"]}条。Object有1条Dense policy_error：599条正常结束、1条动作越界被提前拒绝；不能称全部接口验收通过。'
+        '已确认冻结CTI额外拒绝越界动作，而官方将动作传给环境；已安装控制器源码含截断，实际分派仍待核实，失败chunk也未记具体值。登记t56有界诊断，先实现/CPU审核再在空闲槽运行；暂停新增闭环，不暂停训练，不替换原失败。各套件仍需其他部署实例与完整O2A。'
+        'Spatial首次提交在Slurm前因服务器缺已登记配置被拦截，已从冻结snapshot补齐相同字节，保留失败及原invocation，未新增GPU重跑。'
+        'Long128三种子离线B−A动作误差方向不一致，不据此推断闭环收益。最终0/35200，继续封存。'
+        '\n\n[本批产物与费用](../'+batch+')；[Long128三种子训练记录](正式Long128三种子训练记录.md)。\n\n')
+    for n in ('正式主实验规划.md','完整实验计划.md','实验进度.md'):
+        doc=root/'docs'/n;heading,sep,body=doc.read_bytes().partition(b'\n');assert sep
+        doc.write_bytes(heading+sep+b'\n'+text.encode()+body)
+    spatial_doc=root/'docs/正式Spatial首批开发登记.md'
+    if not spatial_doc.exists():
+        spatial_doc.write_text('# 正式 Spatial 首批开发登记\n\n'
+            '固定10任务×10开发初态，Dense、均匀256/128/64、A128 seed17、B128 seed17，共600条；先12条接口检查，再经真实GPU审核继续原清单。'
+            'A选4000、B选5000；环境220控制步、等待10步、chunk8、环境seed0、运行seed17。方法、环境及初态不按结果更换。\n\n'
+            '[运行前登记](../'+pre+'registration_v1.json)；[原计划](../'+pre+'plan_v1.json)；[提交前修正](../'+base+'preflight/spatial_prepare_recovery_0318.json)。\n',encoding='utf-8',newline='\n')
+    for v in downstream:
+        doc=root/'docs'/('正式Object首批开发登记.md' if v['suite']=='libero_object' else '正式Spatial首批开发登记.md')
+        with doc.open('a',encoding='utf-8',newline='\n') as stream:
+            stream.write(f'\n{local:%Y-%m-%d %H:%M}：作业`{v["job_id"]}`实际产物经root与独立审计通过，新增{v["new_trials"]}、累计{v["suite_completed_trials"]}/600条，'
+                f'{v["unique_development_initial_states"]}个唯一开发初态；{v["task_horizon_failures"]}条时限内未成功、{v["runtime_errors"]}运行错误。'
+                f'累计{v["total_suite_GPU_seconds"]} GPU秒已含全局账单。该六方法面板不代表本套件所有22部署实例完成，更不开放最终评测。\n\n'
+                '[原始回存与复核](../'+v['self_path']+')。\n')
+    with (root/'docs/正式Object首批开发登记.md').open('a',encoding='utf-8',newline='\n') as stream:
+        stream.write('\n该600条包含1条Dense在task8/source49的policy_error（第8次调用、控制步56），保留在失败分母；其余599条正常结束，另有79条horizon失败。'
+            '逐方法成功数/100：Dense98、均匀256为93、均匀128为86、均匀64为49、A128 seed17为98、B128 seed17为96。这里只覆盖6/22实例，不作未来监督有效或等效结论。'
+            'root收据的scientific_complete仅表示登记终态覆盖完整；当前运行接口问题尚未解决，不作为全局release资格。'
+            '\n\n[动作范围诊断](../'+diagnosis+')；[有界诊断登记](正式动作范围诊断登记.md)。\n')
+print(json.dumps(dict(receipt=batch,sha256=f.sha(root/batch),completed_arms=10,reviewed_updates=122000,
+    development_trials=value['completed_development_trials'],active_jobs=len(active),cost=value['all_formal_cost_snapshot'])),flush=True)

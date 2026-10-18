@@ -1,0 +1,304 @@
+"""Prepare Object's remaining registered development trials; never submit."""
+from pathlib import Path, PurePosixPath
+from types import SimpleNamespace
+from datetime import datetime, timezone
+from collections import Counter
+import hashlib
+import importlib.util
+import json
+import math
+import sys
+import time
+import traceback
+
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = "results/formal_main_v2/"
+PRE = BASE + "preflight/"
+SELF = ".local/prepare_object_development_continuation_v3.py"
+LOG = ".local/prepare_object_development_continuation_v3.log"
+OUT = PRE + "object_first_pair_development_plan_v3.json"
+RECORD = PRE + "object_first_pair_development_registration_v3.json"
+PRIOR = BASE + "downstream_reviews/3021603.json"
+INDEPENDENT = PRE + "object_second_development_real_independent_20261018.json"
+INTEGRATION = PRE + "object_second_development_root_integration_20261018.json"
+ARCHIVE = PRE + "object_second_development_raw_v2/receipt.json"
+MANIFEST = BASE + "execution/libero_object_development_first_pair_v1.json"
+INVENTORY = BASE + "source/formal_main_v2_run_564be0995e.json"
+CONTROLLER = "scripts/ops/formal_downstream_supervisor.py"
+PREVIOUS_PLAN = PRE + "object_first_pair_development_plan_v2.json"
+SELECTED = BASE + "libero_object/k128/seed17/training/segment_reviews/3021103_selected_server.json"
+RUN = BASE + "libero_object/downstream/development/8c843c1d4ee8383c/attempt01"
+P = "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/"
+METHODS = ["dense", "uniform256", "uniform128", "uniform64", "A128_seed17", "B128_seed17"]
+ENV = dict(max_steps=280, action_chunk=8, wait_steps=10, environment_seed=0, runtime_seed=17)
+PRIOR_JOBS = ["3021394", "3021603"]
+PREVIOUS = 132
+ADDITIONAL = 468
+TARGET = 600
+SELECTED_SHA = {
+    "A": "bc390e912c760480309a8591d3d7d11a1b1a596851bbba5c934a7d9d7b989a43",
+    "B": "926fa0d35d69dad26ce95ce1fe0142d7ccda176bdf86c29e3f034e4f16543ce4",
+}
+PINS = {
+    PRIOR: "c065fcda1a70545741fe7f462c8262263888e6bd22fbbd6e1d5b3600534a01bc",
+    INDEPENDENT: "0596dc5fa4e956b9fb8b283c4701d66088a1574873196dc3fa3219f2b4dc9439",
+    INTEGRATION: "99504452b7d42300de5a4f37e572f58453b80b8bb9febd19d901db659f0944df",
+    ARCHIVE: "041af781619ab0e08d6b30ee6f22bad3e596baf90047db70a17123411419467c",
+    MANIFEST: "34062573869c7b947fbd3c37b09da476bec673e8e16fc4ea49c6ce8c5932db5a",
+    MANIFEST + ".evidence.json": "43535977b6db8b3d406fb97c753bedc35a24ecfd5e2fc75cb2e268bc30cf2643",
+    INVENTORY: "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    CONTROLLER: "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+    PREVIOUS_PLAN: "c3df1b7651bdf6cc5ffc8c1b56913fa856711e4e1abe27e9f8c8dafb72de6304",
+    PRE + "object_first_pair_development_registration_v2.json": "17dda24fe5f963254f2955534adfbf355662c9ce927f770c2209caad765620b6",
+    SELECTED: "2049b63bc34a353bb11ed201f9db99904872afd4e57a3b144a737ae627be168e",
+    ".local/prepare_object_development_continuation_v2.py": "2477c0a54ea5d73e4aee99f8c0edbaebc1497a0fea71241f05ef16c54fb24aec",
+}
+seen = {}
+
+
+def local(name):
+    path = PurePosixPath(name)
+    assert not path.is_absolute() and ".." not in path.parts and "\\" not in name
+    assert not any("sealed" in part.lower() or part.lower() in ("checkpoints", "weights", "test", "final") for part in path.parts)
+    assert path.suffix.lower() not in (".pt", ".pth", ".bin", ".safetensors", ".npz", ".npy", ".pkl", ".init")
+    assert name != "results/experiment_supervisor/state.json" and "accounting" not in path.parts
+    if "initial_states" in path.parts:
+        assert name == "configs/manifests/formal_main_v2/libero_object/initial_states/development.json"
+    p = ROOT / name
+    assert p.is_file() and not p.is_symlink()
+    return p
+
+
+def sha(name, expected=None):
+    h = hashlib.sha256()
+    with local(name).open("rb") as stream:
+        for block in iter(lambda: stream.read(8 << 20), b""):
+            h.update(block)
+    value = h.hexdigest()
+    assert expected is None or value == expected, (name, value, expected)
+    assert name not in seen or seen[name] == value, name
+    seen[name] = value
+    return value
+
+
+def read(name):
+    sha(name)
+    return json.loads(local(name).read_bytes())
+
+
+def signature(value):
+    return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+
+
+def immutable_json(name, value):
+    with (ROOT / name).open("x", encoding="utf-8", newline="\n") as stream:
+        json.dump(value, stream, ensure_ascii=False, indent=2, allow_nan=False)
+        stream.write("\n")
+
+
+def main():
+    for name in (OUT, RECORD, LOG):
+        assert not (ROOT / name).exists(), name
+    start = time.perf_counter()
+    for name, digest in PINS.items():
+        sha(name, digest)
+    prior, independent, integration, archive, manifest = [read(name) for name in (PRIOR, INDEPENDENT, INTEGRATION, ARCHIVE, MANIFEST)]
+    assert prior["status"] == independent["status"] == integration["status"] == "passed"
+    assert prior["job_id"] == independent["job_id"] == integration["job_id"] == "3021603"
+    assert prior["completed_trials"] == independent["completed_trials"] == integration["object_completed_trials"] == PREVIOUS
+    assert prior["expected_trials"] == independent["target_trials"] == integration["target_object_trials"] == TARGET
+    assert integration["remaining_object_trials"] == ADDITIONAL
+    assert prior["scientific_complete"] is False and independent["scientific_complete"] is False
+    assert prior["cost"]["all_attempt_gpu_seconds"] == independent["cost"]["all_allocated_gpu_seconds"] == integration["total_Object_GPU_seconds"] == 1787
+    assert independent["root_review_sha256"] == sha(PRIOR)
+    assert ARCHIVE in independent["immutable_raw_archives"]
+    assert archive["root_review_sha256"] == sha(PRIOR) and archive["pull_receipt"] == prior["pull_receipt"]
+    assert archive["pull_receipt_sha256"] == independent["pull_receipt_sha256"]
+    for name, digest in integration["evidence_sha256"].items():
+        sha(name, digest)
+    # The independent review already resolves obsolete mutable prefixes into
+    # exact immutable archive files. Its evidence map contains physical paths,
+    # so no old expected SHA is silently compared with a newer live ledger.
+    for name, digest in independent["read_evidence_sha256"].items():
+        sha(name, digest)
+    assert len(archive["files"]) == 20
+    archive_files = {}
+    for entry in archive["files"]:
+        assert entry["original"] not in archive_files
+        archive_files[entry["original"]] = entry
+        assert sha(entry["original"], entry["sha256"]) == sha(entry["archive"], entry["sha256"])
+        assert local(entry["original"]).stat().st_size == local(entry["archive"]).stat().st_size == entry["bytes"]
+    assert sum(entry["bytes"] for entry in archive["files"]) == 12577867
+    assert manifest["suite"] == "libero_object" and manifest["split"] == "development"
+    assert manifest["environment"] == ENV
+    assert [row["identity"]["method_id"] for row in manifest["methods"]] == METHODS
+    assert all(row["identity"]["future_head_deployed"] is False for row in manifest["methods"])
+    assert independent["selected_updates"] == {"A": 2500, "B": 4500}
+    assert independent["selected_checkpoint_sha256"] == SELECTED_SHA
+    assert independent["read_evidence_sha256"][SELECTED] == sha(SELECTED)
+    for row in manifest["methods"]:
+        identity = row["identity"]
+        if identity["method"] in SELECTED_SHA:
+            assert identity["checkpoint_sha256"] == SELECTED_SHA[identity["method"]]
+            assert identity["training_complete"] is True and identity["training_seed"] == 17
+    panel = read(manifest["development_panel"])
+    assert len(panel["states"]) == 100
+    assert Counter(state["task_id"] for state in panel["states"]) == {i: 10 for i in range(10)}
+    all_trial_ids = [state["trial_id"] + ":" + method for state in panel["states"] for method in METHODS]
+    assert len(all_trial_ids) == len(set(all_trial_ids)) == TARGET
+    sha(RUN + "/trials.jsonl", independent["read_evidence_sha256"][RUN + "/trials.jsonl"])
+    ledger_bytes = local(RUN + "/trials.jsonl").read_bytes()
+    assert ledger_bytes.endswith(b"\n")
+    ledger = [json.loads(line) for line in ledger_bytes.splitlines()]
+    results = [row for row in ledger if row["event"] == "result"]
+    terminal = [row["trial_id"] for row in results]
+    assert terminal == all_trial_ids[:PREVIOUS] and len(terminal) == len(set(terminal)) == PREVIOUS
+    assert all(row["status"] == "completed" for row in results)
+    assert Counter(row["event"] for row in ledger) == {"invocation": 2, "start": PREVIOUS, "result": PREVIOUS}
+    assert len(ledger) == 266 and prior["unfinished_attempts_unknown_cost"] == 0
+    assert independent["old_prefix_preserved_byte_for_byte"] is True
+    assert independent["runtime_errors"] == independent["unfinished_or_replayed_trials"] == 0
+    assert len({row["state_trial_id"] for row in results}) == 22
+    next_trials = all_trial_ids[PREVIOUS:]
+    assert len(next_trials) == ADDITIONAL and not set(next_trials) & set(terminal)
+    next_state_ids = {value.rsplit(":", 1)[0] for value in next_trials}
+    assert len(next_state_ids) == 78
+    assert not next_state_ids & {row["state_trial_id"] for row in results}
+    wall_values = [float(row["attempt_wall_seconds"]) for row in results]
+    assert len(wall_values) == 132 and all(math.isfinite(value) and value > 0 for value in wall_values)
+    maximum = max(wall_values)
+    assert maximum == 19.43378809839487
+    estimated_seconds = 1.5 * maximum * ADDITIONAL + 386
+    assert estimated_seconds < 4 * 60 * 60
+    engineering_estimate = dict(
+        kind="conditional_engineering_wall_time_estimate_not_guarantee",
+        source=RUN + "/trials.jsonl", source_sha256=sha(RUN + "/trials.jsonl"),
+        observed_trial_count=len(wall_values), include_all_observed_trials_and_spikes=True,
+        observed_max_attempt_wall_seconds=maximum, safety_multiplier=1.5,
+        additional_trials=ADDITIONAL, setup_allowance_seconds=386,
+        setup_allowance_source="Full actual first allocation3021394, retained as a conservative allowance; not a separate measured setup duration.",
+        formula="1.5 * max(all132 observed attempt_wall_seconds) *468 +386",
+        estimated_seconds=estimated_seconds, allocation_limit_seconds=14400,
+        difference_below_limit_seconds=14400-estimated_seconds,
+        estimate_not_GPU_bill=True, guarantee=False, confidence_interval=False,
+        caveats=["Unseen tasks or runtime contention may exceed the observed maximum; the multiplier does not establish a probabilistic bound.",
+                 "The full first allocation allowance includes its12 trial times and is intentionally conservative; it is not added to actual accounting.",
+                 "A timeout must retain completed ledger records and all allocated cost, then undergo root audit before explicit recovery; no automatic rerun or result-dependent scope change."])
+    jobs = prior["registered_jobs_at_review"]
+    assert len(jobs) == len({job["job_id"] for job in jobs})
+    target_jobs = [job for job in jobs if job["job_id"] in PRIOR_JOBS]
+    assert [job["job_id"] for job in target_jobs] == PRIOR_JOBS
+    expected_costs = {"3021394": 386, "3021603": 1401}
+    for job in target_jobs:
+        assert job["status"] == "COMPLETED" and job["exit_code"] == "0:0"
+        assert job["elapsed_seconds"] == expected_costs[job["job_id"]] and job["gpus"] == 1
+    spec = importlib.util.spec_from_file_location("object_continuation_controller_v3", ROOT / CONTROLLER)
+    controller = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(controller)
+    args = SimpleNamespace(command="plan", stage="development", execution_manifest=MANIFEST,
+        source_inventory=INVENTORY, output_relative=None, freeze_directory=None,
+        profile_panel=None, prior_review=PRIOR, collection_review=None, repair_record=None,
+        resume=True, stop_after=ADDITIONAL, expected_plan_sha256=None, root_submit=False)
+    # Historical immutable jobs supply source and resume identity, never a
+    # current-capacity claim. Root must rebuild with fresh locked state.
+    value = controller.plan(args, {"registered_jobs": jobs}, project=ROOT)
+    inv = value["invocation"]
+    assert value["kind"] == "formal_downstream_plan" and value["output_must_exist"] is True
+    assert value["output_relative"] == RUN and inv["run_root"] == P + RUN
+    assert value["invocation_relative"] == BASE + "invocations/libero_object_development_8c843c1d4ee8383c_attempt03.json"
+    assert not (ROOT / value["invocation_relative"]).exists()
+    assert inv["resume"] is True and inv["stop_after"] == ADDITIONAL and inv["prior_job_ids"] == PRIOR_JOBS
+    assert inv["prior_review"] == PRIOR and inv["method_ids"] == METHODS
+    assert inv["entrypoint"] == "scripts/ops/formal_asset_evaluation_adapter.py"
+    assert inv["execution_manifest_sha256"] == sha(MANIFEST) and inv["execution_manifest"] == P + MANIFEST
+    assert inv["argv"].count("--resume") == inv["argv"].count("--stop-after") == 1
+    assert inv["argv"][inv["argv"].index("--stop-after") + 1] == str(ADDITIONAL)
+    assert not any(flag in inv["argv"] for flag in ("--sealed-final", "--final-registry", "--release"))
+    assert inv["scientific_settings_changed"] is False and inv["final_values_read_locally"] is False
+    previous_plan = read(PREVIOUS_PLAN)
+    assert inv["downstream_asset_compatibility"] == previous_plan["invocation"]["downstream_asset_compatibility"]
+    assert len(inv["downstream_asset_compatibility"]["files"]) == 10
+    assert value["resources"] == previous_plan["resources"]
+    assert value["resources"]["gres"] == "gpu:l40:1" and value["resources"]["time"] == "04:00:00"
+    assert inv["prior_allocation_cost"] == prior["cost"]["allocations"]
+    assert sum(item["elapsed_seconds"] * item["gpus"] for item in inv["prior_allocation_cost"]) == 1787
+    prefix = controller.resume_prefix_inputs(inv)
+    expected_prefix = {P + RUN + "/" + name: sha(RUN + "/" + name) for name in ("trials.jsonl", "closed_loop_report.json")}
+    assert prefix == expected_prefix and not set(prefix) & set(inv["watched_files"])
+    for absolute, digest in prefix.items():
+        assert inv["root_evidence_sha256"][absolute[len(P):]] == digest
+    for name, digest in inv["root_evidence_sha256"].items():
+        sha(name, digest)
+    for name, digest in value["publish_files"].items():
+        sha(name, digest)
+    assert value["plan_sha256"] == signature({k: v for k, v in value.items() if k != "plan_sha256"})
+    assert "results/experiment_supervisor/state.json" not in seen
+    immutable_json(OUT, value)
+    sha(OUT)
+    sha(SELF)
+    summary = dict(status="prepared_not_submitted", plan=OUT, plan_sha256=value["plan_sha256"],
+        plan_file_sha256=seen[OUT], previous_completed_trials=PREVIOUS, additional_stop_after=ADDITIONAL,
+        expected_cumulative_trials_after_segment=TARGET, expected_total_trials=TARGET,
+        engineering_wall_time_estimate_seconds=estimated_seconds,
+        controller_api="controller.plan(args, {'registered_jobs': prior_review['registered_jobs_at_review']}, project=ROOT)",
+        prior_snapshot_sha256=signature(jobs), prior_snapshot_jobs=len(jobs),
+        actual_invocation=[sys.executable, "-B", SELF], elapsed_cpu_preparation_wall_seconds=time.perf_counter()-start,
+        current_state_read=False, pending_or_capacity_cleared=False, jobs_submitted=0)
+    immutable_json(LOG, summary)
+    sha(LOG)
+    record = dict(schema="formal_main_v2", kind="candidate_object_development_remaining_preregistration",
+        status="prepared_not_submitted", prepared_utc=datetime.now(timezone.utc).isoformat(), suite="libero_object",
+        methods=METHODS, environment=ENV, plan=OUT, plan_file_sha256=seen[OUT], plan_sha256=value["plan_sha256"],
+        execution_manifest=MANIFEST, execution_manifest_sha256=seen[MANIFEST],
+        previous_root_review=PRIOR, previous_root_review_sha256=seen[PRIOR],
+        previous_independent_review=INDEPENDENT, previous_independent_review_sha256=seen[INDEPENDENT],
+        previous_root_integration=INTEGRATION, previous_root_integration_sha256=seen[INTEGRATION],
+        previous_job_ids=PRIOR_JOBS, previous_completed_trials=PREVIOUS, previous_allocation_gpu_seconds=1787,
+        previous_cost_scope="Two actual completed allocations386+1401 GPU seconds, counted once. Nested times and the conditional planning estimate are not added to accounting.",
+        expected_total_trials=TARGET, remaining_before_segment=ADDITIONAL, additional_stop_after=ADDITIONAL,
+        expected_cumulative_trials_after_segment=TARGET, remaining_after_segment_if_completed=0,
+        original_trial_order_sha256=signature(all_trial_ids), prior_terminal_trial_ids=terminal,
+        expected_next_trial_ids=next_trials, expected_next_trial_ids_sha256=signature(next_trials),
+        new_unique_development_states=78, cumulative_unique_development_states=100,
+        resume=True, output_relative=RUN, invocation_relative=value["invocation_relative"],
+        resume_prefix_inputs=prefix, prior_ledger_prefix_bytes=len(ledger_bytes),
+        prior_ledger_prefix_sha256=sha(RUN + "/trials.jsonl"),
+        raw_archive=ARCHIVE, raw_archive_sha256=seen[ARCHIVE],
+        selected_updates=independent["selected_updates"], selected_checkpoint_sha256=SELECTED_SHA,
+        actual_selected_server_review=SELECTED, actual_selected_server_review_sha256=seen[SELECTED],
+        resources=value["resources"], engineering_estimate=engineering_estimate,
+        engineering_reason="Complete the remaining468 entries of the original600-trial state-major/method-minor ledger under the existing4-hour allocation. Runtime-only observations set this engineering segment; no outcome changes the task, method, state, selection or order.",
+        on_timeout="Retain all completed records, original132 byte prefix, task failures and all Slurm cost. Root audits the terminal ledger and unfinished attempts before a separately registered explicit resume. No automatic resubmission.",
+        scientific_settings_changed=False, methods_or_initial_states_added=False, completed_trials_replayed=False,
+        scope="Only the original six of22 Object methods on100 registered development states.600 completed records would finish this subset, not all Object development, full O2A, global release or final evaluation.",
+        state_input=dict(source=PRIOR, field="registered_jobs_at_review", sha256=signature(jobs), count=len(jobs),
+            immutable_snapshot=True, current_capacity_checked=False, pending_submission_checked=False,
+            dynamic_supervisor_state_read=False, dynamic_supervisor_state_written=False),
+        actual_command=[sys.executable, "-B", SELF],
+        root_rebuild_command=["python", "-B", CONTROLLER, "plan", "--stage", "development",
+            "--execution-manifest", MANIFEST, "--resume", "--prior-review", PRIOR, "--stop-after", str(ADDITIONAL)],
+        requirements_before_submit=["Root independently rebuilds this exact plan using freshly refreshed state under the original lock and requires identical plan SHA.",
+            "Root verifies fewer than8 active or unresolved project requests, no pending submission and no overlapping same-ledger job.",
+            "Original controller Transport rechecks exact server inputs, selected checkpoints and the two132-record ledger/report prefix SHA values before submission.",
+            "Root retains all immutable original132 raw records and both prior allocation costs; after terminal return, verify fixed-order exact600 unique trials or explicitly audit the incomplete prefix before any recovery.",
+            "No scientific completion is claimed by this plan, and no final-state release follows from completion of this six-method subset."],
+        production_submission_not_performed_by_this_record=True, production_enabled=False,
+        scientific_complete=False, global_final_release=False, final_states_opened=False,
+        weights_read=False, checkpoints_copied=False, additional_GPU_seconds=0, jobs_submitted=0,
+        read_evidence_sha256=dict(sorted(seen.items())))
+    for name, digest in list(seen.items()):
+        sha(name, digest)
+    immutable_json(RECORD, record)
+    print(json.dumps({**summary, "registration": RECORD,
+        "registration_sha256": hashlib.sha256((ROOT / RECORD).read_bytes()).hexdigest()}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except BaseException:
+        if not (ROOT / LOG).exists():
+            with (ROOT / LOG).open("x", encoding="utf-8", newline="\n") as stream:
+                stream.write(traceback.format_exc())
+        raise

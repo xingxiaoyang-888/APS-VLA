@@ -1,0 +1,89 @@
+"""Root bookkeeping after complete actual downstream root and independent audit."""
+from pathlib import Path
+from collections import Counter,defaultdict
+from datetime import datetime,timezone
+import argparse,json,sys
+root=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(root/'scripts'))
+import formal_supervisor as f
+ap=argparse.ArgumentParser();ap.add_argument('--job-id',choices=['3021844','3022743'],required=True);a=ap.parse_args()
+base='results/formal_main_v2/'
+spec={'3021844':('libero_object','object_third',132,600,280),
+      '3022743':('libero_spatial','spatial_first',0,12,220)}
+suite,label,previous,total,horizon=spec[a.job_id]
+rr=base+'downstream_reviews/'+a.job_id+'.json'
+ir=base+'preflight/'+label+'_development_real_independent_0318.json'
+oprel=base+'preflight/downstream_terminal_0318_'+a.job_id+'_operations.json'
+out=base+'preflight/'+label+'_development_root_integration_0318.json'
+assert not (root/out).exists()
+r,i,op=f.read(root/rr),f.read(root/ir),f.read(root/oprel)
+assert r['status']==i['status']=='passed' and r['job_id']==i['job_id']==a.job_id
+assert i['root_review_sha256']==op['root_sha256']==f.sha(root/rr)
+for n,h in i['read_evidence_sha256'].items():assert f.sha(root/n)==h,n
+assert r['completed_trials']==i['completed_trials']==total
+assert i['previous_completed_trials']==previous and i['new_completed_trials']==total-previous
+assert i['unique_observed_development_initial_states']==total//6
+assert not r['final_state_values_read']
+archive=op['archive'];assert f.sha(root/archive)==op['archive_sha256']
+for entry in f.read(root/archive)['files']:
+    assert f.sha(root/entry['archive'])==f.sha(root/entry['original'])==entry['sha256']
+run=base+suite+'/downstream/development/8c843c1d4ee8383c/attempt01'
+events=[json.loads(line) for line in (root/run/'trials.jsonl').read_bytes().splitlines()]
+results=[x for x in events if x['event']=='result']
+assert len(results)==len({x['trial_id'] for x in results})==total
+assert len({x['state_trial_id'] for x in results})==total//6
+assert all(x['status'] in ('completed','policy_error') and x['split']=='development' for x in results)
+assert all(not x['success'] for x in results if x['status']=='policy_error')
+assert all(x['success'] or x['termination']=='task_horizon' and x['control_steps']==horizon for x in results if x['status']=='completed')
+errors=sum(x['status']=='policy_error' for x in results);assert errors==i['runtime_errors']
+failures=sum(x['status']=='completed' and not x['success'] for x in results);assert failures==i['task_horizon_failures']
+chunks=[c for x in results for c in x['chunks']];calls=sum(x['policy_calls'] for x in results)
+assert len(chunks)+errors==calls
+assert all(x['policy_calls']==len(x['chunks'])+int(x['status']=='policy_error') for x in results)
+assert all(c['metadata'][k]==1 for c in chunks for k in ('policy_calls','vision_calls','packing_calls'))
+assert all(c['metadata']['future_head_calls']==0 for c in chunks)
+method_counts=defaultdict(lambda:dict(successes=0,trials=0))
+for x in results:
+    method=x['trial_id'].rsplit(':',1)[1];method_counts[method]['trials']+=1;method_counts[method]['successes']+=int(x['success'])
+assert len(method_counts)==6 and all(x['trials']==total//6 for x in method_counts.values())
+with f.supervisor_lock():
+    s=f.read(f.STATE);jobs=f.refresh(s);p=s['formal_main_progress'];d=p['first_object_development' if suite=='libero_object' else 'first_spatial_development']
+    assert s['pending_submission'] is None
+    j=next(x for x in jobs if x['job_id']==a.job_id)
+    assert j['status']=='COMPLETED' and j['exit_code']=='0:0'
+    assert j['elapsed_seconds']*j['gpus']==r['cost']['current_gpu_seconds']
+    assert d['completed_trials']==previous and d['active_job_id']==a.job_id
+    assert not p['test_opened'] and not p['global_release_created'] and p['completed_final_trials']==0
+    new=total-previous;global_total=p['completed_development_trials']+new
+    next_step=('The600 fixed development terminal outcomes include a retained Dense policy_error; complete bounded root diagnosis of action-range rejection versus the pinned official runtime before qualifying reference/development identity for global freeze. Do not rerun or clip actions to replace this failure. Remaining16 deployment instances and O2A remain; no final release.' if errors else
+        'First six methods have600 verified development trials; do not repeat them. Remaining16 deployment instances require own completed selectors, registered manifests and matched O2A; no final release.' if total==600 else
+        'Preregister remaining588 original Spatial trials after own actual GPU audit; exact same checkpoint/environment/ledger prefix and capacity checks required. No rerun of first12; no final release.')
+    v=dict(schema='formal_main_v2',kind='root_actual_development_integration',status='passed',self_path=out,
+        recorded_utc=datetime.now(timezone.utc).isoformat(),job_id=a.job_id,suite=suite,root_review=rr,independent_review=ir,raw_archive=archive,
+        suite_completed_trials=total,new_trials=new,previous_trials=previous,unique_development_initial_states=total//6,
+        completed_development_trials=global_total,target_suite_subset_trials=600,remaining_suite_subset_trials=600-total,
+        complete_suite_deployment_instances=False,verified_instances_in_scope=6,total_suite_instances=22,
+        runtime_errors=errors,task_horizon_failures=failures,normally_completed_trajectories=total-errors,policy_calls=calls,
+        recorded_chunks=len(chunks),unrecorded_policy_error_chunks=errors,control_actions=sum(x['control_steps'] for x in results),recorded_chunks_future_head_calls=0,
+        policy_error_trial_ids=[x['trial_id'] for x in results if x['status']=='policy_error'],
+        terminal_coverage_complete=total==600,clean_runtime_acceptance=errors==0,
+        root_scientific_complete_means_registered_terminal_coverage_only=r['scientific_complete'],
+        per_method_successes=dict(method_counts),current_GPU_seconds=r['cost']['current_gpu_seconds'],total_suite_GPU_seconds=r['cost']['all_attempt_gpu_seconds'],
+        cost_included_in_global_snapshot_not_additional=True,all_formal_cost_snapshot=s['current_round_cost'],
+        final_states_opened=False,scientific_settings_changed=False,weights_copied=False,no_future_supervision_benefit_claim=True,
+        next=next_step,evidence_sha256={n:f.sha(root/n) for n in (rr,ir,archive,r['pull_receipt'],oprel,'.local/integrate_development_0318.py')})
+    f.write(root/out,v)
+    d.update(status='six_methods_600_terminal_records_verified_policy_error_requires_diagnosis' if errors else 'first_six_methods_600_verified_complete' if total==600 else 'first12_verified_waiting_registered_continuation',
+        completed_trials=total,unique_verified_development_initial_states=total//6,allocated_GPU_seconds=v['total_suite_GPU_seconds'],
+        actual_policy_calls=calls,actual_control_actions=v['control_actions'],runtime_errors=errors,task_horizon_failures=failures,
+        normally_completed_trajectories=total-errors,clean_runtime_acceptance=errors==0,
+        active_job_id=None,active_job_status=None,last_verified_job_id=a.job_id,latest_root_review=rr,latest_root_review_sha256=f.sha(root/rr),
+        latest_independent_review=ir,latest_independent_review_sha256=f.sha(root/ir),latest_raw_archive=archive,next=next_step)
+    assert not any(x['job_id']==a.job_id for x in d['verified_segments'])
+    d['verified_segments'].append(dict(job_id=a.job_id,new_trials=new,cumulative_trials=total,
+        allocated_GPU_seconds=v['current_GPU_seconds'],root_review=rr,independent_review=ir))
+    p['completed_development_trials']=global_total
+    d['latest_integration']=out;d['latest_integration_sha256']=f.sha(root/out)
+    s['updated_utc']=v['recorded_utc'];f.write(f.STATE,s)
+print(json.dumps(dict(receipt=out,sha256=f.sha(root/out),suite_trials=total,global_development_trials=global_total,
+    task_horizon_failures=failures,per_method_successes=dict(method_counts),GPU_seconds=v['total_suite_GPU_seconds'])),flush=True)

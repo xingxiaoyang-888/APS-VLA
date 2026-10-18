@@ -1,0 +1,398 @@
+"""Independent local audit of Spatial's first 12 formal development trajectories."""
+from pathlib import Path, PurePosixPath
+from collections import Counter
+from datetime import datetime, timezone
+import ast
+import hashlib
+import json
+import math
+import argparse
+
+parser=argparse.ArgumentParser()
+parser.add_argument("--pull",required=True)
+parser.add_argument("--pull-sha",required=True)
+parser.add_argument("--root-sha",required=True)
+parser.add_argument("--archive",required=True)
+parser.add_argument("--archive-sha",required=True)
+parser.add_argument("--gpu-seconds",type=int,required=True)
+opts=parser.parse_args()
+
+ROOT = Path(__file__).resolve().parents[1]
+P = "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/"
+SNAP = P + "snapshots/formal_main_v2_run_564be0995e/"
+BASE = "results/formal_main_v2/"
+RUN = BASE + "libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01"
+PULL = opts.pull
+REVIEW = BASE + "downstream_reviews/3022743.json"
+INVOCATION = BASE + "invocations/libero_spatial_development_8c843c1d4ee8383c_attempt01.json"
+MANIFEST = BASE + "execution/libero_spatial_development_first_pair_v1.json"
+INVENTORY = BASE + "source/formal_main_v2_run_564be0995e.json"
+PREREG = BASE + "preflight/spatial_first_pair_development_registration_v1.json"
+RAW_ARCHIVE = opts.archive
+OUT = BASE + "preflight/spatial_first_development_real_independent_0318.json"
+LOG = ".local/audit_spatial_first_development_3022743.log"
+SELF = ".local/audit_spatial_first_development_3022743.py"
+METHODS = ["dense", "uniform256", "uniform128", "uniform64", "A128_seed17", "B128_seed17"]
+ENV = dict(max_steps=220, action_chunk=8, wait_steps=10, environment_seed=0, runtime_seed=17)
+SOURCE = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
+EXPECTED = {
+    PULL: opts.pull_sha,
+    REVIEW: opts.root_sha,
+    INVOCATION: "13151a4e2f3f3e807ad32dd080e566921a3a2c5c8ada75195a10b7d070327adf",
+    MANIFEST: "efc2fc4435442ba6458a033876c813a33de2afd69e952fae8ef86afd8727be03",
+    INVENTORY: "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    PREREG: "060dc1fd7ec4ab3ec35db1bfb8b3a54f92b5fd23f6ae3b9fd88e453eae4a4438",
+    RAW_ARCHIVE: opts.archive_sha,
+}
+BEST = {
+    "A": (4000, "68953d2b4f0325b54df698b3ed7aadb19ac1d53b2b53bb9e0b8ff7abb0c84a40"),
+    "B": (5000, "ea56dea4fd9f67c99c2b149b123a2112ae7e5971249fe86f697128000d7d1b7e"),
+}
+seen = {}
+
+
+def path(name):
+    p = PurePosixPath(name)
+    assert not p.is_absolute() and ".." not in p.parts and "\\" not in name
+    assert not any("sealed" in t.lower() or t.lower() in ("weights", "checkpoints") for t in p.parts)
+    assert name != "results/experiment_supervisor/state.json" and "accounting" not in p.parts
+    assert p.suffix.lower() not in (".pt", ".pth", ".bin", ".safetensors", ".pkl", ".init", ".npy", ".npz")
+    if "initial_states" in p.parts:
+        assert name == "configs/manifests/formal_main_v2/libero_spatial/initial_states/development.json"
+    f = ROOT / name
+    assert f.is_file() and not f.is_symlink()
+    return f
+
+
+def watch(name, expected=None):
+    h = hashlib.sha256()
+    with path(name).open("rb") as stream:
+        for block in iter(lambda: stream.read(8 << 20), b""):
+            h.update(block)
+    value = h.hexdigest()
+    if expected is not None:
+        assert value == expected, (name, value, expected)
+    assert name not in seen or seen[name] == value, name
+    seen[name] = value
+    return value
+
+
+def read(name):
+    watch(name)
+    return json.loads(path(name).read_bytes())
+
+
+def lines(name):
+    watch(name)
+    data = path(name).read_bytes()
+    assert data.endswith(b"\n")
+    rows = data.splitlines()
+    assert rows and all(rows)
+    return [json.loads(row) for row in rows]
+
+
+def sig(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False,
+        separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+
+
+def remote(name):
+    assert name.startswith(SNAP) or name.startswith(P), name
+    return name[len(SNAP):] if name.startswith(SNAP) else name[len(P):]
+
+
+def finite(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def main():
+    assert not (ROOT / OUT).exists() and not (ROOT / LOG).exists()
+    for name, digest in EXPECTED.items():
+        watch(name, digest)
+    root, pull, invocation, manifest, inventory, prereg = [read(p) for p in (REVIEW, PULL, INVOCATION, MANIFEST, INVENTORY, PREREG)]
+    assert root["status"] == "passed" and root["job_id"] == "3022743" and root["stage"] == "development"
+    assert root["scientific_complete"] is False and root["final_state_values_read"] is False
+    assert root["pull_receipt"] == PULL and root["invocation_sha256"] == EXPECTED[INVOCATION]
+    assert root["execution_manifest_sha256"] == EXPECTED[MANIFEST] and root["source_sha256"] == SOURCE
+    assert pull["status"] == "verified_nonweight_snapshot" and pull["final_evidence"] is True
+    assert "3022743" in pull["requested_job_ids"] and not pull["missing"]
+    assert pull["weights_copied"] is False and pull["sealed_initial_states_copied"] is False
+    assert [x for x in pull["excluded"] if x["job_id"]=="3022743"] == [dict(job_id="3022743", path=P + RUN + "/.evaluation.lock", reason="unregistered_nonweight_extension")]
+    pulled = {entry["relative"]: entry for entry in pull["files"] if "3022743" in entry["job_ids"]}
+    assert len(pulled) == 9
+    for name, entry in pulled.items():
+        watch(name, entry["sha256"])
+        assert path(name).stat().st_size == entry["bytes"] and entry["job_ids"] == ["3022743"]
+    archive = read(RAW_ARCHIVE)
+    assert archive["job_id"] == "3022743" and archive["pull_receipt"] == PULL and archive["pull_receipt_sha256"] == seen[PULL]
+    assert archive["root_review"] == REVIEW and archive["root_review_sha256"] == seen[REVIEW]
+    assert len(archive["files"]) == 9 and {f["original"] for f in archive["files"]} == set(pulled)
+    assert not archive["weights_copied"]
+    seal_flags=[archive[k] for k in ("final_states_copied","sealed_states_copied") if k in archive]
+    assert seal_flags and all(x is False for x in seal_flags)
+    assert archive.get("scientific_settings_changed",False) is False
+    for entry in archive["files"]:
+        assert entry["sha256"] == pulled[entry["original"]]["sha256"]
+        watch(entry["archive"], entry["sha256"])
+        assert path(entry["archive"]).stat().st_size == entry["bytes"] == pulled[entry["original"]]["bytes"]
+    archive_bytes=sum(f["bytes"] for f in archive["files"])
+    assert archive_bytes>0
+    for suffix in ("inventory_before.json", "inventory_after.json"):
+        watch(str(PurePosixPath(PULL).parent / suffix), pull["inventory_sha256"])
+    for mapping in (inventory["files"], invocation["root_evidence_sha256"], root["evidence_sha256"], prereg["read_evidence_sha256"]):
+        for name, digest in mapping.items():
+            if name in seen:
+                assert seen[name] == digest, name
+            else:
+                watch(name, digest)
+    assert len(inventory["files"]) == 173
+    assert inventory["source_root_server"] == SNAP.rstrip("/")
+    for name, digest in invocation["watched_files"].items():
+        watch(remote(name), digest)
+    assert invocation["method_ids"] == METHODS and invocation["stop_after"] == 12
+    assert not invocation["resume"] and invocation["prior_job_ids"] == []
+    assert invocation["argv"][-2:] == ["--stop-after", "12"] and invocation["argv"][0] == "evaluate"
+    assert not any(arg in invocation["argv"] for arg in ("--sealed-final", "--final-registry", "--release", "--resume"))
+    assert invocation["source_sha256"] == SOURCE and not invocation["scientific_settings_changed"]
+    assert invocation["entrypoint"] == "scripts/ops/formal_evaluation_adapter.py"
+    forbidden_compat={"downstream_asset_compatibility","runtime_compatibility","component_compatibility","asset_runtime_review"}
+    assert not (forbidden_compat & set(invocation)) and not (forbidden_compat & set(root))
+    assert manifest["suite"] == "libero_spatial" and manifest["split"] == "development"
+    assert manifest["environment"] == ENV and [r["identity"]["method_id"] for r in manifest["methods"]] == METHODS
+    identity = {row["identity"]["method_id"]: row["identity"] for row in manifest["methods"]}
+    assert all(x["future_head_deployed"] is False for x in identity.values())
+    submission = read(BASE+"preflight/spatial_first_pair_development_submission_root_v1.json")
+    assert submission["job_id"]=="3022743" and submission["invocation"]==INVOCATION
+    assert submission["invocation_sha256"]==EXPECTED[INVOCATION] and submission["plan_sha256"]==prereg["plan_sha256"]
+    assert submission["completed_before"]==0 and submission["initial_stop_after"]==12 and submission["total_target"]==600
+    for name,digest in submission["evidence_sha256"].items(): watch(name,digest)
+    recovery=read(submission["pre_submission_recovery"])
+    assert recovery["original_invocation_preserved"] and recovery["additional_failure_GPU_seconds"]==0
+    assert recovery["original_pending"]["invocation_sha256"]==EXPECTED[INVOCATION]
+    assert recovery["scientific_settings_changed"] is False and recovery["final_states_opened"] is False
+    for name,digest in recovery["read_evidence_sha256"].items(): watch(name,digest)
+    fresh=read(BASE+"preflight/spatial_first_pair_development_selected_server_v1.json")
+    assert fresh["status"]=="passed" and fresh["suite"]=="libero_spatial" and fresh["additional_GPU_seconds"]==0
+    assert fresh["remote_returncode"]==0 and not fresh["weights_copied"] and not fresh["weights_deserialized"] and not fresh["final_states_opened"]
+    for name,digest in fresh["inputs_sha256"].items(): watch(name,digest)
+    assert hashlib.sha256(fresh["probe_program"].encode()).hexdigest()==fresh["probe_program_sha256"]
+    selected = read(prereg["selected_server_review"])
+    assert fresh["selected"]==selected["selected"]
+    assert selected["status"] == "passed" and selected["remote_returncode"] == 0
+    for arm, (update, best) in BEST.items():
+        spec = next(r for r in manifest["methods"] if r["identity"]["method"] == arm)
+        receipt = read(spec["receipt"])
+        assert receipt["checkpoint_sha256"] == best and receipt["training_complete"] and receipt["completed_updates"] == 5000
+        assert spec["identity"]["checkpoint_sha256"] == best and spec["identity"]["training_seed"] == 17
+        assert [e["update"] for e in receipt["evaluations"]] == list(range(0, 5001, 500))
+        assert min(receipt["evaluations"], key=lambda e: (e["validation_metric"], e["update"]))["update"] == update
+        actual = next(r for r in selected["server_selected_checks"] if r["arm"] == arm)
+        assert actual["path"] == spec["checkpoint"] and actual["sha256"] == best and actual["stable_during_hash"]
+        latest_actual=next(r for r in fresh["server_selected_checks"] if r["arm"]==arm)
+        assert latest_actual["path"]==actual["path"] and latest_actual["sha256"]==best and latest_actual["stable_during_hash"] and latest_actual["exists"]
+    panel = read(manifest["development_panel"])
+    assert read(RUN + "/panel.json") == panel and watch(RUN + "/panel.json") == manifest["development_panel_sha256"]
+    assert len(panel["states"]) == 100 and len({s["trial_id"] for s in panel["states"]}) == 100
+    assert sorted(Counter(s["task_id"] for s in panel["states"]).values()) == [10] * 10
+    config, report = read(RUN + "/config.json"), read(RUN + "/closed_loop_report.json")
+    assert config["manifest"] == manifest and config["panel_signature"] == sig(panel)
+    assert config["policy_watchdog_seconds"] == 60 and config["registration_sha256"] == manifest["registration_sha256"]
+    for name, digest in config["source_files"].items():
+        assert inventory["files"][name] == digest
+    for name, digest in config["watched_files"].items():
+        if "/checkpoints/" in name:
+            match = [r for r in selected["server_selected_checks"] if r["path"] == name and r["sha256"] == digest]
+            assert len(match) == 1
+        else:
+            watch(remote(name), digest)
+    runtime = config["runtime"]
+    assert runtime == dict(cuda="12.1", gpu="NVIDIA L40", numpy="1.26.4", python="3.11.7", torch="2.2.0+cu121")
+    rows = lines(RUN + "/trials.jsonl")
+    run_signature = sig(config)
+    assert all(r["run_signature"] == run_signature for r in rows)
+    assert len(rows) == 25 and rows[0]["event"] == "invocation" and rows[0]["slurm_job_id"] == "3022743"
+    assert [r["event"] for r in rows[1:]] == [x for _ in range(12) for x in ("start", "result")]
+    terminal_rows=[r for r in rows if r["event"]=="result"]
+    observed_status_counts=Counter(r.get("status") for r in terminal_rows)
+    observed_policy_errors=[r for r in terminal_rows if r.get("status")=="policy_error"]
+    observed_infrastructure_errors=[r for r in terminal_rows if r.get("status") not in ("completed","policy_error")]
+    # Do not reinterpret policy failures as task horizons or silently omit them.
+    # A failed-call prefix needs its own error-path audit before passing this interface gate.
+    if observed_policy_errors or observed_infrastructure_errors:
+        raise ValueError("Observed runtime/error-path evidence requires explicit audit: "+str(dict(observed_status_counts)))
+    expected = [(s, method) for s in panel["states"] for method in METHODS][:12]
+    assert [state["source_state_index"] for state in panel["states"][:2]]==[3,5]
+    assert [state["task_id"] for state in panel["states"][:2]]==[0,0]
+    assert [state["trial_id"]+":"+method for state,method in expected]==prereg["exact_first12_trial_ids"]
+    results, initial_observations = [], {}
+    calls = Counter(policy=0, vision=0, packing=0, scorer=0, future_head=0, executed_control_actions=0)
+    for index, (state, method) in enumerate(expected):
+        start, result = rows[1 + 2 * index:3 + 2 * index]
+        shared = dict(suite="libero_spatial", split="development", method=method,
+            state_trial_id=state["trial_id"], trial_id=state["trial_id"] + ":" + method,
+            initial_state_sha256=state["initial_state_sha256"], source_state_index=state["source_state_index"],
+            task_id=state["task_id"], task_name=state["task_name"], environment_seed=0,
+            runtime_seed=17, configured_wait_steps=10, action_chunk=8)
+        assert all(start.get(k) == v and result.get(k) == v for k, v in shared.items())
+        assert result["status"] == "completed" and type(result["success"]) is bool and result["wait_steps"] == 10
+        control = result["control_steps"]
+        assert type(control) is int and 0 < control <= 220
+        assert (result["success"] and result["termination"] == "environment_success") or (not result["success"] and result["termination"] == "task_horizon" and control == 220)
+        chunks = result["chunks"]
+        assert [c["control_step"] for c in chunks] == list(range(0, control, 8)) and result["policy_calls"] == len(chunks)
+        assert len(result["executed_actions"]) == control
+        assert [a for c in chunks for a in c["environment_actions"]][:control] == result["executed_actions"]
+        mid = identity[method]
+        expected_meta = dict(schema="formal_main_v2", suite="libero_spatial", method=mid["method"], visual_tokens=mid["visual_tokens"],
+            per_camera_budgets=[mid["visual_tokens"] // 2] * 2, policy_calls=1, vision_calls=1, packing_calls=1,
+            scorer_calls=int(mid["method"] in ("A", "B")), future_head_calls=0, language_cache="disabled",
+            diagnostic_indices_recorded=True, inputs_version="libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+            action_version="libero-oft-boundsq99-gripper-sign-invert-chunk8-v1", packing_version="oft-original-positions-v1")
+        if mid["method"] in ("A", "B"):
+            expected_meta.update(selector_checkpoint_sha256=mid["checkpoint_sha256"], training_seed=17, pair_id=mid["pair_id"])
+        for chunk in chunks:
+            meta = chunk["metadata"]
+            assert {k: v for k, v in meta.items() if k != "retained_indices"} == expected_meta
+            kept = meta["retained_indices"]
+            assert kept == sorted(set(kept)) and len(kept) == mid["visual_tokens"]
+            assert all(type(k) is int and 0 <= k < 512 for k in kept) and sum(k < 256 for k in kept) == mid["visual_tokens"] // 2
+            if mid["method"] == "uniform":
+                dy, dx = {256: (2, 1), 128: (2, 2), 64: (4, 2)}[mid["visual_tokens"]]
+                grid = [y * 16 + x for y in range(0, 16, dy) for x in range(0, 16, dx)]
+                assert kept == grid + [k + 256 for k in grid]
+            if mid["method"] == "dense":
+                assert kept == list(range(512))
+            for key in ("normalized_actions", "environment_actions"):
+                actions = chunk[key]
+                assert len(actions) == 8 and all(len(a) == 7 and all(finite(v) for v in a) for a in actions)
+                if key == "environment_actions":
+                    assert all(abs(v) <= 1.00001 for a in actions for v in a)
+            assert len(chunk["observation_sha256"]) == 64 and all(c in "0123456789abcdef" for c in chunk["observation_sha256"])
+            for key in ("policy", "vision", "packing", "scorer", "future_head"):
+                calls[key] += meta[key + "_calls"]
+        first = chunks[0]["observation_sha256"]
+        assert initial_observations.setdefault(state["trial_id"], first) == first
+        assert all(finite(result[k]) and result[k] >= 0 for k in ("wall_seconds", "attempt_wall_seconds"))
+        calls["executed_control_actions"] += control
+        results.append(result)
+    assert len({r["trial_id"] for r in results}) == 12 and len(initial_observations) == 2
+    assert [r["trial_id"] for r in results] == [s["trial_id"] + ":" + m for s, m in expected]
+    assert Counter(r["method"] for r in results) == dict.fromkeys(METHODS, 2)
+    assert report["completed_trials"] == 12 and report["expected_trials"] == 600 and report["status"] == "incomplete"
+    assert report["test_opened"] is False and report["checkpoint_unchanged"] is True and report["trials_jsonl_sha256"] == seen[RUN + "/trials.jsonl"]
+    assert report["provenance"]["run_signature"] == run_signature
+    assert all(report["provenance"][k] == v for k, v in config.items() if k != "runtime")
+    assert report["provenance"]["runtime"] == {**runtime, "slurm_job_id": "3022743"}
+    for method in METHODS:
+        subset = [r for r in results if r["method"] == method]
+        got = report["methods"][method]
+        assert got["trials"] == len(subset) and got["successes"] == sum(r["success"] for r in subset)
+    cost = report["cost"]
+    assert cost["recorded_result_attempts"] == 12 and cost["unfinished_attempts_unknown_cost"] == 0
+    assert cost["policy_calls_total"] == cost["known_policy_calls"] == calls["policy"]
+    assert cost["known_wall_seconds"] == sum(r["wall_seconds"] for r in results)
+    assert cost["known_attempt_wall_seconds"] == sum(r["attempt_wall_seconds"] for r in results)
+    job_receipt = read(BASE + "job_receipts/3022743.json")
+    assert not (forbidden_compat & set(job_receipt))
+    assert len(job_receipt["adapter_artifacts"])==2 and len(job_receipt["adapter_receipts"])==1
+    oldpath = remote(job_receipt["adapter_receipts"][0]["path"])
+    assert oldpath.startswith(RUN+"/adapter_invocations/3022743_") and oldpath.endswith(".json")
+    old, journal = read(oldpath), lines(oldpath[:-5] + ".jsonl")
+    assert old["job_id"] == "3022743" and old["verified_frozen_file_count"] == 173 and old["frozen_source_sha256"] == SOURCE
+    assert old["mode"]=="evaluate" and old["output"]==P+RUN and old["source_root"]==SNAP.rstrip("/")
+    assert old["source_inventory_sha256"]==EXPECTED[INVENTORY] and old["execution_manifest_sha256"]==EXPECTED[MANIFEST]
+    assert old["adapter_sha256"]==invocation["adapter_sha256"] and old["events_sha256"]==seen[oldpath[:-5]+".jsonl"]
+    assert old["eval_script_sha256"]==inventory["files"]["scripts/eval_formal_selector_libero.py"]
+    assert old["status"] == "returned" and old["runner_status"] == "incomplete" and old["resume"] is False
+    assert old["frozen_source_unchanged"] and old["old_ledger_prefix_unchanged"]
+    assert old["before_ledger_raw"] == dict(bytes=0, sha256=hashlib.sha256(b"").hexdigest())
+    assert old["after_ledger"]["bytes"] == path(RUN + "/trials.jsonl").stat().st_size
+    assert old["after_ledger"]["sha256"] == seen[RUN + "/trials.jsonl"] and old["after_ledger"]["events"] == 25
+    assert set(old["after_ledger"]["terminal_trial_ids"]) == {r["trial_id"] for r in results}
+    assert old["after_ledger"]["active_trial_ids"] == [] and old["after_ledger"]["invocation_job_ids"] == ["3022743"]
+    assert [e["event"] for e in journal] == ["adapter_start", "bindings_enter", "resume_preflight_passed", "official_source_verified", "official_source_verified", "bindings_restored", "adapter_end"]
+    assert all(e["job_id"] == "3022743" and e["attempt_id"] == old["attempt_id"] for e in journal)
+    assert journal[1]["bindings"] == old["bindings"] and journal[2]["panel_signature"] == sig(panel)
+    assert journal[2]["evidence"] == old["before_ledger"]
+    assert journal[5]["original_verify_code_sha256"] == old["bindings"][0]["original_code_sha256"]
+    assert journal[5]["original_loader_code_sha256"] == old["bindings"][1]["original_code_sha256"]
+    assert {e["verification"]["revision"] for e in journal if e["event"] == "official_source_verified"} == {x["revision"] for x in config["source_verification"].values()}
+    job_receipt = read(BASE + "job_receipts/3022743.json")
+    assert job_receipt["invocation_sha256"] == EXPECTED[INVOCATION] and job_receipt["status"] == "returned" and job_receipt["exit_code"] == 0
+    assert job_receipt["stage_completed_claimed"] is False
+    for ref in job_receipt["adapter_artifacts"]:
+        name = remote(ref["path"])
+        assert pulled[name]["sha256"] == ref["sha256"] == watch(name) and path(name).stat().st_size == ref["bytes"]
+    stdout = path("results/slurm/cti-formal-downstream_3022743.out").read_text(encoding="utf-8")
+    printed = [json.loads(line) for line in stdout.splitlines() if line.startswith("{")]
+    assert printed == [{k: r[k] for k in ("trial_id", "status", "success")} for r in results]
+    accounting = pull["accounting_after"]["jobs"]["3022743"]
+    assert accounting == pull["accounting_before"]["jobs"]["3022743"]
+    assert accounting["status"] == "COMPLETED" and accounting["exit_code"] == "0:0" and accounting["elapsed_seconds"] == opts.gpu_seconds
+    assert "gres/gpu:l40=1" in accounting["allocation"] and "gres/gpu=1" in accounting["allocation"]
+    for block in (pull["accounting_before"],pull["accounting_after"]):
+        acc_rows=[line.split("|") for line in block["raw"].splitlines() if line.split("|")[0]=="3022743"]
+        assert len(acc_rows)==1 and acc_rows[0][1:6]==[accounting["raw_status"],accounting["exit_code"],str(accounting["elapsed_seconds"]),accounting["allocation"],accounting["node"]]
+    assert 0<=job_receipt["wall_seconds"]<=opts.gpu_seconds+1
+    assert root["cost"]["all_attempt_gpu_seconds"] == root["cost"]["current_gpu_seconds"] == opts.gpu_seconds
+    assert len(root["cost"]["allocations"]) == 1 and root["cost"]["allocations"][0]["gpus"] == 1
+    assert root["completed_trials"] == 12 and root["expected_trials"] == 600 and root["raw_invocation_job_ids"] == ["3022743"]
+    assert root["reconstructed_summary"] == report
+    runtime_tree = ast.parse(path("src/cti_vla/evaluation/formal_runtime.py").read_text(encoding="utf-8"))
+    policy = next(n for n in runtime_tree.body if isinstance(n, ast.ClassDef) and n.name == "FormalRolloutPolicy")
+    call = next(n for n in policy.body if isinstance(n, ast.FunctionDef) and n.name == "__call__")
+    assert [a.arg for a in call.args.args] == ["self", "observation", "instruction"]
+    watch(SELF)
+    watch("results/formal_main_v2/preflight/long_first_development_real_independent_20261017.json")
+    watch(".local/audit_object_first_development_3021394.py")
+    compact = [{k: row[k] for k in ("trial_id", "state_trial_id", "method", "task_id", "source_state_index", "status", "success", "termination", "control_steps", "policy_calls")} for row in results]
+    result = dict(schema="formal_main_v2", kind="independent_first_spatial_development_review", status="passed",
+        reviewed_utc=datetime.now(timezone.utc).isoformat(), reviewer="deploy64", job_id="3022743", suite="libero_spatial", stage="development",
+        root_review=REVIEW, root_review_sha256=seen[REVIEW], pull_receipt=PULL, pull_receipt_sha256=seen[PULL],
+        immutable_raw_archive=RAW_ARCHIVE, immutable_raw_archive_sha256=seen[RAW_ARCHIVE],
+        immutable_raw_archive_files=9, immutable_raw_archive_bytes=archive_bytes,
+        output_relative=RUN, execution_manifest=MANIFEST, execution_manifest_sha256=seen[MANIFEST],
+        invocation_sha256=seen[INVOCATION], source_sha256=SOURCE, frozen_source_files_verified=173,
+        completed_trials=12, new_completed_trials=12, previous_completed_trials=0, target_trials=600, remaining_trials=588, scientific_complete=False,
+        unique_observed_development_initial_states=2, registered_development_initial_states=100,
+        observed_state_ids=list(initial_observations), observed_source_indices=[s["source_state_index"] for s in panel["states"][:2]],
+        observed_task_ids=sorted({r["task_id"] for r in results}), methods=METHODS, completed_per_method=dict(Counter(r["method"] for r in results)),
+        environment=ENV, exact_fixed_prefix_order=True, paired_first_observation_hashes=initial_observations,
+        raw_events=dict(Counter(r["event"] for r in rows)), ledger_event_count=len(rows), raw_trial_counts=compact,
+        calls=dict(calls), task_horizon_failures=sum(r["termination"] == "task_horizon" for r in results), runtime_errors=len(observed_policy_errors)+len(observed_infrastructure_errors), observed_status_counts=dict(observed_status_counts),
+        unfinished_or_replayed_trials=0, selected_updates={a: v[0] for a, v in BEST.items()}, selected_checkpoint_sha256={a: v[1] for a, v in BEST.items()},
+        cost=dict(all_allocated_gpu_seconds=opts.gpu_seconds, allocations=[dict(job_id="3022743", gpus=1, **accounting)],
+            nested_episode_wall_seconds=cost["known_wall_seconds"], nested_attempt_wall_seconds=cost["known_attempt_wall_seconds"],
+            nested_wrapper_wall_seconds=job_receipt["wall_seconds"],
+            nested_times_added_to_allocation=False, scope="This one real Slurm allocation once; no throughput or O2A latency claim."),
+        legacy_loader_unchanged=True, metadata_or_component_adaptation=False,
+        original_adapter=dict(events=len(journal), initial_ledger_bytes=0, final_ledger_bytes=old["after_ledger"]["bytes"],
+            final_ledger_sha256=seen[RUN + "/trials.jsonl"], scope="Same server invocation/code receipts; marshal digests were not recomputed on this different Python host."),
+        all_current_inputs_only=True, future_head_deployed=False, policy_api_inputs=["observation", "instruction"],
+        eligible_for_root_reviewed_same_ledger_continuation=True, global_final_release=False,
+        final_trials_read=0, sealed_states_opened=False, checkpoints_read=False, weights_copied=False, ssh_used=False,
+        supervisor_state_read=False, runtime_or_science_modified=False, new_GPU_seconds=0,
+        limits=["Only the preregistered first 12 of 600 trials, two states from one task; no suite success-rate inference, method benefit, final release or complete development claim.",
+            "This CPU audit verifies raw logs, exact source and runtime attestations; it does not rerun policies, inspect checkpoint tensors or independently probe server files.",
+            "Observed task-horizon failures are retained as scientific outcomes, distinct from runtime/infrastructure errors; no outcome-dependent selection or retry."],
+        audit_implementation=dict(path=SELF, sha256=seen[SELF], adaptation_reference=".local/audit_object_first_development_3021394.py", legacy_contract_reference="results/formal_main_v2/preflight/long_first_development_real_independent_20261017.json"))
+    log_text = json.dumps({k: result[k] for k in ("status", "job_id", "completed_trials", "unique_observed_development_initial_states", "calls", "task_horizon_failures", "runtime_errors", "root_review_sha256")}, ensure_ascii=False) + "\n"
+    with (ROOT / LOG).open("x", encoding="utf-8", newline="\n") as stream:
+        stream.write(log_text)
+    watch(LOG)
+    for name, digest in list(seen.items()):
+        watch(name, digest)
+    mutable_names={RUN+"/trials.jsonl",RUN+"/closed_loop_report.json"}
+    result["mutable_output_snapshot"]={name:seen[name] for name in sorted(mutable_names)}
+    result["mutable_output_archive_binding"]={entry["original"]:entry for entry in archive["files"] if entry["original"] in mutable_names}
+    result["evidence_partition"]="The same-run ledger/report may grow on explicit resume; their current bytes are bound through the immutable nine-file archive. Other evidence paths remain exact."
+    result["read_evidence_sha256"] = dict(sorted((name,sha) for name,sha in seen.items() if name not in mutable_names))
+    with (ROOT / OUT).open("x", encoding="utf-8", newline="\n") as stream:
+        json.dump(result, stream, ensure_ascii=False, indent=2, allow_nan=False)
+        stream.write("\n")
+    print(json.dumps(dict(status=result["status"], output=OUT, sha256=hashlib.sha256((ROOT / OUT).read_bytes()).hexdigest(),
+        evidence_files=len(seen), completed_trials=12, calls=dict(calls), cost_gpu_seconds=opts.gpu_seconds), ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

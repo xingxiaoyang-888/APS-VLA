@@ -1,0 +1,618 @@
+"""Independent Object third development audit: fixed 12+120+468 ledger.
+
+Run only after root supplies terminal SHA-pulled evidence. CPU raw-evidence
+reconstruction, no state, network, checkpoint, or final-state value reads.
+"""
+from pathlib import Path, PurePosixPath
+from collections import Counter
+from datetime import datetime, timezone
+import argparse
+import ast
+import hashlib
+import json
+import math
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = "results/formal_main_v2/"
+PRE = BASE + "preflight/"
+RUN = BASE + "libero_object/downstream/development/8c843c1d4ee8383c/attempt01"
+P = "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/"
+SNAP = P + "snapshots/formal_main_v2_run_564be0995e/"
+SOURCE = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
+SOURCE_SCRIPT = ".local/audit_object_second_development_3021603.py"
+SELF = ".local/audit_object_third_development_3021844.py"
+LOG = ".local/audit_object_third_development_3021844.log"
+OUT = PRE + "object_third_development_real_independent_0318.json"
+ROOT_REVIEW = BASE + "downstream_reviews/3021844.json"
+ROOT_OPERATION = PRE + "downstream_terminal_0318_3021844_operations.json"
+OLD_REVIEWS = [BASE+"downstream_reviews/3021394.json",BASE+"downstream_reviews/3021603.json"]
+OLD_INDEPENDENTS = [PRE+"object_first_development_real_independent_20261018.json",PRE+"object_second_development_real_independent_20261018.json"]
+OLD_ARCHIVES = [PRE+"object_first_development_raw_v1/receipt.json",PRE+"object_second_development_raw_v2/receipt.json"]
+OLD_PULLS = [BASE+"pulls/20261017T232019Z_9844e614c92e/receipt.json",BASE+"pulls/20261018T015646Z_04e1ed8679bd/receipt.json"]
+MANIFEST = BASE + "execution/libero_object_development_first_pair_v1.json"
+INVENTORY = BASE + "source/formal_main_v2_run_564be0995e.json"
+PLAN = PRE + "object_first_pair_development_plan_v3.json"
+PREREG = PRE + "object_first_pair_development_registration_v3.json"
+PREREG1 = PRE + "object_first_pair_development_registration_v1.json"
+INVOCATIONS = {job: BASE+"invocations/libero_object_development_8c843c1d4ee8383c_attempt"+attempt+".json"
+    for job,attempt in (("3021394","01"),("3021603","02"),("3021844","03"))}
+JOBS = ["3021394","3021603","3021844"]
+ENDPOINTS = [12,132,600]
+METHODS = ["dense","uniform256","uniform128","uniform64","A128_seed17","B128_seed17"]
+MUTABLE = (RUN+"/trials.jsonl",RUN+"/closed_loop_report.json")
+ENV = dict(max_steps=280,action_chunk=8,wait_steps=10,environment_seed=0,runtime_seed=17)
+BEST = {"A":(2500,"bc390e912c760480309a8591d3d7d11a1b1a596851bbba5c934a7d9d7b989a43"),
+    "B":(4500,"926fa0d35d69dad26ce95ce1fe0142d7ccda176bdf86c29e3f034e4f16543ce4")}
+PINS = {
+    ".local/audit_object_third_development_3021844_attempt01.py.txt":"b6ba2f807b8c326e86c62f760eff5bdf849af252f402c53e8dbc875c62f54b1e",
+    ".local/audit_object_third_development_3021844_failure01.json":"1e3f47726ddd8360d16c61b3eed79ada7bf8d652802706bf842403904d0e0422",
+    ROOT_OPERATION:"9959b664bb4b118871fba01439c9a13eced7df3a0839c88a95cb2c66af62cc51",
+    SOURCE_SCRIPT:"e093bccb00a6f0bb850f547c2d786e98bc11d10964d0ab881f2a24aa26df9f59",
+    OLD_REVIEWS[0]:"bfcb0bc41be8c2eab9e058536f44afcb30e6e70ab1cc7d6e88fc17a6a07fcd3f",
+    OLD_REVIEWS[1]:"c065fcda1a70545741fe7f462c8262263888e6bd22fbbd6e1d5b3600534a01bc",
+    OLD_INDEPENDENTS[0]:"4ac5e10da0e76e368b9f0a6963564b3f60550d9c110e084e359daa838dd4bf05",
+    OLD_INDEPENDENTS[1]:"0596dc5fa4e956b9fb8b283c4701d66088a1574873196dc3fa3219f2b4dc9439",
+    OLD_ARCHIVES[0]:"59935028702b2d11a58fcf0a1cae7ea01f25d1e9f4e82b8d64051f7915ac863b",
+    OLD_ARCHIVES[1]:"041af781619ab0e08d6b30ee6f22bad3e596baf90047db70a17123411419467c",
+    OLD_PULLS[0]:"087d4c3fe3b58de16fa32e99f55476ca666acabe0223e58901d4ac586b1bb9f0",
+    OLD_PULLS[1]:"a369ffef058a54e0a7252928735650fbf1408e84944f94344ec6210668811473",
+    MANIFEST:"34062573869c7b947fbd3c37b09da476bec673e8e16fc4ea49c6ce8c5932db5a",
+    INVENTORY:"5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    PLAN:"3f7e56b5367ab139a1a2dfedd2115a14aeed91f7fce805840548266b8daf3754",
+    PREREG:"fb88e03892b9beddcc89e751c8be7b21f335da5b238bfaa8c3fb0a553bfdb3ef",
+    PREREG1:"4ef8d98a9e4e919bbe0b909459987c30fb50d1d0abad2eba2e958a4ec115fa5d",
+    INVOCATIONS["3021394"]:"6c5aaa313e11c67042eec51946886e1f34cdf4e0d7ed899e3dd27e429f3cfdb8",
+    INVOCATIONS["3021603"]:"21b10a350c3372753f2225bf8503c952a3b48981451b27cbd48fcf528057f544",
+}
+seen = {}
+historical_resolutions = {}
+historical_files = {}
+
+
+def path(name):
+    p = PurePosixPath(name)
+    assert not p.is_absolute() and ".." not in p.parts and "\\" not in name
+    assert not any("sealed" in s.lower() or s.lower() in ("weights", "checkpoints", "accounting") for s in p.parts)
+    assert p.name != "state.json" and "/downstream/final/" not in name
+    assert p.suffix.lower() not in (".pt", ".pth", ".bin", ".safetensors", ".pkl", ".init", ".npy", ".npz")
+    if "initial_states" in p.parts:
+        assert name == "configs/manifests/formal_main_v2/libero_object/initial_states/development.json"
+    f = ROOT / name
+    assert f.is_file() and not f.is_symlink()
+    return f
+
+
+def watch(name, expected=None):
+    h = hashlib.sha256()
+    with path(name).open("rb") as stream:
+        for block in iter(lambda: stream.read(8 << 20), b""):
+            h.update(block)
+    digest = h.hexdigest()
+    assert expected is None or digest == expected, (name, digest, expected)
+    assert name not in seen or seen[name] == digest, name
+    seen[name] = digest
+    return digest
+
+
+def read(name):
+    watch(name)
+    return json.loads(path(name).read_bytes())
+
+
+def lines(name):
+    watch(name)
+    data = path(name).read_bytes()
+    assert data.endswith(b"\n") and all(data.splitlines())
+    return [json.loads(row) for row in data.splitlines()]
+
+
+def sig(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False,
+        separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+
+
+def remote(name):
+    assert name.startswith(SNAP) or name.startswith(P), name
+    return name[len(SNAP):] if name.startswith(SNAP) else name[len(P):]
+
+
+def finite(value):
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def verify_map(mapping):
+    # Exactly two mutable output names can resolve to historical bytes, and
+    # only through a pinned archive row with this exact name and SHA.
+    for name, digest in mapping.items():
+        saved = historical_files.get((name, digest))
+        if saved is not None:
+            assert name in MUTABLE
+            watch(saved, digest)
+            historical_resolutions[name + "@" + digest] = saved
+        else:
+            watch(name, digest)
+
+
+def validate_trial_pairs(rows, panel, identities):
+    assert len(rows) == 1203 and all(rows[i]["event"] == "invocation" for i in (0,25,266))
+    assert [r["slurm_job_id"] for r in rows if r["event"] == "invocation"] == JOBS
+    by_job = {job: [] for job in JOBS}
+    current = None
+    for row in rows:
+        if row["event"] == "invocation":
+            current = row["slurm_job_id"]
+        else:
+            assert current in by_job
+            by_job[current].append(row)
+    assert [len(by_job[job]) for job in JOBS] == [24, 240, 936]
+    for events in by_job.values():
+        assert [r["event"] for r in events] == [v for _ in range(len(events)//2) for v in ("start", "result")]
+    events = [row for job in JOBS for row in by_job[job]]
+    expected = [(state, method) for state in panel["states"] for method in METHODS]
+    results, initial_observations = [], {}
+    calls = {job: Counter(policy=0, recorded_chunk_policy=0, unrecorded_policy_attempts=0, vision=0, packing=0, scorer=0, future_head=0, executed_control_actions=0) for job in JOBS}
+    for index, (state, method) in enumerate(expected):
+        start, result = events[2*index:2*index+2]
+        job = JOBS[0 if index < 12 else 1 if index < 132 else 2]
+        shared = dict(suite="libero_object", split="development", method=method,
+            state_trial_id=state["trial_id"], trial_id=state["trial_id"]+":"+method,
+            initial_state_sha256=state["initial_state_sha256"], source_state_index=state["source_state_index"],
+            task_id=state["task_id"], task_name=state["task_name"], environment_seed=0,
+            runtime_seed=17, configured_wait_steps=10, action_chunk=8)
+        assert all(start.get(k) == v and result.get(k) == v for k, v in shared.items())
+        assert result["status"] in ("completed","policy_error") and type(result["success"]) is bool and result["wait_steps"] == 10
+        control = result["control_steps"]
+        assert type(control) is int and 0 < control <= 280
+        policy_error = result["status"] == "policy_error"
+        if policy_error:
+            assert method == "dense" and state["task_id"] == 8 and state["source_state_index"] == 49
+            assert state["task_name"] == "pick_up_the_chocolate_pudding_and_place_it_in_the_basket"
+            assert result["success"] is False and result["termination"] == "ValueError" and result["error_phase"] == "policy"
+            assert result["error"] == "environment action outside normalized controller [-1, 1] range"
+            assert control == 56 and result["policy_calls"] == 8
+        else:
+            assert (result["success"] and result["termination"] == "environment_success") or (not result["success"] and result["termination"] == "task_horizon" and control == 280)
+        chunks = result["chunks"]
+        assert [c["control_step"] for c in chunks] == list(range(0, control, 8))
+        assert result["policy_calls"] == len(chunks) + int(policy_error)
+        calls[job]["policy"] += result["policy_calls"]
+        calls[job]["unrecorded_policy_attempts"] += int(policy_error)
+        assert len(result["executed_actions"]) == control
+        assert [action for chunk in chunks for action in chunk["environment_actions"]][:control] == result["executed_actions"]
+        mid = identities[method]
+        expected_meta = dict(schema="formal_main_v2", suite="libero_object", method=mid["method"], visual_tokens=mid["visual_tokens"],
+            per_camera_budgets=[mid["visual_tokens"]//2]*2, policy_calls=1, vision_calls=1, packing_calls=1,
+            scorer_calls=int(mid["method"] in ("A", "B")), future_head_calls=0, language_cache="disabled",
+            diagnostic_indices_recorded=True, inputs_version="libero-oft-eval-rotate180-jpeg-lanczos3-crop09-boundsq99-v1",
+            action_version="libero-oft-boundsq99-gripper-sign-invert-chunk8-v1", packing_version="oft-original-positions-v1")
+        if mid["method"] in ("A", "B"):
+            expected_meta.update(selector_checkpoint_sha256=mid["checkpoint_sha256"], training_seed=17, pair_id=mid["pair_id"])
+        for chunk in chunks:
+            meta = chunk["metadata"]
+            assert {k: v for k, v in meta.items() if k != "retained_indices"} == expected_meta
+            kept = meta["retained_indices"]
+            assert kept == sorted(set(kept)) and len(kept) == mid["visual_tokens"]
+            assert all(type(k) is int and 0 <= k < 512 for k in kept) and sum(k < 256 for k in kept) == mid["visual_tokens"]//2
+            if mid["method"] == "uniform":
+                dy, dx = {256:(2,1), 128:(2,2), 64:(4,2)}[mid["visual_tokens"]]
+                grid = [y*16+x for y in range(0,16,dy) for x in range(0,16,dx)]
+                assert kept == grid+[k+256 for k in grid]
+            elif mid["method"] == "dense":
+                assert kept == list(range(512))
+            for key in ("normalized_actions", "environment_actions"):
+                assert len(chunk[key]) == 8 and all(len(a) == 7 and all(finite(v) for v in a) for a in chunk[key])
+                if key == "environment_actions":
+                    assert all(abs(v) <= 1.00001 for a in chunk[key] for v in a)
+            assert len(chunk["observation_sha256"]) == 64 and all(v in "0123456789abcdef" for v in chunk["observation_sha256"])
+            calls[job]["recorded_chunk_policy"] += meta["policy_calls"]
+            for key in ("vision", "packing", "scorer", "future_head"):
+                calls[job][key] += meta[key+"_calls"]
+        first = chunks[0]["observation_sha256"]
+        assert initial_observations.setdefault(state["trial_id"], first) == first
+        assert all(finite(result[k]) and result[k] >= 0 for k in ("wall_seconds", "attempt_wall_seconds"))
+        calls[job]["executed_control_actions"] += control
+        results.append(result)
+    assert len({r["trial_id"] for r in results}) == 600 and len(initial_observations) == 100
+    assert [r["trial_id"] for r in results] == [s["trial_id"]+":"+m for s,m in expected]
+    assert Counter(r["method"] for r in results) == dict.fromkeys(METHODS,100)
+    assert Counter(r["status"] for r in results) == {"completed":599,"policy_error":1}
+    return results, initial_observations, calls
+
+
+def verify_compatibility(job, invocation, config, panel, endpoint, before, after, selected_rows, reference_files):
+    compatibility = invocation["downstream_asset_compatibility"]
+    assert len(compatibility["files"]) == 10 and "component_implementation" not in compatibility
+    for name, digest in compatibility["files"].items():
+        watch(name, digest)
+    prefix = RUN + "/asset_compatibility/" + job + "/"
+    asset, events, completion = read(prefix+"identity.json"), lines(prefix+"events.jsonl"), read(prefix+"completion.json")
+    assert asset["downstream_asset_compatibility"] == completion["downstream_asset_compatibility"] == compatibility
+    assert asset["watched_files"] == {**invocation["watched_files"], P+INVOCATIONS[job]:seen[INVOCATIONS[job]]}
+    expected_events = ["downstream_asset_start", "asset_metadata_compat_enter", "legacy_adapter_start", "asset_metadata_compat_load_start",
+        "asset_metadata_compat_load_complete", "legacy_adapter_return", "asset_metadata_compat_exit", "downstream_asset_end"]
+    assert [e["event"] for e in events] == expected_events and [e["seq"] for e in events] == list(range(8))
+    common = dict(job_id=job, suite="libero_object", stage="development", mode="evaluate", stage_key=invocation["stage_key"],
+        source_root=SNAP.rstrip("/"), source_sha256=SOURCE, invocation_sha256=seen[INVOCATIONS[job]], execution_manifest_sha256=seen[MANIFEST])
+    for obj in [asset, completion, *events]:
+        assert all(obj.get(k) == v for k,v in common.items())
+    assert events[0]["argv"] == invocation["argv"]
+    assert events[2]["identity_sha256"] == events[7]["identity_sha256"] == seen[prefix+"identity.json"]
+    assert events[2]["original_adapter_run_code_sha256"] == asset["original_adapter_run_code_sha256"]
+    metadata = asset["metadata_identity"]
+    assert metadata["verified_frozen_file_count"] == 173 and metadata["original_manifest_identity_retained"]
+    original_name, strict_name = "configs/assets/openvla_oft_libero_object.json", "configs/assets/formal_main_v2_strict/libero_object.json"
+    original, strict = read(original_name), read(strict_name)
+    fields = ("schema_version", "repository", "revision", "total_bytes", "files")
+    assert strict == {k:original[k] for k in fields} and set(original)-set(fields) == {"source", "formal_experiment", "registered_utc"}
+    view = metadata["views"]["libero_object"]
+    assert events[3]["view"] == view and view["original_sha256"] == seen[original_name] and view["derived_sha256"] == seen[strict_name]
+    assert view["projected_payload_sha256"] == sig(strict) and view["file_specs_sha256"] == sig(original["files"])
+    assert events[3]["call_id"] == events[4]["call_id"] == 0
+    assert events[4]["file_count"] == len(original["files"]) == 25 and events[4]["total_bytes"] == original["total_bytes"]
+    exit_event = events[6]
+    assert exit_event["adapted_calls_attempted"] == exit_event["adapted_calls_completed"] == 1 and exit_event["passthrough_calls"] == 0
+    assert exit_event["runner_raised"] is False
+    assert all(exit_event[k] is True for k in ("binding_intact", "directory_verifier_code_unchanged", "directory_verifier_unchanged", "frozen_source_and_inputs_unchanged", "original_loader_code_unchanged", "original_loader_restored"))
+    assert completion["status"] == events[7]["status"] == "returned" and completion["exit_code"] == events[7]["exit_code"] == 0
+    assert not completion["errors"] and not events[7]["errors"]
+    for obj in (completion, events[7]):
+        assert all(obj[k] is True for k in ("loader_bindings_restored", "original_adapter_run_unchanged", "source_inputs_unchanged"))
+    assert completion["legacy_stage_wrappers_executed"] is False and completion["scientific_completion_not_inferred"] is True
+    oldpath = remote(completion["legacy_adapter_proof"]["receipt"]["path"])
+    old, journal = read(oldpath), lines(oldpath[:-5]+".jsonl")
+    assert old["job_id"] == job and old["verified_frozen_file_count"] == 173 and old["frozen_source_sha256"] == SOURCE
+    assert old["status"] == "returned" and old["runner_status"] == ("completed" if job == JOBS[2] else "incomplete") and old["resume"] == (job != JOBS[0])
+    assert old["frozen_source_unchanged"] and old["old_ledger_prefix_unchanged"]
+    assert old["before_ledger_raw"] == dict(bytes=len(before),sha256=hashlib.sha256(before).hexdigest())
+    assert old["after_ledger"]["bytes"] == len(after) and old["after_ledger"]["sha256"] == hashlib.sha256(after).hexdigest()
+    assert old["after_ledger"]["events"] == {JOBS[0]:25,JOBS[1]:266,JOBS[2]:1203}[job]
+    assert set(old["after_ledger"]["terminal_trial_ids"]) == {r["trial_id"] for r in selected_rows[:endpoint]}
+    assert old["after_ledger"]["active_trial_ids"] == [] and old["after_ledger"]["invocation_job_ids"] == JOBS[:JOBS.index(job)+1]
+    assert [e["event"] for e in journal] == ["adapter_start", "bindings_enter", "resume_preflight_passed", "official_source_verified", "official_source_verified", "bindings_restored", "adapter_end"]
+    assert all(e["job_id"] == job and e["attempt_id"] == old["attempt_id"] for e in journal)
+    assert journal[1]["bindings"] == old["bindings"] and journal[2]["panel_signature"] == sig(panel)
+    assert journal[2]["evidence"] == old["before_ledger"]
+    assert journal[5]["original_verify_code_sha256"] == old["bindings"][0]["original_code_sha256"]
+    assert journal[5]["original_loader_code_sha256"] == old["bindings"][1]["original_code_sha256"]
+    assert {e["verification"]["revision"] for e in journal if e["event"] == "official_source_verified"} == {v["revision"] for v in config["source_verification"].values()}
+    if job != JOBS[0]:
+        index = JOBS.index(job)
+        prior_endpoint = ENDPOINTS[index-1]
+        assert set(old["before_ledger"]["terminal_trial_ids"]) == {r["trial_id"] for r in selected_rows[:prior_endpoint]}
+        assert old["before_ledger"]["invocation_job_ids"] == JOBS[:index] and old["before_ledger"]["active_trial_ids"] == []
+    job_receipt = read(BASE+"job_receipts/"+job+".json")
+    assert job_receipt["invocation_sha256"] == seen[INVOCATIONS[job]] and job_receipt["status"] == "returned" and job_receipt["exit_code"] == 0
+    assert job_receipt["stage_completed_claimed"] is False and job_receipt["downstream_asset_compatibility"] == compatibility
+    for ref in job_receipt["adapter_artifacts"]+job_receipt["asset_compatibility_artifacts"]+completion["compatibility_artifacts"]+completion["legacy_adapter_artifacts"]:
+        name = remote(ref["path"])
+        assert reference_files[name]["sha256"] == ref["sha256"] == watch(name) and path(name).stat().st_size == ref["bytes"]
+    stdout_name = "results/slurm/cti-formal-downstream_"+job+".out"
+    watch(stdout_name)
+    printed = [json.loads(line) for line in path(stdout_name).read_text(encoding="utf-8").splitlines() if line.startswith("{")]
+    index = JOBS.index(job)
+    subset = selected_rows[(0 if index == 0 else ENDPOINTS[index-1]):ENDPOINTS[index]]
+    assert printed == [{k:r[k] for k in ("trial_id", "status", "success")} for r in subset]
+    return dict(job_id=job, metadata_events=8, adapted_loads=1, component_loads=0,
+        restored=True, original_adapter_events=7, before_ledger_bytes=len(before), after_ledger_bytes=len(after),
+        before_ledger_sha256=hashlib.sha256(before).hexdigest(), after_ledger_sha256=hashlib.sha256(after).hexdigest(),
+        old_ledger_prefix_unchanged=True, nested_wrapper_wall_seconds=job_receipt["wall_seconds"],
+        nested_compatibility_wall_seconds=completion["wall_seconds"])
+
+
+def main(args):
+    assert args.write and not (ROOT/OUT).exists() and not (ROOT/LOG).exists()
+    assert args.current_gpu_seconds > 0
+    for name,digest in PINS.items():
+        watch(name,digest)
+    watch(ROOT_REVIEW,args.root_sha)
+    watch(args.pull,args.pull_sha)
+    watch(args.archive,args.archive_sha)
+    root,pull,archive,manifest,inventory,plan,prereg = [read(p) for p in
+        (ROOT_REVIEW,args.pull,args.archive,MANIFEST,INVENTORY,PLAN,PREREG)]
+    operation = read(ROOT_OPERATION)
+    assert operation["job_id"] == JOBS[2] and operation["root_review"] == ROOT_REVIEW
+    assert operation["root_sha256"] == args.root_sha and operation["pull"] == args.pull and operation["pull_sha256"] == args.pull_sha
+    assert operation["archive"] == args.archive and operation["archive_sha256"] == args.archive_sha
+    assert operation["completed_trials"] == 600 and all(row["returncode"] == 0 for row in operation["operations"])
+    assert operation["cost"] == root["cost"]
+    oldroots = [read(p) for p in OLD_REVIEWS]
+    oldinds = [read(p) for p in OLD_INDEPENDENTS]
+    oldarchives = [read(p) for p in OLD_ARCHIVES]
+    oldpulls = [read(p) for p in OLD_PULLS]
+    assert root["status"] == "passed" and root["job_id"] == JOBS[2] and root["stage"] == "development"
+    assert root["scientific_complete"] is True and root["final_state_values_read"] is False
+    assert root["pull_receipt"] == args.pull and root["source_sha256"] == SOURCE and root["execution_manifest_sha256"] == seen[MANIFEST]
+    historical_ledgers = []
+    for index,(oldroot,oldind,oldarchive) in enumerate(zip(oldroots,oldinds,oldarchives)):
+        assert oldroot["status"] == oldind["status"] == "passed"
+        assert oldroot["completed_trials"] == oldind["completed_trials"] == ENDPOINTS[index]
+        assert oldind["root_review_sha256"] == seen[OLD_REVIEWS[index]]
+        assert oldarchive["job_id"] == JOBS[index] and oldarchive["root_review_sha256"] == seen[OLD_REVIEWS[index]]
+        saved = {row["original"]:row for row in oldarchive["files"]}
+        assert len(saved) == len(oldarchive["files"]) == (12 if index == 0 else 20)
+        for name,row in saved.items():
+            watch(row["archive"],row["sha256"])
+            assert path(row["archive"]).stat().st_size == row["bytes"]
+            if name in MUTABLE:
+                key = (name,row["sha256"])
+                assert key not in historical_files
+                historical_files[key] = row["archive"]
+            else:
+                watch(name,row["sha256"])
+        ledger = saved[MUTABLE[0]]
+        historical_ledgers.append(path(ledger["archive"]).read_bytes())
+    assert len(historical_ledgers[0]) == 1269507 and len(historical_ledgers[1]) == 11923097
+    assert historical_ledgers[1].startswith(historical_ledgers[0])
+    assert archive["job_id"] == JOBS[2] and archive["root_review"] == ROOT_REVIEW and archive["root_review_sha256"] == seen[ROOT_REVIEW]
+    assert archive["pull_receipt"] == args.pull and archive["pull_receipt_sha256"] == seen[args.pull]
+    current_archive = {row["original"]:row for row in archive["files"]}
+    assert len(current_archive) == len(archive["files"]) and all(name in current_archive for name in MUTABLE)
+    for row in current_archive.values():
+        watch(row["original"],row["sha256"])
+        watch(row["archive"],row["sha256"])
+        assert path(row["original"]).stat().st_size == path(row["archive"]).stat().st_size == row["bytes"]
+    assert pull["status"] == "verified_nonweight_snapshot" and pull["final_evidence"] is True and not pull["missing"]
+    assert not pull["weights_copied"] and not pull["sealed_initial_states_copied"] and JOBS[2] in pull["requested_job_ids"]
+    for row in pull["excluded"]:
+        if row["job_id"] in JOBS:
+            assert row["path"] == P+RUN+"/.evaluation.lock" and row["reason"] == "unregistered_nonweight_extension"
+    for suffix in ("inventory_before.json","inventory_after.json"):
+        watch(str(PurePosixPath(args.pull).parent/suffix),pull["inventory_sha256"])
+    pulled = {row["relative"]:row for row in pull["files"] if set(row["job_ids"]) & set(JOBS)}
+    for name,row in pulled.items():
+        watch(name,row["sha256"])
+        assert path(name).stat().st_size == row["bytes"]
+    for name,digest in root["files"].items():
+        assert name in pulled and digest == pulled[name]["sha256"]
+    assert set(root["files"]) <= set(current_archive)
+    references = {}
+    for oldpull in oldpulls:
+        assert oldpull["status"] == "verified_nonweight_snapshot" and oldpull["final_evidence"] is True and not oldpull["missing"]
+        verify_map({row["relative"]:row["sha256"] for row in oldpull["files"]})
+        references.update({row["relative"]:row for row in oldpull["files"]})
+    references.update(pulled)
+    for mapping in [*[x["read_evidence_sha256"] for x in oldinds],prereg["read_evidence_sha256"],
+            *[x["evidence_sha256"] for x in oldroots],root["evidence_sha256"],inventory["files"]]:
+        verify_map(mapping)
+    assert len(inventory["files"]) == 173 and inventory["source_root_server"] == SNAP.rstrip("/") and inventory["source_sha256"] == SOURCE
+    assert plan["plan_sha256"] == "1cf4ea60ea49be35bb1b75899957f12980196c62f1ac70889b4773428d8682ef"
+    assert plan["plan_sha256"] == sig({k:v for k,v in plan.items() if k != "plan_sha256"})
+    assert prereg["plan_file_sha256"] == seen[PLAN] and prereg["plan_sha256"] == plan["plan_sha256"]
+    assert prereg["previous_job_ids"] == JOBS[:2] and prereg["previous_completed_trials"] == 132
+    assert prereg["previous_allocation_gpu_seconds"] == 1787 and prereg["additional_stop_after"] == 468
+    assert prereg["expected_cumulative_trials_after_segment"] == 600 and prereg["remaining_after_segment_if_completed"] == 0
+    invs = {job:read(name) for job,name in INVOCATIONS.items()}
+    assert root["invocation_sha256"] == seen[INVOCATIONS[JOBS[2]]]
+    assert all(invs[JOBS[2]].get(k) == v for k,v in plan["invocation"].items())
+    for index,job in enumerate(JOBS):
+        inv = invs[job]
+        assert inv["method_ids"] == METHODS and inv["stop_after"] == [12,120,468][index]
+        assert inv["resume"] == bool(index) and inv["prior_job_ids"] == JOBS[:index]
+        assert inv["source_sha256"] == SOURCE and inv["execution_manifest_sha256"] == seen[MANIFEST]
+        assert inv["run_root"] == P+RUN and not inv["scientific_settings_changed"]
+        assert inv["entrypoint"] == "scripts/ops/formal_asset_evaluation_adapter.py"
+        assert inv["argv"].count("--stop-after") == 1 and inv["argv"][inv["argv"].index("--stop-after")+1] == str(inv["stop_after"])
+        assert inv["argv"].count("--resume") == int(bool(index))
+        assert not any(flag in inv["argv"] for flag in ("--sealed-final","--final-registry","--release"))
+        verify_map(inv["root_evidence_sha256"])
+        for absolute,digest in inv["watched_files"].items():
+            watch(remote(absolute),digest)
+        if index:
+            prior = {row["original"]:row for row in oldarchives[index-1]["files"]}
+            for name in MUTABLE:
+                assert P+name not in inv["watched_files"]
+                assert inv["root_evidence_sha256"][name] == prior[name]["sha256"]
+            assert inv["prior_review"] == OLD_REVIEWS[index-1]
+        assert inv["downstream_asset_compatibility"] == invs[JOBS[0]]["downstream_asset_compatibility"]
+    assert manifest["suite"] == "libero_object" and manifest["split"] == "development" and manifest["environment"] == ENV
+    assert [row["identity"]["method_id"] for row in manifest["methods"]] == METHODS
+    identities = {row["identity"]["method_id"]:row["identity"] for row in manifest["methods"]}
+    assert all(row["future_head_deployed"] is False for row in identities.values())
+    selected_name = read(PREREG1)["selected_server_review"]
+    selected = read(selected_name)
+    assert selected_name == prereg["actual_selected_server_review"] and seen[selected_name] == prereg["actual_selected_server_review_sha256"]
+    assert selected["status"] == "passed" and selected["remote_returncode"] == 0
+    for arm,(update,digest) in BEST.items():
+        method = next(row for row in manifest["methods"] if row["identity"]["method"] == arm)
+        receipt = read(method["receipt"])
+        assert receipt["training_complete"] and receipt["completed_updates"] == 5000 and receipt["checkpoint_sha256"] == digest
+        assert method["identity"]["checkpoint_sha256"] == digest and method["identity"]["training_seed"] == 17
+        assert [row["update"] for row in receipt["evaluations"]] == list(range(0,5001,500))
+        assert min(receipt["evaluations"],key=lambda row:(row["validation_metric"],row["update"]))["update"] == update
+        actual = next(row for row in selected["server_selected_checks"] if row["arm"] == arm)
+        assert actual["path"] == method["checkpoint"] and actual["sha256"] == digest and actual["stable_during_hash"]
+    panel,config,report = read(manifest["development_panel"]),read(RUN+"/config.json"),read(MUTABLE[1])
+    assert read(RUN+"/panel.json") == panel and watch(RUN+"/panel.json") == manifest["development_panel_sha256"]
+    assert len(panel["states"]) == 100 and len({row["trial_id"] for row in panel["states"]}) == 100
+    assert Counter(row["task_id"] for row in panel["states"]) == dict.fromkeys(range(10),10)
+    assert config["manifest"] == manifest and config["panel_signature"] == sig(panel) and config["policy_watchdog_seconds"] == 60
+    assert config["registration_sha256"] == manifest["registration_sha256"]
+    for name,digest in config["source_files"].items():
+        assert inventory["files"][name] == digest
+    for absolute,digest in config["watched_files"].items():
+        if "/checkpoints/" in absolute:
+            assert len([row for row in selected["server_selected_checks"] if row["path"] == absolute and row["sha256"] == digest]) == 1
+        else:
+            watch(remote(absolute),digest)
+    assert config["runtime"] == dict(cuda="12.1",gpu="NVIDIA L40",numpy="1.26.4",python="3.11.7",torch="2.2.0+cu121")
+    current_bytes = path(MUTABLE[0]).read_bytes()
+    assert current_bytes.startswith(historical_ledgers[1]) and current_bytes.startswith(historical_ledgers[0])
+    assert prereg["prior_ledger_prefix_bytes"] == len(historical_ledgers[1])
+    assert prereg["prior_ledger_prefix_sha256"] == hashlib.sha256(historical_ledgers[1]).hexdigest()
+    rows = lines(MUTABLE[0])
+    for count,data in zip((25,266),historical_ledgers):
+        assert rows[:count] == [json.loads(line) for line in data.splitlines()]
+    assert all(row["run_signature"] == sig(config) for row in rows)
+    results,initial_observations,calls = validate_trial_pairs(rows,panel,identities)
+    assert [row["trial_id"] for row in results[:132]] == prereg["prior_terminal_trial_ids"]
+    assert [row["trial_id"] for row in results[132:]] == prereg["expected_next_trial_ids"]
+    assert sig([row["trial_id"] for row in results]) == prereg["original_trial_order_sha256"]
+    assert sig([row["trial_id"] for row in results[132:]]) == prereg["expected_next_trial_ids_sha256"]
+    assert report["status"] == "completed" and report["completed_trials"] == report["expected_trials"] == 600
+    assert not report["test_opened"] and report["checkpoint_unchanged"] and report["trials_jsonl_sha256"] == seen[MUTABLE[0]]
+    assert report["provenance"]["run_signature"] == sig(config)
+    assert all(report["provenance"][key] == value for key,value in config.items() if key != "runtime")
+    assert report["provenance"]["runtime"] == {**config["runtime"],"slurm_job_id":JOBS[2]}
+    method_statistics,task_statistics = {},{}
+    for method in METHODS:
+        chosen = [row for row in results if row["method"] == method]
+        per_task = {}
+        for task in range(10):
+            group = [row for row in chosen if row["task_id"] == task]
+            assert len(group) == 10
+            per_task[str(task)] = dict(trials=10,successes=sum(row["success"] for row in group),success_rate=sum(row["success"] for row in group)/10)
+            task_statistics.setdefault(str(task),{})[method] = per_task[str(task)]
+        method_statistics[method] = dict(trials=100,successes=sum(row["success"] for row in chosen),success_rate=sum(row["success"] for row in chosen)/100,per_task=per_task)
+    assert report["methods"] == method_statistics
+    by_id = {row["trial_id"]:row for row in results}
+    paired = [dict(state_trial_id=state["trial_id"],task_id=state["task_id"],
+        A_success=by_id[state["trial_id"]+":A128_seed17"]["success"],
+        B_success=by_id[state["trial_id"]+":B128_seed17"]["success"],
+        B_minus_A=int(by_id[state["trial_id"]+":B128_seed17"]["success"])-int(by_id[state["trial_id"]+":A128_seed17"]["success"])) for state in panel["states"]]
+    paired_summary = dict(completed_pairs=100,expected_pairs=100,B_minus_A_success_rate=sum(row["B_minus_A"] for row in paired)/100,
+        per_task={str(t):dict(pairs=10,B_minus_A=sum(row["B_minus_A"] for row in paired if row["task_id"]==t)/10) for t in range(10)},results=paired)
+    assert report["paired_AB"] == {"k128_seed17":paired_summary}
+    total_calls = Counter()
+    for counts in calls.values():
+        total_calls.update(counts)
+    cost = report["cost"]
+    assert cost["recorded_result_attempts"] == 600 and cost["unfinished_attempts_unknown_cost"] == 0
+    assert cost["policy_calls_total"] == cost["known_policy_calls"] == total_calls["policy"]
+    assert cost["known_wall_seconds"] == sum(row["wall_seconds"] for row in results)
+    assert cost["known_attempt_wall_seconds"] == sum(row["attempt_wall_seconds"] for row in results)
+    compatibility = {}
+    ledger_versions = [b"",*historical_ledgers,current_bytes]
+    for index,job in enumerate(JOBS):
+        compatibility[job] = verify_compatibility(job,invs[job],config,panel,ENDPOINTS[index],ledger_versions[index],ledger_versions[index+1],results,references)
+    allocations = []
+    seconds_by_job = dict(zip(JOBS,[386,1401,args.current_gpu_seconds]))
+    for index,job in enumerate(JOBS):
+        accounting_pull = [*oldpulls,pull][index]
+        account = accounting_pull["accounting_after"]["jobs"][job]
+        assert account == accounting_pull["accounting_before"]["jobs"][job]
+        assert account["status"] == "COMPLETED" and account["exit_code"] == "0:0" and account["elapsed_seconds"] == seconds_by_job[job]
+        assert "gres/gpu:l40=1" in account["allocation"] and "gres/gpu=1" in account["allocation"]
+        matching = [row for row in root["registered_jobs_at_review"] if row["job_id"] == job]
+        assert len(matching) == 1 and matching[0]["gpus"] == 1
+        assert all(matching[0][key] == account[key] for key in ("status","exit_code","elapsed_seconds","allocation","node"))
+        assert matching[0]["invocation_sha256"] == seen[INVOCATIONS[job]]
+        billed = [row for row in root["cost"]["allocations"] if row["job_id"] == job]
+        assert len(billed) == 1 and billed[0]["gpus"] == 1 and billed[0]["elapsed_seconds"] == account["elapsed_seconds"]
+        allocations.append(dict(job_id=job,gpus=1,**account))
+    all_gpu_seconds = sum(seconds_by_job.values())
+    assert root["cost"]["current_gpu_seconds"] == args.current_gpu_seconds and root["cost"]["all_attempt_gpu_seconds"] == all_gpu_seconds
+    assert {row["job_id"] for row in root["cost"]["allocations"]} == set(JOBS) and len(root["cost"]["allocations"]) == 3
+    assert root["completed_trials"] == root["expected_trials"] == 600 and root["raw_invocation_job_ids"] == JOBS
+    assert root["reconstructed_summary"] == report
+    assert root["asset_runtime_review"]["event_count"] == 8 and root["asset_runtime_review"]["metadata_loads"] == 1 and root["asset_runtime_review"]["component_loads"] == 0
+    runtime_tree = ast.parse(path("src/cti_vla/evaluation/formal_runtime.py").read_text(encoding="utf-8"))
+    policy = next(node for node in runtime_tree.body if isinstance(node,ast.ClassDef) and node.name == "FormalRolloutPolicy")
+    call = next(node for node in policy.body if isinstance(node,ast.FunctionDef) and node.name == "__call__")
+    assert [arg.arg for arg in call.args.args] == ["self","observation","instruction"]
+    assert sum(isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and node.func.attr == "_policy_forward" for node in ast.walk(call)) == 1
+    assert sum(isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and node.func.attr == "_process_vision_features" for node in ast.walk(call)) == 1
+    libero_name = "src/cti_vla/evaluation/libero_runtime.py"
+    libero_source = path(libero_name).read_text(encoding="utf-8")
+    watch(libero_name,inventory["files"][libero_name])
+    runtime_lines = libero_source.splitlines()
+    error_line = [index for index,line in enumerate(runtime_lines,1) if 'raise ValueError("environment action outside normalized controller [-1, 1] range")' in line]
+    assert len(error_line) == 1
+    check_line = error_line[0]-1
+    assert 'np.abs(chunk.environment_actions) > 1.00001' in runtime_lines[check_line-1]
+    call_line = next(index for index,line in enumerate(runtime_lines,1) if "chunk = predict_chunk(observation, instruction)" in line)
+    append_line = next(index for index,line in enumerate(runtime_lines,1) if 'result["chunks"].append({' in line)
+    assert call_line < check_line < append_line
+    post = next(node for node in ast.parse(libero_source).body if isinstance(node,ast.FunctionDef) and node.name == "postprocess_actions")
+    array_writes = [node for node in ast.walk(post) if isinstance(node,ast.Assign) and any(isinstance(target,ast.Subscript) for target in node.targets)]
+    assert len(array_writes) == 1 and ast.unparse(array_writes[0].targets[0]) == "actions[..., -1]"
+    failed_rows = [row for row in results if row["status"] == "policy_error"]
+    failure_row = failed_rows[0]
+    raw_lines = current_bytes.splitlines(keepends=True)
+    failed_lines = [(index+1,raw) for index,raw in enumerate(raw_lines) if json.loads(raw).get("event") == "result" and json.loads(raw).get("status") == "policy_error"]
+    assert len(failed_lines) == 1 and failed_lines[0][0] == 1073
+    failure_line_number,failure_raw = failed_lines[0]
+    failure_diagnostic = dict(trial_id=failure_row["trial_id"],method="dense",task_id=8,source_state_index=49,
+        ledger=MUTABLE[0],ledger_sha256=seen[MUTABLE[0]],line_number=failure_line_number,
+        line_sha256=hashlib.sha256(failure_raw).hexdigest(),line_sha_scope="Exact UTF-8 JSONL line including its newline",
+        byte_offset=sum(len(raw) for raw in raw_lines[:failure_line_number-1]),
+        status="policy_error",success=False,termination=failure_row["termination"],error_phase=failure_row["error_phase"],error=failure_row["error"],
+        control_steps=56,attempted_policy_calls=8,recorded_successful_chunks=7,unrecorded_returned_policy_call=1,
+        failed_chunk_values_recorded=False,failed_environment_actions=None,failed_action_max_abs=None,
+        failed_action_dimension=None,failed_action_time_offset=None,
+        known_boundary="At least one finite non-gripper returned action had absolute value greater than1.00001. No failed-chunk values were saved, so magnitude/dimension and root cause cannot be recovered from this ledger.",
+        gripper_mapping="Frozen postprocess_actions changes only dimension6 to -sign(2*x-1), within[-1,1]. No new clipping was applied.",
+        exact_fault_source=dict(path=libero_name,sha256=seen[libero_name],bounds_check_line=check_line,error_line=error_line[0],policy_call_line=call_line,chunk_record_line=append_line),
+        fault_origin="Not established: logs cannot distinguish model output, unnormalization/stats, or the size of a floating-point overshoot.",
+        call_accounting="policy includes the failed eighth call; other raw call counters cover saved chunk metadata. The returned-call pipeline count below is a source-based inference, not saved failed-chunk metadata.",
+        source_inferred_unrecorded_returned_calls=dict(policy=1,vision=1,packing=1,scorer=0,future_head=0),
+        trial_kept_as_failure_in_all_denominators=True,classified_as_task_horizon=False,rerun=False,action_clipped=False,
+        first_audit_attempt_failure=".local/audit_object_third_development_3021844_failure01.json")
+    watch(SELF)
+    result = dict(schema="formal_main_v2",kind="independent_third_object_development_review",status="passed",
+        reviewed_utc=datetime.now(timezone.utc).isoformat(),reviewer="train64",job_id=JOBS[2],reviewed_job_ids=JOBS,
+        suite="libero_object",stage="development",root_review=ROOT_REVIEW,root_review_sha256=seen[ROOT_REVIEW],
+        pull_receipt=args.pull,pull_receipt_sha256=seen[args.pull],previous_root_reviews=OLD_REVIEWS,
+        previous_independent_reviews=OLD_INDEPENDENTS,immutable_raw_archives=[*OLD_ARCHIVES,args.archive],
+        immutable_raw_archive_sha256=seen[args.archive],historical_read_resolutions=historical_resolutions,
+        source_sha256=SOURCE,frozen_source_files_verified=173,output_relative=RUN,
+        execution_manifest=MANIFEST,execution_manifest_sha256=seen[MANIFEST],
+        completed_trials=600,previous_completed_trials=132,new_completed_trials=468,target_trials=600,remaining_trials=0,
+        scientific_complete=None,scientific_completion_not_inferred=True,root_scientific_complete_claim=root["scientific_complete"],
+        registered_trial_cells_complete=True,clean_runtime_completion=False,attempted_trials=600,normal_completed_trajectories=599,
+        terminal_status_counts=dict(Counter(row["status"] for row in results)),
+        scientific_completion_scope="All600 registered terminal cells are present, including one dense policy_error counted as failure. This consistency audit does not infer scientific/clean-runtime qualification, full22-method suite completion, or release.",
+        unique_observed_development_initial_states=100,new_unique_development_initial_states=78,
+        registered_development_initial_states=100,registered_method_instances_completed=6,full_suite_method_instances=22,
+        complete_full_suite_development=False,environment=ENV,methods=METHODS,
+        completed_per_method=dict(Counter(row["method"] for row in results)),method_successes=method_statistics,per_task_method_successes=task_statistics,
+        paired_AB_descriptive=paired_summary,supervision_effectiveness_conclusion=None,
+        exact_fixed_prefix_order=True,old_prefix_bytes=len(historical_ledgers[1]),old_prefix_sha256=hashlib.sha256(historical_ledgers[1]).hexdigest(),
+        old_prefix_preserved_byte_for_byte=True,all_prior_prefixes=[dict(bytes=len(data),sha256=hashlib.sha256(data).hexdigest()) for data in historical_ledgers],
+        raw_events=dict(Counter(row["event"] for row in rows)),
+        raw_trial_counts=[{key:row[key] for key in ("trial_id","state_trial_id","method","task_id","source_state_index","status","success","termination","control_steps","policy_calls")} for row in results],
+        paired_first_observation_hashes=initial_observations,calls=dict(total_calls),calls_by_job={job:dict(counts) for job,counts in calls.items()},
+        calls_scope="policy is all recorded attempts; recorded_chunk_policy/vision/packing/scorer/future_head are metadata of successfully recorded chunks. The one returned-but-rejected call is explicit in policy_error_diagnostic.",
+        policy_error_diagnostic=failure_diagnostic,
+        task_horizon_failures=sum(row["termination"] == "task_horizon" for row in results),
+        new_task_horizon_failures=sum(row["termination"] == "task_horizon" for row in results[132:]),
+        runtime_errors=1,policy_errors=1,infrastructure_errors=0,unfinished_or_replayed_trials=0,
+        selected_updates={arm:value[0] for arm,value in BEST.items()},selected_checkpoint_sha256={arm:value[1] for arm,value in BEST.items()},
+        cost=dict(all_allocated_gpu_seconds=all_gpu_seconds,current_allocated_gpu_seconds=args.current_gpu_seconds,previous_allocated_gpu_seconds=1787,
+            allocations=allocations,nested_episode_wall_seconds=cost["known_wall_seconds"],nested_attempt_wall_seconds=cost["known_attempt_wall_seconds"],
+            nested_times_added_to_allocation=False,engineering_estimate_added_to_allocation=False,
+            scope="Exactly three actual Slurm allocations counted once; nested timings and planning estimate not added."),
+        compatibility_by_job=compatibility,all_current_inputs_only=True,future_head_deployed=False,
+        policy_api_inputs=["observation","instruction"],eligible_for_root_reviewed_same_ledger_continuation=False,
+        global_final_release=False,final_trials_read=0,sealed_states_opened=False,checkpoints_read=False,weights_copied=False,
+        ssh_used=False,supervisor_state_read=False,runtime_or_science_modified=False,new_GPU_seconds=0,
+        limits=["600 terminal records comprise599 normal completed trajectories and one dense policy_error retained as failure; this is not600 clean trajectories. Six of22 Object method instances on100 unique development states, no scientific/global-release or future-supervision effectiveness conclusion.",
+            "CPU evidence reconstruction only. Actual selected-checkpoint identity relies on the separately bound root server SHA proof; no new weight read or probe.",
+            "All failures and all three Slurm allocations retained. No outcome-dependent selection or replay; later divergent observations are not treated as the same input."],
+        actual_command=[sys.executable,"-B",*sys.argv],root_operation=ROOT_OPERATION,root_operation_sha256=seen[ROOT_OPERATION],
+        audit_implementation=dict(path=SELF,sha256=seen[SELF],source_helper=SOURCE_SCRIPT,source_helper_sha256=seen[SOURCE_SCRIPT]))
+    with (ROOT/LOG).open("x",encoding="utf-8",newline="\n") as stream:
+        json.dump({key:result[key] for key in ("status","job_id","completed_trials","new_completed_trials","calls","calls_by_job","task_horizon_failures","new_task_horizon_failures","runtime_errors","cost","root_review_sha256","per_task_method_successes")},stream,ensure_ascii=False,sort_keys=True)
+        stream.write("\n")
+    watch(LOG)
+    for name,digest in list(seen.items()):
+        watch(name,digest)
+    result["read_evidence_sha256"] = dict(sorted(seen.items()))
+    with (ROOT/OUT).open("x",encoding="utf-8",newline="\n") as stream:
+        json.dump(result,stream,ensure_ascii=False,indent=2,allow_nan=False)
+        stream.write("\n")
+    print(json.dumps(dict(status="passed",output=OUT,sha256=hashlib.sha256((ROOT/OUT).read_bytes()).hexdigest(),
+        evidence_files=len(seen),completed_trials=600,method_successes={method:value["successes"] for method,value in method_statistics.items()},
+        calls=dict(total_calls),cost_gpu_seconds=all_gpu_seconds),ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--pull",required=True)
+    parser.add_argument("--pull-sha",required=True)
+    parser.add_argument("--root-sha",required=True)
+    parser.add_argument("--archive",required=True)
+    parser.add_argument("--archive-sha",required=True)
+    parser.add_argument("--current-gpu-seconds",type=int,required=True)
+    parser.add_argument("--write",action="store_true")
+    main(parser.parse_args())

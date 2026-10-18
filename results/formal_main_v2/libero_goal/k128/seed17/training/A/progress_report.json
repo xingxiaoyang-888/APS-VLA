@@ -1,110 +1,110 @@
 {
   "arm": "A",
-  "attempted_forward_backward_samples_completed": 32000,
-  "committed_samples": 32000,
+  "attempted_forward_backward_samples_completed": 36000,
+  "committed_samples": 36000,
   "committed_sampling_by_task": {
     "0": {
       "phase_sample_counts": {
-        "early": 1282,
-        "late": 1268,
-        "middle": 1260
+        "early": 1433,
+        "late": 1415,
+        "middle": 1431
       },
-      "samples": 3810,
+      "samples": 4279,
       "unique_episodes": 30,
-      "unique_windows": 3810
+      "unique_windows": 4030
     },
     "1": {
       "phase_sample_counts": {
-        "early": 1011,
-        "late": 995,
-        "middle": 1010
+        "early": 1142,
+        "late": 1110,
+        "middle": 1138
       },
-      "samples": 3016,
+      "samples": 3390,
       "unique_episodes": 34,
-      "unique_windows": 3016
+      "unique_windows": 3181
     },
     "2": {
       "phase_sample_counts": {
-        "early": 1037,
-        "late": 1026,
-        "middle": 1010
+        "early": 1162,
+        "late": 1125,
+        "middle": 1150
       },
-      "samples": 3073,
+      "samples": 3437,
       "unique_episodes": 33,
-      "unique_windows": 3073
+      "unique_windows": 3231
     },
     "3": {
       "phase_sample_counts": {
-        "early": 1499,
-        "late": 1487,
-        "middle": 1499
+        "early": 1685,
+        "late": 1682,
+        "middle": 1686
       },
-      "samples": 4485,
+      "samples": 5053,
       "unique_episodes": 25,
-      "unique_windows": 4485
+      "unique_windows": 4742
     },
     "4": {
       "phase_sample_counts": {
-        "early": 936,
-        "late": 914,
-        "middle": 926
+        "early": 1055,
+        "late": 1024,
+        "middle": 1043
       },
-      "samples": 2776,
+      "samples": 3122,
       "unique_episodes": 32,
-      "unique_windows": 2776
+      "unique_windows": 2949
     },
     "5": {
       "phase_sample_counts": {
-        "early": 1034,
-        "late": 1005,
-        "middle": 1015
+        "early": 1151,
+        "late": 1161,
+        "middle": 1138
       },
-      "samples": 3054,
+      "samples": 3450,
       "unique_episodes": 23,
-      "unique_windows": 3054
+      "unique_windows": 3246
     },
     "6": {
       "phase_sample_counts": {
-        "early": 856,
-        "late": 848,
-        "middle": 861
+        "early": 981,
+        "late": 953,
+        "middle": 972
       },
-      "samples": 2565,
+      "samples": 2906,
       "unique_episodes": 28,
-      "unique_windows": 2565
+      "unique_windows": 2714
     },
     "7": {
       "phase_sample_counts": {
-        "early": 894,
-        "late": 883,
-        "middle": 901
+        "early": 1013,
+        "late": 977,
+        "middle": 1018
       },
-      "samples": 2678,
+      "samples": 3008,
       "unique_episodes": 35,
-      "unique_windows": 2678
+      "unique_windows": 2830
     },
     "8": {
       "phase_sample_counts": {
-        "early": 914,
-        "late": 908,
-        "middle": 921
+        "early": 1026,
+        "late": 1021,
+        "middle": 1021
       },
-      "samples": 2743,
+      "samples": 3068,
       "unique_episodes": 34,
-      "unique_windows": 2743
+      "unique_windows": 2904
     },
     "9": {
       "phase_sample_counts": {
-        "early": 1263,
-        "late": 1251,
-        "middle": 1286
+        "early": 1452,
+        "late": 1419,
+        "middle": 1416
       },
-      "samples": 3800,
+      "samples": 4287,
       "unique_episodes": 25,
-      "unique_windows": 3800
+      "unique_windows": 4032
     }
   },
-  "effective_epochs": 0.9450958386248856,
+  "effective_epochs": 1.0632328184529962,
   "evaluations": [
     {
       "artifact_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training/A/attempts/20261017T074627_53f35f08c718/validation_00000.json",
@@ -177,6 +177,14 @@
       "candidate_sha256": "0022a8fbcb92dce1f6e83147e81e3b246b34e1875ef85af118683eee88aff8b2",
       "update": 4000,
       "validation_metric": 0.018749487134110593
+    },
+    {
+      "artifact_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed17/training/A/attempts/20261018T015355_4f0e563af81c/validation_04500.json",
+      "artifact_sha256": "a4d81ff66c1021dcfe65f8aa9611cddede38089cd2761db3bcf28b1169df2f3a",
+      "candidate_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k128/seed17/A/candidates/20261018T015355_4f0e563af81c_update04500.pt",
+      "candidate_sha256": "f59590dc2d02bcc7b5dcbd5d73939ca1acd2dc0047ce6d5458e7435ed446bd50",
+      "update": 4500,
+      "validation_metric": 0.01891242818212107
     }
   ],
   "final_deployment_receipt_emitted": false,
@@ -367,21 +375,22 @@
     "3020124",
     "3020832",
     "3021112",
-    "3021370"
+    "3021370",
+    "3021761"
   ],
-  "next_sample_cursor": 32000,
+  "next_sample_cursor": 36000,
   "peak_cuda_memory_allocated_bytes": 18205670912,
   "peak_cuda_memory_reserved_bytes": 18570280960,
   "planned_updates": 5000,
   "resume_checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k128/seed17/A/resume.pt",
-  "resume_sha256": "4f81f47f8b1cc25c882eb2421ebe4774a0b7e7fd4d11f2652e87030d34b9916a",
+  "resume_sha256": "9f45732b8df103fdaa58c833e164360611342e783263ceff64aef22a3d783fe7",
   "sample_order_sha256": "53399fe83cb02067941b412111f2dff3e62ca50b800065d4e64df498adf0dfc5",
   "schema": "formal_main_v2",
   "status": "checkpointed",
   "stop_reason": "registered_engineering_segment_boundary",
   "train_pool_windows": 33859,
-  "training_updates_completed": 4000,
-  "unique_committed_windows": 32000,
+  "training_updates_completed": 4500,
+  "unique_committed_windows": 33859,
   "vla_parameters_unchanged": true,
-  "wall_seconds_this_attempt": 2587.508249696344
+  "wall_seconds_this_attempt": 2110.382068656385
 }

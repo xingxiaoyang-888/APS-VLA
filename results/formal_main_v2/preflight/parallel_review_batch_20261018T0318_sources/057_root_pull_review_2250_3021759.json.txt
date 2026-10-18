@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "job_id": "3021759",
+  "suite": "libero_10",
+  "budget": 64,
+  "seed": 41,
+  "boundary": 3500,
+  "root_review": "results/formal_main_v2/libero_10/k64/seed41/training/segment_reviews/3021759.json",
+  "root_sha256": "a95d57c7db53eb22640bf0b9727dc6be29a6c701d12fc98ce687401c8c8e77ee",
+  "pull": "results/formal_main_v2/pulls/20261018T033816Z_55ff44f40895/receipt.json",
+  "pull_sha256": "b680ab384f1f5372f7581f1723e210b72ebfcc023cde40d35c8ef8e45f95f8c7",
+  "pair_gpu_seconds": 30911,
+  "latest_gpu_seconds": 3466,
+  "histories": [
+    "3016459",
+    "3017005",
+    "3018381",
+    "3019845",
+    "3020806",
+    "3021353",
+    "3021759"
+  ],
+  "allowed_next": 4000,
+  "operations": [
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/review_formal_segment.py",
+        "--job-id",
+        "3021759",
+        "--source-inventory",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "--pull-receipt",
+        "results/formal_main_v2/pulls/20261018T033816Z_55ff44f40895/receipt.json",
+        "--verify-server-resume"
+      ],
+      "started_utc": "2026-10-18T03:39:41.824413+00:00",
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"passed\",\r\n  \"job_id\": \"3021759\",\r\n  \"completed_by_arm\": {\r\n    \"A\": 3500,\r\n    \"B\": 3500\r\n  },\r\n  \"allowed_next_segment_end\": 4000,\r\n  \"continuation\": \"advance_one_registered_boundary\",\r\n  \"server_resume_checklist\": [\r\n    {\r\n      \"arm\": \"A\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k64/seed41/A/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"d18d7abce220c91c4d9a3bc7fee42224bee52427883272610fa5ba641b33d753\"\r\n    },\r\n    {\r\n      \"arm\": \"B\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k64/seed41/B/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"8dc23827a3fd0094258406f027ea22f16efdebb9b630f92c5e99971a4cea52b3\"\r\n    }\r\n  ],\r\n  \"pair_allocated_gpu_seconds\": 30911\r\n}\r\n",
+      "stderr": ""
+    }
+  ]
+}

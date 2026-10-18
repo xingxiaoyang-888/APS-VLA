@@ -1,0 +1,15 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "retained_local_read_only_diagnostic_failure",
+  "status": "failed_before_remote_probe",
+  "command": "python -B .local/diagnose_object_action_range_0318.py",
+  "source_archive": "results/formal_main_v2/preflight/object_action_range_diagnosis_0318_failures/attempt01_source.py.txt",
+  "initial_source_sha256": "994a7de0eabe4cb7cbe8c61cac31b920b430c9abe2a944e24f553aca26a09a84",
+  "error": "AssertionError at local==blob: Windows checkout line endings differ from the exact Git blob.",
+  "bounded_correction": "Require local bytes after CRLF-to-LF normalization equal the pinned Git blob, record both hashes, and extract source functions from the exact pinned Git blob. No runtime or external checkout file modified.",
+  "GPU_seconds": 0,
+  "server_calls_before_failure": 0,
+  "new_trials": 0,
+  "weights_read": false,
+  "final_states_opened": false
+}

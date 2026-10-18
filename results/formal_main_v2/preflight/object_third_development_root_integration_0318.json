@@ -1,0 +1,85 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_actual_development_integration",
+  "status": "passed",
+  "self_path": "results/formal_main_v2/preflight/object_third_development_root_integration_0318.json",
+  "recorded_utc": "2026-10-18T03:59:10.032970+00:00",
+  "job_id": "3021844",
+  "suite": "libero_object",
+  "root_review": "results/formal_main_v2/downstream_reviews/3021844.json",
+  "independent_review": "results/formal_main_v2/preflight/object_third_development_real_independent_0318.json",
+  "raw_archive": "results/formal_main_v2/preflight/object_third_development_raw_v1/receipt.json",
+  "suite_completed_trials": 600,
+  "new_trials": 468,
+  "previous_trials": 132,
+  "unique_development_initial_states": 100,
+  "completed_development_trials": 1200,
+  "target_suite_subset_trials": 600,
+  "remaining_suite_subset_trials": 0,
+  "complete_suite_deployment_instances": false,
+  "verified_instances_in_scope": 6,
+  "total_suite_instances": 22,
+  "runtime_errors": 1,
+  "task_horizon_failures": 79,
+  "normally_completed_trajectories": 599,
+  "policy_calls": 11728,
+  "recorded_chunks": 11727,
+  "unrecorded_policy_error_chunks": 1,
+  "control_actions": 92001,
+  "recorded_chunks_future_head_calls": 0,
+  "policy_error_trial_ids": [
+    "libero_object:pick_up_the_chocolate_pudding_and_place_it_in_the_basket:state-0049:env-0:dense"
+  ],
+  "terminal_coverage_complete": true,
+  "clean_runtime_acceptance": false,
+  "root_scientific_complete_means_registered_terminal_coverage_only": true,
+  "per_method_successes": {
+    "dense": {
+      "successes": 98,
+      "trials": 100
+    },
+    "uniform256": {
+      "successes": 93,
+      "trials": 100
+    },
+    "uniform128": {
+      "successes": 86,
+      "trials": 100
+    },
+    "uniform64": {
+      "successes": 49,
+      "trials": 100
+    },
+    "A128_seed17": {
+      "successes": 98,
+      "trials": 100
+    },
+    "B128_seed17": {
+      "successes": 96,
+      "trials": 100
+    }
+  },
+  "current_GPU_seconds": 4926,
+  "total_suite_GPU_seconds": 6713,
+  "cost_included_in_global_snapshot_not_additional": true,
+  "all_formal_cost_snapshot": {
+    "registered_jobs": 153,
+    "allocated_gpu_seconds": 542640,
+    "allocated_gpu_hours": 150.73333333333332,
+    "final": false,
+    "historical_jobs_excluded": true
+  },
+  "final_states_opened": false,
+  "scientific_settings_changed": false,
+  "weights_copied": false,
+  "no_future_supervision_benefit_claim": true,
+  "next": "The600 fixed development terminal outcomes include a retained Dense policy_error; complete bounded root diagnosis of action-range rejection versus the pinned official runtime before qualifying reference/development identity for global freeze. Do not rerun or clip actions to replace this failure. Remaining16 deployment instances and O2A remain; no final release.",
+  "evidence_sha256": {
+    "results/formal_main_v2/downstream_reviews/3021844.json": "004a810edd7f097bbeec755315beed11bbfa86640a78ffd75ef0ff78a769ee37",
+    "results/formal_main_v2/preflight/object_third_development_real_independent_0318.json": "4d3c5524e80305d359a63c1ad9895ef7d5b9e225aba2cdca5b2304e50d44f901",
+    "results/formal_main_v2/preflight/object_third_development_raw_v1/receipt.json": "725e96d7ef6097a5bee2d334d9b45780d45151a9ca636ab6da058cf55f256d29",
+    "results/formal_main_v2/pulls/20261018T034604Z_1bf27f1ba9a3/receipt.json": "22624a83203ad2cb071a09d9bbb91b830b4a43a77bca269c803574597cacc484",
+    "results/formal_main_v2/preflight/downstream_terminal_0318_3021844_operations.json": "9959b664bb4b118871fba01439c9a13eced7df3a0839c88a95cb2c66af62cc51",
+    ".local/integrate_development_0318.py": "edd0737545f36fe071746433103ff79d207ff550eebedaa455c84d284111a21b"
+  }
+}

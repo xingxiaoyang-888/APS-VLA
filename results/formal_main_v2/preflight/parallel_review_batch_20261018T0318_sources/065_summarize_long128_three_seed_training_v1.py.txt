@@ -1,0 +1,319 @@
+"""Read-only verification and new summary of completed Long128 training."""
+from pathlib import Path, PurePosixPath
+from datetime import datetime, timezone
+from collections import Counter, defaultdict
+import hashlib
+import json
+import math
+import random
+
+ROOT = Path(__file__).resolve().parents[1]
+SELF = ".local/summarize_long128_three_seed_training_v1.py"
+OUT = "results/formal_main_v2/preflight/long128_three_seed_training_summary_v1.json"
+DOC = "docs/正式Long128三种子训练记录.md"
+REGISTRATION = "configs/experiments/formal_main_v2.json"
+INVENTORY = "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json"
+P = "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/"
+JOBS = {17: "3016464", 23: "3021774", 41: "3021781"}
+GATE_SHA = {
+    17: ("d63782dd426d72f586d96cdff26bbd65c05ae11c230069c972f1ae3613279e81", "4c3d4a8b4d4c905ecdd26af4b044f30dc0b4dc620b55fc1aeee46add9599059b", "65bc8cc71f13307aa469328e0fc48188aefab0aec5cc9eb3f5a4a37e550f840a"),
+    23: ("9966fb3cfd5ce308b09319baf5da10f94d8b691bf54137686e661af694916f9c", "710fdb4f4dfe342fa18ea7b2416d7db5a82e5dae38805be9cd6bbdb6bc67ea9c", "e2eeaa67f146ba76ffd4f7234e5cdb44fc6d60a7de1beacd1663b180f16143a4"),
+    41: ("7806513de84156e302df90951282dfb89ed829a433695e1cf5a964c729d463bc", "c750cb7665a0e7f2123982c08f88818e77d260298873b38b0c9ba253935711ba", "e13c0b771eae24aad65fb9cd58946132f1d1b92aa1424d8a70ee85d4e9828217"),
+}
+seen = {}
+
+
+def local(name):
+    path = PurePosixPath(name)
+    assert not path.is_absolute() and ".." not in path.parts and "\\" not in name
+    assert not any("sealed" in part.lower() or part.lower() in ("checkpoints", "weights", "test", "final", "accounting") for part in path.parts)
+    assert path.suffix.lower() not in (".pt", ".pth", ".bin", ".safetensors", ".npz", ".npy", ".pkl", ".init")
+    assert "initial_states" not in path.parts and name != "results/experiment_supervisor/state.json"
+    result = ROOT / name
+    assert result.is_file() and not result.is_symlink(), name
+    return result
+
+
+def watch(name, expected=None):
+    digest = hashlib.sha256(local(name).read_bytes()).hexdigest()
+    assert expected is None or digest == expected, (name, digest, expected)
+    assert name not in seen or seen[name] == digest, name
+    seen[name] = digest
+    return digest
+
+
+def read(name, expected=None):
+    watch(name, expected)
+    return json.loads(local(name).read_bytes())
+
+
+def signature(value):
+    return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+
+
+def relative(server_path):
+    assert server_path.startswith(P), server_path
+    return server_path[len(P):]
+
+
+def validate_hard_artifact(path, expected, *, arm, update, windows, job_ids):
+    value = read(path, expected)
+    assert value["arm"] == arm and value["update"] == update and value["job_id"] in job_ids
+    assert value["metric"] == "task_macro_hard_validation_teacher_l1"
+    rows = value["observations"]
+    assert [row["window_id"] for row in rows] == windows["validation_window_ids"]
+    assert len(rows) == len({row["window_id"] for row in rows}) == value["windows"] == 165
+    by_task = defaultdict(list)
+    window_rows = {row["window_id"]: row for row in windows["windows"]}
+    for row in rows:
+        original = window_rows[row["window_id"]]
+        assert original["split"] == "validation"
+        assert (row["episode_id"], row["task_id"]) == (original["episode_id"], original["task_id"])
+        indices = row["retained_indices"]
+        assert len(indices) == len(set(indices)) == 128 and indices == sorted(indices)
+        assert all(type(i) is int and 0 <= i < 512 for i in indices)
+        assert sum(i < 256 for i in indices) == sum(i >= 256 for i in indices) == 64
+        actions = row["normalized_actions"]
+        assert len(actions) == 8 and all(len(a) == 7 and all(math.isfinite(x) for x in a) for a in actions)
+        assert all(math.isfinite(row[k]) and row[k] >= 0 for k in ("teacher_l1", "demonstration_l1"))
+        by_task[str(row["task_id"])].append(row)
+    assert set(by_task) == set(map(str, range(10))) and value["tasks"] == 10
+    per_task = {task: {"windows": len(items), "teacher_l1": sum(r["teacher_l1"] for r in items) / len(items),
+        "demonstration_l1": sum(r["demonstration_l1"] for r in items) / len(items)} for task, items in sorted(by_task.items())}
+    assert per_task == value["per_task"]
+    teacher = sum(r["teacher_l1"] for r in per_task.values()) / 10
+    expert = sum(r["demonstration_l1"] for r in per_task.values()) / 10
+    assert teacher == value["validation_metric"] and expert == value["demonstration_l1"]
+    assert sum(r["teacher_l1"] for r in rows) / 165 == value["window_weighted_teacher_l1_diagnostic"]
+    return dict(update=update, task_macro_teacher_l1=teacher, task_macro_demonstration_l1=expert,
+        windows=165, tasks=10, artifact=path, artifact_sha256=seen[path], per_task=per_task)
+
+
+def main():
+    assert not (ROOT / OUT).exists() and not (ROOT / DOC).exists()
+    # All three completed independent gates are mandatory before any output.
+    for seed, job in JOBS.items():
+        path = f"results/formal_main_v2/libero_10/k128/seed{seed}/training/segment_reviews/{job}_independent.json"
+        assert read(path, GATE_SHA[seed][1])["status"] == "passed"
+    reg = read(REGISTRATION, "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9")
+    inventory = read(INVENTORY, "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926")
+    assert len(inventory["files"]) == 173
+    for name, digest in inventory["files"].items():
+        watch(name, digest)
+    window_path = reg["suites"]["libero_10"]["windows"]
+    windows = read(window_path)
+    pool = windows["train_window_ids"]
+    assert len(pool) == len(set(pool)) == 68819 and len(windows["validation_window_ids"]) == 165
+    assert not set(pool) & set(windows["validation_window_ids"])
+    by_window = {row["window_id"]: row for row in windows["windows"]}
+    assert len(by_window) == 68819 + 165
+    all_jobs, all_selected_windows, seed_rows = {}, set(), []
+    for seed, job in JOBS.items():
+        base = f"results/formal_main_v2/libero_10/k128/seed{seed}/training"
+        root_name, ind_name, selected_name = [base + "/segment_reviews/" + job + suffix for suffix in (".json", "_independent.json", "_selected_server.json")]
+        root, independent, selected = [read(name, digest) for name, digest in zip((root_name, ind_name, selected_name), GATE_SHA[seed])]
+        assert all(r["status"] == "passed" and r["job_id"] == job and r["suite"] == "libero_10"
+            and r["seed"] == seed and r["visual_tokens"] == 128 for r in (root, independent, selected))
+        assert root["completed_by_arm"] == {"A": 5000, "B": 5000}
+        assert root["continuation"] == "formal_training_complete_no_extension" and root["allowed_next_segment_end"] is None
+        assert independent["formal_training_complete"] and independent["no_training_beyond5000"]
+        assert independent["allowed_next_segment_end"] is None and not independent["resume_required"]
+        assert independent["read_evidence_sha256"][root_name] == watch(root_name)
+        assert independent["selected_server_review_sha256"] == watch(selected_name)
+        assert root["source_sha256"] == independent["source_sha256"] == selected["source_sha256"] == inventory["source_sha256"]
+        assert root["replayed_or_uncommitted_samples"] == independent["replayed_or_uncommitted_samples"] == 0
+        assert selected["remote_returncode"] == 0 and not selected["weights_deserialized"] and not selected["weights_copied"]
+        for name, digest in selected["input_sha256"].items():
+            watch(name, digest)
+        summary_name = base + "/training_summary.json"
+        summary = read(summary_name, root["files"][summary_name])
+        assert summary["status"] == "completed" and summary["job_id"] == job and summary["pair_complete"]
+        assert summary["planned_updates_per_arm"] == 5000 and summary["requested_arms"] == ["A", "B"]
+        assert summary["checkpoint_unchanged"] and not summary["test_opened"]
+        assert all(inventory["files"][name] == digest for name, digest in summary["source_files"].items())
+        snapshots = root["registered_pair_jobs_at_review"]
+        assert len(snapshots) == 10 and len({j["job_id"] for j in snapshots}) == 10
+        assert [j["segment_end"] for j in snapshots] == list(range(500, 5001, 500))
+        pull_names = [name for name in root["evidence_sha256"] if "/pulls/" in name and name.endswith("/receipt.json")]
+        assert len(pull_names) == 1
+        pull_name = pull_names[0]
+        pull = read(pull_name, root["evidence_sha256"][pull_name])
+        assert pull["status"] == "verified_nonweight_snapshot" and not pull["weights_copied"] and not pull["sealed_initial_states_copied"]
+        allocations = []
+        for j in snapshots:
+            jid = j["job_id"]
+            assert jid not in all_jobs and j["suite"] == "libero_10"
+            assert j["stage_key"] == f"libero_10_train_k128_seed{seed}"
+            assert j["training_seed"] == seed and j["visual_tokens"] == 128
+            assert j["gpus"] == 1 and j["mode"] == "train" and j["source_sha256"] == inventory["source_sha256"]
+            assert j["run_root"] == P + base and j["status"] == "COMPLETED" and j["exit_code"] == "0:0"
+            assert jid in pull["requested_job_ids"]
+            actual = pull["accounting_after"]["jobs"][jid]
+            assert actual["status"] == "COMPLETED" and actual["exit_code"] == "0:0"
+            assert actual["elapsed_seconds"] == j["elapsed_seconds"] and "gres/gpu:l40=1" in actual["allocation"]
+            assert actual["allocation"].count("gres/gpu:l40=1") == 1
+            raw_lines = [line for line in pull["accounting_after"]["raw"].splitlines() if line.split("|", 1)[0] == jid]
+            assert len(raw_lines) == 1
+            fields = raw_lines[0].split("|")
+            assert fields[1:4] == [actual["raw_status"], actual["exit_code"], str(actual["elapsed_seconds"])]
+            assert fields[4:] == [actual["allocation"], actual["node"]]
+            watch(j["invocation"], j["invocation_sha256"])
+            item = dict(job_id=jid, segment_end=j["segment_end"], GPU_seconds=j["elapsed_seconds"],
+                allocation=actual["allocation"], node=actual["node"], status=actual["status"], exit_code=actual["exit_code"],
+                immutable_job_snapshot=j, pull_receipt=pull_name, raw_sacct_line=raw_lines[0])
+            all_jobs[jid] = item
+            allocations.append(item)
+        pair_seconds = sum(row["GPU_seconds"] for row in allocations)
+        independent_cost = independent["pair_training_allocated_gpu_seconds"] if seed == 17 else independent["pair_allocated_gpu_seconds"]
+        assert pair_seconds == root["pair_allocated_gpu_seconds"] == independent_cost
+        order = pool.copy()
+        random.Random(seed).shuffle(order)
+        order = order[:40000]
+        assert len(order) == 40000 and len(set(order)) == 40000
+        all_selected_windows.update(order)
+        per_task = {}
+        for task in range(10):
+            ids = [wid for wid in order if by_window[wid]["task_id"] == task]
+            per_task[str(task)] = dict(samples=len(ids), unique_windows=len(set(ids)),
+                unique_episodes=len({by_window[wid]["episode_id"] for wid in ids}),
+                phase_sample_counts=dict(sorted(Counter(by_window[wid]["phase"] for wid in ids).items())))
+        arms = {}
+        for arm in ("A", "B"):
+            report_name = base + f"/{arm}/training_report.json"
+            deployment_name = base + f"/{arm}/deployment_receipt.json"
+            report = read(report_name, root["files"][report_name])
+            deployment = read(deployment_name, root["files"][deployment_name])
+            assert summary["arms"][arm] == report
+            assert report["status"] == "completed" and report["arm"] == arm and report["training_updates_completed"] == 5000
+            assert report["committed_samples"] == report["next_sample_cursor"] == report["attempted_forward_backward_samples_completed"] == 40000
+            assert report["unique_committed_windows"] == report["unique_attempted_windows"] == 40000
+            assert report["train_pool_windows"] == 68819 and report["validation_pool_windows"] == 165
+            assert report["committed_sampling_by_task"] == report["attempted_completed_sampling_by_task"] == per_task
+            assert report["sample_order_sha256"] == signature(order)
+            order_name = base + f"/{arm}/training_order.json"
+            saved_order = read(order_name, root["files"][order_name])
+            assert saved_order["samples"] == order and saved_order["order_sha256"] == signature(order)
+            assert saved_order["initial_scorer_sha256"] == report["initial_scorer_sha256"]
+            assert report["effective_epochs"] == 40000 / 68819 and report["completed_full_pool_epochs"] == 0
+            assert report["attempts"] == 10 and sorted(report["job_ids"]) == sorted(j["job_id"] for j in snapshots)
+            assert report["vla_parameters_unchanged"] and report["identity"]["specification"]["updates"] == 5000
+            assert report["identity"]["specification"]["effective_batch"] == 8
+            assert report["identity"]["specification"]["tokens_per_camera"] == 64
+            assert report["identity"]["window_manifest_sha256"] == watch(window_path)
+            assert deployment["completed_updates"] == deployment["planned_updates"] == 5000
+            assert deployment["training_complete"] and deployment["checkpoint_unchanged"] and deployment["base_frozen"]
+            assert deployment["evaluations"] == report["evaluations"]
+            evaluations = report["evaluations"]
+            assert [v["update"] for v in evaluations] == list(range(0, 5001, 500))
+            recomputed = []
+            for e in evaluations:
+                path = relative(e["artifact_path"])
+                assert root["files"][path] == e["artifact_sha256"]
+                v = validate_hard_artifact(path, e["artifact_sha256"], arm=arm, update=e["update"], windows=windows, job_ids=report["job_ids"])
+                assert v["task_macro_teacher_l1"] == e["validation_metric"]
+                recomputed.append(v)
+            best = min(recomputed, key=lambda row: (row["task_macro_teacher_l1"], row["update"]))
+            assert (report["best_update"], report["best_validation_metric"]) == (best["update"], best["task_macro_teacher_l1"])
+            meta = deployment["metadata"]
+            assert signature(meta) == deployment["metadata_sha256"]
+            assert meta["seed"] == seed and meta["suite"] == "libero_10" and meta["arm"] == arm
+            assert meta["visual_tokens"] == 128 and meta["per_camera_budgets"] == [64, 64]
+            assert meta["update"] == best["update"] and meta["validation_metric"] == best["task_macro_teacher_l1"]
+            assert meta["frozen_model_sha256"] == report["frozen_model_sha256"]
+            assert deployment["checkpoint_sha256"] == report["best_checkpoint_sha256"]
+            checked = next(v for v in selected["server_selected_checks"] if v["arm"] == arm)
+            registered = next(v for v in selected["selected"] if v["arm"] == arm)
+            assert checked["exists"] and checked["stable_during_hash"]
+            assert checked["path"] == registered["path"] == report["best_checkpoint"]
+            assert checked["sha256"] == registered["expected_sha256"] == report["best_checkpoint_sha256"]
+            assert registered["selected_update"] == best["update"] and registered["validation_metric"] == best["task_macro_teacher_l1"]
+            ia = independent["arms"][arm]
+            assert ia["selected_update"] == best["update"] and ia["selected_task_macro_teacher_l1"] == best["task_macro_teacher_l1"]
+            assert ia["selected_checkpoint_sha256"] == report["best_checkpoint_sha256"]
+            assert ia["deployment_receipt_sha256"] == watch(deployment_name)
+            assert ia["committed_samples"] == ia["unique_committed_windows"] == 40000
+            arms[arm] = dict(selected_update=best["update"], task_macro_hard_teacher_l1=best["task_macro_teacher_l1"],
+                task_macro_hard_demonstration_l1=best["task_macro_demonstration_l1"],
+                completed_updates=5000, committed_window_uses=40000, unique_committed_windows=40000,
+                train_pool_windows=68819, effective_epochs=40000 / 68819, full_pool_epochs=0,
+                validation_nodes=11, validation_windows_each=165, validation_window_evaluations=1815,
+                validation_history=recomputed, sample_order_sha256=report["sample_order_sha256"],
+                initial_scorer_sha256=report["initial_scorer_sha256"], committed_sampling_by_task=per_task,
+                training_report=report_name, deployment_receipt=deployment_name,
+                selected_checkpoint_server=report["best_checkpoint"], selected_checkpoint_sha256=report["best_checkpoint_sha256"],
+                selected_server_review=selected_name, selected_server_review_sha256=seen[selected_name],
+                vla_unchanged=True, training_source_sha256=meta["training_source_sha256"],
+                model_revision=meta["model_revision"], frozen_model_sha256=report["frozen_model_sha256"],
+                source_sha256=inventory["source_sha256"])
+        assert arms["A"]["initial_scorer_sha256"] == arms["B"]["initial_scorer_sha256"]
+        assert arms["A"]["sample_order_sha256"] == arms["B"]["sample_order_sha256"]
+        seed_rows.append(dict(seed=seed, final_job_id=job, root_review=root_name, independent_review=ind_name,
+            selected_server_review=selected_name, arms=arms,
+            B_minus_A_selected_task_macro_teacher_l1=arms["B"]["task_macro_hard_teacher_l1"]-arms["A"]["task_macro_hard_teacher_l1"],
+            paired_training_GPU_seconds=pair_seconds, paired_training_GPU_hours=pair_seconds / 3600,
+            paired_allocations=allocations, A_B_share_initialization_and_order=True,
+            actual_unique_windows_across_A_B=40000, A_B_combined_window_uses=80000,
+            replayed_or_uncommitted_samples=0, failed_training_allocations=0))
+    assert len({r["arms"]["A"]["initial_scorer_sha256"] for r in seed_rows}) == 3
+    assert len({r["arms"]["A"]["sample_order_sha256"] for r in seed_rows}) == 3
+    assert len(all_jobs) == 30
+    seconds = sum(v["GPU_seconds"] for v in all_jobs.values())
+    assert seconds == 135138
+    watch(SELF)
+    result = dict(schema="formal_main_v2", kind="long128_three_seed_training_summary", status="verified_training_only",
+        created_utc=datetime.now(timezone.utc).isoformat(), suite="libero_10", total_visual_tokens=128,
+        per_camera_tokens=64, training_seeds=[17, 23, 41], completed_training_arms_in_scope=6,
+        source_inventory=INVENTORY, source_sha256=inventory["source_sha256"], frozen_files_verified=173,
+        training_config=dict(updates_per_arm=5000, effective_batch=8, uses_per_arm=40000,
+            future_horizon_control_actions=8, future_lambda=0.1, selection="task-macro hard teacher L1; earliest minimum of all11 fixed nodes"),
+        metric_scope="Offline fixed validation: complete165 windows across10 tasks with equal task weighting, normalized action L1. Demonstration L1 is diagnostic and never selects checkpoints.",
+        seeds=seed_rows, total_window_uses=240000, actual_unique_training_windows_across_all_six_arms=len(all_selected_windows),
+        unique_count_scope="Set union of the three registered shuffled40000-window prefixes; A/B share each prefix. Repeated use across arms/seeds is not an independent sample.",
+        cost=dict(actual_paired_training_GPU_seconds=seconds, actual_paired_training_GPU_hours=seconds/3600,
+            unique_Slurm_allocations=30, allocated_training_jobs_counted_once=True,
+            includes="All10 allocations for each pair: loading/cache/forward-backward/validation/checkpoint/allocated overhead.",
+            nested_phase_times_added=False, shared_acceptance_or_other_round_cost_added=False,
+            excludes="Shared acceptance and historical engineering failures, all other budgets/suites, development/final rollouts and O2A are outside this training-only subset; they remain in the project ledger.",
+            independent_A_or_B_GPU_cost_identified=False,
+            standalone_cache_operation_estimates_included=False,
+            warning="Paired jobs run both arms and share cache; these bills cannot be copied onto each arm, nor establish causal per-arm speed or wall-clock ETA."),
+        checks=["Original final reports equal training_summary arms and deployment receipts; all three root/independent/actual-selected-SHA gates passed.",
+            "All66 validation artifacts verified against producer SHA, exact165 registered window identities and hard128 indices; task means and earliest selection independently recomputed.",
+            "All six40000 training_order files match private seeded full-pool shuffle; actual unique/per-task uses, shared A/B initialization/order and differing seeds verified.",
+            "All30 immutable pair-job snapshots match their SHA-bound pull raw sacct and accounting records; each allocation counted once."],
+        no_closed_loop_inference=True, new_closed_loop_results_in_this_summary=0, complete_O2A_measured_by_this_summary=False,
+        no_future_supervision_benefit_claim=True, global_final_release=False,
+        sealed_states_opened=False, weights_read=False, new_GPU_seconds=0, supervisor_state_read=False,
+        read_evidence_sha256=dict(sorted(seen.items())))
+    lines = ["# 正式Long128三种子训练记录", "", "2026-10-18，Long总128 tokens、seed17/23/41的A/B共6组均完成5000更新，原始训练报告、root与独立审计、服务器选中checkpoint SHA全部一致。本页只汇总训练与选模诊断，不更新闭环结论。", "",
+        "| seed | 方法 | 选中更新 | 任务等权硬teacher L1 | 任务等权硬示范 L1 |", "|---:|---|---:|---:|---:|"]
+    for item in seed_rows:
+        for arm, row in item["arms"].items():
+            lines.append(f"| {item['seed']} | {arm} | {row['selected_update']} | {row['task_macro_hard_teacher_l1']:.8f} | {row['task_macro_hard_demonstration_l1']:.8f} |")
+    lines += ["", "A为动作监督，B在相同A上增加未来监督；示范L1仅作诊断。全部节点均以真实硬剪枝128 tokens（每视角64）验证，按任务等权teacher L1取最小、相同值取较早节点，未重选模型。", "",
+        f"每臂40000次窗口使用、40000个实际唯一窗口；合法训练池68819个，覆盖0.581235轮。A/B同seed共享初始化和顺序，三seed分别初始化。同seed两臂80000次使用只涉及40000个窗口；六臂共240000次使用，跨三seed实际并集{len(all_selected_windows)}个窗口，不能相加为独立样本。",
+        "", "每臂完成update0及500至5000共11×165窗口验证（10任务等权），六臂合计66次完整验证。所有种子均保留，不挑最好种子；权重仅在服务器。", "",
+        "| seed | 配对训练作业数 | 实际GPU秒 | GPU小时 |", "|---:|---:|---:|---:|"]
+    for item in seed_rows:
+        lines.append(f"| {item['seed']} | 10 | {item['paired_training_GPU_seconds']} | {item['paired_training_GPU_hours']:.6f} |")
+    lines += [f"| 合计 | 30 | {seconds} | {seconds/3600:.6f} |", "",
+        "此费用为三个A/B配对训练作业链的完整分配账单，各作业只计一次；包含加载、缓存、训练、验证和保存。没有训练失败或重放。共享验收及其他工程失败、其他预算/套件、闭环与测速属于项目总账的其他范围，未重复加入本表。内部阶段和缓存计时不相加；A/B共用作业及缓存，不能把整份账单各记给一臂，也不能据此推断B训练更快或八卡完成日期。独立运行缓存成本尚未纳入本页。", "",
+        "teacher L1的B−A在seed17为负、23/41为正，方向不一致；这些只是选中节点上的离线验证差值。训练完成与动作误差均不能证明闭环成功率或成功率—完整推理延迟折中改善。本页未新增闭环或O2A结果，最终初态继续受原全局release门槛约束。", "",
+        "[完整可复算摘要与输入SHA](../" + OUT + ")保存全部11节点指标、30条原始Slurm分配、每seed/arm选中权重的服务器路径及完整SHA。各终态证据：", ""]
+    for item in seed_rows:
+        lines.append(f"- seed{item['seed']}：[root](../{item['root_review']})、[独立审计](../{item['independent_review']})、[实际选中SHA](../{item['selected_server_review']})。")
+    for name, digest in seen.items():
+        assert hashlib.sha256(local(name).read_bytes()).hexdigest() == digest, name
+    with (ROOT / OUT).open("x", encoding="utf-8", newline="\n") as stream:
+        json.dump(result, stream, ensure_ascii=False, indent=2, allow_nan=False)
+        stream.write("\n")
+    with (ROOT / DOC).open("x", encoding="utf-8", newline="\n") as stream:
+        stream.write("\n".join(lines) + "\n")
+    print(json.dumps(dict(status="verified_training_only", output=OUT,
+        output_sha256=hashlib.sha256((ROOT/OUT).read_bytes()).hexdigest(), doc=DOC,
+        doc_sha256=hashlib.sha256((ROOT/DOC).read_bytes()).hexdigest(), evidence_files=len(seen),
+        paired_training_GPU_seconds=seconds, actual_unique_windows_union=len(all_selected_windows)), ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

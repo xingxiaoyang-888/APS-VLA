@@ -1,0 +1,83 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_actual_development_integration",
+  "status": "passed",
+  "self_path": "results/formal_main_v2/preflight/spatial_first_development_root_integration_0318.json",
+  "recorded_utc": "2026-10-18T03:59:11.582042+00:00",
+  "job_id": "3022743",
+  "suite": "libero_spatial",
+  "root_review": "results/formal_main_v2/downstream_reviews/3022743.json",
+  "independent_review": "results/formal_main_v2/preflight/spatial_first_development_real_independent_0318.json",
+  "raw_archive": "results/formal_main_v2/preflight/spatial_first_development_raw_v1/receipt.json",
+  "suite_completed_trials": 12,
+  "new_trials": 12,
+  "previous_trials": 0,
+  "unique_development_initial_states": 2,
+  "completed_development_trials": 1212,
+  "target_suite_subset_trials": 600,
+  "remaining_suite_subset_trials": 588,
+  "complete_suite_deployment_instances": false,
+  "verified_instances_in_scope": 6,
+  "total_suite_instances": 22,
+  "runtime_errors": 0,
+  "task_horizon_failures": 0,
+  "normally_completed_trajectories": 12,
+  "policy_calls": 122,
+  "recorded_chunks": 122,
+  "unrecorded_policy_error_chunks": 0,
+  "control_actions": 917,
+  "recorded_chunks_future_head_calls": 0,
+  "policy_error_trial_ids": [],
+  "terminal_coverage_complete": false,
+  "clean_runtime_acceptance": true,
+  "root_scientific_complete_means_registered_terminal_coverage_only": false,
+  "per_method_successes": {
+    "dense": {
+      "successes": 2,
+      "trials": 2
+    },
+    "uniform256": {
+      "successes": 2,
+      "trials": 2
+    },
+    "uniform128": {
+      "successes": 2,
+      "trials": 2
+    },
+    "uniform64": {
+      "successes": 2,
+      "trials": 2
+    },
+    "A128_seed17": {
+      "successes": 2,
+      "trials": 2
+    },
+    "B128_seed17": {
+      "successes": 2,
+      "trials": 2
+    }
+  },
+  "current_GPU_seconds": 393,
+  "total_suite_GPU_seconds": 393,
+  "cost_included_in_global_snapshot_not_additional": true,
+  "all_formal_cost_snapshot": {
+    "registered_jobs": 153,
+    "allocated_gpu_seconds": 542648,
+    "allocated_gpu_hours": 150.73555555555555,
+    "final": false,
+    "historical_jobs_excluded": true
+  },
+  "final_states_opened": false,
+  "scientific_settings_changed": false,
+  "weights_copied": false,
+  "no_future_supervision_benefit_claim": true,
+  "next": "Preregister remaining588 original Spatial trials after own actual GPU audit; exact same checkpoint/environment/ledger prefix and capacity checks required. No rerun of first12; no final release.",
+  "evidence_sha256": {
+    "results/formal_main_v2/downstream_reviews/3022743.json": "9e14b86a1e556c53ef1cbd8c7bdc1733c3d5eb744f62ffee8df9395645816650",
+    "results/formal_main_v2/preflight/spatial_first_development_real_independent_0318.json": "d84e0d5b3829d516109b437a400969c283f11f12a7963b7fd841dd1214386284",
+    "results/formal_main_v2/preflight/spatial_first_development_raw_v1/receipt.json": "c20857fd8c0894c7576ccb78147731f0cc26f8f42e44588903213fc374d8d77a",
+    "results/formal_main_v2/pulls/20261018T035205Z_3763309f11d9/receipt.json": "2b523a8027b879411b50b6d27b9a9a701580763e17831d6a0a7fba176087e82c",
+    "results/formal_main_v2/preflight/downstream_terminal_0318_3022743_operations.json": "1909fcc73ad06cc7f3f0e6fdd338da0ab9173cd7764f2797c5b162437c3864d8",
+    ".local/integrate_development_0318.py": "edd0737545f36fe071746433103ff79d207ff550eebedaa455c84d284111a21b"
+  }
+}
