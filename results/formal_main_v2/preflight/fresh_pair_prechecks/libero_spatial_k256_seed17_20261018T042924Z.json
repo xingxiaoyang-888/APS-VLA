@@ -1,0 +1,57 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_explicit_registered_fresh_pair_precheck",
+  "status": "passed",
+  "registered_utc": "2026-10-18T04:29:24.213375+00:00",
+  "pair": "libero_spatial_k256_seed17",
+  "suite": "libero_spatial",
+  "visual_tokens": 256,
+  "training_seed": 17,
+  "start_updates_by_arm": {
+    "A": 0,
+    "B": 0
+  },
+  "stop_after_updates": 500,
+  "schedule_updates": 5000,
+  "full_legal_train_pool": true,
+  "initialization": "fresh matched A/B from registered seed; no previous checkpoint reused",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "evidence_sha256": {
+    "configs/experiments/formal_main_v2.json": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+    "configs/experiments/formal_main_v2_parallel_execution_v1.json": "e1378e74d1ad89af2d38d2f8eb8ce33695a346331c2e89db6313a5608faf4907",
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "configs/experiments/formal_main_v2/libero_spatial_k256_seed17.json": "9a740cbe61bbd0cfd3312b756ce49d06344a5007a7b1df8d980ebeeac6413242",
+    "results/formal_main_v2/libero_spatial/acceptance/root_review.json": "fee55c4f78f0f4953b96bf9364eb1051a591b91b3a9f092efc52bfdee99b8f68",
+    "results/formal_main_v2/libero_spatial/acceptance/attempt01/input_acceptance.json": "4305be270cecf7c8b6a5ffea289b98f0d4640880d3b45db7f49248b96c9d6815",
+    "results/formal_main_v2/libero_spatial/acceptance/attempt01/f01_k256.json": "492ee393781138e0ee39c3ed59acd96d0f3e13e2b09a326374aed38eb06e3f5e",
+    "results/formal_main_v2/libero_spatial/acceptance/attempt01/resume_acceptance.json": "3378cca0d3e737b9a74b96c3429124d3fa3a866e0cc21af572d8bf6b3e79aebc",
+    "results/formal_main_v2/libero_spatial/acceptance/attempt01/f03_calls.jsonl": "81625399611c8a8288b7bc964bbed7230b8b1e3859d20122182ad4126a66a332",
+    "results/formal_main_v2/libero_spatial/acceptance/attempt01/acceptance_complete.json": "f474cf274950d2cca04ea666a4ee4009482cc72837749ebeb24a456d99a5ed24",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/root_review.json": "9436d3820e66df523bcb6ff54d955225d011b2c25270e45de80bf94e75858d91",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/independent_review.json": "8a69e34f8af5834e95bc57cea1ae880d35901bd1539ca98386c5d62af8605a1c",
+    "results/formal_main_v2/preflight/parallel_batch1_root_registration_independent.json": "328c73c0dd49c68b281c22c42998eb9fb41907b5ed669831e2b5dfa29de93dce"
+  },
+  "remote_absence_checked": [
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k256/seed17/training",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k256/seed17"
+  ],
+  "remote_absence_result": "fresh_pair_absent",
+  "existing_shared_cache_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/data/formal_main_v2/libero_spatial",
+  "cache_filesystem_observation": "/share/home/u15016/XXY_CVPR/CTI-VLA/data/formal_main_v2/libero_spatial\nFilesystem     1024-blocks      Used Available Capacity Mounted on\nHPC_HD          1611661312 673842768 937818544      42% /share\n",
+  "cache_available_KiB": 937818544,
+  "active_job_ids_before": [
+    "3022597",
+    "3022598",
+    "3022599",
+    "3022617",
+    "3022775",
+    "3022808",
+    "3022998"
+  ],
+  "active_slots_before": 7,
+  "max_slots": 8,
+  "scientific_matrix_expanded": false,
+  "hyperparameters_changed": false,
+  "final_states_opened": false,
+  "next_boundary_requires_own_root_and_independent_review": true
+}

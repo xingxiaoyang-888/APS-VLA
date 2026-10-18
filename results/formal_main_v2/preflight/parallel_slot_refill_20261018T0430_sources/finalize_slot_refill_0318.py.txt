@@ -1,0 +1,144 @@
+"""Record the two actual slot refills after the delivered 0318 audit batch."""
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+import hashlib
+import json
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+parent = 'a41d7a55d92b7ee54d9e1dd711ce56fd2830ba33'
+base = 'results/formal_main_v2/'
+receipt_name = base + 'preflight/parallel_slot_refill_20261018T0430.json'
+proof_name = base + 'preflight/parallel_slot_refill_20261018T0430_git_delivery.json'
+folder = base + 'preflight/parallel_slot_refill_20261018T0430_sources/'
+
+def git(*args):
+    return subprocess.check_output(['git', *args], cwd=ROOT)
+
+def sha(b):
+    return hashlib.sha256(b).hexdigest()
+
+def ref(n):
+    b = (ROOT / n).read_bytes()
+    return dict(path=n, sha256=sha(b), bytes=len(b))
+
+assert git('rev-parse', 'HEAD').decode().strip() == parent
+assert not git('diff', '--cached', '--name-only').strip()
+assert not (ROOT / receipt_name).exists() and not (ROOT / proof_name).exists()
+source = f.read(ROOT / (base + 'source/formal_main_v2_run_564be0995e.json'))
+assert len(source['files']) == 173
+assert all(f.sha(ROOT / n) == h == sha(git('show', ':' + n)) for n, h in source['files'].items())
+old_delivery = base + 'preflight/parallel_review_batch_20261018T0318_git_delivery_v2.json'
+assert f.sha(ROOT / old_delivery) == 'e8a812d5bf4a3df4ae7240e7d3fc273592d58b02effd88daece7b46d276195fd'
+evidence = {old_delivery: f.sha(ROOT / old_delivery)}
+with f.supervisor_lock():
+    state = f.read(f.STATE)
+    progress = state['formal_main_progress']
+    parallel = progress['parallel_execution']
+    assert progress['trained_arms'] == 10 and progress['root_and_independent_reviewed_arm_updates'] == 122000
+    assert progress['completed_final_trials'] == 0 and not progress['test_opened'] and not progress['global_release_created']
+    assert state['pending_submission'] is None
+    assert (datetime.now(timezone.utc) - datetime.fromisoformat(state['last_supervision_utc'])).total_seconds() < 300
+    jobs = [j for j in state['registered_jobs'] if j.get('experiment') == 'formal_main_v2']
+    active = [j for j in jobs if j['status'] in f.ACTIVE | {'SUBMITTED'}]
+    assert len(active) <= 8 and all(j['gpus'] == 1 for j in active)
+    assert len({j['stage_key'] for j in active}) == len(active)
+    records = []
+    for jid, key, end in [('3022998', 'libero_10_k64_seed41', 4000), ('3023005', 'libero_spatial_k256_seed17', 500)]:
+        job = next(j for j in jobs if j['job_id'] == jid)
+        pair = parallel['pair_tracking'][key]
+        assert job['segment_end'] == end and pair['active_job_id'] == jid
+        assert f.sha(ROOT / job['invocation']) == job['invocation_sha256']
+        precheck = pair['latest_resume_precheck'] if end == 4000 else pair['fresh_start_precheck']
+        pre_sha = pair['latest_resume_precheck_sha256'] if end == 4000 else pair['fresh_start_precheck_sha256']
+        assert f.sha(ROOT / precheck) == pre_sha
+        pre = f.read(ROOT / precheck)
+        for n in (job['invocation'], base + 'submissions/' + jid + '.json', precheck):
+            evidence[n] = f.sha(ROOT / n)
+        if end == 4000:
+            assert pre['previous_job_id'] == '3021759' and pre['target_boundary'] == 4000
+            for kind in ('root_review', 'independent_review'):
+                assert f.sha(ROOT / pre[kind]) == pre[kind + '_sha256']
+                evidence[pre[kind]] = pre[kind + '_sha256']
+        else:
+            assert pre['start_updates_by_arm'] == dict(A=0, B=0) and pre['schedule_updates'] == 5000
+            assert pre['remote_absence_result'] == 'fresh_pair_absent'
+            for n,h in pre['evidence_sha256'].items():
+                assert f.sha(ROOT / n) == h, n
+                evidence[n] = h
+        records.append(dict(job_id=jid, pair=key, segment_end=end, invocation=job['invocation'], precheck=precheck,
+            fresh_initialization=end == 500, status_at_accounting=job['status']))
+    issue = progress['downstream_action_range_issue']
+    assert issue['new_rollouts_held'] and issue['training_continues']
+    state['current_work'] += ' Object action-range diagnosis remains pending; additional downstream rollouts held, ongoing training unaffected.'
+    state['next_actions'] = [issue['next']] + [x for x in state['next_actions'] if 'Use the CPU-accepted downstream consumers' not in x]
+    state['next_actions'].append('Audit newly terminal3022596 Spatial128seed41 and3022615 Goal128seed17 before counting any additional completed arms or resuming their next segment. Do not count terminal scheduler status alone as accepted training.')
+    state['next_actions'].append('Spatial64seed17 has locally reviewed first-segment eligibility; if a slot opens, root must freshly check absence of all prior server results/checkpoints and registered jobs before explicit0→500 submission.')
+    now = datetime.now(timezone.utc)
+    value = dict(schema='formal_main_v2', kind='root_actual_registered_slot_refill', status='passed',
+        parent_delivered_commit=parent, recorded_utc=now.isoformat(), accounting_utc=state['last_supervision_utc'],
+        refilled_jobs=records, active_job_ids=[j['job_id'] for j in active], active_jobs=len(active), max_active_jobs=8,
+        cost=state['current_round_cost'], completed_arms=10, reviewed_arm_updates=122000,
+        completed_development_terminal_records=1212, completed_final_trials=0, final_states_sealed=True,
+        awaiting_terminal_review=parallel['awaiting_terminal_review'], additional_downstream_rollouts_held=True,
+        no_additional_experiment_beyond_the_registered_72_arms=True, scientific_settings_changed=False,
+        CPU_precheck_failure_retained=base + 'preflight/parallel_slot_refill_0318_failures/attempt01_failure.json',
+        failure_created_GPU_jobs=0, evidence_sha256=evidence)
+    for n in ('.local/fill_reviewed_pair_slot.py', '.local/fill_fresh_spatial_slot_0318.py',
+              '.local/reconcile_parallel_progress_20261018.py', '.local/finalize_slot_refill_0318.py'):
+        dest = ROOT / folder / (Path(n).name + '.txt')
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        assert not dest.exists()
+        dest.write_bytes((ROOT / n).read_bytes())
+        evidence[dest.relative_to(ROOT).as_posix()] = f.sha(dest)
+    for p in (ROOT / (base + 'preflight/parallel_slot_refill_0318_failures')).iterdir():
+        evidence[p.relative_to(ROOT).as_posix()] = f.sha(p)
+    f.write(ROOT / receipt_name, value)
+    progress['latest_slot_refill'] = dict(path=receipt_name, sha256=f.sha(ROOT / receipt_name))
+    state['updated_utc'] = now.isoformat()
+    f.write(f.STATE, state)
+    local = now.astimezone(timezone(timedelta(hours=8)))
+    doc = ROOT / 'docs/实验进度.md'
+    heading, sep, body = doc.read_bytes().partition(b'\n')
+    text = (f'\n{local:%Y-%m-%d %H:%M}补槽：本轮已审计产物已交付GitHub（`{parent[:7]}`）。'
+        f'Long64 seed41续至4000（3022998），Spatial256 seed17按原登记从头0→500（3023005），快照仍为{len(active)}张独立GPU并行。'
+        f'累计分配{state["current_round_cost"]["allocated_gpu_hours"]:.4f} GPU小时，完整训练仍为10/72；两个新结束分段待审计，不提前增加完成数。'
+        '动作范围有界诊断待实现，新增闭环继续暂停；最终集封存。'
+        f'\n\n[实际补槽与费用](../{receipt_name})。\n\n')
+    doc.write_bytes(heading + sep + text.encode() + body)
+
+# Only explicit small metadata/refill outputs changed after the full delivery
+# guard. No raw ledger, archive codec, scientific source, or data panel changed.
+changed = git('ls-files', '--modified', '--others', '--exclude-standard', '-z').decode().split('\0')
+changed = sorted({n for n in changed if n})
+allowed_exact = {'docs/实验进度.md', 'results/experiment_supervisor/state.json', base + 'slurm_accounting.json', receipt_name}
+allowed_prefixes = (folder, base + 'invocations/libero_10_train_k64_seed41_attempt08.json',
+    base + 'invocations/libero_spatial_train_k256_seed17_attempt01.json', base + 'submissions/3022998.json',
+    base + 'submissions/3023005.json', base + 'preflight/fresh_pair_prechecks/',
+    base + 'preflight/parallel_resume_prechecks/libero_10_k64_seed41_20261018T042757Z.json',
+    base + 'preflight/parallel_slot_refill_0318_failures/')
+assert all(n in allowed_exact or n.startswith(allowed_prefixes) for n in changed), changed
+assert all((ROOT / n).stat().st_size < 5 * 1024 * 1024 for n in changed)
+subprocess.run(['git', 'add', '--', *changed], cwd=ROOT, check=True)
+indexed = {}
+for n in changed:
+    b = (ROOT / n).read_bytes()
+    if n.endswith('.md'):
+        assert git('show', ':' + n) == b.replace(b'\r\n', b'\n')
+    else:
+        assert git('show', ':' + n) == b
+    indexed[n] = dict(sha256=sha(git('show', ':' + n)), worktree_sha256=sha(b))
+assert all(f.sha(ROOT / n) == h == sha(git('show', ':' + n)) for n,h in source['files'].items())
+assert f.sha(ROOT / old_delivery) == sha(git('show', ':' + old_delivery)) == 'e8a812d5bf4a3df4ae7240e7d3fc273592d58b02effd88daece7b46d276195fd'
+proof = dict(schema='formal_main_v2', kind='root_small_metadata_followup_delivery', status='passed',
+    parent=parent, files=indexed, frozen_files_unchanged=173, prior_full_archive_delivery_proof=ref(old_delivery),
+    raw_logs_archives_codecs_and_panels_not_modified=True, no_weights_or_final_states_added=True, GPU_seconds=0)
+f.write(ROOT / proof_name, proof)
+subprocess.run(['git', 'add', '--', proof_name], cwd=ROOT, check=True)
+subprocess.run(['git', 'diff', '--cached', '--check'], cwd=ROOT, check=True)
+assert not git('diff', '--name-only').strip()
+print(json.dumps(dict(status='passed', receipt=ref(receipt_name), proof=ref(proof_name), active_jobs=len(active), cost=value['cost']), ensure_ascii=False))
