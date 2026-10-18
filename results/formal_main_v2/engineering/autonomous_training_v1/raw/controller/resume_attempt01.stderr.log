@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/formal_backend.py", line 167, in <module>
+    if __name__=="__main__":main()
+                            ^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/formal_backend.py", line 165, in main
+    out=b.review_pair(pair,history,state,check_only=True,existing_review=old)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/formal_backend.py", line 104, in review_pair
+    c.require(result.returncode==0,"original scientific worker rejected; see "+str(output))
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/controller.py", line 21, in require
+    if not c: raise ValueError(m)
+              ^^^^^^^^^^^^^^^^^^^
+ValueError: original scientific worker rejected; see /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/check_only/libero_object_k64_seed41_7a2f9b843dbd48a9a26e2d3b1bdadf54

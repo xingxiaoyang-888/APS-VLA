@@ -1,0 +1,36 @@
+{
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/tests/test_formal_future.py",
+    "--rootdir",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/train",
+    "-p",
+    "no:cacheprovider",
+    "--basetemp",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/train/pytest_core_a1",
+    "--junitxml",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/train/pytest_core_a1.xml",
+    "-q",
+    "-k",
+    "interrupted_optimizer_rng_next_window_resume_is_exact or segment_stop_preserves5000_style_schedule_and_no_deployment or wall_stop_commits_whole_update_without_extra_selection_point or atomic_checkpoint_failure_keeps_previous_complete_file or resume_rejects_changed_cost_prefix_and_cursor or a_b_initial_selector_behavior_and_order_match or registered_production_configs_and_reject_small_pilot"
+  ],
+  "exit_code": 0,
+  "seconds": 35.020458661951125,
+  "source_before": {
+    "src/cti_vla/training/formal_future.py": "3f4d2f933aa276d26dccfc2ce16d145f8bf40c7c1446ffddbb7342a763bc097b",
+    "scripts/run_formal_future.py": "5f36a9e315d7c25e439e0a4747c0d67ab1ff3671909e9d39569f1836d1717c00",
+    "tests/test_formal_future.py": "08df50de83f6d29567775e4b461cf03cf2579c76e35022585448f451abda3f4f",
+    "tests/test_future_auxiliary.py": "7c2be041a9ddd07738eff14ca9257fe42be7228c06d0697daedf744e54e4d63d"
+  },
+  "source_after": {
+    "src/cti_vla/training/formal_future.py": "3f4d2f933aa276d26dccfc2ce16d145f8bf40c7c1446ffddbb7342a763bc097b",
+    "scripts/run_formal_future.py": "5f36a9e315d7c25e439e0a4747c0d67ab1ff3671909e9d39569f1836d1717c00",
+    "tests/test_formal_future.py": "08df50de83f6d29567775e4b461cf03cf2579c76e35022585448f451abda3f4f",
+    "tests/test_future_auxiliary.py": "7c2be041a9ddd07738eff14ca9257fe42be7228c06d0697daedf744e54e4d63d"
+  },
+  "GPU_used": false,
+  "scope": "Unchanged frozen core with tiny synthetic CPU provider; no real checkpoint loaded"
+}

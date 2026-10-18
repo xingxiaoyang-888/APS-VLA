@@ -1,0 +1,22 @@
+{
+  "kind": "independent_CPU_boundary_test",
+  "returncode": 0,
+  "elapsed_seconds": 9.20111870765686,
+  "args": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/audit/test_execution_independent.py",
+    "--basetemp",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/audit/execution_boundary_a1_tmp",
+    "--junitxml",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/audit/execution_boundary_a1.xml"
+  ],
+  "test_sha256": "d436d001151216fa590d31acb69e51a1bfe4cb5acd9af320d25e9c1f19a117ac",
+  "synthetic_upstream_original_reviewer": true,
+  "GPU_test": false
+}

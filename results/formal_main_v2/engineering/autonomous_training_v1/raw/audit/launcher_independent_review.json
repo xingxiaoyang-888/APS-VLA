@@ -1,0 +1,41 @@
+{
+  "Slurm_submissions": 0,
+  "blockers": [],
+  "files": {
+    ".local/autonomous_training_v1/audit/activate_before_release_lock_fix.py.txt": "394da46ad4e852f90f4c549cf3b87416b7d0694ec433119cac70f09699da30a9",
+    ".local/autonomous_training_v1/audit/activate_before_run_root_fix.py.txt": "8d2cd6a619e57425d040842692a799b4b40f0058ebf3bc5e1e879a6176ab6804",
+    ".local/autonomous_training_v1/audit/launcher_a1.json": "93b7e41f48f6df1e7bd8d81e117c17b9cc31100579c0e7f18076e0848693e60f",
+    ".local/autonomous_training_v1/audit/launcher_a1.log": "5c2a4ef070cf78547f1d97b45bcb583da7fda0c3ea9ba5b0e168e0efa9a01c12",
+    ".local/autonomous_training_v1/audit/launcher_a1.xml": "12e54b9fcd3daffe16b1266a97e79ce547059ed36e23b79ddd3937f3e69badd0",
+    ".local/autonomous_training_v1/audit/test_launcher_independent.py": "c3e93122077a65e88630978bd535117ff427c1bcff055c862a5a19a0c2c748c4",
+    "scripts/ops/formal_autonomous_training_v1/activate.py": "bae2efa295ad54e0c5a52cb02a476f5d83dd19569cf7eb5babe3269aae2c2493",
+    "scripts/ops/formal_autonomous_training_v1/service.slurm": "580cb2a4cfd5dbc09ddf77064428594db0ed20fb124bdaa309199777ef7c65b7"
+  },
+  "fixed_findings": [
+    "Initial launcher released held CPU job while still holding controller leader lock; fixed by release after exiting both locks, independently lock-tested.",
+    "Initial registered CPU run_root pointed to R and would invalidate all original puller job registry parsing; fixed to real P runtime registration receipt plus separate R control_run_root, tested through actual unmodified puller.registered_jobs."
+  ],
+  "kind": "autonomous_training_launcher_independent_review",
+  "limitations": [
+    "Activation startup proof and scheduler are explicit test stand-ins. Root must run actual controller --check-only with final activation before one approved CPU service submission.",
+    "No controller/backend science audit is inferred from this launcher receipt."
+  ],
+  "new_GPU_seconds": 0,
+  "real_state_modified": false,
+  "reviewed_utc": "2026-10-18T17:36:04.400756+00:00",
+  "schema": "formal_main_v2",
+  "status": "passed_CPU_review",
+  "tests": {
+    "execution": "synthetic admission/scheduler and real local server file locks; no Slurm calls",
+    "failed": 0,
+    "passed": 7
+  },
+  "validated": [
+    "Durable pending before held submission; exact numeric successful acknowledgment required.",
+    "Unknown/nonzero/multiple acknowledgments and timeouts retain pending and never resubmit.",
+    "CPU job registered before release; both writer and leader locks released first.",
+    "Failed release preserves registered held job and prevents new allocation.",
+    "Check-only writes no state or invocation in synthetic harness.",
+    "Transport scope variables and shim path removed from child environment."
+  ]
+}

@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/worker.py", line 150, in <module>
+    if __name__=="__main__":raise SystemExit(main())
+                                             ^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/worker.py", line 147, in main
+    out=run(request,ref)
+        ^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/worker.py", line 93, in run
+    pr=pull_reference(root,saved)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/worker.py", line 57, in pull_reference
+    c.require(len(choices)==1,"exact reviewed pull required")
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/controller.py", line 21, in require
+    if not c: raise ValueError(m)
+              ^^^^^^^^^^^^^^^^^^^
+ValueError: exact reviewed pull required

@@ -1,0 +1,24 @@
+{
+  "kind": "independent_unchanged_core_CPU_rerun",
+  "args": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/tests/test_formal_future.py",
+    "--rootdir",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/audit",
+    "-p",
+    "no:cacheprovider",
+    "--basetemp",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/audit/core_a1_tmp",
+    "--junitxml",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/audit/core_a1.xml",
+    "-q",
+    "-k",
+    "interrupted_optimizer_rng_next_window_resume_is_exact or segment_stop_preserves5000_style_schedule_and_no_deployment or wall_stop_commits_whole_update_without_extra_selection_point or atomic_checkpoint_failure_keeps_previous_complete_file or resume_rejects_changed_cost_prefix_and_cursor or a_b_initial_selector_behavior_and_order_match or registered_production_configs_and_reject_small_pilot"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 12.749084711074829,
+  "GPU_test": false
+}

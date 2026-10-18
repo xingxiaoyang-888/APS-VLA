@@ -1,0 +1,170 @@
+"""Server bridge for the bounded controller; no refresh or nested writer lock."""
+from __future__ import annotations
+from pathlib import Path
+import argparse, copy, hashlib, importlib.util, json, os, subprocess, sys, time, uuid
+import controller as c
+import worker as w
+
+TRANSPORT="scripts/ops/server_control_transport_v1/run_server_control.py"
+TRANSPORT_SHA="302a3e6d16143d5a54eb542916278a7ab2eb3c6478a55593a61584d4a7cf0af5"
+BUNDLE="scripts/ops/server_control_transport_v1/bundle_manifest.json"
+BUNDLE_SHA="3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149"
+PULLER="scripts/pull_formal_results.py"
+PULLER_SHA="b1b141ddb75fd8641d6f5e7f68dbfea462e1fe907ced2f2a98338a1145d77061"
+STATE="results/experiment_supervisor/state.json"
+
+class Backend:
+    def __init__(self,root,activation,runner=subprocess.run):
+        self.root=Path(root);self.activation=activation;self.runner=runner;self.cache={};self.outcomes={}
+        self.work=self.root/activation["controller_run_root"]
+        self.adapter=activation["execution_adapter"];self.worker=activation["worker"]
+        self.registration=c.read_json(self.root/"configs/experiments/formal_main_v2.json")
+        self.check_only=False
+
+    def watch(self,ref,force=False):
+        p=w.safe_relative(self.root,ref["path"]);s=p.stat()
+        sig=(s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns,ref["sha256"])
+        # Small identity documents are always hashed. Shared-FS timestamps can be coarse.
+        # Large raw logs get a bounded 300s cache; every submission forces full SHA checks.
+        cached=self.cache.get(str(p));now=time.monotonic()
+        if force or s.st_size<=2<<20 or cached is None or cached[0]!=sig or now-cached[1]>=300:
+            c.require(c.file_sha(p)==ref["sha256"],"evidence SHA differs: "+ref["path"])
+            s2=p.stat();c.require(sig[:5]==(s2.st_dev,s2.st_ino,s2.st_size,s2.st_mtime_ns,s2.st_ctime_ns),"evidence changed during hash")
+            self.cache[str(p)]=(sig,now)
+        return p
+
+    def verify_evidence(self,refs,force=False):
+        c.require(isinstance(refs,list) and refs,"missing evidence")
+        for r in refs:
+            c.require(set(r)=={"path","sha256"} and r["path"]!=STATE,"mutable registry cannot be reusable evidence")
+            self.watch(r,force=force)
+
+    def startup_verify(self):
+        self.verify_evidence([self.adapter,self.worker,dict(path=w.INVENTORY,sha256=w.INVENTORY_SHA),
+                             dict(path=TRANSPORT,sha256=TRANSPORT_SHA),dict(path=BUNDLE,sha256=BUNDLE_SHA),
+                             dict(path=PULLER,sha256=PULLER_SHA),dict(path=w.SEGMENT,sha256=w.SEGMENT_SHA),
+                             dict(path=w.ACCEPTANCE,sha256=w.ACCEPTANCE_SHA)])
+        inv=c.read_json(self.root/w.INVENTORY)
+        c.require(len(inv["files"])==173 and inv["source_sha256"]==c.SOURCE_SHA,"frozen inventory differs")
+        for rel,sha in inv["files"].items():
+            self.watch(dict(path=rel,sha256=sha))
+            c.require(c.file_sha(c.S/rel)==sha,"runtime frozen source differs: "+rel)
+        inherited=c.read_json(self.watch(self.activation["inherited_scientific_admission"]))
+        self.verify_evidence([dict(path=p,sha256=s) for p,s in inherited["read_evidence_sha256"].items()])
+        c.require(set(inherited["suites"])=={"libero_10","libero_spatial","libero_object","libero_goal"} and len(inherited["completed_pairs"])==14 and inherited["completed_arms"]==28,"inherited GPU evidence scope differs")
+        for row in inherited["completed_pairs"]:
+            pair=next(p for p in self.registration["pairs"] if c.pair_key(p)==row["pair"])
+            specs=[dict(arm=x["arm"],path=x["path"],must_exist=True,sha256=x["sha256"]) for x in row["selected_checkpoint_checks"]]
+            w.checkpoint_checks(pair,specs,"best.pt")
+        # Independent CPU receipts must bind this exact executable closure.
+        expected={self.activation["backend"]["path"]:self.activation["backend"]["sha256"],
+                  self.worker["path"]:self.worker["sha256"],
+                  str(Path(__file__).with_name("controller.py").relative_to(self.root)):self.activation["controller_sha256"]}
+        for field,required in (("controller_independent_review",expected),("execution_independent_review",{self.adapter["path"]:self.adapter["sha256"]})):
+            receipt=c.read_json(self.watch(self.activation[field]))
+            recorded=receipt.get("files",{})
+            for path,sha in required.items():c.require(recorded.get(path)==sha,"independent review did not cover current source: "+path)
+
+    def inspect_and_prepare(self,pair,history,state):
+        if any(j["status"]!="COMPLETED" or j.get("exit_code")!="0:0" for j in history):
+            return dict(decision="blocked",reason="failed_unknown_or_active_history_requires_root_repair",failed_job_ids=[j["job_id"] for j in history if j["status"]!="COMPLETED" or j.get("exit_code")!="0:0"],automatic_retry=False)
+        key=c.pair_key(pair);identity=c.sha_bytes(c.canonical(history))
+        if key in self.outcomes and self.outcomes[key][0]==identity:
+            outcome=copy.deepcopy(self.outcomes[key][1]);self.verify_evidence(outcome["evidence_refs"]);return outcome
+        outcome=self.review_pair(pair,history,state,check_only=False)
+        self.outcomes[key]=(identity,copy.deepcopy(outcome))
+        return outcome
+
+    def review_pair(self,pair,history,state,*,check_only,existing_review=None,check_output=None):
+        key=c.pair_key(pair)
+        if check_only:
+            output=(self.root/check_output) if check_output else self.root/".local/autonomous_training_v1/controller/check_only"/(key+"_"+uuid.uuid4().hex)
+            c.require(any(p in output.parents for p in (self.root/".local/autonomous_training_v1/controller",self.root/".local/autonomous_training_v1/audit")),"check-only output outside candidate/audit scopes")
+        else:
+            output=self.work/"reviews"/(key+"_"+uuid.uuid4().hex)
+        c.require(not output.exists(),"review attempt already exists")
+        output.mkdir(parents=True)
+        request=dict(schema=c.ROUND,kind="autonomous_machine_review_request",pair_key=key,
+            mode="terminal" if history else "fresh",job_id=history[-1]["job_id"] if history else None,
+            state_sha256=c.file_sha(self.root/STATE),registered_jobs=copy.deepcopy(state["registered_jobs"]),
+            output_directory=output.relative_to(self.root).as_posix(),check_only=check_only,
+            execution_adapter=self.adapter,puller=dict(path=PULLER,sha256=PULLER_SHA))
+        if check_only and history:
+            c.require(existing_review is not None,"check-only terminal requires existing exact root review")
+            request["existing_review"]=existing_review
+        req=w.immutable(output/"request.json",request)
+        argv=[sys.executable,"-B",str(self.root/self.worker["path"]),"--request",req["path"],"--request-sha256",req["sha256"]]
+        if not check_only:
+            audit=f"results/formal_main_v2/control_transport/auto_{uuid.uuid4().hex}.jsonl"
+            argv=[sys.executable,"-B",str(self.root/TRANSPORT),"--bundle-manifest-sha256",BUNDLE_SHA,
+                  "--entrypoint",self.worker["path"],"--entrypoint-sha256",self.worker["sha256"],
+                  "--audit-relative",audit,"--",*argv[3:]]
+        env=os.environ.copy();env["PYTHONDONTWRITEBYTECODE"]="1"
+        result=self.runner(argv,cwd=self.root,env=env,capture_output=True,text=True,timeout=7200)
+        for name,value in (("stdout.log",result.stdout),("stderr.log",result.stderr)):
+            with (output/name).open("x",encoding="utf-8") as f:f.write(value)
+        w.immutable(output/"execution.json",dict(argv=argv,returncode=result.returncode,worker_sha256=self.worker["sha256"],check_only=check_only,slurm_submitted=False))
+        c.require(result.returncode==0,"original scientific worker rejected; see "+str(output))
+        c.require(c.file_sha(self.root/STATE)==request["state_sha256"],"worker altered state")
+        raw=c.read_json(output/"outcome.json")
+        refs=raw["evidence_refs"]+[dict(path=(output/"outcome.json").relative_to(self.root).as_posix(),sha256=c.file_sha(output/"outcome.json"))]
+        self.verify_evidence(refs)
+        outcome={k:raw[k] for k in ("decision","completed_by_arm","selected_checkpoints_verified","validation_updates")}
+        outcome.update(evidence_refs=refs,verification_kind="machine_automatic_not_independent",machine_output=refs[-1])
+        if raw["decision"]=="ready":
+            bp=raw["plan"];inv=bp["invocation"];invbytes=c.canonical(inv)+b"\n";sha=c.sha_bytes(invbytes)
+            exports=dict(SOURCE_ROOT=str(c.S),INVOCATION=str(c.P/bp["invocation_relative"]))
+            if pair["suite"] in {"libero_object","libero_goal"}:exports["INVOCATION_SHA256"]=sha
+            job_record={k:copy.deepcopy(inv[k]) for k in ("runtime_compatibility","component_compatibility") if k in inv}
+            outcome["plan"]=dict(pair_key=key,source_root=str(c.S),source_sha256=c.SOURCE_SHA,
+                config_sha256=pair["sha256"],target_updates=5000,soft_wall_seconds=169200,wall_time="48:00:00",
+                gpus=1,resume=bool(history),run_root=bp["output"],wrapper=bp["wrapper"],wrapper_sha256=bp["wrapper_sha256"],
+                invocation=bp["invocation_relative"],invocation_sha256=sha,invocation_contents=inv,exports=exports,
+                scientific_verification=dict(status="passed_full_verification",machine_output=refs[-1]),
+                evidence_refs=refs,job_record=job_record,autonomous_execution=inv["autonomous_execution"],
+                stage_key=inv["stage_key"],preflight=bp["preflight"],server_resume_checks=bp["server_resume_checks"])
+            c.validate_plan(outcome["plan"],pair,history)
+            # Check-only deliberately stops before any invocation publication or scheduler call.
+        return outcome
+
+    def verify_prepared_plan(self,plan):
+        self.verify_evidence(plan["evidence_refs"],force=True)
+        c.require(c.file_sha(plan["wrapper"])==plan["wrapper_sha256"],"remote wrapper changed")
+        inv=plan["invocation_contents"]
+        for path,sha in inv["watched_files"].items():
+            p=c.no_links(path)
+            c.require(str(p).startswith((str(c.P)+"/",str(c.S)+"/")),"unexpected watched root")
+            c.require(p.suffix not in {".pt",".pth",".bin",".safetensors"},"weight in watched_files")
+            c.require(c.file_sha(p)==sha,"runtime scientific input differs")
+        pre=plan["preflight"]
+        c.require(not c.no_links(pre["require_no_training_summary"]).exists(),"pair already complete")
+        for path in pre["require_absent_if_fresh"]:c.require(not c.no_links(path).exists(),"fresh output/checkpoint already exists")
+        pair=next(p for p in self.registration["pairs"] if c.pair_key(p)==plan["pair_key"])
+        if plan["server_resume_checks"]:
+            specs=[dict(arm=x["arm"],path=x["path"],must_exist=x["exists"],sha256=x.get("sha256")) for x in plan["server_resume_checks"]]
+            w.checkpoint_checks(pair,specs,"resume.pt")
+        data=c.canonical(inv)+b"\n";c.require(c.sha_bytes(data)==plan["invocation_sha256"],"prepared invocation changed")
+        # Never overwrite an orphan invocation: a prior publication may precede an uncertain submission.
+        targets=[self.root/plan["invocation"],c.P/plan["invocation"]]
+        for p in targets:c.require(not c.no_links(p).exists(),"invocation exists; explicit reconciliation required")
+        for p in targets:
+            p.parent.mkdir(parents=True,exist_ok=True)
+            with p.open("xb") as f:f.write(data);f.flush();os.fsync(f.fileno())
+            c.require(c.file_sha(p)==plan["invocation_sha256"],"published invocation SHA differs")
+
+def main(argv=None):
+    ap=argparse.ArgumentParser();ap.add_argument("--check-only",action="store_true",required=True)
+    ap.add_argument("--pair",required=True);ap.add_argument("--existing-review");ap.add_argument("--output-directory")
+    ap.add_argument("--execution-adapter",required=True);ap.add_argument("--execution-adapter-sha256",required=True)
+    ap.add_argument("--worker",required=True);ap.add_argument("--worker-sha256",required=True)
+    a=ap.parse_args(argv)
+    activation=dict(controller_run_root=".local/autonomous_training_v1/controller/check_only",
+                    execution_adapter=dict(path=a.execution_adapter,sha256=a.execution_adapter_sha256),
+                    worker=dict(path=a.worker,sha256=a.worker_sha256))
+    b=Backend(c.R,activation);b.verify_evidence([b.adapter,b.worker])
+    state=c.read_json(c.R/STATE);pair=next(p for p in b.registration["pairs"] if c.pair_key(p)==a.pair)
+    history=sorted([j for j in state["registered_jobs"] if c.job_pair(j)==a.pair],key=lambda j:j["submitted_utc"])
+    old=dict(path=a.existing_review,sha256=c.file_sha(w.safe_relative(c.R,a.existing_review))) if a.existing_review else None
+    out=b.review_pair(pair,history,state,check_only=True,existing_review=old,check_output=a.output_directory)
+    print(json.dumps(dict(decision=out["decision"],pair_key=a.pair,completed_by_arm=out["completed_by_arm"],machine_output=out["machine_output"],slurm_submissions=0,invocations_published=0)))
+if __name__=="__main__":main()

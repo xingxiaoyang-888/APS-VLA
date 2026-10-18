@@ -1,0 +1,50 @@
+test_CAS_rejects_unlocked_writer (test_controller.ControllerTests.test_CAS_rejects_unlocked_writer) ... ok
+test_accounting_uses_unique_allocations_only (test_controller.ControllerTests.test_accounting_uses_unique_allocations_only) ... ok
+test_active_pair_keeps_original_entrypoint (test_controller.ControllerTests.test_active_pair_keeps_original_entrypoint) ... ok
+test_cached_complete_evidence_still_checked (test_controller.ControllerTests.test_cached_complete_evidence_still_checked) ... ok
+test_complete_requires_selected_identity (test_controller.ControllerTests.test_complete_requires_selected_identity) ... ok
+test_confirmed_zero_gpu_cpu_does_not_take_slot (test_controller.ControllerTests.test_confirmed_zero_gpu_cpu_does_not_take_slot) ... ok
+test_crash_after_ack_before_registry_keeps_pending (test_controller.ControllerTests.test_crash_after_ack_before_registry_keeps_pending) ... ok
+test_crash_before_pending_no_submission (test_controller.ControllerTests.test_crash_before_pending_no_submission) ... ok
+test_duplicate_pair_live_blocks (test_controller.ControllerTests.test_duplicate_pair_live_blocks) ... ok
+test_exact_eight_all_modes_stop (test_controller.ControllerTests.test_exact_eight_all_modes_stop) ... ok
+test_existing_pending_never_calls_backend (test_controller.ControllerTests.test_existing_pending_never_calls_backend) ... ok
+test_explicit48h_exclusion_and_comment_only_token (test_controller.ControllerTests.test_explicit48h_exclusion_and_comment_only_token) ... ok
+test_failed_pair_without_exact_repair_cannot_submit (test_controller.ControllerTests.test_failed_pair_without_exact_repair_cannot_submit) ... ok
+test_full_matrix_ends_at72_no_extra_submission (test_controller.ControllerTests.test_full_matrix_ends_at72_no_extra_submission) ... ok
+test_journal_failure_after_durable_intent_preserves_hold (test_controller.ControllerTests.test_journal_failure_after_durable_intent_preserves_hold) ... ok
+test_lexical_evidence_guard_precedes_open (test_controller.ControllerTests.test_lexical_evidence_guard_precedes_open) ... ok
+test_missing_sacct_blocks (test_controller.ControllerTests.test_missing_sacct_blocks) ... ok
+test_missing_zero_gpu_is_uncertain (test_controller.ControllerTests.test_missing_zero_gpu_is_uncertain) ... ok
+test_multiple_ack_lines_are_not_accepted (test_controller.ControllerTests.test_multiple_ack_lines_are_not_accepted) ... ok
+test_nonzero_numeric_response_is_unresolved (test_controller.ControllerTests.test_nonzero_numeric_response_is_unresolved) ... ok
+test_parser_rejects_duplicate_foreign_malformed_rows (test_controller.ControllerTests.test_parser_rejects_duplicate_foreign_malformed_rows) ... ok
+test_pending_is_fsynced_before_actual_call (test_controller.ControllerTests.test_pending_is_fsynced_before_actual_call) ... ok
+test_plan_identity_and_budget_reject (test_controller.ControllerTests.test_plan_identity_and_budget_reject) ... ok
+test_real_cross_process_lease_rejects_second_owner (test_controller.ControllerTests.test_real_cross_process_lease_rejects_second_owner) ... ok
+test_real_writer_contention_changes_no_state (test_controller.ControllerTests.test_real_writer_contention_changes_no_state) ... ok
+test_sacct_queue_disagreement_no_free_slot (test_controller.ControllerTests.test_sacct_queue_disagreement_no_free_slot) ... ok
+test_scientific_sha_gate_precedes_intent (test_controller.ControllerTests.test_scientific_sha_gate_precedes_intent) ... ok
+test_terminal_drift_is_not_written_over_old_terminal (test_controller.ControllerTests.test_terminal_drift_is_not_written_over_old_terminal) ... ok
+test_timeout_never_resubmits_after_process_restart (test_controller.ControllerTests.test_timeout_never_resubmits_after_process_restart) ... ok
+test_unknown_occupies_and_blocks_even_below_eight (test_controller.ControllerTests.test_unknown_occupies_and_blocks_even_below_eight) ... ok
+test_blocked_history_not_reaudited_until_root_clears (ind_bridge_tests_v2.AdditionalControlTests.test_blocked_history_not_reaudited_until_root_clears) ... ok
+test_clear_stale_active_tracking (ind_bridge_tests_v2.AdditionalControlTests.test_clear_stale_active_tracking) ... ok
+test_hold_allows_terminal_review_but_never_submits (ind_bridge_tests_v2.AdditionalControlTests.test_hold_allows_terminal_review_but_never_submits) ... ok
+test_hold_requires_exact_provenance (ind_bridge_tests_v2.AdditionalControlTests.test_hold_requires_exact_provenance) ... ok
+test_reservation_preserves_one_slot (ind_bridge_tests_v2.AdditionalControlTests.test_reservation_preserves_one_slot) ... ok
+test_cache_rehashes_same_size_mtime_preserved_change_using_ctime (ind_bridge_tests_v2.BridgeTests.test_cache_rehashes_same_size_mtime_preserved_change_using_ctime) ... ok
+test_current_pull_ambiguous_rejected (ind_bridge_tests_v2.BridgeTests.test_current_pull_ambiguous_rejected) ... ok
+test_current_pull_selected_without_reexpanding_historical_payload (ind_bridge_tests_v2.BridgeTests.test_current_pull_selected_without_reexpanding_historical_payload) ... ok
+test_evidence_rejects_mutable_state_and_sealed_before_read (ind_bridge_tests_v2.BridgeTests.test_evidence_rejects_mutable_state_and_sealed_before_read) ... ok
+test_existing_invocation_cannot_publish_or_overwrite (ind_bridge_tests_v2.BridgeTests.test_existing_invocation_cannot_publish_or_overwrite) ... ok
+test_journal_rotation_and_restart_retains_every_event (ind_bridge_tests_v2.BridgeTests.test_journal_rotation_and_restart_retains_every_event) ... ok
+test_journal_sealed_tamper_fails (ind_bridge_tests_v2.BridgeTests.test_journal_sealed_tamper_fails) ... ok
+test_journal_truncated_tail_fails_without_repair (ind_bridge_tests_v2.BridgeTests.test_journal_truncated_tail_fails_without_repair) ... ok
+test_resume_probe_hashes_only_exact_registered_two_files (ind_bridge_tests_v2.BridgeTests.test_resume_probe_hashes_only_exact_registered_two_files) ... ok
+test_wrong_checkpoint_sha_rejects_without_deserializing (ind_bridge_tests_v2.BridgeTests.test_wrong_checkpoint_sha_rejects_without_deserializing) ... ok
+
+----------------------------------------------------------------------
+Ran 45 tests in 2.481s
+
+OK

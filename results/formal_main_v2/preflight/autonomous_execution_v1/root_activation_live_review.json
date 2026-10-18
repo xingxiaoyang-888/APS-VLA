@@ -1,0 +1,57 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_autonomous_training_live_activation_review",
+  "status": "activated_CPU_service_running",
+  "reviewed_utc": "2026-10-18T17:56:10.360982+00:00",
+  "controller_job_id": "3034538",
+  "controller_node": "cpui135",
+  "owner": {
+    "activation_sha256": "7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef",
+    "coordinator_job_id": "3034538",
+    "hostname": "cpui135",
+    "lease": "fcntl_flock_held_for_process_lifetime",
+    "lock": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/autonomous_training/run_v1/controller.lease.lock",
+    "owner_id": "6b3beba5cdeb41df9d749b0b2054d485",
+    "pid": 2392954,
+    "started_utc": "2026-10-18T17:54:25.904382+00:00",
+    "version": "cti-autonomous-training-controller-v1"
+  },
+  "source173_unchanged_R_S": true,
+  "activation": {
+    "path": "configs/experiments/formal_main_v2_autonomous_execution_activation_v2.json",
+    "sha256": "7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef"
+  },
+  "scientific_source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "completed_selectors": 28,
+  "expected_selectors": 72,
+  "active_GPU_job_ids": [
+    "3033900",
+    "3033901",
+    "3033902",
+    "3033903",
+    "3033905",
+    "3033921",
+    "3033928",
+    "3033935"
+  ],
+  "allocated_gpu_seconds_observed": 754287,
+  "allocated_gpu_hours_observed": 209.52416666666667,
+  "cost_final": false,
+  "blocked_pairs": [
+    "libero_object_k256_seed23",
+    "libero_object_k64_seed23",
+    "libero_spatial_k64_seed23"
+  ],
+  "CPU_scontrol_raw": "JobId=3034538 JobName=cti-auto-controller UserId=u15016(10738) GroupId=u15016(11453) MCS_label=N/A Priority=4294182275 Nice=0 Account=p_p15016 QOS=cpu-500_core-l40-8_card-a800-8_card WCKey=p15016 JobState=RUNNING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:50 TimeLimit=7-00:00:00 TimeMin=N/A SubmitTime=2026-10-19T01:53:51 EligibleTime=2026-10-19T01:53:52 AccrueTime=2026-10-19T01:53:52 StartTime=2026-10-19T01:54:20 EndTime=2026-10-26T01:54:20 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-19T01:54:20 Scheduler=Backfill Partition=intel AllocNode:Sid=logina04:2562052 ReqNodeList=(null) ExcNodeList=(null) NodeList=cpui135 BatchHost=cpui135 NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:* TRES=cpu=1,mem=16G,node=1,billing=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=1 MinMemoryNode=16G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null) Command=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_autonomous_training_v1/service.slurm configs/experiments/formal_main_v2_autonomous_execution_activation_v2.json 7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef WorkDir=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo Comment=cti-controller-v1:d2061da13cb24379a79582626cbaa341  StdErr=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/autonomous_training/run_v1/activation/controller_3034538.err StdIn=/dev/null StdOut=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/autonomous_training/run_v1/activation/controller_3034538.out Power= \n",
+  "state_snapshot": {
+    "path": "results/formal_main_v2/preflight/autonomous_execution_v1/state_after_activation.json",
+    "sha256": "ad31f3c0a148bde32aff80b7cf465dfcfe0d55b8712fb45ff53b34b24fc5a609"
+  },
+  "manual500_wait_removed": true,
+  "full_resume_and_11_validation_schedule_unchanged": true,
+  "automatic_expansion": false,
+  "final_opened": false,
+  "first_new_continuous_GPU_job_observed": false,
+  "first_GPU_actual_TimeLimit_and_resume_identity": "verify when first automatic GPU allocation starts; not yet claimed",
+  "normal_GPU_realtime_polling_required": false
+}

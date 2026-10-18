@@ -1,0 +1,102 @@
+{
+  "actual_Slurm_calls_by_auditor": 0,
+  "blockers": [],
+  "changes": [
+    {
+      "behavior": "Only remove a ninth empty format delimiter; preserve the real eighth empty Comment field.",
+      "evidence": "Actual237 rows all retain eight fields. Original4ac7 reproduces failure, fixed parser accepts exact237 registered IDs. Missing/extra real columns and duplicate/foreign IDs still fail.",
+      "location": "parse_sacct"
+    },
+    {
+      "behavior": "Only when experiment differs from formal_main_v2, old status COMPLETED, and exit_code is exact integer0, compare as0:0 without changing registry.",
+      "evidence": "Actual12 historical successful integer exits stop causing false drift. Formal integer0, historical nonzero, bool, float, string0, failed status, nonzero actual exit and changed status remain refused.",
+      "location": "capacity"
+    }
+  ],
+  "failure_history_preserved": true,
+  "files": {
+    ".local/autonomous_training_v1/audit/controller_independent_review.json": "02bd8fedc30aae0f0ced0a5bb171a9c17b2ada8b15fe0ccd97e81312dc6a3d8d",
+    ".local/autonomous_training_v1/audit/controller_v2_regression.json": "82d906d899c10fef1e2333c67a19932de6a8e1a83a1a473582b4b3b1d345109a",
+    ".local/autonomous_training_v1/audit/controller_v2_regression.log": "dcd9c5810763ad3c1f03939ed46b58c2cad1c0ff452999a5faf7d961401163c2",
+    ".local/autonomous_training_v1/audit/controller_v2_regression_a2.json": "c61835045755f5088cac588e0858f1b9543a148e7b19d26b6b6feb2977d3190c",
+    ".local/autonomous_training_v1/audit/controller_v2_regression_a2.log": "00d1043d0f5a4b57224d921af235c7db7f915b7bdc9775f15f21bef393a33c1f",
+    ".local/autonomous_training_v1/audit/controller_v2_source.diff.txt": "53d5f354f2d7e74d9570493dde4be7eaf011e0d869803a13ceffcec606e6edf9",
+    ".local/autonomous_training_v1/audit/sacct_fix_a1.json": "751bee110a2f8ebc183534c26667b35255763c395800751d0a560aadc9632f95",
+    ".local/autonomous_training_v1/audit/sacct_fix_a1.log": "45f235f9f4d4bf4066f0adcdce194becd2bb9f7c7d3f7b12c272911b6b8188f2",
+    ".local/autonomous_training_v1/audit/sacct_fix_a1.xml": "c2ae2cedd20e60d80264dacd1343c9111b399689d951b5b24421ffa044c1214a",
+    ".local/autonomous_training_v1/audit/sacct_fix_source_diff.json": "2a24d08a4a929908473f449504341a4ab3a27fe5a71be30bfc3cbb8d10a518e0",
+    ".local/autonomous_training_v1/audit/sacct_legacy_registered_snapshot.json": "9383279602324335120fb7553fff621f524379a78a18ca93d963f79e1f7ddfff",
+    ".local/autonomous_training_v1/audit/scheduler_v2_a2.json": "e843d23cfedea406eb2e31cf82d23cce434857be4bf44687a2383840da9a3592",
+    ".local/autonomous_training_v1/audit/scheduler_v2_a2.log": "dce6f24f4616c252b10614e33d74a11fcd5ae499b03815df475ff5ad46466b70",
+    ".local/autonomous_training_v1/audit/scheduler_v2_a2.xml": "52a8965859006d1499876f522d0060ecfb7afc99ce5a22340c031153900b986c",
+    ".local/autonomous_training_v1/audit/test_sacct_empty_comment_independent.py": "05063fe4191c3a4e2cb2087c546dd9f3fa8988a349cc9d42a812fa0107ce9649",
+    ".local/autonomous_training_v1/audit/test_sacct_legacy_independent.py": "1461480b1969f9a5ca00afd63fe0802bd8c180325501ce4aff6c3c2b98b65a03",
+    "results/formal_main_v2/preflight/autonomous_execution_v1/activation_submission_execution.json": "5f3dd1ffe520f63e544d47b4c8a0c473cba5b5497defb6329711122c51449d40",
+    "results/formal_main_v2/preflight/autonomous_execution_v1/actual_scheduler_observation_fixed.json": "74a108f8704dc6c10564eca3679e71bceb7d07aff6b5e1cd7992527c6c527a40",
+    "results/formal_main_v2/preflight/autonomous_execution_v1/actual_scheduler_observation_v2.json": "2492ba2d92c40118e4046da7789544401effaed6099b0405d842a8ed3d6daa59",
+    "results/formal_main_v2/preflight/autonomous_execution_v1/controller_before_empty_comment_fix.py.txt": "4ac7dfa79345ec8a3db3ad1aa44c560d887ea691813d778bb8e1851e55ea9eec",
+    "results/formal_main_v2/preflight/autonomous_execution_v1/controller_before_legacy_exit_fix.py.txt": "39b9ecdcc7feecf80f05ac3b8012d2f2cb5a79760b6f8ca1465e23e52a16d7a8",
+    "results/formal_main_v2/preflight/autonomous_execution_v1/sacct_column_failure_raw.json": "c50b09f3ed3af41714a648c7b867faf0d2279052443d262e146e634e36435430",
+    "scripts/ops/formal_autonomous_training_v1/activate.py": "bae2efa295ad54e0c5a52cb02a476f5d83dd19569cf7eb5babe3269aae2c2493",
+    "scripts/ops/formal_autonomous_training_v1/backend.py": "54694bfd4c65db931a2a98574d0f4e916a262a5b4b5b4a67fd4debbc96bc0b7a",
+    "scripts/ops/formal_autonomous_training_v1/controller.py": "acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363",
+    "scripts/ops/formal_autonomous_training_v1/execution.py": "f74cd59b04bf616a29564784a07d1e36a5f31e33f565830d5b2aee905d75755b",
+    "scripts/ops/formal_autonomous_training_v1/service.slurm": "580cb2a4cfd5dbc09ddf77064428594db0ed20fb124bdaa309199777ef7c65b7",
+    "scripts/ops/formal_autonomous_training_v1/worker.py": "c96f8d0de3dd36e263a4bf7c332345db2abd52dd83a9e317620e00143cf86072"
+  },
+  "inherited_prior_checks": {
+    "actual_four_suite_scientific_bridge": "inherited: neither reviewer/worker nor scientific execution path changed",
+    "launcher_seven_boundary_tests": "inherited unchanged launcher",
+    "review": "02bd8fedc30aae0f0ced0a5bb171a9c17b2ada8b15fe0ccd97e81312dc6a3d8d",
+    "root_actual_transport": "inherited unchanged backend/worker/transport"
+  },
+  "kind": "autonomous_training_controller_independent_review",
+  "limitations": [
+    "Unit and launcher cases use explicit synthetic schedulers; auditor started no service or live GPU job.",
+    "Four actual science/evidence/checkpoint-hash reviews deserialize no checkpoints; subsequent scheduler handoff is synthetic and writes only audit fixtures.",
+    "Root actual transport preflight performs real P-to-R pull and original review; no invocation publication or GPU submission.",
+    "First production job requires root observation of actual48h TimeLimit and frozen-core restore identity; intended argv is not a measured allocation limit.",
+    "Three prior failed pairs remain blocked for separate root exception repair.",
+    "Finite7day CPU service requires explicit root reconciliation on expiry/crash.",
+    "Final release, sealed initial states, actionGPU acceptance and closed-loop evaluation remain outside this control authorization."
+  ],
+  "new_GPU_seconds": 0,
+  "new_final_version_tests_passed": 69,
+  "observed_snapshot": {
+    "findings": [],
+    "not_a_current_time_claim": true,
+    "occupied_GPU_jobs": 8,
+    "record": "results/formal_main_v2/preflight/autonomous_execution_v1/actual_scheduler_observation_v2.json",
+    "registered_rows": 237,
+    "unknown": []
+  },
+  "old_receipts_modified": false,
+  "predecessor_review": {
+    "path": ".local/autonomous_training_v1/audit/controller_independent_review.json",
+    "sha256": "02bd8fedc30aae0f0ced0a5bb171a9c17b2ada8b15fe0ccd97e81312dc6a3d8d"
+  },
+  "real_state_modified_by_auditor": false,
+  "reviewed_utc": "2026-10-18T17:52:29.009143+00:00",
+  "reviewer_role": "independent_subagent_server_v3_audit",
+  "schema": "formal_main_v2",
+  "science_changed": false,
+  "scope": "Two bounded controller compatibility corrections only; backend, worker, execution, launcher and scientific source unchanged.",
+  "sealed_states_opened": false,
+  "status": "passed_CPU_review",
+  "supersedes_controller_source_sha256": "4ac7dfa79345ec8a3db3ad1aa44c560d887ea691813d778bb8e1851e55ea9eec",
+  "tests": [
+    {
+      "failed": 0,
+      "kind": "all45_existing_controller_bridge_CPU_regression",
+      "passed": 45,
+      "receipt": ".local/autonomous_training_v1/audit/controller_v2_regression_a2.json"
+    },
+    {
+      "failed": 0,
+      "kind": "independent_real237_parser_and_legacy_capacity_boundaries",
+      "passed": 24,
+      "receipt": ".local/autonomous_training_v1/audit/scheduler_v2_a2.json"
+    }
+  ],
+  "version": "independent-review-v2-real-Slurm-compatibility"
+}

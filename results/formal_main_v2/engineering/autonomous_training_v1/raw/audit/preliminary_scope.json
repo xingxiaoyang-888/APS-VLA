@@ -1,0 +1,59 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "autonomous_training_independent_preliminary_scope",
+  "created_utc": "2026-10-18T17:06:14.130452+00:00",
+  "status": "requirements_audited_waiting_candidate_bytes",
+  "reviewer": "root/server_v3_audit",
+  "source_files": {
+    "src/cti_vla/training/formal_future.py": "3f4d2f933aa276d26dccfc2ce16d145f8bf40c7c1446ffddbb7342a763bc097b",
+    "scripts/run_formal_future.py": "5f36a9e315d7c25e439e0a4747c0d67ab1ff3671909e9d39569f1836d1717c00",
+    "scripts/formal_supervisor.py": "3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95",
+    "scripts/server/formal_main.slurm": "4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab",
+    "scripts/server/run_formal_stage.py": "54a8a870846a460c187705c09c0b977dddcd294a8d2df3586cd73b39ad82382c",
+    "scripts/review_formal_segment.py": "566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790",
+    "scripts/ops/formal_asset_supervisor.py": "442b6e42f4b80979541b0526dd4ae53546567cb9c0884a37dc8356bad094d26a",
+    "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+    "src/cti_vla/training/formal_resume_acceptance.py": "121e7fc6c621c7a76d8fb7c0fc02c2aefb6e220e2c9fbeef543e40d8ee6f8388"
+  },
+  "findings": [
+    {
+      "fact": "Frozen train_formal_arm already supports continuous 5000 updates and every-50 durable checkpoint commits.",
+      "location": "src/cti_vla/training/formal_future.py:688",
+      "implication": "No loss, model, data, optimizer, schedule or validation change is needed."
+    },
+    {
+      "fact": "Frozen core checks resume identity, initialization, sample order, cursor, validation artifacts/candidates, optimizer and all RNG states.",
+      "location": "src/cti_vla/training/formal_future.py:594",
+      "implication": "Execution adapter must preserve these exact calls and prevent treating an already-started arm with missing resume as new."
+    },
+    {
+      "fact": "Frozen wrapper requests 4-hour allocation; runner subtracts elapsed pair time before each arm and commits a complete update on normal wall exit.",
+      "location": "scripts/server/formal_main.slurm:12",
+      "implication": "Long-running allocation or normal wall rollover needs registered exact identity and remaining-time allowance; interrupted validation is replayed from last commit with retained cost."
+    },
+    {
+      "fact": "Original segment and asset supervisors/reviews require next500/fresh500; original base ACTIVE omits SUBMITTED.",
+      "location": "scripts/ops/formal_asset_supervisor.py:93",
+      "implication": "Versioned execution layer must replace manual boundary authorization without silently changing scientific review, and reserve submitted/uncertain states."
+    }
+  ],
+  "mandatory_boundary_checks": [
+    "Complete exact source/config/base/data/own-suite engineering/cache-lock identities remain bound.",
+    "No manual stop at update500/1000 is required after execution engineering acceptance; all11 validation nodes and earliest minimum hard teacher-L1 selection remain unchanged.",
+    "Normal wall checkpoint+resume has identical optimizer/RNG/sample cursor and continuation semantics; missing/corrupt/contradictory evidence fails closed with retained cost.",
+    "One controller leader and shared writer lock cover live scheduler reconciliation, global8 capacity and one active job per pair.",
+    "sbatch intent is durable before dispatch; unknown response cannot trigger duplicate submission; exact invocation/token reconciliation resolves or stops uncertainty.",
+    "SUBMITTED/PENDING/RUNNING/COMPLETING/REQUEUED/SUSPENDED/unknown scheduler states reserve capacity; incomplete accounting is not completion.",
+    "Existing jobs and completed arms are adopted without duplicate work; real failures require a specific authorized repair rather than automatic retry.",
+    "Object/Goal metadata adapter identities and acceptance evidence survive execution refactor.",
+    "Training-only controller does not evaluate or open sealed initial states; current action-GPUv3 and closed-loop gates stay distinct."
+  ],
+  "operations": {
+    "real_state_mutations": 0,
+    "Slurm_submissions": 0,
+    "services_started": 0,
+    "model_calls": 0,
+    "local_writes": 0
+  },
+  "readiness": "Neither CPU nor GPU acceptance granted by this preliminary receipt."
+}

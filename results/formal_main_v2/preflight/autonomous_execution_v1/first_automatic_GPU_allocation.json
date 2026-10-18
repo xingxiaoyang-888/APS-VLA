@@ -1,0 +1,165 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_first_automatic_GPU_actual_allocation_review",
+  "status": "actual_running_48hour_allocation_verified",
+  "utc": "2026-10-18T18:00:20.327356+00:00",
+  "job": {
+    "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+    "allocation_time": "48:00:00",
+    "autonomous_control": {
+      "activation_sha256": "7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef",
+      "actual_sbatch_argv": [
+        "sbatch",
+        "--parsable",
+        "--no-requeue",
+        "--time=48:00:00",
+        "--gres=gpu:l40:1",
+        "--exclude=gpu4020",
+        "--job-name=cti-formal",
+        "--comment=cti-auto-v1:96ebd7dd86fa6e1e04e9ec83e30a4f56ee4d3f6f1c94ca71a107c612767d1540",
+        "--chdir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+        "--export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_object_train_k256_seed41_attempt02.json,INVOCATION_SHA256=3abfab88a7d9585dfd1fdfe1ecb909df2121e6375ec06ba37196a9291a02baf3,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+        "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_asset_main.slurm"
+      ],
+      "automatic_retry": false,
+      "excluded_nodes": [
+        "gpu4020"
+      ],
+      "request_token": "96ebd7dd86fa6e1e04e9ec83e30a4f56ee4d3f6f1c94ca71a107c612767d1540",
+      "soft_wall_seconds": 169200,
+      "target_updates": 5000,
+      "version": "cti-autonomous-training-controller-v1",
+      "wall_seconds": 172800
+    },
+    "autonomous_execution": {
+      "acceptance_review": {
+        "path": "results/formal_main_v2/libero_object/acceptance/root_review.json",
+        "sha256": "2fd415c47d8852678b4d83296ffcff4709d97765debe7f4e41a17a7ae02daaa2"
+      },
+      "adapter": {
+        "path": "scripts/ops/formal_autonomous_training_v1/execution.py",
+        "sha256": "f74cd59b04bf616a29564784a07d1e36a5f31e33f565830d5b2aee905d75755b"
+      },
+      "allocation_time": "48:00:00",
+      "authorization": {
+        "path": "configs/experiments/formal_main_v2_autonomous_execution_authorization_v1.json",
+        "sha256": "b709b1a822a6e07c583166496598566408c3fb012aeeadd315746ae817b4ab4d"
+      },
+      "base_invocation_sha256": "245410eb16e9dd1229021336294c77376463e34b4ff2da5f942666fe30b4f655",
+      "changed_options": {
+        "--max-wall-seconds": {
+          "after": "169200",
+          "before": "12600"
+        },
+        "--stop-after-updates": {
+          "after": "5000",
+          "before": "500"
+        }
+      },
+      "checkpoint_every_updates": 50,
+      "completed_before": {
+        "A": 500,
+        "B": 500
+      },
+      "failed_unknown_or_signal_terminated_auto_retry": false,
+      "kind": "autonomous_training_execution",
+      "original_sequential_A_B": true,
+      "original_wrapper": {
+        "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_asset_main.slurm",
+        "sha256": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a"
+      },
+      "predecessor_review": {
+        "path": "results/formal_main_v2/autonomous_training/run_v1/reviews/libero_object_k256_seed41_c455e23a004f4b12ad029b86e06f5280/machine_review.json",
+        "sha256": "83fde12b0f59b18a7224503c5121c9c6b23f24893714fabb473d969a4139abe3"
+      },
+      "resume_checks_before": [
+        {
+          "arm": "A",
+          "bytes": 32070502,
+          "exists": true,
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed41/A/resume.pt",
+          "sha256": "82202097974d85b2a4dddfcb33dbde4d9a6ee7e84532fd74c833aaeeafe95d17"
+        },
+        {
+          "arm": "B",
+          "bytes": 36450948,
+          "exists": true,
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed41/B/resume.pt",
+          "sha256": "c1698fba03d0d2a229c09f6c3a0479430a394349cb748e996644a51756c08a4c"
+        }
+      ],
+      "schema": "formal_main_v2",
+      "scientific_argv_unchanged": true,
+      "scientific_source_unchanged": true,
+      "soft_wall_seconds": 169200,
+      "source_inventory": {
+        "path": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926"
+      },
+      "target_updates_per_arm": 5000,
+      "validation_updates": [
+        0,
+        500,
+        1000,
+        1500,
+        2000,
+        2500,
+        3000,
+        3500,
+        4000,
+        4500,
+        5000
+      ],
+      "version": "formal-autonomous-training-execution-v1"
+    },
+    "elapsed_seconds": 131,
+    "exit_code": "0:0",
+    "experiment": "formal_main_v2",
+    "gpus": 1,
+    "invocation": "results/formal_main_v2/invocations/libero_object_train_k256_seed41_attempt02.json",
+    "invocation_sha256": "3abfab88a7d9585dfd1fdfe1ecb909df2121e6375ec06ba37196a9291a02baf3",
+    "job_id": "3034570",
+    "mode": "train",
+    "name": "cti-formal",
+    "node": "gpu4010",
+    "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed41/training",
+    "runtime_compatibility": {
+      "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+      "files": {
+        "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+        "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+        "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+        "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+        "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+        "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996"
+      },
+      "kind": "asset_metadata_compatibility",
+      "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+      "schema": "formal_main_v2",
+      "slurm": "scripts/server/formal_asset_main.slurm",
+      "version": "formal-asset-metadata-compat-v1",
+      "wrapper": "scripts/server/run_formal_asset_stage.py"
+    },
+    "segment_end": 5000,
+    "soft_wall_seconds": 169200,
+    "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+    "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+    "stage_key": "libero_object_train_k256_seed41",
+    "status": "RUNNING",
+    "submitted_utc": "2026-10-18T17:58:01.517792+00:00",
+    "suite": "libero_object",
+    "training_seed": 41,
+    "visual_tokens": 256
+  },
+  "invocation_sha256": "3abfab88a7d9585dfd1fdfe1ecb909df2121e6375ec06ba37196a9291a02baf3",
+  "actual_scontrol": "JobId=3034570 JobName=cti-formal UserId=u15016(10738) GroupId=u15016(11453) MCS_label=N/A Priority=4294182267 Nice=0 Account=p_p15016 QOS=cpu-500_core-l40-8_card-a800-8_card WCKey=p15016 JobState=RUNNING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:02:18 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-19T01:58:02 EligibleTime=2026-10-19T01:58:02 AccrueTime=2026-10-19T01:58:02 StartTime=2026-10-19T01:58:02 EndTime=2026-10-21T01:58:02 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-19T01:58:02 Scheduler=Main Partition=L40 AllocNode:Sid=cpui135:2392949 ReqNodeList=(null) ExcNodeList=gpu4020 NodeList=gpu4010 BatchHost=gpu4010 NumNodes=1 NumCPUs=7 NumTasks=1 CPUs/Task=7 ReqB:S:C:T=0:0:*:* TRES=cpu=7,mem=64G,node=1,billing=7,gres/gpu=1,gres/gpu:l40=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=7 MinMemoryNode=64G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null) Command=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_asset_main.slurm WorkDir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA Comment=cti-auto-v1:96ebd7dd86fa6e1e04e9ec83e30a4f56ee4d3f6f1c94ca71a107c612767d1540  StdErr=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti-formal_3034570.err StdIn=/dev/null StdOut=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti-formal_3034570.out Power= TresPerNode=gres:gpu:l40:1 \n",
+  "actual_GPU_allocation": 1,
+  "actual_time_limit_seconds": 172800,
+  "admitted_resume_by_arm": {
+    "A": 500,
+    "B": 500
+  },
+  "runtime_resume_not_yet_claimed": true,
+  "reason": "At this snapshot model loading is completing; actual resume journal will be checked separately.",
+  "final_opened": false
+}

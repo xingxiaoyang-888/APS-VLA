@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "sbatch",
+    "--test-only",
+    "--parsable",
+    "--account=p_p15016",
+    "--qos=cpu-500_core-l40-8_card-a800-8_card",
+    "--partition=intel",
+    "--nodes=1",
+    "--ntasks=1",
+    "--cpus-per-task=1",
+    "--mem=16G",
+    "--time=7-00:00:00",
+    "--wrap=/bin/true"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "sbatch: Job 3034508 to start at 2027-07-18T18:58:43 using 1 processors on nodes cpui134 in partition intel\n",
+  "actual_submissions": 0,
+  "scope": "allocation syntax and admission only; scheduling forecast is not ETA"
+}

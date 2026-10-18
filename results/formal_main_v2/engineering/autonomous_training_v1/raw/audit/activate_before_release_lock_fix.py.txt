@@ -1,0 +1,104 @@
+"""Root-only activation of the registered CPU training coordinator.
+
+A held Slurm allocation is registered before release to prevent startup races.
+This launcher submits no GPU jobs and never alters scientific source files.
+"""
+from pathlib import Path
+import argparse, copy, json, os, re, subprocess, sys, uuid
+import controller as c
+
+STATE = c.R / "results/experiment_supervisor/state.json"
+
+def immutable(path, value):
+    path=c.no_links(path)
+    c.require(not path.exists(), "immutable activation record exists")
+    path.parent.mkdir(parents=True,exist_ok=True)
+    with path.open("xb") as f:
+        f.write(c.canonical(value)+b"\n"); f.flush(); os.fsync(f.fileno())
+    fd=os.open(path.parent,os.O_RDONLY|os.O_DIRECTORY)
+    try:os.fsync(fd)
+    finally:os.close(fd)
+
+def clean_environment():
+    env={k:v for k,v in os.environ.items() if not k.startswith("CTI_SERVER_CONTROL_")}
+    shim=str(c.R/"scripts/ops/server_control_transport_v1/bin")
+    env["PATH"]=os.pathsep.join(x for x in env.get("PATH","").split(os.pathsep) if x!=shim)
+    env["PYTHONDONTWRITEBYTECODE"]="1"
+    return env
+
+def inherited_pairs(state, activation):
+    proof_ref=activation["inherited_scientific_admission"]
+    proof=c.read_json(c.reference(c.R,proof_ref))
+    existing=state["formal_main_progress"]["completed_training_pairs"]
+    c.require(len(existing)==14 and proof["completed_arms"]==28,"initial inherited completion scope changed; review before activation")
+    entries={}
+    for key,row in existing.items():
+        refs=[proof_ref]
+        for field in ("root_review","independent_review","selected_server_review"):
+            ref=dict(path=row[field],sha256=row[field+"_sha256"])
+            c.reference(c.R,ref);refs.append(ref)
+        root=c.read_json(c.R/row["root_review"])
+        c.require(root["status"]=="passed" and root["completed_by_arm"]=={"A":5000,"B":5000},"prior pair is not fully reviewed")
+        selected=c.read_json(c.R/row["selected_server_review"])
+        c.require(selected["status"]=="passed" and len(selected["server_selected_checks"])==2,"prior selected proof missing")
+        c.require(any(x["pair"]==key for x in proof["completed_pairs"]),"pair absent from inherited real-byte proof")
+        entries[key]=dict(decision="complete",completed_by_arm={"A":5000,"B":5000},
+            verification_origin="inherited_root_and_independent_review",evidence_refs=refs,
+            validation_updates=list(range(0,5001,500)),selected_checkpoints_verified=True,
+            selected_checkpoint_checks=selected["server_selected_checks"],new_machine_review_claimed=False,
+            inherited_checkpoint_bytes_rechecked_by_backend_startup=True)
+    return entries
+
+def main(argv=None):
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--activation",required=True);ap.add_argument("--activation-sha256",required=True)
+    ap.add_argument("--wrapper",required=True);ap.add_argument("--wrapper-sha256",required=True)
+    ap.add_argument("--submit",action="store_true")
+    a=ap.parse_args(argv)
+    act=c.load_activation(c.R,c.R/a.activation,a.activation_sha256)
+    c.require(c.file_sha(Path(c.__file__))==act["controller_sha256"],"controller bytes differ")
+    wrapper=c.reference(c.R,dict(path=a.wrapper,sha256=a.wrapper_sha256))
+    c.require(wrapper==c.R/"scripts/ops/formal_autonomous_training_v1/service.slurm","unexpected CPU wrapper")
+    pre=subprocess.run([sys.executable,"-B",str(Path(c.__file__)),"--activation",a.activation,"--activation-sha256",a.activation_sha256,"--check-only"],capture_output=True,text=True,env=clean_environment(),timeout=600)
+    c.require(pre.returncode==0,"controller startup check failed: "+pre.stderr[-4000:])
+    if not a.submit:
+        print(json.dumps(dict(status="activation_launcher_check_passed",submissions=0,controller_check=pre.stdout.strip())))
+        return 0
+    record_dir=c.R/"results/formal_main_v2/autonomous_training/run_v1/activation"
+    c.require(not (record_dir/"submission_answer.json").exists(),"prior activation attempt exists; reconcile instead of resend")
+    with c.exclusive_lock(STATE.parent/".writer.lock"):
+        with c.exclusive_lock(c.R/act["controller_run_root"]/"controller.lease.lock"):
+            prior=c.file_sha(STATE);state=c.read_json(STATE)
+            c.require(state.get("pending_submission") is None,"unresolved submission blocks activation")
+            c.require(not state.get("autonomous_training_v1",{}).get("activation_sha256"),"already activated; explicit restart protocol required")
+            jobs=state["registered_jobs"]
+            snap=c.Slurm().observe(jobs);caps=c.capacity(jobs,snap)
+            c.require(not caps["unknown"] and not caps["findings"],"uncertain scheduler accounting blocks activation")
+            c.require(not any(j.get("mode")=="controller" and snap["rows"].get(j["job_id"],{}).get("status") not in c.TERMINAL for j in jobs),"another registered controller remains active")
+            initial=inherited_pairs(state,act)
+            token=uuid.uuid4().hex
+            args=["sbatch","--hold","--parsable","--no-requeue","--account=p_p15016","--qos=cpu-500_core-l40-8_card-a800-8_card","--partition=intel","--nodes=1","--ntasks=1","--cpus-per-task=1","--mem=16G","--time=7-00:00:00","--job-name=cti-auto-controller","--comment=cti-controller-v1:"+token,"--chdir="+str(c.R),"--export=ALL","--output="+str(record_dir/"controller_%j.out"),"--error="+str(record_dir/"controller_%j.err"),str(wrapper),a.activation,a.activation_sha256]
+            pending=dict(experiment=c.ROUND,kind="autonomous_controller_activation",requested_gpus=0,request_token=token,created_utc=c.utc(),actual_sbatch_argv=args,retry_permitted=False)
+            record_dir.mkdir(parents=True,exist_ok=True)
+            immutable(record_dir/"submission_intent.json",pending)
+            state["pending_submission"]=pending;c.atomic_json(STATE,state,prior);prior=c.file_sha(STATE)
+            answer=subprocess.run(args,capture_output=True,text=True,env=clean_environment(),timeout=60)
+            immutable(record_dir/"submission_answer.json",dict(returncode=answer.returncode,stdout=answer.stdout,stderr=answer.stderr,utc=c.utc()))
+            match=re.fullmatch(r"([0-9]+)(?:;[A-Za-z0-9_.-]+)?\s*",answer.stdout)
+            c.require(answer.returncode==0 and match is not None,"ambiguous controller submission; pending retained, never resend")
+            jid=match.group(1);c.require(all(j["job_id"]!=jid for j in jobs),"duplicate controller allocation identity")
+            job=dict(job_id=jid,name="cti-auto-controller",experiment=c.ROUND,mode="controller",stage_key="autonomous_training_controller_v1",gpus=0,status="PENDING",submitted_utc=pending["created_utc"],activation=a.activation,activation_sha256=a.activation_sha256,run_root=str(c.R/act["controller_run_root"]),actual_sbatch_argv=args,purpose="Root-delegated continuous registered training; no final release",source_sha256=c.SOURCE_SHA)
+            jobs.append(job);state["pending_submission"]=None
+            state["autonomous_training_v1"]=dict(activation=dict(path=a.activation,sha256=a.activation_sha256),activation_sha256=a.activation_sha256,controller_job_id=jid,activated_utc=c.utc(),completed_pairs=initial,blocked_pairs={},root_submission_hold=None,reserved_GPU_slots=0,last_result=dict(status="controller_registered_pending_start"))
+            state["execution_authorization_update"]["status"]="activated_registered_CPU_controller"
+            state["execution_authorization_update"]["activation"]=dict(path=a.activation,sha256=a.activation_sha256)
+            state["next_actions"]=["Normal healthy training is owned by the registered autonomous CPU controller through update5000; no manual500-step continuation.","Heartbeat handles only exceptions, evidence/results, GitHub sync and separately gated engineering; do not duplicate controller GPU submission.","Preserve exact72-arm matrix, val0/every500 and final global release gate; sealed final remains closed."]
+            state["updated_utc"]=c.utc()
+            immutable(c.R/f"results/formal_main_v2/submissions/{jid}.json",job)
+            c.atomic_json(STATE,state,prior)
+            release=subprocess.run(["scontrol","release",jid],capture_output=True,text=True,env=clean_environment(),timeout=60)
+            immutable(record_dir/"release_answer.json",dict(job_id=jid,returncode=release.returncode,stdout=release.stdout,stderr=release.stderr,utc=c.utc()))
+            c.require(release.returncode==0,"registered CPU job remains held; inspect release evidence")
+            print(json.dumps(dict(status="CPU_controller_registered_and_released",job_id=jid,activation_sha256=a.activation_sha256,inherited_completed_pairs=len(initial),GPU_jobs_submitted_by_launcher=0)))
+    return 0
+if __name__=="__main__":raise SystemExit(main())

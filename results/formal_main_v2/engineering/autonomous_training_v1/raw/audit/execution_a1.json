@@ -1,0 +1,25 @@
+{
+  "kind": "independent_CPU_author_suite_rerun",
+  "returncode": 0,
+  "elapsed_seconds": 35.38087725639343,
+  "args": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/train/test_execution.py",
+    "--basetemp",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/audit/execution_a1_tmp",
+    "--junitxml",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/audit/execution_a1.xml"
+  ],
+  "source_sha256": {
+    ".local/autonomous_training_v1/train/execution.py": "f74cd59b04bf616a29564784a07d1e36a5f31e33f565830d5b2aee905d75755b",
+    ".local/autonomous_training_v1/train/test_execution.py": "83e9c6c1d722a1e1d2ba827199309817da9ebe95efd268114fa610f733329ab2"
+  },
+  "synthetic_upstream_original_reviewer": true,
+  "GPU_test": false
+}

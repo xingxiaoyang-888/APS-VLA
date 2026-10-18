@@ -1,0 +1,77 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_first_autonomous_GPU_resume_review",
+  "status": "passed_observed_first_resumed_A_update",
+  "observed_utc": "2026-10-18T18:05:23.733531+00:00",
+  "job_id": "3034570",
+  "pair": "libero_object_k256_seed41",
+  "arm": "A",
+  "actual_GPU_node": "gpu4010",
+  "actual_time_limit_seconds": 172800,
+  "training_target_updates": 5000,
+  "resumed_update": 500,
+  "resumed_sample_cursor": 4000,
+  "observed_completed_update": 501,
+  "first_resumed_order_matches_registered_slice": [
+    4000,
+    4008
+  ],
+  "run_identity_exact_match": true,
+  "gate_alpha": 1.953485239701583,
+  "full_5000_schedule_alpha_match": true,
+  "effective_batch": 8,
+  "prior_resume_sha256_recorded_at_admission": "82202097974d85b2a4dddfcb33dbde4d9a6ee7e84532fd74c833aaeeafe95d17",
+  "source_journal": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed41/training/A/attempts/20261018T180039_8dcacbab339e/cost_events.jsonl",
+  "source_is_active_only_prefix_archived": true,
+  "evidence": [
+    {
+      "path": "results/formal_main_v2/preflight/autonomous_execution_v1/first_GPU_resume_3034570_journal_prefix.jsonl",
+      "sha256": "7325a145698c855e84801a7ce392b2615a27b39193dc1827e31a45852afaf6e4",
+      "bytes": 22739
+    },
+    {
+      "path": "results/formal_main_v2/preflight/autonomous_execution_v1/first_GPU_resume_3034570_prior_progress.json",
+      "sha256": "62ab75d279bc0e8c36fa81d8432b60b18d58715900a409bf2c6c0df78c7ab746",
+      "bytes": 21840
+    },
+    {
+      "path": "results/formal_main_v2/preflight/autonomous_execution_v1/first_GPU_resume_3034570_scontrol.txt",
+      "sha256": "d66a6259ac3424ad19c639b440f3d50e8a5ef854958867cf5842b33f86f417c9",
+      "bytes": 1465
+    }
+  ],
+  "registered_order": {
+    "path": "results/formal_main_v2/libero_object/k256/seed41/training/A/training_order.json",
+    "sha256": "d9dafd511594800811ea78c833250f55dd3d9472d1cd8f2958bd58450e7118e2"
+  },
+  "optimizer_RNG_restore_evidence": "Frozen same-source restore path plus previously retained real F03 and independent CPU execution acceptance; actual attempt_start follows successful load. No new optimizer tensor export.",
+  "limitations": [
+    "B has not yet started in this job; follows the original A-then-B order.",
+    "This is production continuation and execution acceptance, not a claim that 5000 updates or final evaluation has finished."
+  ],
+  "current_control_snapshot": {
+    "last_tick_utc": "2026-10-18T18:04:37.642034+00:00",
+    "last_result": {
+      "completed_pairs": 14,
+      "completed_selectors": 28,
+      "status": "capacity_full"
+    },
+    "occupied_job_ids": [
+      "3033900",
+      "3033901",
+      "3033902",
+      "3033903",
+      "3033905",
+      "3034570",
+      "3034580",
+      "3034584"
+    ],
+    "allocated_gpu_seconds_observed": 758358,
+    "trained_arms": 28,
+    "blocked_pairs": [
+      "libero_object_k256_seed23",
+      "libero_object_k64_seed23",
+      "libero_spatial_k64_seed23"
+    ]
+  }
+}

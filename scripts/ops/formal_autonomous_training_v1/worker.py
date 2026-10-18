@@ -1,0 +1,154 @@
+"""Original nonweight pull/review bridge. No scheduler submission or state writes."""
+from __future__ import annotations
+from pathlib import Path
+import argparse, hashlib, importlib.util, json, os, sys
+import controller as c
+
+INVENTORY="results/formal_main_v2/source/formal_main_v2_run_564be0995e.json"
+INVENTORY_SHA="5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926"
+SEGMENT="scripts/review_formal_segment.py"
+SEGMENT_SHA="566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790"
+ACCEPTANCE="scripts/review_formal_acceptance.py"
+ACCEPTANCE_SHA="373bcaea3ca8da63ee684ab8c3af6adcd329daa8fcc952422984882c0c206926"
+STATE="results/experiment_supervisor/state.json"
+
+def module(root,ref,name):
+    p=c.reference(root,ref)
+    spec=importlib.util.spec_from_file_location(name,p)
+    m=importlib.util.module_from_spec(spec);sys.modules[name]=m;spec.loader.exec_module(m)
+    return m
+
+def safe_relative(root,value):
+    c.require(isinstance(value,str) and not value.startswith("/") and ".." not in Path(value).parts and "\\" not in value and ":" not in value,"invalid evidence path")
+    p=c.no_links(root/value);low=Path(value.lower())
+    scientific_source=low.suffix==".py" and low.parts[0] in {"src","scripts","tests"}
+    c.require(not any(x in low.parts for x in ("sealed","test","weights","checkpoints")) and (scientific_source or not any(x in value.lower() for x in ("initial_states","init_states","final_registry"))),"forbidden evidence")
+    c.require(p.suffix.lower() not in {".pt",".pth",".bin",".ckpt",".safetensors",".pkl",".pickle",".init",".pruned_init"},"weight input forbidden")
+    return p
+
+def immutable(path,value):
+    p=c.no_links(path);c.require(not p.exists(),"immutable output exists: "+str(p))
+    p.parent.mkdir(parents=True,exist_ok=True)
+    # Exclusive file creation; a truncated result cannot be mistaken for a completed receipt.
+    with p.open("xb") as f:f.write(c.canonical(value)+b"\n");f.flush();os.fsync(f.fileno())
+    return {"path":str(p.relative_to(c.R)),"sha256":c.file_sha(p)}
+
+def checkpoint_checks(pair,specs,filename):
+    c.require(len(specs)==2 and {x.get("arm") for x in specs}=={"A","B"},"exact registered A/B checkpoints required")
+    out=[]
+    for arm in ("A","B"):
+        s=next(x for x in specs if x["arm"]==arm)
+        expected=pair["checkpoint_root_server"]+"/"+arm+"/"+filename
+        c.require(s["path"]==expected and expected.startswith(str(c.H/ "checkpoints/formal_main_v2")+"/"),"checkpoint outside registered pair")
+        p=c.no_links(expected);exists=p.exists()
+        c.require(exists is s["must_exist"],"checkpoint existence differs")
+        a=dict(arm=arm,path=expected,exists=exists)
+        if exists:
+            before=p.stat();a.update(bytes=before.st_size,sha256=c.file_sha(p))
+            after=p.stat()
+            c.require((before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)==(after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns),"checkpoint changed while hashing")
+            c.require(a["bytes"]>0 and a["sha256"]==s["sha256"],"actual checkpoint SHA differs")
+        out.append(a)
+    return out
+
+def pull_reference(root,review):
+    choices=[{"path":p,"sha256":s} for p,s in review["evidence_sha256"].items()
+             if p.startswith("results/formal_main_v2/pulls/") and p.endswith("/receipt.json")]
+    matched=[]
+    for ref in choices:
+        value=c.read_json(c.reference(root,ref))
+        if review["job_id"] in {str(j["job_id"]) for j in value.get("selected_jobs",[])}:matched.append(ref)
+    c.require(len(matched)==1,"exact current-job reviewed pull required")
+    return matched[0]
+
+def freeze_refs(root,mapping):
+    result=[]
+    for name,digest in sorted(mapping.items()):
+        if name==STATE:continue # Mutable registry is separately bound by request SHA and exact job snapshot.
+        p=safe_relative(root,name);c.require(c.file_sha(p)==digest,"evidence changed: "+name)
+        result.append(dict(path=name,sha256=digest))
+    return result
+
+def run(request,request_ref):
+    root=c.R
+    c.require(request["schema"]==c.ROUND and request["kind"]=="autonomous_machine_review_request","worker request type differs")
+    c.require(request["mode"] in {"terminal","fresh"} and type(request["check_only"]) is bool,"worker mode invalid")
+    state_before=c.file_sha(root/STATE)
+    c.require(state_before==request["state_sha256"],"registry changed before worker")
+    state=c.read_json(root/STATE)
+    c.require(state["registered_jobs"]==request["registered_jobs"] and state.get("pending_submission") is None,"registered snapshot/pending differs")
+    output=safe_relative(root,request["output_directory"])
+    allowed=[root/".local/autonomous_training_v1/controller",root/".local/autonomous_training_v1/audit"] if request["check_only"] else [root/"results/formal_main_v2/autonomous_training"]
+    c.require(any(p in output.parents for p in allowed),"worker output outside registered scope")
+    c.require(not (output/"outcome.json").exists(),"worker outcome already exists")
+    ex=module(root,request["execution_adapter"],"_autonomous_execution_worker")
+    reg=c.read_json(root/"configs/experiments/formal_main_v2.json")
+    pairs=[p for p in reg["pairs"] if c.pair_key(p)==request["pair_key"]]
+    c.require(len(pairs)==1,"unknown pair")
+    pair=pairs[0];history=sorted([j for j in state["registered_jobs"] if c.job_pair(j)==request["pair_key"]],key=lambda j:j["submitted_utc"])
+    c.require(all(j["status"]=="COMPLETED" and j.get("exit_code")=="0:0" for j in history),"failed/active history is held, never auto-retried")
+    refs={request_ref["path"]:request_ref["sha256"],request["execution_adapter"]["path"]:request["execution_adapter"]["sha256"],INVENTORY:INVENTORY_SHA}
+    selected=[]
+    if request["mode"]=="terminal":
+        c.require(history and history[-1]["job_id"]==request["job_id"],"not latest pair allocation")
+        if request["check_only"]:
+            root_ref=request["existing_review"]
+            saved=c.read_json(c.reference(root,root_ref));refs[root_ref["path"]]=root_ref["sha256"]
+            pr=pull_reference(root,saved)
+        else:
+            c.require(os.environ.get("CTI_SERVER_CONTROL_VERSION"),"actual pull requires audited server transport scope")
+            pull=module(root,request["puller"],"_autonomous_original_puller")
+            _,path=pull.pull([j["job_id"] for j in history],timeout=300)
+            pr=dict(path=str(path.relative_to(root)),sha256=c.file_sha(path))
+        reviewer=module(root,dict(path=SEGMENT,sha256=SEGMENT_SHA),"_autonomous_original_segment")
+        evidence_instances=[];original_evidence=reviewer.Evidence
+        def capture_evidence(*args,**kwargs):
+            obj=original_evidence(*args,**kwargs);evidence_instances.append(obj);return obj
+        reviewer.Evidence=capture_evidence
+        raw=reviewer.review(history[-1]["job_id"],source_inventory=INVENTORY,pull_receipt=pr["path"],verify_server_resume=False,root=root)
+        c.require(len(evidence_instances)==1,"expected exactly one original reviewer evidence instance")
+        raw_input_evidence=dict(evidence_instances[0].hashes)
+        checks=checkpoint_checks(pair,raw["server_resume_checklist"],"resume.pt")
+        envelope=dict(schema=c.ROUND,kind="automatic_machine_training_review",version="autonomous-training-machine-review-v1",status="passed_machine_reconstruction",original_review=raw,raw_input_evidence=raw_input_evidence,reviewer=dict(path=SEGMENT,sha256=SEGMENT_SHA),server_resume_checks=checks,root_signature_claimed=False,independent_review=False)
+        review_ref=immutable(output/"machine_review.json",envelope)
+        admission=ex.classify_terminal(root,pair_key=request["pair_key"],job=history[-1],review_ref=review_ref,rebuilt_review=raw,actual_resume_checks=checks)
+        refs.update(raw_input_evidence);refs.update(raw["files"]);refs[SEGMENT]=SEGMENT_SHA;refs.update(admission["evidence_sha256"]);refs[pr["path"]]=pr["sha256"];refs[review_ref["path"]]=review_ref["sha256"]
+        if admission["decision"]=="complete":
+            specs=[]
+            for arm in ("A","B"):
+                rel=f"results/formal_main_v2/{pair['suite']}/k{pair['visual_tokens']}/seed{pair['seed']}/training/{arm}/deployment_receipt.json"
+                receipt=c.read_json(safe_relative(root,rel))
+                c.require(raw["files"].get(rel)==c.file_sha(root/rel) and receipt["training_complete"] is True and receipt["completed_updates"]==5000,"final deployment receipt not verified")
+                c.require([e["update"] for e in receipt["evaluations"]]==list(range(0,5001,500)),"eleven validation nodes absent")
+                specs.append(dict(arm=arm,path=pair["checkpoint_root_server"]+"/"+arm+"/best.pt",must_exist=True,sha256=receipt["checkpoint_sha256"]))
+            selected=checkpoint_checks(pair,specs,"best.pt")
+            selected_ref=immutable(output/"selected_server_hashes.json",dict(schema=c.ROUND,kind="automatic_machine_selected_checkpoint_hashes",status="verified_actual_server_bytes",job_id=history[-1]["job_id"],checks=selected,root_signature_claimed=False))
+            refs[selected_ref["path"]]=selected_ref["sha256"]
+    else:
+        c.require(not history,"fresh requested for existing pair")
+        rel=f"results/formal_main_v2/{pair['suite']}/acceptance/root_review.json"
+        gate=c.read_json(safe_relative(root,rel));gate_ref=dict(path=rel,sha256=c.file_sha(root/rel))
+        pr=pull_reference(root,gate)
+        reviewer=module(root,dict(path=ACCEPTANCE,sha256=ACCEPTANCE_SHA),"_autonomous_original_acceptance")
+        # Existing gate is mandatory, so original publish_review only compares/returns it.
+        rebuilt=reviewer.review(gate["job_id"],source_inventory=INVENTORY,pull_receipt=pr["path"],root=root)
+        admission=dict(decision="ready",pair_key=request["pair_key"],mode="fresh",acceptance_review_ref=gate_ref,rebuilt_acceptance=rebuilt,completed_by_arm={"A":0,"B":0})
+        refs[rel]=gate_ref["sha256"];refs.update({gate["output_relative"]+"/"+k:v for k,v in gate["files"].items()})
+    plan=None
+    if admission["decision"]=="ready":
+        base=ex.build_base_invocation(root,pair_key=request["pair_key"],source_inventory=dict(path=INVENTORY,sha256=INVENTORY_SHA),jobs=state["registered_jobs"],admission=admission,registered_utc=c.utc())
+        plan=ex.build_execution(root,base,adapter_ref=request["execution_adapter"])
+        refs.update(plan["evidence_sha256"])
+    c.require(c.file_sha(root/STATE)==state_before,"worker must not alter registry")
+    outcome=dict(schema=c.ROUND,kind="autonomous_machine_worker_outcome",decision=admission["decision"],completed_by_arm=admission["completed_by_arm"],pair_key=request["pair_key"],plan=plan,evidence_refs=freeze_refs(root,refs),selected_checkpoints_verified=bool(selected),validation_updates=list(range(0,5001,500)) if selected else None,selected_checkpoint_checks=selected,admission=admission,check_only=request["check_only"],scientific_trials_executed=0,slurm_submissions=0,state_unchanged=True)
+    immutable(output/"outcome.json",outcome)
+    return outcome
+
+def main(argv=None):
+    ap=argparse.ArgumentParser();ap.add_argument("--request",required=True);ap.add_argument("--request-sha256",required=True)
+    a=ap.parse_args(argv);ref=dict(path=a.request,sha256=a.request_sha256)
+    request=c.read_json(c.reference(c.R,ref))
+    out=run(request,ref)
+    print(json.dumps(dict(decision=out["decision"],pair_key=out["pair_key"],check_only=out["check_only"])))
+    return 0
+if __name__=="__main__":raise SystemExit(main())

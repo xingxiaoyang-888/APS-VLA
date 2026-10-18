@@ -1,0 +1,19 @@
+...................................F.........                            [100%]
+=================================== FAILURES ===================================
+_ BridgeTests.test_cache_rehashes_same_size_mtime_preserved_change_using_ctime _
+
+self = <test_bridge.BridgeTests testMethod=test_cache_rehashes_same_size_mtime_preserved_change_using_ctime>
+
+    def test_cache_rehashes_same_size_mtime_preserved_change_using_ctime(self):
+        p=self.root/"value.json";p.write_bytes(b"aaaa");before=p.stat()
+        x=b.Backend.__new__(b.Backend);x.root=self.root;x.cache={}
+        ref=dict(path="value.json",sha256=c.file_sha(p));x.watch(ref)
+        p.write_bytes(b"bbbb");os.utime(p,ns=(before.st_atime_ns,before.st_mtime_ns))
+>       with self.assertRaises(ValueError):x.watch(ref)
+E       AssertionError: ValueError not raised
+
+test_bridge.py:86: AssertionError
+- generated xml file: /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/autonomous_training_v1/controller/attempt02.xml -
+=========================== short test summary info ============================
+FAILED test_bridge.py::BridgeTests::test_cache_rehashes_same_size_mtime_preserved_change_using_ctime
+1 failed, 44 passed in 2.77s
