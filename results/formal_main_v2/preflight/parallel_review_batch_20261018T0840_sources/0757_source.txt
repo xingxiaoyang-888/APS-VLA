@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="38" time="43.692" timestamp="2026-10-18T21:28:58.557608" hostname="Xingxiaoyang"><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_real_failures_reconstruct_bundles_and_remain_failed[3028460]" time="6.284" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_real_failures_reconstruct_bundles_and_remain_failed[3028468]" time="3.556" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_real_failures_reconstruct_bundles_and_remain_failed[3028522]" time="3.306" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_recovery_plan_uses_original_target_explicit_resume_and_live_bytes[3028460]" time="0.977" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_recovery_plan_uses_original_target_explicit_resume_and_live_bytes[3028468]" time="1.002" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_recovery_plan_uses_original_target_explicit_resume_and_live_bytes[3028522]" time="1.111" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_forged_pass_update_checkpoint_boundary_or_cost_rejected[status-passed]" time="0.061" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_forged_pass_update_checkpoint_boundary_or_cost_rejected[kind-root_segment_review]" time="0.090" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_forged_pass_update_checkpoint_boundary_or_cost_rejected[current_allocation_new_updates-1]" time="0.835" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_forged_pass_update_checkpoint_boundary_or_cost_rejected[current_allocation_arm_initializations-1]" time="0.843" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_forged_pass_update_checkpoint_boundary_or_cost_rejected[allowed_next_segment_end-1000]" time="0.808" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_forged_pass_update_checkpoint_boundary_or_cost_rejected[failed_allocation_gpu_seconds-0]" time="0.876" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_forged_pass_update_checkpoint_boundary_or_cost_rejected[pair_allocated_gpu_seconds-0]" time="0.849" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_forged_pass_update_checkpoint_boundary_or_cost_rejected[ordinary_segment_completed-True]" time="0.900" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_missing_proof_and_unknown_failure_rejected" time="0.047" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_archived_raw_tamper_and_missing_bundle_rejected" time="0.973" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_existing_resume_sha_cannot_change" time="0.921" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_duplicate_pending_capacity_and_bad_repair_fail_closed[later_job]" time="0.068" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_duplicate_pending_capacity_and_bad_repair_fail_closed[pending]" time="0.070" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_duplicate_pending_capacity_and_bad_repair_fail_closed[eight_unknown]" time="0.063" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_duplicate_pending_capacity_and_bad_repair_fail_closed[wrong_target]" time="1.013" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_duplicate_pending_capacity_and_bad_repair_fail_closed[omitted_failure]" time="1.009" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_actual_asset_resume_gate_accepts_only_typed_zero_start[3028460]" time="1.617" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_actual_asset_resume_gate_accepts_only_typed_zero_start[3028468]" time="1.759" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_failed_history_partition_preserves_allocation_and_rejects_omission" time="0.026" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_candidate_consumer_seams_keep_original_scientific_work_and_bill" time="0.257" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_candidate_import_roots_are_the_actual_project" time="0.086" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_frozen_training_resume_true_is_fresh_only_without_checkpoint_evidence[A]" time="0.810"><failure message="PermissionError: [Errno 13] Permission denied: 'F:\\CTI-VLA\\.local\\cuda_startup_recovery_0840\\pytest_a1\\test_frozen_training_resume_tr0\\weights\\candidates'">example = namespace(vla=ToyVLA(
+  (language_model): Module(
+    (model): ToyBackbone(
+      (embed_tokens): Embedding(20, 8)
+   ...=568, out_features=256, bias=True)
+    (1): SiLU()
+    (2): Linear(in_features=256, out_features=512, bias=True)
+  )
+))
+tmp_path = WindowsPath('F:/CTI-VLA/.local/cuda_startup_recovery_0840/pytest_a1/test_frozen_training_resume_tr0')
+arm = 'A'
+
+    @pytest.mark.parametrize('arm', ['A', 'B'])
+    def test_frozen_training_resume_true_is_fresh_only_without_checkpoint_evidence(example, tmp_path, arm):
+        # Actual frozen trainer, synthetic tiny tensors/CPU only. No real checkpoint
+        # is opened and the original 5000-step scientific configuration is untouched.
+        partial = run_toy(example, tmp_path, arm=arm, resume=True, stop_after_updates=2)
+        assert partial['training_updates_completed'] == 2
+        event_paths = list((tmp_path/'results/attempts').glob('*/cost_events.jsonl'))
+        starts = [json.loads(line) for p in event_paths for line in p.read_text().splitlines()
+                  if json.loads(line)['event'] == 'attempt_start']
+        assert len(starts) == 1 and starts[0]['resumed'] is False
+        assert starts[0]['completed_update'] == starts[0]['next_sample_cursor'] == 0
+&gt;       prior_bytes = {p:p.read_bytes() for p in (tmp_path/'weights').iterdir()}
+
+.local\cuda_startup_recovery_0840\test_startup_failure_recovery.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.local\cuda_startup_recovery_0840\test_startup_failure_recovery.py:213: in &lt;dictcomp&gt;
+    prior_bytes = {p:p.read_bytes() for p in (tmp_path/'weights').iterdir()}
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\pathlib.py:1126: in read_bytes
+    with self.open(mode='rb') as f:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('F:/CTI-VLA/.local/cuda_startup_recovery_0840/pytest_a1/test_frozen_training_resume_tr0/weights/candidates')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return self._accessor.open(self, mode, buffering, encoding, errors,
+                                   newline)
+E       PermissionError: [Errno 13] Permission denied: 'F:\\CTI-VLA\\.local\\cuda_startup_recovery_0840\\pytest_a1\\test_frozen_training_resume_tr0\\weights\\candidates'
+
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\pathlib.py:1119: PermissionError</failure></testcase><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_frozen_training_resume_true_is_fresh_only_without_checkpoint_evidence[B]" time="0.592"><failure message="PermissionError: [Errno 13] Permission denied: 'F:\\CTI-VLA\\.local\\cuda_startup_recovery_0840\\pytest_a1\\test_frozen_training_resume_tr1\\weights\\candidates'">example = namespace(vla=ToyVLA(
+  (language_model): Module(
+    (model): ToyBackbone(
+      (embed_tokens): Embedding(20, 8)
+   ...=568, out_features=256, bias=True)
+    (1): SiLU()
+    (2): Linear(in_features=256, out_features=512, bias=True)
+  )
+))
+tmp_path = WindowsPath('F:/CTI-VLA/.local/cuda_startup_recovery_0840/pytest_a1/test_frozen_training_resume_tr1')
+arm = 'B'
+
+    @pytest.mark.parametrize('arm', ['A', 'B'])
+    def test_frozen_training_resume_true_is_fresh_only_without_checkpoint_evidence(example, tmp_path, arm):
+        # Actual frozen trainer, synthetic tiny tensors/CPU only. No real checkpoint
+        # is opened and the original 5000-step scientific configuration is untouched.
+        partial = run_toy(example, tmp_path, arm=arm, resume=True, stop_after_updates=2)
+        assert partial['training_updates_completed'] == 2
+        event_paths = list((tmp_path/'results/attempts').glob('*/cost_events.jsonl'))
+        starts = [json.loads(line) for p in event_paths for line in p.read_text().splitlines()
+                  if json.loads(line)['event'] == 'attempt_start']
+        assert len(starts) == 1 and starts[0]['resumed'] is False
+        assert starts[0]['completed_update'] == starts[0]['next_sample_cursor'] == 0
+&gt;       prior_bytes = {p:p.read_bytes() for p in (tmp_path/'weights').iterdir()}
+
+.local\cuda_startup_recovery_0840\test_startup_failure_recovery.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.local\cuda_startup_recovery_0840\test_startup_failure_recovery.py:213: in &lt;dictcomp&gt;
+    prior_bytes = {p:p.read_bytes() for p in (tmp_path/'weights').iterdir()}
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\pathlib.py:1126: in read_bytes
+    with self.open(mode='rb') as f:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('F:/CTI-VLA/.local/cuda_startup_recovery_0840/pytest_a1/test_frozen_training_resume_tr1/weights/candidates')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return self._accessor.open(self, mode, buffering, encoding, errors,
+                                   newline)
+E       PermissionError: [Errno 13] Permission denied: 'F:\\CTI-VLA\\.local\\cuda_startup_recovery_0840\\pytest_a1\\test_frozen_training_resume_tr1\\weights\\candidates'
+
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\pathlib.py:1119: PermissionError</failure></testcase><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_no_state_or_weight_path_before_io[results/test/a.json]" time="0.047" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_no_state_or_weight_path_before_io[results/init_states_test.json]" time="0.015" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_no_state_or_weight_path_before_io[results/initial_states/development.json]" time="0.044" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_no_state_or_weight_path_before_io[results/sealed/final.json]" time="0.069" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_no_state_or_weight_path_before_io[../outside.json]" time="0.061" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_no_state_or_weight_path_before_io[F:/secret.json]" time="0.019" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_no_state_or_weight_path_before_io[results/x.pt]" time="0.016" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_no_state_or_weight_path_before_io[results/x.PT]" time="0.045" /><testcase classname=".local.cuda_startup_recovery_0840.test_startup_failure_recovery" name="test_root_execute_requires_explicit_authorization" time="0.017" /></testsuite></testsuites>

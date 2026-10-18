@@ -1,0 +1,104 @@
+"""Root adopts reviewed metadata without modifying the registered GPU sources."""
+from pathlib import Path
+from datetime import datetime, timezone
+import argparse, copy, hashlib, importlib.util, json, subprocess, sys
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = 'results/formal_main_v2/'
+CANDIDATE = '.local/action_execution_gpu_v2_registration_0840/'
+PREP = CANDIDATE + 'candidate_preparation_review_a2.json'
+PREP_SHA = 'ac9ac52dab38adcd68f1047739ea064ef3d07d8e69679b3d1107f9938f169ef8'
+IND = BASE + 'preflight/action_execution_gpu_v2_candidate_independent_0840.json'
+AUDIT = BASE + 'preflight/action_execution_gpu_v2_registration_independent_0840.json'
+REVIEW = BASE + 'preflight/action_execution_gpu_v2_candidate_root_0840.json'
+REG = 'configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json'
+CHECK = BASE + 'preflight/action_execution_gpu_v2_check_only_0840.json'
+SOURCE = BASE + 'preflight/action_execution_gpu_v2_root_integration_0840.py.txt'
+TOOL = BASE + 'engineering/formal_main_v2_action_execution_compat_gpu_v2/source/'
+
+def sha(name):
+    return hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+
+def read(name):
+    return json.loads((ROOT/name).read_bytes())
+
+def exclusive(name, data):
+    path = ROOT/name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('xb') as stream: stream.write(data)
+
+def write(name, value):
+    exclusive(name, (json.dumps(value, indent=2, ensure_ascii=False)+'\n').encode())
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--independent-review', required=True)
+    ap.add_argument('--independent-sha256', required=True)
+    args = ap.parse_args()
+    assert sha(PREP) == PREP_SHA
+    assert sha(args.independent_review) == args.independent_sha256
+    review = read(args.independent_review)
+    assert str(review.get('status','')).startswith('passed'), review.get('status')
+    maps = [review[k] for k in ('read_evidence_sha256','evidence_sha256') if k in review]
+    assert maps and all(m == maps[0] for m in maps)
+    assert maps[0][PREP] == PREP_SHA
+    for name, checksum in maps[0].items(): assert sha(name) == checksum, name
+    candidate = read(PREP)
+    for name, checksum in candidate['read_evidence_sha256'].items(): assert sha(name) == checksum, name
+    for row in candidate['outputs'].values(): assert sha(row['path']) == row['sha256'], row
+    for name in (IND,AUDIT,REVIEW,REG,CHECK,SOURCE): assert not (ROOT/name).exists(), name
+    spec = importlib.util.spec_from_file_location('_root_v2_contract_0840',ROOT/TOOL/'launcher.py')
+    contract = importlib.util.module_from_spec(spec); spec.loader.exec_module(contract)
+    inventory = read(contract.INVENTORY)
+    assert len(inventory['files']) == 173
+    for name, checksum in inventory['files'].items(): assert sha(name) == checksum, name
+    exclusive(IND,(ROOT/CANDIDATE/'typed_candidate_independent_a2.json').read_bytes())
+    exclusive(AUDIT,(ROOT/args.independent_review).read_bytes())
+    exclusive(SOURCE,Path(__file__).read_bytes())
+    root_review = copy.deepcopy(read(CANDIDATE+'root_acceptance_draft_a2.json'))
+    registration = copy.deepcopy(read(CANDIDATE+'gpu_registration_candidate_a2.json'))
+    assert root_review['status'] == registration['status'] == 'pending_root_acceptance'
+    assert registration['gpu_submission_authorized'] is False
+    assert root_review['candidate_independent_review'] == dict(path=IND,sha256=sha(IND))
+    root_review.update(status='passed_CPU_root_review_pending_registered_GPU',root_approved=True,
+        draft_only=False,reviewed_utc=datetime.now(timezone.utc).isoformat(),reviewed_by='root',
+        typed_projection_adopted=True,registration_independent_review=dict(path=AUDIT,sha256=sha(AUDIT)),
+        root_integration_source=dict(path=SOURCE,sha256=sha(SOURCE)),
+        candidate_preparation=dict(path=PREP,sha256=PREP_SHA),
+        actual_GPU_acceptance_pending=True,scientific_release=False)
+    root_review.pop('root_required_steps',None)
+    root_review.pop('intended_status_after_actual_root_approval',None)
+    registration.update(status='registered_single_attempt',gpu_submission_authorized=True)
+    intent = contract.registration_intent(registration)
+    assert intent == root_review['proposed_registered_intent_sha256']
+    root_review['gpu_registration_intent_sha256'] = intent
+    for name in (AUDIT,SOURCE,PREP):
+        assert name not in root_review['evidence_sha256']
+        root_review['evidence_sha256'][name] = sha(name)
+        root_review['deployment_files'].append(dict(path=name,server=contract.P+'/'+name,
+            sha256=sha(name),bytes=(ROOT/name).stat().st_size))
+    root_review['deployment_files'].sort(key=lambda r:r['server'])
+    for row in root_review['deployment_files']:
+        assert sha(row['path']) == row['sha256'] and (ROOT/row['path']).stat().st_size == row['bytes'],row
+    write(REVIEW,root_review)
+    registration['cpu_reviews']['root_acceptance']['sha256'] = sha(REVIEW)
+    assert contract.registration_intent(registration) == intent
+    write(REG,registration)
+    manifest = registration['candidate_manifest']
+    command = [sys.executable,'-B',TOOL+'submit.py','--project-root',str(ROOT),
+        '--root-review',REVIEW,'--root-review-sha256',sha(REVIEW),
+        '--manifest',manifest['path'],'--manifest-sha256',manifest['sha256'],
+        '--gpu-registration',REG,'--gpu-registration-sha256',sha(REG),'--check-only']
+    run = subprocess.run(command,cwd=ROOT,capture_output=True)
+    value = dict(schema='formal_main_v2',kind='root_v2_GPU_registration_check_only',
+        checked_utc=datetime.now(timezone.utc).isoformat(),command=command,exit_code=run.returncode,
+        stdout=run.stdout.decode(errors='replace'),stderr=run.stderr.decode(errors='replace'),
+        root_review=dict(path=REVIEW,sha256=sha(REVIEW)),registration=dict(path=REG,sha256=sha(REG)),
+        GPU_submitted=False,final_states_opened=False,evidence_sha256={
+            name:sha(name) for name in (IND,AUDIT,REVIEW,REG,SOURCE,PREP)})
+    write(CHECK,value)
+    print(json.dumps({k:v for k,v in value.items() if k not in ('stdout','evidence_sha256')},ensure_ascii=False))
+    if run.returncode: raise SystemExit(run.returncode)
+    print(run.stdout.decode(),flush=True)
+
+if __name__ == '__main__': main()

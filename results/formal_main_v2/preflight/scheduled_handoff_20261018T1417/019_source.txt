@@ -1,0 +1,43 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "scheduler_node_exclusion_registration",
+  "server_project": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+  "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "excluded_nodes": [
+    "gpu4020"
+  ],
+  "automatic_retry": false,
+  "existing_jobs_untouched": true,
+  "failure_evidence_sha256": {
+    "results/formal_main_v2/preflight/cuda_startup_root_observation_0840.json": "a6bb5a481e3576f9fb87892d29e37eb6425891a5d55872a589561042384d8ef2",
+    "results/formal_main_v2/preflight/cuda_startup_server_paths_0840.json": "5e5afef2f7bc9e52db23df3f7cd5c7e3e7923c0b5bcd839eaddd84964f6617a4"
+  },
+  "root_reported_failed_job_ids": [
+    "3028460",
+    "3028468",
+    "3028522"
+  ],
+  "root_reported_context": "These registered project jobs failed CUDA availability checks on gpu4020; other project jobs on the same node remain healthy. No assertion that every node job is invalid.",
+  "scientific_configuration_changed": false,
+  "version": "root-ssh-node-exclusion-v2-action-gpu-v3",
+  "status": "pending_root_acceptance",
+  "scope": "future_explicit_training_and_action_gpu_v3_only",
+  "adapter_path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/node_exclusion.py",
+  "adapter_sha256": "0886ce865ca3edc01bf1ba4d875d139bdf8267a2b6992d1630f1a84c4efcc506",
+  "registered_wrapper_sha256": {
+    "scripts/server/formal_main.slurm": "4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab",
+    "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+    "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.slurm": "69277a63fcbcb24f94a6d333bb70e490f702df9edade25e042b49fdaafe37dc0"
+  },
+  "previous_registration": {
+    "path": "configs/experiments/formal_main_v2_node_exclusion_v1.json",
+    "sha256": "bb14944d4c27bc56685f1b845553a68dbff0545360e37331316d95508a12ce38",
+    "bytes": 8024
+  },
+  "independent_review": {
+    "path": "PENDING_REAL_NODE_ADAPTER_REVIEW_PATH",
+    "sha256": "PENDING_REAL_REVIEW_SHA256"
+  }
+}

@@ -1,0 +1,996 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="27" skipped="0" tests="32" time="4.562" timestamp="2026-10-18T21:12:59.698494" hostname="Xingxiaoyang"><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_actual_command_shape_and_original_bindings_restored[formal]" time="0.136"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_actual_command_shape_and_0')
+profile = 'formal'
+
+    @pytest.mark.parametrize('profile', ['formal', 'object', 'goal', 'gpu_v2'])
+    def test_actual_command_shape_and_original_bindings_restored(tmp_path, profile):
+        x = make(tmp_path, profile)
+        before = x.f.STATE.read_bytes()
+        original = x.f.SSH
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_actual_command_shape_and_original_bindings_restored[object]" time="0.097"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_actual_command_shape_and_1')
+profile = 'object'
+
+    @pytest.mark.parametrize('profile', ['formal', 'object', 'goal', 'gpu_v2'])
+    def test_actual_command_shape_and_original_bindings_restored(tmp_path, profile):
+        x = make(tmp_path, profile)
+        before = x.f.STATE.read_bytes()
+        original = x.f.SSH
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_actual_command_shape_and_original_bindings_restored[goal]" time="0.093"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_actual_command_shape_and_2')
+profile = 'goal'
+
+    @pytest.mark.parametrize('profile', ['formal', 'object', 'goal', 'gpu_v2'])
+    def test_actual_command_shape_and_original_bindings_restored(tmp_path, profile):
+        x = make(tmp_path, profile)
+        before = x.f.STATE.read_bytes()
+        original = x.f.SSH
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_actual_command_shape_and_original_bindings_restored[gpu_v2]" time="0.103"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_actual_command_shape_and_3')
+profile = 'gpu_v2'
+
+    @pytest.mark.parametrize('profile', ['formal', 'object', 'goal', 'gpu_v2'])
+    def test_actual_command_shape_and_original_bindings_restored(tmp_path, profile):
+        x = make(tmp_path, profile)
+        before = x.f.STATE.read_bytes()
+        original = x.f.SSH
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;0]" time="0.062"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s0')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E524BE20&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;1]" time="0.073"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s1')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E524BEB0&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;2]" time="0.067"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s2')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E524BF40&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;3]" time="0.076"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s3')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C040&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;4]" time="0.061"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s4')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C0D0&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;5]" time="0.065"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s5')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C160&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;6]" time="0.077"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s6')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C1F0&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;7]" time="0.074"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s7')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C280&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;8]" time="0.062"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s8')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C310&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;9]" time="0.060"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s9')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C3A0&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;10]" time="0.067"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s10')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C430&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;11]" time="0.058"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s11')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C4C0&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_noncanonical_or_foreign_submission_is_not_returned[&lt;lambda&gt;12]" time="0.057"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_noncanonical_or_foreign_s12')
+mutation = &lt;function &lt;lambda&gt; at 0x00000137E534C550&gt;
+
+    @pytest.mark.parametrize('mutation', [
+        lambda c: c.replace(m.P, '/share/foreign-project', 1),
+        lambda c: c + ' &amp;&amp; echo extra',
+        lambda c: c + '; echo extra',
+        lambda c: 'true &amp;&amp; ' + c,
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4020 '),
+        lambda c: c.replace('sbatch ', 'sbatch --exclude=gpu4021 '),
+        lambda c: c.replace('sbatch ', '/usr/bin/sbatch '),
+        lambda c: c.replace('sbatch ', "sba''tch "),
+        lambda c: c.replace('sbatch ', 'sba\\tch '),
+        lambda c: c.replace(' --export=', ' --partition=A800 --export='),
+        lambda c: c.replace('ALL,', 'ALL,CUDA_VISIBLE_DEVICES=0,'),
+        lambda c: c.replace(' --export=', '\n --export='),
+        lambda c: c.replace('formal_main.slurm', 'foreign.slurm'),
+    ])
+    def test_noncanonical_or_foreign_submission_is_not_returned(tmp_path, mutation):
+        x = make(tmp_path)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_prepared_identity_damage[pending_path]" time="0.086"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_prepared_identity_damage_0')
+damage = 'pending_path'
+
+    @pytest.mark.parametrize('damage', ['pending_path', 'pending_stage', 'source', 'segment', 'seed', 'resume', 'wrapper'])
+    def test_prepared_identity_damage(tmp_path, damage):
+        x = make(tmp_path)
+        if damage.startswith('pending'):
+            x.pending['invocation' if damage == 'pending_path' else 'stage_key'] = 'foreign'
+            save(x.root, 'results/experiment_supervisor/state.json', {'pending_submission': x.pending})
+        elif damage == 'wrapper':
+            (x.root / m.WRAPPERS['formal'][0]).write_bytes(b'changed wrapper')
+        else:
+            if damage == 'source': x.inv['source_sha256'] = 'f' * 64
+            elif damage == 'segment': x.inv['segment_end'] = 2000
+            elif damage == 'seed': x.inv['argv'][1] = x.inv['argv'][1].replace('seed17', 'seed23')
+            elif damage == 'resume': x.inv['argv'].remove('--resume')
+            save(x.root, x.invrel, x.inv)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_prepared_identity_damage[pending_stage]" time="0.070"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_prepared_identity_damage_1')
+damage = 'pending_stage'
+
+    @pytest.mark.parametrize('damage', ['pending_path', 'pending_stage', 'source', 'segment', 'seed', 'resume', 'wrapper'])
+    def test_prepared_identity_damage(tmp_path, damage):
+        x = make(tmp_path)
+        if damage.startswith('pending'):
+            x.pending['invocation' if damage == 'pending_path' else 'stage_key'] = 'foreign'
+            save(x.root, 'results/experiment_supervisor/state.json', {'pending_submission': x.pending})
+        elif damage == 'wrapper':
+            (x.root / m.WRAPPERS['formal'][0]).write_bytes(b'changed wrapper')
+        else:
+            if damage == 'source': x.inv['source_sha256'] = 'f' * 64
+            elif damage == 'segment': x.inv['segment_end'] = 2000
+            elif damage == 'seed': x.inv['argv'][1] = x.inv['argv'][1].replace('seed17', 'seed23')
+            elif damage == 'resume': x.inv['argv'].remove('--resume')
+            save(x.root, x.invrel, x.inv)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_prepared_identity_damage[source]" time="0.082"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_prepared_identity_damage_2')
+damage = 'source'
+
+    @pytest.mark.parametrize('damage', ['pending_path', 'pending_stage', 'source', 'segment', 'seed', 'resume', 'wrapper'])
+    def test_prepared_identity_damage(tmp_path, damage):
+        x = make(tmp_path)
+        if damage.startswith('pending'):
+            x.pending['invocation' if damage == 'pending_path' else 'stage_key'] = 'foreign'
+            save(x.root, 'results/experiment_supervisor/state.json', {'pending_submission': x.pending})
+        elif damage == 'wrapper':
+            (x.root / m.WRAPPERS['formal'][0]).write_bytes(b'changed wrapper')
+        else:
+            if damage == 'source': x.inv['source_sha256'] = 'f' * 64
+            elif damage == 'segment': x.inv['segment_end'] = 2000
+            elif damage == 'seed': x.inv['argv'][1] = x.inv['argv'][1].replace('seed17', 'seed23')
+            elif damage == 'resume': x.inv['argv'].remove('--resume')
+            save(x.root, x.invrel, x.inv)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_prepared_identity_damage[segment]" time="0.086"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_prepared_identity_damage_3')
+damage = 'segment'
+
+    @pytest.mark.parametrize('damage', ['pending_path', 'pending_stage', 'source', 'segment', 'seed', 'resume', 'wrapper'])
+    def test_prepared_identity_damage(tmp_path, damage):
+        x = make(tmp_path)
+        if damage.startswith('pending'):
+            x.pending['invocation' if damage == 'pending_path' else 'stage_key'] = 'foreign'
+            save(x.root, 'results/experiment_supervisor/state.json', {'pending_submission': x.pending})
+        elif damage == 'wrapper':
+            (x.root / m.WRAPPERS['formal'][0]).write_bytes(b'changed wrapper')
+        else:
+            if damage == 'source': x.inv['source_sha256'] = 'f' * 64
+            elif damage == 'segment': x.inv['segment_end'] = 2000
+            elif damage == 'seed': x.inv['argv'][1] = x.inv['argv'][1].replace('seed17', 'seed23')
+            elif damage == 'resume': x.inv['argv'].remove('--resume')
+            save(x.root, x.invrel, x.inv)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_prepared_identity_damage[seed]" time="0.069"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_prepared_identity_damage_4')
+damage = 'seed'
+
+    @pytest.mark.parametrize('damage', ['pending_path', 'pending_stage', 'source', 'segment', 'seed', 'resume', 'wrapper'])
+    def test_prepared_identity_damage(tmp_path, damage):
+        x = make(tmp_path)
+        if damage.startswith('pending'):
+            x.pending['invocation' if damage == 'pending_path' else 'stage_key'] = 'foreign'
+            save(x.root, 'results/experiment_supervisor/state.json', {'pending_submission': x.pending})
+        elif damage == 'wrapper':
+            (x.root / m.WRAPPERS['formal'][0]).write_bytes(b'changed wrapper')
+        else:
+            if damage == 'source': x.inv['source_sha256'] = 'f' * 64
+            elif damage == 'segment': x.inv['segment_end'] = 2000
+            elif damage == 'seed': x.inv['argv'][1] = x.inv['argv'][1].replace('seed17', 'seed23')
+            elif damage == 'resume': x.inv['argv'].remove('--resume')
+            save(x.root, x.invrel, x.inv)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_prepared_identity_damage[resume]" time="0.069"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_prepared_identity_damage_5')
+damage = 'resume'
+
+    @pytest.mark.parametrize('damage', ['pending_path', 'pending_stage', 'source', 'segment', 'seed', 'resume', 'wrapper'])
+    def test_prepared_identity_damage(tmp_path, damage):
+        x = make(tmp_path)
+        if damage.startswith('pending'):
+            x.pending['invocation' if damage == 'pending_path' else 'stage_key'] = 'foreign'
+            save(x.root, 'results/experiment_supervisor/state.json', {'pending_submission': x.pending})
+        elif damage == 'wrapper':
+            (x.root / m.WRAPPERS['formal'][0]).write_bytes(b'changed wrapper')
+        else:
+            if damage == 'source': x.inv['source_sha256'] = 'f' * 64
+            elif damage == 'segment': x.inv['segment_end'] = 2000
+            elif damage == 'seed': x.inv['argv'][1] = x.inv['argv'][1].replace('seed17', 'seed23')
+            elif damage == 'resume': x.inv['argv'].remove('--resume')
+            save(x.root, x.invrel, x.inv)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_prepared_identity_damage[wrapper]" time="0.061"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_prepared_identity_damage_6')
+damage = 'wrapper'
+
+    @pytest.mark.parametrize('damage', ['pending_path', 'pending_stage', 'source', 'segment', 'seed', 'resume', 'wrapper'])
+    def test_prepared_identity_damage(tmp_path, damage):
+        x = make(tmp_path)
+        if damage.startswith('pending'):
+            x.pending['invocation' if damage == 'pending_path' else 'stage_key'] = 'foreign'
+            save(x.root, 'results/experiment_supervisor/state.json', {'pending_submission': x.pending})
+        elif damage == 'wrapper':
+            (x.root / m.WRAPPERS['formal'][0]).write_bytes(b'changed wrapper')
+        else:
+            if damage == 'source': x.inv['source_sha256'] = 'f' * 64
+            elif damage == 'segment': x.inv['segment_end'] = 2000
+            elif damage == 'seed': x.inv['argv'][1] = x.inv['argv'][1].replace('seed17', 'seed23')
+            elif damage == 'resume': x.inv['argv'].remove('--resume')
+            save(x.root, x.invrel, x.inv)
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_pending_sha_export_and_draft_registration" time="0.082"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_pending_sha_export_and_dr0')
+
+    def test_pending_sha_export_and_draft_registration(tmp_path):
+        x = make(tmp_path, 'gpu_v2')
+        x.pending['invocation_sha256'] = 'f' * 64
+        save(x.root, 'results/experiment_supervisor/state.json', {'pending_submission': x.pending})
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_scope_preserves_exception_and_rejects_nested_use" time="0.062"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_scope_preserves_exception0')
+
+    def test_scope_preserves_exception_and_rejects_nested_use(tmp_path):
+        x = make(tmp_path)
+        original = x.f.SSH
+        with pytest.raises(RuntimeError, match='synthetic subprocess error'):
+&gt;           with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:170: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_no_submit_when_caller_returns_for_full_capacity" time="0.062"><failure message="ValueError: forbidden metadata path">tmp_path = WindowsPath('F:/CTI-VLA/.local/scheduler_node_exclusion_0840/pytest_a1/test_no_submit_when_caller_ret0')
+
+    def test_no_submit_when_caller_returns_for_full_capacity(tmp_path):
+        x = make(tmp_path)
+        original = x.f.SSH
+&gt;       with scope(x):
+
+.local\scheduler_node_exclusion_0840\test_adapter.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\augus\AppData\Local\Programs\Python\Python310\lib\contextlib.py:135: in __enter__
+    return next(self.gen)
+.local\scheduler_node_exclusion_0840\adapter.py:225: in exclude_future_sbatch
+    scoped = _ScopedSSH(f, request, registration_ref, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:114: in __init__
+    self.audit_path = metadata_path(self.root, audit_relative)
+.local\scheduler_node_exclusion_0840\adapter.py:48: in metadata_path
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False, message = 'forbidden metadata path'
+
+    def require(value, message):
+        if not value:
+&gt;           raise ValueError(message)
+E           ValueError: forbidden metadata path
+
+.local\scheduler_node_exclusion_0840\adapter.py:38: ValueError</failure></testcase><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_forbidden_metadata_path_before_read[../other.json]" time="0.003" /><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_forbidden_metadata_path_before_read[results/sealed/value.json]" time="0.003" /><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_forbidden_metadata_path_before_read[results/test/a.json]" time="0.004" /><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_forbidden_metadata_path_before_read[results/initial_states_test.json]" time="0.004" /><testcase classname=".local.scheduler_node_exclusion_0840.test_adapter" name="test_forbidden_metadata_path_before_read[/foreign.json]" time="0.005" /></testsuite></testsuites>

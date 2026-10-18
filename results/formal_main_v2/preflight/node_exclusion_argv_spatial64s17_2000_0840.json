@@ -1,0 +1,59 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_scoped_scheduler_argv_transformation",
+  "version": "root-ssh-node-exclusion-v1",
+  "status": "argv_prepared_not_submission_result",
+  "utc": "2026-10-18T13:33:55.049929+00:00",
+  "node_exclusion": [
+    "gpu4020"
+  ],
+  "request": {
+    "kind": "training",
+    "suite": "libero_spatial",
+    "budget": 64,
+    "seed": 17,
+    "segment_end": 2000,
+    "resume": true
+  },
+  "registration": {
+    "path": "configs/experiments/formal_main_v2_node_exclusion_v1.json",
+    "sha256": "bb14944d4c27bc56685f1b845553a68dbff0545360e37331316d95508a12ce38"
+  },
+  "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt04.json",
+  "invocation_sha256": "4a109befdef0cb8f122074f29225ef0819512e1f9c62ef1e5b468ca6130ab9c0",
+  "pending_submission_at_transform": {
+    "stage_key": "libero_spatial_train_k64_seed17",
+    "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt04.json",
+    "utc": "2026-10-18T13:33:53.157384+00:00"
+  },
+  "original_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt04.json /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/server/formal_main.slurm",
+  "actual_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt04.json /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/server/formal_main.slurm",
+  "original_ssh_argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "tongji-cvpr",
+    "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt04.json /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/server/formal_main.slurm"
+  ],
+  "actual_ssh_argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "tongji-cvpr",
+    "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt04.json /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/server/formal_main.slurm"
+  ],
+  "shell_argv_unchanged_except_exclude": true,
+  "metadata_evidence_sha256": {
+    "configs/experiments/formal_main_v2_node_exclusion_v1.json": "bb14944d4c27bc56685f1b845553a68dbff0545360e37331316d95508a12ce38",
+    "results/formal_main_v2/preflight/cuda_startup_root_observation_0840.json": "a6bb5a481e3576f9fb87892d29e37eb6425891a5d55872a589561042384d8ef2",
+    "results/formal_main_v2/preflight/cuda_startup_server_paths_0840.json": "5e5afef2f7bc9e52db23df3f7cd5c7e3e7923c0b5bcd839eaddd84964f6617a4",
+    "results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt04.json": "4a109befdef0cb8f122074f29225ef0819512e1f9c62ef1e5b468ca6130ab9c0"
+  },
+  "supervisor_sha256": "3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95",
+  "adapter_sha256": "c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6",
+  "wrapper_sha256": "4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab",
+  "automatic_retry": false,
+  "subprocess_executed_by_adapter": false,
+  "existing_jobs_changed": false,
+  "scientific_configuration_changed": false
+}

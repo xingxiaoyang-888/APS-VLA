@@ -1,0 +1,44 @@
+"""Write a new candidate; never edit the registered adapter or frozen source."""
+from pathlib import Path
+import difflib
+import hashlib
+import json
+
+HERE=Path(__file__).resolve().parent
+ROOT=HERE.parents[1]
+SOURCE=ROOT/'scripts/ops/formal_action_execution_compat.py'
+PIN='958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863'
+raw=SOURCE.read_bytes()
+assert hashlib.sha256(raw).hexdigest()==PIN
+old=raw.decode('utf-8'); text=old
+def replace(old,new):
+    global text
+    assert text.count(old)==1
+    text=text.replace(old,new,1)
+replace('formal-main-v2-controller-exec-cpu-candidate-v2-constructor-identity',
+        'formal-main-v2-controller-exec-cpu-candidate-v3-full-module-constructor-identity')
+replace('''    namespace = {}
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), runtime.run_episode.__code__.co_filename,''',
+'''    # Source-defined methods need the original module symbol-table context.
+    # Compile the pinned whole file, but never execute its module body here.
+    full_source_code = compile(source_bytes, runtime.run_episode.__code__.co_filename,
+        "exec", dont_inherit=True)
+    namespace = {}
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), runtime.run_episode.__code__.co_filename,''')
+replace('''        actual, expected = cls.__dict__.get(name), reference.__dict__.get(name)
+        if (type(actual) is not FunctionType''',
+'''        actual, expected = cls.__dict__.get(name), reference.__dict__.get(name)
+        expected_code = (_code_in(full_source_code, ["PolicyChunk", name])
+            if name == "__post_init__" else expected.__code__)
+        if (type(actual) is not FunctionType''')
+replace('''or code_sha256(actual.__code__) != code_sha256(expected.__code__)''',
+        '''or code_sha256(actual.__code__) != code_sha256(expected_code)''')
+replace('''        "same_runtime_reference": True, "metaclass": "builtins.type", "base": "builtins.object",''',
+'''        "same_runtime_reference": True, "metaclass": "builtins.type", "base": "builtins.object",
+        "source_defined_code_reference": "full_frozen_module_compile_without_execution",
+        "generated_code_reference": "same_runtime_frozen_class_dataclass",''')
+for name,content in [('adapter.before.py.txt',raw),('adapter.py',text.encode('utf-8')),
+        ('repair.diff',''.join(difflib.unified_diff(old.splitlines(True),text.splitlines(True),
+             fromfile='scripts/ops/formal_action_execution_compat.py',tofile='candidate/adapter.py')).encode())]:
+    with (HERE/name).open('xb') as f:f.write(content)
+print(json.dumps(dict(candidate_sha256=hashlib.sha256(text.encode()).hexdigest(),original_sha256=PIN)))

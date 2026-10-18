@@ -1,0 +1,63 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "parallel_0840_delivery_guard_incremental_independent_static_review",
+  "status": "static_review_only",
+  "reviewed_utc": "2026-10-18T13:52:43Z",
+  "reviewer": "/root/profile_long",
+  "candidate": {
+    "path": ".local/deliver_parallel_0840.py",
+    "sha256": "86c4d6b61f60f2d01123d3d1c2ff7629d0cca18c57992ad27ef67dbe4a683f05"
+  },
+  "prior_review_preserved": {
+    "path": ".local/delivery_guard_0840/independent_review.json",
+    "sha256": "fed56e7ddd373b8522bb79fb556fd62c65e27e32bc7123db0f6a462c4e5e0982",
+    "previous_candidate_sha256": "71a71b65d08e98bcc215240f42b969a95ddf72b89ad947b2e333d63b5be98ffd"
+  },
+  "read_evidence_sha256": {
+    ".local/deliver_parallel_0840.py": "86c4d6b61f60f2d01123d3d1c2ff7629d0cca18c57992ad27ef67dbe4a683f05",
+    ".local/delivery_guard_0840/independent_review.json": "fed56e7ddd373b8522bb79fb556fd62c65e27e32bc7123db0f6a462c4e5e0982",
+    ".local/action_gpu_failure_review_0840/independent_review.json": "1077814abc2aef6c309075f99776fa7faa281f9916367b42cec5b0e95be88249",
+    "results/formal_main_v2/pulls/20261018T134013Z_1f65a8e31587/receipt.json": "b5ea9f9522071caefee87446fef0fd183bf4d98b40398daae1b5d465708064a6"
+  },
+  "reviewed_delta": [
+    {
+      "item": "Ninth terminal pull",
+      "conclusion": "The additional pull is pinned to its independently reviewed SHA; requested jobs must be exactly 3030159, its selected row must be engineering mode, and the total current-pull set must contain exactly nine receipts. Existing per-file SHA/bytes and previous-version checks remain in place. Historical pull contents are not recursively expanded."
+    },
+    {
+      "item": "YAML suffixes",
+      "conclusion": "The only suffix additions are .yaml and .yml. Existing canonical-path, sealed/test/weight/state-name, reparse and size checks still precede payload content reads. No additional initial-state payload exception was introduced."
+    },
+    {
+      "item": "Deployment dependency closure",
+      "conclusion": "Each explicitly supplied engineering receipt's deployment_files entry now enters the same immutable reference set after actual local SHA and byte-size checks. The reference is subsequently required to exist in the index with those exact bytes. This is local delivery of the already-bound metadata closure, not a new GPU or scientific approval."
+    },
+    {
+      "item": "Ignored dependencies",
+      "conclusion": "Force-add uses an explicit literal file list consisting of current changes and the reference closure, excluding the registered development panels from additional dependency staging. No directory bulk-add or recursive .local add was introduced. All indexed bytes are checked; actual staged changes must stay within the explicit list and must not include the frozen 173 files or four registered panels. Existing local-source-to-immutable-archive SHA checks remain."
+    },
+    {
+      "item": "Failed engineering cost",
+      "conclusion": "The source now asserts the pinned terminal accounting is FAILED/1:0, elapsed 85 seconds and exactly one GPU allocation before recording the separate 85-GPU-second engineering failure field. The existing 226-second startup-failure field remains separate. Nested launcher/probe timing is not added."
+    }
+  ],
+  "findings_fixed_during_this_delta_review": {
+    "first_delta_candidate_sha256": "6c55afc29af81dde3e58fd39a43bfcc815c4aae34f605a70dc27aa548ed1ae5e",
+    "missing_new_pull_pin_and_accounting_assertions": "Fixed with the exact receipt SHA, exact requested job, FAILED/1:0/85-second/one-GPU assertions.",
+    "staged_file_count_included_unchanged_dependencies": "Fixed: the printed staged_files count now uses len(actual)+1, not the number of checked reference rows."
+  },
+  "remaining_static_blockers_in_reviewed_delta": [],
+  "scope": {
+    "AST_parse_passed": true,
+    "finalizer_or_dependency_modules_executed": false,
+    "Git_commands_executed": false,
+    "state_runtime_docs_or_scientific_source_modified": false,
+    "SSH_Slurm_or_GPU_calls": 0,
+    "weights_or_sealed_state_values_read": false,
+    "large_raw_logs_or_full_dependency_closure_revalidated_in_this_delta": false,
+    "actual_delivery_or_index_closure_proven_by_this_review": false,
+    "GPU_acceptance_or_scientific_release_granted": false,
+    "files_written_by_reviewer": [".local/delivery_guard_delta_0840/independent_review.json"]
+  },
+  "conclusion": "No remaining static blocker was found in the five requested additions. Root must still execute the existing complete delivery checks; this receipt does not assert that execution or Git staging succeeded. Job 3030159 remains a failed engineering acceptance."
+}

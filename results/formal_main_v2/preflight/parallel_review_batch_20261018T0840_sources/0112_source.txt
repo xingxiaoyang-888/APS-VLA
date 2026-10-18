@@ -1,0 +1,52 @@
+--- scripts/ops/formal_asset_downstream_review.py
++++ formal_asset_downstream_review_startup.py
+@@ -17,15 +17,21 @@
+ 
+ 
+ ROOT = Path(__file__).resolve().parents[2]
++
++# Explicit candidate-only failure consumer; never modifies the original module.
++import importlib.util as _startup_importlib
++_startup_spec = _startup_importlib.spec_from_file_location("formal_startup_failure_candidate", Path(__file__).with_name("startup_failure_evidence.py"))
++_startup = _startup_importlib.module_from_spec(_startup_spec)
++_startup_spec.loader.exec_module(_startup)
+ SCHEMA = "formal_main_v2"
+-VERSION = "formal-downstream-assets-review-v1"
++VERSION = "formal-downstream-assets-review-startup-0840-v1"
+ RUNTIME_VERSION = "formal-downstream-assets-v1"
+ P = PurePosixPath("/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA")
+ SOURCE = P / "snapshots/formal_main_v2_run_564be0995e"
+ SOURCE_SHA256 = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
+ SOURCE_INVENTORY = "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json"
+ FORMAL_REGISTRATION = "configs/experiments/formal_main_v2.json"
+-HELPER = "scripts/ops/formal_asset_downstream_review.py"
++HELPER = ".local/cuda_startup_recovery_0840/formal_asset_downstream_review_startup.py"
+ SHARED = "scripts/review_formal_acceptance.py"
+ METADATA_HELPER = "scripts/ops/formal_asset_compat_review.py"
+ METADATA_HELPER_SHA256 = "6ad55ddac4bfb692c72e3b1a9c37f41d6d831d7d03a2f2fbbde7f3c0dcf8f46b"
+@@ -270,8 +276,13 @@
+         and {j["job_id"]:job_identity(j) for j in relevant} == {j["job_id"]:job_identity(j) for j in snapshots}
+         and len(snapshots) == len(relevant), "final segment omitted or changed registered training allocations")
+     ids = {j["job_id"] for j in relevant}
++    startup_failure_history = saved.get("startup_failure_history", {})
++    successful_ids, failed_ids = _startup.successful_and_failed_ids({j["job_id"]: j for j in relevant}, startup_failure_history)
++    for failed in relevant:
++        if failed["job_id"] in failed_ids:
++            _startup.require_saved(evidence, job=failed, saved=startup_failure_history[failed["job_id"]])
+     if suite in SUITES:
+-        require(set(saved.get("runtime_compatibility_history", {})) == ids, "metadata history does not cover every allocation")
++        require(set(saved.get("runtime_compatibility_history", {})) == successful_ids, "metadata success history omits or invents an allocation")
+     else:
+         require(not any(k in saved for k in ("runtime_compatibility", "runtime_compatibility_review", "runtime_compatibility_history")),
+             "legacy training cannot carry metadata compatibility fields")
+@@ -286,6 +297,10 @@
+     last_job = registered_job(jobs,summary["job_id"],suite=suite,mode="train",output=base)
+     _root_pull(evidence,saved=saved,job=last_job,shared=accepted["shared"],required=list(files))
+     for job in relevant:
++        if job["job_id"] in failed_ids:
++            # Its failed status, untouched boundary, raw files and full Slurm bill
++            # have been independently reconstructed above. It trained no sample.
++            continue
+         registered_job(jobs, job["job_id"], suite=suite, mode="train", output=base)
+         require(job.get("training_seed") == pair["seed"] and job.get("visual_tokens") == pair["visual_tokens"],
+             "training history changes pair")

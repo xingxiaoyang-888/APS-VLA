@@ -1,0 +1,238 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_failed_startup_checkpoint_metadata_probe",
+  "started_utc": "2026-10-18T13:04:20.542481+00:00",
+  "command": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "tongji-cvpr",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python -B -"
+  ],
+  "remote_script": "from pathlib import Path\nimport hashlib,json\nfrom datetime import datetime,timezone\npairs=[{'job_id': '3028460', 'run_root': '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed23/training', 'checkpoint_root': '/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed23', 'zero_start': True}, {'job_id': '3028468', 'run_root': '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k64/seed23/training', 'checkpoint_root': '/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k64/seed23', 'zero_start': True}, {'job_id': '3028522', 'run_root': '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k64/seed23/training', 'checkpoint_root': '/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23', 'zero_start': False}]\nchecks=[{'arm': 'A', 'must_exist': True, 'path': '/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/A/resume.pt', 'sha256': 'ed121a0c4804865b109edbaded37d9e96f43ed17536e7bbf9ba066f064852550'}, {'arm': 'B', 'must_exist': True, 'path': '/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/B/resume.pt', 'sha256': '47bc5895459c4e30b6a4e83184e695d919ea420683c1b2f75eda0a359a42f741'}]\nresult={'checked_utc':datetime.now(timezone.utc).isoformat(),'pairs':[],'resume_checks':[]}\nfor row in pairs:\n out=dict(row)\n for key in ('run_root','checkpoint_root'):\n  p=Path(row[key])\n  if not str(p).startswith(('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/','/share/home/u15016/XXY_CVPR/CTI-VLA/')):raise ValueError('foreign path')\n  if p.is_symlink():raise ValueError('symlink root')\n  out[key+'_exists']=p.exists()\n  out[key+'_files']=[{'relative':str(q.relative_to(p)),'bytes':q.stat().st_size} for q in sorted(p.rglob('*')) if q.is_file()] if p.exists() else []\n result['pairs'].append(out)\nfor spec in checks:\n p=Path(spec['path']);before=p.stat()\n with p.open('rb') as stream:\n  h=hashlib.sha256()\n  for block in iter(lambda:stream.read(1024*1024),b''):h.update(block)\n after=p.stat()\n result['resume_checks'].append({'path':str(p),'sha256':h.hexdigest(),'bytes':after.st_size,'stable_during_hash':(before.st_size,before.st_mtime_ns,before.st_ino)==(after.st_size,after.st_mtime_ns,after.st_ino)})\nprint(json.dumps(result))\n",
+  "exit_code": 0,
+  "stdout": "{\"checked_utc\": \"2026-10-18T13:04:30.476547+00:00\", \"pairs\": [{\"job_id\": \"3028460\", \"run_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed23/training\", \"checkpoint_root\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed23\", \"zero_start\": true, \"run_root_exists\": true, \"run_root_files\": [{\"relative\": \".training.lock\", \"bytes\": 0}, {\"relative\": \"compatibility/3028460/compatibility_events.jsonl\", \"bytes\": 48885}, {\"relative\": \"compatibility/3028460/identity.json\", \"bytes\": 41064}, {\"relative\": \"failures/3028460_64a726f764f8408887484f8857d2f572.json\", \"bytes\": 193}], \"checkpoint_root_exists\": false, \"checkpoint_root_files\": []}, {\"job_id\": \"3028468\", \"run_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k64/seed23/training\", \"checkpoint_root\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k64/seed23\", \"zero_start\": true, \"run_root_exists\": true, \"run_root_files\": [{\"relative\": \".training.lock\", \"bytes\": 0}, {\"relative\": \"compatibility/3028468/compatibility_events.jsonl\", \"bytes\": 48868}, {\"relative\": \"compatibility/3028468/identity.json\", \"bytes\": 41062}, {\"relative\": \"failures/3028468_d6e9c837447b42999c4ad1f6485d7b1f.json\", \"bytes\": 194}], \"checkpoint_root_exists\": false, \"checkpoint_root_files\": []}, {\"job_id\": \"3028522\", \"run_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k64/seed23/training\", \"checkpoint_root\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23\", \"zero_start\": false, \"run_root_exists\": true, \"run_root_files\": [{\"relative\": \".training.lock\", \"bytes\": 0}, {\"relative\": \"A/attempts/20261018T055806_c48c1cdccab7/cost_events.jsonl\", \"bytes\": 3173136}, {\"relative\": \"A/attempts/20261018T055806_c48c1cdccab7/validation_00000.json\", \"bytes\": 607950}, {\"relative\": \"A/attempts/20261018T055806_c48c1cdccab7/validation_00500.json\", \"bytes\": 605512}, {\"relative\": \"A/attempts/20261018T070236_6b590c4bffd1/cost_events.jsonl\", \"bytes\": 3174605}, {\"relative\": \"A/attempts/20261018T070236_6b590c4bffd1/validation_01000.json\", \"bytes\": 605145}, {\"relative\": \"A/progress_report.json\", \"bytes\": 22487}, {\"relative\": \"A/training_order.json\", \"bytes\": 3160408}, {\"relative\": \"B/attempts/20261018T062545_410e875478e6/cost_events.jsonl\", \"bytes\": 3189227}, {\"relative\": \"B/attempts/20261018T062545_410e875478e6/validation_00000.json\", \"bytes\": 607951}, {\"relative\": \"B/attempts/20261018T062545_410e875478e6/validation_00500.json\", \"bytes\": 605380}, {\"relative\": \"B/attempts/20261018T075616_7c68f138ce0f/cost_events.jsonl\", \"bytes\": 3191358}, {\"relative\": \"B/attempts/20261018T075616_7c68f138ce0f/validation_01000.json\", \"bytes\": 605172}, {\"relative\": \"B/progress_report.json\", \"bytes\": 22485}, {\"relative\": \"B/training_order.json\", \"bytes\": 3160408}, {\"relative\": \"cache_events/3024716_d693020e24f0.jsonl\", \"bytes\": 3729296}, {\"relative\": \"cache_events/3025205_416e42d3704f.jsonl\", \"bytes\": 6437730}, {\"relative\": \"failures/3028522_aafd0a6684ca44ed8b803a0810b4076f.json\", \"bytes\": 193}, {\"relative\": \"finalizations/3024716_d693020e24f0.json\", \"bytes\": 7628}, {\"relative\": \"finalizations/3025205_416e42d3704f.json\", \"bytes\": 7628}, {\"relative\": \"registered_config.json\", \"bytes\": 3345}, {\"relative\": \"training_progress.json\", \"bytes\": 55095}], \"checkpoint_root_exists\": true, \"checkpoint_root_files\": [{\"relative\": \"A/candidates/20261018T055806_c48c1cdccab7_update00000.pt\", \"bytes\": 10688651}, {\"relative\": \"A/candidates/20261018T055806_c48c1cdccab7_update00500.pt\", \"bytes\": 10688651}, {\"relative\": \"A/candidates/20261018T070236_6b590c4bffd1_update01000.pt\", \"bytes\": 10688651}, {\"relative\": \"A/resume.pt\", \"bytes\": 32071014}, {\"relative\": \"B/candidates/20261018T062545_410e875478e6_update00000.pt\", \"bytes\": 10688651}, {\"relative\": \"B/candidates/20261018T062545_410e875478e6_update00500.pt\", \"bytes\": 10688651}, {\"relative\": \"B/candidates/20261018T075616_7c68f138ce0f_update01000.pt\", \"bytes\": 10688651}, {\"relative\": \"B/resume.pt\", \"bytes\": 36451460}]}], \"resume_checks\": [{\"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/A/resume.pt\", \"sha256\": \"ed121a0c4804865b109edbaded37d9e96f43ed17536e7bbf9ba066f064852550\", \"bytes\": 32071014, \"stable_during_hash\": true}, {\"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/B/resume.pt\", \"sha256\": \"47bc5895459c4e30b6a4e83184e695d919ea420683c1b2f75eda0a359a42f741\", \"bytes\": 36451460, \"stable_during_hash\": true}]}\n",
+  "stderr": "",
+  "result": {
+    "checked_utc": "2026-10-18T13:04:30.476547+00:00",
+    "pairs": [
+      {
+        "job_id": "3028460",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed23/training",
+        "checkpoint_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed23",
+        "zero_start": true,
+        "run_root_exists": true,
+        "run_root_files": [
+          {
+            "relative": ".training.lock",
+            "bytes": 0
+          },
+          {
+            "relative": "compatibility/3028460/compatibility_events.jsonl",
+            "bytes": 48885
+          },
+          {
+            "relative": "compatibility/3028460/identity.json",
+            "bytes": 41064
+          },
+          {
+            "relative": "failures/3028460_64a726f764f8408887484f8857d2f572.json",
+            "bytes": 193
+          }
+        ],
+        "checkpoint_root_exists": false,
+        "checkpoint_root_files": []
+      },
+      {
+        "job_id": "3028468",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k64/seed23/training",
+        "checkpoint_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k64/seed23",
+        "zero_start": true,
+        "run_root_exists": true,
+        "run_root_files": [
+          {
+            "relative": ".training.lock",
+            "bytes": 0
+          },
+          {
+            "relative": "compatibility/3028468/compatibility_events.jsonl",
+            "bytes": 48868
+          },
+          {
+            "relative": "compatibility/3028468/identity.json",
+            "bytes": 41062
+          },
+          {
+            "relative": "failures/3028468_d6e9c837447b42999c4ad1f6485d7b1f.json",
+            "bytes": 194
+          }
+        ],
+        "checkpoint_root_exists": false,
+        "checkpoint_root_files": []
+      },
+      {
+        "job_id": "3028522",
+        "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k64/seed23/training",
+        "checkpoint_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23",
+        "zero_start": false,
+        "run_root_exists": true,
+        "run_root_files": [
+          {
+            "relative": ".training.lock",
+            "bytes": 0
+          },
+          {
+            "relative": "A/attempts/20261018T055806_c48c1cdccab7/cost_events.jsonl",
+            "bytes": 3173136
+          },
+          {
+            "relative": "A/attempts/20261018T055806_c48c1cdccab7/validation_00000.json",
+            "bytes": 607950
+          },
+          {
+            "relative": "A/attempts/20261018T055806_c48c1cdccab7/validation_00500.json",
+            "bytes": 605512
+          },
+          {
+            "relative": "A/attempts/20261018T070236_6b590c4bffd1/cost_events.jsonl",
+            "bytes": 3174605
+          },
+          {
+            "relative": "A/attempts/20261018T070236_6b590c4bffd1/validation_01000.json",
+            "bytes": 605145
+          },
+          {
+            "relative": "A/progress_report.json",
+            "bytes": 22487
+          },
+          {
+            "relative": "A/training_order.json",
+            "bytes": 3160408
+          },
+          {
+            "relative": "B/attempts/20261018T062545_410e875478e6/cost_events.jsonl",
+            "bytes": 3189227
+          },
+          {
+            "relative": "B/attempts/20261018T062545_410e875478e6/validation_00000.json",
+            "bytes": 607951
+          },
+          {
+            "relative": "B/attempts/20261018T062545_410e875478e6/validation_00500.json",
+            "bytes": 605380
+          },
+          {
+            "relative": "B/attempts/20261018T075616_7c68f138ce0f/cost_events.jsonl",
+            "bytes": 3191358
+          },
+          {
+            "relative": "B/attempts/20261018T075616_7c68f138ce0f/validation_01000.json",
+            "bytes": 605172
+          },
+          {
+            "relative": "B/progress_report.json",
+            "bytes": 22485
+          },
+          {
+            "relative": "B/training_order.json",
+            "bytes": 3160408
+          },
+          {
+            "relative": "cache_events/3024716_d693020e24f0.jsonl",
+            "bytes": 3729296
+          },
+          {
+            "relative": "cache_events/3025205_416e42d3704f.jsonl",
+            "bytes": 6437730
+          },
+          {
+            "relative": "failures/3028522_aafd0a6684ca44ed8b803a0810b4076f.json",
+            "bytes": 193
+          },
+          {
+            "relative": "finalizations/3024716_d693020e24f0.json",
+            "bytes": 7628
+          },
+          {
+            "relative": "finalizations/3025205_416e42d3704f.json",
+            "bytes": 7628
+          },
+          {
+            "relative": "registered_config.json",
+            "bytes": 3345
+          },
+          {
+            "relative": "training_progress.json",
+            "bytes": 55095
+          }
+        ],
+        "checkpoint_root_exists": true,
+        "checkpoint_root_files": [
+          {
+            "relative": "A/candidates/20261018T055806_c48c1cdccab7_update00000.pt",
+            "bytes": 10688651
+          },
+          {
+            "relative": "A/candidates/20261018T055806_c48c1cdccab7_update00500.pt",
+            "bytes": 10688651
+          },
+          {
+            "relative": "A/candidates/20261018T070236_6b590c4bffd1_update01000.pt",
+            "bytes": 10688651
+          },
+          {
+            "relative": "A/resume.pt",
+            "bytes": 32071014
+          },
+          {
+            "relative": "B/candidates/20261018T062545_410e875478e6_update00000.pt",
+            "bytes": 10688651
+          },
+          {
+            "relative": "B/candidates/20261018T062545_410e875478e6_update00500.pt",
+            "bytes": 10688651
+          },
+          {
+            "relative": "B/candidates/20261018T075616_7c68f138ce0f_update01000.pt",
+            "bytes": 10688651
+          },
+          {
+            "relative": "B/resume.pt",
+            "bytes": 36451460
+          }
+        ]
+      }
+    ],
+    "resume_checks": [
+      {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/A/resume.pt",
+        "sha256": "ed121a0c4804865b109edbaded37d9e96f43ed17536e7bbf9ba066f064852550",
+        "bytes": 32071014,
+        "stable_during_hash": true
+      },
+      {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/B/resume.pt",
+        "sha256": "47bc5895459c4e30b6a4e83184e695d919ea420683c1b2f75eda0a359a42f741",
+        "bytes": 36451460,
+        "stable_during_hash": true
+      }
+    ]
+  },
+  "job_ids": [
+    "3028460",
+    "3028468",
+    "3028522"
+  ],
+  "existing_boundary": {
+    "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3025205.json",
+    "sha256": "2416c7802db8ab947971ddaaedbb771c8ab9c2edacc8fd52e2f778ba66802876"
+  },
+  "helper": {
+    "path": ".local/probe_cuda_failure_paths_0840.py",
+    "sha256": "325949423610ff527400ac6e61f0655897aa2c184a6c36491f500f8947106536"
+  },
+  "server_only_checkpoint_hashing": true,
+  "weights_downloaded": false,
+  "GPU_jobs": 0,
+  "final_states_opened": false
+}

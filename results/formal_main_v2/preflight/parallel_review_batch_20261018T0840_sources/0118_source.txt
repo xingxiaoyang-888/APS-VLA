@@ -1,0 +1,87 @@
+"""Local-only author evidence. Does not publish canonical reviews or submit."""
+from pathlib import Path
+import difflib
+import hashlib
+import importlib.util
+import json
+import xml.etree.ElementTree as ET
+
+HERE=Path(__file__).resolve().parent
+ROOT=HERE.parents[1]
+def sha(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def write_new(path, value):
+    with Path(path).open('x',encoding='utf-8',newline='\n') as h:
+        h.write(json.dumps(value,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
+def load(name):
+    s=importlib.util.spec_from_file_location('freeze_'+name,HERE/(name+'.py'))
+    m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
+
+m=load('startup_failure_evidence')
+b=load('build_consumer_candidates')
+inventory=json.loads((ROOT/m.SOURCE).read_bytes())
+assert sha(ROOT/m.SOURCE)==m.SOURCE_PIN
+protected=dict(inventory['files'])
+protected.update({k:v[1] for k,v in b.BASELINES.items()})
+protected['.local/fill_reviewed_pair_slot.py']='8fe00ab14a9cccd653ff9881814ce426ced8ede11c70cddfff524a893ef504f7'
+assert all(sha(ROOT/p)==h for p,h in protected.items())
+before=dict(protected)
+sources={}
+for original,(name,pin) in b.BASELINES.items():
+    original_raw=(ROOT/original).read_bytes(); raw=(HERE/name).read_bytes()
+    assert (HERE/(name+'.baseline.txt')).read_bytes()==original_raw
+    old=original_raw.decode().replace('\r\n','\n'); new=raw.decode().replace('\r\n','\n')
+    diff=''.join(difflib.unified_diff(old.splitlines(True),new.splitlines(True),fromfile=original,tofile=name))
+    # v2 metadata is new; the earlier generated diff/map remains preserved.
+    (HERE/(name+'.final.diff')).write_bytes(diff.encode())
+    sources[name]=dict(baseline_path=original,baseline_sha256=pin,candidate_sha256=sha(HERE/name),
+        exact_changed_lines_diff=name+'.final.diff',baseline_bytes_preserved=True)
+write_new(HERE/'consumer_sources_final.json',sources)
+proofs={}
+allread={}
+for job in m.CASES:
+    rel='.local/cuda_startup_recovery_0840/prepared_reviews/'+job
+    proof,path=m.create_candidate(ROOT,job,rel)
+    assert m.reconstruct(m.Reader(ROOT,proof['evidence_bundle']),job)=={k:proof[k] for k in m.reconstruct(m.Reader(ROOT,proof['evidence_bundle']),job)}
+    proofs[job]=dict(path=path.relative_to(ROOT).as_posix(),sha256=sha(path),kind=proof['kind'],status=proof['status'],
+        completed_by_arm=proof['completed_by_arm'],next_target=proof['allowed_next_segment_end'],
+        latest_failed_gpu_seconds=proof['failed_allocation_gpu_seconds'],pair_gpu_seconds=proof['pair_allocated_gpu_seconds'],
+        canonical_publication_pending=m.proof_relative({'job_id':job}),read_count=len(proof['evidence_bundle']))
+    allread.update({k:v['sha256'] for k,v in proof['evidence_bundle'].items()})
+    allread.update({v['path']:v['sha256'] for v in proof['evidence_bundle'].values()})
+    allread[path.relative_to(ROOT).as_posix()]=sha(path)
+tests=[]
+for attempt in ('a1','a2'):
+    execution=json.loads((HERE/f'pytest_{attempt}_execution.json').read_bytes())
+    assert execution['source_before']==execution['source_after']
+    suite=ET.parse(HERE/f'pytest_{attempt}.xml').getroot().find('testsuite')
+    tests.append(dict(attempt=attempt,command=execution['command'],exit_code=execution['exit_code'],
+        tests=int(suite.attrib['tests']),failures=int(suite.attrib['failures']),errors=int(suite.attrib['errors']),
+        skipped=int(suite.attrib['skipped']),seconds=float(suite.attrib['time']),
+        test_sha256=execution['source_before']['.local/cuda_startup_recovery_0840/test_startup_failure_recovery.py'],
+        source_versions=execution['source_before'],
+        evidence={p.relative_to(ROOT).as_posix():sha(p) for p in [HERE/f'pytest_{attempt}.xml',HERE/f'pytest_{attempt}.log',HERE/f'pytest_{attempt}_execution.json']}))
+assert tests[0]['tests']==38 and tests[0]['failures']==2
+assert tests[1]['tests']==39 and not tests[1]['failures'] and tests[1]['exit_code']==0
+for path in sorted(HERE.iterdir()):
+    if path.is_file(): allread[path.relative_to(ROOT).as_posix()]=sha(path)
+for folder in ('author_a1_sources','author_a2_sources'):
+    for path in sorted((HERE/folder).iterdir()):allread[path.relative_to(ROOT).as_posix()]=sha(path)
+assert all(sha(ROOT/p)==h for p,h in protected.items())
+assert all(sha(ROOT/p)==h for p,h in allread.items())
+write_new(HERE/'candidate_review.json',dict(schema=m.SCHEMA,kind='cuda_startup_recovery_CPU_candidate_review',
+    version=m.VERSION,status='passed_CPU_candidate_not_enabled',cases=proofs,tests=tests,
+    first_failure='Two test postconditions tried to read a synthetic candidates directory as a file; original traceback/source/XML retained. Frozen fresh --resume had already succeeded.',
+    test_fix='Snapshot only files under the isolated synthetic checkpoint directory; preserve candidates and assert started missing-resume is rejected. Added repair implementation SHA binding.',
+    implementation=sources,protected_before=before,protected_after=protected,
+    read_evidence_sha256=dict(sorted(allread.items())),failed_GPU_seconds_retained=226,new_GPU_seconds=0,
+    SSH_called=False,Slurm_called=False,shared_state_read_or_written=False,Git_changed=False,
+    real_checkpoint_opened=False,sealed_state_values_opened=False,
+    scientific_source_173_unchanged=True,
+    pending=['Independent review and explicit root repair/node-exclusion registration.',
+        'Publish exact canonical typed reviews and retain all immutable bundles at bound paths.',
+        'Explicitly choose candidate consumer versions; production shared consumers are unchanged.',
+        'Old fill helper does not pass repair_record after successful recovery. Future continuation needs explicit root routing and a new target-bound repair.',
+        'No real recovered allocation/final5000/downstream result exists yet; consumer seams do not establish future scientific success.'],
+    scope='Real three-failure nonweight raw evidence; synthetic canonical proof/repair and capacity jobs; actual frozen training CPU tiny-tensor fresh/missing-resume branch; no actual submission or post-recovery full5000 run.'))
+print(json.dumps(dict(receipt=str(HERE/'candidate_review.json'),sha256=sha(HERE/'candidate_review.json'),
+    files={n:sha(HERE/n) for n in ('startup_failure_evidence.py','recover_startup_failure.py',*sources,'test_startup_failure_recovery.py','README.md')},proofs=proofs),ensure_ascii=False,indent=2))

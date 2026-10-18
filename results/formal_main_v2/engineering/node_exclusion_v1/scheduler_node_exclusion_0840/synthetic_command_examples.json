@@ -1,0 +1,308 @@
+{
+  "kind": "CPU_only_actual_argv_construction_examples",
+  "SSH_executed": false,
+  "examples": [
+    {
+      "profile": "formal",
+      "synthetic": true,
+      "event": {
+        "schema": "formal_main_v2",
+        "kind": "root_scoped_scheduler_argv_transformation",
+        "version": "root-ssh-node-exclusion-v1",
+        "status": "argv_prepared_not_submission_result",
+        "utc": "2026-10-18T13:13:42.755231+00:00",
+        "node_exclusion": [
+          "gpu4020"
+        ],
+        "request": {
+          "kind": "training",
+          "suite": "libero_spatial",
+          "budget": 64,
+          "seed": 17,
+          "segment_end": 1500,
+          "resume": true
+        },
+        "registration": {
+          "path": "results/formal_main_v2/preflight/synthetic_registration.json",
+          "sha256": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4"
+        },
+        "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt03.json",
+        "invocation_sha256": "f1c37b04ade354ff85321b8650bae98c9d751eee0ed602f133da5614e1a3a62b",
+        "pending_submission_at_transform": {
+          "stage_key": "libero_spatial_train_k64_seed17",
+          "invocation": "results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt03.json",
+          "utc": "synthetic_utc"
+        },
+        "original_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt03.json /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/server/formal_main.slurm",
+        "actual_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt03.json /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/server/formal_main.slurm",
+        "original_ssh_argv": [
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "tongji-cvpr",
+          "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt03.json /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/server/formal_main.slurm"
+        ],
+        "actual_ssh_argv": [
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "tongji-cvpr",
+          "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt03.json /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/server/formal_main.slurm"
+        ],
+        "shell_argv_unchanged_except_exclude": true,
+        "metadata_evidence_sha256": {
+          "results/formal_main_v2/preflight/synthetic_registration.json": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4",
+          "results/formal_main_v2/preflight/synthetic_failure.json": "268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7",
+          "results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt03.json": "f1c37b04ade354ff85321b8650bae98c9d751eee0ed602f133da5614e1a3a62b"
+        },
+        "supervisor_sha256": "3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95",
+        "adapter_sha256": "c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6",
+        "wrapper_sha256": "4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab",
+        "automatic_retry": false,
+        "subprocess_executed_by_adapter": false,
+        "existing_jobs_changed": false,
+        "scientific_configuration_changed": false
+      },
+      "input_bytes": {
+        "results/formal_main_v2/preflight/synthetic_registration.json": {
+          "sha256": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4",
+          "utf8": "{\r\n  \"schema\": \"formal_main_v2\",\r\n  \"kind\": \"scheduler_node_exclusion_registration\",\r\n  \"version\": \"root-ssh-node-exclusion-v1\",\r\n  \"status\": \"reviewed_for_future_explicit_requests\",\r\n  \"server_project\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA\",\r\n  \"source_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\",\r\n  \"source_sha256\": \"dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e\",\r\n  \"excluded_nodes\": [\r\n    \"gpu4020\"\r\n  ],\r\n  \"automatic_retry\": false,\r\n  \"existing_jobs_untouched\": true,\r\n  \"scope\": \"future_explicit_training_and_action_gpu_v2_only\",\r\n  \"adapter_sha256\": \"c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6\",\r\n  \"registered_wrapper_sha256\": {\r\n    \"scripts/server/formal_main.slurm\": \"4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab\",\r\n    \"scripts/server/formal_asset_main.slurm\": \"9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a\",\r\n    \"scripts/server/formal_goal_asset_main.slurm\": \"ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a\",\r\n    \"results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm\": \"c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc\"\r\n  },\r\n  \"failure_evidence_sha256\": {\r\n    \"results/formal_main_v2/preflight/synthetic_failure.json\": \"268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7\"\r\n  },\r\n  \"synthetic\": true\r\n}\r\n"
+        },
+        "results/formal_main_v2/preflight/synthetic_failure.json": {
+          "sha256": "268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7",
+          "utf8": "{\r\n  \"synthetic\": true,\r\n  \"kind\": \"CPU_fixture_not_real_failure_receipt\"\r\n}\r\n"
+        },
+        "results/formal_main_v2/invocations/libero_spatial_train_k64_seed17_attempt03.json": {
+          "sha256": "f1c37b04ade354ff85321b8650bae98c9d751eee0ed602f133da5614e1a3a62b",
+          "utf8": "{\r\n  \"schema\": \"formal_main_v2\",\r\n  \"stage\": \"train\",\r\n  \"stage_key\": \"libero_spatial_train_k64_seed17\",\r\n  \"suite\": \"libero_spatial\",\r\n  \"source_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\",\r\n  \"source_sha256\": \"dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e\",\r\n  \"entrypoint\": \"scripts/run_formal_future.py\",\r\n  \"registration_sha256\": \"a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9\",\r\n  \"registered_utc\": \"synthetic_utc\",\r\n  \"segment_end\": 1500,\r\n  \"argv\": [\r\n    \"--config\",\r\n    \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2/libero_spatial_k64_seed17.json\",\r\n    \"--arm\",\r\n    \"both\",\r\n    \"--stop-after-updates\",\r\n    \"1500\",\r\n    \"--resume\"\r\n  ]\r\n}\r\n"
+        }
+      }
+    },
+    {
+      "profile": "object",
+      "synthetic": true,
+      "event": {
+        "schema": "formal_main_v2",
+        "kind": "root_scoped_scheduler_argv_transformation",
+        "version": "root-ssh-node-exclusion-v1",
+        "status": "argv_prepared_not_submission_result",
+        "utc": "2026-10-18T13:13:42.864594+00:00",
+        "node_exclusion": [
+          "gpu4020"
+        ],
+        "request": {
+          "kind": "training",
+          "suite": "libero_object",
+          "budget": 64,
+          "seed": 17,
+          "segment_end": 1500,
+          "resume": true
+        },
+        "registration": {
+          "path": "results/formal_main_v2/preflight/synthetic_registration.json",
+          "sha256": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4"
+        },
+        "invocation": "results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt03.json",
+        "invocation_sha256": "a1ed0f8f03bb0d6d07da71f55cfda995dedad95e8b2e5463ebbffa7f0f88d942",
+        "pending_submission_at_transform": {
+          "stage_key": "libero_object_train_k64_seed17",
+          "invocation": "results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt03.json",
+          "utc": "synthetic_utc",
+          "invocation_sha256": "a1ed0f8f03bb0d6d07da71f55cfda995dedad95e8b2e5463ebbffa7f0f88d942"
+        },
+        "original_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt03.json,INVOCATION_SHA256=a1ed0f8f03bb0d6d07da71f55cfda995dedad95e8b2e5463ebbffa7f0f88d942 /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_asset_main.slurm",
+        "actual_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt03.json,INVOCATION_SHA256=a1ed0f8f03bb0d6d07da71f55cfda995dedad95e8b2e5463ebbffa7f0f88d942 /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_asset_main.slurm",
+        "original_ssh_argv": [
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "tongji-cvpr",
+          "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt03.json,INVOCATION_SHA256=a1ed0f8f03bb0d6d07da71f55cfda995dedad95e8b2e5463ebbffa7f0f88d942 /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_asset_main.slurm"
+        ],
+        "actual_ssh_argv": [
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "tongji-cvpr",
+          "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt03.json,INVOCATION_SHA256=a1ed0f8f03bb0d6d07da71f55cfda995dedad95e8b2e5463ebbffa7f0f88d942 /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_asset_main.slurm"
+        ],
+        "shell_argv_unchanged_except_exclude": true,
+        "metadata_evidence_sha256": {
+          "results/formal_main_v2/preflight/synthetic_registration.json": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4",
+          "results/formal_main_v2/preflight/synthetic_failure.json": "268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7",
+          "results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt03.json": "a1ed0f8f03bb0d6d07da71f55cfda995dedad95e8b2e5463ebbffa7f0f88d942"
+        },
+        "supervisor_sha256": "3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95",
+        "adapter_sha256": "c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6",
+        "wrapper_sha256": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+        "automatic_retry": false,
+        "subprocess_executed_by_adapter": false,
+        "existing_jobs_changed": false,
+        "scientific_configuration_changed": false
+      },
+      "input_bytes": {
+        "results/formal_main_v2/preflight/synthetic_registration.json": {
+          "sha256": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4",
+          "utf8": "{\r\n  \"schema\": \"formal_main_v2\",\r\n  \"kind\": \"scheduler_node_exclusion_registration\",\r\n  \"version\": \"root-ssh-node-exclusion-v1\",\r\n  \"status\": \"reviewed_for_future_explicit_requests\",\r\n  \"server_project\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA\",\r\n  \"source_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\",\r\n  \"source_sha256\": \"dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e\",\r\n  \"excluded_nodes\": [\r\n    \"gpu4020\"\r\n  ],\r\n  \"automatic_retry\": false,\r\n  \"existing_jobs_untouched\": true,\r\n  \"scope\": \"future_explicit_training_and_action_gpu_v2_only\",\r\n  \"adapter_sha256\": \"c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6\",\r\n  \"registered_wrapper_sha256\": {\r\n    \"scripts/server/formal_main.slurm\": \"4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab\",\r\n    \"scripts/server/formal_asset_main.slurm\": \"9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a\",\r\n    \"scripts/server/formal_goal_asset_main.slurm\": \"ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a\",\r\n    \"results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm\": \"c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc\"\r\n  },\r\n  \"failure_evidence_sha256\": {\r\n    \"results/formal_main_v2/preflight/synthetic_failure.json\": \"268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7\"\r\n  },\r\n  \"synthetic\": true\r\n}\r\n"
+        },
+        "results/formal_main_v2/preflight/synthetic_failure.json": {
+          "sha256": "268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7",
+          "utf8": "{\r\n  \"synthetic\": true,\r\n  \"kind\": \"CPU_fixture_not_real_failure_receipt\"\r\n}\r\n"
+        },
+        "results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt03.json": {
+          "sha256": "a1ed0f8f03bb0d6d07da71f55cfda995dedad95e8b2e5463ebbffa7f0f88d942",
+          "utf8": "{\r\n  \"schema\": \"formal_main_v2\",\r\n  \"stage\": \"train\",\r\n  \"stage_key\": \"libero_object_train_k64_seed17\",\r\n  \"suite\": \"libero_object\",\r\n  \"source_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\",\r\n  \"source_sha256\": \"dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e\",\r\n  \"entrypoint\": \"scripts/run_formal_future.py\",\r\n  \"registration_sha256\": \"a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9\",\r\n  \"registered_utc\": \"synthetic_utc\",\r\n  \"segment_end\": 1500,\r\n  \"argv\": [\r\n    \"--config\",\r\n    \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2/libero_object_k64_seed17.json\",\r\n    \"--arm\",\r\n    \"both\",\r\n    \"--stop-after-updates\",\r\n    \"1500\",\r\n    \"--resume\"\r\n  ],\r\n  \"runtime_compatibility\": {\r\n    \"slurm\": \"scripts/server/formal_asset_main.slurm\",\r\n    \"files\": {\r\n      \"scripts/server/formal_asset_main.slurm\": \"9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a\"\r\n    }\r\n  }\r\n}\r\n"
+        }
+      }
+    },
+    {
+      "profile": "goal",
+      "synthetic": true,
+      "event": {
+        "schema": "formal_main_v2",
+        "kind": "root_scoped_scheduler_argv_transformation",
+        "version": "root-ssh-node-exclusion-v1",
+        "status": "argv_prepared_not_submission_result",
+        "utc": "2026-10-18T13:13:42.984616+00:00",
+        "node_exclusion": [
+          "gpu4020"
+        ],
+        "request": {
+          "kind": "training",
+          "suite": "libero_goal",
+          "budget": 64,
+          "seed": 17,
+          "segment_end": 1500,
+          "resume": true
+        },
+        "registration": {
+          "path": "results/formal_main_v2/preflight/synthetic_registration.json",
+          "sha256": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4"
+        },
+        "invocation": "results/formal_main_v2/invocations/libero_goal_train_k64_seed17_attempt03.json",
+        "invocation_sha256": "aa4f12e89b5f90f64b922b4e544d72864400ac7e62c5e48e7ecbc070297eb28b",
+        "pending_submission_at_transform": {
+          "stage_key": "libero_goal_train_k64_seed17",
+          "invocation": "results/formal_main_v2/invocations/libero_goal_train_k64_seed17_attempt03.json",
+          "utc": "synthetic_utc",
+          "invocation_sha256": "aa4f12e89b5f90f64b922b4e544d72864400ac7e62c5e48e7ecbc070297eb28b"
+        },
+        "original_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_goal_train_k64_seed17_attempt03.json,INVOCATION_SHA256=aa4f12e89b5f90f64b922b4e544d72864400ac7e62c5e48e7ecbc070297eb28b /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_goal_asset_main.slurm",
+        "actual_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_goal_train_k64_seed17_attempt03.json,INVOCATION_SHA256=aa4f12e89b5f90f64b922b4e544d72864400ac7e62c5e48e7ecbc070297eb28b /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_goal_asset_main.slurm",
+        "original_ssh_argv": [
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "tongji-cvpr",
+          "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_goal_train_k64_seed17_attempt03.json,INVOCATION_SHA256=aa4f12e89b5f90f64b922b4e544d72864400ac7e62c5e48e7ecbc070297eb28b /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_goal_asset_main.slurm"
+        ],
+        "actual_ssh_argv": [
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "tongji-cvpr",
+          "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_goal_train_k64_seed17_attempt03.json,INVOCATION_SHA256=aa4f12e89b5f90f64b922b4e544d72864400ac7e62c5e48e7ecbc070297eb28b /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_goal_asset_main.slurm"
+        ],
+        "shell_argv_unchanged_except_exclude": true,
+        "metadata_evidence_sha256": {
+          "results/formal_main_v2/preflight/synthetic_registration.json": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4",
+          "results/formal_main_v2/preflight/synthetic_failure.json": "268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7",
+          "results/formal_main_v2/invocations/libero_goal_train_k64_seed17_attempt03.json": "aa4f12e89b5f90f64b922b4e544d72864400ac7e62c5e48e7ecbc070297eb28b"
+        },
+        "supervisor_sha256": "3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95",
+        "adapter_sha256": "c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6",
+        "wrapper_sha256": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+        "automatic_retry": false,
+        "subprocess_executed_by_adapter": false,
+        "existing_jobs_changed": false,
+        "scientific_configuration_changed": false
+      },
+      "input_bytes": {
+        "results/formal_main_v2/preflight/synthetic_registration.json": {
+          "sha256": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4",
+          "utf8": "{\r\n  \"schema\": \"formal_main_v2\",\r\n  \"kind\": \"scheduler_node_exclusion_registration\",\r\n  \"version\": \"root-ssh-node-exclusion-v1\",\r\n  \"status\": \"reviewed_for_future_explicit_requests\",\r\n  \"server_project\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA\",\r\n  \"source_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\",\r\n  \"source_sha256\": \"dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e\",\r\n  \"excluded_nodes\": [\r\n    \"gpu4020\"\r\n  ],\r\n  \"automatic_retry\": false,\r\n  \"existing_jobs_untouched\": true,\r\n  \"scope\": \"future_explicit_training_and_action_gpu_v2_only\",\r\n  \"adapter_sha256\": \"c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6\",\r\n  \"registered_wrapper_sha256\": {\r\n    \"scripts/server/formal_main.slurm\": \"4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab\",\r\n    \"scripts/server/formal_asset_main.slurm\": \"9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a\",\r\n    \"scripts/server/formal_goal_asset_main.slurm\": \"ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a\",\r\n    \"results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm\": \"c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc\"\r\n  },\r\n  \"failure_evidence_sha256\": {\r\n    \"results/formal_main_v2/preflight/synthetic_failure.json\": \"268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7\"\r\n  },\r\n  \"synthetic\": true\r\n}\r\n"
+        },
+        "results/formal_main_v2/preflight/synthetic_failure.json": {
+          "sha256": "268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7",
+          "utf8": "{\r\n  \"synthetic\": true,\r\n  \"kind\": \"CPU_fixture_not_real_failure_receipt\"\r\n}\r\n"
+        },
+        "results/formal_main_v2/invocations/libero_goal_train_k64_seed17_attempt03.json": {
+          "sha256": "aa4f12e89b5f90f64b922b4e544d72864400ac7e62c5e48e7ecbc070297eb28b",
+          "utf8": "{\r\n  \"schema\": \"formal_main_v2\",\r\n  \"stage\": \"train\",\r\n  \"stage_key\": \"libero_goal_train_k64_seed17\",\r\n  \"suite\": \"libero_goal\",\r\n  \"source_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\",\r\n  \"source_sha256\": \"dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e\",\r\n  \"entrypoint\": \"scripts/run_formal_future.py\",\r\n  \"registration_sha256\": \"a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9\",\r\n  \"registered_utc\": \"synthetic_utc\",\r\n  \"segment_end\": 1500,\r\n  \"argv\": [\r\n    \"--config\",\r\n    \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2/libero_goal_k64_seed17.json\",\r\n    \"--arm\",\r\n    \"both\",\r\n    \"--stop-after-updates\",\r\n    \"1500\",\r\n    \"--resume\"\r\n  ],\r\n  \"component_compatibility\": {\r\n    \"slurm\": \"scripts/server/formal_goal_asset_main.slurm\",\r\n    \"files\": {\r\n      \"scripts/server/formal_goal_asset_main.slurm\": \"ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a\"\r\n    }\r\n  }\r\n}\r\n"
+        }
+      }
+    },
+    {
+      "profile": "gpu_v2",
+      "synthetic": true,
+      "event": {
+        "schema": "formal_main_v2",
+        "kind": "root_scoped_scheduler_argv_transformation",
+        "version": "root-ssh-node-exclusion-v1",
+        "status": "argv_prepared_not_submission_result",
+        "utc": "2026-10-18T13:13:43.090371+00:00",
+        "node_exclusion": [
+          "gpu4020"
+        ],
+        "request": {
+          "kind": "action_execution_gpu_v2"
+        },
+        "registration": {
+          "path": "results/formal_main_v2/preflight/synthetic_registration.json",
+          "sha256": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4"
+        },
+        "invocation": "results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v2_attempt01.json",
+        "invocation_sha256": "f0d633be5f17d28692703e5c05e65be2467d1cb9f7be6a174274998095853f94",
+        "pending_submission_at_transform": {
+          "stage_key": "formal_main_v2_action_execution_compat_gpu_v2",
+          "invocation": "results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v2_attempt01.json",
+          "invocation_sha256": "f0d633be5f17d28692703e5c05e65be2467d1cb9f7be6a174274998095853f94",
+          "status": "prepared_before_invocation_publication"
+        },
+        "original_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v2_attempt01.json,INVOCATION_SHA256=f0d633be5f17d28692703e5c05e65be2467d1cb9f7be6a174274998095853f94,WRAPPER_SHA256=c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm",
+        "actual_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v2_attempt01.json,INVOCATION_SHA256=f0d633be5f17d28692703e5c05e65be2467d1cb9f7be6a174274998095853f94,WRAPPER_SHA256=c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm",
+        "original_ssh_argv": [
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "tongji-cvpr",
+          "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v2_attempt01.json,INVOCATION_SHA256=f0d633be5f17d28692703e5c05e65be2467d1cb9f7be6a174274998095853f94,WRAPPER_SHA256=c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm"
+        ],
+        "actual_ssh_argv": [
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "tongji-cvpr",
+          "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v2_attempt01.json,INVOCATION_SHA256=f0d633be5f17d28692703e5c05e65be2467d1cb9f7be6a174274998095853f94,WRAPPER_SHA256=c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm"
+        ],
+        "shell_argv_unchanged_except_exclude": true,
+        "metadata_evidence_sha256": {
+          "results/formal_main_v2/preflight/synthetic_registration.json": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4",
+          "results/formal_main_v2/preflight/synthetic_failure.json": "268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7",
+          "results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v2_attempt01.json": "f0d633be5f17d28692703e5c05e65be2467d1cb9f7be6a174274998095853f94"
+        },
+        "supervisor_sha256": "3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95",
+        "adapter_sha256": "c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6",
+        "wrapper_sha256": "c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc",
+        "automatic_retry": false,
+        "subprocess_executed_by_adapter": false,
+        "existing_jobs_changed": false,
+        "scientific_configuration_changed": false
+      },
+      "input_bytes": {
+        "results/formal_main_v2/preflight/synthetic_registration.json": {
+          "sha256": "a2781f210e0aaf8c5782985caef539df693305b4f73607ea6c44371487a2afc4",
+          "utf8": "{\r\n  \"schema\": \"formal_main_v2\",\r\n  \"kind\": \"scheduler_node_exclusion_registration\",\r\n  \"version\": \"root-ssh-node-exclusion-v1\",\r\n  \"status\": \"reviewed_for_future_explicit_requests\",\r\n  \"server_project\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA\",\r\n  \"source_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\",\r\n  \"source_sha256\": \"dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e\",\r\n  \"excluded_nodes\": [\r\n    \"gpu4020\"\r\n  ],\r\n  \"automatic_retry\": false,\r\n  \"existing_jobs_untouched\": true,\r\n  \"scope\": \"future_explicit_training_and_action_gpu_v2_only\",\r\n  \"adapter_sha256\": \"c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6\",\r\n  \"registered_wrapper_sha256\": {\r\n    \"scripts/server/formal_main.slurm\": \"4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab\",\r\n    \"scripts/server/formal_asset_main.slurm\": \"9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a\",\r\n    \"scripts/server/formal_goal_asset_main.slurm\": \"ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a\",\r\n    \"results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm\": \"c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc\"\r\n  },\r\n  \"failure_evidence_sha256\": {\r\n    \"results/formal_main_v2/preflight/synthetic_failure.json\": \"268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7\"\r\n  },\r\n  \"synthetic\": true\r\n}\r\n"
+        },
+        "results/formal_main_v2/preflight/synthetic_failure.json": {
+          "sha256": "268860b5648541a95ccd1c67610e1c06fb411bf46d7d2f38ceaf31ce267b37d7",
+          "utf8": "{\r\n  \"synthetic\": true,\r\n  \"kind\": \"CPU_fixture_not_real_failure_receipt\"\r\n}\r\n"
+        },
+        "results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v2_attempt01.json": {
+          "sha256": "f0d633be5f17d28692703e5c05e65be2467d1cb9f7be6a174274998095853f94",
+          "utf8": "{\r\n  \"schema\": \"formal_main_v2\",\r\n  \"kind\": \"bounded_action_execution_engineering_invocation\",\r\n  \"stage\": \"engineering\",\r\n  \"stage_key\": \"formal_main_v2_action_execution_compat_gpu_v2\",\r\n  \"source_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\",\r\n  \"source_sha256\": \"dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e\",\r\n  \"output_root\": \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2\",\r\n  \"wrapper_sha256\": \"c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc\"\r\n}\r\n"
+        }
+      }
+    }
+  ]
+}

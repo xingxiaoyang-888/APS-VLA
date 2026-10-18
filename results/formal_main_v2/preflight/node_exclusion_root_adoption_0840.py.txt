@@ -1,0 +1,72 @@
+"""Root adoption of CPU-reviewed placement adapter; never submits a job."""
+from pathlib import Path
+from datetime import datetime, timezone
+import argparse, hashlib, json
+
+ROOT=Path(__file__).resolve().parents[1]
+C='.local/scheduler_node_exclusion_0840/'
+P='results/formal_main_v2/preflight/'
+E='results/formal_main_v2/engineering/node_exclusion_v1/'
+REG='configs/experiments/formal_main_v2_node_exclusion_v1.json'
+ADAPTER='scripts/ops/formal_scheduler_node_exclusion.py'
+CANDIDATE_SHA='87e186cbf605fe063e4d82f55fa137a6e470835c0329cf9f7df278853d864033'
+
+def sha(n):return hashlib.sha256((ROOT/n).read_bytes()).hexdigest()
+def read(n):return json.loads((ROOT/n).read_bytes())
+def save(n,b):
+    p=ROOT/n;p.parent.mkdir(parents=True,exist_ok=True)
+    with p.open('xb') as f:f.write(b)
+def write(n,v):save(n,(json.dumps(v,ensure_ascii=False,indent=2)+'\n').encode())
+
+ap=argparse.ArgumentParser();ap.add_argument('--independent-review',required=True);ap.add_argument('--independent-sha256',required=True)
+args=ap.parse_args()
+assert sha(C+'candidate_review.json')==CANDIDATE_SHA
+assert sha(args.independent_review)==args.independent_sha256
+ind=read(args.independent_review)
+assert str(ind['status']).startswith('passed')
+maps=[ind[k] for k in ('read_evidence_sha256','evidence_sha256') if k in ind]
+assert maps and all(m==maps[0] for m in maps)
+assert maps[0][C+'candidate_review.json']==CANDIDATE_SHA
+for n,h in maps[0].items():assert sha(n)==h,n
+candidate=read(C+'candidate_review.json')
+for k in ('read_evidence_sha256','protected_current_sha256'):
+    for n,h in candidate.get(k,{}).items():assert sha(n)==h,n
+inventory=read('results/formal_main_v2/source/formal_main_v2_run_564be0995e.json')
+assert len(inventory['files'])==173
+for n,h in inventory['files'].items():assert sha(n)==h,n
+assert not (ROOT/REG).exists() and not (ROOT/ADAPTER).exists()
+fail=P+'cuda_startup_root_observation_0840.json'
+probe=P+'cuda_startup_server_paths_0840.json'
+assert sha(fail)=='a6bb5a481e3576f9fb87892d29e37eb6425891a5d55872a589561042384d8ef2'
+assert sha(probe)=='5e5afef2f7bc9e52db23df3f7cd5c7e3e7923c0b5bcd839eaddd84964f6617a4'
+archive={}
+for directory in (ROOT/C, (ROOT/args.independent_review).parent):
+    for path in sorted(directory.rglob('*')):
+        rel=path.relative_to(directory)
+        if not path.is_file() or any(p.startswith('pytest_') or p in ('__pycache__','synthetic') for p in rel.parts[:-1]):continue
+        if path.suffix not in ('.py','.json','.md','.xml','.log','.txt'):continue
+        assert path.stat().st_size<10*1024*1024
+        dest=E+directory.name+'/'+rel.as_posix()
+        save(dest,path.read_bytes())
+        original=path.relative_to(ROOT).as_posix()
+        archive[original]={'path':dest,'sha256':sha(dest)}
+save(ADAPTER,(ROOT/C/'adapter.py').read_bytes())
+assert sha(ADAPTER)=='c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6'
+source=P+'node_exclusion_root_adoption_0840.py.txt'
+save(source,Path(__file__).read_bytes())
+reg=read(C+'registration_draft.json')
+reg.update(status='reviewed_for_future_explicit_requests',root_approved_utc=datetime.now(timezone.utc).isoformat(),
+    root_approved_by='root',adapter_path=ADAPTER,failure_evidence_sha256={fail:sha(fail),probe:sha(probe)},
+    candidate_review=archive[C+'candidate_review.json'],independent_review=archive[args.independent_review],
+    source_archive=archive,root_adoption_source={'path':source,'sha256':sha(source)},
+    failed_pair_recovery_authorized=False,
+    placement_scope_note='Temporary exclusion for future explicit submissions only; healthy existing jobs are untouched. No claim that every job on gpu4020 is faulty.')
+reg.pop('root_tasks_before_use',None)
+write(REG,reg)
+receipt={'schema':'formal_main_v2','kind':'root_node_exclusion_adoption','status':'passed_CPU_root_placement_only',
+    'registration':{'path':REG,'sha256':sha(REG)},'adapter':{'path':ADAPTER,'sha256':sha(ADAPTER)},
+    'frozen173_rehashed':True,'scientific_configuration_changed':False,'failed_pair_recovery_authorized':False,
+    'jobs_submitted':0,'GPU_seconds':0,'final_states_opened':False,'source_archive':archive,
+    'evidence_sha256':{REG:sha(REG),ADAPTER:sha(ADAPTER),source:sha(source),fail:sha(fail),probe:sha(probe)}}
+name=P+'node_exclusion_root_adoption_0840.json';write(name,receipt)
+print(json.dumps({'registration':REG,'registration_sha256':sha(REG),'root_receipt':name,'root_sha256':sha(name),'archived_files':len(archive)}))

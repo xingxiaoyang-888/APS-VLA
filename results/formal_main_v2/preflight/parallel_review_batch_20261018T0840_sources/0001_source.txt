@@ -1,0 +1,21 @@
+# PolicyChunk 构造身份检查：Python 3.11 诊断候选
+
+原 GPU 工程作业 3030159 在安装 action scope 时失败，尚未创建工程 cell、VLA 模型或环境。原四行事件、失败 completion、85 GPU 秒及旧 adapter/source 全保留；未重跑16格。
+
+root 的服务器 CPU-only 复现使用 Python 3.11.7。只有源码定义的 `__post_init__` 精确 code hash 不同：实际整模块编译含 `import numpy` 的符号上下文，截取 class AST 重编译丢失该上下文，实际为 `LOAD_GLOBAL(NULL+np)+LOAD_ATTR`，旧参考为 `LOAD_GLOBAL(np)+LOAD_METHOD`。`co_code/co_linetable/co_lnotab` 不同；其余函数属性和另外三个生成构造函数一致。不是源码或构造函数被修改的证据。
+
+`adapter.py` 是新候选，旧 `scripts/ops/formal_action_execution_compat.py` 原字节另存 `adapter.before.py.txt`。修复只改变私有 `_check_chunk_construction` 的参考来源及版本/证明描述：
+
+- `__post_init__`：对完整已固定源码 `compile(..., dont_inherit=True)`，只提取对应 code object，不执行整个模块，再精确比较 marshal-v2 SHA。
+- dataclass 生成的 `__init__/__setattr__/__delattr__`：继续使用同 Python runtime 的独立冻结 class 参考。
+- globals、class/metaclass、name/qualname、默认值、annotations、closure、字段契约、还原与篡改拒绝全部保留。不是 AST 等价放行；也不改动作、模型或环境。
+
+`cpu_check.py` 直接 import 完整冻结低依赖 runtime，修正旧3.10精简AST夹具无法覆盖服务器编译上下文的盲区。它检查实际身份、唯一注册 AST 分支修改，并逐项拒绝 code/constant/flags/filename/qualname/line/exception table、生成构造函数、默认值和 class 绑定篡改。所有内存修改立即还原；测试前后核173源与旧adapter SHA。
+
+本地 3.10.11 的14项和3.12.14的16项通过。3.12也重现旧 verifier 失败，新 verifier 通过。不同计数来自3.10没有 `co_qualname/co_exceptiontable`。3.11实际候选检查待root运行本脚本，不能用3.12代替服务器验收。没有 torch/TensorFlow/模型/模拟器/GPU调用或封存状态读取。
+
+服务器 CPU 检查接口（仅root另行执行）：
+
+`python -B cpu_check.py --project-root P --source-root S --candidate NEW_ADAPTER_PATH`
+
+`P` 是本项目服务器根，`S` 是原 `formal_main_v2_run_564be0995e` 快照；新 candidate 路径由root显式发布并核SHA。该脚本只输出JSON，不提交作业，不写状态/权重。新 GPU 入口、注册与16格验收仍待独立审核及root另行登记；旧v2失败不能被覆盖或视为已通过。

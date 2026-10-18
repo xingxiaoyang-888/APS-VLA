@@ -1,0 +1,21 @@
+"""One explicit existing reviewed pair continuation under registered placement."""
+from pathlib import Path
+import argparse, hashlib, importlib.util, json, runpy, sys
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
+import formal_supervisor as f
+ap=argparse.ArgumentParser()
+ap.add_argument('--suite',required=True);ap.add_argument('--budget',type=int,required=True)
+ap.add_argument('--seed',type=int,required=True);ap.add_argument('--previous-job',required=True)
+ap.add_argument('--target',type=int,required=True);ap.add_argument('--audit',required=True)
+a=ap.parse_args()
+policy='configs/experiments/formal_main_v2_node_exclusion_v1.json'
+ref={'path':policy,'sha256':hashlib.sha256((ROOT/policy).read_bytes()).hexdigest()}
+reg=json.loads((ROOT/policy).read_bytes())
+path=ROOT/reg['adapter_path'];assert hashlib.sha256(path.read_bytes()).hexdigest()==reg['adapter_sha256']
+spec=importlib.util.spec_from_file_location('_root_node_exclusion',path);adapter=importlib.util.module_from_spec(spec);spec.loader.exec_module(adapter)
+helper=ROOT/'.local/fill_reviewed_pair_slot.py'
+request=dict(kind='training',suite=a.suite,budget=a.budget,seed=a.seed,segment_end=a.target,resume=True)
+sys.argv=[str(helper),'--suite',a.suite,'--budget',str(a.budget),'--seed',str(a.seed),'--previous-job',a.previous_job,'--target',str(a.target)]
+with adapter.exclude_future_sbatch(f,request=request,registration_ref=ref,audit_relative=a.audit):
+    runpy.run_path(str(helper),run_name='__main__')

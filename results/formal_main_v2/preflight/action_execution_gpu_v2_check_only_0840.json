@@ -1,0 +1,46 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_v2_GPU_registration_check_only",
+  "checked_utc": "2026-10-18T13:31:01.109556+00:00",
+  "command": [
+    "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "-B",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/submit.py",
+    "--project-root",
+    "F:\\CTI-VLA",
+    "--root-review",
+    "results/formal_main_v2/preflight/action_execution_gpu_v2_candidate_root_0840.json",
+    "--root-review-sha256",
+    "dadac29e10dd520b8cc6668e791a2e4d49caca0e6b490b072cb6f4e84e4c8205",
+    "--manifest",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/candidate_manifest.json",
+    "--manifest-sha256",
+    "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    "--gpu-registration",
+    "configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json",
+    "--gpu-registration-sha256",
+    "947d3bdd5d0ec54031a546b8fcfe51d2a923861497c4a541b65bca14d21ce8a7",
+    "--check-only"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"status\": \"local_dispatch_contract_verified_no_submission\", \"stage_key\": \"formal_main_v2_action_execution_compat_gpu_v2\", \"watched_files\": 298, \"engineering_cells\": 16, \"scientific_trials\": 0, \"source_files\": 173, \"remote_checked\": false, \"GPU_submitted\": false}\r\n",
+  "stderr": "",
+  "root_review": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_v2_candidate_root_0840.json",
+    "sha256": "dadac29e10dd520b8cc6668e791a2e4d49caca0e6b490b072cb6f4e84e4c8205"
+  },
+  "registration": {
+    "path": "configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json",
+    "sha256": "947d3bdd5d0ec54031a546b8fcfe51d2a923861497c4a541b65bca14d21ce8a7"
+  },
+  "GPU_submitted": false,
+  "final_states_opened": false,
+  "evidence_sha256": {
+    "results/formal_main_v2/preflight/action_execution_gpu_v2_candidate_independent_0840.json": "737ffb586b0620dd4a4e034a73662208b08328ab7dc381a7b1f9acd2a052c3a1",
+    "results/formal_main_v2/preflight/action_execution_gpu_v2_registration_independent_0840.json": "4c275835a2ca55fba399e794904f7f4582ef87b71e626df9883859c3d4762694",
+    "results/formal_main_v2/preflight/action_execution_gpu_v2_candidate_root_0840.json": "dadac29e10dd520b8cc6668e791a2e4d49caca0e6b490b072cb6f4e84e4c8205",
+    "configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json": "947d3bdd5d0ec54031a546b8fcfe51d2a923861497c4a541b65bca14d21ce8a7",
+    "results/formal_main_v2/preflight/action_execution_gpu_v2_root_integration_0840.py.txt": "e0e1a237ebf353c41ad436001d0dce2660dbd98d0fc51e90a3576a1cb6a5bc44",
+    ".local/action_execution_gpu_v2_registration_0840/candidate_preparation_review_a2.json": "ac9ac52dab38adcd68f1047739ea064ef3d07d8e69679b3d1107f9938f169ef8"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "parallel_0840_delivery_a2_independent_static_review",
+  "status": "static_review_only",
+  "reviewed_utc": "2026-10-18T14:02:04.579825+00:00",
+  "reviewer": "/root/profile_long",
+  "candidate": {
+    "path": ".local/deliver_parallel_0840_a2.py",
+    "sha256": "23fc2a9c2217084b24f1acb60d9c2ea545bcc34b0e5004b6d453c776b443d960"
+  },
+  "read_evidence_sha256": {
+    ".local/deliver_parallel_0840.py": "86c4d6b61f60f2d01123d3d1c2ff7629d0cca18c57992ad27ef67dbe4a683f05",
+    ".local/deliver_parallel_0840_a2.py": "23fc2a9c2217084b24f1acb60d9c2ea545bcc34b0e5004b6d453c776b443d960",
+    ".local/delivery_guard_delta_0840/independent_review.json": "c4bc0543a7c875d666f076dc4811af5dc1e9601338d2d688c57115f988e892e2",
+    ".local/delivery_guard_0840/independent_review.json": "fed56e7ddd373b8522bb79fb556fd62c65e27e32bc7123db0f6a462c4e5e0982"
+  },
+  "original_candidate_and_reviews_unchanged": true,
+  "exact_diff": "--- .local/deliver_parallel_0840.py\n+++ .local/deliver_parallel_0840_a2.py\n@@ -71,7 +71,12 @@\n     assert p['trained_arms']==28 and p['completed_final_trials']==0 and not p['test_opened'] and not p['global_release_created']\n     assert p['completed_development_trials']==1212 and state['pending_submission'] is None\n     formal=[j for j in state['registered_jobs'] if j.get('experiment')=='formal_main_v2']\n-    assert len(formal)==len(state['registered_jobs'])\n+    historical={j['job_id']:j for j in state['registered_jobs'] if j.get('experiment')!='formal_main_v2'}\n+    previous_historical={j['job_id']:j for j in prior['registered_jobs'] if j.get('experiment')!='formal_main_v2'}\n+    assert len(state['registered_jobs'])==len(formal)+30\n+    assert len([j for j in prior['registered_jobs'] if j.get('experiment')!='formal_main_v2'])==30\n+    assert len(historical)==30 and historical==previous_historical\n+    assert all(str(j.get('status','')).split()[0].rstrip('+') in TERMINAL for j in historical.values())\n     active=[j for j in formal if not str(j.get('status','')).split() or str(j['status']).split()[0].rstrip('+') not in TERMINAL]\n     assert len(active)<=8 and len({j['stage_key'] for j in active})==len(active)\n     references=set();sources=set();expected={}\n@@ -136,7 +141,7 @@\n     for ix,n in enumerate(sorted(sources),1):\n         assert n.startswith('.local/')\n         safe(n);path=ROOT/n;assert path.stat().st_size<20*1024*1024\n-        dest=BASE+f'preflight/parallel_review_batch_20261018T0840_sources/{ix:03d}_{path.name}.txt'\n+        dest=BASE+f'preflight/parallel_review_batch_20261018T0840_sources/{ix:04d}_source.txt'\n         source=payload(n);assert sha(source)==expected[n],n\n         save(dest,source);archive[n]=ref(dest);include(dest,expected[n])\n     old_ids={j['job_id'] for j in prior['registered_jobs']}\n",
+  "diff_hunks": 2,
+  "findings": [
+    {
+      "area": "Historical registered jobs",
+      "conclusion": "The earlier all-jobs-must-be-formal assertion is replaced by exactly 30 historical rows in both current and HEAD projections, exactly 30 distinct current historical job IDs, full job-record equality by ID, and terminal-status checks. This also rules out silently collapsed duplicate IDs in either historical list. The existing formal-only all-nonterminal eight-slot bound is unchanged.",
+      "status": "no_static_blocker"
+    },
+    {
+      "area": "Source archive filenames",
+      "conclusion": "Only archive destination basenames change to unique NNNN_source.txt. Original source paths still pass the same safety guard before reading; every copied byte remains checked against expected SHA and preserved under its original source-path key in audit_source_archive_map. The neutral destination basename does not waive any source state/weight/path check.",
+      "status": "no_static_blocker"
+    }
+  ],
+  "fix_during_review": {
+    "intermediate_a2_sha256": "bcc162b1e866748d2b3c9e83bed1d518a55f8913cda6431eb64012b67c887796",
+    "issue": "A dictionary comparison alone could collapse duplicate historical job-ID rows.",
+    "resolution": "The final version additionally asserts both original historical row counts are exactly 30."
+  },
+  "original_execution_failure": {
+    "provenance": "Root-reported failure of the original 86c4 candidate, not independently executed in this review.",
+    "reported_boundary": "Before any write, because 198 formal and 30 unchanged historical CTI job rows violated the original all-formal assertion.",
+    "no_claim_of_reexecuting_or_reproducing": true
+  },
+  "remaining_static_blockers_in_requested_scope": [],
+  "scope": {
+    "AST_parse_passed": true,
+    "finalizer_or_dependency_modules_executed": false,
+    "tests_rerun": false,
+    "Git_commands_executed": false,
+    "supervisor_state_read_or_modified": false,
+    "SSH_Slurm_or_GPU_calls": 0,
+    "weights_or_sealed_state_values_read": false,
+    "actual_delivery_or_index_closure_verified": false,
+    "scientific_or_GPU_release_granted": false,
+    "files_written": [
+      ".local/delivery_guard_a2_0840/independent_review.json"
+    ]
+  },
+  "conclusion": "The requested two changes introduce no remaining static blocker. Existing complete runtime delivery checks must still be executed by root; this receipt does not claim successful staging or publication."
+}

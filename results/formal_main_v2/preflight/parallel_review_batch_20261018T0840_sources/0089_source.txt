@@ -1,0 +1,125 @@
+"""Generate explicit new consumers; preserve every original source byte."""
+from pathlib import Path
+import difflib
+import hashlib
+import json
+
+ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+BASELINES = {
+    'scripts/ops/formal_asset_supervisor.py': ('formal_asset_supervisor_startup.py', '442b6e42f4b80979541b0526dd4ae53546567cb9c0884a37dc8356bad094d26a'),
+    'scripts/review_formal_segment.py': ('review_formal_segment_startup.py', '566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790'),
+    'scripts/ops/formal_asset_downstream_review.py': ('formal_asset_downstream_review_startup.py', '6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699'),
+}
+
+
+def change(text, old, new):
+    if text.count(old) != 1:
+        raise ValueError('Expected exactly one unchanged baseline block: ' + old[:120])
+    return text.replace(old, new, 1)
+
+
+def loader():
+    return '''\n# Explicit candidate-only failure consumer; never modifies the original module.
+import importlib.util as _startup_importlib
+_startup_spec = _startup_importlib.spec_from_file_location("formal_startup_failure_candidate", Path(__file__).with_name("startup_failure_evidence.py"))
+_startup = _startup_importlib.module_from_spec(_startup_spec)
+_startup_spec.loader.exec_module(_startup)
+'''
+
+
+def generate():
+    records = {}
+    for relative, (name, pin) in BASELINES.items():
+        raw = (ROOT / relative).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != pin: raise ValueError('Baseline changed: ' + relative)
+        old = raw.decode('utf-8').replace('\r\n', '\n'); text = old
+        if 'formal_asset_supervisor.py' in relative:
+            text = change(text, "import formal_supervisor as f\n", "import formal_supervisor as f\n" + loader())
+            text = change(text, '''    require(review.get('status') == 'passed' and review.get('job_id') == latest['job_id'] and''', '''    if review.get('kind') == 'startup_failure_review':
+        class LocalEvidence:
+            def __init__(self): self.root = root
+            def read(self, name): return f.read(root / name)
+            def watch(self, name): return f.sha(root / name)
+        verified = _startup.require_saved(LocalEvidence(), job=latest, saved=review)
+        require(verified['runtime_failure_evidence']['runtime_compatibility'] == runtime,
+                'Startup recovery cannot change the Object metadata runtime')
+        require(target == verified['allowed_next_segment_end'] == latest['segment_end'],
+                'Startup recovery must finish only the original target')
+        require(pair['checkpoint_root_server'] + '/A/resume.pt' == verified['server_resume_checks'][0]['path'] and
+                pair['checkpoint_root_server'] + '/B/resume.pt' == verified['server_resume_checks'][1]['path'] and
+                outrel == verified['output_relative'], 'Startup recovery pair paths differ')
+        return verified['server_resume_checks']
+    require(review.get('status') == 'passed' and review.get('job_id') == latest['job_id'] and''')
+            text = change(text, "            review = f.read(root / outrel / 'segment_reviews' / (latest['job_id'] + '.json'))", "            review_path = (root / _startup.proof_relative(latest) if latest['status'] != 'COMPLETED' or latest.get('exit_code') != '0:0'\n                           else root / outrel / 'segment_reviews' / (latest['job_id'] + '.json'))\n            review = f.read(review_path)")
+            text = change(text, "                'Repair must bind all failed jobs, stage, source, segment, and runtime')", "                'Repair must bind all failed jobs, stage, source, segment, and runtime')\n        for failed_job in failed:\n            ref = _startup.proof_relative(failed_job)\n            require(repair.get('startup_failure_reviews', {}).get(ref) == f.sha(root / ref),\n                    'Repair must bind the canonical typed startup failure review')")
+        elif 'review_formal_segment.py' in relative:
+            text = change(text, 'ROOT = Path(__file__).resolve().parents[1]', 'ROOT = Path(__file__).resolve().parents[2]')
+            text = change(text, 'sys.path.insert(0, str(ROOT / "src"))\n', 'sys.path.insert(0, str(ROOT / "src"))\n' + loader())
+            text = change(text, '    runtime_history = None\n', '''    # Failed allocations are retained separately, never disguised as successful scopes.
+    startup_failure_history = {}
+    for failed_id, failed_job in jobs.items():
+        if failed_job.get("status") != "COMPLETED" or failed_job.get("exit_code") != "0:0":
+            startup_failure_history[failed_id] = _startup.require_saved(evidence, job=failed_job)
+    runtime_history = None
+''')
+            text = change(text, '''            if prior_job.get("status") != "COMPLETED" or prior_job.get("exit_code") != "0:0":
+                raise ValueError("Failed compatibility allocations require explicit raw runtime reconstruction before continuation review")''', '''            if prior_id in startup_failure_history:
+                failed_runtime = startup_failure_history[prior_id]["runtime_failure_evidence"]
+                if failed_runtime is None or failed_runtime["runtime_compatibility"] != runtime_review["runtime_compatibility"]:
+                    raise ValueError("Failed startup metadata implementation differs from acceptance")
+                continue''')
+            # Goal is intentionally not authorized by this three-job recovery registration.
+            text = change(text, '''            if prior_id == job_id:
+                continue
+            prior_component = _shared.review_component_compatibility''', '''            if prior_id == job_id:
+                continue
+            if prior_id in startup_failure_history:
+                raise ValueError("Goal startup failure needs its own component recovery registration")
+            prior_component = _shared.review_component_compatibility''')
+            text = change(text, '    require_pulled(evidence, pull_receipt, job, sorted(set(required)))', '''    for failed_review in startup_failure_history.values():
+        required.extend(failed_review["retained_failure_files"])
+    require_pulled(evidence, pull_receipt, job, sorted(set(required)))''')
+            text = change(text, '    if runtime_review is not None:\n        summary.update(', '''    if startup_failure_history:
+        summary["startup_failure_history"] = startup_failure_history
+        summary["startup_failure_consumer"] = dict(path=Path(__file__).relative_to(evidence.root).as_posix(),
+            sha256=evidence.watch(Path(__file__)), verifier_sha256=evidence.watch(Path(_startup.__file__)))
+    if runtime_review is not None:
+        summary.update(''')
+            text = change(text, '                        "component_compatibility", "component_compatibility_review", "component_compatibility_history"):',
+                '                        "component_compatibility", "component_compatibility_review", "component_compatibility_history",\n                        "startup_failure_history", "startup_failure_consumer"):')
+        else:
+            text = change(text, 'HELPER = "scripts/ops/formal_asset_downstream_review.py"', 'HELPER = ".local/cuda_startup_recovery_0840/formal_asset_downstream_review_startup.py"')
+            text = change(text, 'VERSION = "formal-downstream-assets-review-v1"', 'VERSION = "formal-downstream-assets-review-startup-0840-v1"')
+            text = change(text, 'ROOT = Path(__file__).resolve().parents[2]\n', 'ROOT = Path(__file__).resolve().parents[2]\n' + loader())
+            text = change(text, '''    ids = {j["job_id"] for j in relevant}
+    if suite in SUITES:
+        require(set(saved.get("runtime_compatibility_history", {})) == ids, "metadata history does not cover every allocation")''', '''    ids = {j["job_id"] for j in relevant}
+    startup_failure_history = saved.get("startup_failure_history", {})
+    successful_ids, failed_ids = _startup.successful_and_failed_ids({j["job_id"]: j for j in relevant}, startup_failure_history)
+    for failed in relevant:
+        if failed["job_id"] in failed_ids:
+            _startup.require_saved(evidence, job=failed, saved=startup_failure_history[failed["job_id"]])
+    if suite in SUITES:
+        require(set(saved.get("runtime_compatibility_history", {})) == successful_ids, "metadata success history omits or invents an allocation")''')
+            text = change(text, '''    for job in relevant:
+        registered_job(jobs, job["job_id"], suite=suite, mode="train", output=base)''', '''    for job in relevant:
+        if job["job_id"] in failed_ids:
+            # Its failed status, untouched boundary, raw files and full Slurm bill
+            # have been independently reconstructed above. It trained no sample.
+            continue
+        registered_job(jobs, job["job_id"], suite=suite, mode="train", output=base)''')
+        ending = '\r\n' if b'\r\n' in raw else '\n'
+        encoded = text.replace('\n', ending).encode('utf-8')
+        path = HERE / name
+        if path.exists(): raise ValueError('Do not overwrite a candidate: ' + name)
+        path.write_bytes(encoded)
+        (HERE / (name + '.baseline.txt')).write_bytes(raw)
+        (HERE / (name + '.diff')).write_text(''.join(difflib.unified_diff(old.splitlines(True), text.splitlines(True), fromfile=relative, tofile=name)), encoding='utf-8', newline='\n')
+        records[name] = dict(baseline_path=relative, baseline_sha256=pin, candidate_sha256=hashlib.sha256(encoded).hexdigest(),
+            original_newlines_preserved=True)
+    (HERE / 'consumer_sources.json').write_text(json.dumps(records, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+    print(json.dumps(records, indent=2))
+
+
+if __name__ == '__main__': generate()

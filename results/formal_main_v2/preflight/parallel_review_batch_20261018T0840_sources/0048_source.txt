@@ -1,0 +1,119 @@
+{
+  "schema": "formal_main_v2",
+  "version": "action-execution-gpu-candidate-0626-v1",
+  "kind": "bounded_action_execution_GPU_candidate_independent_CPU_review",
+  "status": "passed_CPU_independent_review_pending_registered_GPU",
+  "candidate_identity": {
+    "probe_sha256": "dacf60d5fefe55a5e885abaa864d444f20b106f05acc09e5d0b9cbef1495f1cd",
+    "manifest_sha256": "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    "action_adapter_sha256": "958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863"
+  },
+  "candidate_files": {
+    "probe": {
+      "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.py",
+      "sha256": "dacf60d5fefe55a5e885abaa864d444f20b106f05acc09e5d0b9cbef1495f1cd"
+    },
+    "manifest": {
+      "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/candidate_manifest.json",
+      "sha256": "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04"
+    },
+    "action_adapter": {
+      "path": "scripts/ops/formal_action_execution_compat.py",
+      "sha256": "958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863"
+    }
+  },
+  "evidence_sha256": {
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.py": "dacf60d5fefe55a5e885abaa864d444f20b106f05acc09e5d0b9cbef1495f1cd",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/candidate_manifest.json": "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    "scripts/ops/formal_action_execution_compat.py": "958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863",
+    "results/formal_main_v2/preflight/action_execution_transport_v2_CPU_root_0626.json": "2dc329a280213288449a6095337e5b8f64cf7b1a647b6aa449ea42cd51cb1a63",
+    "results/formal_main_v2/preflight/action_execution_transport_v2_independent_0626.json": "055eac643e5c33b30f24f9a5604aa646fb79be14e481ae69438c641a7c54d014",
+    "results/formal_main_v2/preflight/action_execution_transport_v2_author_0626.json": "b0fe373431ea5d29d4972ad5e450a907010429775336d3862a7e1d4a64c494d3",
+    "results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json": "919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b",
+    "results/formal_main_v2/preflight/action_execution_gpu_candidate_independent_0626.json": "acd5324b4a59286dee3dc9f975452a9fc54cb3e987a2a92aedff5900fa769488",
+    "results/formal_main_v2/preflight/action_execution_gpu_dispatch_author_0626.json": "708e3fa88f56a3276bcfc70be86eb679d2ff9d34ef239a126e6e1290534397c8",
+    "results/formal_main_v2/preflight/action_execution_gpu_dispatch_independent_0626.json": "cbb7bfac552eb2c2cbceb98a5633ccb74dcfc6ecb4f438771d24e723395df3f7",
+    "results/formal_main_v2/preflight/action_execution_gpu_submission_0626.json": "9e18b0149bed9eb2b95ef194b4f25a323c2691a0e8dcc4f5e13c4d858003a2e2",
+    "results/formal_main_v2/preflight/action_execution_gpu_dispatch_absence_0626.json": "f3525161baa8e16262fcb64849157f700291434921c46b889cb09b7ca0eebafc",
+    ".local/action_execution_gpu_v2_registration_0840/preparation_field_repair_a2.json": "07207db053e25e14e14f9d99266ec976c49f14060a35554dad646a588778852f",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/launcher.py": "4e3aab118a4903366dc0c9dabf02b80e0ec638ae1b678fb7cf8b53b82473d326",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm": "c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/submit.py": "f5a4efc24f9b77b54ca73bbf0a8626e9ebde9c416ac1305cf4e88cd55ad8b8dc",
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926"
+  },
+  "derivation_kind": "typed_metadata_projection_of_existing_independent_CPU_evidence",
+  "underlying_independent_reviewer": "train64",
+  "independent_review": {
+    "path": "results/formal_main_v2/preflight/action_execution_transport_v2_independent_0626.json",
+    "sha256": "055eac643e5c33b30f24f9a5604aa646fb79be14e481ae69438c641a7c54d014"
+  },
+  "root_transport_scope_review": {
+    "path": "results/formal_main_v2/preflight/action_execution_transport_v2_CPU_root_0626.json",
+    "sha256": "2dc329a280213288449a6095337e5b8f64cf7b1a647b6aa449ea42cd51cb1a63"
+  },
+  "projection_prepared_by": "profile_long",
+  "root_adoption_required": true,
+  "bounded_CPU_blockers_remaining": [],
+  "actual_v2_tests": {
+    "author": 12,
+    "independent": 12,
+    "rerun_by_this_preparation": 0
+  },
+  "unchanged_code_historical_tests": [
+    {
+      "label": "v1 root scientific/probe CPU suite",
+      "tests": 53,
+      "receipt": {
+        "path": "results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json",
+        "sha256": "919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b"
+      },
+      "classification": "unchanged-code historical evidence only; not rerun at v2 SHA"
+    },
+    {
+      "label": "v1 author dispatcher CPU suite",
+      "tests": 32,
+      "receipt": {
+        "path": "results/formal_main_v2/preflight/action_execution_gpu_dispatch_author_0626.json",
+        "sha256": "708e3fa88f56a3276bcfc70be86eb679d2ff9d34ef239a126e6e1290534397c8"
+      },
+      "classification": "unchanged-code historical evidence only; not rerun at v2 SHA"
+    },
+    {
+      "label": "v1 independent dispatcher CPU suite",
+      "tests": 22,
+      "receipt": {
+        "path": "results/formal_main_v2/preflight/action_execution_gpu_dispatch_independent_0626.json",
+        "sha256": "cbb7bfac552eb2c2cbceb98a5633ccb74dcfc6ecb4f438771d24e723395df3f7"
+      },
+      "classification": "unchanged-code historical evidence only; not rerun at v2 SHA"
+    },
+    {
+      "label": "v1 independent probe CPU review",
+      "receipt": {
+        "path": "results/formal_main_v2/preflight/action_execution_gpu_candidate_independent_0626.json",
+        "sha256": "acd5324b4a59286dee3dc9f975452a9fc54cb3e987a2a92aedff5900fa769488"
+      },
+      "classification": "historical independent scope; no new v2 test-count claim"
+    }
+  ],
+  "equivalence_basis": {
+    "probe_only_GPU_VERSION_constant_changed": true,
+    "manifest_and_fixed16_selected_identities_byte_identical": true,
+    "adapter_byte_identical": true,
+    "dispatch_only_stdin_transport_and_versioned_paths_changed": true,
+    "proof": {
+      "path": "results/formal_main_v2/preflight/action_execution_transport_v2_independent_0626.json",
+      "sha256": "055eac643e5c33b30f24f9a5604aa646fb79be14e481ae69438c641a7c54d014"
+    }
+  },
+  "GPU_submitted": false,
+  "real_controller_acceptance": false,
+  "scientific_trials": 0,
+  "engineering_cells": 16,
+  "final_states_opened": false,
+  "original_results_replaced": false,
+  "limitations": [
+    "This is an explicit typed projection, not a new independent test run or a root authorization.",
+    "Actual SSH/Linux deployment and 16-cell GPU/controller acceptance remain unverified."
+  ]
+}

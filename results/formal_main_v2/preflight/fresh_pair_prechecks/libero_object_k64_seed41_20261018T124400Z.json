@@ -1,0 +1,53 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_explicit_registered_fresh_pair_precheck",
+  "status": "passed",
+  "registered_utc": "2026-10-18T12:44:00.026719+00:00",
+  "pair": "libero_object_k64_seed41",
+  "suite": "libero_object",
+  "visual_tokens": 64,
+  "training_seed": 41,
+  "start_updates_by_arm": {
+    "A": 0,
+    "B": 0
+  },
+  "stop_after_updates": 500,
+  "schedule_updates": 5000,
+  "full_legal_train_pool": true,
+  "initialization": "fresh matched A/B from registered seed; no previous checkpoint reused",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "evidence_sha256": {
+    "configs/experiments/formal_main_v2.json": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+    "configs/experiments/formal_main_v2_parallel_execution_v1.json": "e1378e74d1ad89af2d38d2f8eb8ce33695a346331c2e89db6313a5608faf4907",
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "configs/experiments/formal_main_v2/libero_object_k64_seed41.json": "f8b3dcf7af861f06fd8c37655c192002879518898c323c4fe0fe0b39254982b1",
+    "results/formal_main_v2/libero_object/acceptance/root_review.json": "2fd415c47d8852678b4d83296ffcff4709d97765debe7f4e41a17a7ae02daaa2",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/input_acceptance.json": "2690d538a64fc83925de7d6e807b70fc8fc4f2c65d43d582c14137d85560f47e",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/f01_k64.json": "ea9649625f19b6f7a3f7d763fd39e67142f3c4a8d36b11c6d5726b48e1c76719",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/resume_acceptance.json": "3cae7aca2b9e74964311d908e89855c94a62b9c0f3321bd0ae4177fdddba3b79",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/f03_calls.jsonl": "b27e41f57662fd88f5b8ab7e2aedbc9f18b1a74ca378c6a68324885e180d8632",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/acceptance_complete.json": "990f44b35c8f59789958e89aa2165856ffab1c34cac66c08816a4dfaf7a2dfdc",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/root_review.json": "9436d3820e66df523bcb6ff54d955225d011b2c25270e45de80bf94e75858d91",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/independent_review.json": "8a69e34f8af5834e95bc57cea1ae880d35901bd1539ca98386c5d62af8605a1c",
+    "results/formal_main_v2/preflight/parallel_batch1_root_registration_independent.json": "328c73c0dd49c68b281c22c42998eb9fb41907b5ed669831e2b5dfa29de93dce"
+  },
+  "remote_absence_checked": [
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k64/seed41/training",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k64/seed41"
+  ],
+  "remote_absence_result": "fresh_pair_absent",
+  "existing_shared_cache_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/data/formal_main_v2/libero_object",
+  "cache_filesystem_observation": "/share/home/u15016/XXY_CVPR/CTI-VLA/data/formal_main_v2/libero_object\nFilesystem     1024-blocks      Used Available Capacity Mounted on\nHPC_HD          1611661312 675588632 936072680      42% /share\n",
+  "cache_available_KiB": 936072680,
+  "active_job_ids_before": [
+    "3028452",
+    "3028457",
+    "3028481"
+  ],
+  "active_slots_before": 3,
+  "max_slots": 8,
+  "scientific_matrix_expanded": false,
+  "hyperparameters_changed": false,
+  "final_states_opened": false,
+  "next_boundary_requires_own_root_and_independent_review": true
+}

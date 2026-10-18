@@ -1,0 +1,302 @@
+"""Bounded CPU checks. Approval objects are synthetic and live only in tmp_path.
+
+The real frozen sources, metadata proofs and four development panels are copied;
+no model/environment/GPU is imported and no transport command is executed.
+"""
+import ast
+import copy
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import shlex
+import shutil
+import subprocess
+import sys
+from types import SimpleNamespace
+
+import pytest
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent.parent
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+p = load('_v3_candidate_probe_test', HERE / 'probe.py')
+c = load('_v3_candidate_launcher_test', HERE / 'launcher.py')
+s = load('_v3_candidate_submit_test', HERE / 'submit.py')
+n = load('_v3_candidate_node_test', HERE / 'node_exclusion.py')
+g = load('_v3_candidate_preparation_test', HERE / 'prepare_candidate.py')
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def read(path):
+    return json.loads(Path(path).read_bytes())
+
+
+def write(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + '\n', encoding='utf-8', newline='\n')
+    return dict(path=path, sha256=sha(path))
+
+
+def ref(project, rel):
+    return dict(path=rel, sha256=sha(project / rel))
+
+
+def nodes(path):
+    return {x.name: ast.dump(x, include_attributes=False) for x in ast.parse(Path(path).read_bytes()).body
+            if isinstance(x, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))}
+
+
+@pytest.fixture(scope='module')
+def mirror(tmp_path_factory):
+    project = tmp_path_factory.mktemp('synthetic_v3_CPU_only')
+    assert ROOT / '.local' in project.parents
+    manifest = read(HERE / 'candidate_manifest.json')
+    inv = read(ROOT / c.INVENTORY)
+    rels = set(inv['files']) | set(manifest['read_evidence_sha256']) | {c.INVENTORY}
+    new_files = {row['path']: ROOT / row['source'] for row in read(HERE / 'publication_plan.json')['files']}
+    rels |= set(new_files)
+    policy = read(HERE / 'node_exclusion_registration.template.json')
+    rels |= set(policy['failure_evidence_sha256'])
+    def all_refs(value):
+        if isinstance(value, dict):
+            if 'path' in value and 'sha256' in value and not str(value['path']).startswith('/'):
+                rels.add(value['path'])
+            for child in value.values(): all_refs(child)
+        elif isinstance(value, list):
+            for child in value: all_refs(child)
+    all_refs(manifest)
+    for rel in rels:
+        c.lexical_relative(rel)
+        src = new_files.get(rel, ROOT / rel)
+        dest = project / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(src, dest)
+    # Actual production gate, with no torch/model/env stand-in needed.
+    prepared = p.prepare(project, project, g.SOURCE + 'candidate_manifest.json',
+                         sha(project / (g.SOURCE + 'candidate_manifest.json')))
+    yield project, prepared
+    for rel, digest in read(HERE / 'baseline_sha256.json').items():
+        assert sha(ROOT / rel) == digest, rel
+
+
+def fixture_contract(project):
+    reg = read(HERE / 'gpu_registration.template.json')
+    reg.update(status='registered_single_attempt', gpu_submission_authorized=True,
+               synthetic_fixture_only=True, real_submission_authorized_by_fixture=False)
+    files = read(HERE / 'root_review.template.json')['candidate_files']
+    identity = read(HERE / 'root_review.template.json')['candidate_identity']
+    independent = dict(schema='formal_main_v2', version=c.VERSION,
+        kind='bounded_action_execution_GPU_candidate_independent_CPU_review',
+        status='passed_CPU_independent_review_pending_registered_GPU',
+        synthetic_fixture_only=True, candidate_identity=identity, candidate_files=files,
+        evidence_sha256={r['path']:r['sha256'] for r in files.values()})
+    ind_rel = reg['cpu_reviews']['candidate_independent']['path']
+    write(project / ind_rel, independent)
+    reg['cpu_reviews']['candidate_independent']['sha256'] = sha(project / ind_rel)
+    root_rel = reg['cpu_reviews']['root_acceptance']['path']
+    reg_rel = 'configs/experiments/' + c.STAGE + '.json'
+    root_review = dict(schema='formal_main_v2', version=c.VERSION,
+        kind='bounded_action_execution_GPU_candidate_root_CPU_review',
+        status='passed_CPU_root_review_pending_registered_GPU', synthetic_fixture_only=True,
+        candidate_identity=identity, candidate_files=files,
+        candidate_independent_review=ref(project, ind_rel), dispatch_contract=c.DISPATCH,
+        gpu_registration_path=reg_rel, gpu_registration_intent_sha256=c.registration_intent(reg),
+        evidence_sha256={r['path']:r['sha256'] for r in files.values()})
+    for rel in (c.LAUNCHER, c.WRAPPER, c.SUBMITTER, g.SOURCE + 'node_exclusion.py'):
+        root_review['evidence_sha256'][rel] = sha(project / rel)
+    manifest = read(project / reg['candidate_manifest']['path'])
+    frozen = read(project / c.INVENTORY)['files']
+    rows = {}
+    def need(rel, digest, server=None):
+        server = server or c.P + '/' + rel
+        row = dict(path=rel, server=server, sha256=digest, bytes=(project / rel).stat().st_size)
+        assert server not in rows or rows[server] == row
+        rows[server] = row
+    for rel, digest in frozen.items(): need(rel,digest,c.S+'/'+rel)
+    for source in (manifest['read_evidence_sha256'],root_review['evidence_sha256']):
+        for rel,digest in source.items(): need(rel,digest)
+    for key,r in reg['cpu_reviews'].items():
+        if key != 'root_acceptance': need(r['path'],r['sha256'])
+    for rel,digest in ((c.INVENTORY,c.INVENTORY_SHA),(c.ENTRY,reg['entrypoint']['sha256']),
+                       (reg['candidate_manifest']['path'],reg['candidate_manifest']['sha256']),
+                       (c.ADAPTER,c.ADAPTER_SHA),(c.SUPERVISOR,c.SUPERVISOR_SHA)):
+        need(rel,digest)
+    def refs(value):
+        if isinstance(value,dict):
+            if 'path' in value and 'sha256' in value and not str(value['path']).startswith('/'):
+                need(value['path'],value['sha256'])
+            for child in value.values(): refs(child)
+        elif isinstance(value,list):
+            for child in value: refs(child)
+    refs(manifest)
+    for suite in manifest['suites'].values():
+        for contract in suite['compatibility'].values():
+            for rel,digest in contract['files'].items(): need(rel,digest)
+    root_review['deployment_files'] = [rows[key] for key in sorted(rows)]
+    write(project / root_rel,root_review)
+    reg['cpu_reviews']['root_acceptance']['sha256'] = sha(project/root_rel)
+    write(project/reg_rel,reg)
+    refs_ = dict(root_ref=ref(project,root_rel),manifest_ref=reg['candidate_manifest'],registration_ref=ref(project,reg_rel))
+    return reg,root_review,refs_
+
+
+def test_exact_scientific_subtrees_and_runtime_functions_unchanged():
+    old = read(ROOT / (g.OLD_SOURCE + 'candidate_manifest.json'))
+    new = read(HERE / 'candidate_manifest.json')
+    changed = {k for k in old if old[k] != new[k]}
+    assert changed == {'version','action_adapter','action_adapter_independent_review','read_evidence_sha256'}
+    assert set(new)-set(old) == {'constructor_server_cpu','constructor_identity_repair'}
+    assert new['suites']==old['suites'] and new['limits']==old['limits']
+    assert new['limits']['cells']==new['limits']['max_vla_calls']==16
+    a,b=nodes(ROOT/(g.OLD_SOURCE+'probe.py')),nodes(HERE/'probe.py')
+    assert a.keys()==b.keys()
+    assert {k for k in a if a[k]!=b[k]} == {'prepare','validate_cpu_reviews'}
+    assert (HERE/'submit.py').read_bytes()==(ROOT/(g.OLD_SOURCE+'submit.py')).read_bytes()
+    a,b=nodes(ROOT/(g.OLD_SOURCE+'launcher.py')),nodes(HERE/'launcher.py')
+    assert {k for k in a if a[k]!=b[k]} == {'check_cpu_review'}
+    assert sha(HERE/'action_adapter.py')==g.ADAPTER_SHA
+
+
+def test_actual_prepare_fixed_four_own_suite_proofs(mirror):
+    project, prepared = mirror
+    assert set(prepared['states']) == set(p.SUITES)
+    assert [prepared['states'][suite]['source_state_index'] for suite in p.SUITES] == [0,3,5,7]
+    assert len(prepared['inventory']['files'])==173
+    assert 'torch' not in sys.modules and 'tensorflow' not in sys.modules
+    prepared['evidence'].unchanged()
+
+
+def test_synthetic_typed_contract_real_full_closure_and_probe_gate(mirror):
+    project,_=mirror
+    reg,_,refs_=fixture_contract(project)
+    checked=c.check_contract(project,**refs_)
+    assert len([r for r in checked['deployment_files'] if r['server'].startswith(c.S+'/')])==173
+    assert checked['registration']['limits']['cells']==16
+    p.validate_cpu_reviews(project,reg,reg['entrypoint']['sha256'],reg['candidate_manifest']['sha256'])
+    assert c.registration_intent(reg)==c.registration_intent({**reg,'cpu_reviews':{**reg['cpu_reviews'],
+        'root_acceptance':{**reg['cpu_reviews']['root_acceptance'],'sha256':'f'*64}}})
+
+
+def test_real_pending_template_rejects_before_publication(mirror):
+    project,_=mirror
+    _,root,refs_=fixture_contract(project)
+    path=project/'pending_gpu.json'
+    write(path,read(HERE/'gpu_registration.template.json'))
+    with pytest.raises(ValueError,match='root GPU contract differs'):
+        c.check_contract(project,root_ref=refs_['root_ref'],manifest_ref=refs_['manifest_ref'],registration_ref=ref(project,'pending_gpu.json'))
+
+
+def test_old_adapter_cpu_receipt_cannot_authorize_new_bytes(mirror):
+    project,_=mirror
+    old=read(ROOT/('configs/experiments/'+g.OLD_STAGE+'.json'))['cpu_reviews']['action_adapter_independent']
+    with pytest.raises(ValueError,match='adapter independent CPU gate differs'):
+        c.check_cpu_review(project,old,'action_adapter_independent',{})
+
+
+def test_server_cpu_sha_tamper_rejected(mirror):
+    project,_=mirror
+    value=read(HERE/'candidate_manifest.json')
+    value['constructor_server_cpu']['sha256']='0'*64
+    relative='candidate_bad_server_cpu.json';write(project/relative,value)
+    with pytest.raises(ValueError,match='constructor server CPU SHA differs'):
+        p.prepare(project,project,relative,sha(project/relative))
+
+
+@pytest.mark.parametrize('bad', ['configs/manifests/formal_main_v2/libero_goal/initial_states/sealed_final.json',
+    'results/test/initial.jsonl','results/init_states_test.json','results/weights/a.pt'])
+def test_forbidden_paths_before_filesystem(mirror,bad,monkeypatch):
+    project,_=mirror
+    def forbidden(*args,**kwargs): raise AssertionError('filesystem reached forbidden path')
+    monkeypatch.setattr(Path,'resolve',forbidden)
+    with pytest.raises(ValueError): c.safe_local(project,bad)
+
+
+@pytest.mark.parametrize('status',['RUNNING','PENDING','SUBMITTED','STAGE_OUT','','UNKNOWN','RUNNING+'])
+def test_eight_slot_gate_preserved(status):
+    jobs=[dict(job_id=str(i),stage_key='other_'+str(i),experiment='formal_main_v2',status=status) for i in range(8)]
+    active,available=s.submission_gate({'pending_submission':None},jobs)
+    assert len(active)==8 and available is False
+
+
+def test_prior_stage_and_pending_reject():
+    with pytest.raises(ValueError,match='pending'):
+        s.submission_gate({'pending_submission':{'stage_key':c.STAGE}},[])
+    with pytest.raises(ValueError,match='already exists'):
+        s.submission_gate({'pending_submission':None},[dict(job_id='1',stage_key=c.STAGE,experiment='formal_main_v2',status='FAILED')])
+
+
+def test_stdin_transport_preserved_without_any_network(monkeypatch):
+    names=[c.P+'/results/'+'long_directory_'*14+str(i)+'.json' for i in range(293)]
+    expected={name:'a'*64 for name in names}
+    calls=[]
+    def local_only(argv,**kwargs):
+        calls.append((argv,kwargs)); assert len(subprocess.list2cmdline(argv))<1000
+        assert len(kwargs['input'])>32767 and kwargs['encoding']=='utf-8'
+        return json.dumps(expected)
+    monkeypatch.setattr(s.subprocess,'check_output',local_only)
+    assert s.remote_hashes(SimpleNamespace(SSH=['NO_NETWORK']),names)==expected
+    assert len(calls)==1 and calls[0][0][0]=='NO_NETWORK'
+
+
+def test_node_scoped_new_stage_actual_command_and_duplicate(mirror):
+    project,_=mirror
+    policy=read(HERE/'node_exclusion_registration.template.json')
+    policy['status']='reviewed_for_future_explicit_requests';policy['synthetic_fixture_only']=True
+    rel='configs/experiments/synthetic_node_policy.json';write(project/rel,policy)
+    invrel=c.INVOCATION
+    inv=dict(schema='formal_main_v2',kind='bounded_action_execution_engineering_invocation',stage='engineering',
+        stage_key=c.STAGE,source_root=c.S,source_sha256=c.SOURCE_SHA,output_root=c.P+'/'+c.OUT,
+        wrapper_sha256=sha(HERE/'probe.slurm'))
+    write(project/invrel,inv)
+    write(project/'results/experiment_supervisor/state.json',dict(pending_submission=dict(stage_key=c.STAGE,
+        invocation=invrel,invocation_sha256=sha(project/invrel),status='prepared_before_invocation_publication')))
+    f=SimpleNamespace(SSH=list(n.SSH),ROOT=project,P=n.P,H=n.H,__file__=str(project/c.SUPERVISOR),
+        STATE=project/'results/experiment_supervisor/state.json')
+    export='ALL,INVOCATION='+c.P+'/'+invrel+',INVOCATION_SHA256='+sha(project/invrel)+',WRAPPER_SHA256='+sha(HERE/'probe.slurm')
+    command='cd '+shlex.quote(c.P)+' && sbatch --parsable --export='+shlex.quote(export)+' '+shlex.quote(c.P+'/'+c.WRAPPER)
+    before=list(f.SSH)
+    with n.exclude_future_sbatch(f,request={'kind':'action_execution_gpu_v3'},registration_ref=ref(project,rel),
+                                audit_relative='.local/synthetic_node_event.json'):
+        actual=f.SSH+[command]
+        assert actual[:-1]==before
+        assert actual[-1]==command.replace(' && sbatch --parsable ',' && sbatch --parsable --exclude=gpu4020 ',1)
+        with pytest.raises(ValueError,match='only one'): f.SSH+[command]
+    assert f.SSH==before
+    assert read(project/'.local/synthetic_node_event.json')['subprocess_executed_by_adapter'] is False
+
+
+def test_node_old_namespace_and_draft_rejected(mirror):
+    project,_=mirror
+    with pytest.raises(ValueError,match='unsupported request'):
+        n.validate_request({'kind':'action_execution_gpu_v2'})
+    rel='configs/experiments/synthetic_pending_node.json';write(project/rel,read(HERE/'node_exclusion_registration.template.json'))
+    f=SimpleNamespace(SSH=list(n.SSH),ROOT=project,P=n.P,H=n.H,__file__=str(project/c.SUPERVISOR),
+        STATE=project/'results/experiment_supervisor/state.json')
+    with pytest.raises(ValueError,match='not root-registered'):
+        with n.exclude_future_sbatch(f,request={'kind':'action_execution_gpu_v3'},registration_ref=ref(project,rel),
+                                    audit_relative='.local/never_written.json'): pass
+    assert not (project/'.local/never_written.json').exists()
+
+
+def test_wrapper_and_failure_cost_preserved():
+    wrapper=(HERE/'probe.slurm').read_text()
+    assert wrapper.count('--gres=gpu:l40:1')==1 and '#SBATCH --time=01:00:00' in wrapper
+    assert '#SBATCH --no-requeue' in wrapper and c.STAGE in wrapper and g.OLD_STAGE not in wrapper
+    old=(ROOT/(g.OLD_SOURCE+'probe.slurm')).read_bytes()
+    assert (HERE/'probe.slurm').read_bytes()==old.replace(g.OLD_STAGE.encode(),g.STAGE.encode())
+    prior=read(HERE/'prior_failure.json')
+    assert prior['status']=='FAILED' and prior['GPU_seconds']==85 and prior['source_job_retried'] is False
+    assert sha(ROOT/g.PULL)==prior['files_sha256'][g.PULL]

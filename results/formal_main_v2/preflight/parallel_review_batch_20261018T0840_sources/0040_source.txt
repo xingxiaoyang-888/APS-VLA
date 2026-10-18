@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "F:\CTI-VLA\.local\action_execution_gpu_v2_registration_0840\prepare.py", line 334, in <module>
+    main()
+  File "F:\CTI-VLA\.local\action_execution_gpu_v2_registration_0840\prepare.py", line 284, in main
+    assert accept.returncode == 0, accept.stderr
+AssertionError: Traceback (most recent call last):
+  File "F:\CTI-VLA\results\formal_main_v2\engineering\formal_main_v2_action_execution_compat_gpu_v2\source\submit.py", line 222, in <module>
+    main()
+  File "F:\CTI-VLA\results\formal_main_v2\engineering\formal_main_v2_action_execution_compat_gpu_v2\source\submit.py", line 205, in main
+    checked = c.check_contract(project, root_ref=refs['root_review'], manifest_ref=refs['manifest'], registration_ref=refs['gpu_registration'])
+  File "F:\CTI-VLA\results\formal_main_v2\engineering\formal_main_v2_action_execution_compat_gpu_v2\source\launcher.py", line 174, in check_contract
+    cpu = {name: check_cpu_review(project, ref, name, identity) for name, ref in reg['cpu_reviews'].items()}
+  File "F:\CTI-VLA\results\formal_main_v2\engineering\formal_main_v2_action_execution_compat_gpu_v2\source\launcher.py", line 174, in <dictcomp>
+    cpu = {name: check_cpu_review(project, ref, name, identity) for name, ref in reg['cpu_reviews'].items()}
+  File "F:\CTI-VLA\results\formal_main_v2\engineering\formal_main_v2_action_execution_compat_gpu_v2\source\launcher.py", line 128, in check_cpu_review
+    require(type(ref) is dict and set(ref) == {'path', 'sha256', 'accepted_status'}, 'CPU reference fields differ')
+  File "F:\CTI-VLA\results\formal_main_v2\engineering\formal_main_v2_action_execution_compat_gpu_v2\source\launcher.py", line 61, in require
+    raise ValueError(message)
+ValueError: CPU reference fields differ
+

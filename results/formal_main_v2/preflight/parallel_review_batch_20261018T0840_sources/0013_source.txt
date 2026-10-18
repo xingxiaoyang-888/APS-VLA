@@ -1,0 +1,27 @@
+from pathlib import Path
+import hashlib
+import json
+import subprocess
+
+HERE=Path(__file__).resolve().parent
+ROOT=HERE.parents[1]
+python_versions={
+    '310':'C:/Users/augus/AppData/Local/Programs/Python/Python310/python.exe',
+    '312':'C:/Users/augus/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe',
+}
+before={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in HERE.glob('*.py')}
+results=[]
+for version,python in python_versions.items():
+    command=[python,'-B',str(HERE/'cpu_check.py'),'--project-root',str(ROOT),'--source-root',str(ROOT),
+        '--candidate',str(HERE/'adapter.py')]
+    result=subprocess.run(command,capture_output=True,cwd=ROOT)
+    for name,raw in [(f'python{version}.stdout.json',result.stdout),(f'python{version}.stderr.log',result.stderr)]:
+        with (HERE/name).open('xb') as h:h.write(raw)
+    results.append(dict(command=command,exit_code=result.returncode,stdout=f'python{version}.stdout.json',stderr=f'python{version}.stderr.log'))
+    if result.returncode:print(result.stderr.decode());break
+after={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in HERE.glob('*.py')}
+assert before==after
+with (HERE/'local_check_execution.json').open('x',encoding='utf-8',newline='\n') as h:
+    h.write(json.dumps(dict(runs=results,sources_before=before,sources_after=after),indent=2)+'\n')
+print(json.dumps(results,indent=2))
+raise SystemExit(0 if all(r['exit_code']==0 for r in results) else 1)

@@ -1,0 +1,261 @@
+"""Derive an unsubmitted v3 from immutable, actually executed v2 bytes.
+
+Writes only this candidate directory. No state, network, Git, weights or GPU.
+The independent/root GPU receipts deliberately remain pending.
+"""
+from pathlib import Path
+import ast
+import copy
+import difflib
+import hashlib
+import json
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent.parent
+BASE = 'results/formal_main_v2/'
+OLD_STAGE = 'formal_main_v2_action_execution_compat_gpu_v2'
+STAGE = 'formal_main_v2_action_execution_compat_gpu_v3'
+OLD_SOURCE = BASE + 'engineering/' + OLD_STAGE + '/source/'
+SOURCE = BASE + 'engineering/' + STAGE + '/source/'
+OLD_VERSION = 'action-execution-gpu-candidate-0626-v1'
+VERSION = 'action-execution-gpu-candidate-0840-v3-constructor'
+OLD_ADAPTER = 'scripts/ops/formal_action_execution_compat.py'
+ADAPTER = SOURCE + 'action_adapter.py'
+ADAPTER_SHA = 'b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185'
+OLD_ADAPTER_SHA = '958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863'
+IND_ORIGIN = '.local/action_constructor_server311_independent_0840/independent_review.json'
+IND_TARGET = SOURCE + 'constructor_independent_cpu.json'
+IND_SHA = '171b93b145431bdffb9138eea48673e9185dcadbef226e468d0ab140a7a470f1'
+OLD_IND_SHA = 'f24ec78fe11fec17c8cb893d0c588132f5bbbf9f6f2ea2d9155a16747f3267ee'
+IND_STATUS = 'passed_CPU_review_GPU_acceptance_pending'
+OLD_IND_STATUS = 'passed_bounded_CPU_candidate_review_pending_runtime_integration_and_GPU'
+IND_KIND = 'action_constructor_identity_independent_CPU_review'
+SERVER_CPU = BASE + 'preflight/action_constructor_server311_candidate_cpu_0840.json'
+SERVER_SHA = '15ba7a1dae8326a03d30f255282d176b5ac173be6491ad66014ea4fa84f5fc80'
+PULL = BASE + 'pulls/20261018T134013Z_1f65a8e31587/receipt.json'
+PULL_SHA = 'b5ea9f9522071caefee87446fef0fd183bf4d98b40398daae1b5d465708064a6'
+PINS = {
+    OLD_SOURCE + 'probe.py': 'dacf60d5fefe55a5e885abaa864d444f20b106f05acc09e5d0b9cbef1495f1cd',
+    OLD_SOURCE + 'launcher.py': '4e3aab118a4903366dc0c9dabf02b80e0ec638ae1b678fb7cf8b53b82473d326',
+    OLD_SOURCE + 'submit.py': 'f5a4efc24f9b77b54ca73bbf0a8626e9ebde9c416ac1305cf4e88cd55ad8b8dc',
+    OLD_SOURCE + 'probe.slurm': 'c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc',
+    OLD_SOURCE + 'candidate_manifest.json': '12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04',
+    OLD_ADAPTER: OLD_ADAPTER_SHA,
+    '.local/action_constructor_server311_0840/adapter.py': ADAPTER_SHA,
+    IND_ORIGIN: IND_SHA,
+    SERVER_CPU: SERVER_SHA,
+    PULL: PULL_SHA,
+    'scripts/ops/formal_scheduler_node_exclusion.py': 'c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6',
+}
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def raw(path):
+    return (ROOT / path).read_bytes()
+
+
+def read(path):
+    return json.loads(raw(path))
+
+
+def write(name, data):
+    path = HERE / name
+    assert path.parent.resolve() == HERE and not path.exists(), name
+    with path.open('xb') as stream:
+        stream.write(data)
+
+
+def output_json(name, value):
+    write(name, (json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False) + '\n').encode())
+
+
+def reference(path, data=None):
+    data = raw(path) if data is None else data
+    return dict(path=path, sha256=sha(data), bytes=len(data))
+
+
+def replace(text, old, new, count=None):
+    if count is not None:
+        assert text.count(old) == count, (old, text.count(old), count)
+    else:
+        assert old in text, old
+    return text.replace(old, new)
+
+
+def main():
+    assert ROOT == Path('F:/CTI-VLA').resolve()
+    for path, digest in PINS.items():
+        assert sha(raw(path)) == digest, path
+    inventory_path = BASE + 'source/formal_main_v2_run_564be0995e.json'
+    assert sha(raw(inventory_path)) == '5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926'
+    frozen = read(inventory_path)['files']
+    assert len(frozen) == 173
+    for path, digest in frozen.items():
+        assert sha(raw(path)) == digest, path
+    server = read(SERVER_CPU)
+    actual = json.loads(server['stdout'])
+    assert server['exit_code'] == server['SSH_exit_code'] == server['GPU_seconds'] == 0
+    assert actual['candidate_sha256'] == ADAPTER_SHA and actual['checks_passed'] == 16
+    independent = read(IND_ORIGIN)
+    assert independent['status'] == IND_STATUS and independent['candidate_sha256'] == ADAPTER_SHA
+
+    code = {}
+    for name in ('probe.py', 'launcher.py', 'probe.slurm'):
+        old = raw(OLD_SOURCE + name).decode()
+        new = replace(old, OLD_STAGE, STAGE)
+        if name != 'probe.slurm':
+            new = replace(new, OLD_VERSION, VERSION)
+            new = replace(new, OLD_ADAPTER_SHA, ADAPTER_SHA)
+            new = replace(new, OLD_ADAPTER, ADAPTER)
+            new = replace(new, OLD_IND_SHA, IND_SHA)
+            new = replace(new, OLD_IND_STATUS, IND_STATUS)
+            new = replace(new, 'action_execution_compatibility_v2_independent_CPU_review', IND_KIND)
+        if name == 'launcher.py':
+            new = replace(new, 'root-action-execution-engineering-dispatch-v2-stdin',
+                          'root-action-execution-engineering-dispatch-v3-stdin-constructor')
+            new = replace(new, "and receipt.get('kind') == '" + IND_KIND + "',",
+                          "and receipt.get('kind') == '" + IND_KIND + "'\n"
+                          "            and receipt.get('candidate_sha256') == ADAPTER_SHA,", 1)
+        if name == 'probe.py':
+            new = replace(new, 'and receipt["schema"] == "formal_main_v2" and receipt["kind"] == "' + IND_KIND + '",',
+                          'and receipt["schema"] == "formal_main_v2" and receipt["kind"] == "' + IND_KIND + '"\n'
+                          '                and receipt.get("candidate_sha256") == ADAPTER_SHA,', 1)
+            anchor = '    reg = e.reference(manifest["formal_registration"])\n'
+            check = '''    # Exact root-provided Python 3.11 CPU proof; not a GPU acceptance.
+    require(manifest["constructor_server_cpu"]["sha256"] == "SERVER_SHA", "constructor server CPU SHA differs")
+    server_cpu = e.reference(manifest["constructor_server_cpu"])
+    check = json.loads(server_cpu["stdout"])
+    require(server_cpu["exit_code"] == server_cpu["SSH_exit_code"] == server_cpu["GPU_seconds"] == 0
+        and check["status"] == "passed_CPU_only" and check["checks_passed"] == 16
+        and check["candidate_sha256"] == ADAPTER_SHA and check["source173_unchanged"] is True
+        and check["no_GPU_calls"] is True, "constructor server CPU gate differs")
+'''.replace('SERVER_SHA', SERVER_SHA)
+            new = replace(new, anchor, check + anchor, 1)
+        code[name] = new.encode()
+        write(name, code[name])
+        write(name + '.diff', ''.join(difflib.unified_diff(old.splitlines(True), new.splitlines(True),
+            fromfile=OLD_SOURCE + name, tofile=SOURCE + name)).encode())
+        if name.endswith('.py'):
+            ast.parse(new)
+    code['submit.py'] = raw(OLD_SOURCE + 'submit.py')
+    code['action_adapter.py'] = raw('.local/action_constructor_server311_0840/adapter.py')
+    code['constructor_independent_cpu.json'] = raw(IND_ORIGIN)
+    for name in ('submit.py', 'action_adapter.py', 'constructor_independent_cpu.json'):
+        write(name, code[name])
+
+    # Preserve the established scoped command adapter; only this exact new
+    # engineering namespace/wrapper capability changes. Existing registrations
+    # and their training-wrapper support remain untouched.
+    old_node = raw('scripts/ops/formal_scheduler_node_exclusion.py').decode()
+    node = replace(old_node, 'root-ssh-node-exclusion-v1', 'root-ssh-node-exclusion-v2-action-gpu-v3')
+    node = replace(node, OLD_STAGE, STAGE)
+    node = replace(node, 'action_execution_gpu_v2', 'action_execution_gpu_v3')
+    node = replace(node, 'gpu_v2', 'gpu_v3')
+    node = replace(node, PINS[OLD_SOURCE + 'probe.slurm'], sha(code['probe.slurm']))
+    node = node.replace('engineering v2 wrapper', 'engineering v3 wrapper').replace('v2 invocation identity differs', 'v3 invocation identity differs')
+    code['node_exclusion.py'] = node.encode()
+    write('node_exclusion.py', code['node_exclusion.py'])
+    write('node_exclusion.py.diff', ''.join(difflib.unified_diff(old_node.splitlines(True), node.splitlines(True),
+        fromfile='scripts/ops/formal_scheduler_node_exclusion.py', tofile=SOURCE + 'node_exclusion.py')).encode())
+    ast.parse(node)
+
+    manifest = copy.deepcopy(read(OLD_SOURCE + 'candidate_manifest.json'))
+    manifest['version'] = VERSION
+    manifest['action_adapter'] = reference(ADAPTER, code['action_adapter.py'])
+    manifest['action_adapter_independent_review'] = reference(IND_TARGET, code['constructor_independent_cpu.json'])
+    manifest['constructor_server_cpu'] = reference(SERVER_CPU)
+    manifest['constructor_identity_repair'] = dict(
+        sole_behavioral_change='Strict source-defined __post_init__ identity uses full frozen module compile without execution; generated dataclass constructor checks unchanged.',
+        original_adapter=reference(OLD_ADAPTER), new_adapter=manifest['action_adapter'],
+        baseline_v2_CPU_reviews_are_historical=True, actual_GPU_acceptance='pending_new_registered_single_attempt')
+    for path, data in ((ADAPTER, code['action_adapter.py']), (IND_TARGET, code['constructor_independent_cpu.json'])):
+        manifest['read_evidence_sha256'][path] = sha(data)
+    manifest['read_evidence_sha256'][SERVER_CPU] = SERVER_SHA
+    output_json('candidate_manifest.json', manifest)
+    manifest_ref = reference(SOURCE + 'candidate_manifest.json', (HERE / 'candidate_manifest.json').read_bytes())
+    old_manifest = read(OLD_SOURCE + 'candidate_manifest.json')
+    assert manifest['suites'] == old_manifest['suites']
+    assert manifest['limits'] == old_manifest['limits']
+
+    pull = read(PULL)
+    account = pull['accounting_after']['jobs']['3030159']
+    assert account['status'] == 'FAILED' and account['exit_code'] == '1:0' and account['elapsed_seconds'] == 85
+    failure_refs = {PULL: PULL_SHA}
+    for row in pull['files']:
+        assert sha(raw(row['relative'])) == row['sha256']
+        failure_refs[row['relative']] = row['sha256']
+    prior = dict(job_id='3030159', stage_key=OLD_STAGE, status='FAILED', exit_code='1:0', GPU_seconds=85,
+        failure='Strict PolicyChunk __post_init__ identity mismatch before suite/model/env loop',
+        source_job_retried=False, prior_outputs_modified=False, files_sha256=failure_refs)
+    output_json('prior_failure.json', prior)
+
+    reg = copy.deepcopy(read('configs/experiments/' + OLD_STAGE + '.json'))
+    reg.update(version=STAGE, status='pending_root_acceptance', gpu_submission_authorized=False,
+        candidate_manifest={k:manifest_ref[k] for k in ('path','sha256')},
+        entrypoint=dict(path='/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/' + SOURCE + 'probe.py', sha256=sha(code['probe.py'])),
+        output_root='/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/' + BASE + 'engineering/' + STAGE,
+        prior_failure_GPU_jobs=1, prior_failure_GPU_seconds=85, prior_GPU_failure=prior,
+        repair_is_automatic_retry=False)
+    reg['cpu_reviews']['action_adapter_independent'] = dict(path=IND_TARGET, sha256=IND_SHA, accepted_status=IND_STATUS)
+    for role in ('candidate_independent','root_acceptance'):
+        filename = 'action_execution_gpu_v3_candidate_' + ('independent' if role == 'candidate_independent' else 'root') + '_0840.json'
+        reg['cpu_reviews'][role]['path'] = BASE + 'preflight/' + filename
+        reg['cpu_reviews'][role]['sha256'] = 'PENDING_REAL_REVIEW_SHA256'
+    output_json('gpu_registration.template.json', reg)
+
+    old_policy = read('configs/experiments/formal_main_v2_node_exclusion_v1.json')
+    keep = ('schema','kind','server_project','source_root','source_sha256','excluded_nodes','automatic_retry',
+            'existing_jobs_untouched','failure_evidence_sha256','root_reported_failed_job_ids','root_reported_context','scientific_configuration_changed')
+    policy = {key:copy.deepcopy(old_policy[key]) for key in keep}
+    policy.update(version='root-ssh-node-exclusion-v2-action-gpu-v3', status='pending_root_acceptance',
+        scope='future_explicit_training_and_action_gpu_v3_only', adapter_path=SOURCE+'node_exclusion.py',
+        adapter_sha256=sha(code['node_exclusion.py']), registered_wrapper_sha256={
+            key.replace(OLD_STAGE,STAGE): (sha(code['probe.slurm']) if OLD_STAGE in key else value)
+            for key,value in old_policy['registered_wrapper_sha256'].items()},
+        previous_registration=reference('configs/experiments/formal_main_v2_node_exclusion_v1.json'),
+        independent_review=dict(path='PENDING_REAL_NODE_ADAPTER_REVIEW_PATH',sha256='PENDING_REAL_REVIEW_SHA256'))
+    output_json('node_exclusion_registration.template.json', policy)
+
+    candidate_identity = dict(probe_sha256=sha(code['probe.py']), manifest_sha256=manifest_ref['sha256'],action_adapter_sha256=ADAPTER_SHA)
+    candidate_files = dict(probe=dict(path=SOURCE+'probe.py',sha256=sha(code['probe.py'])),
+        manifest={k:manifest_ref[k] for k in ('path','sha256')},action_adapter=dict(path=ADAPTER,sha256=ADAPTER_SHA))
+    for role in ('independent','root'):
+        value = dict(schema='formal_main_v2', version=VERSION,
+            kind='bounded_action_execution_GPU_candidate_'+role+'_CPU_review', status='pending_'+role+'_review',
+            intended_status_after_real_review='passed_CPU_'+role+'_review_pending_registered_GPU',
+            candidate_identity=candidate_identity,candidate_files=candidate_files,
+            evidence_sha256={ref['path']:ref['sha256'] for ref in candidate_files.values()},
+            draft_only=True,GPU_submitted=False,actual_GPU_acceptance_pending=True,
+            scientific_trials=0,engineering_cells=16,final_states_opened=False)
+        if role=='root':
+            value.update(candidate_independent_review={k:reg['cpu_reviews']['candidate_independent'][k] for k in ('path','sha256')},
+                gpu_registration_path='configs/experiments/'+STAGE+'.json',
+                gpu_registration_intent_sha256='PENDING_AFTER_REAL_INDEPENDENT_REVIEW',
+                dispatch_contract='COPY_EXACT_launcher.DISPATCH',deployment_files='BUILD_EXACT_CURRENT_P_S_CLOSURE')
+        output_json(role+'_review.template.json',value)
+
+    output_json('publication_plan.json',dict(schema='formal_main_v2',kind='unpublished_v3_static_source_mapping',
+        status='pending_independent_and_root_review', stage_key=STAGE,
+        files=[dict(source=(HERE/name).relative_to(ROOT).as_posix(),path=SOURCE+name,sha256=sha(data),bytes=len(data))
+            for name,data in {**code,'candidate_manifest.json':(HERE/'candidate_manifest.json').read_bytes()}.items()],
+        root_registration='configs/experiments/'+STAGE+'.json',
+        node_registration='configs/experiments/formal_main_v2_node_exclusion_action_gpu_v3.json',
+        no_publication_performed=True, no_submission_performed=True))
+    baseline = dict(PINS)
+    baseline[inventory_path] = sha(raw(inventory_path))
+    baseline.update(frozen)
+    baseline.update(old_manifest['read_evidence_sha256'])
+    baseline.update(failure_refs)
+    baseline['configs/experiments/'+OLD_STAGE+'.json'] = sha(raw('configs/experiments/'+OLD_STAGE+'.json'))
+    baseline['configs/experiments/formal_main_v2_node_exclusion_v1.json'] = sha(raw('configs/experiments/formal_main_v2_node_exclusion_v1.json'))
+    for path,digest in baseline.items(): assert sha(raw(path)) == digest,path
+    output_json('baseline_sha256.json',baseline)
+    print(json.dumps(dict(status='candidate_sources_and_non_authorizing_templates_written',
+        source_files=len(code),manifest_sha256=manifest_ref['sha256'],baseline_files=len(baseline),GPU_seconds=0)))
+
+
+if __name__ == '__main__':
+    main()

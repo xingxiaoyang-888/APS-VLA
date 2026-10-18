@@ -1,0 +1,241 @@
+"""Independent local-only audit; outputs exclusively beside this script."""
+from __future__ import annotations
+import ast
+import copy
+from datetime import datetime, timezone
+import hashlib
+import importlib.util
+import json
+from pathlib import Path, PurePosixPath
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+
+ROOT = Path('F:/CTI-VLA')
+HERE = ROOT / '.local/action_execution_gpu_v2_registration_independent_0840'
+CAND = '.local/action_execution_gpu_v2_registration_0840/'
+BASE = 'results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_'
+V1, V2 = BASE + 'v1/source/', BASE + 'v2/source/'
+P = '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA'
+S = P + '/snapshots/formal_main_v2_run_564be0995e'
+seen = {}
+checks = []
+
+def require(value, message):
+    if not value:
+        raise AssertionError(message)
+
+def digest(path):
+    h = hashlib.sha256()
+    with path.open('rb') as stream:
+        for part in iter(lambda: stream.read(8 << 20), b''):
+            h.update(part)
+    return h.hexdigest()
+
+def safe(relative):
+    require(isinstance(relative, str) and '\\' not in relative and ':' not in relative, 'relative metadata only')
+    p = PurePosixPath(relative)
+    require(not p.is_absolute() and p.as_posix() == relative and '..' not in p.parts, 'path alias')
+    low = [x.lower() for x in p.parts]
+    panels = {f'configs/manifests/formal_main_v2/{s}/initial_states/development.json' for s in ('libero_10','libero_spatial','libero_object','libero_goal')}
+    state = any(stem in part for part in low for stem in ('init_state','initial_state','final_state','test_state'))
+    require(not any('sealed' in x or x in {'weights','checkpoints','test'} for x in low), 'forbidden path')
+    require(p.suffix.lower() not in {'.pt','.pth','.bin','.ckpt','.safetensors','.npz','.npy','.pkl','.pickle','.init','.pruned_init'}, 'weight/state payload')
+    require('final_registry' not in relative and p.name not in {'panel.json','state.json'}, 'state payload')
+    require(not state or p.suffix == '.py' or relative in panels, 'unregistered initial state')
+    target = ROOT / relative
+    require(target.absolute() == target.resolve() and ROOT in target.resolve().parents, 'resolved path alias')
+    require(not any(x.is_symlink() for x in (target,*target.parents)), 'symlink')
+    return target
+
+def record(relative, expected=None):
+    path = safe(relative); actual = digest(path)
+    require(expected is None or actual == expected, 'SHA differs: ' + relative)
+    require(relative not in seen or seen[relative] == actual, 'changed read: ' + relative)
+    seen[relative] = actual
+    return path
+
+def read(relative, expected=None):
+    return json.loads(record(relative, expected).read_bytes())
+
+def load(relative, name):
+    path = record(relative)
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec); sys.modules[name] = module
+    exec(compile(path.read_bytes(), str(path), 'exec'), module.__dict__)
+    return module
+
+def mark(name):
+    checks.append(name); print('PASS', name, flush=True)
+
+def main():
+    started = time.monotonic()
+    require(not (HERE / 'independent_review.json').exists(), 'review exists')
+    record(__file__.replace('\\','/').removeprefix(ROOT.as_posix() + '/'))
+    pins = {
+        'candidate_preparation_review_a2.json':'ac9ac52dab38adcd68f1047739ea064ef3d07d8e69679b3d1107f9938f169ef8',
+        'typed_candidate_independent_a2.json':'737ffb586b0620dd4a4e034a73662208b08328ab7dc381a7b1f9acd2a052c3a1',
+        'root_acceptance_draft_a2.json':'8188e041ba3eb78d5ce0ac3ed69063c2f3002957fe64282ab60455d4ea560c44',
+        'gpu_registration_candidate_a2.json':'193eaed7e5121a9ff76a71b86c1fd298320dccb1c63e6d7c854e30c54adb21f8',
+    }
+    docs = {n:read(CAND+n,h) for n,h in pins.items()}
+    prep,typed,root,reg = (docs[n] for n in pins)
+    for rel,h in prep['read_evidence_sha256'].items(): record(rel,h)
+    for ref in prep['outputs'].values(): record(ref['path'],ref['sha256'])
+    repair = read(CAND+'preparation_field_repair_a2.json')
+    for rel,h in repair['original_files_sha256'].items(): record(rel,h)
+    mark('pinned_candidates_289_preparation_inputs_and_preserved_a1_failure_bytes')
+    historical = {}
+    for n,k in [('action_execution_transport_v2_CPU_root_0626.json','evidence_sha256'),('action_execution_transport_v2_independent_0626.json','read_evidence_sha256'),('action_execution_transport_v2_author_0626.json','read_evidence_sha256')]:
+        d=read('results/formal_main_v2/preflight/'+n); historical[n]=d
+        for rel,h in d[k].items(): record(rel,h)
+    for rel in ['.local/action_execution_gpu_transport_independent_0626/tests_a1.xml','.local/action_execution_gpu_dispatch_transport_v2_0626/pytest_a1.xml']:
+        tree=ET.fromstring(record(rel).read_bytes()); suites=list(tree.iter('testsuite'))
+        require(sum(int(x.attrib['tests']) for x in suites)==12 and all(int(x.attrib.get(k,0))==0 for x in suites for k in ('failures','errors','skipped')), 'historical 12-test XML differs')
+    require(typed['derivation_kind']=='typed_metadata_projection_of_existing_independent_CPU_evidence', 'projection misrepresented')
+    mark('existing_author12_and_independent12_raw_XML_and_all_referenced_bytes_no_new_test_claim')
+    failure=read('results/formal_main_v2/preflight/action_execution_gpu_submission_0626.json')
+    absent=read('results/formal_main_v2/preflight/action_execution_gpu_dispatch_absence_0626.json')
+    require(failure['exit_code']==1 and 'WinError 206' in failure['stderr'] and 'observed = remote_hashes(f, watched)' in failure['stderr'], 'v1 failure boundary')
+    require(absent['returncode']==0 and absent['stderr']=='' and all(v=={'exists':False,'is_symlink':False} for v in absent['paths'].values()), 'absence proof')
+    require(hashlib.sha256(absent['probe_program'].encode()).hexdigest()==absent['program_sha256'], 'absence program SHA')
+    mark('v1_failure_and_root_remote_absence_attestation_retained_not_requeried')
+    for name in ['launcher.py','submit.py','probe.slurm','probe.py','candidate_manifest.json']:
+        a=record(V1+name).read_bytes(); b=record(V2+name).read_bytes()
+        if name=='submit.py':
+            old=b"    value = json.loads(f.remote(shlex.quote(c.H + '/venv/bin/python') + ' -c ' + shlex.quote(script)))"
+            new=(b"    # Send the potentially large source/path payload through stdin, not Windows argv.\n"
+                 b"    command = shlex.quote(c.H + '/venv/bin/python') + ' -B -'\n"
+                 b"    value = json.loads(subprocess.check_output(f.SSH + [command], input=script,\n"
+                 b"        text=True, encoding='utf-8'))")
+            require(a.count(old)==1 and a.replace(old,new)==b, 'submit exact delta')
+        else:
+            require(a.replace(b'formal_main_v2_action_execution_compat_gpu_v1',b'formal_main_v2_action_execution_compat_gpu_v2').replace(b'root-action-execution-engineering-dispatch-v1',b'root-action-execution-engineering-dispatch-v2-stdin')==b, 'v2 exact delta: '+name)
+    mark('all_five_v1_to_v2_file_deltas_exact_no_policy_or_manifest_change')
+    c=load(V2+'launcher.py','_independent_v2_launcher')
+    probe=load(V2+'probe.py','_independent_v2_probe')
+    mf=V2+'candidate_manifest.json'; manifest=read(mf)
+    prepared=probe.prepare(ROOT,ROOT,mf,seen[mf])
+    for absolute,h in prepared['evidence'].seen.items():
+        record(Path(absolute).relative_to(ROOT).as_posix(),h)
+    require(len(prepared['inventory']['files'])==173 and manifest['limits']==c.LIMITS and manifest['method_order']==list(c.METHODS), 'bounded manifest')
+    selected=[]
+    for suite in c.SUITES:
+        row=manifest['suites'][suite]
+        require(row['state']['task_id']==0 and row['state']['source_state_index']==probe.STATE_INDICES[suite], 'fixed state')
+        for method in row['methods'][2:]:
+            selected.append(dict(suite=suite,method_id=method['identity']['method_id'],selected_update=method['selected_update'],checkpoint_path=method['checkpoint'],checkpoint_sha256=method['identity']['checkpoint_sha256']))
+    require(len(selected)==8, 'selected count')
+    mark('actual_probe_CPU_prepare_source173_four_development_panels_eight_5000_selected_chains')
+    closure=read(CAND+'deployment_closure_a2.json')
+    planned=root['candidate_independent_review']['path']
+    require(root['candidate_independent_review']['sha256']==pins['typed_candidate_independent_a2.json'], 'planned projection hash')
+    expected={}
+    def need(rel,h,server=None):
+        c.lexical_relative(rel); c.valid_sha(h); server=server or P+'/'+rel
+        require(server not in expected or expected[server]==(rel,h), 'conflicting expected mapping')
+        expected[server]=(rel,h)
+    for rel,h in prepared['inventory']['files'].items(): need(rel,h,S+'/'+rel)
+    for rel,h in manifest['read_evidence_sha256'].items(): need(rel,h)
+    for rel,h in root['evidence_sha256'].items(): need(rel,h)
+    for d in (typed,root):
+        for ref in d['candidate_files'].values(): need(ref['path'],ref['sha256'])
+    for key,ref in reg['cpu_reviews'].items():
+        if key!='root_acceptance': need(ref['path'],ref['sha256'])
+    for rel,h in [(c.INVENTORY,c.INVENTORY_SHA),(mf,seen[mf]),(V2+'probe.py',seen[V2+'probe.py']),(c.ADAPTER,c.ADAPTER_SHA),(c.SUPERVISOR,c.SUPERVISOR_SHA)]: need(rel,h)
+    def walk(v):
+        if isinstance(v,dict):
+            if 'path' in v and 'sha256' in v and not str(v['path']).startswith('/'): need(v['path'],v['sha256'])
+            for x in v.values(): walk(x)
+        elif isinstance(v,list):
+            for x in v: walk(x)
+    walk(manifest)
+    for row in manifest['suites'].values():
+        for contract in row['compatibility'].values():
+            for rel,h in contract['files'].items(): need(rel,h)
+    rows=root['deployment_files']
+    require(rows==closure['deployment_files'] and len(rows)==293, 'closure rows')
+    require(len({x['server'] for x in rows})==293 and sum(x['server'].startswith(S+'/') for x in rows)==173, 'P/S counts')
+    actual={}
+    for row in rows:
+        rel,h=row['path'],row['sha256']; server=row['server']
+        require(set(row)=={'path','server','sha256','bytes'}, 'row shape')
+        path=record(CAND+'typed_candidate_independent_a2.json' if rel==planned else rel,h)
+        require(path.stat().st_size==row['bytes'], 'row byte count')
+        require(server==P+'/'+rel or (server==S+'/'+rel and prepared['inventory']['files'].get(rel)==h), 'server alias')
+        actual[server]=(rel,h)
+    require(actual==expected, 'independently reconstructed closure differs')
+    require(all(rel not in (root['gpu_registration_path'],reg['cpu_reviews']['root_acceptance']['path']) for rel,h in actual.values()), 'hash cycle')
+    mark('exact293_closure_173S_120P_one_explicit_pending_typed_path_projection_no_cycles')
+    intent=read(CAND+'registration_intent_a2.json')
+    def signature(v): return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False).encode()).hexdigest()
+    def calc(v):
+        x=copy.deepcopy(v); del x['cpu_reviews']['root_acceptance']; return signature(x)
+    require(calc(reg)==intent['pending_registration_intent_sha256']==root['gpu_registration_intent_sha256'], 'pending intent')
+    proposed=copy.deepcopy(reg);proposed.update(status='registered_single_attempt',gpu_submission_authorized=True)
+    require(calc(proposed)==intent['proposed_registered_intent_sha256']==root['proposed_registered_intent_sha256'], 'proposed intent')
+    changed=copy.deepcopy(proposed); changed['cpu_reviews']['root_acceptance']['sha256']='1'*64
+    require(calc(changed)==calc(proposed), 'root SHA breaks cycle')
+    changed['limits']['cells']=17
+    require(calc(changed)!=calc(proposed), 'semantic fields excluded from intent')
+    require(reg['status']=='pending_root_acceptance' and reg['gpu_submission_authorized'] is False and root['status']=='pending_root_acceptance' and root['root_approved'] is False, 'draft prematurely authorized')
+    mark('intent_independently_rehashed_only_root_reference_excluded_pending_not_authorized')
+    cli=read(CAND+'cli_parameters_a2.json')
+    command=cli['actual_draft_check_only_command']
+    require(command[-1]=='--check-only' and '--submit' not in command, 'nonreadonly command')
+    run=subprocess.run(command,cwd=ROOT,capture_output=True,text=True,encoding='utf-8')
+    require(run.returncode!=0 and 'root GPU contract differs' in run.stderr, 'pending draft accepted')
+    with (HERE/'pending_check_only.json').open('x',encoding='utf-8',newline='\n') as f:
+        json.dump(dict(command=command,returncode=run.returncode,stdout=run.stdout,stderr=run.stderr),f,ensure_ascii=False,indent=2);f.write('\n')
+    mark('actual_pending_check_only_rejected_before_remote_or_supervisor_import')
+    # Reuse only the explicitly synthetic immutable metadata fixture; execute no prepare or main.
+    mirror=ROOT/CAND/'synthetic_shape_only_project_a2'
+    synthetic_root_path='results/formal_main_v2/preflight/action_execution_gpu_v2_candidate_root_0840.json'
+    synthetic_reg_path='configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json'
+    sr=json.loads((mirror/synthetic_root_path).read_bytes()); sg=json.loads((mirror/synthetic_reg_path).read_bytes())
+    require(sr['synthetic_contract_shape_test_only'] and sg['synthetic_contract_shape_test_only'] and sr['root_approved'] is False, 'unlabeled synthetic fixture')
+    checked=c.check_contract(mirror,root_ref=dict(path=synthetic_root_path,sha256=digest(mirror/synthetic_root_path)),manifest_ref=dict(path=mf,sha256=seen[mf]),registration_ref=dict(path=synthetic_reg_path,sha256=digest(mirror/synthetic_reg_path)))
+    require(len(checked['watched_files'])==295, 'approved synthetic full closure')
+    for row in checked['deployment_files']:
+        record((mirror/row['path']).relative_to(ROOT).as_posix(),row['sha256'])
+    mark('original_launcher_accepts_labeled_synthetic295_metadata_shape_only')
+    # Two targeted gate negatives exercise the actual leaf using an in-memory receipt view.
+    original=c.read_ref
+    root_ref=dict(path=synthetic_root_path,sha256=digest(mirror/synthetic_root_path))
+    for mutation in ('root_pending','missing_candidate_source_binding'):
+        def fake(project,ref):
+            d=original(project,ref)
+            if ref==root_ref:
+                if mutation=='root_pending': d['status']='pending_root_acceptance'
+                else: d['evidence_sha256'].pop(d['candidate_files']['probe']['path'])
+            return d
+        c.read_ref=fake
+        try:
+            c.check_cpu_review(mirror,sg['cpu_reviews']['root_acceptance'],'root_acceptance',typed['candidate_identity'])
+        except ValueError: pass
+        else: raise AssertionError('negative CPU gate accepted: '+mutation)
+        finally: c.read_ref=original
+        mark('typed_gate_rejects_'+mutation)
+    prepared['evidence'].unchanged()
+    for rel,h in seen.items(): require(digest(safe(rel))==h, 'input changed at end: '+rel)
+    mark('all_read_inputs_and_173_frozen_files_unchanged')
+    record((HERE/'pending_check_only.json').relative_to(ROOT).as_posix())
+    report=dict(schema='formal_main_v2',kind='bounded_v2_GPU_registration_candidate_independent_review',
+        status='passed_local_registration_audit_pending_actual_root_adoption_registration_and_GPU',reviewer='deploy64',reviewed_utc=datetime.now(timezone.utc).isoformat(),
+        candidate_preparation=dict(path=CAND+'candidate_preparation_review_a2.json',sha256=pins['candidate_preparation_review_a2.json']),
+        candidate_files={n:dict(path=CAND+n,sha256=h) for n,h in pins.items()},candidate_identity=typed['candidate_identity'],
+        checks=checks,blockers=[],deployment_closure=dict(candidate_rows=293,source_S_rows=173,project_P_rows=120,after_actual_root_and_registration_rows=295,planned_typed_alias=dict(path=planned,local_source=CAND+'typed_candidate_independent_a2.json',sha256=pins['typed_candidate_independent_a2.json'])),
+        fixed_cells=dict(suites=list(c.SUITES),methods=list(c.METHODS),task_id=0,source_state_indices=[0,3,5,7],cells=16,limits=c.LIMITS,selected_checkpoints=selected),
+        historical_CPU_tests=dict(author_transport12=True,independent_transport12=True,rerun_here=False,original_XML_bytes_verified=True),
+        this_audit=dict(check_groups=len(checks),elapsed_seconds=time.monotonic()-started,pytest_suite_rerun=False,actual_probe_prepare=True,actual_pending_CLI_rejected=True,synthetic_contract_shape_and_two_negative_gates=True),
+        original_failure=dict(path='results/formal_main_v2/preflight/action_execution_gpu_submission_0626.json',sha256=seen['results/formal_main_v2/preflight/action_execution_gpu_submission_0626.json'],GPU_seconds=0,no_publication_basis='Root historical server-only absence receipt plus preserved traceback and unchanged statement order; not a fresh remote query by this reviewer.'),
+        scope=dict(SSH_calls=0,Slurm_submissions=0,GPU_calls=0,Git_writes=0,real_supervisor_state_reads=0,real_supervisor_state_writes=0,weights_read=False,final_states_opened=False,candidate_files_changed=False),
+        required_root_steps=['Adopt the exact typed projection without relabeling historical test runs; publish its original bytes at the registered path.', 'Create a separate actual root approval and registered v2 contract; set approved status, registered intent, root SHA then final registration SHA. Pending draft hashes cannot authorize submission.', 'Run original check-only using final root/manifest/registration SHA; then only root may use original locked fresh-capacity/absent-attempt/immutable-publication/one-shot submit path.', 'Actual SSH, server checkpoint and controller identities, 16-cell GPU behavior and resulting raw evidence still require actual execution and independent root review; no scientific rollout/reuse/release is granted.'],
+        read_evidence_sha256=dict(sorted(seen.items())))
+    with (HERE/'independent_review.json').open('x',encoding='utf-8',newline='\n') as f:
+        json.dump(report,f,ensure_ascii=False,indent=2);f.write('\n')
+    print(json.dumps(dict(status=report['status'],check_groups=len(checks),evidence_count=len(seen),receipt_sha256=digest(HERE/'independent_review.json')),ensure_ascii=False),flush=True)
+
+if __name__=='__main__':
+    main()

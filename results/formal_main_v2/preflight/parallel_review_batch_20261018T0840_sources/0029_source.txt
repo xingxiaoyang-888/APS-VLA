@@ -1,0 +1,19 @@
+# v2 GPU 登记候选（未批准）
+
+仅在本目录准备；不发布、不 SSH、不提交、不改真实监督状态或 Git。中断前只写了 `prepare.py`，恢复记录见 `interruption_record.json`。
+
+`typed_candidate_independent.json` 是 train64 已完成 v2 独立 CPU 审查的明确类型投影；它绑定新 probe SHA、原 manifest 和原 adapter。它不是新的独立测试，也不是 root 批准。v1 的 53/32/22 项仅作为未变代码的历史证据，未冒称在 v2 重跑。v1 WinError206、零新增 GPU 及未发布证明继续绑定。
+
+`root_acceptance_draft.json` 保留 `pending_root_acceptance`，`gpu_registration_candidate.json` 保留 `gpu_submission_authorized=false`。它们包含完整 P/S 部署闭包、既定 16 格、1 L40/3600秒/单次、selected checkpoint 身份及避环 intent。`registration_intent.json` 区分实际 pending intent 与仅供 root 复算的 proposed registered intent。
+
+`prepare.py` 会做最小验证：真实 `--check-only` 拒绝未批准草案；仅在本目录 `synthetic_shape_only_project` 使用明显标记的批准状态替身，校验同一完整闭包能通过真实 `--check-only` 及 probe 的 `validate_cpu_reviews`。这个镜像没有监督状态、不能作为真实批准，禁止将镜像收据直接发布。它不运行 probe GPU 函数。结果保存在 `selftest_executions.json` 与 `candidate_preparation_review.json`。
+
+root 最少集成步骤：
+
+1. 独立确认派生依据、实际新 SHA、完整闭包和 scope，然后将 typed independent 原字节发布至 `results/formal_main_v2/preflight/action_execution_gpu_v2_candidate_independent_0840.json`。
+2. 基于草案创建新的真实 root receipt；明确实际批准及时间，不修改旧收据。最终 root 路径为 `results/formal_main_v2/preflight/action_execution_gpu_v2_candidate_root_0840.json`。
+3. 最终登记路径为 `configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json`。root 批准后将登记 status 设为 `registered_single_attempt`、`gpu_submission_authorized=true`；先重算移除 `cpu_reviews.root_acceptance` 后的 intent，写入新 root receipt，再计算 root SHA 并写入登记，最后计算登记 SHA。root receipt 的部署列表不能加入自身或最终登记而形成环。
+4. 用最终 root、原 manifest 和最终登记三个 SHA 运行真实项目 `--check-only`。`cli_parameters.json` 仅给草案三个 SHA 及必须拒绝的命令，不能当最终命令。正式授权参数必须根据最终文件重新生成。
+5. root 在统一锁内刷新所有请求，空槽且无 pending/重复 stage 才可单次提交。此前 v1 无 GPU 作业，不是对旧 Object trial 的自动重跑；final 仍封存。
+
+新 stage/output/source/invocation 均为 `formal_main_v2_action_execution_compat_gpu_v2`；不跨版本共享输出或覆盖 v1。四个 development 面板只按既有清单读取/校验，无 final 状态或权重读取。

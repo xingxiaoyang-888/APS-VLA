@@ -1,0 +1,11 @@
+--- results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm
++++ results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.slurm
+@@ -34,7 +34,7 @@
+ from pathlib import Path
+ import hashlib,json,os,re,sys
+ p='/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA'
+-stage='formal_main_v2_action_execution_compat_gpu_v2'
++stage='formal_main_v2_action_execution_compat_gpu_v3'
+ invocation,expected,wrapper=sys.argv[1:]
+ if invocation != p+'/results/formal_main_v2/invocations/'+stage+'_attempt01.json' or not re.fullmatch('[0-9a-f]{64}',expected):
+     raise ValueError('unregistered invocation')

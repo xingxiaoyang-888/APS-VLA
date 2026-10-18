@@ -1,0 +1,45 @@
+--- scripts/ops/formal_action_execution_compat.py
++++ candidate/adapter.py
+@@ -20,7 +20,7 @@
+ import weakref
+ from types import CodeType, FunctionType, ModuleType
+ 
+-VERSION = "formal-main-v2-controller-exec-cpu-candidate-v2-constructor-identity"
++VERSION = "formal-main-v2-controller-exec-cpu-candidate-v3-full-module-constructor-identity"
+ REGISTRATION = "configs/experiments/formal_main_v2_action_execution_compat_v1.json"
+ REGISTRATION_SHA256 = "0917bff60e632a5be3c2db50b16daa0b904e4754a3ba31334802060f75d3eefe"
+ INVENTORY = "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json"
+@@ -170,6 +170,10 @@
+         if isinstance(node, ast.ClassDef) and node.name == "PolicyChunk"]
+     if len(nodes) != 1:
+         raise ValueError("unknown frozen PolicyChunk class definition")
++    # Source-defined methods need the original module symbol-table context.
++    # Compile the pinned whole file, but never execute its module body here.
++    full_source_code = compile(source_bytes, runtime.run_episode.__code__.co_filename,
++        "exec", dont_inherit=True)
+     namespace = {}
+     exec(compile(ast.Module(body=nodes, type_ignores=[]), runtime.run_episode.__code__.co_filename,
+         "exec", flags=__future__.annotations.compiler_flag, dont_inherit=True), runtime.__dict__, namespace)
+@@ -179,10 +183,12 @@
+     hashes = {}
+     for name in _CONSTRUCTION_FUNCTIONS:
+         actual, expected = cls.__dict__.get(name), reference.__dict__.get(name)
++        expected_code = (_code_in(full_source_code, ["PolicyChunk", name])
++            if name == "__post_init__" else expected.__code__)
+         if (type(actual) is not FunctionType or type(expected) is not FunctionType
+                 or actual.__globals__ is not runtime.__dict__ or actual.__module__ != expected.__module__
+                 or actual.__name__ != expected.__name__ or actual.__qualname__ != expected.__qualname__
+-                or code_sha256(actual.__code__) != code_sha256(expected.__code__)
++                or code_sha256(actual.__code__) != code_sha256(expected_code)
+                 or actual.__defaults__ != expected.__defaults__ or actual.__kwdefaults__ != expected.__kwdefaults__
+                 or actual.__annotations__ != expected.__annotations__ or actual.__dict__ != expected.__dict__):
+             raise ValueError("unknown PolicyChunk construction function: " + name)
+@@ -196,6 +202,8 @@
+         hashes[name] = code_sha256(actual.__code__)
+     return {"exact_frozen_class_AST_sha256": signature(ast_text(nodes[0])),
+         "same_runtime_reference": True, "metaclass": "builtins.type", "base": "builtins.object",
++        "source_defined_code_reference": "full_frozen_module_compile_without_execution",
++        "generated_code_reference": "same_runtime_frozen_class_dataclass",
+         "construction_function_code_sha256": hashes, "code_marshal_version": CODE_MARSHAL_VERSION}
+ 
+ 

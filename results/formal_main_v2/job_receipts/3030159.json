@@ -1,0 +1,59 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "bounded_engineering_launcher_receipt",
+  "version": "root-action-execution-engineering-dispatch-v2-stdin",
+  "job_id": "3030159",
+  "stage": "engineering",
+  "stage_key": "formal_main_v2_action_execution_compat_gpu_v2",
+  "invocation_sha256": "61e59882add6eb834e26750349b5cf1fb3fa75ed48f54c91649b06f13d8abe86",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "entrypoint_sha256": "dacf60d5fefe55a5e885abaa864d444f20b106f05acc09e5d0b9cbef1495f1cd",
+  "manifest": {
+    "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/candidate_manifest.json",
+    "sha256": "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04"
+  },
+  "gpu_registration": {
+    "path": "configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json",
+    "sha256": "947d3bdd5d0ec54031a546b8fcfe51d2a923861497c4a541b65bca14d21ce8a7"
+  },
+  "root_review": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_v2_candidate_root_0840.json",
+    "sha256": "dadac29e10dd520b8cc6668e791a2e4d49caca0e6b490b072cb6f4e84e4c8205"
+  },
+  "watched_inputs_verified_before": true,
+  "watched_inputs_verified_after": true,
+  "started_utc": "2026-10-18T13:35:52.853807+00:00",
+  "finished_utc": "2026-10-18T13:37:15.596302+00:00",
+  "wall_seconds": 82.74253134429455,
+  "exit_code": 1,
+  "error": null,
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.py",
+    "--project-root",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+    "--source-root",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+    "--manifest",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/candidate_manifest.json",
+    "--manifest-sha256",
+    "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    "--gpu-registration",
+    "configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json",
+    "--gpu-registration-sha256",
+    "947d3bdd5d0ec54031a546b8fcfe51d2a923861497c4a541b65bca14d21ce8a7",
+    "--job-id",
+    "3030159",
+    "--script-sha256",
+    "dacf60d5fefe55a5e885abaa864d444f20b106f05acc09e5d0b9cbef1495f1cd",
+    "--execute-gpu"
+  ],
+  "output": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/3030159",
+  "expected_engineering_cells": 16,
+  "scientific_trials": 0,
+  "final_states_opened": false,
+  "scientific_completion_inferred": false,
+  "allocation_cost_must_be_accounted_by_root": true,
+  "status": "failed"
+}

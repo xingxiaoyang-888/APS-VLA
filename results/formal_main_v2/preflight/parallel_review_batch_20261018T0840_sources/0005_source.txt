@@ -1,0 +1,120 @@
+"""CPU-only constructor identity regression, portable to the server interpreter.
+
+Imports the actual frozen low-dependency runtime, never the model, simulator,
+formal evaluation loop or any state panel. All mutations are in-memory and are
+restored immediately; registered files are checked unchanged before returning.
+"""
+from __future__ import annotations
+import __future__
+import argparse
+import ast
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+CANDIDATE_SHA='b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185'
+ORIGINAL_SHA='958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863'
+RUNTIME_SHA='2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781'
+INVENTORY='results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+INVENTORY_SHA='5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926'
+
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def load(path,name):
+    spec=importlib.util.spec_from_file_location(name,path)
+    mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod);return mod
+
+def run(project,source,candidate):
+    sys.dont_write_bytecode=True
+    project,source,candidate=Path(project).resolve(),Path(source).resolve(),Path(candidate).resolve()
+    assert sha(candidate)==CANDIDATE_SHA
+    original=project/'scripts/ops/formal_action_execution_compat.py'
+    assert sha(original)==ORIGINAL_SHA
+    inventory=project/INVENTORY
+    assert sha(inventory)==INVENTORY_SHA
+    frozen=json.loads(inventory.read_bytes())['files']
+    assert len(frozen)==173 and all(sha(source/p)==h for p,h in frozen.items())
+    runtime_path=source/'src/cti_vla/evaluation/libero_runtime.py'
+    assert sha(runtime_path)==RUNTIME_SHA
+    raw=runtime_path.read_bytes()
+    sys.path.insert(0,str(source/'src'))
+    from cti_vla.evaluation import libero_runtime as runtime
+    assert Path(runtime.__file__).resolve()==runtime_path
+    assert not any(x in sys.modules for x in ('torch','tensorflow','mujoco','robosuite'))
+    old=load(original,'registered_constructor_adapter')
+    new=load(candidate,'candidate_constructor_adapter')
+    filename=runtime.run_episode.__code__.co_filename
+    full=compile(raw,filename,'exec',dont_inherit=True)
+    isolated_nodes=[n for n in ast.parse(raw).body if isinstance(n,ast.ClassDef) and n.name=='PolicyChunk']
+    isolated=compile(ast.Module(body=isolated_nodes,type_ignores=[]),filename,'exec',
+        flags=__future__.annotations.compiler_flag,dont_inherit=True)
+    actual=runtime.PolicyChunk.__post_init__.__code__
+    exact=new._code_in(full,['PolicyChunk','__post_init__'])
+    class_only=new._code_in(isolated,['PolicyChunk','__post_init__'])
+    assert new.code_sha256(actual)==new.code_sha256(exact)
+    fields=('co_flags','co_filename','co_name','co_qualname','co_firstlineno','co_code','co_linetable','co_lnotab','co_exceptiontable','co_consts','co_names','co_varnames','co_cellvars','co_freevars')
+    differences=[x for x in fields if hasattr(actual,x) and getattr(actual,x)!=getattr(class_only,x)]
+    actual_scalar={k:getattr(actual,k) for k in ('co_flags','co_filename','co_name','co_firstlineno')}
+    if hasattr(actual,'co_qualname'):actual_scalar['co_qualname']=actual.co_qualname
+    try:old._check_chunk_construction(runtime,raw);previous={'status':'accepted_in_this_python'}
+    except ValueError as exc:previous={'status':'reproduced_failure','error':str(exc)}
+    checks=[]
+    proof=new._check_chunk_construction(runtime,raw)
+    assert proof['source_defined_code_reference']=='full_frozen_module_compile_without_execution'
+    checks.append('actual_frozen_class_passes_exact_full_source_code')
+    original_fn,replacement,derived=new.derive_function(runtime,raw)
+    assert original_fn is runtime.run_episode and derived['removed_if_count']==1 and derived['other_AST_nodes_unchanged'] is True
+    checks.append('derive_retains_one_exact_registered_AST_edit')
+    def rejected(label,change,restore):
+        try:
+            change()
+            try:new._check_chunk_construction(runtime,raw)
+            except ValueError:checks.append(label)
+            else:raise AssertionError('tampered constructor accepted: '+label)
+        finally:restore()
+        new._check_chunk_construction(runtime,raw)
+    function=runtime.PolicyChunk.__post_init__
+    mutations={
+        'postinit_flags':actual.replace(co_flags=actual.co_flags ^ __future__.annotations.compiler_flag),
+        'postinit_filename':actual.replace(co_filename=filename+'.tampered'),
+        'postinit_code':new._code_in(compile(raw.replace(b'value.copy()',b'value'),filename,'exec',dont_inherit=True),['PolicyChunk','__post_init__']),
+        'postinit_constants':actual.replace(co_consts=tuple((9,7) if x==(8,7) else x for x in actual.co_consts)),
+    }
+    if hasattr(actual,'co_qualname'):mutations['postinit_qualname']=actual.replace(co_qualname='Changed.__post_init__')
+    if hasattr(actual,'co_linetable'):mutations['postinit_linetable']=actual.replace(co_linetable=b'')
+    if hasattr(actual,'co_exceptiontable'):mutations['postinit_exceptiontable']=actual.replace(co_exceptiontable=b'\x00')
+    for label,code in mutations.items():
+        rejected(label,lambda code=code:setattr(function,'__code__',code),lambda:setattr(function,'__code__',actual))
+    for name in ('__init__','__setattr__','__delattr__'):
+        f=runtime.PolicyChunk.__dict__[name];oldcode=f.__code__
+        rejected('generated_'+name,lambda f=f,c=oldcode:setattr(f,'__code__',c.replace(co_filename='changed-dataclass')),
+                 lambda f=f,c=oldcode:setattr(f,'__code__',c))
+    defaults=function.__defaults__
+    rejected('postinit_defaults',lambda:setattr(function,'__defaults__',(None,)),lambda:setattr(function,'__defaults__',defaults))
+    qualname=function.__qualname__
+    rejected('postinit_function_qualname',lambda:setattr(function,'__qualname__','Changed.__post_init__'),
+             lambda:setattr(function,'__qualname__',qualname))
+    cls=runtime.PolicyChunk
+    rejected('class_binding',lambda:setattr(runtime,'PolicyChunk',object),lambda:setattr(runtime,'PolicyChunk',cls))
+    # Compare all unchanged original functions as AST, not as a substitute for
+    # runtime identity. Only the private constructor verifier may differ here.
+    funcs=lambda b:{n.name:ast.dump(n,include_attributes=False) for n in ast.parse(b).body if isinstance(n,ast.FunctionDef)}
+    before,after=funcs(original.read_bytes()),funcs(candidate.read_bytes())
+    assert set(before)==set(after) and all(before[k]==after[k] for k in before if k!='_check_chunk_construction')
+    checks.append('all_other_adapter_functions_unchanged')
+    assert all(sha(source/p)==h for p,h in frozen.items()) and sha(original)==ORIGINAL_SHA and sha(candidate)==CANDIDATE_SHA
+    assert not any(x in sys.modules for x in ('torch','tensorflow','mujoco','robosuite'))
+    return dict(schema='formal_main_v2',kind='CPU_constructor_full_module_identity_candidate_check',
+        status='passed_CPU_only',python=sys.version,candidate_sha256=CANDIDATE_SHA,original_sha256=ORIGINAL_SHA,
+        runtime_sha256=RUNTIME_SHA,source173_unchanged=True,previous_verifier=previous,
+        actual_code_sha256=new.code_sha256(actual),full_source_code_sha256=new.code_sha256(exact),
+        isolated_class_code_sha256=new.code_sha256(class_only),isolated_class_different_fields=differences,
+        actual_code_attributes=actual_scalar,constructor_identity=proof,checks=checks,checks_passed=len(checks),
+        no_models_loaded=True,no_environment_created=True,no_GPU_calls=True,torch_imported=False,tensorflow_imported=False,
+        final_states_opened=False,actual_GPU_acceptance='pending_root_registration_and_new_engineering_attempt')
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--project-root',required=True);p.add_argument('--source-root',required=True)
+    p.add_argument('--candidate',required=True);a=p.parse_args()
+    print(json.dumps(run(a.project_root,a.source_root,a.candidate),ensure_ascii=False,indent=2))

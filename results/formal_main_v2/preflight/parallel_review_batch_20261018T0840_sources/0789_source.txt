@@ -1,0 +1,22 @@
+"""Root bounded retry of delivery bookkeeping; no GPU dispatch."""
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,subprocess,sys
+ROOT=Path(__file__).resolve().parents[1]
+source='.local/deliver_parallel_0840_a2.py'
+assert hashlib.sha256((ROOT/source).read_bytes()).hexdigest()=='23fc2a9c2217084b24f1acb60d9c2ea545bcc34b0e5004b6d453c776b443d960'
+review='.local/delivery_guard_a2_0840/independent_review.json'
+assert hashlib.sha256((ROOT/review).read_bytes()).hexdigest()=='d732862009f4678214bc5d2a84dbc8a38768dff1328e79affbc67228a9aead01'
+x=json.loads((ROOT/'.local/delivery_inputs_0840.json').read_bytes());assert not x['issues']
+args=[sys.executable,'-B',source,'--summary','.local/parallel_summary_0840.txt']
+extras=[source,review,'.local/execute_delivery_0840_a2.py','.local/execute_delivery_0840.py',
+ '.local/record_current_failures_0840.py','.local/delivery_inputs_0840.json',
+ '.local/delivery_inputs_0840_a1_pending_review.json','.local/delivery_live_0840.json']
+for n in sorted(set(x['sources'])|set(extras)):args+=['--source',n]
+for n in x['engineering_receipts']+[review,'results/formal_main_v2/preflight/action_gpu_v2_failed_root_0840.json',
+ 'results/formal_main_v2/preflight/parallel_delivery_0840_attempt1.json']:args+=['--engineering-receipt',n]
+r=subprocess.run(args,cwd=ROOT,capture_output=True)
+value=dict(utc=datetime.now(timezone.utc).isoformat(),exit_code=r.returncode,stdout=r.stdout.decode(errors='replace'),stderr=r.stderr.decode(errors='replace'))
+with (ROOT/'.local/delivery_execution_a2.json').open('x',encoding='utf8',newline='\n') as f:json.dump(value,f,ensure_ascii=False,indent=2);f.write('\n')
+print(json.dumps(value,ensure_ascii=False))
+raise SystemExit(r.returncode)

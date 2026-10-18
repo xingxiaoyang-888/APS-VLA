@@ -1,0 +1,40 @@
+--- results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/launcher.py
++++ results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/launcher.py
+@@ -22,9 +22,9 @@
+ H = '/share/home/u15016/XXY_CVPR/CTI-VLA'
+ SOURCE_NAME = 'formal_main_v2_run_564be0995e'
+ S = P + '/snapshots/' + SOURCE_NAME
+-STAGE = 'formal_main_v2_action_execution_compat_gpu_v2'
+-VERSION = 'action-execution-gpu-candidate-0626-v1'
+-DISPATCH_VERSION = 'root-action-execution-engineering-dispatch-v2-stdin'
++STAGE = 'formal_main_v2_action_execution_compat_gpu_v3'
++VERSION = 'action-execution-gpu-candidate-0840-v3-constructor'
++DISPATCH_VERSION = 'root-action-execution-engineering-dispatch-v3-stdin-constructor'
+ BASE = 'results/formal_main_v2/'
+ OUT = BASE + 'engineering/' + STAGE
+ ENTRY = OUT + '/source/probe.py'
+@@ -37,10 +37,10 @@
+ SOURCE_SHA = 'dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e'
+ SUPERVISOR = 'scripts/formal_supervisor.py'
+ SUPERVISOR_SHA = '3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95'
+-ADAPTER = 'scripts/ops/formal_action_execution_compat.py'
+-ADAPTER_SHA = '958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863'
+-ADAPTER_INDEPENDENT_SHA = 'f24ec78fe11fec17c8cb893d0c588132f5bbbf9f6f2ea2d9155a16747f3267ee'
+-ADAPTER_INDEPENDENT_STATUS = 'passed_bounded_CPU_candidate_review_pending_runtime_integration_and_GPU'
++ADAPTER = 'results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py'
++ADAPTER_SHA = 'b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185'
++ADAPTER_INDEPENDENT_SHA = '171b93b145431bdffb9138eea48673e9185dcadbef226e468d0ab140a7a470f1'
++ADAPTER_INDEPENDENT_STATUS = 'passed_CPU_review_GPU_acceptance_pending'
+ SUITES = ('libero_10', 'libero_spatial', 'libero_object', 'libero_goal')
+ METHODS = ('dense', 'uniform128', 'A128_seed17', 'B128_seed17')
+ PANELS = frozenset(f'configs/manifests/formal_main_v2/{s}/initial_states/development.json' for s in SUITES)
+@@ -130,7 +130,8 @@
+     if name == 'action_adapter_independent':
+         require(ref['sha256'] == ADAPTER_INDEPENDENT_SHA and ref['accepted_status'] == receipt.get('status') == ADAPTER_INDEPENDENT_STATUS
+             and receipt.get('schema') == 'formal_main_v2'
+-            and receipt.get('kind') == 'action_execution_compatibility_v2_independent_CPU_review', 'adapter independent CPU gate differs')
++            and receipt.get('kind') == 'action_constructor_identity_independent_CPU_review'
++            and receipt.get('candidate_sha256') == ADAPTER_SHA, 'adapter independent CPU gate differs')
+         return receipt
+     role = {'candidate_independent': 'independent', 'root_acceptance': 'root'}[name]
+     status = 'passed_CPU_' + role + '_review_pending_registered_GPU'

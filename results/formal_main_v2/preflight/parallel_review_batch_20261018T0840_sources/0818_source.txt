@@ -1,0 +1,37 @@
+"""Root explicit one-shot engineering dispatch under scoped node exclusion."""
+from pathlib import Path
+import hashlib, importlib.util, json, sys
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
+import formal_supervisor as f
+
+def load(name,path):
+    spec=importlib.util.spec_from_file_location(name,ROOT/path)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
+def sha(name):return hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+def read(name):return json.loads((ROOT/name).read_bytes())
+def ref(name):return dict(path=name,sha256=sha(name))
+
+REG='configs/experiments/formal_main_v2_action_execution_compat_gpu_v2.json'
+CHECK='results/formal_main_v2/preflight/action_execution_gpu_v2_check_only_0840.json'
+check=read(CHECK)
+assert check['exit_code']==0 and check['GPU_submitted'] is False
+refs={'root_review':check['root_review'],'gpu_registration':check['registration'],'manifest':read(REG)['candidate_manifest']}
+for row in refs.values():assert sha(row['path'])==row['sha256'],row
+tool='results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/submit.py'
+assert sha(tool)=='f5a4efc24f9b77b54ca73bbf0a8626e9ebde9c416ac1305cf4e88cd55ad8b8dc'
+submit=load('_root_action_v2_actual_submit',tool)
+checked=submit.c.check_contract(ROOT,root_ref=refs['root_review'],manifest_ref=refs['manifest'],registration_ref=refs['gpu_registration'])
+POLICY='configs/experiments/formal_main_v2_node_exclusion_v1.json'
+policy=read(POLICY);assert sha(policy['adapter_path'])==policy['adapter_sha256']
+adapter=load('_root_action_node_exclusion',policy['adapter_path'])
+audit='results/formal_main_v2/preflight/node_exclusion_argv_action_gpu_v2_0840.json'
+out='results/formal_main_v2/preflight/action_gpu_v2_submission_result_0840.json'
+assert not (ROOT/out).exists()
+with adapter.exclude_future_sbatch(f,request={'kind':'action_execution_gpu_v2'},registration_ref=ref(POLICY),audit_relative=audit):
+    result=submit.execute_submit(ROOT,checked,refs,f)
+result.update(root_dispatch_source=ref(Path(__file__).relative_to(ROOT).as_posix()),placement_registration=ref(POLICY))
+if (ROOT/audit).exists():result['actual_command_evidence']=ref(audit)
+with (ROOT/out).open('x',encoding='utf-8',newline='\n') as stream:json.dump(result,stream,ensure_ascii=False,indent=2);stream.write('\n')
+print(json.dumps(result,ensure_ascii=False))

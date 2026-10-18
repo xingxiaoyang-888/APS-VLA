@@ -1,0 +1,62 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "CPU_constructor_full_module_identity_candidate_check",
+  "status": "passed_CPU_only",
+  "python": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "candidate_sha256": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+  "original_sha256": "958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863",
+  "runtime_sha256": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+  "source173_unchanged": true,
+  "previous_verifier": {
+    "status": "accepted_in_this_python"
+  },
+  "actual_code_sha256": "1c0940ac6315ecb1b98debe6f1c3a9e397c856acf108b08fce2accf351d2dd28",
+  "full_source_code_sha256": "1c0940ac6315ecb1b98debe6f1c3a9e397c856acf108b08fce2accf351d2dd28",
+  "isolated_class_code_sha256": "1c0940ac6315ecb1b98debe6f1c3a9e397c856acf108b08fce2accf351d2dd28",
+  "isolated_class_different_fields": [],
+  "actual_code_attributes": {
+    "co_flags": 16777283,
+    "co_filename": "F:\\CTI-VLA\\src\\cti_vla\\evaluation\\libero_runtime.py",
+    "co_name": "__post_init__",
+    "co_firstlineno": 228
+  },
+  "constructor_identity": {
+    "exact_frozen_class_AST_sha256": "7c3743b5517af3ee339e21229790250f37bf1586329aa0e0e815a39fe420fb69",
+    "same_runtime_reference": true,
+    "metaclass": "builtins.type",
+    "base": "builtins.object",
+    "source_defined_code_reference": "full_frozen_module_compile_without_execution",
+    "generated_code_reference": "same_runtime_frozen_class_dataclass",
+    "construction_function_code_sha256": {
+      "__init__": "914b815e11ce127e6d354d66dab11978d58a1cf9d2e902c2537f981143a23403",
+      "__post_init__": "1c0940ac6315ecb1b98debe6f1c3a9e397c856acf108b08fce2accf351d2dd28",
+      "__setattr__": "0cd208f5292eadcffa8f48e9c06762a0d486906c4633086594f708f50227ef42",
+      "__delattr__": "90f8928011f58c8fe1ba29312f2234a7f58c484c89b31fd64738986ba95bf025"
+    },
+    "code_marshal_version": 2
+  },
+  "checks": [
+    "actual_frozen_class_passes_exact_full_source_code",
+    "derive_retains_one_exact_registered_AST_edit",
+    "postinit_flags",
+    "postinit_filename",
+    "postinit_code",
+    "postinit_constants",
+    "postinit_linetable",
+    "generated___init__",
+    "generated___setattr__",
+    "generated___delattr__",
+    "postinit_defaults",
+    "postinit_function_qualname",
+    "class_binding",
+    "all_other_adapter_functions_unchanged"
+  ],
+  "checks_passed": 14,
+  "no_models_loaded": true,
+  "no_environment_created": true,
+  "no_GPU_calls": true,
+  "torch_imported": false,
+  "tensorflow_imported": false,
+  "final_states_opened": false,
+  "actual_GPU_acceptance": "pending_root_registration_and_new_engineering_attempt"
+}

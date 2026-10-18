@@ -1,0 +1,155 @@
+"""Local-only independent audit of the frozen constructor reference repair."""
+from __future__ import annotations
+import ast
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import time
+from datetime import datetime, timezone
+
+ROOT = Path(__file__).resolve().parents[2]
+OUT = Path(__file__).resolve().parent
+CANDIDATE = '.local/action_constructor_server311_0840/'
+PINS = {
+    CANDIDATE+'adapter.py': 'b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185',
+    CANDIDATE+'cpu_check.py': '43197d176fad9de4b5d6801e1fae3e7889bbc14ce8568d8939f9ae6b072f0e2d',
+    CANDIDATE+'candidate_review.json': '0352c42b7af3375bdcb64dbef588b8a2fdcfd125a402afcb18b0d645f82421c0',
+    'scripts/ops/formal_action_execution_compat.py': '958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863',
+    'results/formal_main_v2/preflight/action_constructor_server311_candidate_cpu_0840.json': '15ba7a1dae8326a03d30f255282d176b5ac173be6491ad66014ea4fa84f5fc80',
+}
+INVENTORY = 'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+def safe(ref):
+    p = Path(ref)
+    assert not p.is_absolute() and '..' not in p.parts
+    low = ref.lower().replace('\\', '/')
+    assert not any(x in low for x in ('sealed', '/initial_states/', '/checkpoints/', '/weights/'))
+    assert p.suffix.lower() not in ('.pt', '.pth', '.bin', '.safetensors')
+    return ROOT/p
+
+def write_json(path, value):
+    with path.open('x', encoding='utf8', newline='\n') as f:
+        json.dump(value, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write('\n')
+
+def main():
+    started = time.perf_counter()
+    for ref, expected in PINS.items():
+        assert sha(safe(ref)) == expected, ref
+    author = json.loads(safe(CANDIDATE+'candidate_review.json').read_bytes())
+    evidence = dict(author['read_evidence_sha256'])
+    evidence.update(PINS)
+    evidence['.local/run_constructor311_candidate_0840.py'] = sha(safe('.local/run_constructor311_candidate_0840.py'))
+    evidence[__file__.replace('\\', '/').split('/CTI-VLA/', 1)[1]] = sha(__file__)
+    inventory = json.loads(safe(INVENTORY).read_bytes())
+    assert len(inventory['files']) == 173
+    for ref, expected in inventory['files'].items():
+        assert ref not in evidence or evidence[ref] == expected
+        evidence[ref] = expected
+    for ref, expected in evidence.items():
+        assert sha(safe(ref)) == expected, ('before', ref)
+    write_json(OUT/'inputs_before.json', evidence)
+
+    original = safe('scripts/ops/formal_action_execution_compat.py').read_bytes()
+    candidate = safe(CANDIDATE+'adapter.py').read_bytes()
+    assert safe(CANDIDATE+'adapter.before.py.txt').read_bytes() == original
+    before, after = ast.parse(original), ast.parse(candidate)
+    assert len(before.body) == len(after.body)
+    changed = []
+    for old, new in zip(before.body, after.body):
+        if ast.dump(old, include_attributes=False) != ast.dump(new, include_attributes=False):
+            if isinstance(old, ast.Assign) and isinstance(new, ast.Assign):
+                assert len(old.targets) == len(new.targets) == 1
+                assert old.targets[0].id == new.targets[0].id == 'VERSION'
+                assert old.value.value == 'formal-main-v2-controller-exec-cpu-candidate-v2-constructor-identity'
+                assert new.value.value == 'formal-main-v2-controller-exec-cpu-candidate-v3-full-module-constructor-identity'
+                changed.append('VERSION')
+            else:
+                assert isinstance(old, ast.FunctionDef) and isinstance(new, ast.FunctionDef)
+                assert old.name == new.name == '_check_chunk_construction'
+                changed.append(old.name)
+    assert changed == ['VERSION', '_check_chunk_construction']
+    assert author['failed_GPU_seconds_retained'] == 85 and author['failed_job'] == '3030159'
+    assert author['constructor_checks_weakened'] is False
+
+    results = []
+    for tag, executable, count in (
+        ('python310', 'C:/Users/augus/AppData/Local/Programs/Python/Python310/python.exe', 14),
+        ('python312', 'C:/Users/augus/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe', 16),
+    ):
+        command = [executable, '-B', str(safe(CANDIDATE+'cpu_check.py')),
+            '--project-root', str(ROOT), '--source-root', str(ROOT),
+            '--candidate', str(safe(CANDIDATE+'adapter.py'))]
+        t = time.perf_counter()
+        run = subprocess.run(command, cwd=ROOT, capture_output=True, timeout=120)
+        stdout_path, stderr_path = OUT/(tag+'.stdout.json'), OUT/(tag+'.stderr.log')
+        with stdout_path.open('xb') as f: f.write(run.stdout)
+        with stderr_path.open('xb') as f: f.write(run.stderr)
+        execution = dict(command=command, exit_code=run.returncode,
+            wall_seconds=time.perf_counter()-t, stdout=stdout_path.relative_to(ROOT).as_posix(),
+            stdout_sha256=sha(stdout_path), stderr=stderr_path.relative_to(ROOT).as_posix(),
+            stderr_sha256=sha(stderr_path))
+        write_json(OUT/(tag+'.execution.json'), execution)
+        assert run.returncode == 0 and run.stderr == b'', execution
+        report = json.loads(run.stdout)
+        assert report['status'] == 'passed_CPU_only' and report['checks_passed'] == count
+        assert len(report['checks']) == len(set(report['checks'])) == count
+        assert report['candidate_sha256'] == PINS[CANDIDATE+'adapter.py']
+        assert report['original_sha256'] == PINS['scripts/ops/formal_action_execution_compat.py']
+        assert report['actual_code_sha256'] == report['full_source_code_sha256']
+        assert report['source173_unchanged'] and report['no_GPU_calls']
+        assert report['no_models_loaded'] and report['no_environment_created']
+        assert not report['torch_imported'] and not report['tensorflow_imported'] and not report['final_states_opened']
+        if tag == 'python312':
+            assert report['previous_verifier']['status'] == 'reproduced_failure'
+            assert report['isolated_class_different_fields'] == ['co_code']
+        results.append(dict(interpreter=tag, execution=execution, report=report))
+
+    remote_ref = 'results/formal_main_v2/preflight/action_constructor_server311_candidate_cpu_0840.json'
+    remote = json.loads(safe(remote_ref).read_bytes())
+    remote_report = json.loads(remote['stdout'])
+    assert remote['exit_code'] == remote['SSH_exit_code'] == remote['GPU_seconds'] == 0
+    assert remote['stderr'] == remote['SSH_stderr'] == ''
+    assert remote_report['status'] == 'passed_CPU_only' and remote_report['checks_passed'] == 16
+    assert remote_report['python'].startswith('3.11.7 ')
+    assert remote_report['previous_verifier']['status'] == 'reproduced_failure'
+    assert remote_report['actual_code_sha256'] == remote_report['full_source_code_sha256']
+    assert remote_report['candidate_sha256'] == PINS[CANDIDATE+'adapter.py']
+    assert remote_report['source173_unchanged'] and remote_report['no_GPU_calls']
+    assert not remote_report['torch_imported'] and not remote_report['final_states_opened']
+    for ref, expected in evidence.items():
+        assert sha(safe(ref)) == expected, ('after', ref)
+    write_json(OUT/'inputs_after.json', evidence)
+    for path in sorted(OUT.iterdir()):
+        if path.is_file() and path.name != 'audit.log':
+            evidence[path.relative_to(ROOT).as_posix()] = sha(path)
+    receipt = dict(schema='formal_main_v2', kind='action_constructor_identity_independent_CPU_review',
+        version='server311-full-module-code-reference-independent-v1', status='passed_CPU_review_GPU_acceptance_pending',
+        observed_utc=datetime.now(timezone.utc).isoformat(), candidate_sha256=PINS[CANDIDATE+'adapter.py'],
+        cpu_check_sha256=PINS[CANDIDATE+'cpu_check.py'], candidate_review_sha256=PINS[CANDIDATE+'candidate_review.json'],
+        exact_AST_changed_nodes=changed, all_other_adapter_AST_nodes_unchanged=True,
+        strict_code_marshal_version=2, code_identity_fields_normalized_or_omitted=False,
+        local_CPU_runs=results, independently_rerun_checks=30,
+        root_server311_evidence=dict(path=remote_ref, sha256=PINS[remote_ref], checks_passed=16,
+            independently_connected_to_server=False, report=remote_report),
+        source173_and_original_adapter_unchanged=True, new_GPU_seconds=0,
+        previous_failed_job='3030159', previous_failed_GPU_seconds_retained=85,
+        SSH_calls=0, Slurm_submissions=0, state_or_Git_changed=False, sealed_states_opened=False, weights_opened=False,
+        blockers=[], limitations=[
+            'Independent reruns are local Python 3.10.11 and 3.12.14 CPU only.',
+            'Server Python 3.11.7 CPU result is root-provided evidence, not an independent remote execution.',
+            'Only constructor identity and the unchanged adapter AST were checked; no model, simulator or GPU acceptance ran.',
+            'Original registered adapter and all 173 frozen files remain unchanged; candidate is not a deployed repair.'
+        ], wall_seconds=time.perf_counter()-started, read_evidence_sha256=dict(sorted(evidence.items())))
+    write_json(OUT/'independent_review.json', receipt)
+    print(json.dumps(dict(status=receipt['status'], receipt=(OUT/'independent_review.json').relative_to(ROOT).as_posix(),
+        sha256=sha(OUT/'independent_review.json'), local_checks=30, root_server311_checks=16,
+        evidence_count=len(evidence), wall_seconds=receipt['wall_seconds']), ensure_ascii=False))
+
+if __name__ == '__main__':
+    main()

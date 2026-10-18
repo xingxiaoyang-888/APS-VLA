@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "job_id": "3026207",
+  "suite": "libero_object",
+  "budget": 256,
+  "seed": 17,
+  "boundary": 500,
+  "root_review": "results/formal_main_v2/libero_object/k256/seed17/training/segment_reviews/3026207.json",
+  "root_sha256": "00919e551cb2bbbc38e873cb7244cce5142273c96d5b72957748fa854b47f519",
+  "pull": "results/formal_main_v2/pulls/20261018T130322Z_217054e6fef4/receipt.json",
+  "pull_sha256": "500b49277227c670c95e570d716cf35a8f0e45d938cc041d50c3d3ff19d55352",
+  "pair_gpu_seconds": 4273,
+  "latest_gpu_seconds": 4273,
+  "histories": [
+    "3026207"
+  ],
+  "allowed_next": 1000,
+  "operations": [
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/review_formal_segment.py",
+        "--job-id",
+        "3026207",
+        "--source-inventory",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "--pull-receipt",
+        "results/formal_main_v2/pulls/20261018T130322Z_217054e6fef4/receipt.json",
+        "--verify-server-resume"
+      ],
+      "started_utc": "2026-10-18T13:11:06.201911+00:00",
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"passed\",\r\n  \"job_id\": \"3026207\",\r\n  \"completed_by_arm\": {\r\n    \"A\": 500,\r\n    \"B\": 500\r\n  },\r\n  \"allowed_next_segment_end\": 1000,\r\n  \"continuation\": \"advance_one_registered_boundary\",\r\n  \"server_resume_checklist\": [\r\n    {\r\n      \"arm\": \"A\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed17/A/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"50ff6a00e397f279512e2ca917db25115c259c0f6a6bb4493f3e09da3752a297\"\r\n    },\r\n    {\r\n      \"arm\": \"B\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed17/B/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"48adaee4d37b6afd9798ce1dbae16e8201a7305d3952b1ae1c774618b8e00b38\"\r\n    }\r\n  ],\r\n  \"pair_allocated_gpu_seconds\": 4273\r\n}\r\n",
+      "stderr": ""
+    }
+  ]
+}

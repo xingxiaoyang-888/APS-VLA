@@ -1,0 +1,25 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "candidate_only_CPU_registration_field_repair",
+  "recorded_utc": "2026-10-18T12:44:58.184861+00:00",
+  "original_attempt_status": "failed_closed_before_any_real_root_approval_or_submission",
+  "error": "CPU reference fields differ",
+  "cause": "Manifest action_adapter_independent_review contains bytes; typed CPU reference requires exactly path, sha256, accepted_status.",
+  "minimal_fix": "Select only manifest reference path and sha256, then add accepted_status. No gate, scientific source or v1/v2 production source changes.",
+  "original_files_sha256": {
+    ".local/action_execution_gpu_v2_registration_0840/prepare.py": "98ce488a97e2a48dda4baf6a623b3260ed202517245b73556e25670f9a094c2d",
+    ".local/action_execution_gpu_v2_registration_0840/prepare_run_a1.log": "59dbefe7d61b8ed4cfe4a05aa53ae92d3431d3d51008387ea2ce85cbe2c572bd",
+    ".local/action_execution_gpu_v2_registration_0840/typed_candidate_independent.json": "8691299fdc739a836c831bdb101e3e8f3c9c6ec6a3c1ee6fb02805760a3a8bde",
+    ".local/action_execution_gpu_v2_registration_0840/root_acceptance_draft.json": "bb20877d37b3b2eb0a394c9ea5155d7e5ee15a5837fcba9b2f0bc61b8b527d9a",
+    ".local/action_execution_gpu_v2_registration_0840/gpu_registration_candidate.json": "bfe794bd3657f44e38256541b4172f2eea01230fde82c3ca661fd6e7f1ef1f98",
+    ".local/action_execution_gpu_v2_registration_0840/deployment_closure.json": "811d16f64e3e18405477917b871bc5890f4686cd61bbc5a00caf52917dbfe9f5",
+    ".local/action_execution_gpu_v2_registration_0840/registration_intent.json": "420d7ec734a1ad8804ed8311b33877ab7f016515144374e0e80d2570914fb5a8",
+    ".local/action_execution_gpu_v2_registration_0840/interruption_record.json": "b28fa8efd2da0b9415dff016be79f7d524a55ad85b156dae0f3d02e3c3eb6c91",
+    ".local/action_execution_gpu_v2_registration_0840/README.md": "754fbe26d1dbd00765a572e87ac24ddb8db697e7fba2e6325c2983310a621a75"
+  },
+  "new_attempt_writes_new_a2_filenames": true,
+  "original_files_overwritten": false,
+  "GPU_seconds": 0,
+  "SSH_calls": 0,
+  "real_state_writes": 0
+}

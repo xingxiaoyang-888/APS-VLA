@@ -1,0 +1,49 @@
+"""Read-only server-Python comparison; no VLA, simulator, CUDA or state values."""
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,subprocess,sys
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
+import formal_supervisor as f
+code='''import ast,hashlib,importlib.util,json,marshal,sys,__future__
+from pathlib import Path
+S='/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e'
+P='/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA'
+sys.dont_write_bytecode=True
+sys.path.insert(0,S+'/src')
+source=Path(S+'/src/cti_vla/evaluation/libero_runtime.py').read_bytes()
+assert hashlib.sha256(source).hexdigest()=='2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781'
+from cti_vla.evaluation import libero_runtime as runtime
+path=Path(P+'/scripts/ops/formal_action_execution_compat.py')
+assert hashlib.sha256(path.read_bytes()).hexdigest()=='958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863'
+spec=importlib.util.spec_from_file_location('actual_pinned_adapter',path)
+adapter=importlib.util.module_from_spec(spec);spec.loader.exec_module(adapter)
+nodes=[n for n in ast.parse(source).body if isinstance(n,ast.ClassDef) and n.name=='PolicyChunk']
+ns={}
+exec(compile(ast.Module(body=nodes,type_ignores=[]),runtime.run_episode.__code__.co_filename,'exec',flags=__future__.annotations.compiler_flag,dont_inherit=True),runtime.__dict__,ns)
+expected=ns['PolicyChunk'];actual=runtime.PolicyChunk
+out={}
+for name in adapter._CONSTRUCTION_FUNCTIONS:
+ a,e=actual.__dict__[name],expected.__dict__[name]
+ checks=dict(type=type(a) is type(e),globals=a.__globals__ is runtime.__dict__,module=a.__module__==e.__module__,name=a.__name__==e.__name__,qualname=a.__qualname__==e.__qualname__,code_hash=adapter.code_sha256(a.__code__)==adapter.code_sha256(e.__code__),defaults=a.__defaults__==e.__defaults__,kwdefaults=a.__kwdefaults__==e.__kwdefaults__,annotations=a.__annotations__==e.__annotations__,dict=a.__dict__==e.__dict__)
+ delta={}
+ for attr in dir(a.__code__):
+  if not attr.startswith('co_'):continue
+  av,ev=getattr(a.__code__,attr),getattr(e.__code__,attr)
+  if callable(av):continue
+  if av!=ev:delta[attr]={'actual':repr(av),'expected':repr(ev)}
+ out[name]=dict(checks=checks,code_delta=delta,code_sha_actual=adapter.code_sha256(a.__code__),code_sha_expected=adapter.code_sha256(e.__code__))
+try:
+ adapter._check_chunk_construction(runtime,source)
+ status='passed';error=None
+except Exception as exc:status='reproduced_failure';error=repr(exc)
+print(json.dumps(dict(schema='formal_main_v2',kind='server_CPU_PolicyChunk_code_identity_diagnostic',python=sys.version,status=status,error=error,construction=out,no_models_loaded=True,no_environment_created=True,final_states_opened=False,no_GPU_calls=True,torch_imported='torch' in sys.modules,tensorflow_imported='tensorflow' in sys.modules)))
+'''
+result=subprocess.run(f.SSH+[f.H+'/venv/bin/python -B -'],input=code,capture_output=True,text=True,encoding='utf8',check=True)
+value=json.loads(result.stdout)
+value.update(observed_utc=datetime.now(timezone.utc).isoformat(),remote_stdout=result.stdout,remote_stderr=result.stderr,diagnostic_source_sha256=hashlib.sha256(code.encode()).hexdigest(),SSH_exit_code=result.returncode,GPU_seconds=0)
+name='results/formal_main_v2/preflight/action_constructor_server311_cpu_0840.json'
+source='results/formal_main_v2/preflight/action_constructor_server311_cpu_0840.py.txt'
+assert not (ROOT/name).exists() and not (ROOT/source).exists()
+(ROOT/source).write_bytes(Path(__file__).read_bytes());value['root_helper']={'path':source,'sha256':f.sha(ROOT/source)}
+f.write(ROOT/name,value)
+print(json.dumps({k:v for k,v in value.items() if k not in ('remote_stdout','remote_stderr')},ensure_ascii=False))

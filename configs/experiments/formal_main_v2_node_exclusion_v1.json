@@ -1,0 +1,125 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "scheduler_node_exclusion_registration",
+  "version": "root-ssh-node-exclusion-v1",
+  "status": "reviewed_for_future_explicit_requests",
+  "server_project": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+  "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "excluded_nodes": [
+    "gpu4020"
+  ],
+  "automatic_retry": false,
+  "existing_jobs_untouched": true,
+  "scope": "future_explicit_training_and_action_gpu_v2_only",
+  "adapter_sha256": "c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6",
+  "registered_wrapper_sha256": {
+    "scripts/server/formal_main.slurm": "4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab",
+    "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+    "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v2/source/probe.slurm": "c0a6eec2d991746a0d27beecc73b2e6b5f1294e96d468f82f07be1a5d4e2c9dc"
+  },
+  "failure_evidence_sha256": {
+    "results/formal_main_v2/preflight/cuda_startup_root_observation_0840.json": "a6bb5a481e3576f9fb87892d29e37eb6425891a5d55872a589561042384d8ef2",
+    "results/formal_main_v2/preflight/cuda_startup_server_paths_0840.json": "5e5afef2f7bc9e52db23df3f7cd5c7e3e7923c0b5bcd839eaddd84964f6617a4"
+  },
+  "root_reported_failed_job_ids": [
+    "3028460",
+    "3028468",
+    "3028522"
+  ],
+  "root_reported_context": "These registered project jobs failed CUDA availability checks on gpu4020; other project jobs on the same node remain healthy. No assertion that every node job is invalid.",
+  "scientific_configuration_changed": false,
+  "remote_calls_performed_by_preparer": 0,
+  "root_approved_utc": "2026-10-18T13:33:24.602897+00:00",
+  "root_approved_by": "root",
+  "adapter_path": "scripts/ops/formal_scheduler_node_exclusion.py",
+  "candidate_review": {
+    "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/candidate_review.json",
+    "sha256": "87e186cbf605fe063e4d82f55fa137a6e470835c0329cf9f7df278853d864033"
+  },
+  "independent_review": {
+    "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_independent_0840/independent_review.json",
+    "sha256": "305da28875eb4d4dbdb971a30d0ddd857d81b07266e753d10c40abdc18be822c"
+  },
+  "source_archive": {
+    ".local/scheduler_node_exclusion_0840/adapter.py": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/adapter.py",
+      "sha256": "c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6"
+    },
+    ".local/scheduler_node_exclusion_0840/attempt01_sources/adapter.py": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/attempt01_sources/adapter.py",
+      "sha256": "c439b965a5e17531e66f7874f2813589e4cdf1d42a215f7eadae7e5aa072a9c6"
+    },
+    ".local/scheduler_node_exclusion_0840/attempt01_sources/test_adapter.py": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/attempt01_sources/test_adapter.py",
+      "sha256": "27eba0d0d7c68341a037a19a82ffe6edddaeeb05cafd32dae14b1c49e4bf2828"
+    },
+    ".local/scheduler_node_exclusion_0840/candidate_review.json": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/candidate_review.json",
+      "sha256": "87e186cbf605fe063e4d82f55fa137a6e470835c0329cf9f7df278853d864033"
+    },
+    ".local/scheduler_node_exclusion_0840/pytest_a1.log": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/pytest_a1.log",
+      "sha256": "8bfd57d3faddc2c45adbef9bf9503e3966f43db7a9c13c75eba8f8dfad51c45a"
+    },
+    ".local/scheduler_node_exclusion_0840/pytest_a1.xml": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/pytest_a1.xml",
+      "sha256": "3a7b1d9e4efd308e7279ac0fc29d0518992be18e5be1f1ff70859503c59adaac"
+    },
+    ".local/scheduler_node_exclusion_0840/pytest_a1_command.json": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/pytest_a1_command.json",
+      "sha256": "94ef60487a594e38f5ef4298420b21f81f2e43a4f11b55faaffdd8e570444a2e"
+    },
+    ".local/scheduler_node_exclusion_0840/pytest_a2.log": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/pytest_a2.log",
+      "sha256": "b5506c8ddabfe0774e23d256c237b6616080b89aea7c7c51a2e4e3c860e565d6"
+    },
+    ".local/scheduler_node_exclusion_0840/pytest_a2.xml": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/pytest_a2.xml",
+      "sha256": "dc1c1036a1118743e1b06c96b5cfd444a8a89ad4dadda523202255cdab889e1f"
+    },
+    ".local/scheduler_node_exclusion_0840/pytest_a2_command.json": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/pytest_a2_command.json",
+      "sha256": "619f57e541e79a5f3c991e3f16e4fa229c1ecddd45c6a39937812255a9c3da6b"
+    },
+    ".local/scheduler_node_exclusion_0840/README.md": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/README.md",
+      "sha256": "c3de7124a1393a3a1914c0236b98349eb716181a8cd3f13b47e857d830cfae47"
+    },
+    ".local/scheduler_node_exclusion_0840/registration_draft.json": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/registration_draft.json",
+      "sha256": "1dc4e84e15b960665a7fb72e6d33b8251853171ab916fe208bb300e53084b8cf"
+    },
+    ".local/scheduler_node_exclusion_0840/synthetic_command_examples.json": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/synthetic_command_examples.json",
+      "sha256": "58e3324882b9e0674090ef14c031a43bfa3e93c3b7028b684e46b9adbfeb99ac"
+    },
+    ".local/scheduler_node_exclusion_0840/test_adapter.py": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_0840/test_adapter.py",
+      "sha256": "856d7aa7a3a3c633a44bdafb1e102dab2daeabcb9390149dcde2382f40a74831"
+    },
+    ".local/scheduler_node_exclusion_independent_0840/independent_review.json": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_independent_0840/independent_review.json",
+      "sha256": "305da28875eb4d4dbdb971a30d0ddd857d81b07266e753d10c40abdc18be822c"
+    },
+    ".local/scheduler_node_exclusion_independent_0840/run.json": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_independent_0840/run.json",
+      "sha256": "73336079605e9c67abcc9854eca39ad07d47aa3ee0a9ca1a48b0f8c2c9150566"
+    },
+    ".local/scheduler_node_exclusion_independent_0840/tests.log": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_independent_0840/tests.log",
+      "sha256": "a8bb05a3c97ac0ecc446e89d82b8716971d6db2c21b2926807fda68ce5fe7abb"
+    },
+    ".local/scheduler_node_exclusion_independent_0840/tests.xml": {
+      "path": "results/formal_main_v2/engineering/node_exclusion_v1/scheduler_node_exclusion_independent_0840/tests.xml",
+      "sha256": "48a6fd095783b1fd461f998df002c828c15843df2562ce4aa019f2df8e120c47"
+    }
+  },
+  "root_adoption_source": {
+    "path": "results/formal_main_v2/preflight/node_exclusion_root_adoption_0840.py.txt",
+    "sha256": "d47c0cca083e4a4f4aa82070f54c5df6e25b4d4275ed7a5706b8909174a73421"
+  },
+  "failed_pair_recovery_authorized": false,
+  "placement_scope_note": "Temporary exclusion for future explicit submissions only; healthy existing jobs are untouched. No claim that every job on gpu4020 is faulty."
+}

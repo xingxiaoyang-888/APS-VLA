@@ -1,0 +1,104 @@
+{
+  "schema": "formal_main_v2",
+  "seed": 17,
+  "arms": [
+    "A",
+    "B"
+  ],
+  "question": "Does future visual-state auxiliary supervision improve frozen VLA token-pruning success versus full inference latency?",
+  "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+  "stats_key": "libero_spatial_no_noops",
+  "tokens_per_camera": 64,
+  "scorer_dimensions": {
+    "token_dim": 4096,
+    "language_dim": 4096,
+    "proprio_dim": 8,
+    "hidden_dim": 256,
+    "num_cameras": 2,
+    "patches_per_camera": 256,
+    "max_instruction_tokens": 128
+  },
+  "future": {
+    "horizon": 8,
+    "representation": "Frozen OFT projected visual tokens, each 16x16 camera pooled to 2x2, shared fixed Gaussian projection to64 per cell, per-cell parameter-free LayerNorm, flatten512",
+    "projection_seed": 917,
+    "projection_scale": "1/sqrt(4096)",
+    "layer_norm_eps": 1e-05,
+    "head": "Linear(512+8*7,256),SiLU,Linear(256,512)",
+    "head_inputs": [
+      "gated current visual representation",
+      "normalized actually executed demonstration actions[t:t+8]"
+    ],
+    "target": "detached visual representation of observation[t+8] from same episode",
+    "weight_A": 0.0,
+    "weight_B": 0.1,
+    "loss": "mean squared error over all512 features",
+    "deployment": "head and executed-action inputs removed"
+  },
+  "action_loss": {
+    "teacher_l1_weight": 0.5,
+    "demonstration_l1_weight": 0.5,
+    "space": "checkpoint-normalized action8x7"
+  },
+  "gate": {
+    "method": "ACL LapSum per camera; raw-feature black-image mixing with detached sqrt stabilizer",
+    "alpha_start": 2.0,
+    "alpha_end": 0.1,
+    "schedule": "cosine across5000updates"
+  },
+  "training": {
+    "updates": 5000,
+    "micro_batch": 1,
+    "effective_batch": 8,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "dtype_vla": "bfloat16",
+    "dtype_scorer": "float32",
+    "order": "identical seeded shuffled windows, cycling through epochs",
+    "same_initial_scorer": true,
+    "vla_frozen": true,
+    "gradient_through_vla": true,
+    "checkpoint_every_updates": 50
+  },
+  "selection": {
+    "updates": [
+      0,
+      500,
+      1000,
+      1500,
+      2000,
+      2500,
+      3000,
+      3500,
+      4000,
+      4500,
+      5000
+    ],
+    "metric": "task_macro_hard_validation_teacher_l1",
+    "tie_break": "earliest_update",
+    "future_loss_used": false
+  },
+  "panels": {
+    "train": "all legal8-action same-episode train windows; no terminal crossing or padding",
+    "validation": "first,middle,last legal window per eligible validation episode,distinct",
+    "closed_loop": "all10tasks,10dev+40sealed final states per task",
+    "test": "sealed until global root release"
+  },
+  "limits": {
+    "allow_hyperparameter_search": false,
+    "first_gpu_job": "suite-specific F00/F01/F02/F03 acceptance",
+    "old_deletion_label_expansion": false,
+    "staged_rescoring": false,
+    "automatic_expansion": false,
+    "external_selector_download_training_evaluation": false,
+    "scope": "registered72-arm matrix only"
+  },
+  "suite": "libero_spatial",
+  "run_id": "formal_main_v2_libero_spatial_k128_seed17",
+  "data": {
+    "protocol": "configs/manifests/formal_main_v2/libero_spatial/protocol.json",
+    "windows": "configs/manifests/formal_main_v2/libero_spatial/windows.json"
+  }
+}

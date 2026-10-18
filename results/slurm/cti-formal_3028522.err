@@ -1,0 +1,16 @@
+2026-10-18 20:49:22.917585: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-10-18 20:49:24.087409: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Traceback (most recent call last):
+  File "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/run_formal_future.py", line 232, in <module>
+    main()
+  File "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/run_formal_future.py", line 221, in main
+    report = run(args)
+             ^^^^^^^^^
+  File "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/scripts/run_formal_future.py", line 132, in run
+    components = load_openvla_oft_components(args.checkpoint, device="cuda:0", use_minimal_prismatic_compat=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/src/cti_vla/models/openvla_oft_loader.py", line 191, in load_openvla_oft_components
+    raise RuntimeError(f"requested CUDA device is unavailable: {target_device}")
+RuntimeError: requested CUDA device is unavailable: cuda:0
+srun: error: gpu4020: task 0: Exited with exit code 1

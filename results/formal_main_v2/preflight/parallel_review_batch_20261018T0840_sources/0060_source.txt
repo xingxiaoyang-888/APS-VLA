@@ -1,0 +1,218 @@
+"""Read-only audit of failed engineering job 3030159; no project imports."""
+from pathlib import Path, PurePosixPath
+from datetime import datetime, timezone
+import ast
+import hashlib
+import json
+
+ROOT = Path('F:/CTI-VLA')
+P = '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA'
+S = P + '/snapshots/formal_main_v2_run_564be0995e'
+STAGE = 'formal_main_v2_action_execution_compat_gpu_v2'
+BASE = 'results/formal_main_v2/engineering/' + STAGE
+OUT = BASE + '/3030159/'
+PULL = 'results/formal_main_v2/pulls/20261018T134013Z_1f65a8e31587/receipt.json'
+INVENTORY = 'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+DIAGNOSTIC = 'results/formal_main_v2/preflight/action_constructor_server311_cpu_0840.json'
+SUITES = ('libero_10', 'libero_spatial', 'libero_object', 'libero_goal')
+PANELS = {f'configs/manifests/formal_main_v2/{s}/initial_states/development.json' for s in SUITES}
+seen = {}
+sizes = {}
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def raw(name, expected=None, size=None):
+    assert isinstance(name, str) and '\\' not in name and ':' not in name
+    p = PurePosixPath(name)
+    assert not p.is_absolute() and '..' not in p.parts and p.as_posix() == name
+    low = name.lower()
+    assert not any(x in {'sealed', 'test', 'weights', 'checkpoints', 'final'} or 'sealed' in x for x in low.split('/'))
+    assert p.suffix.lower() in {'.py', '.json', '.jsonl', '.txt', '.md', '.sh', '.slurm', '.toml', '.xml', '.log', '.out', '.err'}
+    state_name = any(x in low for x in ('init_state', 'initial_state', 'final_state', 'test_state'))
+    assert not state_name or name in PANELS or p.suffix == '.py'
+    assert p.name.lower() not in {'state.json', 'panel.json'}
+    path = ROOT / name
+    for part in (path, *path.parents):
+        assert not part.is_symlink() and not (getattr(part.lstat(), 'st_file_attributes', 0) & 0x400)
+        if part == ROOT:
+            break
+    assert path.resolve().is_relative_to(ROOT)
+    data = path.read_bytes()
+    h = digest(data)
+    assert expected is None or h == expected, (name, 'sha', h, expected)
+    assert size is None or len(data) == size, (name, 'size')
+    assert name not in seen or seen[name] == h, (name, 'changed during review')
+    seen[name] = h
+    sizes[name] = len(data)
+    return data
+
+
+def read(name, expected=None):
+    return json.loads(raw(name, expected))
+
+
+def check():
+    raw('AGENTS.md')
+    raw(Path(__file__).relative_to(ROOT).as_posix())
+    pull = read(PULL, 'b5ea9f9522071caefee87446fef0fd183bf4d98b40398daae1b5d465708064a6')
+    assert pull['status'] == 'verified_nonweight_snapshot'
+    assert pull['requested_job_ids'] == ['3030159'] and len(pull['files']) == 7
+    assert pull['weights_copied'] is pull['sealed_initial_states_copied'] is False
+    assert not pull['excluded'] and not pull['missing'] and not pull['scientific_completion_inferred']
+    selected = pull['selected_jobs']
+    assert len(selected) == 1 and selected[0]['job_id'] == '3030159'
+    assert selected[0]['mode'] == 'engineering' and selected[0]['stage_key'] == STAGE
+    assert selected[0]['run_root'] == P + '/' + OUT.rstrip('/')
+    assert not selected[0]['active_overlapping_job_ids']
+    for name in ('inventory_before.json', 'inventory_after.json'):
+        inventory_pull = read(str(PurePosixPath(PULL).parent / name), pull['inventory_sha256'])
+        assert not inventory_pull['excluded'] and not inventory_pull['missing']
+        assert len(inventory_pull['files']) == 7
+        assert {(r['relative'], r['sha256'], r['bytes']) for r in inventory_pull['files']} == {
+            (r['relative'], r['sha256'], r['bytes']) for r in pull['files']}
+    for r in pull['files']:
+        assert r['job_ids'] == ['3030159'] and r['path'] == P + '/' + r['relative']
+        assert r['action'] == 'downloaded_verified'
+        raw(r['relative'], r['sha256'], r['bytes'])
+    account = pull['accounting_after']['jobs']['3030159']
+    assert account == pull['accounting_before']['jobs']['3030159']
+    assert account['status'] == account['raw_status'] == 'FAILED' and account['exit_code'] == '1:0'
+    assert account['elapsed_seconds'] == 85 and account['node'] == 'gpu4041'
+    assert 'gres/gpu:l40=1' in account['allocation'] and 'gres/gpu=1' in account['allocation']
+    receipt = read('results/formal_main_v2/job_receipts/3030159.json')
+    invocation_name = 'results/formal_main_v2/invocations/' + STAGE + '_attempt01.json'
+    inv = read(invocation_name, receipt['invocation_sha256'])
+    assert receipt['status'] == 'failed' and receipt['exit_code'] == 1 and receipt['error'] is None
+    assert receipt['job_id'] == '3030159' and receipt['stage_key'] == inv['stage_key'] == STAGE
+    assert receipt['watched_inputs_verified_before'] is receipt['watched_inputs_verified_after'] is True
+    assert receipt['expected_engineering_cells'] == 16 and receipt['scientific_trials'] == 0
+    assert not receipt['final_states_opened'] and not receipt['scientific_completion_inferred']
+    assert inv['dispatch_contract']['maximum_attempts'] == 1 and inv['dispatch_contract']['automatic_retry'] is False
+    assert inv['dispatch_contract']['GPU_count'] == 1 and inv['dispatch_contract']['wall_limit_seconds'] == 3600
+    for key in ('manifest', 'root_review', 'gpu_registration'):
+        assert receipt[key] == inv[key]
+    manifest = read(inv['manifest']['path'], inv['manifest']['sha256'])
+    reg = read(inv['gpu_registration']['path'], inv['gpu_registration']['sha256'])
+    gate = read(inv['root_review']['path'], inv['root_review']['sha256'])
+    assert reg['candidate_manifest'] == inv['manifest']
+    assert reg['version'] == STAGE and reg['status'] == 'registered_single_attempt'
+    assert reg['gpu_submission_authorized'] is True and reg['automatic_retry'] is False and reg['attempt'] == 1
+    assert {k: reg['cpu_reviews']['root_acceptance'][k] for k in ('path','sha256')} == inv['root_review']
+    assert gate['status'] == 'passed_CPU_root_review_pending_registered_GPU'
+    frozen = read(INVENTORY, '5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926')
+    assert len(frozen['files']) == 173
+    source_sha = digest(json.dumps(frozen['files'], sort_keys=True).encode())
+    assert source_sha == inv['source_sha256'] == receipt['source_sha256'] == selected[0]['source_sha256']
+    mapping = {}
+    for row in gate['deployment_files']:
+        assert set(row) == {'path','server','sha256','bytes'}
+        assert row['server'] not in mapping
+        allowed = {P + '/' + row['path']}
+        if frozen['files'].get(row['path']) == row['sha256']:
+            allowed.add(S + '/' + row['path'])
+        assert row['server'] in allowed
+        raw(row['path'], row['sha256'], row['bytes'])
+        mapping[row['server']] = row['sha256']
+    for key in ('root_review', 'gpu_registration'):
+        r = inv[key]; assert P + '/' + r['path'] not in mapping
+        mapping[P + '/' + r['path']] = r['sha256']
+    assert mapping == inv['watched_files'] and len(mapping) == 298
+    for name, h in frozen['files'].items():
+        raw(name, h)
+        assert mapping[S + '/' + name] == h
+    for leaf, key in [('probe.py','entrypoint_sha256'),('launcher.py','launcher_sha256'),('probe.slurm','wrapper_sha256'),('submit.py','submitter_sha256')]:
+        raw(BASE + '/source/' + leaf, inv[key])
+    adapter_name = manifest['action_adapter']['path']
+    adapter = raw(adapter_name, manifest['action_adapter']['sha256']).decode()
+    probe_name = BASE + '/source/probe.py'
+    probe = raw(probe_name, receipt['entrypoint_sha256']).decode()
+    assert 'original, replacement, ast_proof = derive_function(runtime_module, source_bytes)' in adapter
+    assert adapter.index('original, replacement, ast_proof = derive_function(runtime_module, source_bytes)') < adapter.index('runtime_module.run_episode = replacement')
+    assert probe.index('with adapter.install_action_execution_compat(') < probe.index('components = load_openvla_oft_components(') < probe.index('env = OffScreenRenderEnv(')
+    assert receipt['command'] == [
+        '/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python','-B',P+'/'+probe_name,
+        '--project-root',P,'--source-root',S,'--manifest',inv['manifest']['path'],
+        '--manifest-sha256',inv['manifest']['sha256'],'--gpu-registration',inv['gpu_registration']['path'],
+        '--gpu-registration-sha256',inv['gpu_registration']['sha256'],'--job-id','3030159',
+        '--script-sha256',inv['entrypoint_sha256'],'--execute-gpu']
+    completion = read(OUT+'completion.json')
+    inputs = read(OUT+'inputs.json')
+    events_raw = raw(OUT+'events.jsonl', completion['events_sha256'], completion['events_bytes'])
+    assert events_raw.endswith(b'\n')
+    lines = events_raw.splitlines(keepends=True)
+    events = [json.loads(x) for x in lines]
+    assert [x['event'] for x in events] == ['engineering_start','official_runtime_verified','engineering_failure','engineering_end']
+    assert [x['seq'] for x in events] == list(range(4)) and all(x['job_id']=='3030159' for x in events)
+    for obj in (completion, events[0]):
+        assert obj['candidate_sha256'] == inv['entrypoint_sha256']
+        assert obj['manifest_sha256'] == inv['manifest']['sha256']
+        assert obj['root_registration_sha256'] == inv['gpu_registration']['sha256']
+    assert completion['status'] == events[-1]['status'] == 'failed'
+    assert completion['exit_code'] == events[-1]['exit_code'] == 1 and completion['result'] is None
+    assert completion['error'] == events[2]['error'] == events[3]['error']
+    assert completion['error']['type']=='ValueError'
+    assert completion['error']['message']=='unknown PolicyChunk construction function: __post_init__'
+    assert 'line 518, in gpu_body' in completion['error']['traceback'] and 'line 188, in _check_chunk_construction' in completion['error']['traceback']
+    assert completion['source_inputs_unchanged'] is True
+    for k in ('scientific_complete','success_rate_computed','latency_claim','weights_copied','final_states_opened','original_results_replaced','automatic_retry'):
+        assert completion[k] is False
+    assert inputs['manifest_sha256'] == inv['manifest']['sha256']
+    for n, h in inputs['watched_files'].items():
+        assert inv['watched_files'][n] == completion['read_evidence_sha256'][n] == h
+    assert {Path(r['relative']).name for r in pull['files']} == {'completion.json','events.jsonl','inputs.json','version.txt','3030159.json','cti-action-exec16_3030159.err','cti-action-exec16_3030159.out'}
+    assert b'Exited with exit code 1' in raw('results/slurm/cti-action-exec16_3030159.err')
+    diagnostic = read(DIAGNOSTIC, 'a033b04f2134e3a3831c527a6dc73bc3da1eb01baa4f0e33c0c58afe3c83df63')
+    helper = raw(diagnostic['root_helper']['path'], diagnostic['root_helper']['sha256']).decode()
+    tree = ast.parse(helper)
+    codes = [n.value.value for n in tree.body if isinstance(n, ast.Assign) and any(isinstance(t,ast.Name) and t.id=='code' for t in n.targets)]
+    assert len(codes)==1 and digest(codes[0].encode()) == diagnostic['diagnostic_source_sha256']
+    remote = json.loads(diagnostic['remote_stdout'])
+    assert all(diagnostic[k] == v for k, v in remote.items())
+    assert diagnostic['status']=='reproduced_failure' and diagnostic['error']=="ValueError('unknown PolicyChunk construction function: __post_init__')"
+    assert diagnostic['GPU_seconds']==0 and diagnostic['no_GPU_calls'] and diagnostic['no_models_loaded'] and diagnostic['no_environment_created']
+    assert not diagnostic['torch_imported'] and not diagnostic['tensorflow_imported'] and not diagnostic['final_states_opened']
+    checks=diagnostic['construction']['__post_init__']['checks']
+    assert checks['code_hash'] is False and all(v for k,v in checks.items() if k!='code_hash')
+    for n, h in list(seen.items()):
+        raw(n, h, sizes[n])
+    return dict(
+        schema='formal_main_v2', kind='failed_action_execution_GPU_engineering_independent_review',
+        status='failed_engineering_attempt_verified_not_acceptance_passed', reviewed_utc=datetime.now(timezone.utc).isoformat(),
+        reviewer='/root/profile_long',job_id='3030159',stage_key=STAGE,
+        failure_evidence_integrity_verified=True,GPU_acceptance_passed=False,scientific_release_granted=False,
+        raw_files=[{k:r[k] for k in ('relative','sha256','bytes')} for r in pull['files']],
+        pull_inventory_complete=True,read_evidence_sha256=seen,read_evidence_bytes=sizes,
+        invocation_sha256=seen[invocation_name],frozen_173_verified=True,source_sha256=source_sha,
+        launcher_before_after_input_verification_recorded=True,local_deployment_destinations_rehashed=len(mapping),
+        recorded_input_map_entries=len(inputs['watched_files']),recorded_completion_map_entries=len(completion['read_evidence_sha256']),
+        remote_runtime_additional_hashes_note='Official checkout/config hashes remain bound by the raw completion/event files; this local audit did not independently read the additional server checkout files.',
+        event_count=4,events=[dict(line=i+1,seq=e['seq'],event=e['event'],sha256_of_original_line_including_newline=digest(lines[i])) for i,e in enumerate(events)],
+        error=completion['error'],interruption_boundary=dict(action_adapter_installed=False,source_site=probe_name+':518',adapter_site=adapter_name+':188',
+            basis='Pinned control flow raises during derive_function before candidate-enter, alias replacement, base_load_start or the suite/cell loop.'),
+        calls=dict(base_model_loads=0,selector_loads=0,policy_forwards=0,vision_forwards=0,vla_forwards=0,future_head_forwards=0,environment_creations=0,executed_control_actions=0),
+        call_count_basis='Inferred from the exact pre-install exception, all four raw events, complete output inventory and SHA-bound code control flow; no missing counter was filled as a measured counter.',
+        engineering_cells_started=0,engineering_cells_completed=0,expected_engineering_cells=16,new_scientific_trials=0,
+        GPU_runtime_initialization=dict(torch_imported_before_failure=True,CUDA_device_identity_queried_before_failure=True,CUDA_set_device_before_failure=True,
+            no_claim_of_zero_CUDA_API_calls=True),
+        cost=dict(Slurm_terminal_projection=account,all_allocated_GPU_seconds=85,failed_allocated_GPU_seconds=85,
+            probe_wall_seconds=completion['wall_seconds'],launcher_wall_seconds=receipt['wall_seconds'],
+            wall_times_are_nested_diagnostics_not_added_to_allocation=True,server_CPU_diagnostic_GPU_seconds=0),
+        CPU_diagnostic=dict(path=DIAGNOSTIC,sha256=seen[DIAGNOSTIC],status=diagnostic['status'],python=diagnostic['python'],
+            differing_construction_checks={'__post_init__':checks},
+            observed_code_delta_fields=list(diagnostic['construction']['__post_init__']['code_delta']),
+            limit='This separate CPU reproduction localizes the observed constructor-code identity mismatch. It does not establish a repaired adapter, a model/scientific defect, all-Python-3.11 behavior, or a passed GPU acceptance.'),
+        final_states_opened=False,weights_read_or_copied_by_reviewer=False,SSH_or_Slurm_or_GPU_calls_by_reviewer=0,
+        original_results_replaced=False,automatic_retry=False,new_retry_authorized=False,
+        state_Git_runtime_or_scientific_source_modified=False,
+        conclusion='Retain this failed 85-GPU-second engineering allocation. The 16-cell GPU gate remains unpassed; no scientific result or historical Object trial is replaced.')
+
+
+if __name__ == '__main__':
+    value=check()
+    target=Path(__file__).parent/'independent_review.json'
+    with target.open('x',encoding='utf8',newline='\n') as stream:
+        json.dump(value,stream,ensure_ascii=False,indent=2);stream.write('\n')
+    print(json.dumps(dict(status=value['status'],path=str(target),sha256=digest(target.read_bytes()),read_files=len(seen),events=value['event_count'],engineering_cells=0,GPU_seconds=85)))

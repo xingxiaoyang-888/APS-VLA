@@ -1,0 +1,23 @@
+from pathlib import Path
+import hashlib
+import json
+import subprocess
+import sys
+root = Path(__file__).resolve().parents[2]
+here = Path(__file__).resolve().parent
+sources = sorted(here.glob('*.py'))
+before = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
+snapshot = here / 'author_a1_sources'
+snapshot.mkdir()
+for p in sources: (snapshot / (p.name + '.txt')).write_bytes(p.read_bytes())
+command = [sys.executable, '-B', '-m', 'pytest', '-p', 'no:cacheprovider',
+           '.local/cuda_startup_recovery_0840/test_startup_failure_recovery.py',
+           '--basetemp=.local/cuda_startup_recovery_0840/pytest_a1',
+           '--junitxml=.local/cuda_startup_recovery_0840/pytest_a1.xml', '-q']
+with (here/'pytest_a1.log').open('xb') as log:
+    result = subprocess.run(command, cwd=root, stdout=log, stderr=subprocess.STDOUT)
+after = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
+(here/'pytest_a1_execution.json').write_text(json.dumps(dict(command=command, exit_code=result.returncode,
+    source_before=before, source_after=after), indent=2)+'\n', encoding='utf-8')
+print((here/'pytest_a1.log').read_text('utf-8'))
+raise SystemExit(result.returncode)
