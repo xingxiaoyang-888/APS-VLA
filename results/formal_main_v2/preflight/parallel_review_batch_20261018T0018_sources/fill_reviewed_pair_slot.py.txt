@@ -1,0 +1,93 @@
+"""Root-only, explicitly targeted continuation; never a background scheduler."""
+from pathlib import Path
+from datetime import datetime, timezone
+from types import SimpleNamespace
+import argparse
+import json
+import sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+import review_formal_segment as reviewer
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--suite', choices=('libero_10', 'libero_spatial', 'libero_object', 'libero_goal'), required=True)
+parser.add_argument('--budget', type=int, choices=(256, 128, 64), required=True)
+parser.add_argument('--seed', type=int, choices=(17, 23, 41), required=True)
+parser.add_argument('--previous-job', required=True)
+parser.add_argument('--target', type=int, required=True)
+options = parser.parse_args()
+assert options.previous_job.isdigit() and options.target in range(1000, 5001, 500)
+key = f'{options.suite}_k{options.budget}_seed{options.seed}'
+
+with f.supervisor_lock():
+    state = f.read(f.STATE)
+    jobs = f.refresh(state)
+    # Count every project allocation request, including future downstream jobs.
+    # A CPU-only request also consumes a slot conservatively until terminal.
+    active = [j for j in jobs if j['status'] in f.ACTIVE | {'SUBMITTED'}]
+    assert all(j['gpus'] in (0, 1) for j in active)
+    assert len({j['stage_key'] for j in active}) == len(active)
+    if len(active) >= 8:
+        print(json.dumps({'submitted': False, 'reason': 'all8slotsoccupied'}))
+        raise SystemExit(0)
+    assert state['pending_submission'] is None
+    own = [j for j in jobs if j['mode'] == 'train' and
+           (j['suite'], j['visual_tokens'], j['training_seed']) ==
+           (options.suite, options.budget, options.seed)]
+    latest = max(own, key=lambda j: j['submitted_utc'])
+    if latest['job_id'] != options.previous_job:
+        print(json.dumps({'submitted': False, 'reason': 'pairalreadyadvanced', 'job': latest['job_id']}))
+        raise SystemExit(0)
+    assert latest['status'] == 'COMPLETED' and latest['exit_code'] == '0:0'
+    assert not any(j['status'] in f.ACTIVE | {'SUBMITTED'} for j in own)
+    pair = state['formal_main_progress']['parallel_execution']['pair_tracking'][key]
+    assert pair['active_job_id'] is None and pair['allowed_next_segment_end'] == options.target
+    review = f.read(root / pair['root_review'])
+    independent = f.read(root / pair['independent_review'])
+    assert review['status'] == independent['status'] == 'passed'
+    assert review['job_id'] == independent['job_id'] == latest['job_id']
+    assert review['completed_by_arm'] == dict.fromkeys(('A', 'B'), options.target - 500)
+    assert review['allowed_next_segment_end'] == independent['allowed_next_segment_end'] == options.target
+    maps = [independent[k] for k in ('read_evidence_sha256', 'evidence_sha256') if k in independent]
+    assert maps and all(isinstance(m, dict) and m == maps[0] for m in maps)
+    assert maps[0][pair['root_review']] == f.sha(root / pair['root_review'])
+    checks = reviewer.probe_registered_resume(review['server_resume_checklist'])
+    assert checks == review['server_resume_checks']
+    when = datetime.now(timezone.utc)
+    prereview = dict(schema='formal_main_v2', kind='root_parallel_resume_precheck', pair=key,
+        previous_job_id=latest['job_id'], target_boundary=options.target, checked_utc=when.isoformat(),
+        source_sha256=review['source_sha256'], root_review=pair['root_review'],
+        root_review_sha256=f.sha(root / pair['root_review']), independent_review=pair['independent_review'],
+        independent_review_sha256=f.sha(root / pair['independent_review']), server_resume_checks=checks,
+        active_GPU_job_ids_before=[j['job_id'] for j in active], active_GPU_jobs_before=len(active),
+        max_active_GPU_jobs=8, reason='Fill available slot with explicitly targeted, independently reviewed pair.',
+        scientific_settings_changed=False, weights_copied=False, final_states_opened=False)
+    rel = 'results/formal_main_v2/preflight/parallel_resume_prechecks/' + key + '_' + when.strftime('%Y%m%dT%H%M%SZ') + '.json'
+    assert not (root / rel).exists()
+    f.write(root / rel, prereview)
+    args = SimpleNamespace(stage='train', suite=options.suite, budget=options.budget, seed=options.seed,
+        segment=options.target,
+        source_inventory=root / 'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json',
+        resume=True, repair_record=None, wall_seconds=12600)
+    if options.suite in ('libero_object', 'libero_goal'):
+        sys.path.insert(0, str(root / 'scripts/ops'))
+        args.runtime_registration = root / 'configs/experiments/formal_main_v2_asset_execution_v1.json'
+        if options.suite == 'libero_goal':
+            import formal_goal_asset_supervisor as dispatcher
+            args.component_execution_registration = root / 'configs/experiments/formal_main_v2_goal_component_execution_v1.json'
+        else:
+            import formal_asset_supervisor as dispatcher
+        # Their existing independently audited runtime/source/own-suite gates
+        # remain responsible for the actual explicit asset job submission.
+        dispatcher.submit(args, state, jobs)
+    else:
+        f.submit(args, state, jobs)
+    new = state['registered_jobs'][-1]
+    assert new['stage_key'] == latest['stage_key'] and new['segment_end'] == options.target
+    pair.update(active_job_id=new['job_id'], segment_target=options.target,
+        latest_resume_precheck=rel, latest_resume_precheck_sha256=f.sha(root / rel))
+    state['formal_main_progress']['parallel_execution']['registered_requested_active_GPU_jobs'] = len(active) + 1
+    state['updated_utc'] = datetime.now(timezone.utc).isoformat()
+    f.write(f.STATE, state)

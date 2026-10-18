@@ -1,0 +1,102 @@
+{
+  "schema": "formal_main_v2",
+  "observed_utc": "2026-10-18T00:18:59.733862+00:00",
+  "provisional_live_read": true,
+  "not_a_completion_receipt": true,
+  "jobs": [
+    {
+      "job_id": "3021418",
+      "suite": "libero_10",
+      "visual_tokens": 256,
+      "training_seed": 17,
+      "segment_end": 4000,
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k256/seed17/training",
+      "status": "RUNNING",
+      "gpus": 1,
+      "node": "gpu4010",
+      "elapsed_seconds": 3525,
+      "arms": {
+        "A": {
+          "this_job_attempt_starts": [
+            {
+              "attempt_id": "20261017T232357_79389b5ecd5e",
+              "utc": "2026-10-17T23:23:57.063119+00:00",
+              "resumed": true,
+              "completed_update": 3500,
+              "next_sample_cursor": 28000
+            }
+          ],
+          "this_job_updates_completed_in_memory": 4000,
+          "this_job_last_checkpoint_update": 4000,
+          "this_job_last_update_seconds": 4.497755728662014,
+          "last_event": "attempt_end",
+          "last_event_utc": "2026-10-18T00:00:43.795576+00:00"
+        },
+        "B": {
+          "this_job_attempt_starts": [
+            {
+              "attempt_id": "20261018T000102_b54ba536dad4",
+              "utc": "2026-10-18T00:01:02.674110+00:00",
+              "resumed": true,
+              "completed_update": 3500,
+              "next_sample_cursor": 28000
+            }
+          ],
+          "this_job_updates_completed_in_memory": 3972,
+          "this_job_last_checkpoint_update": 3950,
+          "this_job_last_update_seconds": 2.24934209138155,
+          "last_event": "sample_start",
+          "last_event_utc": "2026-10-18T00:19:00.388640+00:00"
+        }
+      },
+      "failures": []
+    },
+    {
+      "job_id": "3021463",
+      "suite": "libero_10",
+      "visual_tokens": 64,
+      "training_seed": 17,
+      "segment_end": 4000,
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/k64/seed17/training",
+      "status": "RUNNING",
+      "gpus": 1,
+      "node": "gpu4010",
+      "elapsed_seconds": 2391,
+      "arms": {
+        "A": {
+          "this_job_attempt_starts": [
+            {
+              "attempt_id": "20261017T234252_5d71805047ca",
+              "utc": "2026-10-17T23:42:52.649515+00:00",
+              "resumed": true,
+              "completed_update": 3500,
+              "next_sample_cursor": 28000
+            }
+          ],
+          "this_job_updates_completed_in_memory": 4000,
+          "this_job_last_checkpoint_update": 4000,
+          "this_job_last_update_seconds": 2.2767630983144045,
+          "last_event": "attempt_end",
+          "last_event_utc": "2026-10-18T00:02:56.117346+00:00"
+        },
+        "B": {
+          "this_job_attempt_starts": [
+            {
+              "attempt_id": "20261018T000315_7dcbb7167da6",
+              "utc": "2026-10-18T00:03:15.357888+00:00",
+              "resumed": true,
+              "completed_update": 3500,
+              "next_sample_cursor": 28000
+            }
+          ],
+          "this_job_updates_completed_in_memory": 3917,
+          "this_job_last_checkpoint_update": 3900,
+          "this_job_last_update_seconds": 2.247275898233056,
+          "last_event": "sample_start",
+          "last_event_utc": "2026-10-18T00:19:01.007067+00:00"
+        }
+      },
+      "failures": []
+    }
+  ]
+}

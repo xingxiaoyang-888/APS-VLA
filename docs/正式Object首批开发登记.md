@@ -19,3 +19,7 @@
 后续实际验收：3021394以0:0结束，12条/2初态通过root及独立审计；269次策略、视觉和packing，2103控制动作，0未来头。3条horizon失败和0运行错误全部保留，实际分配386 GPU秒。原始12份证据另存不可变副本，后续沿同一600条清单续跑，不重复前12条；此小面板不支持套件成功率或未来监督收益结论。
 
 证据：[root](../results/formal_main_v2/downstream_reviews/3021394.json)、[独立审计](../results/formal_main_v2/preflight/object_first_development_real_independent_20261018.json)、[原始字节归档](../results/formal_main_v2/preflight/object_first_development_raw_v1/receipt.json)。
+
+2026-10-18 08:38：第二段已登记并提交`3021603`，同原账本显式resume，新增120、累计目标132/600，首12条不重跑。方法、任务、初态、环境与权重身份不变；下一分段须待实际终态双审。
+
+[v2登记](../results/formal_main_v2/preflight/object_first_pair_development_registration_v2.json)；[root重建及提交](../results/formal_main_v2/preflight/object_first_pair_development_submission_root_v2.json)。

@@ -1,0 +1,109 @@
+"""Deliver this heartbeat through the unchanged Git-index archive guard."""
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,subprocess,sys
+root=Path(__file__).resolve().parents[1]
+base='results/formal_main_v2/'
+batch_name=base+'preflight/parallel_review_batch_20261018T0018.json'
+required_name=base+'preflight/parallel_review_batch_20261018T0018_git_required.json'
+proof_name=base+'preflight/parallel_review_batch_20261018T0018_git_delivery.json'
+panel_proof_name=base+'preflight/object_existing_development_panel_index_20261018T0018.json'
+for name in (required_name,proof_name,panel_proof_name):assert not (root/name).exists()
+sha=lambda data:hashlib.sha256(data).hexdigest()
+def git(*args):return subprocess.check_output(['git',*args],cwd=root)
+def ref(name):
+    path=root/name;assert path.is_file() and not path.is_symlink()
+    data=path.read_bytes();return dict(path=name,sha256=sha(data),bytes=len(data))
+parent='9513cbe3c8059c7dc4fec2a7e3bcaef062897cc3'
+assert git('rev-parse','HEAD').decode().strip()==parent
+assert not git('diff','--cached','--name-only').strip()
+batch=json.loads((root/batch_name).read_bytes())
+assert batch['parent_delivered_commit']==parent
+current_pulls=set(batch['current_terminal_pulls'])
+assert len(current_pulls)==len(batch['reviewed_boundaries'])==8
+for boundary in batch['reviewed_boundaries']:
+    name=batch['audit_source_archive_map']['.local/root_pull_review_2250_'+boundary['job_id']+'.json']
+    assert ref(name)['sha256']==batch['evidence_sha256'][name]
+    op=json.loads((root/name).read_bytes())
+    assert op['job_id']==boundary['job_id'] and op['pull'] in current_pulls
+    assert op['pull_sha256']==batch['evidence_sha256'][op['pull']]
+panel='configs/manifests/formal_main_v2/libero_object/initial_states/development.json'
+panel_sha='6b7e6dd9fb5b6351ee47c7bb30eab911e7c144d700cd88f7e5162641738b2d6a'
+def check_existing_panel():
+    assert ref(panel)['sha256']==panel_sha
+    assert not git('status','--porcelain','--',panel).strip()
+    assert sha(git('show','HEAD:'+panel))==sha(git('show',':'+panel))==panel_sha
+check_existing_panel()
+assert batch['evidence_sha256'][panel]==panel_sha
+record=dict(schema='formal_main_v2',kind='root_unchanged_preexisting_development_panel_index_check',
+    status='verified',checked_utc=datetime.now(timezone.utc).isoformat(),file=ref(panel),head=parent,
+    HEAD_index_worktree_equal=True,path_staged_or_modified=False,guard_implementation_changed=False,
+    scope='Only this exact previously committed Object development panel, separately checked before and after the pinned guard; no new or modified payload is exempt.',final_states_opened=False)
+(root/panel_proof_name).write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8',newline='\n')
+required={}
+for name,want in batch['evidence_sha256'].items():
+    row=ref(name);assert row['sha256']==want,name
+    if name!=panel:required[name]=row
+    # Expand current verified pulls only. Older receipts retain their own exact
+    # bytes, but unrelated historical mutable progress is never reinterpreted.
+    if name in current_pulls:
+        for entry in json.loads((root/name).read_bytes())['files']:
+            row=ref(entry['relative']);assert row['sha256']==entry['sha256']
+            required[row['path']]=row
+snapshot_name=base+'nonweight_archives/v1/snapshots/long_dev600_20261018.json'
+snapshot_sha='ac7e4dce68abeddb147dd412f83afffbc5041715868547d6f60811e5fca137f0'
+assert ref(snapshot_name)['sha256']==snapshot_sha
+snapshot=json.loads((root/snapshot_name).read_bytes())
+raw_names={r['path'] for r in snapshot['files']};assert len(raw_names)==2
+for row in snapshot['files']:
+    actual=ref(row['path']);assert all(actual[k]==row[k] for k in ('path','sha256','bytes'))
+    required[actual['path']]=actual
+for name in (batch_name,snapshot_name,panel_proof_name,'results/experiment_supervisor/state.json',base+'slurm_accounting.json'):
+    required[name]=ref(name)
+changed=git('ls-files','--modified','--others','--exclude-standard','-z','--',
+    'docs','results/formal_main_v2','results/experiment_supervisor/state.json','results/slurm').decode().split('\0')
+ordinary=sorted({name for name in changed if name and name not in raw_names})
+assert panel not in ordinary and panel not in required
+for name in ordinary:
+    if not name.endswith('.md'):required[name]=ref(name)
+(root/required_name).write_text(json.dumps(dict(schema='cti_nonweight_archive_stage_v1',kind='required_files',
+    files=[required[k] for k in sorted(required)]),indent=2)+'\n',encoding='utf-8',newline='\n')
+def add(names,label,force=False):
+    spec=root/'.local'/('stage_0018_'+label+'.nul');assert not spec.exists()
+    spec.write_bytes(b''.join((':(literal)'+name).encode('utf-8')+b'\0' for name in sorted(names)))
+    subprocess.run(['git','add']+(['-f'] if force else [])+['--pathspec-from-file='+str(spec),'--pathspec-file-nul'],cwd=root,check=True)
+add(ordinary+[required_name],'ordinary')
+add(set(required)-raw_names,'required',True)
+before,changes=git('ls-files','--stage','-z'),git('diff','--cached','--name-status','-z')
+pins={'scripts/ops/nonweight_archive.py':'f81284b3c56fbfd1cce339c4ea98b20943c8cd0866b4e8b94c38ac3cdbd1e3c2',
+    'scripts/ops/check_nonweight_archive_stage.py':'ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6'}
+assert all(ref(n)['sha256']==h for n,h in pins.items())
+command=[sys.executable,'-B','scripts/ops/check_nonweight_archive_stage.py','--project-root',str(root),
+    '--snapshot',snapshot_name,'--snapshot-sha256',snapshot_sha,'--required-files',required_name]
+for name in sorted(raw_names):command.extend(['--raw-path',name])
+print(json.dumps(dict(status='staged_guard_running',required_count=len(required))),flush=True)
+process=subprocess.run(command,cwd=root,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+assert process.returncode==0,process.stderr.decode('utf-8',errors='replace')
+report=json.loads(process.stdout)
+assert report['status']=='verified_index_archive_delivery' and report['head']==parent
+assert report['index_sha256']==sha(before) and report['staged_changes_sha256']==sha(changes)
+assert report['required_count']==len(required) and report['frozen_files_verified_in_worktree_and_index']==173
+assert len(report['raw_paths_restored_exactly'])==2 and report['gpu_seconds']==0
+assert before==git('ls-files','--stage','-z') and changes==git('diff','--cached','--name-status','-z')
+check_existing_panel()
+proof=dict(schema='formal_main_v2',kind='root_git_index_nonweight_delivery',status='passed',
+    reviewed_utc=datetime.now(timezone.utc).isoformat(),guard_result=report,guard_command=command,
+    unchanged_index_until_guard_return=True,scientific_settings_changed=False,no_weights_delivered=True,
+    separately_verified_existing_development_dependency=panel_proof_name,
+    existing_panel_HEAD_index_worktree_equal_before_and_after=True,final_state_values_opened=False)
+payload=(json.dumps(proof,indent=2,sort_keys=True)+'\n').encode('utf-8')
+with (root/proof_name).open('xb') as stream:stream.write(payload)
+subprocess.run(['git','add','--',proof_name],cwd=root,check=True)
+old,new=set(before.split(b'\0'))-{b''},set(git('ls-files','--stage','-z').split(b'\0'))-{b''}
+assert not old-new and len(new-old)==1
+assert next(iter(new-old)).split(b'\t',1)[1].decode()==proof_name
+assert git('show',':'+proof_name)==payload
+subprocess.run(['git','diff','--cached','--check'],cwd=root,check=True)
+assert not git('diff','--name-only').strip()
+print(json.dumps(dict(status='passed',proof=proof_name,sha256=sha(payload),required_count=len(required),
+    frozen_files=173,restored_raw_paths=2,commit_not_performed=True)),flush=True)
