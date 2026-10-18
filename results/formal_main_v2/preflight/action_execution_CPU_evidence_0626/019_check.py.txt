@@ -1,0 +1,354 @@
+"""Independent local raw-byte audit. No simulator/model/state/remote/Git APIs."""
+from __future__ import annotations
+
+import copy
+import hashlib
+import importlib.util
+import json
+import math
+import re
+import sys
+import time
+from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
+from unittest.mock import patch
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+BASE = ".local/action_execution_compat_legacy_audit_0452"
+BUNDLE = BASE + "/candidate_bundle.json"
+BUNDLE_SHA = "14e2615b325399ee4a8c759c2c8315074c9b3f1fc99910d0cb76d82d63a94131"
+INVENTORY = "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json"
+INVENTORY_SHA = "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926"
+SOURCE_SHA = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
+METHODS = ["dense", "uniform256", "uniform128", "uniform64", "A128_seed17", "B128_seed17"]
+SPECS = [("libero_10", "3019954", 600, 100, 520),
+         ("libero_object", "3021844", 600, 100, 280),
+         ("libero_spatial", "3022743", 12, 2, 220)]
+ID_KEYS = ["action_chunk", "configured_wait_steps", "environment_seed", "initial_state_sha256",
+           "method", "run_signature", "runtime_seed", "source_state_index", "split", "state_trial_id",
+           "suite", "task_id", "task_name", "trial_id"]
+seen = {}
+
+
+def check(ok, message):
+    if not ok:
+        raise AssertionError(message)
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def sha(path):
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for block in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def safe_path(rel):
+    p = Path(rel)
+    check(not p.is_absolute() and ".." not in p.parts, "nonlocal metadata")
+    low = str(rel).lower().replace("\\", "/")
+    check(not any(x in low for x in ("sealed", "/initial_states/", "/downstream/final/", "/weights/", "/checkpoints/")), "forbidden read")
+    check(p.suffix.lower() not in (".pt", ".pth", ".safetensors", ".npz"), "forbidden payload")
+    return ROOT / p
+
+
+def read(rel, expected=None):
+    data = safe_path(rel).read_bytes()
+    actual = digest(data)
+    check(expected is None or actual == expected, "SHA mismatch: " + rel)
+    check(rel not in seen or seen[rel] == actual, "changed evidence: " + rel)
+    seen[rel] = actual
+    return data
+
+
+def decode(data):
+    def pairs(items):
+        out = {}
+        for key, value in items:
+            check(key not in out, "duplicate JSON key")
+            out[key] = value
+        return out
+    def bad(value):
+        raise AssertionError("nonfinite JSON constant " + value)
+    return json.loads(data, object_pairs_hook=pairs, parse_constant=bad)
+
+
+def js(rel, expected=None):
+    return decode(read(rel, expected))
+
+
+def compact(value):
+    return json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+
+
+def matrix(value, rows):
+    check(isinstance(value, list) and len(value) == rows, "matrix rows")
+    check(all(isinstance(row, list) and len(row) == 7 for row in value), "matrix columns")
+    check(all(type(v) in (float, int) and math.isfinite(v) for row in value for v in row), "matrix finite numeric")
+    return np.asarray(value, dtype="<f8")
+
+
+def line_ref(number, offset, raw):
+    return dict(line_number=number, byte_offset=offset, bytes_including_newline=len(raw), sha256_including_newline=digest(raw))
+
+
+def inspect_record(row, ident, horizon):
+    n = row["control_steps"]
+    check(type(n) is int and 0 < n <= horizon, "control range")
+    check(row["action_chunk"] == 8 and row["wait_steps"] == row["configured_wait_steps"] == 10, "wait/chunk")
+    chunks = row["chunks"]
+    check(chunks, "no chunks")
+    executed = matrix(row["executed_actions"], n)
+    queued, normalized, md_hashes = [], [], []
+    cp_sha = None
+    for i, c in enumerate(chunks):
+        check(c["control_step"] == i * 8, "queue boundary")
+        check(re.fullmatch(r"[0-9a-f]{64}", c["observation_sha256"]) is not None, "observation SHA")
+        env = matrix(c["environment_actions"], 8)
+        norm = matrix(c["normalized_actions"], 8)
+        check(np.all(np.abs(env) <= 1.00001), "environment range")
+        # The frozen head explicitly emits float32. Its JSON roundtrip must
+        # retain every original float32 value, including signed zero.
+        check(norm.tobytes() == norm.astype("<f4").astype("<f8").tobytes(), "normalized head float32 roundtrip")
+        md = c["metadata"]
+        for key in ("suite", "method", "visual_tokens"):
+            check(md[key] == ident[key], "chunk/manifest identity: " + key)
+        check(md.get("training_seed") == ident["training_seed"], "training seed identity")
+        check(md["per_camera_budgets"] == [ident["visual_tokens"] // 2] * 2, "camera budgets")
+        check(md["future_head_calls"] == 0 and md["language_cache"] == "disabled", "future/cache")
+        check(all(md[k] == 1 for k in ("policy_calls", "vision_calls", "packing_calls")), "deployment count")
+        check(md["scorer_calls"] == int(ident["method"] in ("A", "B")), "scorer")
+        if ident["method"] in ("A", "B"):
+            check(md["selector_checkpoint_sha256"] == ident["checkpoint_sha256"], "checkpoint identity")
+            check(md["pair_id"] == ident["pair_id"], "pair identity")
+            cp_sha = ident["checkpoint_sha256"]
+        indices = md["retained_indices"]
+        check(len(indices) == ident["visual_tokens"] and indices == sorted(set(indices)), "packing indices")
+        check(all(type(v) is int and 0 <= v < 512 for v in indices), "index range")
+        check(sum(v < 256 for v in indices) == ident["visual_tokens"] // 2, "indices camera balance")
+        queued.append(env); normalized.append(norm); md_hashes.append(digest(compact(md)))
+    queue = np.concatenate(queued, axis=0)
+    normal = np.concatenate(normalized, axis=0)
+    check(n <= len(queue), "too many executed actions")
+    check(executed.tobytes() == queue[:n].tobytes(), "exact environment float64 prefix")
+    # No tolerance and no float32 downcast are used to accept the actual data.
+    missing = row["policy_calls"] - len(chunks)
+    if row["status"] == "completed":
+        check(missing == 0 and len(chunks) == (n + 7) // 8, "normal call/chunk coverage")
+        check(row.get("error") is None and row.get("error_phase") is None, "error hidden by completed")
+        check((row["success"] is True and row["termination"] == "environment_success") or
+              (row["success"] is False and row["termination"] == "task_horizon" and n == horizon), "termination semantics")
+    else:
+        check(row["status"] == "policy_error" and row["suite"] == "libero_object" and row["method"] == "dense", "unexpected error")
+        check(row["task_id"] == 8 and row["source_state_index"] == 49 and row["success"] is False, "failed trial identity")
+        check(row["error_phase"] == "policy" and row["termination"] == "ValueError" and
+              row["error"] == "environment action outside normalized controller [-1, 1] range", "original failure")
+        check(missing == 1 and row["policy_calls"] == 8 and len(chunks) == 7 and n == 56 == len(queue), "unrecorded failed chunk")
+    return {
+        "recorded_chunks": len(chunks), "policy_calls": row["policy_calls"], "executed_control_actions": n,
+        "unrecorded_policy_chunks": missing, "recorded_environment_shape_finite_range_pass": True,
+        "normalized_shape_finite_pass": True, "normalized_range_is_not_an_execution_gate": True,
+        "maximum_abs_normalized": float(np.max(np.abs(normal))),
+        "maximum_abs_environment": float(np.max(np.abs(queue))),
+        "maximum_abs_environment_first_six_components": float(np.max(np.abs(queue[:, :6]))),
+        "executed_exact_float64_queue_prefix": True,
+        "all_queued_actions_f64le_sha256": digest(queue.tobytes()),
+        "executed_actions_f64le_sha256": digest(executed.tobytes()),
+        "chunk_metadata_sequence_sha256": digest(json.dumps(md_hashes, separators=(",", ":")).encode()),
+        "selector_checkpoint_sha256": cp_sha,
+        "recorded_deployment_calls": {"policy_calls": len(chunks), "vision_calls": len(chunks), "packing_calls": len(chunks), "future_head_calls": 0},
+        "all_policy_calls_have_recorded_chunks": missing == 0,
+        "missing_chunk_values": "unknown_not_reconstructed" if missing else "none",
+        "new_adapter_equivalence_proven": False, "reuse_authorized": False,
+    }
+
+
+def focused_negatives(sample, ident, candidate):
+    cases = []
+    def reject(name, f):
+        try:
+            f()
+        except (AssertionError, ValueError, KeyError):
+            cases.append({"case": name, "result": "rejected_as_required"})
+        else:
+            raise AssertionError("negative accepted: " + name)
+    for label, replacement in [("one_float64_ULP", math.nextafter(sample["executed_actions"][0][0], math.inf)),
+                               ("NaN", float("nan")), ("positive_inf", float("inf")), ("boolean", True)]:
+        x = copy.deepcopy(sample); x["executed_actions"][0][0] = replacement
+        reject(label + "_independent", lambda x=x: inspect_record(x, ident, 520))
+        reject(label + "_candidate", lambda x=x: candidate.inspect_terminal(x, 520))
+    for label, replacement in [("wrong_checkpoint", "0" * 64), ("wrong_pair", "0" * 64)]:
+        x = copy.deepcopy(sample)
+        x["chunks"][0]["metadata"]["selector_checkpoint_sha256" if label == "wrong_checkpoint" else "pair_id"] = replacement
+        reject(label + "_manifest_crossbinding", lambda x=x: inspect_record(x, ident, 520))
+    z = copy.deepcopy(sample)
+    z["chunks"][0]["environment_actions"][0][0] = 0.0
+    z["executed_actions"][0][0] = -0.0
+    reject("signed_zero_independent", lambda: inspect_record(z, ident, 520))
+    reject("signed_zero_candidate", lambda: candidate.inspect_terminal(z, 520))
+    for label, mutate in [
+        ("missing_normal_chunk", lambda x: x.update(policy_calls=x["policy_calls"] + 1)),
+        ("future_head", lambda x: x["chunks"][0]["metadata"].update(future_head_calls=1)),
+        ("wrong_shape", lambda x: x["chunks"][0]["environment_actions"][0].pop()),
+    ]:
+        x = copy.deepcopy(sample); mutate(x)
+        reject(label + "_independent", lambda x=x: inspect_record(x, ident, 520))
+        reject(label + "_candidate", lambda x=x: candidate.inspect_terminal(x, 520))
+    for value in (b'{"x":1,"x":2}', b'{"x":NaN}'):
+        reject("strict_JSON_independent", lambda value=value: decode(value))
+        reject("strict_JSON_candidate", lambda value=value: candidate.decode(value))
+    for bad in ("results/formal_main_v2/libero_10/downstream/final/abc/trials.jsonl", "../trials.jsonl", "F:/weights.pt"):
+        with patch.object(Path, "open", side_effect=RuntimeError("I/O forbidden")), patch.object(Path, "resolve", side_effect=RuntimeError("resolve forbidden")):
+            reject("candidate_path_before_IO:" + bad, lambda bad=bad: candidate.guard_ledger(bad))
+    return cases
+
+
+def main():
+    started = time.perf_counter()
+    bundle = js(BUNDLE, BUNDLE_SHA)
+    for rel, item in bundle["files"].items():
+        data = read(BASE + "/" + rel, item["sha256"])
+        check(len(data) == item["bytes"], "candidate bytes " + rel)
+    for rel, expected in bundle["read_evidence_sha256"].items():
+        read(rel, expected)
+    report = js(BASE + "/run_v1/report.json")
+    candidate_rows = [decode(x) for x in read(BASE + "/run_v1/per_trial_audit.jsonl").splitlines()]
+    check(len(candidate_rows) == 1212 and len({x["trial_id"] for x in candidate_rows}) == 1212, "candidate1212")
+    inventory = js(INVENTORY, INVENTORY_SHA)
+    check(inventory["source_sha256"] == SOURCE_SHA and len(inventory["files"]) == 173, "frozen source inventory")
+    for rel, expected in inventory["files"].items():
+        read(rel, expected)
+    read("external/openvla-oft/prismatic/extern/hf/modeling_prismatic.py")
+    read("results/setup/runtime_sources.json")
+    summaries, expected_candidates, errors, sample, sample_ident = [], [], [], None, None
+    all_job_ids = set(); historical_gpu = 0
+    for suite, latest_job, count, nstates, horizon in SPECS:
+        root_rel = f"results/formal_main_v2/downstream_reviews/{latest_job}.json"
+        root = js(root_rel, bundle["read_evidence_sha256"][root_rel])
+        run = f"results/formal_main_v2/{suite}/downstream/development/8c843c1d4ee8383c/attempt01"
+        ledger_rel = run + "/trials.jsonl"
+        ledger_sha = bundle["read_evidence_sha256"][ledger_rel]
+        check(root["status"] == "passed" and root["stage"] == "development" and root["source_sha256"] == SOURCE_SHA, "root stage/source")
+        check(root["completed_trials"] == count and root["expected_trials"] == 600 and root["unfinished_attempts_unknown_cost"] == 0, "root terminal scope")
+        check(root["files"][ledger_rel] == ledger_sha and root["final_state_values_read"] is False, "root ledger/sealed binding")
+        check(root["reconstructed_summary"]["test_opened"] is False and root["reconstructed_summary"]["trials_jsonl_sha256"] == ledger_sha, "summary binding")
+        config_rel = run + "/config.json"
+        config = js(config_rel, root["files"][config_rel])
+        check(config["manifest"] == root["reconstructed_summary"]["provenance"]["manifest"], "manifest identity")
+        check(config["manifest"]["split"] == "development" and config["manifest"]["suite"] == suite, "manifest suite/split")
+        check(config["manifest"]["environment"] == dict(action_chunk=8, environment_seed=0, runtime_seed=17, max_steps=horizon, wait_steps=10), "environment identity")
+        identities = {x["identity"]["method_id"]: x["identity"] for x in config["manifest"]["methods"]}
+        check(list(identities) == METHODS and all(v["future_head_deployed"] is False for v in identities.values()), "six methods")
+        for rel, expected in config["source_files"].items():
+            check(inventory["files"][rel] == expected, "frozen runtime source mismatch")
+        pull = js(root["pull_receipt"], root["evidence_sha256"][root["pull_receipt"]])
+        check(pull["status"] == "verified_nonweight_snapshot" and pull["weights_copied"] is False and pull["sealed_initial_states_copied"] is False, "pull scope")
+        pulled = [x for x in pull["files"] if x["relative"] == ledger_rel]
+        check(len(pulled) == 1 and pulled[0]["sha256"] == ledger_sha, "pull ledger binding")
+        offsets = 0; hasher = hashlib.sha256(); active = None; current_job = None; inv_ref = None
+        invocations = []; events = Counter(); statuses = Counter(); terms = Counter(); counts = Counter(); methods = Counter()
+        states = {}; seen_trials = set(); results = []; partial = 0
+        with safe_path(ledger_rel).open("rb") as f:
+            for number, raw in enumerate(f, 1):
+                check(raw.endswith(b"\n"), "raw LF closure")
+                ref = line_ref(number, offsets, raw); offsets += len(raw); hasher.update(raw)
+                row = decode(raw); event = row["event"]; events[event] += 1
+                check(row["run_signature"] == root["run_signature"], "run signature")
+                if event == "invocation":
+                    check(active is None and row["slurm_job_id"] not in invocations, "invocation overlap/replay")
+                    current_job = row["slurm_job_id"]; invocations.append(current_job); inv_ref = ref; continue
+                check(current_job is not None and event in ("start", "result"), "event grammar")
+                check(row["suite"] == suite and row["split"] == "development" and row["environment_seed"] == 0 and row["runtime_seed"] == 17, "trial identity")
+                if event == "start":
+                    check(active is None and row["trial_id"] not in seen_trials, "trial overlap/replay")
+                    active = row, ref; continue
+                check(active is not None, "result without start")
+                start, start_ref = active; active = None
+                check(all(row[k] == start[k] for k in ID_KEYS), "start-result identity")
+                check(row["method"] == METHODS[len(results) % 6], "method order")
+                if len(results) % 6:
+                    check(row["state_trial_id"] == results[-1]["state_trial_id"], "state block order")
+                state = states.setdefault(row["state_trial_id"], (row["initial_state_sha256"], []))
+                check(state[0] == row["initial_state_sha256"], "state SHA changes")
+                state[1].append(row["method"])
+                values = inspect_record(row, identities[row["method"]], horizon)
+                if sample is None and row["method"] == "A128_seed17":
+                    sample = row; sample_ident = identities[row["method"]]
+                item = {k: row[k] for k in ID_KEYS}
+                item.update(status=row["status"], success=row["success"], termination=row["termination"], error=row.get("error"), error_phase=row.get("error_phase"),
+                    ledger=ledger_rel, ledger_sha256=ledger_sha, root_review=root_rel, root_review_sha256=seen[root_rel],
+                    old_source_sha256=root["source_sha256"], old_adapter_sha256=root["adapter_sha256"], old_execution_manifest_sha256=root["execution_manifest_sha256"],
+                    invocation_job_id=current_job, invocation_line=inv_ref, start_line=start_ref, terminal_line=ref, checks=values)
+                check(item == candidate_rows[len(expected_candidates)], "candidate per-trial mismatch: " + row["trial_id"])
+                expected_candidates.append(item); results.append(item); seen_trials.add(row["trial_id"])
+                if row["status"] != "completed": errors.append(item)
+                partial += row["control_steps"] % 8 != 0
+                statuses[row["status"]] += 1; terms[row["termination"]] += 1; methods[row["method"]] += 1
+                for key in ("recorded_chunks", "policy_calls", "executed_control_actions", "unrecorded_policy_chunks"): counts[key] += values[key]
+        check(active is None and len(results) == count and len(states) == nstates, "terminal/state completeness")
+        check(all(v[1] == METHODS for v in states.values()), "all methods per state")
+        check(invocations == root["raw_invocation_job_ids"], "root invocation sequence")
+        check(hasher.hexdigest() == ledger_sha and offsets == pulled[0]["bytes"], "ledger raw byte/hash")
+        source_summary = next(s for s in report["suites"] if s["suite"] == suite)
+        for key, value in [("calls", dict(counts)), ("events", dict(events)), ("statuses", dict(statuses)), ("terminations", dict(terms)), ("per_method_terminal_counts", dict(methods))]:
+            check(source_summary[key] == value, "candidate suite summary " + key)
+        allocations = root["cost"]["allocations"]
+        check([a["job_id"] for a in allocations] == invocations, "allocation/invocation coverage")
+        registered = {j["job_id"]: j for j in root["registered_jobs_at_review"]}
+        for a in allocations:
+            check(a["job_id"] not in all_job_ids, "allocation double count")
+            j = registered[a["job_id"]]
+            for key in ("status", "exit_code", "elapsed_seconds", "gpus"):
+                check(j[key] == a[key], "allocation mismatch " + key)
+            all_job_ids.add(a["job_id"])
+        cost = sum(a["elapsed_seconds"] * a["gpus"] for a in allocations)
+        check(cost == root["cost"]["all_attempt_gpu_seconds"], "cost arithmetic")
+        historical_gpu += cost
+        summaries.append(dict(suite=suite, terminal_records=count, unique_initial_states=nstates, statuses=dict(statuses), terminations=dict(terms),
+                              **dict(counts), partial_final_chunk_trials=partial, historical_gpu_seconds=cost, invocation_job_ids=invocations,
+                              chunk_identity_matches_root_bound_manifest=True, raw_start_invocation_result_line_references_recomputed=True))
+        print(json.dumps(summaries[-1], ensure_ascii=False), flush=True)
+    check(len(expected_candidates) == 1212 and len(errors) == 1, "global coverage")
+    check(js(BASE + "/run_v1/retained_policy_error.json") == errors, "failure exact preservation")
+    check(errors[0]["terminal_line"] == bundle["retained_error_line"], "bundle failure locator")
+    check(all(report[k] is False and bundle[k] is False for k in ("new_adapter_equivalence_proven", "reuse_authorized")), "no equivalence/reuse grant")
+    spec = importlib.util.spec_from_file_location("legacy_candidate_independent_import", ROOT / BASE / "audit_legacy.py")
+    candidate = importlib.util.module_from_spec(spec); spec.loader.exec_module(candidate)
+    negatives = focused_negatives(sample, sample_ident, candidate)
+    for rel, expected in seen.items():
+        check(sha(safe_path(rel)) == expected, "evidence changed after audit: " + rel)
+    seen[str(Path(__file__).relative_to(ROOT)).replace("\\", "/")] = sha(Path(__file__))
+    result = dict(schema="formal_main_v2", kind="independent_historical_development_action_scope_audit", status="passed_history_scope_only",
+                  created_utc=datetime.now(timezone.utc).isoformat(), candidate_bundle_sha256=BUNDLE_SHA, suites=summaries,
+                  terminal_records=1212, normal_terminal_records=1211, retained_policy_error_records=1,
+                  recorded_chunks=sum(s["recorded_chunks"] for s in summaries), policy_calls=sum(s["policy_calls"] for s in summaries),
+                  executed_control_actions=sum(s["executed_control_actions"] for s in summaries), unknown_unrecorded_chunks=1,
+                  original_failure=errors[0], candidate_all_1212_per_trial_fields_exact_equal=True,
+                  frozen_source_files_rehashed_unchanged=173, historical_gpu_seconds_counted_once=historical_gpu,
+                  focused_negative_checks=negatives, cpu_wall_seconds=time.perf_counter()-started, new_GPU_seconds=0,
+                  SSH_used=False, simulator_or_model_used=False, final_states_read=False, state_or_Git_modified=False,
+                  original_results_modified=False, new_adapter_equivalence_proven=False, reuse_authorized=False,
+                  dtype_scope={"comparison": "Exact little-endian float64 bytes of decoded JSON environment queue and executed prefix; no tolerance or float32 downcast.",
+                    "head_dtype": "Frozen formal policy explicitly converts normalized head outputs to float32; every recorded normalized value was independently verified to roundtrip bit-exact through float32.",
+                    "environment_dtype": "Pinned policy unnnormalizes with NumPy arrays made from JSON statistics and preserves dtype in postprocess/queue. Historical JSON itself has no per-array dtype tag; float64 comparison is lossless for these finite Python float values, and is also injective for original float32 values including signed zero.",
+                    "limitation": "This establishes exact serialized action-prefix identity. It does not claim raw in-memory buffer/dtype capture unavailable in the historical JSON or old/new controller equivalence."},
+                  scope_limits=["All 1212 old terminal records are preserved, including 186 task-horizon failures and one policy_error; no trial rerun or outcome replacement.",
+                    "The eighth Object failed chunk is absent from the original ledger; its values and corrected-execution outcome remain unknown.",
+                    "Only Long/Object six-method 100-development-state runs and Spatial six-method two-state smoke are covered, not 22-instance suite completion or final release.",
+                    "Root receipts are pinned old-execution proofs; this audit does not authorize new adapter deployment, old trial reuse, inference timing reuse, or a corrected rollout."],
+                  read_evidence_sha256=dict(sorted(seen.items())))
+    path = HERE / "independent_checks.json"
+    with path.open("xb") as f: f.write((json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True)+"\n").encode())
+    print(json.dumps({"status": result["status"], "negative_checks": len(negatives), "checks_sha256": sha(path), "wall_seconds": result["cpu_wall_seconds"]}), flush=True)
+
+
+if __name__ == "__main__":
+    main()

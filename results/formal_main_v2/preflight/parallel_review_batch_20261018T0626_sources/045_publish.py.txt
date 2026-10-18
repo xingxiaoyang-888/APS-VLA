@@ -1,0 +1,53 @@
+"""Publish exactly one immutable independent receipt; no experiment mutation."""
+import hashlib
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+TARGET = ROOT / "results/formal_main_v2/preflight/action_execution_legacy_independent_0626.json"
+
+
+def sha(path):
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for block in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+result = json.loads((HERE / "independent_checks.json").read_bytes())
+assert result["status"] == "passed_history_scope_only"
+assert (result["terminal_records"], result["recorded_chunks"], result["executed_control_actions"]) == (1212, 35028, 276594)
+assert len(result["focused_negative_checks"]) == 25
+assert result["historical_gpu_seconds_counted_once"] == 17637
+for rel, expected in result["read_evidence_sha256"].items():
+    assert sha(ROOT / rel) == expected, rel
+for name in ("check_initial.py", "run_initial.log", "check.py", "run_v2.log", "independent_checks.json", "publish.py"):
+    path = HERE / name
+    result["read_evidence_sha256"][path.relative_to(ROOT).as_posix()] = sha(path)
+result.update(
+    published_utc=datetime.now(timezone.utc).isoformat(),
+    reviewer="root/deploy64",
+    candidate_findings=[],
+    independent_command=["python", "-B", ".local/legacy_audit_independent_0626/check.py"],
+    independent_process_exit_code=0,
+    independent_process_wall_seconds=9.785739299986744,
+    independent_check_cpu_wall_seconds=result.pop("cpu_wall_seconds"),
+    preserved_initial_checker_failure={
+        "log": ".local/legacy_audit_independent_0626/run_initial.log",
+        "source": ".local/legacy_audit_independent_0626/check_initial.py",
+        "exception": "KeyError: training_seed",
+        "explanation": "The independent checker initially required a selector-only metadata key on baseline chunks. It was corrected to compare absent baseline seed to the manifest's explicit None. No candidate or experimental file was changed.",
+        "first_attempt_wall_seconds": 1.399069100007182,
+        "candidate_failure": False,
+    },
+    writes_confined_to=[".local/legacy_audit_independent_0626/", TARGET.relative_to(ROOT).as_posix()],
+    independent_GPU_acceptance=False,
+    scientific_or_execution_reuse_authorized=False,
+)
+assert not TARGET.exists(), "receipt cannot overwrite"
+with TARGET.open("xb") as f:
+    f.write((json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode())
+print(json.dumps({"path": str(TARGET), "sha256": sha(TARGET), "read_evidence_files": len(result["read_evidence_sha256"]), "status": result["status"]}))

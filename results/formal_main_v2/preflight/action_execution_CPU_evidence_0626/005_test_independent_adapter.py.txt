@@ -1,0 +1,217 @@
+"""Independent adversarial CPU checks; stand-ins never load models/simulators.
+
+Candidate and frozen source bytes are pinned. Only disposable copies under this
+directory may be changed. A failed test is evidence, not permission to repair
+the candidate or run an environment.
+"""
+from __future__ import annotations
+
+import __future__
+import ast
+from collections import deque
+import copy
+from dataclasses import dataclass
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import random
+import shutil
+import sys
+from types import ModuleType
+
+import numpy as np
+import pytest
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent.parent
+CANDIDATE = ROOT / ".local/action_execution_compat_v1_candidate/adapter.py"
+CANDIDATE_SHA = "d7132596293958f35bc029707136fddf4450d76efad49b8ab96b65d6c8a9f0d9"
+assert hashlib.sha256(CANDIDATE.read_bytes()).hexdigest() == CANDIDATE_SHA
+loader = importlib.util.spec_from_file_location("independent_action_candidate_0626", CANDIDATE)
+adapter = importlib.util.module_from_spec(loader)
+loader.loader.exec_module(adapter)
+
+
+class Clock:
+    def __init__(self): self.value = 0.
+    def perf_counter(self): self.value += .001; return self.value
+
+
+def make_modules(monkeypatch, source=ROOT):
+    runtime = ModuleType(adapter.RUNTIME_NAME); runtime.__file__ = str(source / adapter.RUNTIME)
+    trials = ModuleType(adapter.TRIALS_NAME); trials.__file__ = str(source / adapter.TRIALS)
+    clock = Clock()
+    runtime.__dict__.update(np=np, hashlib=hashlib, deque=deque, dataclass=dataclass,
+                           time=clock, DUMMY_ACTION=(0., 0., 0., 0., 0., 0., -1.))
+    for name, module in ((adapter.RUNTIME_NAME, runtime), (adapter.TRIALS_NAME, trials)):
+        monkeypatch.setitem(sys.modules, name, module)
+    tree = ast.parse((source / adapter.RUNTIME).read_bytes())
+    definitions = [n for n in tree.body if isinstance(n, (ast.ClassDef, ast.FunctionDef))
+                   and n.name in ("PolicyChunk", "_observation_hash", "run_episode")]
+    assert len(definitions) == 3
+    exec(compile(ast.Module(body=definitions, type_ignores=[]), runtime.__file__, "exec",
+                 flags=__future__.annotations.compiler_flag, dont_inherit=True), runtime.__dict__)
+    trials.run_episode = runtime.run_episode
+    return runtime, trials, clock
+
+
+@pytest.fixture
+def modules(monkeypatch): return make_modules(monkeypatch)
+
+
+def scope(modules, *, project=ROOT, source=ROOT, emit=None):
+    runtime, trials, _ = modules
+    return adapter.install_action_execution_compat(project_root=project, source_root=source,
+        runtime_module=runtime, formal_trials_module=trials, expected_adapter_sha256=CANDIDATE_SHA, emit=emit)
+
+
+def observation(index=0):
+    return dict(agentview_image=np.full((2, 2, 3), index, dtype=np.uint8),
+                robot0_eye_in_hand_image=np.zeros((2, 2, 3), dtype=np.uint8),
+                robot0_eef_pos=np.zeros(3), robot0_eef_quat=np.array([0., 0., 0., 1.]),
+                robot0_gripper_qpos=np.zeros(2))
+
+
+class Environment:
+    def __init__(self): self.actions = []
+    def reset(self): pass
+    def set_init_state(self, ignored): return observation()
+    def step(self, action):
+        self.actions.append(copy.deepcopy(action))
+        return observation(len(self.actions)), 0., False, {}
+
+
+def run(runtime, function, values, method="dense", max_steps=8):
+    env = Environment(); call = 0
+    def policy(obs, instruction):
+        nonlocal call
+        chosen = values[min(call, len(values) - 1)]; call += 1
+        return runtime.PolicyChunk(np.zeros((8, 7)), np.asarray(chosen).copy(), {"method": method})
+    result = function(env, policy, "synthetic only", [0.], max_steps=max_steps)
+    return result, env
+
+
+@pytest.mark.parametrize("mutation", ["replace_generated_init", "substitute_class_borrowing_validator"])
+def test_unknown_policychunk_construction_must_fail_before_install(modules, mutation):
+    """Borrowing the original validator is not proof that construction invokes it."""
+    runtime, trials, _ = modules; original = runtime.run_episode
+    original_class = runtime.PolicyChunk
+    def unchecked(self, normalized_actions, environment_actions, metadata):
+        object.__setattr__(self, "normalized_actions", normalized_actions)
+        object.__setattr__(self, "environment_actions", environment_actions)
+        object.__setattr__(self, "metadata", metadata)
+    if mutation == "replace_generated_init":
+        runtime.PolicyChunk.__init__ = unchecked
+    else:
+        runtime.PolicyChunk = type("PolicyChunk", (), {
+            "__module__": adapter.RUNTIME_NAME,
+            "__post_init__": original_class.__post_init__, "__init__": unchecked})
+    rows = []; entered = False; result = None; env = None
+    try:
+        with scope(modules, emit=lambda event, **fields: rows.append(dict(event=event, **fields))):
+            entered = True
+            bad = np.zeros((8, 7)); bad[0, 0] = np.nan
+            result, env = run(runtime, trials.run_episode, [bad])
+    except ValueError:
+        pass
+    assert runtime.run_episode is original and trials.run_episode is original
+    diagnostic = dict(mutation=mutation, installed=entered,
+                      status=None if result is None else result["status"],
+                      executed_control_steps=None if result is None else result["control_steps"],
+                      nonfinite_action_reached_synthetic_environment=(env is not None and len(env.actions) > 10
+                          and not np.isfinite(env.actions[10]).all()),
+                      exit_claimed_helpers_intact=bool(rows and rows[-1].get("finite_shape_and_observation_helpers_intact")))
+    print("UNKNOWN_CONSTRUCTION_OBSERVATION", json.dumps(diagnostic, sort_keys=True))
+    assert not entered, "Unknown PolicyChunk construction passed frozen-loaded-identity gate: " + json.dumps(diagnostic)
+
+
+@pytest.mark.parametrize("method", ["dense", "uniform", "A", "B"])
+def test_later_chunk_extreme_finite_values_no_clipping_or_method_exception(modules, method):
+    runtime, trials, _ = modules; original = runtime.run_episode
+    zero = np.zeros((8, 7)); large = np.zeros((8, 7)); large[7, 2] = -1e300
+    old, old_env = run(runtime, original, [zero, large], method, 16)
+    assert old["status"] == "policy_error" and old["control_steps"] == 8
+    with scope(modules):
+        new, env = run(runtime, trials.run_episode, [zero, large], method, 16)
+    assert new["status"] == "completed" and new["control_steps"] == 16
+    assert np.asarray(env.actions[10:]).tobytes() == np.concatenate([zero, large]).tobytes()
+    assert env.actions[-1][2] == -1e300 and old_env.actions[10:] == zero.tolist()
+    assert runtime.run_episode is original and trials.run_episode is original
+
+
+def test_independent_ast_bytecode_derivation_is_exact_deletion(modules):
+    runtime, _, _ = modules
+    data = (ROOT / adapter.RUNTIME).read_bytes()
+    original, replacement, proof = adapter.derive_function(runtime, data)
+    frozen = next(n for n in ast.parse(data).body if isinstance(n, ast.FunctionDef) and n.name == "run_episode")
+    copied = copy.deepcopy(frozen); found = []
+    class RemoveGuard(ast.NodeTransformer):
+        def visit_If(self, node):
+            if len(node.body) == 1 and isinstance(node.body[0], ast.Raise):
+                call = node.body[0].exc
+                if isinstance(call, ast.Call) and isinstance(call.func, ast.Name) and call.func.id == "ValueError" \
+                        and call.args and isinstance(call.args[0], ast.Constant) \
+                        and call.args[0].value == "environment action outside normalized controller [-1, 1] range":
+                    found.append(node)
+                    return None
+            return self.generic_visit(node)
+    expected = RemoveGuard().visit(copied); assert len(found) == 1
+    assert ast.unparse(found[0].test) == "bool((np.abs(chunk.environment_actions) > 1.00001).any())"
+    ns = {}
+    exec(compile(ast.Module(body=[expected], type_ignores=[]), original.__code__.co_filename, "exec",
+                 flags=__future__.annotations.compiler_flag, dont_inherit=True), runtime.__dict__, ns)
+    assert adapter.code_sha256(ns["run_episode"].__code__) == adapter.code_sha256(replacement.__code__)
+    assert proof["removed_if_count"] == 1 and replacement.__globals__ is original.__globals__
+
+
+def test_enter_emitter_exception_leaves_aliases_and_rng_untouched(modules):
+    runtime, trials, _ = modules; original = runtime.run_episode
+    py = random.getstate(); numpy = copy.deepcopy(np.random.get_state())
+    def fail(event, **unused):
+        raise OSError("synthetic sink failure before installation")
+    with pytest.raises(OSError, match="before installation"):
+        with scope(modules, emit=fail): pytest.fail("body must not run")
+    assert runtime.run_episode is original and trials.run_episode is original
+    assert not adapter._LOCK.locked() and random.getstate() == py
+    assert all(np.array_equal(a, b) for a, b in zip(numpy, np.random.get_state()))
+    with scope(modules): pass
+
+
+def test_generator_close_restores_aliases(modules):
+    runtime, trials, _ = modules; original = runtime.run_episode; records = []
+    def suspended():
+        with scope(modules, emit=lambda event, **fields: records.append(dict(event=event, **fields))):
+            yield None
+    gen = suspended(); next(gen)
+    assert trials.run_episode is runtime.run_episode and runtime.run_episode is not original
+    gen.close()
+    assert runtime.run_episode is original and trials.run_episode is original
+    assert records[-1]["runner_raised"] and records[-1]["original_bindings_restored"] and not adapter._LOCK.locked()
+
+
+def test_disk_source_changed_during_scope_fails_and_restores(monkeypatch, tmp_path):
+    project = tmp_path / "project"; source = project / "source"
+    for relative in (adapter.REGISTRATION, adapter.INVENTORY):
+        dest = project / relative; dest.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(ROOT / relative, dest)
+    inv = json.loads((ROOT / adapter.INVENTORY).read_bytes())
+    for relative in inv["files"]:
+        dest = source / relative; dest.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(ROOT / relative, dest)
+    modules = make_modules(monkeypatch, source); runtime, trials, _ = modules; original = runtime.run_episode; records = []
+    with pytest.raises(RuntimeError, match="scope/source tampering"):
+        with scope(modules, project=project, source=source, emit=lambda event, **fields: records.append(dict(event=event, **fields))):
+            target = source / adapter.RUNTIME
+            with target.open("ab") as out: out.write(b"\n# isolated synthetic post-install drift\n")
+    assert runtime.run_episode is original and trials.run_episode is original and not adapter._LOCK.locked()
+    assert records[-1]["original_bindings_restored"] and not records[-1]["source_inputs_unchanged"]
+    assert records[-1]["changed_inputs"] == [str(source / adapter.RUNTIME)]
+
+
+def test_loaded_formal_alias_changed_to_same_code_other_object_fails(modules):
+    runtime, trials, _ = modules; original = runtime.run_episode
+    clone = type(original)(original.__code__, original.__globals__, original.__name__)
+    clone.__kwdefaults__ = copy.deepcopy(original.__kwdefaults__)
+    trials.run_episode = clone
+    with pytest.raises(ValueError, match="alias or function origin"):
+        with scope(modules): pytest.fail("different alias object accepted")
+    assert runtime.run_episode is original and trials.run_episode is clone and not adapter._LOCK.locked()

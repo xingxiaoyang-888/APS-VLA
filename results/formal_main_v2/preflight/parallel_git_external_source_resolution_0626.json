@@ -1,0 +1,47 @@
+{
+  "GPU_seconds": 0,
+  "archived": {
+    "bytes": 49991,
+    "path": "results/formal_main_v2/preflight/parallel_git_external_source_0626/modeling_prismatic.py.txt",
+    "sha256": "f6aba7898aed7a57405c1d68343086243c34506359f35da7625c9018ef943938"
+  },
+  "batch": {
+    "bytes": 177903,
+    "path": "results/formal_main_v2/preflight/parallel_review_batch_20261018T0626.json",
+    "sha256": "ab2101e565eca43574025a68c603b48a6fed03ae71a339eac0b8f6043d2b4876"
+  },
+  "codec_and_guard_unchanged": true,
+  "external_repository_commit": "e4287e94541f459edc4feabc4e181f537cd569a8",
+  "external_repository_modified": false,
+  "failure_observation": {
+    "error": "Missing required index blob: external/openvla-oft/prismatic/extern/hf/modeling_prismatic.py",
+    "error_type": "StageError",
+    "helper": ".local/stage_verify_parallel_0626_candidate.py",
+    "helper_sha256": "0c6aed9feb94754ecc1e2a32b3227bd0d526c5027bf0384a909210a4bdbbab79",
+    "status": "rejected"
+  },
+  "final_states_opened": false,
+  "frozen_source_files_changed": 0,
+  "helper_archive": {
+    "bytes": 7201,
+    "path": "results/formal_main_v2/preflight/parallel_git_external_source_0626/repair_external_delivery_0626.py.txt",
+    "sha256": "5061dc463140c224d07b3f0792548dc0900b3e8faf70e73b2bf8ff7ad100606f"
+  },
+  "kind": "exact_external_source_evidence_archive",
+  "original": {
+    "bytes": 49991,
+    "path": "external/openvla-oft/prismatic/extern/hf/modeling_prismatic.py",
+    "sha256": "f6aba7898aed7a57405c1d68343086243c34506359f35da7625c9018ef943938"
+  },
+  "original_is_not_parent_Git_index_blob": true,
+  "original_receipts_and_batch_unchanged": true,
+  "recorded_utc": "2026-10-18T06:49:54.192719+00:00",
+  "rejected_required": {
+    "bytes": 223519,
+    "path": "results/formal_main_v2/preflight/parallel_review_batch_20261018T0626_git_required.json",
+    "sha256": "b2c4958b913623ae525672d2e9be0ea61279ba976a95d7489db76ea81c6c2508"
+  },
+  "resolution": "Only this exact path/SHA/size tuple is delivered at an exact-byte source archive; no checksum exemption or broader alias.",
+  "schema": "formal_main_v2",
+  "status": "exact_bytes_archived"
+}

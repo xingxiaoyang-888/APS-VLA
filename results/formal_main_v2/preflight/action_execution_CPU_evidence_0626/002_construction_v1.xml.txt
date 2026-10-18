@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="4.149" timestamp="2026-10-18T14:31:26.516338" hostname="Xingxiaoyang"><testcase classname=".local.action_execution_compat_independent_0626.test_independent_adapter" name="test_unknown_policychunk_construction_must_fail_before_install[replace_generated_init]" time="1.453"><failure message="AssertionError: Unknown PolicyChunk construction passed frozen-loaded-identity gate: {&quot;mutation&quot;: &quot;replace_generated_init&quot;, &quot;installed&quot;: true, &quot;status&quot;: &quot;completed&quot;, &quot;executed_control_steps&quot;: 8, &quot;nonfinite_action_reached_synthetic_environment&quot;: true, &quot;exit_claimed_helpers_intact&quot;: true}&#10;assert not True">modules = (&lt;module 'cti_vla.evaluation.libero_runtime' from 'F:\\CTI-VLA\\src\\cti_vla\\evaluation\\libero_runtime.py'&gt;, &lt;module...\\CTI-VLA\\src\\cti_vla\\evaluation\\formal_trials.py'&gt;, &lt;test_independent_adapter.Clock object at 0x0000027E301D27A0&gt;)
+mutation = 'replace_generated_init'
+
+    @pytest.mark.parametrize("mutation", ["replace_generated_init", "substitute_class_borrowing_validator"])
+    def test_unknown_policychunk_construction_must_fail_before_install(modules, mutation):
+        """Borrowing the original validator is not proof that construction invokes it."""
+        runtime, trials, _ = modules; original = runtime.run_episode
+        original_class = runtime.PolicyChunk
+        def unchecked(self, normalized_actions, environment_actions, metadata):
+            object.__setattr__(self, "normalized_actions", normalized_actions)
+            object.__setattr__(self, "environment_actions", environment_actions)
+            object.__setattr__(self, "metadata", metadata)
+        if mutation == "replace_generated_init":
+            runtime.PolicyChunk.__init__ = unchecked
+        else:
+            runtime.PolicyChunk = type("PolicyChunk", (), {
+                "__module__": adapter.RUNTIME_NAME,
+                "__post_init__": original_class.__post_init__, "__init__": unchecked})
+        rows = []; entered = False; result = None; env = None
+        try:
+            with scope(modules, emit=lambda event, **fields: rows.append(dict(event=event, **fields))):
+                entered = True
+                bad = np.zeros((8, 7)); bad[0, 0] = np.nan
+                result, env = run(runtime, trials.run_episode, [bad])
+        except ValueError:
+            pass
+        assert runtime.run_episode is original and trials.run_episode is original
+        diagnostic = dict(mutation=mutation, installed=entered,
+                          status=None if result is None else result["status"],
+                          executed_control_steps=None if result is None else result["control_steps"],
+                          nonfinite_action_reached_synthetic_environment=(env is not None and len(env.actions) &gt; 10
+                              and not np.isfinite(env.actions[10]).all()),
+                          exit_claimed_helpers_intact=bool(rows and rows[-1].get("finite_shape_and_observation_helpers_intact")))
+        print("UNKNOWN_CONSTRUCTION_OBSERVATION", json.dumps(diagnostic, sort_keys=True))
+&gt;       assert not entered, "Unknown PolicyChunk construction passed frozen-loaded-identity gate: " + json.dumps(diagnostic)
+E       AssertionError: Unknown PolicyChunk construction passed frozen-loaded-identity gate: {"mutation": "replace_generated_init", "installed": true, "status": "completed", "executed_control_steps": 8, "nonfinite_action_reached_synthetic_environment": true, "exit_claimed_helpers_intact": true}
+E       assert not True
+
+.local\action_execution_compat_independent_0626\test_independent_adapter.py:126: AssertionError</failure></testcase><testcase classname=".local.action_execution_compat_independent_0626.test_independent_adapter" name="test_unknown_policychunk_construction_must_fail_before_install[substitute_class_borrowing_validator]" time="1.547"><failure message="AssertionError: Unknown PolicyChunk construction passed frozen-loaded-identity gate: {&quot;mutation&quot;: &quot;substitute_class_borrowing_validator&quot;, &quot;installed&quot;: true, &quot;status&quot;: &quot;completed&quot;, &quot;executed_control_steps&quot;: 8, &quot;nonfinite_action_reached_synthetic_environment&quot;: true, &quot;exit_claimed_helpers_intact&quot;: true}&#10;assert not True">modules = (&lt;module 'cti_vla.evaluation.libero_runtime' from 'F:\\CTI-VLA\\src\\cti_vla\\evaluation\\libero_runtime.py'&gt;, &lt;module...\\CTI-VLA\\src\\cti_vla\\evaluation\\formal_trials.py'&gt;, &lt;test_independent_adapter.Clock object at 0x0000027E0450FF10&gt;)
+mutation = 'substitute_class_borrowing_validator'
+
+    @pytest.mark.parametrize("mutation", ["replace_generated_init", "substitute_class_borrowing_validator"])
+    def test_unknown_policychunk_construction_must_fail_before_install(modules, mutation):
+        """Borrowing the original validator is not proof that construction invokes it."""
+        runtime, trials, _ = modules; original = runtime.run_episode
+        original_class = runtime.PolicyChunk
+        def unchecked(self, normalized_actions, environment_actions, metadata):
+            object.__setattr__(self, "normalized_actions", normalized_actions)
+            object.__setattr__(self, "environment_actions", environment_actions)
+            object.__setattr__(self, "metadata", metadata)
+        if mutation == "replace_generated_init":
+            runtime.PolicyChunk.__init__ = unchecked
+        else:
+            runtime.PolicyChunk = type("PolicyChunk", (), {
+                "__module__": adapter.RUNTIME_NAME,
+                "__post_init__": original_class.__post_init__, "__init__": unchecked})
+        rows = []; entered = False; result = None; env = None
+        try:
+            with scope(modules, emit=lambda event, **fields: rows.append(dict(event=event, **fields))):
+                entered = True
+                bad = np.zeros((8, 7)); bad[0, 0] = np.nan
+                result, env = run(runtime, trials.run_episode, [bad])
+        except ValueError:
+            pass
+        assert runtime.run_episode is original and trials.run_episode is original
+        diagnostic = dict(mutation=mutation, installed=entered,
+                          status=None if result is None else result["status"],
+                          executed_control_steps=None if result is None else result["control_steps"],
+                          nonfinite_action_reached_synthetic_environment=(env is not None and len(env.actions) &gt; 10
+                              and not np.isfinite(env.actions[10]).all()),
+                          exit_claimed_helpers_intact=bool(rows and rows[-1].get("finite_shape_and_observation_helpers_intact")))
+        print("UNKNOWN_CONSTRUCTION_OBSERVATION", json.dumps(diagnostic, sort_keys=True))
+&gt;       assert not entered, "Unknown PolicyChunk construction passed frozen-loaded-identity gate: " + json.dumps(diagnostic)
+E       AssertionError: Unknown PolicyChunk construction passed frozen-loaded-identity gate: {"mutation": "substitute_class_borrowing_validator", "installed": true, "status": "completed", "executed_control_steps": 8, "nonfinite_action_reached_synthetic_environment": true, "exit_claimed_helpers_intact": true}
+E       assert not True
+
+.local\action_execution_compat_independent_0626\test_independent_adapter.py:126: AssertionError</failure></testcase></testsuite></testsuites>

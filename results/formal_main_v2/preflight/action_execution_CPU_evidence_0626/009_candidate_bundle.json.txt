@@ -1,0 +1,118 @@
+{
+  "Git_or_state_used": false,
+  "SSH_or_GPU_used": false,
+  "actual_audit": {
+    "command": [
+      "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+      "-B",
+      ".local/action_execution_compat_legacy_audit_0452/audit_legacy.py",
+      "--output-name",
+      "run_v1"
+    ],
+    "cwd": "F:\\CTI-VLA",
+    "exit_code": 0,
+    "wall_seconds": 7.687304599996423
+  },
+  "coverage": {
+    "executed_control_actions": 276594,
+    "normal_terminal_records": 1211,
+    "policy_calls": 35029,
+    "recorded_chunks": 35028,
+    "retained_policy_error_records": 1,
+    "terminal_records": 1212,
+    "unknown_unrecorded_policy_chunks": 1
+  },
+  "files": {
+    "README.md": {
+      "bytes": 2707,
+      "sha256": "fdf73c61600918e5fe20bb38341c43412a4e99067174db09c6eedc81ea1e1454"
+    },
+    "actual_audit_v1.log": {
+      "bytes": 4026,
+      "sha256": "82b38762a1ef0a1b41fe2a399af1af7837443750b3c7c8dc2f9ca2003b08d8f2"
+    },
+    "audit_legacy.py": {
+      "bytes": 22298,
+      "sha256": "f13fc2460df77b2a12605e3a19ac88cdfff34151ab0ab8e4d27975dc46c10b4b"
+    },
+    "run_v1/per_trial_audit.jsonl": {
+      "bytes": 3634877,
+      "sha256": "6ac9bfd7af418ede557b42c5fdb63cb75410d8bcff582e557ee6d35136abce25"
+    },
+    "run_v1/report.json": {
+      "bytes": 8336,
+      "sha256": "4655a66f81c7668ff17ed3eff26f1b67ea390041386b16a3611f8e4490a7d9cb"
+    },
+    "run_v1/retained_policy_error.json": {
+      "bytes": 3548,
+      "sha256": "574e7e5178dce851bc60ffc008c81aa359d03d208dd8ab3c582487c1abfcec77"
+    },
+    "synthetic_tests_v1.log": {
+      "bytes": 1246,
+      "sha256": "7e81816d27f9cdd1e073fe4c5faddd13a93f4e4525c8a3bfd8a3319213f8486c"
+    },
+    "synthetic_tests_v2.log": {
+      "bytes": 1245,
+      "sha256": "fbb2675cd76d1fa975a7b50b238e4dc61431f0bce6c3c994f607569f6f60b01d"
+    },
+    "test_audit_legacy.py": {
+      "bytes": 5256,
+      "sha256": "e552754fe92047bb418735f4b05a8b66abf93ca67ffdcf62a52851ffb46944ea"
+    }
+  },
+  "final_initial_states_or_weights_read": false,
+  "fixed_utc": "2026-10-18T05:57:21.547330+00:00",
+  "focused_tests": {
+    "command": [
+      "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      ".local/action_execution_compat_legacy_audit_0452",
+      "-p",
+      "test_audit_legacy.py",
+      "-v"
+    ],
+    "cwd": "F:\\CTI-VLA",
+    "exit_code": 0,
+    "passed": 10,
+    "wall_seconds": 0.4460065999883227
+  },
+  "kind": "historical_development_action_scope_candidate_bundle",
+  "new_adapter_equivalence_proven": false,
+  "original_ledgers_or_results_modified": false,
+  "output_scope": ".local/action_execution_compat_legacy_audit_0452",
+  "read_evidence_sha256": {
+    ".local/action_execution_compat_legacy_audit_0452/audit_legacy.py": "f13fc2460df77b2a12605e3a19ac88cdfff34151ab0ab8e4d27975dc46c10b4b",
+    "configs/experiments/formal_main_v2_action_execution_compat_v1.json": "0917bff60e632a5be3c2db50b16daa0b904e4754a3ba31334802060f75d3eefe",
+    "docs/正式动作执行兼容修正登记.md": "06682ec87400cfdd41bf3947d14140a8a95cff4b1f1121063812bd5e60a7d938",
+    "results/formal_main_v2/downstream_reviews/3019954.json": "cde7e784bced622a6a30169af1f3c34ece8b710da8a6d65ab804454457c5d9ba",
+    "results/formal_main_v2/downstream_reviews/3021844.json": "004a810edd7f097bbeec755315beed11bbfa86640a78ffd75ef0ff78a769ee37",
+    "results/formal_main_v2/downstream_reviews/3022743.json": "9e14b86a1e556c53ef1cbd8c7bdc1733c3d5eb744f62ffee8df9395645816650",
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl": "0f8b8d265fce7d77728e5c8923420ad40eb780a26289fd8094837ea2a851c136",
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl": "d93ad5a4eb4ae3edb7a9b20e640a72fe4971ca0e4eeb62eea71acc4d71a257d1",
+    "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl": "3a175dbc5dd7a23cd2c3c8385cb6ff3c525f09d4e607ff32a69a10869672a2f9",
+    "results/formal_main_v2/pulls/20261017T174014Z_6a431952b07c/receipt.json": "3e91bb98ddd09693c7c5614fc27f0e425b1762ab353ff25228492ab006ebe116",
+    "results/formal_main_v2/pulls/20261018T034604Z_1bf27f1ba9a3/receipt.json": "22624a83203ad2cb071a09d9bbb91b830b4a43a77bca269c803574597cacc484",
+    "results/formal_main_v2/pulls/20261018T035205Z_3763309f11d9/receipt.json": "2b523a8027b879411b50b6d27b9a9a701580763e17831d6a0a7fba176087e82c",
+    "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781"
+  },
+  "remaining": [
+    "Root/independent review of this CPU evidence bundle.",
+    "New scoped adapter implementation and exact CPU/GPU engineering acceptance.",
+    "Per-trial old/new execution-identity equivalence evidence; old failure remains unchanged and no rerun is authorized."
+  ],
+  "retained_error_line": {
+    "byte_offset": 50238794,
+    "bytes_including_newline": 44183,
+    "line_number": 1073,
+    "sha256_including_newline": "d7f134683c6e01c8667731c6ca6807290d91d7816d28197f48232de9bc271eb0"
+  },
+  "reuse_authorized": false,
+  "root_or_independent_candidate_acceptance_complete": false,
+  "schema": "formal_main_v2",
+  "source_inputs_rehashed_after_run": true,
+  "status": "passed_candidate_history_scope_only"
+}

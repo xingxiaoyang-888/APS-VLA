@@ -1,0 +1,153 @@
+"""CPU-only contract checks; never call the candidate main/staging entry."""
+from pathlib import Path
+import ast
+import copy
+import importlib.util
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[1]
+CANDIDATE = ROOT / ".local/stage_verify_parallel_0452_candidate.py"
+spec = importlib.util.spec_from_file_location("stage0452candidate", CANDIDATE)
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+
+
+def rows():
+    return [dict(job_id=j,suite=v[0],budget=v[1],seed=v[2],boundary=v[3],
+                 allowed_next=None if v[3]==5000 else v[3]+500)
+            for j,v in m.EXPECTED_BOUNDARIES.items()]
+
+
+def batch():
+    pulls={m.BASE+"pulls/fixture_"+j+"/receipt.json" for j in m.EXPECTED_BOUNDARIES}
+    return dict(current_terminal_pulls=sorted(pulls),evidence_sha256={p:"a"*64 for p in pulls}),pulls
+
+
+class BoundaryTests(unittest.TestCase):
+    def test_exact_eight_four_final(self):
+        m.validate_boundary_rows(rows())
+    def test_missing(self):
+        with self.assertRaises(AssertionError): m.validate_boundary_rows(rows()[:-1])
+    def test_duplicate(self):
+        r=rows();r[-1]=copy.deepcopy(r[0])
+        with self.assertRaises(AssertionError): m.validate_boundary_rows(r)
+    def test_unknown_job(self):
+        r=rows();r[0]["job_id"]="unregistered"
+        with self.assertRaises(AssertionError): m.validate_boundary_rows(r)
+    def test_wrong_budget(self):
+        r=rows();r[0]["budget"]=64
+        with self.assertRaises(AssertionError): m.validate_boundary_rows(r)
+    def test_wrong_seed(self):
+        r=rows();r[0]["seed"]=17
+        with self.assertRaises(AssertionError): m.validate_boundary_rows(r)
+    def test_wrong_boundary(self):
+        r=rows();r[0]["boundary"]=5000;r[0]["allowed_next"]=None
+        with self.assertRaises(AssertionError): m.validate_boundary_rows(r)
+    def test_no5500(self):
+        r=rows();r[-1]["allowed_next"]=5500
+        with self.assertRaises(AssertionError): m.validate_boundary_rows(r)
+    def test_only_next500(self):
+        r=rows();r[0]["allowed_next"]=4500
+        with self.assertRaises(AssertionError): m.validate_boundary_rows(r)
+
+
+class PullTests(unittest.TestCase):
+    def test_only_eight_current(self):
+        b,p=batch();current,extra,engineering=m.classify_current_pulls(b,p)
+        self.assertEqual(current,p);self.assertEqual(extra,set());self.assertEqual(engineering,[])
+    def test_unlisted_history_never_expanded(self):
+        b,p=batch();old=m.BASE+"pulls/historical/receipt.json";b["evidence_sha256"][old]="b"*64
+        current,extra,_=m.classify_current_pulls(b,p)
+        self.assertNotIn(old,current);self.assertEqual(extra,set())
+    def test_explicit_engineering_receipt_without_pull(self):
+        b,p=batch();e=m.BASE+"preflight/synthetic_engineering_receipt.json"
+        b["new_engineering_evidence"]=[e];b["evidence_sha256"][e]="b"*64
+        current,extra,engineering=m.classify_current_pulls(b,p)
+        self.assertEqual(current,p);self.assertEqual(extra,set());self.assertEqual(engineering,[e])
+    def test_explicit_extra_engineering_pull(self):
+        b,p=batch();e=m.BASE+"pulls/synthetic_engineering/receipt.json"
+        b["new_engineering_evidence"]=[e];b["evidence_sha256"][e]="b"*64;b["current_terminal_pulls"].append(e)
+        _,extra,_=m.classify_current_pulls(b,p);self.assertEqual(extra,{e})
+    def test_extra_pull_not_explicit(self):
+        b,p=batch();e=m.BASE+"pulls/unregistered/receipt.json";b["evidence_sha256"][e]="b"*64;b["current_terminal_pulls"].append(e)
+        with self.assertRaises(AssertionError): m.classify_current_pulls(b,p)
+    def test_engineering_missing_SHA_binding(self):
+        b,p=batch();b["new_engineering_evidence"]=[m.BASE+"preflight/missing.json"]
+        with self.assertRaises(AssertionError): m.classify_current_pulls(b,p)
+    def test_current_pull_duplicate(self):
+        b,p=batch();b["current_terminal_pulls"].append(next(iter(p)))
+        with self.assertRaises(AssertionError): m.classify_current_pulls(b,p)
+    def test_omitted_training_pull(self):
+        b,p=batch();b["current_terminal_pulls"].pop()
+        with self.assertRaises(AssertionError): m.classify_current_pulls(b,p)
+    def test_engineering_path_rejected(self):
+        b,p=batch();e="results/formal_main_v2/test/receipt.json";b["new_engineering_evidence"]=[e];b["evidence_sha256"][e]="b"*64
+        with self.assertRaises(AssertionError): m.classify_current_pulls(b,p)
+
+
+class SourceAliasTests(unittest.TestCase):
+    def test_exact_old_tuple(self):
+        self.assertEqual(m.resolve_evidence_name(m.HISTORICAL_SOURCE["path"],m.HISTORICAL_SOURCE["sha256"],682),m.HISTORICAL_ARCHIVE["path"])
+    def test_canonical_stays_current(self):
+        self.assertEqual(m.resolve_evidence_name(m.CANONICAL_SOURCE["path"],m.CANONICAL_SOURCE["sha256"],663),m.CANONICAL_SOURCE["path"])
+    def test_wrong_old_size_rejected(self):
+        with self.assertRaises(AssertionError): m.resolve_evidence_name(m.HISTORICAL_SOURCE["path"],m.HISTORICAL_SOURCE["sha256"],663)
+    def test_wrong_current_size_rejected(self):
+        with self.assertRaises(AssertionError): m.resolve_evidence_name(m.CANONICAL_SOURCE["path"],m.CANONICAL_SOURCE["sha256"],682)
+    def test_other_SHA_rejected(self):
+        with self.assertRaises(AssertionError): m.resolve_evidence_name(m.CANONICAL_SOURCE["path"],"f"*64,663)
+    def test_same_SHA_other_path_not_aliased(self):
+        n="results/formal_main_v2/preflight/not_runtime_source.json"
+        self.assertEqual(m.resolve_evidence_name(n,m.HISTORICAL_SOURCE["sha256"],682),n)
+    def test_real_accepted_resolution_read_only(self):
+        real_git=m.git;commands=[]
+        def only_read(*args):
+            self.assertIn(args[0],("show","status"));commands.append(args)
+            return real_git(*args)
+        with patch.object(m,"git",only_read):
+            verified=m.check_source_version_resolution()
+        self.assertEqual(len(verified),7);self.assertEqual(len(commands),3)
+        self.assertIn(m.HISTORICAL_ARCHIVE,verified);self.assertIn(m.CANONICAL_SOURCE,verified)
+
+
+class PathAndGuardTests(unittest.TestCase):
+    def test_forbidden_before_any_file_io(self):
+        names=["results/test/x.json","results/sealed/x.json","results/weights/a.json","results/checkpoints/a.json",
+               "results/x.pt","results/x.safetensors","results/downstream/final/panel.json","results/a/initial_state.json",
+               "results/a/test_states.json","../results/x.json","results/../x.json","F:/CTI-VLA/results/a.json",
+               "results\\a.json"]
+        with patch.object(Path,"is_file",side_effect=RuntimeError("payload IO reached")):
+            for name in names:
+                with self.subTest(name=name),self.assertRaises(AssertionError): m.ref(name)
+    def test_scientific_source_and_nonpayload_final_results_lexically_allowed(self):
+        for name in ["src/cti_vla/models/packing.py","scripts/check_initial_states.py","results/downstream/final/trials.jsonl"]:
+            self.assertEqual(m.safe_name(name).as_posix(),name)
+    def test_exact_existing_panel_only(self):
+        for name in m.PANEL_PINS:
+            with self.assertRaises(AssertionError): m.safe_name(name)
+            self.assertEqual(m.safe_name(name,m.PANEL_PINS).as_posix(),name)
+        unknown="configs/manifests/formal_main_v2/libero_goal/initial_states/development.json"
+        with self.assertRaises(AssertionError): m.safe_name(unknown,[unknown])
+    def test_preserved_pins_and_main_guard_contract(self):
+        self.assertEqual(m.PARENT,"fad47a89ecaf1ccb697a10454f79aaf36bcf19cd")
+        self.assertEqual(m.PINS["scripts/ops/nonweight_archive.py"],"f81284b3c56fbfd1cce339c4ea98b20943c8cd0866b4e8b94c38ac3cdbd1e3c2")
+        self.assertEqual(m.PINS["scripts/ops/check_nonweight_archive_stage.py"],"ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6")
+        self.assertEqual(m.SNAPSHOT_SHA,"ac7e4dce68abeddb147dd412f83afffbc5041715868547d6f60811e5fca137f0")
+        source=CANDIDATE.read_text(encoding="utf-8");tree=ast.parse(source)
+        main=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=="main")
+        body=ast.get_source_segment(source,main)
+        self.assertLess(body.index('"unregistered_changed_nonweight_file"'),body.index("write_new("))
+        self.assertIn('report["frozen_files_verified_in_worktree_and_index"] == 173',body)
+        self.assertIn('report["raw_paths_restored_exactly"]',body)
+        self.assertIn('before == git("ls-files", "--stage", "-z")',body)
+        self.assertIn('assert check_existing_panels() == panel_rows',body)
+        self.assertIn('assert check_source_version_resolution() == source_version_rows',body)
+        self.assertNotIn('git("commit"',body)
+        self.assertNotIn('git("push"',body)
+        # Import executes definitions only; this test never calls main.
+        self.assertEqual(m.SELF_NAME,".local/stage_verify_parallel_0452_candidate.py")
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
