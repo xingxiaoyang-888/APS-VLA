@@ -1,0 +1,101 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_heartbeat_supervision_snapshot",
+  "heartbeat_trigger_utc": "2026-10-18T21:07:50.427Z",
+  "recorded_utc": "2026-10-18T21:13:14.930159+00:00",
+  "Slurm_observation_completed_utc": "2026-10-18T21:11:28.018591+00:00",
+  "prior_supervision": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T0340/summary.json",
+    "sha256": "5a58586e88f4545733f9beefb58f5eaebe8809094f99ae66097b0c5ef493593d"
+  },
+  "completed_training_arms": 28,
+  "total_training_arms": 72,
+  "accepted_updates_original_root_and_independent": 170000,
+  "accepted_updates_including_machine": 178000,
+  "active_training_GPU_job_ids": [
+    "3034570",
+    "3034580",
+    "3034584",
+    "3034597",
+    "3034604",
+    "3034611",
+    "3034616",
+    "3034689"
+  ],
+  "active_GPU_jobs": 8,
+  "active_CPU_controller": "3034538",
+  "controller_owner": {
+    "activation_sha256": "7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef",
+    "coordinator_job_id": "3034538",
+    "hostname": "cpui135",
+    "lease": "fcntl_flock_held_for_process_lifetime",
+    "lock": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/autonomous_training/run_v1/controller.lease.lock",
+    "owner_id": "6b3beba5cdeb41df9d749b0b2054d485",
+    "pid": 2392954,
+    "started_utc": "2026-10-18T17:54:25.904382+00:00",
+    "version": "cti-autonomous-training-controller-v1"
+  },
+  "controller_lease_held_at_root_check": true,
+  "controller_last_tick_utc": "2026-10-18T21:12:36.989859+00:00",
+  "pending_submission": null,
+  "registered_jobs": 247,
+  "formal_registered_jobs": 217,
+  "formal_GPU_seconds": 846097,
+  "formal_GPU_hours": 235.026944,
+  "cost_includes_running_and_failures_not_final": true,
+  "all_registered_statuses_known": true,
+  "capacity_findings": [],
+  "current_engineering_reservation": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_v4_slot_reservation_1940.json",
+    "sha256": "90ec791baeac23aeb3facc909cd95f6d7db0345ab76ed1f99c7f6f10211636a5"
+  },
+  "reserved_GPU_slots": 1,
+  "action_v4_live_check": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T0507/action_v4_live_check.stdout",
+    "sha256": "8a33f233f142ef2362a17640ea0506e9d928d98f68615d985aa8850cef730945",
+    "available": false,
+    "entry_sha256": "e259572effecf20f8769db47edfd1ac46799e8f50517fe3c98d6dfee919fef56",
+    "facade_sha256": "dd662101cf4e0546784d071925d86d1fd8d3b7a6dafc55fb6dbd74e58b55129e",
+    "GPU_acceptance_passed": false
+  },
+  "CUDA_failed_pairs_preserved": {
+    "libero_object_k256_seed23": {
+      "automatic_retry": false,
+      "decision": "blocked",
+      "failed_job_ids": [
+        "3028460"
+      ],
+      "history_sha256": "e9b231141b37970783914b76ee3b135797a3a0cb4e96026eb9e8f005406a3eb8",
+      "reason": "failed_unknown_or_active_history_requires_root_repair"
+    },
+    "libero_object_k64_seed23": {
+      "automatic_retry": false,
+      "decision": "blocked",
+      "failed_job_ids": [
+        "3028468"
+      ],
+      "history_sha256": "a1df0c1904e1157ea9f804fded5ca4aa5fd09340fc4d015dba160fb40b3eff8d",
+      "reason": "failed_unknown_or_active_history_requires_root_repair"
+    },
+    "libero_spatial_k64_seed23": {
+      "automatic_retry": false,
+      "decision": "blocked",
+      "failed_job_ids": [
+        "3028522"
+      ],
+      "history_sha256": "df6e50d1f4789552e51e7caea90e75e0a44b0326c5389fd7e1aae92e323f1f54",
+      "reason": "failed_unknown_or_active_history_requires_root_repair"
+    }
+  },
+  "new_GPU_submissions_this_heartbeat": 0,
+  "new_scientific_trials": 0,
+  "retained_development_trials": 1212,
+  "final_trials": 0,
+  "total_final_trials": 35200,
+  "final_states_opened": false,
+  "global_release_created": false,
+  "science_source173_R_S_unchanged": true,
+  "normal_training_policy": "controller automatic continuous5000; no per500 manual wait and no live polling of healthy GPUs",
+  "substantive_change_since_prior_supervision": false,
+  "next": "Next scheduled supervision: check reserved action v4 slot; submit only through exact reviewed one-shot entry if available. Preserve three CUDA recovery blocks until their separate bounded registrations are executed and audited. No extra healthy-job polling."
+}
