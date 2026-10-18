@@ -1,0 +1,166 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_heartbeat_supervision_snapshot",
+  "heartbeat_trigger_utc": "2026-10-18T22:47:45.988Z",
+  "recorded_utc": "2026-10-18T23:52:20.709781+00:00",
+  "Slurm_observed_window": {
+    "started_utc": "2026-10-18T23:49:55.421833+00:00",
+    "finished_utc": "2026-10-18T23:49:56.513049+00:00"
+  },
+  "prior_supervision": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T0507/summary.json",
+    "sha256": "c437166ebfa25fe77f63ccd0a04b6df03559cfd9c220558f1a90b2912ff40dd4"
+  },
+  "completed_training_arms": 28,
+  "total_training_arms": 72,
+  "accepted_updates_original_root_and_independent": 170000,
+  "accepted_updates_including_machine": 178000,
+  "inflight_A_reports_at5000_pending_pair_review": 5,
+  "inflight_observation": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T0647/inflight_observation.json",
+    "sha256": "5804f72f58320a8280a8553869257fb71c1e8c1f5855270e787c8b04b3b8ac7c"
+  },
+  "activity_observations": [
+    {
+      "job_id": "3034570",
+      "arm_currently_running": "A",
+      "update_in_progress": 4708,
+      "event_utc": "2026-10-18T23:51:22.642058+00:00",
+      "not_an_accepted_update_count": true
+    },
+    {
+      "job_id": "3034580",
+      "arm_currently_running": "B",
+      "update_in_progress": 1770,
+      "event_utc": "2026-10-18T23:51:22.593580+00:00",
+      "not_an_accepted_update_count": true
+    },
+    {
+      "job_id": "3034584",
+      "arm_currently_running": "B",
+      "update_in_progress": 1592,
+      "event_utc": "2026-10-18T23:51:23.192030+00:00",
+      "not_an_accepted_update_count": true
+    },
+    {
+      "job_id": "3034597",
+      "arm_currently_running": "B",
+      "update_in_progress": 3461,
+      "event_utc": "2026-10-18T23:51:35.510645+00:00",
+      "not_an_accepted_update_count": true
+    },
+    {
+      "job_id": "3034604",
+      "arm_currently_running": "B",
+      "update_in_progress": 2389,
+      "event_utc": "2026-10-18T23:50:26.019438+00:00",
+      "not_an_accepted_update_count": true
+    },
+    {
+      "job_id": "3034611",
+      "arm_currently_running": "A",
+      "update_in_progress": 4918,
+      "event_utc": "2026-10-18T23:50:26.441986+00:00",
+      "not_an_accepted_update_count": true
+    },
+    {
+      "job_id": "3034616",
+      "arm_currently_running": "B",
+      "update_in_progress": 3461,
+      "event_utc": "2026-10-18T23:51:34.839160+00:00",
+      "not_an_accepted_update_count": true
+    },
+    {
+      "job_id": "3034689",
+      "arm_currently_running": "A",
+      "update_in_progress": 4918,
+      "event_utc": "2026-10-18T23:51:40.896804+00:00",
+      "not_an_accepted_update_count": true
+    }
+  ],
+  "inflight_reports_not_added_to_accepted_count": true,
+  "active_training_GPU_job_ids": [
+    "3034570",
+    "3034580",
+    "3034584",
+    "3034597",
+    "3034604",
+    "3034611",
+    "3034616",
+    "3034689"
+  ],
+  "active_GPU_jobs": 8,
+  "active_CPU_controller": "3034538",
+  "controller_owner": {
+    "activation_sha256": "7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef",
+    "coordinator_job_id": "3034538",
+    "hostname": "cpui135",
+    "lease": "fcntl_flock_held_for_process_lifetime",
+    "lock": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/autonomous_training/run_v1/controller.lease.lock",
+    "owner_id": "6b3beba5cdeb41df9d749b0b2054d485",
+    "pid": 2392954,
+    "started_utc": "2026-10-18T17:54:25.904382+00:00",
+    "version": "cti-autonomous-training-controller-v1"
+  },
+  "controller_lease_held": true,
+  "controller_last_tick_utc": "2026-10-18T23:52:08.188282+00:00",
+  "pending_submission": null,
+  "registered_jobs": 247,
+  "formal_registered_jobs": 217,
+  "formal_GPU_seconds": 922161,
+  "formal_GPU_hours": 256.155833,
+  "cost_includes_running_and_failures_not_final": true,
+  "all_registered_statuses_known": true,
+  "capacity_findings": [],
+  "current_engineering_reservation": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_v4_slot_reservation_1940.json",
+    "sha256": "90ec791baeac23aeb3facc909cd95f6d7db0345ab76ed1f99c7f6f10211636a5"
+  },
+  "reserved_GPU_slots": 1,
+  "action_v4_live_check": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T0647/action_v4_live_check.stdout",
+    "sha256": "71478270ea15bb0ec48a61e10d0ac0e5fdbd74098e02bf7e642b745bca5138cb",
+    "available": false,
+    "entry_sha256": "e259572effecf20f8769db47edfd1ac46799e8f50517fe3c98d6dfee919fef56",
+    "GPU_acceptance_passed": false
+  },
+  "CUDA_failed_pairs_preserved": {
+    "libero_object_k256_seed23": {
+      "automatic_retry": false,
+      "decision": "blocked",
+      "failed_job_ids": [
+        "3028460"
+      ],
+      "history_sha256": "e9b231141b37970783914b76ee3b135797a3a0cb4e96026eb9e8f005406a3eb8",
+      "reason": "failed_unknown_or_active_history_requires_root_repair"
+    },
+    "libero_object_k64_seed23": {
+      "automatic_retry": false,
+      "decision": "blocked",
+      "failed_job_ids": [
+        "3028468"
+      ],
+      "history_sha256": "a1df0c1904e1157ea9f804fded5ca4aa5fd09340fc4d015dba160fb40b3eff8d",
+      "reason": "failed_unknown_or_active_history_requires_root_repair"
+    },
+    "libero_spatial_k64_seed23": {
+      "automatic_retry": false,
+      "decision": "blocked",
+      "failed_job_ids": [
+        "3028522"
+      ],
+      "history_sha256": "df6e50d1f4789552e51e7caea90e75e0a44b0326c5389fd7e1aae92e323f1f54",
+      "reason": "failed_unknown_or_active_history_requires_root_repair"
+    }
+  },
+  "new_GPU_submissions_this_heartbeat": 0,
+  "new_scientific_trials": 0,
+  "retained_development_trials": 1212,
+  "final_trials": 0,
+  "total_final_trials": 35200,
+  "final_states_opened": false,
+  "global_release_created": false,
+  "science_source173_R_S_unchanged": true,
+  "normal_training_policy": "controller automatic continuous5000; no per500 manual wait or in-turn repeated polling",
+  "next": "Continue healthy eight GPU jobs; wait for the dedicated action-v4 slot at next scheduled supervision. Retain blocked CUDA recovery cases and final sealing. Controller reviews complete pairs before adding accepted completions."
+}
