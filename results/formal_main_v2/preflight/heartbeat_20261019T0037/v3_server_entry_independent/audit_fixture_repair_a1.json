@@ -1,0 +1,11 @@
+{
+  "kind": "independent_auditor_fixture_repair",
+  "created_utc": "2026-10-18T16:52:19.453754+00:00",
+  "failure": "Synthetic exists(target)=True caused unpatched lstat(target) to fail because actual target intentionally remains absent. Candidate and formal R were not modified.",
+  "action": "Keep a1 source/stdout/stderr; new a2 source additionally returns a regular-file stat for the same simulated target. All other paths retain real lstat.",
+  "files": {
+    "audit_entry.py": "086465f47532bec9a25ef3d7da6327ef610819ebb67d08d420f67f4e77c0dc7a",
+    "guarded.stdout.json": "7838438d6a8d2c5572512e99ef5a53398a99d93c35a676a28c23f207b112da89",
+    "guarded.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

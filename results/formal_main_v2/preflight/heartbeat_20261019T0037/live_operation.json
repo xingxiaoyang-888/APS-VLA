@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/server_control_transport_v1/run_server_control.py",
+    "--bundle-manifest-sha256",
+    "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+    "--entrypoint",
+    ".local/read_parallel_live.py",
+    "--entrypoint-sha256",
+    "85592adfa7e52d70bad4930f0d6d5d99d0b2a625860ac107c206a17fe119cff2",
+    "--audit-relative",
+    "results/formal_main_v2/control_transport/heartbeat_20261019T0037_final_live.jsonl"
+  ],
+  "exit_code": 0
+}

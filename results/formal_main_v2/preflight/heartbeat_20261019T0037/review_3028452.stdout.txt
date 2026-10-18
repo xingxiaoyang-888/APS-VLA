@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/review_formal_segment.py", line 697, in <module>
+    main()
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/review_formal_segment.py", line 690, in main
+    result = review(args.job_id, source_inventory=args.source_inventory, pull_receipt=args.pull_receipt,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/review_formal_segment.py", line 433, in review
+    evidence.watch("external/LIBERO/libero/libero/benchmark/" + name)
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/review_formal_acceptance.py", line 66, in watch
+    digest = sha(path)
+             ^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/review_formal_acceptance.py", line 42, in sha
+    with Path(path).open("rb") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "/share/apps/anaconda3/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/external/LIBERO/libero/libero/benchmark/__init__.py'
+

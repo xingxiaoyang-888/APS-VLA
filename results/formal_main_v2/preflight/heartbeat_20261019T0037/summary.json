@@ -1,0 +1,386 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "server_root_heartbeat_batch",
+  "observed_utc": "2026-10-18T16:57:19.352575+00:00",
+  "written_utc": "2026-10-18T16:59:55.331307+00:00",
+  "control_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+  "runtime_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+  "state_before_sha256": "68f393bdbb85be22dfbcce379192a21f31525deff346b34e4bbe16f7acaad94d",
+  "completed_arms": 28,
+  "expected_arms": 72,
+  "completed_by_suite": {
+    "libero_10": 18,
+    "libero_spatial": 6,
+    "libero_object": 2,
+    "libero_goal": 2
+  },
+  "previous_reviewed_arm_updates": 157000,
+  "reviewed_arm_updates": 170000,
+  "expected_arm_updates": 360000,
+  "accepted_segments": [
+    {
+      "job_id": "3028452",
+      "suite": "libero_spatial",
+      "budget": 64,
+      "seed": 41,
+      "reviewed_boundary": 1000,
+      "allowed_next": 1500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_spatial/k64/seed41/training/segment_reviews/3028452.json",
+        "sha256": "b80b29180303ba0b230b145bd9ad2cc7e4490323fa96ba649428e24dce972983"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_spatial/k64/seed41/training/segment_reviews/3028452_independent.json",
+        "sha256": "a3fdf15186a4da2239fad929617ac752888e6ae85bc540c0347a7695f6c28e7d"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3028452.json",
+        "sha256": "afd304945a82957220788ad882083cdfcbec7e4f0c665f5fd98462b0768d4110"
+      }
+    },
+    {
+      "job_id": "3028457",
+      "suite": "libero_spatial",
+      "budget": 256,
+      "seed": 23,
+      "reviewed_boundary": 1500,
+      "allowed_next": 2000,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_spatial/k256/seed23/training/segment_reviews/3028457.json",
+        "sha256": "767463b594b260cfbccf4c6436dec6ef9a1829a18647e220303d18e9fc84a011"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_spatial/k256/seed23/training/segment_reviews/3028457_independent.json",
+        "sha256": "2b7b5f5e3f40a3c52cb86d27206c0ba748d0e5e4ae7a00b441d8fd68b759fd41"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3028457.json",
+        "sha256": "e8deb935829b4e15849a873f00c34f393e46b3ec5c2e72fecce2f6e546481bb2"
+      }
+    },
+    {
+      "job_id": "3028481",
+      "suite": "libero_object",
+      "budget": 256,
+      "seed": 41,
+      "reviewed_boundary": 500,
+      "allowed_next": 1000,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_object/k256/seed41/training/segment_reviews/3028481.json",
+        "sha256": "27f9baec53e1addef7efd19498d5ee66c98673b245b54d345b1dd0ada763320c"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_object/k256/seed41/training/segment_reviews/3028481_independent.json",
+        "sha256": "932d7c1f1235f3ccbe446ad655102639200ec6ddf207ef53cb2ed8c13c3b41be"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3028481.json",
+        "sha256": "36c840f9c64337bd6bcd2cef28d4b212d5b0bef5906904422d971e3e4923769a"
+      }
+    },
+    {
+      "job_id": "3028482",
+      "suite": "libero_object",
+      "budget": 64,
+      "seed": 41,
+      "reviewed_boundary": 500,
+      "allowed_next": 1000,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_object/k64/seed41/training/segment_reviews/3028482.json",
+        "sha256": "c4dc908e8b479df36797364decf8255c5fabcbbd2f5d222cb9ac5f992a01710e"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_object/k64/seed41/training/segment_reviews/3028482_independent.json",
+        "sha256": "650aea7830c2c470ed795d845291e2a64ef518e0ba1b598d63c3120e1d49a148"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3028482.json",
+        "sha256": "d13d9393873f79a82f33817b87956c1696683a37e32839e2427743b791398c35"
+      }
+    },
+    {
+      "job_id": "3028483",
+      "suite": "libero_goal",
+      "budget": 128,
+      "seed": 41,
+      "reviewed_boundary": 500,
+      "allowed_next": 1000,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_goal/k128/seed41/training/segment_reviews/3028483.json",
+        "sha256": "8e0dc69f4d434f3361b2085374872755226adc8f77c3a45170022ec2e0970dbf"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_goal/k128/seed41/training/segment_reviews/3028483_independent.json",
+        "sha256": "4cdf29ddec34e9545206a7f71c273c44ea56e87e1fd6a3eeec806922dc6902e9"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3028483.json",
+        "sha256": "4699103f2d1d35b5c8e371f8e2bea51f7a94e0fdaff972df9c57f52c6633b06e"
+      }
+    },
+    {
+      "job_id": "3030091",
+      "suite": "libero_spatial",
+      "budget": 256,
+      "seed": 17,
+      "reviewed_boundary": 2000,
+      "allowed_next": 2500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_spatial/k256/seed17/training/segment_reviews/3030091.json",
+        "sha256": "6b1a1774721b70e78d345187cc20e58c1fd5d20821134ded101320ba1323e65f"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_spatial/k256/seed17/training/segment_reviews/3030091_independent.json",
+        "sha256": "c107297a853e29d19d8b0ad4783be835a16ccfaefcee42a7378a6514016ea01c"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3030091.json",
+        "sha256": "5aa3a7e724ca941f0d9cd7b28c13bc753152e5f30f27a5f19ecc6344ff534ae9"
+      }
+    },
+    {
+      "job_id": "3030099",
+      "suite": "libero_spatial",
+      "budget": 64,
+      "seed": 17,
+      "reviewed_boundary": 2000,
+      "allowed_next": 2500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_spatial/k64/seed17/training/segment_reviews/3030099.json",
+        "sha256": "58a31de03dfb6c861ee04893bcbc6074cd13db01016363169bff9f7c17e65cde"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_spatial/k64/seed17/training/segment_reviews/3030099_independent.json",
+        "sha256": "30c1172232190149772c58c10d7bbff6be1a000baf391cc7a38248dc2d23dcd6"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3030099.json",
+        "sha256": "6ce4f0f5cc528b6b4ec94c07878c890ccb05caec8095047a81e275b4e1ff0004"
+      }
+    },
+    {
+      "job_id": "3030166",
+      "suite": "libero_spatial",
+      "budget": 256,
+      "seed": 41,
+      "reviewed_boundary": 1000,
+      "allowed_next": 1500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_spatial/k256/seed41/training/segment_reviews/3030166.json",
+        "sha256": "8d4c5b78e695c017fa6a00b0a1b6573fee4179d5dd3e0f54bdad026968da377f"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_spatial/k256/seed41/training/segment_reviews/3030166_independent.json",
+        "sha256": "9a682bbbff9db8c907b5e419fa0429a844bec2c577793a781eba9acb7f3fab7a"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3030166.json",
+        "sha256": "acf48ce27352209d2c846c3d9991d67236f80343d7364d35c7ce3fc399c3f9b7"
+      }
+    },
+    {
+      "job_id": "3030170",
+      "suite": "libero_object",
+      "budget": 128,
+      "seed": 23,
+      "reviewed_boundary": 1000,
+      "allowed_next": 1500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_object/k128/seed23/training/segment_reviews/3030170.json",
+        "sha256": "16a73c90e67d03a8d544b613c19398e9909bb8d363b44bbd2ceda0cce4dd546c"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_object/k128/seed23/training/segment_reviews/3030170_independent.json",
+        "sha256": "aded4ffe9c0a5771189966f6962ab656ac11145aeaf36b993baa45b413fcd526"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3030170.json",
+        "sha256": "30c035d789db1bade393c91786afe5b03f0a45fdfe25f2f082eebe1ee5428bff"
+      }
+    },
+    {
+      "job_id": "3030276",
+      "suite": "libero_object",
+      "budget": 128,
+      "seed": 41,
+      "reviewed_boundary": 1000,
+      "allowed_next": 1500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_object/k128/seed41/training/segment_reviews/3030276.json",
+        "sha256": "351f694c3cdce8bd8c434234fb524582b408151761d0d42d776d404617716b3a"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_object/k128/seed41/training/segment_reviews/3030276_independent.json",
+        "sha256": "a5af09259e2f3af232d6678c638d440cacc01f2d143bd3dd4a991b1db43e179d"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3030276.json",
+        "sha256": "14141e7c15925a35fa8c51fc13a438a7a16ee01643de9a52fc16129bb3991b0f"
+      }
+    },
+    {
+      "job_id": "3030767",
+      "suite": "libero_object",
+      "budget": 256,
+      "seed": 17,
+      "reviewed_boundary": 1000,
+      "allowed_next": 1500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_object/k256/seed17/training/segment_reviews/3030767.json",
+        "sha256": "6b6e9df0351297675e96c0793d66566b65078db684ca0b28bbf39cca718dacf7"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_object/k256/seed17/training/segment_reviews/3030767_independent.json",
+        "sha256": "2da8c5389ec9552e20e3b54f42377b647894229bda3d338ca6fc7610bf416b72"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3030767.json",
+        "sha256": "0dc9ad07d6c7c0d10c4c424f8707d043bcce210b7581d5dd4308936aaed2f1e5"
+      }
+    },
+    {
+      "job_id": "3030833",
+      "suite": "libero_object",
+      "budget": 64,
+      "seed": 17,
+      "reviewed_boundary": 1000,
+      "allowed_next": 1500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_object/k64/seed17/training/segment_reviews/3030833.json",
+        "sha256": "3fbca741a29a01e705de9f9d185418b7418d04341113482b64dfbb88b744d891"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_object/k64/seed17/training/segment_reviews/3030833_independent.json",
+        "sha256": "6f9825e4896c61e6bda90dcc8c450ba68b0abf7dd7d47f20a45080e5bea9bd67"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3030833.json",
+        "sha256": "780d756513f395d03debcd39d8ead84f995c517918633f075b2b8a23d0a646f6"
+      }
+    },
+    {
+      "job_id": "3030839",
+      "suite": "libero_goal",
+      "budget": 128,
+      "seed": 23,
+      "reviewed_boundary": 1000,
+      "allowed_next": 1500,
+      "root_review": {
+        "path": "results/formal_main_v2/libero_goal/k128/seed23/training/segment_reviews/3030839.json",
+        "sha256": "52143975ef3d1931cc4f36de2418a5d74e0d69ee716fb47832226c06c24a37ff"
+      },
+      "independent_review": {
+        "path": "results/formal_main_v2/libero_goal/k128/seed23/training/segment_reviews/3030839_independent.json",
+        "sha256": "18ae5ea8eef751c6f20401cc37f7b740b36f32c34c8c433ff44d47e4872b6c33"
+      },
+      "record": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/record_3030839.json",
+        "sha256": "565fa92a390d8695bceb758de88bee04aa77932ecae35198f2bd82d7d17b90da"
+      }
+    }
+  ],
+  "new_job_ids": [
+    "3033905",
+    "3033901",
+    "3033900",
+    "3033903",
+    "3033902",
+    "3033921",
+    "3033928",
+    "3033935"
+  ],
+  "active_GPU_jobs": 8,
+  "active_job_evidence": {
+    "path": "results/formal_main_v2/live/parallel_20261018T165719Z.json",
+    "sha256": "1a1f70db79cf4aaf104da3d37b7ed80508bfd4201d8e6cc5a22ef42496a62f22",
+    "observed_utc": "2026-10-18T16:57:19.352575+00:00"
+  },
+  "remaining_reviewed_pairs_waiting_slot": [
+    {
+      "stage": "train",
+      "pair": "libero_object_k64_seed17",
+      "segment_end": 1500,
+      "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
+      "root_review": "results/formal_main_v2/libero_object/k64/seed17/training/segment_reviews/3030833.json",
+      "independent_review": "results/formal_main_v2/libero_object/k64/seed17/training/segment_reviews/3030833_independent.json",
+      "requires_refresh_and_exact_resume_SHA": true
+    },
+    {
+      "stage": "train",
+      "pair": "libero_goal_k128_seed23",
+      "segment_end": 1500,
+      "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
+      "root_review": "results/formal_main_v2/libero_goal/k128/seed23/training/segment_reviews/3030839.json",
+      "independent_review": "results/formal_main_v2/libero_goal/k128/seed23/training/segment_reviews/3030839_independent.json",
+      "requires_refresh_and_exact_resume_SHA": true
+    },
+    {
+      "stage": "train",
+      "pair": "libero_object_k256_seed41",
+      "segment_end": 1000,
+      "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
+      "root_review": "results/formal_main_v2/libero_object/k256/seed41/training/segment_reviews/3028481.json",
+      "independent_review": "results/formal_main_v2/libero_object/k256/seed41/training/segment_reviews/3028481_independent.json",
+      "requires_refresh_and_exact_resume_SHA": true
+    },
+    {
+      "stage": "train",
+      "pair": "libero_object_k64_seed41",
+      "segment_end": 1000,
+      "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
+      "root_review": "results/formal_main_v2/libero_object/k64/seed41/training/segment_reviews/3028482.json",
+      "independent_review": "results/formal_main_v2/libero_object/k64/seed41/training/segment_reviews/3028482_independent.json",
+      "requires_refresh_and_exact_resume_SHA": true
+    },
+    {
+      "stage": "train",
+      "pair": "libero_goal_k128_seed41",
+      "segment_end": 1000,
+      "status": "root_and_independent_reviewed_waiting_free_GPU_slot",
+      "root_review": "results/formal_main_v2/libero_goal/k128/seed41/training/segment_reviews/3028483.json",
+      "independent_review": "results/formal_main_v2/libero_goal/k128/seed41/training/segment_reviews/3028483_independent.json",
+      "requires_refresh_and_exact_resume_SHA": true
+    }
+  ],
+  "cost": {
+    "registered_jobs": 206,
+    "allocated_gpu_seconds": 726119,
+    "allocated_gpu_hours": 201.69972222222222,
+    "final": false,
+    "historical_jobs_excluded": true
+  },
+  "pull": {
+    "path": "results/formal_main_v2/pulls/20261018T164114Z_d2a1355175b5/receipt.json",
+    "sha256": "7b1d8e836749c48300912c5aec00de28d3767f729d825778a89b353d4192db3f"
+  },
+  "GPU_engineering_v3_check_only": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_v3_server_check_only_v1.json",
+    "sha256": "04591e6277f1a7c296feca03402cf85a3408243139420413a3269f8489aa06aa"
+  },
+  "GPU_engineering_v3_submitted": false,
+  "retained_failures": {
+    "metadata_restore": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/external_metadata_restore.json",
+      "sha256": "4edac5b6e11c12f65f10fa438a9bb6079d7e74fad8ee8c80a0427d307f7ac378"
+    },
+    "accounting_visibility_guard": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261019T0037/accounting_visibility_guard_stop.json",
+      "sha256": "949eb154c032a7cb25aa307c0926ae18d808f4f5bcace15918755e0146558aa0"
+    },
+    "CUDA_startup_jobs": [
+      "3028460",
+      "3028468",
+      "3028522"
+    ],
+    "CUDA_GPU_seconds": 226,
+    "action_GPU_v2_job": "3030159",
+    "action_GPU_v2_GPU_seconds": 85
+  },
+  "development_trials_retained": 1212,
+  "final_trials": 0,
+  "sealed_states_opened": false,
+  "scientific_settings_changed": false,
+  "source173_R_and_S_verified": true,
+  "new_local_files_written": false,
+  "health_polling_this_turn_finished": true
+}

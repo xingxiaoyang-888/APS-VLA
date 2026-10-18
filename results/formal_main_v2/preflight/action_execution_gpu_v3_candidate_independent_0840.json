@@ -1,0 +1,56 @@
+{
+  "schema": "formal_main_v2",
+  "version": "action-execution-gpu-candidate-0840-v3-constructor",
+  "kind": "bounded_action_execution_GPU_candidate_independent_CPU_review",
+  "status": "passed_CPU_independent_review_pending_registered_GPU",
+  "candidate_identity": {
+    "probe_sha256": "ba7363695b9a67324b3717632d7571e5ceccd5e91683673ff65c0801e1e4a004",
+    "manifest_sha256": "832cdad374e1dfd5cef04870a14f440ec37a1194dea9130b95c7ddd9c7be782e",
+    "action_adapter_sha256": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185"
+  },
+  "candidate_files": {
+    "probe": {
+      "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.py",
+      "sha256": "ba7363695b9a67324b3717632d7571e5ceccd5e91683673ff65c0801e1e4a004"
+    },
+    "manifest": {
+      "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/candidate_manifest.json",
+      "sha256": "832cdad374e1dfd5cef04870a14f440ec37a1194dea9130b95c7ddd9c7be782e"
+    },
+    "action_adapter": {
+      "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py",
+      "sha256": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185"
+    }
+  },
+  "evidence_sha256": {
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.py": "ba7363695b9a67324b3717632d7571e5ceccd5e91683673ff65c0801e1e4a004",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/candidate_manifest.json": "832cdad374e1dfd5cef04870a14f440ec37a1194dea9130b95c7ddd9c7be782e",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+    "results/formal_main_v2/preflight/action_execution_gpu_v3_registration_independent_0840.json": "82167dfb3b61b1267ba537c45bc49d51b63e3ce5a437bc51bb0cf864638fc935",
+    "results/formal_main_v2/preflight/action_execution_gpu_v3_candidate_author_0840.json": "6d1014cdf837e9f391a08a5ee8a6bc43ed0a6b4c8ca8477f8a98c768c67cbf8a"
+  },
+  "draft_only": false,
+  "GPU_submitted": false,
+  "actual_GPU_acceptance_pending": true,
+  "scientific_trials": 0,
+  "engineering_cells": 16,
+  "final_states_opened": false,
+  "derivation_kind": "root_adopted_typed_projection_of_exact_new_v3_independent_CPU_receipt",
+  "projection_prepared_by": "root",
+  "projection_prepared_utc": "2026-10-18T16:57:00.886204+00:00",
+  "underlying_independent_review": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_v3_registration_independent_0840.json",
+    "sha256": "82167dfb3b61b1267ba537c45bc49d51b63e3ce5a437bc51bb0cf864638fc935"
+  },
+  "underlying_independent_type": {
+    "schema": "formal_main_v2",
+    "kind": "action_execution_GPU_v3_candidate_independent_CPU_review",
+    "version": "action-execution-gpu-v3-independent-0840-v1",
+    "status": "passed_CPU_independent_candidate_pending_publication_root_registration_and_GPU"
+  },
+  "independent_checks_rerun_by_projection": 0,
+  "root_adoption": true,
+  "limitations": [
+    "Typed projection preserves the new independent receipt; it does not invent a test run or GPU result."
+  ]
+}

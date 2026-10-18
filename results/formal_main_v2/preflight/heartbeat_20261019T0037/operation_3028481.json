@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "job_id": "3028481",
+  "suite": "libero_object",
+  "budget": 256,
+  "seed": 41,
+  "boundary": 500,
+  "root_review": "results/formal_main_v2/libero_object/k256/seed41/training/segment_reviews/3028481.json",
+  "root_sha256": "27f9baec53e1addef7efd19498d5ee66c98673b245b54d345b1dd0ada763320c",
+  "pull": "results/formal_main_v2/pulls/20261018T164114Z_d2a1355175b5/receipt.json",
+  "pull_sha256": "7b1d8e836749c48300912c5aec00de28d3767f729d825778a89b353d4192db3f",
+  "pair_gpu_seconds": 2677,
+  "latest_gpu_seconds": 2677,
+  "histories": [
+    "3028481"
+  ],
+  "allowed_next": 1000,
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/server_control_transport_v1/run_server_control.py",
+    "--bundle-manifest-sha256",
+    "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+    "--entrypoint",
+    "scripts/review_formal_segment.py",
+    "--entrypoint-sha256",
+    "566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790",
+    "--audit-relative",
+    "results/formal_main_v2/control_transport/heartbeat_20261019T0037_direct_review_3028481.jsonl",
+    "--",
+    "--job-id",
+    "3028481",
+    "--source-inventory",
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "--pull-receipt",
+    "results/formal_main_v2/pulls/20261018T164114Z_d2a1355175b5/receipt.json",
+    "--verify-server-resume"
+  ],
+  "completed_utc": "2026-10-18T16:45:27.025784+00:00"
+}

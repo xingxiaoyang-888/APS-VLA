@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "job_id": "3028483",
+  "completed_by_arm": {
+    "A": 500,
+    "B": 500
+  },
+  "allowed_next_segment_end": 1000,
+  "continuation": "advance_one_registered_boundary",
+  "server_resume_checklist": [
+    {
+      "arm": "A",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k128/seed41/A/resume.pt",
+      "must_exist": true,
+      "sha256": "6e2dca26042466ee2e8ee4e7597de7cf623ac640ddd76ab4b5d007a8850f6dd0"
+    },
+    {
+      "arm": "B",
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k128/seed41/B/resume.pt",
+      "must_exist": true,
+      "sha256": "dfa1bc71c509787d782923e567fb331cca1029ff5806195773a208ecd15f3dff"
+    }
+  ],
+  "pair_allocated_gpu_seconds": 3583
+}
