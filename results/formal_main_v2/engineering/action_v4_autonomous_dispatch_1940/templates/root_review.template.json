@@ -1,0 +1,81 @@
+{
+  "template_only": true,
+  "signed": false,
+  "not_a_real_registration": true,
+  "destination": "results/formal_main_v2/preflight/action_execution_gpu_v4_candidate_root_1940.json",
+  "required_signer": "root",
+  "payload_template": {
+    "schema": "formal_main_v2",
+    "version": "action-execution-gpu-candidate-1940-v4-runtime-lifecycle",
+    "kind": "bounded_action_execution_GPU_candidate_root_CPU_review",
+    "status": "passed_CPU_root_review_pending_registered_GPU",
+    "candidate_identity": {
+      "probe_sha256": "91e12f29ad39591c29cfd63912394949d1cad932bb80c8a871ed852cea32cadc",
+      "manifest_sha256": "25d6e0e831d7e7770150bd2008e49991ec10bddbd815a3400f7a60b539404d26",
+      "action_adapter_sha256": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185"
+    },
+    "candidate_files": {
+      "probe": {
+        "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/probe.py",
+        "sha256": "91e12f29ad39591c29cfd63912394949d1cad932bb80c8a871ed852cea32cadc"
+      },
+      "manifest": {
+        "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/candidate_manifest.json",
+        "sha256": "25d6e0e831d7e7770150bd2008e49991ec10bddbd815a3400f7a60b539404d26"
+      },
+      "action_adapter": {
+        "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py",
+        "sha256": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185"
+      }
+    },
+    "evidence_sha256": {
+      "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/probe.py": "91e12f29ad39591c29cfd63912394949d1cad932bb80c8a871ed852cea32cadc",
+      "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/candidate_manifest.json": "25d6e0e831d7e7770150bd2008e49991ec10bddbd815a3400f7a60b539404d26",
+      "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+      "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/launcher.py": "3c07087b20ec0bd8a0777be87067fe788919125913492b6687f0b9fd5d915364",
+      "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/probe.slurm": "e87beacdb0ff23f293c7f6009f090a614c2903a37d6ff8e4732714236e0425c0",
+      "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/node_exclusion.py": "2f1ae57b8a8872c18beafa2ce9a83adc1a11858e8f2eec8094c82823e7686519",
+      "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/submit.py": "f5a4efc24f9b77b54ca73bbf0a8626e9ebde9c416ac1305cf4e88cd55ad8b8dc",
+      "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/constructor_independent_cpu.json": "171b93b145431bdffb9138eea48673e9185dcadbef226e468d0ab140a7a470f1",
+      "results/formal_main_v2/preflight/action_execution_gpu_v4_candidate_independent_1940.json": "__TYPED_INDEPENDENT_SHA256__",
+      "configs/experiments/formal_main_v2_node_exclusion_action_gpu_v4.json": "__NODE_REGISTRATION_SHA256__",
+      "results/formal_main_v2/preflight/action_execution_gpu_v4_runtime_independent_1940.json": "1b6b6c7f968b4fee758d51aa5c4562e077962cd08276f86309ec2a42cb148e69"
+    },
+    "candidate_independent_review": {
+      "path": "results/formal_main_v2/preflight/action_execution_gpu_v4_candidate_independent_1940.json",
+      "sha256": "__TYPED_INDEPENDENT_SHA256__"
+    },
+    "gpu_registration_path": "configs/experiments/formal_main_v2_action_execution_compat_gpu_v4.json",
+    "gpu_registration_intent_sha256": "__INTENT_SHA256_EXCLUDING_ROOT_REFERENCE__",
+    "dispatch_contract": {
+      "version": "root-action-execution-engineering-dispatch-v4-runtime-lifecycle",
+      "stage_key": "formal_main_v2_action_execution_compat_gpu_v4",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "output_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4",
+      "max_active_requests": 8,
+      "GPU_count": 1,
+      "wall_limit_seconds": 3600,
+      "maximum_attempts": 1,
+      "automatic_retry": false,
+      "engineering_cells": 16,
+      "scientific_trials": 0,
+      "final_states_opened": false,
+      "failed_Object_trial_automatically_replayed": false
+    },
+    "deployment_files": "__EXACT_METADATA_CLOSURE_ROWS__",
+    "node_exclusion_registration": {
+      "path": "configs/experiments/formal_main_v2_node_exclusion_action_gpu_v4.json",
+      "sha256": "__NODE_REGISTRATION_SHA256__"
+    },
+    "root_approved": "__ROOT_BOOLEAN_TRUE_AFTER_REVIEW__",
+    "reviewed_by": "__ROOT__",
+    "reviewed_utc": "__ROOT_UTC__",
+    "actual_GPU_acceptance_pending": true,
+    "GPU_submitted": false,
+    "scientific_release": false,
+    "scientific_trials": 0,
+    "engineering_cells": 16,
+    "final_states_opened": false
+  }
+}

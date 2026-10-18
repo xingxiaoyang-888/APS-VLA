@@ -1,0 +1,120 @@
+--- /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.py
++++ candidate/probe.py
+@@ -25,8 +25,8 @@
+ import time
+ import traceback
+ 
+-VERSION = "action-execution-gpu-candidate-0840-v3-constructor"
+-GPU_VERSION = "formal_main_v2_action_execution_compat_gpu_v3"
++VERSION = "action-execution-gpu-candidate-1940-v4-runtime-lifecycle"
++GPU_VERSION = "formal_main_v2_action_execution_compat_gpu_v4"
+ PROJECT = Path("/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA")
+ SOURCE_NAME = "formal_main_v2_run_564be0995e"
+ SOURCE_SHA = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
+@@ -489,6 +489,80 @@
+     return reg
+ 
+ 
++class PrismaticProcessLifecycle:
++    """One frozen installer per fresh process; subsequent frozen-loader validation."""
++    NAMES = frozenset(("prismatic", "prismatic.training", "prismatic.training.train_utils",
++        "prismatic.vla", "prismatic.vla.constants"))
++
++    def __init__(self, checkpoints):
++        require(len(checkpoints) == 4 and len(set(map(str, checkpoints))) == 4,
++            "exact four own-suite checkpoints required")
++        self.checkpoints = tuple(map(str, checkpoints))
++        self.completed = 0
++        self.failed = False
++        self.modules = None
++        self.attributes = None
++        self.codes = None
++
++    @staticmethod
++    def current():
++        return {name: module for name, module in sys.modules.items()
++            if name == "prismatic" or name.startswith("prismatic.")}
++
++    def verify(self):
++        require(self.modules is not None and set(self.current()) == self.NAMES,
++            "runtime module membership changed")
++        for name, module in self.modules.items():
++            require(sys.modules.get(name) is module, "runtime module identity changed")
++            attrs = self.attributes[name]
++            require(set(vars(module)) == set(attrs) and
++                all(getattr(module, key) is value for key, value in attrs.items()),
++                "runtime module attribute changed")
++            require(module.__name__ == name and module.__loader__ is None and
++                module.__spec__.name == name and module.__spec__.loader is None,
++                "runtime module provenance changed")
++            package = name in ("prismatic", "prismatic.training", "prismatic.vla")
++            require(module.__package__ == (name if package else name.rsplit(".", 1)[0]),
++                "runtime module package changed")
++            require((module.__path__ == [] and module.__spec__.submodule_search_locations == [])
++                if package else module.__spec__.submodule_search_locations is None,
++                "runtime module search path changed")
++        for function, code in self.codes:
++            require(function.__code__ is code, "runtime helper implementation changed")
++
++    def load(self, loader, checkpoint, *, device):
++        try:
++            require(not self.failed and self.completed < 4, "runtime lifecycle is failed or exhausted")
++            require(str(checkpoint) == self.checkpoints[self.completed], "suite checkpoint order changed")
++            first = self.completed == 0
++            if first:
++                require(not self.current(), "fresh process contains unregistered prismatic modules")
++            else:
++                self.verify()
++            value = loader(checkpoint, device=device, use_minimal_prismatic_compat=first)
++            if first:
++                self.modules = self.current()
++                require(set(self.modules) == self.NAMES, "first load did not install the exact frozen modules")
++                self.attributes = {name: dict(vars(module)) for name, module in self.modules.items()}
++                helpers = self.modules["prismatic.training.train_utils"]
++                self.codes = [(getattr(helpers, name), getattr(helpers, name).__code__)
++                    for name in ("get_current_action_mask", "get_next_actions_mask")]
++            self.verify()
++            self.completed += 1
++            return value
++        except BaseException:
++            self.failed = True
++            raise
++
++    def finish(self):
++        try:
++            require(not self.failed and self.completed == 4, "incomplete runtime lifecycle")
++            self.verify()
++        except BaseException:
++            self.failed = True
++            raise
++
++
+ def gpu_body(prepared, project, source, output, journal, shared, adapter):
+     """Only called after external preregistration; never used by CPU tests."""
+     e, manifest = prepared["evidence"], prepared["manifest"]
+@@ -524,6 +598,7 @@
+     require(Path(manifest["server_paths"]["libero_source"]).resolve() in Path(installed_libero.__file__).resolve().parents
+         and robosuite.__version__ == manifest["actual_controller_evidence"]["reference_robosuite_version"], "pinned environment import differs")
+     budget, results = GlobalBudget(), []
++    lifecycle = PrismaticProcessLifecycle([manifest["suites"][s]["spec"]["model_root_server"] for s in SUITES])
+     with adapter.install_action_execution_compat(project_root=project, source_root=source, runtime_module=libero_runtime,
+             formal_trials_module=formal_trials, expected_adapter_sha256=ADAPTER_SHA, emit=journal.emit) as action_identity:
+         publish(output, "action_execution_identity.json", action_identity)
+@@ -557,7 +632,8 @@
+                 checkpoint = Path(spec["model_root_server"])
+                 before = checkpoint_manifest.verify_checkpoint_directory(checkpoint, asset)
+                 journal.emit("base_load_start", checkpoint=str(checkpoint), asset_revision=asset.revision)
+-                components = load_openvla_oft_components(checkpoint, device=torch.device("cuda:0"), use_minimal_prismatic_compat=True)
++                components = lifecycle.load(load_openvla_oft_components, checkpoint, device=torch.device("cuda:0"))
++                journal.emit("runtime_compat_lifecycle_verified", suite_index=lifecycle.completed - 1, minimal_installed_this_load=lifecycle.completed == 1)
+                 require(module_parameter_sha256(components) == f00["frozen_model_sha256"], "own-suite frozen base differs")
+                 processor = AutoProcessor.from_pretrained(checkpoint, trust_remote_code=True, local_files_only=True)
+                 journal.emit("base_load_complete", frozen_model_sha256=f00["frozen_model_sha256"])
+@@ -615,6 +691,7 @@
+             del policy, selected, components, processor
+             gc.collect(); torch.cuda.empty_cache()
+             journal.context = {"suite":suite}; journal.emit("suite_complete", models_unchanged=True)
++        lifecycle.finish()
+         require(len(results) == 16 and budget.counts == dict(policy=16, vla_backbone=16, vision=16), "incomplete16-cell engineering capture")
+     journal.context = {}
+     validate_scope_events(journal.events)

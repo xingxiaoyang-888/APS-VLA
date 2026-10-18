@@ -1,5 +1,13 @@
 # 正式动作执行 GPU 验收登记
 
+2026-10-19 04:16：v3作业3034675为FAILED 1:0、303 GPU秒，仅Long4格完成；第二套件在重复安装已存在的prismatic兼容模块时终止。独审重建实际事件和动作后确认其为工程失败，不替换历史结果，也不形成科学收益结论。
+
+v4仅修正进程内兼容层生命周期：首套件安装一次，后续三套件走原冻结加载器的已有验证分支；调用前后核对精确模块、函数及常量身份，异常立即停止。原四套件、开发初态、16格、模型与选择器身份、动作边界和全部限制不变。CPU运行时28项作者＋7项独立通过；新控制入口34项作者＋21项独立及3项CLI拒绝门通过，旧v3源保持原字节。root采用真实独审生成的类型化绑定明确标记projection，不声称重复做了独审。
+
+[新的v4单次GPU登记](../configs/experiments/formal_main_v2_action_execution_compat_gpu_v4.json)和[控制入口root验收](../results/formal_main_v2/preflight/heartbeat_20261019T0340/action_v4_dispatch_root_acceptance.json)已完成。实际check-only通过290份部署闭包和全部登记作业核对，available=false：8槽仍为健康训练。新的预约只保留下一个空槽，不取消现有作业；CPU通过不等于实际GPU通过，新增科学闭环保持暂停。
+
+下次root通过已审server_control_transport_v1运行服务器R/.local/action_v4_autonomous_dispatch_1940/entry.py，入口SHA e259572effecf20f8769db47edfd1ac46799e8f50517fe3c98d6dfee919fef56。必须先用全新audit名重新check-only，确认自己预约、无pending、无既有v4尝试且少于8个GPU请求，再单次显式提交。原v3预约已消费，不能重用；本轮没有提交v4。详见[控制操作说明](../results/formal_main_v2/engineering/action_v4_autonomous_dispatch_1940/README.md)。
+
 2026-10-19 02:32执行更新：正常训练由3034538控制器自动连续至5000步；本轮在7个训练GPU之外，用保留的第8槽提交动作执行v3工程作业3034675（固定16格、单次1小时）。共享writer锁、CAS和同事务消耗预约通过实际登记核验，无重复pair、pending或超额GPU。真实GPU验收尚未通过，不开放新增科学闭环或最终集。
 
 三组历史CUDA失败仅完成证据发布，恢复入口与自动连续控制器的共同状态协议仍待验收，保持阻断。方法、数据、预算、全部验证节点和最终release条件不变。[本轮证据](../results/formal_main_v2/preflight/heartbeat_20261019T0208/summary.json)。

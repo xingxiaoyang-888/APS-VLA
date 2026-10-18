@@ -1,0 +1,43 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "unsigned_v4_control_dependency_plan",
+  "steps": [
+    [
+      "immutable_v4_sources",
+      "runtime_independent_exact_copy"
+    ],
+    [
+      "typed_independent_root_adoption",
+      "node_registration_root_review"
+    ],
+    [
+      "GPU_registration_without_root_hash",
+      "registration_intent_SHA"
+    ],
+    [
+      "root_review_exact_closure_and_signature"
+    ],
+    [
+      "GPU_registration_final_hash"
+    ],
+    [
+      "new_root_reservation_CAS"
+    ],
+    [
+      "facade_final_literal_binding"
+    ],
+    [
+      "entry_final_literal_binding"
+    ],
+    [
+      "independent_control_review_final_hashes"
+    ],
+    [
+      "root_transport_check_only",
+      "single_explicit_root_submit_when_reserved_slot_available"
+    ]
+  ],
+  "cycle_rule": "root review/GPU registration/node registration must not reference final facade/entry/control review; final control independent review binds those upstream identities after reservation exists. Root review excludes itself and registration from deployment mapping; registration intent excludes cpu_reviews.root_acceptance.",
+  "reservation_rule": "No reservation is created by this candidate. Never reuse consumed v3. Root may reserve a future completion slot without cancelling healthy jobs after prior reviews.",
+  "invariant": "8 actual requested GPU slots across all modes; registered CPU is still queried and must be proved 0 GPU; pending and unknown fail closed."
+}

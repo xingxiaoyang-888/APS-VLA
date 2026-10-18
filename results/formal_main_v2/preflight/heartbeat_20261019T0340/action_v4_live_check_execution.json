@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/server_control_transport_v1/run_server_control.py",
+    "--bundle-manifest-sha256",
+    "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+    "--entrypoint",
+    ".local/action_v4_autonomous_dispatch_1940/entry.py",
+    "--entrypoint-sha256",
+    "e259572effecf20f8769db47edfd1ac46799e8f50517fe3c98d6dfee919fef56",
+    "--audit-relative",
+    "results/formal_main_v2/control_transport/action_v4_root_check_1940.jsonl",
+    "--",
+    "--entry-sha256",
+    "e259572effecf20f8769db47edfd1ac46799e8f50517fe3c98d6dfee919fef56",
+    "--check-only",
+    "--audit-relative",
+    "results/formal_main_v2/preflight/heartbeat_20261019T0340/action_v4_readonly_scope"
+  ],
+  "cwd": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+  "started_utc": "2026-10-18T20:16:33.585396+00:00",
+  "finished_utc": "2026-10-18T20:16:34.607723+00:00",
+  "returncode": 0,
+  "wall_seconds": 1.0223483517765999,
+  "stdout_sha256": "0fafdd44156cc3844fc498f34949c760695b71d94723fbda31f16dbf1c31e153",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "GPU_submitted": false
+}

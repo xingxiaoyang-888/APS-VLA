@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "sacct",
+    "-n",
+    "-X",
+    "-P",
+    "-j",
+    "3034675",
+    "--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES,NodeList,JobName%128,Comment%128"
+  ],
+  "returncode": 0,
+  "stdout": "3034675|FAILED|1:0|303|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4016|cti-action-exec16|\n",
+  "stderr": ""
+}

@@ -1,0 +1,25 @@
+{
+  "template_only": true,
+  "paths": {
+    "root_review": "results/formal_main_v2/preflight/action_execution_gpu_v4_candidate_root_1940.json",
+    "candidate_independent": "results/formal_main_v2/preflight/action_execution_gpu_v4_candidate_independent_1940.json",
+    "runtime_independent": "results/formal_main_v2/preflight/action_execution_gpu_v4_runtime_independent_1940.json",
+    "gpu_registration": "configs/experiments/formal_main_v2_action_execution_compat_gpu_v4.json",
+    "node_registration": "configs/experiments/formal_main_v2_node_exclusion_action_gpu_v4.json",
+    "reservation": "results/formal_main_v2/preflight/action_execution_gpu_v4_slot_reservation_1940.json"
+  },
+  "required_sha256_values": {
+    "root_review": "__ROOT_REVIEW_SHA256__",
+    "gpu_registration": "__GPU_REGISTRATION_SHA256__",
+    "node_registration": "__NODE_REGISTRATION_SHA256__",
+    "reservation": "__RESERVATION_SHA256__"
+  },
+  "controller": {
+    "job_id": "3034538",
+    "activation": {
+      "path": "configs/experiments/formal_main_v2_autonomous_execution_activation_v2.json",
+      "sha256": "7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef"
+    }
+  },
+  "must_never_bind_consumed_v3_reservation": true
+}

@@ -1,0 +1,46 @@
+{
+  "action_adapter_original_v3_path_and_bytes_reused": true,
+  "asset_compatibility": "formal_asset_metadata_adapter only patches checkpoint_manifest.load_checkpoint_manifest; unchanged main component loader supports False branch",
+  "derived_dispatch": {
+    "launcher.py": {
+      "mechanical_exact_text_after_enumerated_reversal": true,
+      "sha256": "3c07087b20ec0bd8a0777be87067fe788919125913492b6687f0b9fd5d915364"
+    },
+    "node_exclusion.py": {
+      "mechanical_exact_text_after_enumerated_reversal": true,
+      "sha256": "2f1ae57b8a8872c18beafa2ce9a83adc1a11858e8f2eec8094c82823e7686519"
+    },
+    "probe.slurm": {
+      "mechanical_exact_text_after_enumerated_reversal": true,
+      "sha256": "e87beacdb0ff23f293c7f6009f090a614c2903a37d6ff8e4732714236e0425c0"
+    },
+    "submit.py": {
+      "mechanical_exact_text_after_enumerated_reversal": true,
+      "sha256": "f5a4efc24f9b77b54ca73bbf0a8626e9ebde9c416ac1305cf4e88cd55ad8b8dc"
+    }
+  },
+  "dispatch_complete_or_authorized": false,
+  "goal_compatibility": "formal_goal_component_adapter patches _load_component_state only and checks unchanged load_openvla_oft_components; lifecycle changes bool argument through existing API",
+  "manifest_changed_keys": [
+    "pending",
+    "version"
+  ],
+  "old_v3_files_unchanged": {
+    "action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+    "candidate_manifest.json": "832cdad374e1dfd5cef04870a14f440ec37a1194dea9130b95c7ddd9c7be782e",
+    "constructor_independent_cpu.json": "171b93b145431bdffb9138eea48673e9185dcadbef226e468d0ab140a7a470f1",
+    "launcher.py": "13c9a2e60e0b0a9eeeb1460ff5121c1c7305c8106420a6dc21dca6634fc712c5",
+    "node_exclusion.py": "0886ce865ca3edc01bf1ba4d875d139bdf8267a2b6992d1630f1a84c4efcc506",
+    "probe.py": "ba7363695b9a67324b3717632d7571e5ceccd5e91683673ff65c0801e1e4a004",
+    "probe.slurm": "69277a63fcbcb24f94a6d333bb70e490f702df9edade25e042b49fdaafe37dc0",
+    "submit.py": "f5a4efc24f9b77b54ca73bbf0a8626e9ebde9c416ac1305cf4e88cd55ad8b8dc"
+  },
+  "probe_ast_changes": [
+    "VERSION",
+    "GPU_VERSION",
+    "PrismaticProcessLifecycle class",
+    "gpu_body runtime guard initialization, lifecycle load, lifecycle event, finish"
+  ],
+  "probe_normalized_AST_equals_v3": true,
+  "runtime_object_binding": "gpu_body imports canonical cti_vla runtime from pinned S and passes source/runtime_rel + sources[runtime_rel]; each module export matched to pre-load trusted runtime"
+}

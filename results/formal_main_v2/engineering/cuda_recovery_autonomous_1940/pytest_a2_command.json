@@ -1,0 +1,25 @@
+{
+  "CPU_only": true,
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-p",
+    "no:cacheprovider",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_autonomous_1940/test_gateway.py",
+    "--basetemp=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_autonomous_1940/pytest_a2",
+    "--junitxml=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_autonomous_1940/pytest_a2.xml",
+    "-k",
+    "real_failure_to_exact_original",
+    "-q"
+  ],
+  "real_checkpoint_reads": 0,
+  "returncode": 0,
+  "scheduler_calls": 0,
+  "source_sha256": {
+    "evidence.py": "f898c7b6881cebe5e5354f114e54b020da4aabf0f11953be9611d6d143eb5d35",
+    "gateway.py": "a8acf0fd1f836fe25e2b1752b605c964f020e13bef0986dd48cd40e2848411e7",
+    "test_gateway.py": "9ba8207e051fbb064d5ba62ef95a442c0f2cc19cf813f470133eeb46b60a085c"
+  }
+}

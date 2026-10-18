@@ -1,0 +1,37 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "bounded_same_process_runtime_lifecycle_CPU_candidate",
+  "status": "22_CPU_checks_and269_real_metadata_inputs_passed_independent_review_pending",
+  "utc": "2026-10-18T19:47:12.785177+00:00",
+  "candidate_files": {
+    ".local/action_runtime_lifecycle_v4_1940/probe.py.diff": "050380f2b2459817d3c1ff54a65bbc105fdb994933ccfbfc7a7532aadf8d219f",
+    ".local/action_runtime_lifecycle_v4_1940/candidate_manifest.json": "25d6e0e831d7e7770150bd2008e49991ec10bddbd815a3400f7a60b539404d26",
+    ".local/action_runtime_lifecycle_v4_1940/metadata_check.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/action_runtime_lifecycle_v4_1940/metadata_check_execution.json": "78cc09f47158260398f0a9ced2ccfa03616482bb1cbbd306c82e32425b73a15b",
+    ".local/action_runtime_lifecycle_v4_1940/probe.py": "6cf3db9c53dfad868e3cf0732ca0913a00242d67d97b19c570bf530d57fe66e6",
+    ".local/action_runtime_lifecycle_v4_1940/README.md": "1b70513fbd0ba260f7178d2faa4cfa3924a390e8221dd9197bb3470b5872c0a1",
+    ".local/action_runtime_lifecycle_v4_1940/test_lifecycle.py": "c5debfb5cdb832ffc727d8e682f7271bed8af6b232f478d22016425bf26e4f68",
+    ".local/action_runtime_lifecycle_v4_1940/cpu_a1.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/action_runtime_lifecycle_v4_1940/cpu_a1.stderr.log": "90a00c78138f61cae97fdb81980e782bf1d7b7c9e1bda298e0c84d98f099fd11",
+    ".local/action_runtime_lifecycle_v4_1940/cpu_a1_execution.json": "ae0b134eea26e082fc7c162b2a02e8b1669515128346ad8a876ef3cf856e9f42",
+    ".local/action_runtime_lifecycle_v4_1940/metadata_check.stdout.log": "08b650e711c9b35a2cb97868db739ab861ca07befaa23f929635d0824f7a2d17"
+  },
+  "old_probe": {
+    "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.py",
+    "sha256": "ba7363695b9a67324b3717632d7571e5ceccd5e91683673ff65c0801e1e4a004"
+  },
+  "scientific_source173_unchanged": true,
+  "engineering_cells": 16,
+  "scientific_trials": 0,
+  "GPU_submission_authorized": false,
+  "GPU_calls": 0,
+  "model_weights_loaded": false,
+  "frozen_runtime_installer_executed_on_CPU": true,
+  "future_steps": [
+    "Independent candidate semantic/CPU review",
+    "New versioned full GPU launcher/dispatch registration with exact source closure",
+    "Root reserve next GPU slot under shared writer lock only when reviewed full invocation exists",
+    "One bounded16cell GPU attempt; originalv3 failures and costs retained"
+  ],
+  "scope": "Install once per process, frozen constants validation thereafter, module/helper identity guard; no sys.modules deletion, exception retry or scientific setting change"
+}

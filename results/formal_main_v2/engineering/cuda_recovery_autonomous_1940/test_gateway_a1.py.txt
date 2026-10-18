@@ -1,0 +1,202 @@
+"""CPU-only isolated fixtures; no scheduler process or real checkpoint access."""
+import copy, importlib.util, json, os, subprocess
+from pathlib import Path
+from types import SimpleNamespace
+import pytest
+
+D=Path(__file__).resolve().parent
+spec=importlib.util.spec_from_file_location('cuda1940_test_gateway',D/'gateway.py');g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)
+c=g.load(g.R/g.CONTROLLER,'cuda1940_test_controller',g.CONTROLLER_SHA)
+e=g.e
+def write(path,obj):
+    path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(g.canonical(obj))
+def dataset(root,*,budget=256,jid='3028460',count=7):
+    case=e.CASES[jid];suite=case[0];budget=case[1]
+    ref={'path':'configs/experiments/test_recovery.json','sha256':'a'*64}
+    auth=dict(failed_job_id=jid,original_target=case[3],root_reservation={'path':'results/formal_main_v2/test_reservation.json','sha256':'b'*64},
+        controller_job_id='900',controller_activation=g.ACTIVATION,canonical_failure_review={'path':'results/formal_main_v2/test_failure.json','sha256':'c'*64},
+        repair_record={'path':'results/formal_main_v2/repairs/'+('d'*64)+'.json','sha256':'d'*64})
+    failed=dict(job_id=jid,experiment='formal_main_v2',mode='train',stage_key=f'{suite}_train_k{budget}_seed23',suite=suite,
+        visual_tokens=budget,training_seed=23,status='FAILED',exit_code='1:0',gpus=1,elapsed_seconds=case[4])
+    cpu=dict(job_id='900',experiment='formal_main_v2',mode='controller',status='RUNNING',exit_code='0:0',gpus=0)
+    live=[dict(job_id=str(i+1),experiment='formal_main_v2',mode='engineering',status='RUNNING',exit_code='0:0',gpus=1) for i in range(count)]
+    state=dict(registered_jobs=[failed,cpu,*live],pending_submission=None,current_round_cost={'registered_jobs':len(live)+2,'allocated_gpu_seconds':226},
+        autonomous_training_v1=dict(controller_job_id='900',activation=g.ACTIVATION,activation_sha256=g.ACTIVATION['sha256'],
+            root_submission_hold=None,reserved_GPU_slots=1,reservation_root_record=auth['root_reservation'],
+            blocked_pairs={f'{suite}_k{budget}_seed23':{'decision':'blocked','failed_job_ids':[jid]}},opaque={'must':'survive'}),
+        formal_main_progress={'parallel_execution':{'pair_tracking':{f'{suite}_k{budget}_seed23':{'last_root_reviewed_common_update':0 if case[3]==500 else 1000}}}})
+    path=root/g.STATE;write(path,state);(path.parent/'.writer.lock').touch()
+    invrel=f'results/formal_main_v2/invocations/{suite}_train_k{budget}_seed23_attempt02.json'
+    inv=dict(schema='formal_main_v2',stage='train',suite=suite,stage_key=failed['stage_key'],source_root=str(e.S),source_sha256=e.SOURCE_SHA,
+        entrypoint='scripts/run_formal_future.py',segment_end=case[3],registered_utc='2026-10-19T00:00:00+00:00',
+        argv=['--stop-after-updates',str(case[3]),'--max-wall-seconds','12600','--resume'],watched_files={})
+    if suite=='libero_object':inv['runtime_compatibility']={'slurm':'scripts/server/formal_asset_main.slurm'}
+    plan=dict(invocation=inv,invocation_relative=invrel,proof={'output_relative':f'results/formal_main_v2/{suite}/k{budget}/seed23/training'},
+        args={'budget':budget},wrapper=str((e.P if suite=='libero_object' else e.S)/e.WRAPPERS[suite][0]))
+    class Ev:
+        hashes={}
+        def unchanged(self):pass
+    class Science:
+        e=Ev()
+        def prepare(self,current,jobs,authorization):return copy.deepcopy(plan)
+    class IO:
+        def __init__(self):self.published=False;self.fail=None
+        def preflight(self,p):return {'synthetic':True}
+        def publish(self,p,raw):
+            assert c.read_json(path)['pending_submission']['status']=='prepared_before_invocation_publication'
+            self.published=True
+            if self.fail:raise self.fail
+            g.immutable(root/'runtime'/p['invocation_relative'],raw)
+    class Slurm:
+        def __init__(self):self.calls=[];self.failure=None;self.stdout='9999\n';self.code=0;self.mutate=None
+        def observe(self,jobs):
+            rows={str(j['job_id']):dict(status=j['status'],exit_code=j.get('exit_code','0:0'),gpus=j.get('gpus',1),elapsed_seconds=j.get('elapsed_seconds',0),allocation='gpu-fixture',node='fixture') for j in jobs}
+            snap={'rows':rows,'queue':{str(j['job_id']):{'status':j['status']} for j in jobs if j['status'] not in c.TERMINAL},'raw_sacct':'synthetic','raw_squeue':'synthetic'}
+            if self.mutate:self.mutate(snap)
+            return snap
+        def submit(self,argv):
+            self.calls.append(argv);assert c.read_json(path)['pending_submission'] is not None and io.published
+            if self.failure:raise self.failure
+            return SimpleNamespace(returncode=self.code,stdout=self.stdout,stderr='synthetic')
+    io=IO();slurm=Slurm();run=g.Gateway(root,c,slurm,Science(),io,auth,ref,Ev())
+    return SimpleNamespace(root=root,state=state,path=path,auth=auth,ref=ref,plan=plan,io=io,slurm=slurm,run=run)
+@pytest.fixture
+def fx(tmp_path):return dataset(tmp_path/'project')
+
+@pytest.mark.parametrize('jid,target',[('3028460',500),('3028468',500),('3028522',1500)])
+def test_success_original_targets_keep_failed_and_blocked(tmp_path,jid,target):
+    f=dataset(tmp_path/'project',jid=jid)
+    before=copy.deepcopy(f.state);result=f.run.run(submit=True);state=c.read_json(f.path)
+    assert result['status']=='submitted_once' and len(f.slurm.calls)==1
+    assert state['registered_jobs'][:-1]==before['registered_jobs']
+    assert state['registered_jobs'][-1]['segment_end']==target
+    assert state['autonomous_training_v1']['blocked_pairs']==before['autonomous_training_v1']['blocked_pairs']
+    assert state['autonomous_training_v1']['opaque']==before['autonomous_training_v1']['opaque']
+    assert state['autonomous_training_v1']['reserved_GPU_slots']==0 and state['pending_submission'] is None
+    assert state['current_round_cost']['allocated_gpu_seconds']==226
+    assert '--exclude=gpu4020' in f.slurm.calls[0] and '--no-requeue' in f.slurm.calls[0] and '--time=04:00:00' in f.slurm.calls[0]
+    assert all('5000' not in str(v) for v in f.slurm.calls[0])
+    with pytest.raises(ValueError,match='prior recovery audit'):f.run.run(submit=True)
+    assert len(f.slurm.calls)==1
+
+def test_default_check_is_no_write(fx):
+    before=fx.path.read_bytes();files=set(fx.root.rglob('*'))
+    result=fx.run.run()
+    assert result['status']=='read_only_checks_passed_not_submitted' and fx.path.read_bytes()==before
+    assert set(fx.root.rglob('*'))==files and not fx.slurm.calls
+
+@pytest.mark.parametrize('fault',['full','missing','unknown','duplicate','foreign','cpu_not_confirmed','pending','wrong_reservation','root_hold'])
+def test_capacity_reservation_fail_closed(fx,fault):
+    if fault=='full':
+        st=c.read_json(fx.path);st['registered_jobs'].append(dict(job_id='88',experiment='formal_main_v2',mode='development',status='PENDING',gpus=1,exit_code='0:0'));write(fx.path,st)
+    elif fault=='missing':fx.slurm.mutate=lambda s:s['rows'].pop('900')
+    elif fault=='unknown':fx.slurm.mutate=lambda s:s['rows']['1'].update(status='UNKNOWN')
+    elif fault=='duplicate':
+        st=c.read_json(fx.path);j=copy.deepcopy(st['registered_jobs'][0]);j.update(job_id='88',status='PENDING');st['registered_jobs'] += [j,dict(j,job_id='89')];write(fx.path,st)
+    elif fault=='foreign':
+        st=c.read_json(fx.path);st['registered_jobs'][-1]['experiment']='other_project';write(fx.path,st)
+    elif fault=='cpu_not_confirmed':fx.slurm.mutate=lambda s:s['rows']['900'].update(gpus=1)
+    else:
+        st=c.read_json(fx.path)
+        if fault=='pending':st['pending_submission']={'unknown':True}
+        elif fault=='wrong_reservation':st['autonomous_training_v1']['reservation_root_record']={'path':'results/v3.json','sha256':'b'*64}
+        else:st['autonomous_training_v1']['root_submission_hold']={'enabled':True}
+        write(fx.path,st)
+    with pytest.raises(ValueError):fx.run.run(submit=True)
+    assert not fx.slurm.calls and not fx.run.audit.exists()
+
+@pytest.mark.parametrize('output,code',[('garbage\n',0),('9999\nmore\n',0),('3028460\n',0),('9999\n',1),(' 9999\n',0)])
+def test_ambiguous_or_old_ack_preserves_pending(fx,output,code):
+    fx.slurm.stdout=output;fx.slurm.code=code
+    with pytest.raises(ValueError):fx.run.run(submit=True)
+    state=c.read_json(fx.path)
+    assert state['pending_submission'] is not None and state['autonomous_training_v1']['reserved_GPU_slots']==1
+    assert state['registered_jobs']==fx.state['registered_jobs'] and len(fx.slurm.calls)==1
+    with pytest.raises(ValueError):fx.run.run(submit=True)
+    assert len(fx.slurm.calls)==1
+
+def test_timeout_never_retries(fx):
+    fx.slurm.failure=subprocess.TimeoutExpired('sbatch',10)
+    with pytest.raises(subprocess.TimeoutExpired):fx.run.run(submit=True)
+    assert c.read_json(fx.path)['pending_submission']['retry_permitted'] is False
+    assert len(fx.slurm.calls)==1
+
+def test_publication_failure_retains_pending_before_sbatch(fx):
+    fx.io.fail=OSError('injected disk full')
+    with pytest.raises(OSError):fx.run.run(submit=True)
+    assert c.read_json(fx.path)['pending_submission'] is not None and not fx.slurm.calls
+
+def test_existing_invocation_blocks(fx):
+    write(fx.root/fx.plan['invocation_relative'],{'older':'unknown'})
+    with pytest.raises(ValueError,match='invocation exists'):fx.run.run(submit=True)
+    assert c.read_json(fx.path)['pending_submission'] is None and not fx.slurm.calls
+
+def test_writer_contention_is_no_write(fx):
+    before=fx.path.read_bytes()
+    with c.exclusive_lock(fx.path.parent/'.writer.lock'):
+        with pytest.raises(BlockingIOError):fx.run.run(submit=True)
+    assert fx.path.read_bytes()==before and not fx.slurm.calls
+
+def test_missing_writer_lock_is_not_recreated(fx):
+    (fx.path.parent/'.writer.lock').unlink()
+    with pytest.raises(ValueError,match='writer lock missing'):fx.run.run(submit=True)
+    assert not (fx.path.parent/'.writer.lock').exists()
+
+@pytest.mark.parametrize('phase',['before_pending','after_pending'])
+def test_CAS_drift_never_overwrites(fx,phase):
+    def drift():
+        st=c.read_json(fx.path);st['external_writer_change']=True;write(fx.path,st)
+    if phase=='before_pending':fx.io.preflight=lambda p:(drift() or {})
+    else:fx.io.publish=lambda p,b:drift()
+    with pytest.raises(ValueError,match='state'):fx.run.run(submit=True)
+    assert c.read_json(fx.path)['external_writer_change'] is True and not fx.slurm.calls
+
+def test_known_ack_persisted_before_receipt_failure(fx,monkeypatch):
+    original=g.record
+    def fail(p,v):
+        if '/submissions/' in str(p):raise OSError('injected receipt failure')
+        return original(p,v)
+    monkeypatch.setattr(g,'record',fail)
+    with pytest.raises(OSError):fx.run.run(submit=True)
+    state=c.read_json(fx.path)
+    assert state['pending_submission']['known_job_id']=='9999' and state['registered_jobs']==fx.state['registered_jobs']
+    assert state['autonomous_training_v1']['reserved_GPU_slots']==1
+
+@pytest.mark.parametrize('path',['configs/initial_states/sealed_final.json','results/test/a.json','results/initial_states/a.json','results/a/test_state2.json','results/A.PT','../outside.json','/tmp/x.json','results/a/checkpoints/a.json','results/SEALED_x/a.json'])
+def test_lexical_paths_rejected_before_IO(path):
+    with pytest.raises(ValueError):e.relative(path)
+
+def test_legitimate_scientific_initial_state_source_allowed():
+    assert e.relative('src/cti_vla/data/initial_states.py').suffix=='.py'
+
+def test_native_preflight_fake_checkpoint_and_output(tmp_path,monkeypatch):
+    P=tmp_path/'P';H=tmp_path/'H';S=P/'snapshots/s'
+    monkeypatch.setattr(e,'P',P);monkeypatch.setattr(e,'H',H);monkeypatch.setattr(e,'S',S)
+    rel='results/formal_main_v2/libero_spatial/k64/seed23/training'
+    out=P/rel;out.mkdir(parents=True);(out/'.training.lock').touch();(out/'progress.json').write_bytes(b'{}')
+    checkpoint=H/'checkpoints/formal_main_v2/libero_spatial/k64/seed23'
+    checks=[]
+    for arm in ('A','B'):
+        p=checkpoint/arm/'resume.pt';p.parent.mkdir(parents=True);p.write_bytes(('synthetic '+arm).encode())
+        checks.append(dict(arm=arm,path=str(p),exists=True,**e.stable_sha(p)))
+    S.mkdir(parents=True);(S/'code.py').write_bytes(b'pass\n')
+    wrapper=P/'wrapper.slurm';wrapper.write_bytes(b'# fixture\n')
+    plan=dict(inventory={'files':{'code.py':e.stable_sha(S/'code.py')['sha256']}},remote_watched={},
+        wrapper=str(wrapper),wrapper_sha256=e.stable_sha(wrapper)['sha256'],invocation_relative='results/invocations/new.json',
+        proof=dict(output_relative=rel,suite='libero_spatial',visual_tokens=64,server_resume_checks=checks,
+            evidence_bundle={rel+'/progress.json':e.stable_sha(out/'progress.json')}),fresh=False)
+    before=[Path(x['path']).read_bytes() for x in checks]
+    assert len(e.NativeIO().preflight(plan)['server_resume_checks'])==2
+    assert [Path(x['path']).read_bytes() for x in checks]==before
+    Path(checks[0]['path']).write_bytes(b'tampered fixture')
+    with pytest.raises(ValueError,match='resume differs'):e.NativeIO().preflight(plan)
+
+def test_exact_source_contract_nonweight_only_real():
+    # Real canonical failure bundles; no actual state write, checkpoint or Slurm access.
+    science=e.RecoveryScience(g.R)
+    for jid in e.CASES:
+        case=e.CASES[jid];rel=f'results/formal_main_v2/{case[0]}/k{case[1]}/seed23/training/startup_failure_reviews/{jid}.json'
+        proof=science.e.read(rel,case[5]);reader=science.failure.Reader(g.R,proof['evidence_bundle'])
+        facts=science.failure.reconstruct(reader,jid)
+        assert all(proof.get(k)==v for k,v in facts.items()) and facts['current_allocation_new_updates']==0
+    assert [e.CASES[j][4] for j in e.CASES]==[84,69,73]

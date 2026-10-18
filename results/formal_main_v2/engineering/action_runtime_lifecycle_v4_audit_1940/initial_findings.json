@@ -1,0 +1,65 @@
+{
+  "kind": "action_runtime_lifecycle_v4_initial_independent_CPU_findings",
+  "status": "blocked_pending_trusted_first_capture_binding",
+  "utc": "2026-10-18T19:51:49.816939+00:00",
+  "candidate_files": {
+    "probe.py": "6cf3db9c53dfad868e3cf0732ca0913a00242d67d97b19c570bf530d57fe66e6",
+    "candidate_manifest.json": "25d6e0e831d7e7770150bd2008e49991ec10bddbd815a3400f7a60b539404d26"
+  },
+  "observed_rejected_faults": 0,
+  "expected_rejected_faults": 4,
+  "faults": [
+    {
+      "case": "first_constant_drift",
+      "rejected": false,
+      "completed": 1,
+      "failed": false
+    },
+    {
+      "case": "first_helper_replacement",
+      "rejected": false,
+      "completed": 1,
+      "failed": false
+    },
+    {
+      "case": "first_helper_code_drift",
+      "rejected": false,
+      "completed": 1,
+      "failed": false
+    },
+    {
+      "case": "helper_global_drift_after_first",
+      "rejected": false,
+      "completed": 2,
+      "failed": false
+    }
+  ],
+  "root_cause": "Initial baseline captured after loader permits first-load drift as trusted baseline; helper globals live outside five exported modules and were unguarded.",
+  "minimal_repair": "Bind verified original compat module globals/function identities/code before first model load; require first installed exports exactly match that trusted baseline and verify actual helper globals before/after every load.",
+  "actual_adapter_compatibility": {
+    "Object_and_Goal_asset_adapter": "only checkpoint_manifest.load_checkpoint_manifest rebound; no bool policy",
+    "Goal_component_adapter": "only _load_component_state rebound; original load_openvla_oft_components binding/code remains required",
+    "False_branch": "frozen install_prismatic_runtime_compat(False) imports existing constants and validates registered (8,7,8,BOUNDS_Q99); no reinstall or module deletion"
+  },
+  "source_change_scope": {
+    "manifest_changed_keys": [
+      "pending",
+      "version"
+    ],
+    "all_suites_methods_panels_identities_limits_unchanged": true,
+    "GPU_body_only_lifecycle_call_and_journal_changed": true
+  },
+  "GPU_evidence": "v3 GPU3034675 remains failed 4/16; this CPU candidate not GPU-authorized",
+  "evidence_sha256": {
+    ".local/action_runtime_lifecycle_v4_audit_1940/first_capture_boundary_a1.json": "244e7353fa19019f16f97c62f9386221f502e72e0aace0920dbc5a398541bbdd",
+    ".local/action_runtime_lifecycle_v4_audit_1940/first_capture_boundary_a1.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/action_runtime_lifecycle_v4_audit_1940/first_capture_boundary_probe.py": "516276b8072492afc19df95ff6e7b36c736d91eb156e0ebffaa446f50ff6fce8",
+    ".local/action_runtime_lifecycle_v4_audit_1940/first_capture_boundary_a1_execution.json": "7cf59571282dc25b33441f490c85799e05c07cd1436b808602c1bddbcd9bb1c2",
+    ".local/action_runtime_lifecycle_v4_audit_1940/candidate_a1_probe.py.txt": "6cf3db9c53dfad868e3cf0732ca0913a00242d67d97b19c570bf530d57fe66e6",
+    ".local/action_runtime_lifecycle_v4_audit_1940/candidate_a1_candidate_manifest.json.txt": "25d6e0e831d7e7770150bd2008e49991ec10bddbd815a3400f7a60b539404d26",
+    "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+    "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+    "src/cti_vla/models/openvla_oft_loader.py": "e3782154cd7363364e2e8d7e88740e0ca6b4c8b423368360de5b2ff7607e5e22",
+    "src/cti_vla/models/openvla_oft_runtime_compat.py": "51f1e1846f1243a0762dae08abefc0b9bc36d020766ead7567723819d9cf55cb"
+  }
+}

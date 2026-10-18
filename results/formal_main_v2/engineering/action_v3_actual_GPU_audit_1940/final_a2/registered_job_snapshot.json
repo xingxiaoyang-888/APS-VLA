@@ -1,0 +1,39 @@
+{
+  "state_sha256": "4b896f94103a3d53f83f4afec819a0a328fd0f5dbc9cb96c6e0f449be81f330b",
+  "job": {
+    "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+    "automatic_retry": false,
+    "elapsed_seconds": 303,
+    "exit_code": "1:0",
+    "expected_engineering_cells": 16,
+    "experiment": "formal_main_v2",
+    "final_states_opened": false,
+    "gpus": 1,
+    "invocation": "results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v3_attempt01.json",
+    "invocation_sha256": "a08c2d0a8bc03d31e454f68b4d64898649d1ab1dacaa3c32b8408b2b008e482d",
+    "job_id": "3034675",
+    "maximum_attempts": 1,
+    "mode": "engineering",
+    "name": "cti-action-exec16",
+    "node": "gpu4016",
+    "purpose": "Fixed four-suite sixteen-cell action-execution engineering acceptance; no success-rate result or automatic failed-Object-trial replay",
+    "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/3034675",
+    "scientific_trials": 0,
+    "segment_end": null,
+    "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+    "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+    "stage_key": "formal_main_v2_action_execution_compat_gpu_v3",
+    "status": "FAILED",
+    "submitted_utc": "2026-10-18T18:31:32.428490+00:00",
+    "suite": null,
+    "suites": [
+      "libero_10",
+      "libero_spatial",
+      "libero_object",
+      "libero_goal"
+    ],
+    "training_seed": 17,
+    "visual_tokens": null,
+    "wall_limit_seconds": 3600
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_action_v4_autonomous_dispatch_CPU_and_live_preflight_acceptance",
+  "reviewed_utc": "2026-10-18T20:18:06.550546+00:00",
+  "status": "passed_ready_for_one_registered_engineering_run_waiting_reserved_slot",
+  "entrypoint": {
+    "path": ".local/action_v4_autonomous_dispatch_1940/entry.py",
+    "sha256": "e259572effecf20f8769db47edfd1ac46799e8f50517fe3c98d6dfee919fef56"
+  },
+  "facade": {
+    "path": ".local/action_v4_autonomous_dispatch_1940/facade.py",
+    "sha256": "dd662101cf4e0546784d071925d86d1fd8d3b7a6dafc55fb6dbd74e58b55129e"
+  },
+  "independent_review": {
+    "path": "results/formal_main_v2/engineering/action_v4_autonomous_dispatch_audit_1940/independent_review.json",
+    "sha256": "1c8b13643f792991f45457c79a621b5a0953920f69eab28639ad75375823f427"
+  },
+  "independent_refs_rehashed": 544,
+  "author_CPU_tests": 34,
+  "independent_CPU_tests": 21,
+  "CLI_expected_rejections": 3,
+  "live_preflight": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T0340/action_v4_live_check.stdout",
+    "sha256": "0fafdd44156cc3844fc498f34949c760695b71d94723fbda31f16dbf1c31e153"
+  },
+  "reservation": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_v4_slot_reservation_1940.json",
+    "sha256": "90ec791baeac23aeb3facc909cd95f6d7db0345ab76ed1f99c7f6f10211636a5"
+  },
+  "all_registered_jobs_observed": 247,
+  "available": false,
+  "active_GPU_job_ids": [
+    "3034570",
+    "3034580",
+    "3034584",
+    "3034597",
+    "3034604",
+    "3034611",
+    "3034616",
+    "3034689"
+  ],
+  "no_pending": true,
+  "controller_lease_held": true,
+  "controller_owner": {
+    "activation_sha256": "7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef",
+    "coordinator_job_id": "3034538",
+    "hostname": "cpui135",
+    "lease": "fcntl_flock_held_for_process_lifetime",
+    "lock": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/autonomous_training/run_v1/controller.lease.lock",
+    "owner_id": "6b3beba5cdeb41df9d749b0b2054d485",
+    "pid": 2392954,
+    "started_utc": "2026-10-18T17:54:25.904382+00:00",
+    "version": "cti-autonomous-training-controller-v1"
+  },
+  "source173_R_S_unchanged": true,
+  "GPU_submission_permitted_only_after_fresh_available_check": true,
+  "GPU_submitted": false,
+  "scientific_release": false,
+  "final_states_opened": false,
+  "independent_archive": {
+    "path": "results/formal_main_v2/engineering/action_v4_autonomous_dispatch_audit_1940/archive_manifest.json",
+    "sha256": "3a8bdaacc6b101aec5892c672add1220a9a4ddb87985ec22ee2810745b8e6f6e"
+  }
+}

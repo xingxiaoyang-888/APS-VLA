@@ -1,0 +1,109 @@
+{
+  "actions": {
+    "GPU_calls": 0,
+    "Slurm_submissions": 0,
+    "local_Windows_project_writes": 0,
+    "model_weight_loads": 0,
+    "production_state_writes": 0,
+    "scientific_source_edits": 0,
+    "sealed_state_reads": 0,
+    "writes_only_audit_directory": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_audit_1940"
+  },
+  "actual_v3_GPU_status": {
+    "GPU_seconds": 303,
+    "actual_report_ref": {
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_actual_GPU_audit_1940/final_a2/report.json",
+      "sha256": "9176ec2b9f37264c7967d3883e49b6a1743deae5de5ccab3beac9fe81faf63f2"
+    },
+    "completed_cells": 4,
+    "failed": true,
+    "job_id": 3034675,
+    "required_cells": 16,
+    "scientific_rollouts_may_resume": false
+  },
+  "candidate_files": {
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_1940/candidate_manifest.json": "25d6e0e831d7e7770150bd2008e49991ec10bddbd815a3400f7a60b539404d26",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_1940/probe.py": "91e12f29ad39591c29cfd63912394949d1cad932bb80c8a871ed852cea32cadc",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_1940/test_lifecycle.py": "75b10e4fd075d584206e95f1811c73b64cc179d2743ef707ffc56cf12126ad1b"
+  },
+  "compatibility_review": {
+    "asset_and_goal_adapters_preserve_full_loader_and_bool_parameter": true,
+    "full_model_loading_validation_requires_new_GPU_attempt": true,
+    "official_loader_existing_False_branch_validates_constants": true
+  },
+  "control_derivation": {
+    "conditions": [
+      "new versioned complete exact SHA closure and typed registration",
+      "new root reservation and one-shot invocation; consumed v3 reservation cannot be reused",
+      "reviewed autonomous coexistence facade bound to new identities",
+      "root-only fresh no-duplicate and capacity checks before dispatch"
+    ],
+    "existing_candidate_enumerated_text_reversal_matches_v3": true,
+    "fully_registered_or_submit_ready": false,
+    "mechanical_derivation_allowed": true
+  },
+  "evidence": [
+    {
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_audit_1940/actual_R_S_metadata_readset.json",
+      "sha256": "c44c1c936a9b833d9897b1f3c3eb944c2882428fed06ab5b25d8ff31491560b7"
+    },
+    {
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_audit_1940/source173_R_S_recheck.json",
+      "sha256": "8bc51fe7334c75658997304956c0d62fe5466165bd9789d9ab4b4fdbe7ebd9d1"
+    },
+    {
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_audit_1940/static_scope_review.json",
+      "sha256": "cae22ee0dd8f37f7e63b967dd49310e66d65dcf80d4739d1b5078b500878010d"
+    },
+    {
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_audit_1940/references.json",
+      "sha256": "7f61b74e957f26f1b197fdecdcf5679f4670610cae317e931e38071f8dcae760"
+    }
+  ],
+  "first_candidate_failure_preserved": {
+    "counterexample_raw": {
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_audit_1940/first_capture_boundary_a1.json",
+      "sha256": "244e7353fa19019f16f97c62f9386221f502e72e0aace0920dbc5a398541bbdd"
+    },
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_runtime_lifecycle_v4_audit_1940/initial_findings.json",
+    "sha256": "d1d1b33ffabef28cbb06575f8020e516bb017dd3378f817da90117faa01746a5"
+  },
+  "kind": "action_runtime_lifecycle_v4_independent_CPU_review",
+  "limitations": [
+    "CPU-only independent review; no new model load or GPU attempt.",
+    "Does not constitute controller-action GPU acceptance, closed-loop success/latency evidence, final-state release, or submission authority.",
+    "Original v3 remains failed with only Long 4/16 cells; all original failures and GPU cost retained."
+  ],
+  "manifest_panels_methods_budgets_unchanged": true,
+  "old_v3_eight_source_files_unchanged": true,
+  "probe_AST_scope_verified": true,
+  "remaining_blockers": [],
+  "reviewed_utc": "2026-10-18T19:58:21.785433+00:00",
+  "runtime_guard": {
+    "failure_poisoned_no_retries": true,
+    "first_export_match_to_trusted_preload_objects": true,
+    "no_production_sysmodules_deletion": true,
+    "one_true_then_three_false": true,
+    "subsequent_module_identity_and_mask_primitive_verified": true,
+    "trusted_runtime_path_SHA_and_module_globals_before_first_loader": true
+  },
+  "schema": "formal_main_v2",
+  "scientific_source173_R_S_unchanged": true,
+  "status": "passed_CPU_review_pending_new_registered_16_cell_GPU_acceptance",
+  "tests": {
+    "actual_R_control_S_source_metadata": {
+      "cells": 16,
+      "inputs": 278,
+      "passed": true
+    },
+    "author_tests_independently_rerun": {
+      "failed": 0,
+      "passed": 28
+    },
+    "independent_real_frozen_S_runtime": {
+      "failed": 0,
+      "four_previously_reproduced_counterexamples_now_rejected": true,
+      "passed": 7
+    }
+  }
+}
