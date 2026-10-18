@@ -1,0 +1,56 @@
+"""Verify only this small submission/status delta; no raw result redelivery."""
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,subprocess
+ROOT=Path(__file__).resolve().parents[1]
+BASE='results/formal_main_v2/preflight/'
+R=BASE+'parallel_capacity_tail_20261018T0826.json'
+PROOF=BASE+'parallel_capacity_tail_20261018T0826_git_delivery.json'
+SOURCE=BASE+'parallel_capacity_tail_20261018T0826_git_delivery_source.py.txt'
+PARENT='b76445245711d405cafa7741dcc5a492de4413a5'
+def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT)
+def sha(data):return hashlib.sha256(data).hexdigest()
+assert git('rev-parse','HEAD').decode().strip()==PARENT
+assert not git('diff','--cached','--name-only').strip()
+assert not (ROOT/PROOF).exists() and not (ROOT/SOURCE).exists()
+assert sha((ROOT/R).read_bytes())=='6dd0cfd6b545c5b65a84c9324b6a4b2d801fe50a8e557a08df663cca5e5d54be'
+receipt=json.loads((ROOT/R).read_bytes())
+assert receipt['completed_training_arms']==28 and len(receipt['active_jobs'])==8
+assert receipt['new_terminal_raw_results_pulled'] is False
+for name,digest in receipt['evidence_sha256'].items():assert sha((ROOT/name).read_bytes())==digest,name
+with (ROOT/SOURCE).open('xb') as stream:stream.write(Path(__file__).read_bytes())
+names=git('ls-files','--modified','--others','--exclude-standard','-z','--',
+    'docs','results/formal_main_v2','results/experiment_supervisor/state.json','results/slurm').decode().split('\0')
+names=sorted({n for n in names if n})
+allowed=set(receipt['evidence_sha256'])|{R,SOURCE,'results/experiment_supervisor/state.json',
+    'results/formal_main_v2/slurm_accounting.json','docs/实验进度.md','docs/完整实验计划.md','docs/正式主实验规划.md'}
+assert set(names)<=allowed,(set(names)-allowed)
+rows=[]
+for name in names:
+    path=ROOT/name
+    assert path.is_file() and not path.is_symlink() and path.resolve().is_relative_to(ROOT)
+    assert path.suffix in ('.md','.json','.txt') and path.stat().st_size<25*1024*1024
+    data=path.read_bytes();rows.append(dict(path=name,sha256=sha(data),bytes=len(data)))
+inventory=json.loads((ROOT/'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json').read_bytes())
+assert len(inventory['files'])==173 and not set(names)&set(inventory['files'])
+for name,digest in inventory['files'].items():assert sha((ROOT/name).read_bytes())==digest,name
+subprocess.run(['git','add','--',*names],cwd=ROOT,check=True)
+subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
+assert set(git('diff','--cached','--name-only').decode().splitlines())==set(names)
+for row in rows:
+    data=git('show',':'+row['path'])
+    assert data==(ROOT/row['path']).read_bytes() and sha(data)==row['sha256'] and len(data)==row['bytes']
+assert not git('diff','--name-only').strip()
+index_before=git('ls-files','--stage','-z')
+proof=dict(schema='formal_main_v2',kind='root_small_capacity_delta_Git_delivery',status='passed',
+    verified_utc=datetime.now(timezone.utc).isoformat(),parent_commit=PARENT,receipt=dict(path=R,sha256=sha((ROOT/R).read_bytes())),
+    stage_source=dict(path=SOURCE,sha256=sha((ROOT/SOURCE).read_bytes())),files=rows,index_before_proof_sha256=sha(index_before),
+    frozen173_rehashed=True,prior_large_result_archive_files_not_modified_or_replaced=True,
+    new_raw_results_delivered=False,weights_delivered=False,final_states_opened=False,GPU_seconds=0)
+data=(json.dumps(proof,indent=2,sort_keys=True)+'\n').encode()
+with (ROOT/PROOF).open('xb') as stream:stream.write(data)
+subprocess.run(['git','add','--',PROOF],cwd=ROOT,check=True)
+subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
+assert git('show',':'+PROOF)==data and not git('diff','--name-only').strip()
+assert set(git('diff','--cached','--name-only').decode().splitlines())==set(names)|{PROOF}
+print(json.dumps(dict(status='passed',proof=PROOF,sha256=sha(data),staged_files=len(names)+1,frozen_files=173)))

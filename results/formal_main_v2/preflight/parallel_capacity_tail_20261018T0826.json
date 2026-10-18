@@ -1,0 +1,299 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_capacity_refill_only",
+  "status": "three_fresh_pairs_registered_and_running",
+  "recorded_utc": "2026-10-18T08:32:10.246010+00:00",
+  "parent_commit": "b76445245711d405cafa7741dcc5a492de4413a5",
+  "completed_training_arms": 28,
+  "reviewed_arm_updates": 146000,
+  "completed_development_trials": 1212,
+  "completed_final_trials": 0,
+  "active_jobs": [
+    {
+      "job_id": "3025581",
+      "suite": "libero_spatial",
+      "visual_tokens": 256,
+      "training_seed": 17,
+      "segment_end": 1500,
+      "status": "RUNNING"
+    },
+    {
+      "job_id": "3025841",
+      "suite": "libero_spatial",
+      "visual_tokens": 64,
+      "training_seed": 17,
+      "segment_end": 1500,
+      "status": "RUNNING"
+    },
+    {
+      "job_id": "3025845",
+      "suite": "libero_spatial",
+      "visual_tokens": 256,
+      "training_seed": 41,
+      "segment_end": 500,
+      "status": "RUNNING"
+    },
+    {
+      "job_id": "3025874",
+      "suite": "libero_object",
+      "visual_tokens": 128,
+      "training_seed": 23,
+      "segment_end": 500,
+      "status": "RUNNING"
+    },
+    {
+      "job_id": "3025875",
+      "suite": "libero_object",
+      "visual_tokens": 128,
+      "training_seed": 41,
+      "segment_end": 500,
+      "status": "RUNNING"
+    },
+    {
+      "job_id": "3026207",
+      "suite": "libero_object",
+      "visual_tokens": 256,
+      "training_seed": 17,
+      "segment_end": 500,
+      "status": "RUNNING"
+    },
+    {
+      "job_id": "3026219",
+      "suite": "libero_object",
+      "visual_tokens": 64,
+      "training_seed": 17,
+      "segment_end": 500,
+      "status": "RUNNING"
+    },
+    {
+      "job_id": "3026224",
+      "suite": "libero_goal",
+      "visual_tokens": 128,
+      "training_seed": 23,
+      "segment_end": 500,
+      "status": "RUNNING"
+    }
+  ],
+  "new_jobs": [
+    {
+      "job_id": "3026207",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_object_train_k256_seed17",
+      "suite": "libero_object",
+      "visual_tokens": 256,
+      "training_seed": 17,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_object_train_k256_seed17_attempt01.json",
+      "invocation_sha256": "9b1e340af17be3bc15dde4ab2f28c3be52e5f312b688e9f7a93ce4d96e1a25de",
+      "runtime_compatibility": {
+        "schema": "formal_main_v2",
+        "kind": "asset_metadata_compatibility",
+        "version": "formal-asset-metadata-compat-v1",
+        "wrapper": "scripts/server/run_formal_asset_stage.py",
+        "slurm": "scripts/server/formal_asset_main.slurm",
+        "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+        "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+        "files": {
+          "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+          "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+          "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+          "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+          "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+          "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+        }
+      },
+      "submitted_utc": "2026-10-18T08:28:26.411360+00:00",
+      "purpose": "Registered Object/Goal original acceptance/train with audited metadata projection; final states sealed",
+      "exit_code": "0:0",
+      "elapsed_seconds": 216,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4042"
+    },
+    {
+      "job_id": "3026219",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_object_train_k64_seed17",
+      "suite": "libero_object",
+      "visual_tokens": 64,
+      "training_seed": 17,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k64/seed17/training",
+      "invocation": "results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt01.json",
+      "invocation_sha256": "1bac8c03fb0a8fb5ca08ead0ff6b28ebb80d5bcc03696a482af1978be4f019fc",
+      "runtime_compatibility": {
+        "schema": "formal_main_v2",
+        "kind": "asset_metadata_compatibility",
+        "version": "formal-asset-metadata-compat-v1",
+        "wrapper": "scripts/server/run_formal_asset_stage.py",
+        "slurm": "scripts/server/formal_asset_main.slurm",
+        "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+        "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+        "files": {
+          "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+          "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+          "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+          "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+          "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+          "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+        }
+      },
+      "submitted_utc": "2026-10-18T08:29:40.655950+00:00",
+      "purpose": "Registered Object/Goal original acceptance/train with audited metadata projection; final states sealed",
+      "exit_code": "0:0",
+      "elapsed_seconds": 140,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4017"
+    },
+    {
+      "job_id": "3026224",
+      "name": "cti-formal",
+      "experiment": "formal_main_v2",
+      "mode": "train",
+      "stage_key": "libero_goal_train_k128_seed23",
+      "suite": "libero_goal",
+      "visual_tokens": 128,
+      "training_seed": 23,
+      "segment_end": 500,
+      "status": "RUNNING",
+      "gpus": 1,
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed23/training",
+      "invocation": "results/formal_main_v2/invocations/libero_goal_train_k128_seed23_attempt01.json",
+      "invocation_sha256": "f3cfc60dfa429412b4519b8816c5a1de21c03595e391cf8395015ebfab824c94",
+      "runtime_compatibility": {
+        "schema": "formal_main_v2",
+        "kind": "asset_metadata_compatibility",
+        "version": "formal-asset-metadata-compat-v1",
+        "wrapper": "scripts/server/run_formal_asset_stage.py",
+        "slurm": "scripts/server/formal_asset_main.slurm",
+        "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+        "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+        "files": {
+          "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+          "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+          "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+          "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+          "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+          "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+        }
+      },
+      "component_compatibility": {
+        "schema": "formal_main_v2",
+        "kind": "goal_component_filename_compatibility",
+        "version": "formal-goal-components-v1",
+        "suite": "libero_goal",
+        "wrapper": "scripts/server/run_formal_goal_asset_stage.py",
+        "adapter": "scripts/ops/formal_goal_component_adapter.py",
+        "slurm": "scripts/server/formal_goal_asset_main.slurm",
+        "registration": "configs/experiments/formal_main_v2_goal_component_compat_v1.json",
+        "files": {
+          "scripts/server/run_formal_goal_asset_stage.py": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039",
+          "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+          "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+          "configs/experiments/formal_main_v2_goal_component_compat_v1.json": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84"
+        }
+      },
+      "submitted_utc": "2026-10-18T08:30:08.648608+00:00",
+      "purpose": "Registered Goal stage with official50000 component paths and metadata evidence; final states sealed",
+      "exit_code": "0:0",
+      "elapsed_seconds": 114,
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "node": "gpu4017"
+    }
+  ],
+  "awaiting_terminal_pull_and_review": [
+    {
+      "pair": "libero_spatial_k256_seed23",
+      "job_id": "3025196",
+      "status": "terminal_pull_and_own_root_independent_review_required"
+    },
+    {
+      "pair": "libero_spatial_k64_seed23",
+      "job_id": "3025205",
+      "status": "terminal_pull_and_own_root_independent_review_required"
+    },
+    {
+      "pair": "libero_spatial_k64_seed41",
+      "job_id": "3025080",
+      "status": "terminal_pull_and_own_root_independent_review_required"
+    }
+  ],
+  "cost_snapshot": {
+    "registered_jobs": 181,
+    "allocated_gpu_seconds": 656151,
+    "allocated_gpu_hours": 182.26416666666665,
+    "final": false,
+    "historical_jobs_excluded": true
+  },
+  "cost_snapshot_not_additional": true,
+  "CPU_lock_rejections": {
+    "count": 2,
+    "attempted_pairs": [
+      "libero_object_k64_seed17",
+      "libero_goal_k128_seed23"
+    ],
+    "error": "PermissionError: [Errno 13] Permission denied at msvcrt.locking LK_NBLCK before acquiring supervisor_lock",
+    "cause": "The preceding root submission returned an ongoing execution session; the two following invocations were rejected by the guard.",
+    "correction": "Waited for completion and then invoked each submission serially. Existing-stage and capacity checks reran before either submission.",
+    "state_writes": false,
+    "GPU_jobs": 0,
+    "GPU_seconds": 0
+  },
+  "frozen_files_rehashed": 173,
+  "new_terminal_raw_results_pulled": false,
+  "earlier_index_archive_delivery_unchanged": true,
+  "weights_copied": false,
+  "final_states_opened": false,
+  "scientific_settings_changed": false,
+  "evidence_sha256": {
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+    "results/formal_main_v2/preflight/parallel_capacity_tail_20261018T0826.py.txt": "516b75b9b929f151801e52a9739ad7a5172bb45b7a916ea9dd542c31a7eb32e1",
+    "results/formal_main_v2/preflight/fill_fresh_formal_asset_pair_0826.py.txt": "3c84ef344f3c85572d9b743917692569d35aea8cfe77d6dcf4cd0d74a58d6762",
+    "results/formal_main_v2/preflight/action_execution_transport_v2_CPU_root_0626.json": "2dc329a280213288449a6095337e5b8f64cf7b1a647b6aa449ea42cd51cb1a63",
+    "results/formal_main_v2/preflight/parallel_review_batch_20261018T0626final_git_delivery.json": "799a3c6b4f96a47c778a40f7e605c32e22e0419261ebd3747f2d2b97a370c695",
+    "results/formal_main_v2/invocations/libero_object_train_k256_seed17_attempt01.json": "9b1e340af17be3bc15dde4ab2f28c3be52e5f312b688e9f7a93ce4d96e1a25de",
+    "results/formal_main_v2/submissions/3026207.json": "0fef80df11b1710fe9dc8189dbda564ff888e1d4ed4907f26c59a69cad0804f0",
+    "results/formal_main_v2/preflight/fresh_pair_prechecks/libero_object_k256_seed17_20261018T082826Z.json": "391b054bc55322df517ce6ee3c0535a376ea6edb42a84ffd5f59a52201a29870",
+    "configs/experiments/formal_main_v2.json": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9",
+    "configs/experiments/formal_main_v2_parallel_execution_v1.json": "e1378e74d1ad89af2d38d2f8eb8ce33695a346331c2e89db6313a5608faf4907",
+    "configs/experiments/formal_main_v2/libero_object_k256_seed17.json": "c12d177b3b48845462093d5417bbc759b6065ebecb26f51ac59d9d2e2d05a4a7",
+    "results/formal_main_v2/libero_object/acceptance/root_review.json": "2fd415c47d8852678b4d83296ffcff4709d97765debe7f4e41a17a7ae02daaa2",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/input_acceptance.json": "2690d538a64fc83925de7d6e807b70fc8fc4f2c65d43d582c14137d85560f47e",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/f01_k256.json": "30dfed1bd3b3fc3fe369348c4855c73434022e1d20cf60da56e7fe47f2c1af55",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/resume_acceptance.json": "3cae7aca2b9e74964311d908e89855c94a62b9c0f3321bd0ae4177fdddba3b79",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/f03_calls.jsonl": "b27e41f57662fd88f5b8ab7e2aedbc9f18b1a74ca378c6a68324885e180d8632",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/acceptance_complete.json": "990f44b35c8f59789958e89aa2165856ffab1c34cac66c08816a4dfaf7a2dfdc",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/root_review.json": "9436d3820e66df523bcb6ff54d955225d011b2c25270e45de80bf94e75858d91",
+    "results/formal_main_v2/preflight/fs_parallel_probe/3012316/independent_review.json": "8a69e34f8af5834e95bc57cea1ae880d35901bd1539ca98386c5d62af8605a1c",
+    "results/formal_main_v2/preflight/parallel_batch1_root_registration_independent.json": "328c73c0dd49c68b281c22c42998eb9fb41907b5ed669831e2b5dfa29de93dce",
+    "results/formal_main_v2/invocations/libero_object_train_k64_seed17_attempt01.json": "1bac8c03fb0a8fb5ca08ead0ff6b28ebb80d5bcc03696a482af1978be4f019fc",
+    "results/formal_main_v2/submissions/3026219.json": "16fba301475402cd701abb717bd988a8ff4ecd57167efabedb452d679b2985de",
+    "results/formal_main_v2/preflight/fresh_pair_prechecks/libero_object_k64_seed17_20261018T082940Z.json": "f224bf76cdc48bb8ad4d6fc9a9201e339d9980c55d6f628af318866448ebecc2",
+    "configs/experiments/formal_main_v2/libero_object_k64_seed17.json": "f91c80e6548e767ed478c0f629f56f2219ef35baff9568d06368e39a4702778d",
+    "results/formal_main_v2/libero_object/acceptance/attempt02/f01_k64.json": "ea9649625f19b6f7a3f7d763fd39e67142f3c4a8d36b11c6d5726b48e1c76719",
+    "results/formal_main_v2/invocations/libero_goal_train_k128_seed23_attempt01.json": "f3cfc60dfa429412b4519b8816c5a1de21c03595e391cf8395015ebfab824c94",
+    "results/formal_main_v2/submissions/3026224.json": "f06073714c346298537469e0b9b244bd351a2f94763d4d407f20caa0415b5817",
+    "results/formal_main_v2/preflight/fresh_pair_prechecks/libero_goal_k128_seed23_20261018T083008Z.json": "087ae25316d457455007e694cbd0a521f6295f5a18799e6f2c097a93bd673c5a",
+    "configs/experiments/formal_main_v2/libero_goal_k128_seed23.json": "de56ec7dc309a6e63e3271991509a8ebd1b2dc2472f979b36ee0a2639c98b81f",
+    "results/formal_main_v2/libero_goal/acceptance/root_review.json": "d994d25717d59f3b709944f3e8b2582c173ebd14febb853f49e5eec61ce8dddc",
+    "results/formal_main_v2/libero_goal/acceptance/attempt03/input_acceptance.json": "a25927ec8a25e1bc72cb87fb963216223ea8307a830699f0bee87c583fe92cb0",
+    "results/formal_main_v2/libero_goal/acceptance/attempt03/f01_k128.json": "c082dd79f948f6d24dac6ad39cb8e5b2ca441d327e159643c54a1aabc20c4aad",
+    "results/formal_main_v2/libero_goal/acceptance/attempt03/resume_acceptance.json": "e6ecc9cc84e0deed9c7d25c3fa1d1ab016aaae98524eb4028149b0735f322b65",
+    "results/formal_main_v2/libero_goal/acceptance/attempt03/f03_calls.jsonl": "38fb658db288821966097c03dd59766231c21cecafbbab613253808f00e79b83",
+    "results/formal_main_v2/libero_goal/acceptance/attempt03/acceptance_complete.json": "ed65117f0813f57d13070c9aa87a7968c60d231d7dac3a0ed2456427e17e8e7c"
+  }
+}
