@@ -1,0 +1,115 @@
+"""Append a small, explicitly bounded metadata/candidate delivery after the full guard."""
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+import hashlib
+import json
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
+import formal_supervisor as f
+B='results/formal_main_v2/'
+PARENT='75da054987d670b710de3facd98533e0c314e7f9'
+NAME=B+'preflight/parallel_tail_slot_candidate_20261018T0452.json'
+ARCH=B+'preflight/action_execution_compat_candidate_0452'
+AUTHOR='.local/action_execution_compat_v1_candidate/candidate_review.json'
+PROOF=B+'preflight/parallel_review_batch_20261018T0452_git_delivery_finish.json'
+
+
+def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT)
+
+
+def main():
+    assert git('rev-parse','HEAD').decode().strip()==PARENT
+    assert not git('diff','--cached','--name-only').strip()
+    assert not (ROOT/NAME).exists() and not (ROOT/ARCH).exists()
+    assert f.sha(ROOT/PROOF)=='e0e99c4736f777d30de353808175e56b331977215371d446f7e309adda4c491d'
+    assert f.sha(ROOT/AUTHOR)=='41b213f6aa7753b7aef7659065eabc3887c14213d47ffbcb933518c207d05ec6'
+    author=f.read(ROOT/AUTHOR)
+    assert author['candidate_only'] and not author['deployment_authorized']
+    assert author['author_CPU_test']['passed']==44 and author['author_CPU_test']['failed']==0
+    assert not author['activity']['real_rollouts_run'] and not author['activity']['GPU_seconds']
+    evidence={PROOF:f.sha(ROOT/PROOF)}
+    inventory=f.read(ROOT/(B+'source/formal_main_v2_run_564be0995e.json'))
+    assert len(inventory['files'])==173
+    for name,h in inventory['files'].items():
+        assert f.sha(ROOT/name)==h,name
+        assert hashlib.sha256(git('show',':'+name)).hexdigest()==h,name
+    archive=ROOT/ARCH;archive.mkdir()
+    new_files=[];candidate_map={}
+    for item in list(author['files'].values())+[dict(path=AUTHOR,sha256=f.sha(ROOT/AUTHOR),bytes=(ROOT/AUTHOR).stat().st_size)]:
+        old=ROOT/item['path'];data=old.read_bytes()
+        assert hashlib.sha256(data).hexdigest()==item['sha256'] and len(data)==item['bytes']
+        suffix='.txt' if old.suffix=='.py' else ''
+        dest=archive/(old.name+suffix);dest.write_bytes(data)
+        name=dest.relative_to(ROOT).as_posix();new_files.append(name)
+        candidate_map[item['path']]=dict(path=name,sha256=item['sha256'],bytes=len(data))
+    xml=ET.parse(ROOT/author['author_CPU_test']['junit']['path']).getroot()
+    suites=[xml] if xml.tag=='testsuite' else list(xml.findall('testsuite'))
+    assert sum(int(x.attrib['tests']) for x in suites)==44
+    assert all(int(x.attrib.get(k,0))==0 for x in suites for k in ('errors','failures','skipped'))
+    source=archive/'root_record_tail_slot_candidate_0452.py.txt';source.write_bytes(Path(__file__).read_bytes())
+    new_files.append(source.relative_to(ROOT).as_posix())
+    with f.supervisor_lock():
+        state=f.read(f.STATE);jobs=f.refresh(state)
+        terminal={'COMPLETED','FAILED','CANCELLED','TIMEOUT','OUT_OF_MEMORY','NODE_FAIL','BOOT_FAIL','DEADLINE','PREEMPTED','REVOKED'}
+        active=[j for j in jobs if j['status'] not in terminal]
+        assert len(active)==8 and len({j['stage_key'] for j in active})==8 and state['pending_submission'] is None
+        job=next(j for j in jobs if j['job_id']=='3024716')
+        assert job in active and job['suite']=='libero_spatial' and job['visual_tokens']==64 and job['training_seed']==23 and job['segment_end']==500
+        oldjob=next(j for j in jobs if j['job_id']=='3023228');assert oldjob['status']=='COMPLETED'
+        p=state['formal_main_progress'];par=p['parallel_execution']
+        assert p['trained_arms']==18 and p['root_and_independent_reviewed_arm_updates']==132000
+        assert p['completed_final_trials']==0 and not p['test_opened'] and not p['global_release_created']
+        pair=par['pair_tracking']['libero_spatial_k64_seed23']
+        pre=pair['fresh_start_precheck'];assert f.sha(ROOT/pre)==pair['fresh_start_precheck_sha256']
+        check=f.read(ROOT/pre)
+        assert check['active_slots_before']==7 and check['remote_absence_result']=='fresh_pair_absent'
+        assert not check['scientific_matrix_expanded'] and check['schedule_updates']==5000
+        for name,h in check['evidence_sha256'].items():assert f.sha(ROOT/name)==h,name
+        assert f.sha(ROOT/job['invocation'])==job['invocation_sha256']
+        new_files.extend([job['invocation'],pre,B+'submissions/3024716.json'])
+        par['registered_requested_active_GPU_jobs']=8
+        par['actual_running_allocated_GPUs']=sum(j['gpus'] for j in active if j['status']=='RUNNING')
+        p['pending_boundary_reviews']=[dict(job_id='3023228',suite='libero_spatial',budget=64,seed=17,scheduler_status='COMPLETED',not_counted_as_reviewed=True)]
+        issue=p['downstream_action_range_issue']
+        issue['uniform_CPU_candidate']=dict(author_receipt=candidate_map[AUTHOR],status=author['status'],author_tests_passed=44,
+            independent_review_passed=False,integrated=False,GPU_acceptance_passed=False)
+        issue['next']='Independently review the archived uniform execution CPU candidate; bind actual controller, execution identity, historical equivalence and O2A, then preregister bounded GPU acceptance. New rollouts held; training continues.'
+        now=datetime.now(timezone.utc);local=now.astimezone(timezone(timedelta(hours=8)))
+        state['current_work']='Formal18/72 complete,132000/360000 arm updates reviewed. Eight registered GPU jobs active; fresh Spatial64seed23 fills completed3023228 slot. 3023228 awaits root/independent review and adds no reviewed updates yet. Execution adapter has44 author CPU passes but no independent/GPU acceptance; final0/35200 sealed.'
+        state['next_actions']=[issue['next'],'Pull and independently audit terminal3023228 Spatial64seed17 first500 before allowing its1000 segment. Other pairs continue their registered segments; maximum8 and one active job per pair.',
+            'Keep all1212 historical development records and Object policy_error unchanged; only verified execution-equivalence receipts can authorize later reuse.',
+            'Final release still requires72 selectors+16 references+four-suite development; no scientific settings expansion.']
+        state['updated_utc']=now.isoformat();state['updated_date']=local.strftime('%Y-%m-%d')
+        f.write(f.STATE,state)
+        note=(f'\n{local:%Y-%m-%d %H:%M}补充：仍18/72完整组、132000次已复核臂更新；Spatial64 seed17已到首500的Slurm终态，尚待产物双审，不计新增已审更新。空闲槽已由从头训练的Spatial64 seed23（3024716）补齐，8个登记单卡作业继续并行。累计分配{state["current_round_cost"]["allocated_gpu_hours"]:.6f} GPU小时。统一动作执行候选44项作者CPU测试通过，尚未独审、集成或GPU验收；候选已归档，不用于真实闭环。原开发1212条与失败保留，最终0/35200继续封存。\n\n')
+        for title in ('正式主实验规划.md','完整实验计划.md','实验进度.md'):
+            path=ROOT/'docs'/title;text=path.read_text(encoding='utf-8');first,body=text.split('\n',1)
+            path.write_text(first+'\n'+note+body,encoding='utf-8',newline='\n');new_files.append(path.relative_to(ROOT).as_posix())
+        new_files.extend(['results/experiment_supervisor/state.json',B+'slurm_accounting.json'])
+        for name in new_files:evidence[name]=f.sha(ROOT/name)
+        result=dict(schema='formal_main_v2',kind='root_registered_free_slot_and_unadopted_CPU_candidate',status='recorded',
+            reviewed_utc=now.isoformat(),parent_commit=PARENT,parent_full_delivery_proof=PROOF,
+            new_job_id='3024716',active_job_ids=[j['job_id'] for j in active],pending_review_job_ids=['3023228'],
+            completed_arms=18,reviewed_arm_updates=132000,new_scientific_results=0,
+            all_formal_cost_snapshot=state['current_round_cost'],candidate_archive_map=candidate_map,
+            candidate_author_CPU_passes=44,candidate_independently_accepted=False,candidate_deployed=False,
+            final_states_opened=False,weights_copied=False,all173_frozen_sources_unchanged=True,
+            delivery_scope='Only new invocation/precheck/submission, supervision snapshots, three progress paragraphs and inert unadopted CPU candidate archives. Previously delivered raw/GPU evidence is not changed.',
+            evidence_sha256=evidence)
+        f.write(ROOT/NAME,result);new_files.append(NAME)
+    changed=git('ls-files','--modified','--others','--exclude-standard','-z').decode().split('\0')
+    assert set(filter(None,changed))==set(new_files),(set(filter(None,changed))-set(new_files),set(new_files)-set(filter(None,changed)))
+    subprocess.run(['git','add','--',*new_files],cwd=ROOT,check=True)
+    assert set(git('diff','--cached','--name-only','-z').decode().strip('\0').split('\0'))==set(new_files)
+    for name in new_files:
+        assert git('show',':'+name)==(ROOT/name).read_bytes(),name
+    subprocess.run(['git','diff','--cached','--check'],cwd=ROOT,check=True)
+    assert not git('diff','--name-only').strip()
+    print(json.dumps(dict(status='recorded_and_staged_exact_bytes',receipt=NAME,sha256=f.sha(ROOT/NAME),files=len(new_files),cost=state['current_round_cost'])))
+
+
+if __name__=='__main__':main()

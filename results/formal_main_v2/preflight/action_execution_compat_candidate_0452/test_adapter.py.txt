@@ -1,0 +1,278 @@
+"""CPU synthetic environments, exact frozen run_episode and PolicyChunk AST.
+
+No model, simulator, controller or state panel is loaded. File tampering tests
+only change newly-created copies underneath this candidate's pytest basetemp.
+"""
+from __future__ import annotations
+import __future__
+import ast
+from collections import deque
+from contextlib import contextmanager
+import copy
+from dataclasses import dataclass
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import random
+import shutil
+import sys
+from types import ModuleType
+
+import numpy as np
+import pytest
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+spec = importlib.util.spec_from_file_location("action_exec_candidate_tests", HERE / "adapter.py")
+m = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(m)
+ADAPTER_SHA = m.file_sha256(HERE / "adapter.py")
+
+
+class Clock:
+    def __init__(self):self.value = 0.
+    def perf_counter(self):
+        self.value += .001
+        return self.value
+    def reset(self):self.value = 0.
+
+
+@pytest.fixture
+def modules(monkeypatch):
+    """Compile only the original low-dependency AST; never import GPU modules."""
+    clock = Clock()
+    runtime = ModuleType(m.RUNTIME_NAME)
+    runtime.__file__ = str(ROOT / m.RUNTIME)
+    runtime.__dict__.update(np=np, hashlib=hashlib, deque=deque, dataclass=dataclass, time=clock,
+        DUMMY_ACTION=(0., 0., 0., 0., 0., 0., -1.))
+    trials = ModuleType(m.TRIALS_NAME)
+    trials.__file__ = str(ROOT / m.TRIALS)
+    for name, module in (("cti_vla", ModuleType("cti_vla")), ("cti_vla.evaluation", ModuleType("cti_vla.evaluation")),
+            (m.RUNTIME_NAME, runtime), (m.TRIALS_NAME, trials)):
+        if name in ("cti_vla", "cti_vla.evaluation"):module.__path__ = []
+        monkeypatch.setitem(sys.modules, name, module)
+    source = (ROOT / m.RUNTIME).read_bytes()
+    tree = ast.parse(source)
+    selected = [node for node in tree.body if isinstance(node, (ast.ClassDef, ast.FunctionDef))
+        and node.name in ("PolicyChunk", "_observation_hash", "run_episode")]
+    assert len(selected) == 3
+    exec(compile(ast.Module(body=selected, type_ignores=[]), runtime.__file__, "exec",
+        flags=__future__.annotations.compiler_flag, dont_inherit=True), runtime.__dict__)
+    alias = [node for node in ast.parse((ROOT / m.TRIALS).read_bytes()).body if isinstance(node, ast.ImportFrom)
+        and node.module == m.RUNTIME_NAME]
+    assert len(alias) == 1
+    exec(compile(ast.Module(body=alias, type_ignores=[]), trials.__file__, "exec", dont_inherit=True), trials.__dict__)
+    yield runtime, trials, clock
+
+
+def scope(modules, rows=None, **overrides):
+    runtime, trials, _ = modules
+    options = dict(project_root=ROOT, source_root=ROOT, runtime_module=runtime, formal_trials_module=trials,
+        expected_adapter_sha256=ADAPTER_SHA, emit=lambda event, **fields: rows.append(dict(event=event, **fields)) if rows is not None else None)
+    options.update(overrides)
+    return m.install_action_execution_compat(**options)
+
+
+def observation(step):
+    return dict(agentview_image=np.full((2, 2, 3), step % 255, dtype=np.uint8),
+        robot0_eye_in_hand_image=np.zeros((2, 2, 3), dtype=np.uint8), robot0_eef_pos=np.array([step, 0., 0.]),
+        robot0_eef_quat=np.array([0., 0., 0., 1.]), robot0_gripper_qpos=np.array([0., 0.]))
+
+
+class Environment:
+    def __init__(self, *, success_step=None, fail_step=None):
+        self.actions = []; self.success_step = success_step; self.fail_step = fail_step
+        self.resets = 0; self.state = None
+    def reset(self):self.resets += 1
+    def set_init_state(self, state):self.state = state.copy(); return observation(0)
+    def step(self, action):
+        self.actions.append(copy.deepcopy(action))
+        if len(self.actions) == self.fail_step:raise RuntimeError("synthetic environment exception")
+        return observation(len(self.actions)), 0., len(self.actions) == self.success_step, {}
+
+
+class Policy:
+    def __init__(self, runtime, *, values=None, method="dense", failure=None, clock=None, draw_rng=False):
+        self.runtime = runtime; self.values = np.zeros((8, 7), dtype=np.float64) if values is None else values
+        self.method = method; self.failure = failure; self.clock = clock; self.draw_rng = draw_rng
+        self.calls = 0; self.resets = 0
+    def reset(self):self.resets += 1
+    def __call__(self, obs, instruction):
+        self.calls += 1
+        if self.draw_rng:random.random(); np.random.random()
+        if self.failure == "exception":raise ValueError("synthetic policy exception")
+        if self.failure == "wrong_type":return object()
+        if self.failure == "watchdog":self.clock.value += 61.
+        return self.runtime.PolicyChunk(np.zeros((8, 7)), np.asarray(self.values), {"method": self.method})
+
+
+def episode(function, runtime, clock, *, values=None, method="dense", failure=None, success_step=None,
+        fail_step=None, max_steps=19, draw_rng=False):
+    env = Environment(success_step=success_step, fail_step=fail_step)
+    policy = Policy(runtime, values=values, method=method, failure=failure, clock=clock, draw_rng=draw_rng)
+    clock.reset()
+    result = function(env, policy, "synthetic task", [1., 2.], max_steps=max_steps)
+    return result, env, policy
+
+
+@pytest.mark.parametrize("method", ["dense", "uniform", "A", "B"])
+@pytest.mark.parametrize("success_step", [None, 27])
+def test_inrange_every_action_and_result_exact(modules, method, success_step):
+    runtime, trials, clock = modules
+    original = runtime.run_episode
+    values = np.linspace(-1., 1., 56).reshape(8, 7)
+    before, env_before, policy_before = episode(original, runtime, clock, values=values, method=method, success_step=success_step)
+    rows = []
+    with scope(modules, rows) as identity:
+        assert runtime.run_episode is trials.run_episode and runtime.run_episode is not original
+        after, env_after, policy_after = episode(trials.run_episode, runtime, clock, values=values, method=method, success_step=success_step)
+        assert identity["candidate_only"] and not identity["deployment_authorized"]
+        assert identity["ast_proof"]["removed_if_count"] == 1 and identity["ast_proof"]["other_AST_nodes_unchanged"]
+    assert before == after
+    assert env_before.actions == env_after.actions and np.array_equal(env_before.state, env_after.state)
+    assert (policy_before.calls, policy_before.resets) == (policy_after.calls, policy_after.resets)
+    assert runtime.run_episode is original and trials.run_episode is original
+    assert rows[-1]["original_bindings_restored"] and rows[-1]["source_inputs_unchanged"]
+
+
+@pytest.mark.parametrize("value", [1.010742197890625, -1.010742197890625, 2.])
+def test_finite_overrange_original_value_reaches_environment(modules, value):
+    runtime, trials, clock = modules
+    values = np.zeros((8, 7)); values[0, 2] = value
+    before, old_env, _ = episode(runtime.run_episode, runtime, clock, values=values, max_steps=8)
+    assert before["status"] == "policy_error" and before["control_steps"] == 0 and len(old_env.actions) == 10
+    with scope(modules):
+        after, env, _ = episode(trials.run_episode, runtime, clock, values=values, max_steps=8)
+    assert after["status"] == "completed" and after["control_steps"] == 8
+    assert env.actions[10:] == values.tolist() and env.actions[10][2] == value
+    assert after["executed_actions"] == values.tolist() and after["chunks"][0]["environment_actions"] == values.tolist()
+    assert not after["success"]  # Synthetic horizon, not a real task success claim.
+
+
+@pytest.mark.parametrize("bad", ["nan", "inf", "negative_inf", "shape", "wrong_type", "exception", "watchdog"])
+def test_original_invalid_actions_watchdog_errors_unchanged(modules, bad):
+    runtime, trials, clock = modules
+    values = np.zeros((8, 7)); failure = None
+    if bad in ("nan", "inf", "negative_inf"):values[0, 0] = {"nan": np.nan, "inf": np.inf, "negative_inf": -np.inf}[bad]
+    elif bad == "shape":values = np.zeros((7, 7))
+    else:failure = bad
+    original, env_a, _ = episode(runtime.run_episode, runtime, clock, values=values, failure=failure)
+    with scope(modules):adapted, env_b, _ = episode(trials.run_episode, runtime, clock, values=values, failure=failure)
+    assert original == adapted and original["status"] == "policy_error"
+    assert original["control_steps"] == 0 and env_a.actions == env_b.actions
+
+
+@pytest.mark.parametrize("fail_step", [1, 10, 11, 17])
+def test_environment_exception_phase_and_raw_actions_preserved(modules, fail_step):
+    runtime, trials, clock = modules
+    before, old_env, _ = episode(runtime.run_episode, runtime, clock, fail_step=fail_step)
+    with scope(modules):after, new_env, _ = episode(trials.run_episode, runtime, clock, fail_step=fail_step)
+    assert before == after and before["status"] == "infrastructure_error"
+    assert old_env.actions == new_env.actions
+
+
+@pytest.mark.parametrize("arguments", [{"wait_steps": -1}, {"max_steps": 0}, {"policy_watchdog_seconds": 0}])
+def test_invalid_limits_still_reject_before_env_reset(modules, arguments):
+    runtime, trials, _ = modules; env = Environment()
+    with scope(modules):
+        with pytest.raises(ValueError, match="invalid episode limits"):
+            trials.run_episode(env, Policy(runtime), "synthetic", [0.], **arguments)
+    assert env.resets == 0 and not env.actions
+
+
+def test_scope_does_not_draw_rng_and_policy_rng_is_identical(modules):
+    runtime, trials, clock = modules
+    random.seed(17); np.random.seed(17)
+    before = (random.getstate(), copy.deepcopy(np.random.get_state()))
+    with scope(modules):pass
+    assert random.getstate() == before[0]
+    assert all(np.array_equal(a, b) for a, b in zip(np.random.get_state(), before[1]))
+    original, _, _ = episode(runtime.run_episode, runtime, clock, draw_rng=True)
+    original_end = (random.getstate(), copy.deepcopy(np.random.get_state()))
+    random.setstate(before[0]); np.random.set_state(before[1])
+    with scope(modules):adapted, _, _ = episode(trials.run_episode, runtime, clock, draw_rng=True)
+    assert original == adapted and random.getstate() == original_end[0]
+    assert all(np.array_equal(a, b) for a, b in zip(np.random.get_state(), original_end[1]))
+
+
+@pytest.mark.parametrize("exception", [RuntimeError("synthetic outer failure"), KeyboardInterrupt()])
+def test_scope_exception_restores_both_bindings(modules, exception):
+    runtime, trials, _ = modules; original = runtime.run_episode; rows = []
+    with pytest.raises(type(exception)):
+        with scope(modules, rows):raise exception
+    assert runtime.run_episode is original and trials.run_episode is original
+    assert rows[-1]["runner_raised"] and rows[-1]["original_bindings_restored"]
+
+
+def test_nested_or_second_installer_rejected_without_rebinding(modules):
+    runtime, trials, _ = modules; original = runtime.run_episode
+    with scope(modules):
+        replacement = runtime.run_episode
+        with pytest.raises(RuntimeError, match="duplicate or nested"):
+            with scope(modules):pass
+        assert runtime.run_episode is replacement and trials.run_episode is replacement
+    assert runtime.run_episode is original and trials.run_episode is original
+
+
+@pytest.mark.parametrize("target", ["runtime_binding", "formal_alias", "replacement_code", "original_code", "original_defaults"])
+def test_in_scope_tampering_is_rejected_and_original_restored(modules, target):
+    runtime, trials, _ = modules; original = runtime.run_episode; code = original.__code__; defaults = copy.deepcopy(original.__kwdefaults__)
+    with pytest.raises(RuntimeError, match="tampering"):
+        with scope(modules):
+            if target == "runtime_binding":runtime.run_episode = lambda: None
+            elif target == "formal_alias":trials.run_episode = lambda: None
+            elif target == "replacement_code":runtime.run_episode.__code__ = (lambda: None).__code__
+            elif target == "original_code":original.__code__ = (lambda: None).__code__
+            else:original.__kwdefaults__["max_steps"] = 1
+    assert runtime.run_episode is original and trials.run_episode is original
+    assert original.__code__ is code and original.__kwdefaults__ == defaults
+
+
+@pytest.mark.parametrize("tamper", ["self_sha", "alias", "module_origin", "code", "defaults", "PolicyChunk"])
+def test_unknown_loaded_identity_rejected_before_install(modules, tamper):
+    runtime, trials, _ = modules; old = runtime.run_episode; options = {}
+    if tamper == "self_sha":options["expected_adapter_sha256"] = "0" * 64
+    elif tamper == "alias":trials.run_episode = lambda: None
+    elif tamper == "module_origin":trials.__file__ = str(ROOT / "unknown.py")
+    elif tamper == "code":old.__code__ = (lambda: None).__code__
+    elif tamper == "defaults":old.__kwdefaults__["wait_steps"] = 11
+    else:runtime.PolicyChunk.__post_init__ = lambda self: None
+    with pytest.raises(ValueError):
+        with scope(modules, **options):pass
+    assert runtime.run_episode is old
+
+
+def test_edited_function_source_is_rejected(modules):
+    runtime, _, _ = modules
+    data = (ROOT / m.RUNTIME).read_bytes().replace(b"max_steps=220", b"max_steps=221")
+    with pytest.raises(ValueError, match="unknown frozen function source"):
+        m.derive_function(runtime, data)
+
+
+@pytest.mark.parametrize("part", ["source", "registration"])
+def test_file_tampering_rejected_before_binding(tmp_path, modules, part):
+    runtime, trials, _ = modules; original = runtime.run_episode
+    project = tmp_path / "project"
+    for relative in (m.REGISTRATION, m.INVENTORY):
+        path = project / relative; path.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(ROOT / relative, path)
+    source = ROOT
+    if part == "registration":(project / m.REGISTRATION).write_bytes(b"{}\n")
+    else:
+        source = project / "frozen_source"
+        inventory = json.loads((ROOT / m.INVENTORY).read_bytes())
+        for relative in inventory["files"]:
+            path = source / relative; path.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(ROOT / relative, path)
+        (source / m.RUNTIME).write_bytes((source / m.RUNTIME).read_bytes() + b"\n# synthetic tampering\n")
+    with pytest.raises(ValueError, match="SHA mismatch"):
+        with scope(modules, project_root=project, source_root=source):pass
+    assert runtime.run_episode is original and trials.run_episode is original
+
+
+def test_exit_emitter_exception_still_restores_and_unlocks(modules):
+    runtime, trials, _ = modules; original = runtime.run_episode
+    def emit(event, **fields):
+        if event.endswith("_exit"):raise RuntimeError("synthetic receipt sink failed")
+    with pytest.raises(RuntimeError, match="receipt sink"):
+        with scope(modules, emit=emit):pass
+    assert runtime.run_episode is original and trials.run_episode is original and not m._LOCK.locked()
