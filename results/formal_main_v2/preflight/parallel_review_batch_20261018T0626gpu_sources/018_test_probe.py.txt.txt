@@ -1,0 +1,291 @@
+"""Bounded CPU tests; original frozen loop/PolicyChunk and real v2 installer.
+
+No VLA/controller/simulator is loaded. Fake modules exercise the actual counting
+hooks, but cannot establish real GPU call counts or physical controller behavior.
+All mutations and outputs stay in the explicit project-local pytest basetemp.
+"""
+from __future__ import annotations
+import __future__
+import ast
+from collections import deque
+from contextlib import contextmanager
+import copy
+from dataclasses import dataclass
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import sys
+from types import ModuleType, SimpleNamespace
+
+import numpy as np
+import pytest
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+spec = importlib.util.spec_from_file_location("bounded_execution_candidate", HERE/"probe.py")
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+adapter = m.load_module(ROOT/"scripts/ops/formal_action_execution_compat.py", "real_v2_for_bounded_tests")
+MANIFEST = (HERE/"candidate_manifest.json").relative_to(ROOT).as_posix()
+
+
+class Clock:
+    def __init__(self): self.value = 0.
+    def perf_counter(self):
+        self.value += .001
+        return self.value
+
+
+class FakeModule:
+    def __init__(self): self.hooks = []; self.executed = 0
+    def register_forward_pre_hook(self, fn):
+        self.hooks.append(fn)
+        return SimpleNamespace(remove=lambda: self.hooks.remove(fn))
+    def __call__(self):
+        for fn in list(self.hooks): fn(self, ())
+        self.executed += 1
+
+
+@pytest.fixture
+def runtime(monkeypatch):
+    clock = Clock(); r = ModuleType(adapter.RUNTIME_NAME); t = ModuleType(adapter.TRIALS_NAME)
+    r.__file__ = str(ROOT/adapter.RUNTIME); t.__file__ = str(ROOT/adapter.TRIALS)
+    r.__dict__.update(np=np, hashlib=hashlib, deque=deque, dataclass=dataclass, time=clock,
+        DUMMY_ACTION=(0., 0., 0., 0., 0., 0., -1.))
+    parents = {k: ModuleType(k) for k in ("cti_vla", "cti_vla.evaluation", "cti_vla.models", "cti_vla.training")}
+    for module in parents.values(): module.__path__ = []
+    for k, module in {**parents, adapter.RUNTIME_NAME:r, adapter.TRIALS_NAME:t}.items():
+        monkeypatch.setitem(sys.modules, k, module)
+    nodes = [x for x in ast.parse((ROOT/adapter.RUNTIME).read_bytes()).body
+        if isinstance(x, (ast.FunctionDef, ast.ClassDef)) and x.name in ("PolicyChunk", "run_episode", "_observation_hash")]
+    exec(compile(ast.Module(body=nodes,type_ignores=[]), r.__file__, "exec", flags=__future__.annotations.compiler_flag, dont_inherit=True), r.__dict__)
+    imports = [x for x in ast.parse((ROOT/adapter.TRIALS).read_bytes()).body if isinstance(x, ast.ImportFrom) and x.module == adapter.RUNTIME_NAME]
+    exec(compile(ast.Module(body=imports,type_ignores=[]), t.__file__, "exec"), t.__dict__)
+    packing = ModuleType("cti_vla.models.openvla_oft_policy")
+    training = ModuleType("cti_vla.training.formal_future")
+    def pack_equal_length(): return "synthetic packing"
+    def formal_hard_select(): return "synthetic selection"
+    packing.pack_equal_length = pack_equal_length; training.formal_hard_select = formal_hard_select
+    for module in (packing, training): monkeypatch.setitem(sys.modules, module.__name__, module)
+    yield SimpleNamespace(module=r,trials=t,clock=clock,packing=packing,training=training)
+
+
+def observation(step):
+    return dict(agentview_image=np.full((2,2,3),step,dtype=np.uint8),
+        robot0_eye_in_hand_image=np.zeros((2,2,3),dtype=np.uint8),robot0_eef_pos=np.array([step,0.,0.]),
+        robot0_eef_quat=np.array([0.,0.,0.,1.]),robot0_gripper_qpos=np.zeros(2))
+
+
+class Environment:
+    def __init__(self,done=None,fail=None): self.done=done; self.fail=fail; self.actions=[]; self.resets=0; self.sets=0
+    def reset(self): self.resets+=1
+    def set_init_state(self,value): self.sets+=1; return observation(0)
+    def step(self,action):
+        self.actions.append(copy.deepcopy(action))
+        if len(self.actions)==self.fail: raise RuntimeError("synthetic env.step exception")
+        return observation(len(self.actions)),0.,len(self.actions)==self.done,{}
+
+
+def setup_policy(rt, method, *, failure=None, mutation=None):
+    learned=method in ("A", "B"); tokens=512 if method=="dense" else 128
+    identity=dict(suite="libero_10",method=method,method_id="dense" if method=="dense" else "uniform128" if method=="uniform" else method+"128_seed17",visual_tokens=tokens)
+    if learned: identity.update(checkpoint_sha256="a"*64,training_seed=17)
+    components=SimpleNamespace(vla=SimpleNamespace(language_model=SimpleNamespace(model=FakeModule()),vision_backbone=FakeModule()),
+        action_head=SimpleNamespace(model=FakeModule()))
+    estimator=FakeModule() if learned else None
+    class Policy:
+        selector=SimpleNamespace(estimator=estimator) if learned else None
+        def reset(self): pass
+        def __call__(self, obs, instruction):
+            if failure=="exception": raise RuntimeError("synthetic policy exception")
+            components.vla.vision_backbone()
+            if learned: estimator(); rt.training.formal_hard_select()
+            rt.packing.pack_equal_length(); components.vla.language_model.model(); components.action_head.model()
+            if failure=="twice": components.vla.language_model.model()
+            if failure=="watchdog": rt.clock.value += 61
+            if failure=="mutation": obs["agentview_image"][0,0,0]=255
+            if failure=="wrong_type": return object()
+            indices=list(range(512)) if tokens==512 else list(range(64))+list(range(256,320))
+            meta=dict(schema="formal_main_v2",suite=identity["suite"],method=method,visual_tokens=tokens,
+                future_head_calls=0,policy_calls=1,vision_calls=1,packing_calls=1,scorer_calls=int(learned),language_cache="disabled",retained_indices=indices)
+            if learned: meta.update(selector_checkpoint_sha256=identity["checkpoint_sha256"],training_seed=17)
+            if mutation: mutation(meta)
+            actions=np.linspace(-.9,.9,56).reshape(8,7); actions[7,2]=1.010742197890625
+            if failure=="nan": actions[0,0]=np.nan
+            return rt.module.PolicyChunk(np.zeros((8,7)),actions,meta)
+    return Policy(),components,identity
+
+
+def cell(rt,tmp_path,method="dense",done=None,fail=None,failure=None,mutation=None):
+    journal=m.Journal(tmp_path,"000CPU",3600); budget=m.GlobalBudget()
+    policy,components,identity=setup_policy(rt,method,failure=failure,mutation=mutation)
+    env=Environment(done=done,fail=fail); state=dict(initial_state=[1.,2.],initial_state_sha256=m.state_hash([1.,2.]))
+    try:
+        with adapter.install_action_execution_compat(project_root=ROOT,source_root=ROOT,runtime_module=rt.module,
+            formal_trials_module=rt.trials,expected_adapter_sha256=m.ADAPTER_SHA,emit=journal.emit):
+            result=m.run_cell(rt.module,policy,env,"synthetic",state,identity,journal,budget,
+                lambda:m.policy_counters(policy,components,budget))
+        return result,env,journal,budget,components
+    finally: journal.close()
+
+
+@pytest.mark.parametrize("method",["dense","uniform","A","B"])
+@pytest.mark.parametrize("done",[None,13])
+def test_original_loop_real_scope_unchanged_queue_and_early_tail(runtime,tmp_path,method,done):
+    original=runtime.module.run_episode
+    result,env,journal,budget,c=cell(runtime,tmp_path,method,done)
+    steps=8 if done is None else 3
+    assert result["actual_control_steps"]==steps and len(env.actions)==10+steps
+    assert len(result["unexecuted_chunk_tail"])==8-steps
+    assert env.actions[10:]==result["raw_result"]["chunks"][0]["environment_actions"][:steps]
+    assert result["raw_result"]["chunks"][0]["environment_actions"][7][2]==1.010742197890625
+    assert env.resets==env.sets==1 and budget.counts==dict(policy=1,vla_backbone=1,vision=1)
+    assert runtime.module.run_episode is original and runtime.trials.run_episode is original
+    assert not c.vla.vision_backbone.hooks and not c.vla.language_model.model.hooks
+    assert journal.events[-1]["event"]=="action_execution_candidate_exit"
+
+
+@pytest.mark.parametrize("failure",["exception","twice","watchdog","mutation","wrong_type","nan"])
+def test_failed_policy_stops_before_environment_actions_and_retains_raw(runtime,tmp_path,failure):
+    with pytest.raises(ValueError,match="bounded engineering cell failed"):
+        cell(runtime,tmp_path,failure=failure)
+    events=[json.loads(line) for line in (tmp_path/"events.jsonl").read_bytes().splitlines()]
+    row=next(x for x in events if x["event"]=="bounded_episode_return")
+    assert row["raw_frozen_result"]["status"]=="policy_error" and row["attempted_environment_steps"]==10
+    assert row["raw_frozen_result"]["control_steps"]==0
+    assert sum(x["event"]=="policy_start" for x in events)==1
+    assert events[-1]["runner_raised"] is True
+
+
+def test_environment_failure_preserves_attempted_not_confirmed_action(runtime,tmp_path):
+    with pytest.raises(ValueError,match="bounded engineering cell failed"): cell(runtime,tmp_path,fail=12)
+    rows=[json.loads(x) for x in (tmp_path/"events.jsonl").read_bytes().splitlines()]
+    r=next(x for x in rows if x["event"]=="bounded_episode_return")
+    assert r["attempted_environment_steps"]==12 and r["confirmed_environment_steps"]==11
+    assert r["raw_frozen_result"]["status"]=="infrastructure_error"
+    assert len(r["raw_frozen_result"]["executed_actions"])==2 and r["raw_frozen_result"]["control_steps"]==1
+
+
+@pytest.mark.parametrize("mutation",[
+    lambda x:x.update(future_head_calls=1),lambda x:x.update(suite="libero_object"),
+    lambda x:x.update(retained_indices=list(range(128))),lambda x:x.update(retained_indices=list(reversed(x["retained_indices"]))),
+    lambda x:x.update(selector_checkpoint_sha256="b"*64),lambda x:x.update(training_seed=23)])
+def test_deployment_metadata_or_hard_packing_mismatch_stops(runtime,tmp_path,mutation):
+    with pytest.raises(ValueError,match="bounded engineering cell failed"): cell(runtime,tmp_path,"A",mutation=mutation)
+
+
+def test_seventeenth_call_prevented_before_execution():
+    b=m.GlobalBudget()
+    for key in b.counts:
+        for _ in range(16): b.consume(key)
+        with pytest.raises(ValueError,match="seventeenth"): b.consume(key)
+        assert b.counts[key]==16
+
+
+def test_real_hooks_prevent_second_kernel_and_restore_on_exception(runtime):
+    policy,c,_=setup_policy(runtime,"B"); b=m.GlobalBudget()
+    with pytest.raises(ValueError,match="second"):
+        with m.policy_counters(policy,c,b): c.vla.language_model.model(); c.vla.language_model.model()
+    assert c.vla.language_model.model.executed==1 and c.vla.language_model.model.hooks==[]
+
+
+def test_counted_function_binding_tamper_rejected_and_restored():
+    def original(): return 1
+    ns=SimpleNamespace(call=original); counts={"call":0}
+    with pytest.raises(ValueError,match="restored original"):
+        with m.counted_function(ns,"call",counts,"call",1): ns.call=lambda:2
+    assert ns.call is original
+
+
+@pytest.mark.parametrize("path",["configs/manifests/formal_main_v2/libero_goal/initial_states/sealed_final.json",
+    "results/init_states_test.json","results/final_states.jsonl","results/test/values.json","results/weights/x.pt",
+    "../development.json","/absolute.json"])
+def test_forbidden_metadata_rejected_before_any_path_resolution(monkeypatch,path):
+    monkeypatch.setattr(Path,"resolve",lambda *a,**k:pytest.fail("forbidden path reached resolve"))
+    with pytest.raises(ValueError): m.metadata_path(ROOT,path,panels=True)
+
+
+def test_actual_existing_metadata_and_selected_indices_CPU_only():
+    prepared=m.prepare(ROOT,ROOT,MANIFEST,m.sha(ROOT/MANIFEST))
+    assert {s:v["source_state_index"] for s,v in prepared["states"].items()}==m.STATE_INDICES
+    assert len(prepared["inventory"]["files"])==173
+    assert all(len(r["methods"])==4 for r in prepared["manifest"]["suites"].values())
+    assert "torch" not in sys.modules
+
+
+def test_state_row_not_substituted_for_another_or_higher_index():
+    values=[1.,2.]; row=dict(task_id=0,source_state_index=7,initial_state=values,initial_state_sha256=m.state_hash(values))
+    expected={k:v for k,v in row.items() if k!="initial_state"};expected.update(row_canonical_sha256=m.signature(row),vector_length=2)
+    panel=dict(suite="libero_goal",split="development",environment_seed=0,states=[copy.deepcopy(row)])
+    assert m.selected_state(panel,"libero_goal",expected)==row
+    panel["states"][0]["initial_state"][0]=2.
+    with pytest.raises(ValueError): m.selected_state(panel,"libero_goal",expected)
+
+
+def test_GPU_execution_without_root_registration_rejected_before_files(monkeypatch):
+    monkeypatch.setattr(Path,"read_bytes",lambda *a,**k:pytest.fail("read before authorization"))
+    with pytest.raises(ValueError,match="fresh root Slurm"):
+        m.validate_gpu_registration(SimpleNamespace(execute_gpu=False,job_id=None),"a"*64)
+
+
+def test_HF_environment_before_transformers_and_fixed_runtime_calls():
+    node=next(x for x in ast.parse((HERE/"probe.py").read_bytes()).body if isinstance(x,ast.FunctionDef) and x.name=="gpu_body")
+    update=next(x.lineno for x in ast.walk(node) if isinstance(x,ast.Call) and isinstance(x.func,ast.Attribute) and x.func.attr=="update")
+    imported=next(x.lineno for x in ast.walk(node) if isinstance(x,ast.ImportFrom) and x.module=="transformers")
+    assert update<imported
+    calls=[x for x in ast.walk(node) if isinstance(x,ast.Call) and isinstance(x.func,ast.Attribute) and x.func.attr=="rng_state"]
+    assert len(calls)==1 and len(calls[0].args)==1 and calls[0].args[0].id=="torch"
+    assert m.LIMITS["wall_seconds"]==3600
+
+
+def good_scope_events():
+    rows=[dict(event="action_execution_candidate_enter",identity={"identity_sha256":"a"*64})]
+    for s in ("libero_object","libero_goal"):
+        for event in ("asset_metadata_compat_enter","asset_metadata_compat_load_start","asset_metadata_compat_load_complete"):
+            rows.append(dict(event=event,suite=s))
+        rows.append(dict(event="asset_metadata_compat_exit",suite=s,original_loader_restored=True,directory_verifier_unchanged=True,
+            binding_intact=True,original_loader_code_unchanged=True,directory_verifier_code_unchanged=True,
+            frozen_source_and_inputs_unchanged=True,runner_raised=False,passthrough_calls=0,adapted_calls_attempted=1,adapted_calls_completed=1))
+    rows.append(dict(event="goal_component_compat_enter",suite="libero_goal"))
+    for n in (0,1):
+        rows.extend(dict(event=event,suite="libero_goal",call_id=n) for event in ("goal_component_load_start","goal_component_load_complete"))
+    rows.append(dict(event="goal_component_compat_exit",suite="libero_goal",original_loader_restored=True,original_function_codes_unchanged=True,
+        binding_intact=True,torch_load_unchanged=True,source_inputs_unchanged=True,component_files_unchanged=True,
+        runner_raised=False,rejected_calls=0,component_calls_attempted=2,component_calls_completed=2))
+    rows.append(dict(event="action_execution_candidate_exit",identity_sha256="a"*64,original_bindings_restored=True,
+        scope_binding_and_code_intact=True,finite_shape_and_observation_helpers_intact=True,source_inputs_unchanged=True,
+        policy_chunk_construction_intact=True,policy_chunk_construction_restored=True,fresh_runtime_required=False,runner_raised=False,changed_inputs=[]))
+    return rows
+
+
+def test_scope_restoration_requires_all_three_actual_success_boundaries(): m.validate_scope_events(good_scope_events())
+
+
+@pytest.mark.parametrize("event,key",[("action_execution_candidate_exit","policy_chunk_construction_intact"),
+    ("asset_metadata_compat_exit","directory_verifier_code_unchanged"),("goal_component_compat_exit","component_files_unchanged")])
+def test_scope_false_restoration_not_hidden_by_success_return(event,key):
+    rows=good_scope_events(); next(r for r in rows if r["event"]==event)[key]=False
+    with pytest.raises(ValueError): m.validate_scope_events(rows)
+
+
+def test_scope_extra_mapping_or_wrong_suite_rejected():
+    rows=good_scope_events();rows.append(dict(event="goal_component_load_complete",suite="libero_object",call_id=0))
+    with pytest.raises(ValueError): m.validate_scope_events(rows)
+
+
+def test_real_metadata_complete_event_can_repeat_exact_suite_context(tmp_path):
+    journal=m.Journal(tmp_path,"000CPU",3600);journal.context={"suite":"libero_object"}
+    try:
+        journal.emit("asset_metadata_compat_load_complete",call_id=0,suite="libero_object",file_count=14,total_bytes=7)
+    finally: journal.close()
+    row=json.loads((tmp_path/"events.jsonl").read_bytes())
+    assert row["suite"]=="libero_object" and row["seq"]==0 and row["event"]=="asset_metadata_compat_load_complete"
+
+
+@pytest.mark.parametrize("fields",[dict(suite="libero_goal"),dict(job_id="forged"),dict(seq=1)])
+def test_context_or_immutable_identity_conflict_rejected_before_append(tmp_path,fields):
+    journal=m.Journal(tmp_path,"000CPU",3600);journal.context={"suite":"libero_object"}
+    try:
+        with pytest.raises(ValueError): journal.emit("asset_metadata_compat_load_complete",**fields)
+        assert not journal.events and (tmp_path/"events.jsonl").read_bytes()==b""
+    finally: journal.close()

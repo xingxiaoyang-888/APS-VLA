@@ -1,0 +1,55 @@
+"""Preserve one earlier local builder version without rewriting its audit receipt."""
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json
+ROOT=Path(__file__).resolve().parents[1]
+BASE='results/formal_main_v2/preflight/'
+IND=BASE+'action_execution_gpu_delivery_independent_0626.json'
+ORIGINAL='.local/register_action_execution_gpu_0626.py'
+ARCHIVE=BASE+'action_execution_gpu_delivery_source_versions_0626/registration_builder_before_strict_dispatch_gate.py.txt'
+def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+ind=json.loads((ROOT/IND).read_bytes())
+assert sha(ROOT/IND)=='1eb5483dbc82a1029eb70309a384be111106b782996ef657047a572e4e25ce44'
+evidence=ind.get('read_evidence_sha256',ind.get('evidence_sha256'))
+expected=evidence[ORIGINAL]
+assert expected=='b679d55379fa8b872f0dffc796222ba4438e11cceb6dfc871d05361aa8ac4bb7'
+assert sha(ROOT/ORIGINAL)=='24aca2002c925d30c2966a110f639bffb2325e6d60e94b36621eb5f264d080e1'
+current=(ROOT/ORIGINAL).read_bytes()
+new=b'''    assert (dispatch_ind['schema']=='formal_main_v2'
+        and dispatch_ind['kind']=='bounded_action_execution_root_dispatch_independent_CPU_review'
+        and dispatch_ind['version']==c.DISPATCH_VERSION
+        and dispatch_ind['status']=='passed_CPU_independent_dispatch_review_pending_root_registration_and_GPU'
+        and dispatch_ind['unresolved_CPU_blockers']==[]), 'Independent dispatch acceptance required'
+    for name,digest in dispatch_ind['candidate_source_sha256'].items():
+        assert sha(ROOT/name)==digest and sha(ROOT/(out+Path(name).name))==digest
+'''
+old=b"    assert dispatch_ind['status'].startswith('passed'), 'Independent dispatch acceptance required'\n"
+assert current.count(new)==1
+previous=current.replace(new,old,1)
+assert hashlib.sha256(previous).hexdigest()==expected
+p=ROOT/ARCHIVE;p.parent.mkdir(parents=True,exist_ok=True)
+with p.open('xb') as out:out.write(previous)
+resolved={}
+for name,digest in evidence.items():
+    target=ARCHIVE if (name,digest)==(ORIGINAL,expected) else name
+    assert sha(ROOT/target)==digest,name
+    resolved[target]=digest
+resolved[IND]=sha(ROOT/IND)
+resolved[ORIGINAL]=sha(ROOT/ORIGINAL)
+for name in ('.local/package_action_gpu_delivery_review_0626.py','.local/finalize_parallel_review_20261018T0626gpu_initial.py.txt'):
+    resolved[name]=sha(ROOT/name)
+value=dict(schema='formal_main_v2',kind='root_version_bound_delivery_audit_package',status='resolved_exact_historical_source_version',
+    created_utc=datetime.now(timezone.utc).isoformat(),independent_review=dict(path=IND,sha256=sha(ROOT/IND)),
+    resolution=dict(original_path=ORIGINAL,original_sha256=expected,archive_path=ARCHIVE,
+        archive_sha256=sha(ROOT/ARCHIVE),current_sha256=sha(ROOT/ORIGINAL),
+        mechanism='Exact earlier bytes reconstructed by reversing the single known root hardening patch and matching the independently recorded pre-change SHA; original receipt is unchanged',
+        difference='Only require exact typed dispatch review/version/status, no blockers and source SHA matching before real registration; no scientific source or checkpoint change'),
+    preserved_failed_finalize=dict(exit_code=1,error='AssertionError: .local/register_action_execution_gpu_0626.py',
+        cause='Explicit expansion of a static audit context that read the builder before its final dispatch-gate hardening',
+        failure_before_batch_creation_or_Git_staging=True,GPU_seconds=0,
+        repair='Expand this exact version-bound evidence package; retain the original independent receipt as an unchanged referenced file; include actual GPU config explicitly'),
+    audit_guard_and_finalizer_unchanged=True,no_arbitrary_SHA_exemption=True,scientific_settings_changed=False,
+    GPU_submitted=False,final_states_opened=False,evidence_sha256=resolved)
+dest=ROOT/(BASE+'action_execution_gpu_delivery_audit_package_0626.json')
+with dest.open('x',encoding='utf-8',newline='\n') as out: json.dump(value,out,indent=2);out.write('\n')
+print(json.dumps(dict(path=dest.relative_to(ROOT).as_posix(),sha256=sha(dest),references=len(resolved))))

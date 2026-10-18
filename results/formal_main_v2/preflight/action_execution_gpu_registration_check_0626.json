@@ -1,0 +1,43 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_real_local_dispatch_contract_check",
+  "status": "passed_local_contract_no_submission",
+  "command": [
+    "python",
+    "-B",
+    "F:\\CTI-VLA\\results\\formal_main_v2\\engineering\\formal_main_v2_action_execution_compat_gpu_v1\\source\\submit.py",
+    "--project-root",
+    "F:\\CTI-VLA",
+    "--root-review",
+    "results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json",
+    "--root-review-sha256",
+    "919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b",
+    "--manifest",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v1/source/candidate_manifest.json",
+    "--manifest-sha256",
+    "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    "--gpu-registration",
+    "configs/experiments/formal_main_v2_action_execution_compat_gpu_v1.json",
+    "--gpu-registration-sha256",
+    "c36906c1ff310229c92d09fb3b89e467cec03ef5ead4de1d05a478777b889672",
+    "--check-only"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"status\": \"local_dispatch_contract_verified_no_submission\", \"stage_key\": \"formal_main_v2_action_execution_compat_gpu_v1\", \"watched_files\": 293, \"engineering_cells\": 16, \"scientific_trials\": 0, \"source_files\": 173, \"remote_checked\": false, \"GPU_submitted\": false}\n",
+  "stderr": "",
+  "root_review": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json",
+    "sha256": "919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b"
+  },
+  "registration": {
+    "path": "configs/experiments/formal_main_v2_action_execution_compat_gpu_v1.json",
+    "sha256": "c36906c1ff310229c92d09fb3b89e467cec03ef5ead4de1d05a478777b889672"
+  },
+  "manifest": {
+    "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v1/source/candidate_manifest.json",
+    "sha256": "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04"
+  },
+  "watched_files": 293,
+  "GPU_submitted": false,
+  "final_states_opened": false
+}

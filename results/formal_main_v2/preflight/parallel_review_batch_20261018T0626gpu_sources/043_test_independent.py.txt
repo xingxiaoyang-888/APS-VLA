@@ -1,0 +1,288 @@
+"""Independent bounded CPU audit. No simulator, CUDA, weight or sealed-state I/O.
+
+The author's fixture supplies only original-loop AST and synthetic modules/env.
+All assertions below are independent. The compatibility writer test executes the
+real scoped writer functions; source/weight I/O boundaries are explicit stand-ins.
+"""
+from __future__ import annotations
+
+from contextlib import ExitStack
+import copy
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+from types import SimpleNamespace
+
+import numpy as np
+import pytest
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+CANDIDATE = ROOT / ".local/action_execution_gpu_acceptance_candidate_0626"
+spec = importlib.util.spec_from_file_location("author_bounded_fixture_for_independent", CANDIDATE / "test_probe.py")
+author = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(author)
+m, adapter = author.m, author.adapter
+runtime = author.runtime
+
+
+def test_existing_metadata_complete_selected_proofs_without_GPU():
+    prepared = m.prepare(ROOT, ROOT, (CANDIDATE / "candidate_manifest.json").relative_to(ROOT).as_posix(),
+        m.sha(CANDIDATE / "candidate_manifest.json"))
+    assert tuple(prepared["manifest"]["suite_order"]) == m.SUITES
+    assert {s: r["source_state_index"] for s, r in prepared["states"].items()} == {
+        "libero_10": 0, "libero_spatial": 3, "libero_object": 5, "libero_goal": 7}
+    assert len(prepared["inventory"]["files"]) == 173
+    for suite in m.SUITES:
+        row = prepared["manifest"]["suites"][suite]
+        root = prepared["evidence"].reference(row["training_root"])
+        assert root["completed_by_arm"] == {"A": 5000, "B": 5000}
+        assert root["allowed_next_segment_end"] is None
+        assert [r["identity"]["method_id"] for r in row["methods"]] == list(m.METHODS)
+    prepared["evidence"].unchanged()
+    out = HERE / "actual_metadata_evidence.json"
+    with out.open("xb") as stream:
+        stream.write(m.encoded(dict(verified_metadata_inputs=len(prepared["evidence"].seen),
+            read_evidence_sha256=prepared["evidence"].seen, actual_initial_state_vectors_exported=False,
+            model_or_simulator_loaded=False, GPU_calls=0)))
+
+
+def run_independent_cell(rt, directory, method, *, done=None, fail=None, exhausted=False):
+    original = rt.module.run_episode
+    policy, components, identity = author.setup_policy(rt, method)
+    base = policy
+    class BytePolicy:
+        selector = base.selector
+        def reset(self):
+            return base.reset()
+        def __call__(self, observation, instruction):
+            chunk = base(observation, instruction)
+            values = chunk.environment_actions.copy()
+            values[0, 0] = -0.0
+            return rt.module.PolicyChunk(chunk.normalized_actions, values, chunk.metadata)
+    policy = BytePolicy()
+    state = dict(initial_state=[1., 2.], initial_state_sha256=m.state_hash([1., 2.]))
+    journal = m.Journal(directory, "synthetic-independent", 3600)
+    budget = m.GlobalBudget()
+    if exhausted:
+        budget.counts["policy"] = 16
+    env = author.Environment(done=done, fail=fail)
+    result, error = None, None
+    try:
+        with adapter.install_action_execution_compat(project_root=ROOT, source_root=ROOT,
+                runtime_module=rt.module, formal_trials_module=rt.trials,
+                expected_adapter_sha256=m.ADAPTER_SHA, emit=journal.emit):
+            result = m.run_cell(rt.module, policy, env, "synthetic-independent", state, identity,
+                journal, budget, lambda: m.policy_counters(policy, components, budget))
+    except ValueError as exc:
+        error = exc
+    finally:
+        journal.close()
+    assert rt.module.run_episode is rt.trials.run_episode is original
+    assert not components.vla.vision_backbone.hooks and not components.vla.language_model.model.hooks
+    return SimpleNamespace(result=result, error=error, env=env, journal=journal, budget=budget, components=components)
+
+
+@pytest.mark.parametrize("method", ["dense", "uniform", "A", "B"])
+def test_four_methods_preserve_original_f64_bytes_signed_zero_and_finite_overrange(runtime, tmp_path, method):
+    x = run_independent_cell(runtime, tmp_path, method)
+    assert x.error is None
+    raw = x.result["raw_result"]
+    expected = np.asarray(raw["chunks"][0]["environment_actions"], dtype="<f8")
+    received = np.asarray(x.env.actions[10:], dtype="<f8")
+    assert received.tobytes() == expected.tobytes()
+    assert np.signbit(received[0, 0]) and received[7, 2] == 1.010742197890625
+    assert raw["control_steps"] == 8 and len(x.env.actions) == 18
+    assert raw["policy_calls"] == 1 and len(raw["chunks"]) == 1
+    assert x.budget.counts == dict(policy=1, vla_backbone=1, vision=1)
+    assert x.result["observed_counts"] == dict(vla_backbone=1, vision=1, action_head=1,
+        packing=1, topk=int(method in ("A", "B")), scorer=int(method in ("A", "B")))
+    assert x.journal.events[-1]["original_bindings_restored"] is True
+
+
+def test_early_done_stops_without_tail_replay(runtime, tmp_path):
+    x = run_independent_cell(runtime, tmp_path, "B", done=13)
+    assert x.error is None and x.result["actual_control_steps"] == 3
+    assert len(x.env.actions) == 13 and len(x.result["unexecuted_chunk_tail"]) == 5
+    assert x.budget.counts == dict(policy=1, vla_backbone=1, vision=1)
+
+
+def test_failed_environment_action_kept_as_unconfirmed_attempt(runtime, tmp_path):
+    x = run_independent_cell(runtime, tmp_path, "A", fail=12)
+    assert isinstance(x.error, ValueError) and x.result is None
+    row = next(v for v in x.journal.events if v["event"] == "bounded_episode_return")
+    assert row["attempted_environment_steps"] == 12 and row["confirmed_environment_steps"] == 11
+    assert row["raw_frozen_result"]["status"] == "infrastructure_error"
+    assert len(row["raw_frozen_result"]["executed_actions"]) == 2
+    assert row["raw_frozen_result"]["control_steps"] == 1
+    assert x.journal.events[-1]["runner_raised"] is True
+    assert x.journal.events[-1]["original_bindings_restored"] is True
+
+
+def test_seventeenth_global_policy_stops_before_model_and_control(runtime, tmp_path):
+    x = run_independent_cell(runtime, tmp_path, "dense", exhausted=True)
+    assert isinstance(x.error, ValueError) and x.result is None
+    assert len(x.env.actions) == 10 and x.budget.counts == dict(policy=16, vla_backbone=0, vision=0)
+    assert x.components.vla.vision_backbone.executed == x.components.vla.language_model.model.executed == 0
+
+
+def test_actual_three_scoped_writers_and_new_journal_are_compatible(runtime, tmp_path, monkeypatch):
+    """Actual emit producers; only their source/model-file I/O is substituted."""
+    meta = m.load_module(ROOT / "scripts/ops/formal_asset_metadata_adapter.py", "independent_actual_metadata_writer")
+    goal = m.load_module(ROOT / "scripts/ops/formal_goal_component_adapter.py", "independent_actual_goal_writer")
+    loader = m.load_module(ROOT / "src/cti_vla/evaluation/checkpoint_manifest.py", "independent_strict_json_loader")
+    views = {s: dict(suite=s, original_path=str(ROOT / meta.ORIGINALS[s][0]),
+        derived_path=str(ROOT / "configs/assets/formal_main_v2_strict" / (s + ".json"))) for s in meta.ORIGINALS}
+    identity = dict(source_root=str(ROOT), views=views, watched_files={},
+        original_loader_code_sha256=meta.code_sha(loader.load_checkpoint_manifest),
+        directory_verifier_code_sha256=meta.code_sha(loader.verify_checkpoint_directory))
+    monkeypatch.setattr(meta, "validate_asset_metadata_compat", lambda **kwargs: copy.deepcopy(identity))
+    monkeypatch.setattr(meta, "_canonical_loader", lambda source: loader)
+
+    def original_state_loader(path):
+        return {"synthetic_tensor_key": 1}
+    def original_remove_prefix(value):
+        return value
+    def original_load_components(*args, **kwargs):
+        raise AssertionError("GPU component loading forbidden in CPU writer test")
+    def original_torch_load(*args, **kwargs):
+        raise AssertionError("torch.load forbidden in CPU writer test")
+    component = SimpleNamespace(_load_component_state=original_state_loader,
+        remove_uniform_ddp_prefix=original_remove_prefix, load_openvla_oft_components=original_load_components,
+        torch=SimpleNamespace(load=original_torch_load))
+    mappings = [dict(requested_path=str(tmp_path / (name + "150000.synthetic")),
+        target_path=str(tmp_path / (name + "50000.synthetic"))) for name in ("action", "proprio")]
+    goal_identity = dict(mappings=mappings, watched_files={},
+        original_function_code_sha256={k: goal.code_sha(getattr(component, k)) for k in goal.SYMBOLS})
+    monkeypatch.setattr(goal, "_verify_target", lambda row: Path(row["target_path"]))
+    journal = m.Journal(tmp_path, "synthetic-independent", 3600)
+    try:
+        with adapter.install_action_execution_compat(project_root=ROOT, source_root=ROOT,
+                runtime_module=runtime.module, formal_trials_module=runtime.trials,
+                expected_adapter_sha256=m.ADAPTER_SHA, emit=journal.emit):
+            for suite in ("libero_object", "libero_goal"):
+                journal.context = {"suite": suite}
+                with ExitStack() as stack:
+                    stack.enter_context(meta.install_asset_metadata_compat(project_root=ROOT, source_root=ROOT,
+                        registration_path=ROOT / meta.REGISTRATION, expected_adapter_sha256=m.sha(meta.__file__), emit=journal.emit))
+                    if suite == "libero_goal":
+                        stack.enter_context(goal._scoped_component_loader(component, goal_identity, journal.emit))
+                    result = loader.load_checkpoint_manifest(ROOT / meta.ORIGINALS[suite][0])
+                    assert result.files and result.total_bytes > 0
+                    if suite == "libero_goal":
+                        for row in mappings:
+                            assert component._load_component_state(Path(row["requested_path"])) == {"synthetic_tensor_key": 1}
+        journal.context = {}
+        m.validate_scope_events(journal.events)
+    finally:
+        journal.close()
+    assert [v["seq"] for v in journal.events] == list(range(len(journal.events)))
+    assert len([v for v in journal.events if v["event"] == "asset_metadata_compat_load_complete"]) == 2
+    assert len([v for v in journal.events if v["event"] == "goal_component_load_complete"]) == 2
+    assert component._load_component_state is original_state_loader
+
+
+@pytest.fixture
+def root_contract(tmp_path, monkeypatch):
+    """Synthetic approvals are parser fixtures only; never used for deployment."""
+    monkeypatch.setattr(m, "PROJECT", tmp_path)
+    monkeypatch.setenv("SLURM_JOB_ID", "987654321")
+    probe_sha = m.sha(CANDIDATE / "probe.py")
+    manifest_sha = m.sha(CANDIDATE / "candidate_manifest.json")
+    refs = {
+        "probe": dict(path="audited/probe.py", sha256=probe_sha),
+        "manifest": dict(path="audited/manifest.json", sha256=manifest_sha),
+        "action_adapter": dict(path="scripts/ops/formal_action_execution_compat.py", sha256=m.ADAPTER_SHA),
+    }
+    adapter_ref = json.loads((CANDIDATE / "candidate_manifest.json").read_bytes())["action_adapter_independent_review"]
+    (tmp_path / "reviews").mkdir()
+    (tmp_path / "reviews/adapter.json").write_bytes((ROOT / adapter_ref["path"]).read_bytes())
+    cpu = {"action_adapter_independent": dict(path="reviews/adapter.json", sha256=adapter_ref["sha256"],
+        accepted_status=m.ADAPTER_CPU["action_adapter_independent_review"][1])}
+    docs = {}
+    for key, word in (("candidate_independent", "independent"), ("root_acceptance", "root")):
+        docs[key] = dict(schema="formal_main_v2", version=m.VERSION,
+            kind="bounded_action_execution_GPU_candidate_" + word + "_CPU_review",
+            status="passed_CPU_" + word + "_review_pending_registered_GPU",
+            candidate_identity=dict(probe_sha256=probe_sha, manifest_sha256=manifest_sha, action_adapter_sha256=m.ADAPTER_SHA),
+            candidate_files=copy.deepcopy(refs), evidence_sha256={v["path"]: v["sha256"] for v in refs.values()},
+            synthetic=True)
+        cpu[key] = dict(path="reviews/" + key + ".json", sha256=None, accepted_status=docs[key]["status"])
+    args = SimpleNamespace(execute_gpu=True, job_id="987654321", project_root=tmp_path,
+        source_root=tmp_path / "snapshots" / m.SOURCE_NAME, gpu_registration="registration.json",
+        gpu_registration_sha256=None, manifest="published/manifest.json", script_sha256=probe_sha)
+    reg = dict(schema="formal_main_v2", version=m.GPU_VERSION, status="registered_single_attempt",
+        gpu_submission_authorized=True, candidate_manifest=dict(path=args.manifest, sha256=manifest_sha),
+        entrypoint=dict(path=str((CANDIDATE / "probe.py").resolve()), sha256=probe_sha),
+        output_root=str(tmp_path / "results/formal_main_v2/engineering" / m.GPU_VERSION),
+        gpus=1, attempt=1, automatic_retry=False, suite_order=list(m.SUITES), method_order=list(m.METHODS),
+        limits=dict(m.LIMITS), cpu_reviews=cpu)
+    def save(*, bind_independent=True):
+        for key in ("candidate_independent", "root_acceptance"):
+            if key == "root_acceptance" and bind_independent:
+                docs[key]["candidate_independent_review"] = {k: cpu["candidate_independent"][k] for k in ("path", "sha256")}
+            path = tmp_path / cpu[key]["path"]
+            path.write_bytes(m.encoded(docs[key]))
+            cpu[key]["sha256"] = m.sha(path)
+        path = tmp_path / args.gpu_registration
+        path.write_bytes(m.encoded(reg)); args.gpu_registration_sha256 = m.sha(path)
+    save()
+    return SimpleNamespace(project=tmp_path, args=args, reg=reg, docs=docs, save=save, manifest_sha=manifest_sha)
+
+
+def test_full_registered_gate_has_job_independent_root_and_precise_cpu_identity(root_contract):
+    x = root_contract
+    assert m.validate_gpu_registration(x.args, x.manifest_sha) == x.reg
+    assert x.args.job_id not in x.reg["output_root"]
+    assert (Path(x.reg["output_root"]) / x.args.job_id).parent == Path(x.reg["output_root"])
+
+
+@pytest.mark.parametrize("case", ["probe", "manifest", "adapter", "passed_string", "kind", "evidence", "root_independent", "output", "limits", "retry"])
+def test_self_consistent_raw_sha_cannot_substitute_bad_registration_semantics(root_contract, case):
+    x = root_contract
+    if case in ("probe", "manifest", "adapter"):
+        key = {"probe": "probe_sha256", "manifest": "manifest_sha256", "adapter": "action_adapter_sha256"}[case]
+        x.docs["candidate_independent"]["candidate_identity"][key] = "f" * 64
+    elif case == "passed_string":
+        x.docs["candidate_independent"]["status"] = "passed_synthetic_wrong_review"
+        x.reg["cpu_reviews"]["candidate_independent"]["accepted_status"] = "passed_synthetic_wrong_review"
+    elif case == "kind":
+        x.docs["root_acceptance"]["kind"] = "unrelated_CPU_review"
+    elif case == "evidence":
+        x.docs["root_acceptance"]["evidence_sha256"].pop("audited/manifest.json")
+    elif case == "root_independent":
+        x.docs["root_acceptance"]["candidate_independent_review"]["sha256"] = "f" * 64
+    elif case == "output":
+        x.reg["output"] = x.reg["output_root"] + "/" + x.args.job_id
+    elif case == "limits":
+        x.reg["limits"]["cells"] = 17
+    elif case == "retry":
+        x.reg["automatic_retry"] = True
+    x.save(bind_independent=case != "root_independent")
+    with pytest.raises(ValueError):
+        m.validate_gpu_registration(x.args, x.manifest_sha)
+
+
+@pytest.mark.parametrize("path", ["reviews/final_states.json", "reviews/test_state.json", "reviews/weights/anything.json", "../escape.json", "results/final/panel.json"])
+def test_cpu_receipt_ref_lexically_rejected_before_resolution(root_contract, monkeypatch, path):
+    x = root_contract
+    x.docs["root_acceptance"]["candidate_files"]["probe"]["path"] = path
+    x.save()
+    original_resolve = Path.resolve
+    def safe_resolve(p, *args, **kwargs):
+        if p.as_posix().endswith(path) or "../escape.json" in p.as_posix():
+            pytest.fail("forbidden metadata reached filesystem resolution")
+        return original_resolve(p, *args, **kwargs)
+    monkeypatch.setattr(Path, "resolve", safe_resolve)
+    with pytest.raises(ValueError):
+        m.validate_gpu_registration(x.args, x.manifest_sha)
+
+
+def test_registration_requires_actual_slurm_job_identity(root_contract, monkeypatch):
+    x = root_contract
+    monkeypatch.setenv("SLURM_JOB_ID", "987654320")
+    monkeypatch.setattr(Path, "read_bytes", lambda *args, **kwargs: pytest.fail("read before job identity"))
+    with pytest.raises(ValueError, match="fresh root Slurm"):
+        m.validate_gpu_registration(x.args, x.manifest_sha)
+

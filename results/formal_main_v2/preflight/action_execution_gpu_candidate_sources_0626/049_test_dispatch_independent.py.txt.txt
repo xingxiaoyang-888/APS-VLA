@@ -1,0 +1,236 @@
+"""Independent, project-local dispatcher checks. Never uses actual SSH/state.
+
+Only the stable author's fixture constructor supplies synthetic contract files;
+all assertions, remote-Python execution and launcher/wrapper checks are here.
+173 frozen source pins are real. Scientific manifest/probe/CPU proof are synthetic.
+"""
+from __future__ import annotations
+import ast
+from contextlib import contextmanager, redirect_stdout
+import copy
+import importlib.util
+import io
+import json
+from pathlib import Path
+import shlex
+import shutil
+import sys
+from types import ModuleType, SimpleNamespace
+
+import pytest
+
+ROOT=Path(__file__).resolve().parents[2]
+AUTHOR=ROOT/'.local/action_execution_gpu_root_dispatch_candidate_0626'
+spec=importlib.util.spec_from_file_location('stable_dispatch_fixture_for_independent',AUTHOR/'test_dispatch.py')
+fixture=importlib.util.module_from_spec(spec);spec.loader.exec_module(fixture)
+d,c=fixture.d,fixture.c
+REAL_PATH=Path
+
+
+@pytest.fixture
+def case(tmp_path):
+    x=fixture.ContractFixture(tmp_path/'local_project')
+    return x
+
+
+def tree(root):
+    return {p.relative_to(root).as_posix():c.sha(p) for p in root.rglob('*') if p.is_file()}
+
+
+def test_actual_closure_has_173_snapshot_plus_distinct_project_destination_and_no_cycle(case):
+    before=tree(case.project);checked=case.check();after=tree(case.project)
+    assert before==after and len([r for r in checked['deployment_files'] if r['server'].startswith(c.S+'/')])==173
+    common='configs/experiments/formal_main_v2.json'
+    assert checked['watched_files'][c.P+'/'+common]==checked['watched_files'][c.S+'/'+common]
+    assert c.registration_intent(case.reg)==case.root['gpu_registration_intent_sha256']
+    changed=copy.deepcopy(case.reg);changed['cpu_reviews']['root_acceptance']['sha256']='f'*64
+    assert c.registration_intent(changed)==c.registration_intent(case.reg)
+    changed['limits']['cells']=17
+    assert c.registration_intent(changed)!=c.registration_intent(case.reg)
+    assert all(r['path'] not in {case.root_path,case.reg_path} for r in case.root['deployment_files'])
+
+
+@pytest.mark.parametrize('change',['omit_snapshot','extra_alias','copy_source_wrong_bytes','add_self'])
+def test_exact_closure_not_inferred_from_matching_local_worktree(case,change):
+    if change=='omit_snapshot':case.root['deployment_files']=[r for r in case.root['deployment_files'] if r['server']!=c.S+'/configs/experiments/formal_main_v2.json']
+    elif change=='extra_alias':
+        row=copy.deepcopy(case.root['deployment_files'][0]);row['server']=c.P+'/duplicate.json';case.root['deployment_files'].append(row)
+    elif change=='copy_source_wrong_bytes':
+        p=case.project/'src/cti_vla/evaluation/libero_runtime.py';p.write_bytes(p.read_bytes()+b'\n# synthetic alteration\n')
+    else:case.root['evidence_sha256'][case.root_path]='0'*64
+    case.sign()
+    with pytest.raises(ValueError):case.check()
+
+
+@pytest.mark.parametrize('name',['configs/manifests/formal_main_v2/libero_goal/initial_states/sealed_final.json',
+    'configs/manifests/formal_main_v2/libero_goal/initial_states/development_copy.json',
+    'results/final_state.json','results/test/initial.jsonl','results/weights/a.safetensors'])
+def test_state_and_weight_aliases_rejected_before_filesystem(monkeypatch,name):
+    monkeypatch.setattr(REAL_PATH,'resolve',lambda *a,**k:pytest.fail('forbidden path reached filesystem'))
+    monkeypatch.setattr(REAL_PATH,'stat',lambda *a,**k:pytest.fail('forbidden path reached filesystem'))
+    with pytest.raises(ValueError):c.safe_local(ROOT,name)
+
+
+def test_only_four_exact_development_paths_are_whitelisted():
+    assert len(c.PANELS)==4
+    for suite in c.SUITES:
+        path=f'configs/manifests/formal_main_v2/{suite}/initial_states/development.json'
+        assert c.lexical_relative(path)==path
+    assert c.lexical_relative('src/cti_vla/data/initial_states.py').endswith('.py')
+
+
+def make_jobs(statuses):
+    return [dict(job_id=str(i+100),experiment='formal_main_v2',stage_key='synthetic_'+str(i),status=s,gpus=0 if i==0 else 1)
+        for i,s in enumerate(statuses)]
+
+
+class SimulatedRootSupervisor:
+    """Run exact metadata remote-Python snippets against isolated files, not SSH."""
+    def __init__(self,project,server,jobs,monkeypatch,reply='9901;synthetic\n'):
+        self.ROOT=project;self.P=c.P;self.H=c.H;self.STATE=project/'synthetic_supervisor_state.json'
+        self.state=dict(pending_submission=None,registered_jobs=copy.deepcopy(jobs),current_round_cost={},formal_main_progress={'parallel_execution':{}})
+        self.SSH=['NEVER_ACTUAL_SSH'];self.server=server;self.server.mkdir();self.writes=[];self.transport=[]
+        self.locked=False;self.refreshed=False;self.monkeypatch=monkeypatch;self.reply=reply;self.sbatch=0
+        monkeypatch.setattr(d.subprocess,'run',self.run)
+    def mapped_path(self,value):
+        raw=str(value)
+        if raw==c.P:return self.server
+        if raw.startswith(c.P+'/'):return self.server/raw[len(c.P)+1:]
+        p=REAL_PATH(value)
+        if p==self.server or self.server in p.parents:return p
+        raise AssertionError('remote metadata path escaped isolated project: '+raw)
+    @contextmanager
+    def supervisor_lock(self):
+        assert not self.locked;self.locked=True
+        try:yield
+        finally:self.locked=False
+    def read(self,path):assert path==self.STATE;return self.state
+    def write(self,path,value):
+        assert self.locked;self.writes.append((str(path),copy.deepcopy(value)))
+    def refresh(self,state):
+        assert self.locked and state is self.state;self.refreshed=True
+        return [j for j in state['registered_jobs'] if j['experiment']=='formal_main_v2']
+    def remote(self,command):
+        assert self.locked and self.refreshed
+        args=shlex.split(command);assert args[:2]==[c.H+'/venv/bin/python','-c']
+        self.transport.append(('remote_python',command))
+        module=ModuleType('pathlib');module.Path=self.mapped_path
+        output=io.StringIO()
+        with self.monkeypatch.context() as patch:
+            patch.setitem(sys.modules,'pathlib',module)
+            with redirect_stdout(output):exec(compile(args[2],'<exact-dispatch-remote-python>','exec'),{})
+        return output.getvalue()
+    def run(self,args,**kwargs):
+        assert self.locked and self.refreshed
+        if args[0]=='scp':
+            assert args[:2]==['scp','-q'] and args[3].startswith('tongji-cvpr:'+c.P+'/')
+            dst=self.mapped_path(args[3].split(':',1)[1]);assert not dst.exists()
+            shutil.copyfile(args[2],dst);self.transport.append(('scp_upload_only',str(dst)))
+            return SimpleNamespace(returncode=0)
+        assert args[0]=='NEVER_ACTUAL_SSH' and 'sbatch --parsable' in args[1]
+        assert self.state['pending_submission']['status']=='prepared_before_invocation_publication'
+        self.sbatch+=1;self.transport.append(('synthetic_sbatch',args[1]))
+        return SimpleNamespace(returncode=0,stdout=self.reply,stderr='')
+
+
+def test_exact_publish_upload_hash_and_seven_slot_success_transaction(case,tmp_path,monkeypatch):
+    checked=case.check();f=SimulatedRootSupervisor(case.project,tmp_path/'remote',make_jobs(['RUNNING']*7),monkeypatch)
+    result=d.execute_submit(case.project,checked,case.refs,f)
+    assert result['submitted'] and f.sbatch==1 and f.state['pending_submission'] is None
+    assert result['job']['expected_engineering_cells']==16 and result['job']['maximum_attempts']==1
+    for row in checked['deployment_files']:
+        assert c.sha(f.mapped_path(row['server']))==row['sha256']
+    assert not list(f.server.rglob('*.partial'))
+    statuses=[v['pending_submission']['status'] if v.get('pending_submission') else None for path,v in f.writes if path==str(f.STATE)]
+    assert statuses==['prepared_before_invocation_publication','submitted_identifier_observed',None]
+    with pytest.raises(ValueError,match='already exists'):
+        d.execute_submit(case.project,checked,case.refs,f)
+    assert f.sbatch==1
+
+
+def test_unknown_sbatch_preserves_pending_and_second_call_has_no_transport(case,tmp_path,monkeypatch):
+    f=SimulatedRootSupervisor(case.project,tmp_path/'remote',make_jobs(['RUNNING']),monkeypatch,reply='ambiguous response\n')
+    checked=case.check()
+    with pytest.raises(RuntimeError,match='Unknown sbatch'):d.execute_submit(case.project,checked,case.refs,f)
+    assert f.state['pending_submission']['status']=='prepared_before_invocation_publication'
+    assert (case.project/c.INVOCATION).exists() and f.mapped_path(c.P+'/'+c.INVOCATION).exists()
+    calls=len(f.transport)
+    with pytest.raises(ValueError,match='pending'):d.execute_submit(case.project,checked,case.refs,f)
+    assert len(f.transport)==calls and f.sbatch==1
+
+
+def test_eight_unknown_cpu_pending_requests_stop_before_transport_or_write(case,tmp_path,monkeypatch):
+    jobs=make_jobs(['PENDING','SUBMITTED','STAGE_OUT','RUNNING+','UNKNOWN','',None,'RUNNING'])
+    f=SimulatedRootSupervisor(case.project,tmp_path/'remote',jobs,monkeypatch)
+    result=d.execute_submit(case.project,case.check(),case.refs,f)
+    assert result['submitted'] is False and result['reason']=='all8slotsoccupied'
+    assert not f.transport and not f.writes and not (case.project/c.INVOCATION).exists()
+    for status in ('CANCELLED by 15016','COMPLETED+','FAILED','TIMEOUT'):
+        assert not d.reserves_slot(dict(status=status))
+
+
+def test_existing_remote_bytes_never_overwritten(case,tmp_path,monkeypatch):
+    checked=case.check();f=SimulatedRootSupervisor(case.project,tmp_path/'remote',[],monkeypatch)
+    row=checked['deployment_files'][0];target=f.mapped_path(row['server']);target.parent.mkdir(parents=True);target.write_bytes(b'synthetic old mismatch')
+    with pytest.raises(ValueError,match='no overwrite'):d.execute_submit(case.project,checked,case.refs,f)
+    assert target.read_bytes()==b'synthetic old mismatch' and not f.writes and f.sbatch==0
+
+
+@pytest.mark.parametrize('existing',['local_invocation','remote_invocation','remote_attempt'])
+def test_existing_attempt_prevents_any_sbatch(case,tmp_path,monkeypatch,existing):
+    f=SimulatedRootSupervisor(case.project,tmp_path/'remote',[],monkeypatch)
+    path=case.project/c.INVOCATION if existing=='local_invocation' else f.mapped_path(c.P+'/'+c.INVOCATION) if existing=='remote_invocation' else f.mapped_path(c.P+'/'+c.OUT+'/old_attempt.json')
+    path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b'synthetic prior evidence')
+    with pytest.raises(ValueError):d.execute_submit(case.project,case.check(),case.refs,f)
+    assert f.sbatch==0 and not f.writes and path.read_bytes()==b'synthetic prior evidence'
+
+
+@pytest.mark.parametrize('child_result',[0,1,'timeout'])
+def test_real_launcher_main_exact_child_args_unique_marker_and_failed_receipt(case,tmp_path,monkeypatch,child_result):
+    checked=case.check();server=tmp_path/'server';server.mkdir()
+    def mapped(value):
+        raw=str(value)
+        return server if raw==c.P else server/raw[len(c.P)+1:] if raw.startswith(c.P+'/') else REAL_PATH(value)
+    for row in checked['deployment_files']:
+        dst=mapped(row['server']);dst.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(case.project/row['path'],dst)
+    watched=checked['watched_files'];inv=dict(schema='formal_main_v2',kind='bounded_action_execution_engineering_invocation',stage='engineering',stage_key=c.STAGE,
+        dispatch_contract=c.DISPATCH,source_root=c.S,source_sha256=c.SOURCE_SHA,entrypoint_server=c.P+'/'+c.ENTRY,output_root=c.P+'/'+c.OUT,
+        watched_files=watched,entrypoint_sha256=watched[c.P+'/'+c.ENTRY],wrapper_sha256=watched[c.P+'/'+c.WRAPPER],launcher_sha256=watched[c.P+'/'+c.LAUNCHER],
+        root_review=case.refs['root_review'],manifest=case.refs['manifest'],gpu_registration=case.refs['gpu_registration'])
+    ip=mapped(c.P+'/'+c.INVOCATION);ip.parent.mkdir(parents=True,exist_ok=True);ip.write_text(json.dumps(inv),encoding='utf-8')
+    args=['launcher.py','--invocation',c.P+'/'+c.INVOCATION,'--invocation-sha256',c.sha(ip)]
+    monkeypatch.setattr(c,'Path',mapped);monkeypatch.setattr(c,'__file__',str(mapped(c.P+'/'+c.LAUNCHER)))
+    monkeypatch.setattr(c.sys,'argv',args);monkeypatch.setenv('SLURM_JOB_ID','9902')
+    flock=[];module=ModuleType('fcntl');module.LOCK_EX=2;module.LOCK_NB=4;module.flock=lambda fd,flags:flock.append(flags)
+    monkeypatch.setitem(sys.modules,'fcntl',module);calls=[]
+    def fake_child(command,**kwargs):
+        calls.append((command,kwargs))
+        assert command[2]==c.P+'/'+c.ENTRY and command[-1]=='--execute-gpu'
+        assert command[command.index('--source-root')+1]==c.S and command[command.index('--job-id')+1]=='9902'
+        assert kwargs['cwd']==c.S and 0<kwargs['timeout']<=3540
+        if child_result=='timeout':raise d.subprocess.TimeoutExpired(command,kwargs['timeout'])
+        return SimpleNamespace(returncode=child_result)
+    monkeypatch.setattr(c.subprocess,'run',fake_child)
+    code=c.main();receipt=json.loads((server/c.BASE/'job_receipts/9902.json').read_bytes())
+    assert code==(0 if child_result==0 else 1) and len(calls)==1 and flock==[6]
+    assert receipt['watched_inputs_verified_before'] and receipt['watched_inputs_verified_after']
+    assert receipt['scientific_completion_inferred'] is False and receipt['allocation_cost_must_be_accounted_by_root'] is True
+    assert receipt['status']==('process_finished_pending_root_review' if child_result==0 else 'failed')
+    assert (server/c.OUT/'attempt01.launcher_started.json').exists()
+    monkeypatch.setenv('SLURM_JOB_ID','9903')
+    with pytest.raises(FileExistsError):c.main()
+    assert len(calls)==1
+
+
+def test_wrapper_fixed_resources_no_requeue_and_embedded_launch_guard():
+    raw=(AUTHOR/'probe.slurm').read_bytes();assert b'\r' not in raw
+    text=raw.decode();directives=[x for x in text.splitlines() if x.startswith('#SBATCH')]
+    for value in ('--nodes=1','--ntasks=1','--cpus-per-task=7','--gres=gpu:l40:1','--mem=64G','--time=01:00:00','--no-requeue'):
+        assert '#SBATCH '+value in directives
+    assert 'CUDA_VISIBLE_DEVICES=' not in text and 'srun "$H/venv/bin/python" -B - ' in text
+    python=text.split("<<'PY'\n",1)[1].rsplit('\nPY',1)[0];tree=ast.parse(python)
+    exec_calls=[x for x in ast.walk(tree) if isinstance(x,ast.Call) and isinstance(x.func,ast.Attribute) and x.func.attr=='execv']
+    assert len(exec_calls)==1
+    assert "if hashlib.sha256(lp.read_bytes()).hexdigest()!=inv['launcher_sha256']" in python
+    assert 'invocation SHA differs' in python and 'wrapper/launcher not bound' in python
+    assert exec_calls[0].lineno>max(x.lineno for x in ast.walk(tree) if isinstance(x,ast.Raise))

@@ -1,0 +1,324 @@
+"""Candidate only: root may execute after the immutable 0318 batch exists.
+
+Retain the 0147 delivery guard. Expand only the batch's current terminal pulls;
+historical receipts remain exact-byte dependencies, not aliases for later logs.
+This script stages files when explicitly executed. It never commits or submits.
+"""
+from pathlib import Path, PurePosixPath
+from datetime import datetime, timezone
+import hashlib
+import json
+import subprocess
+import sys
+
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = "results/formal_main_v2/"
+BATCH_NAME = BASE + "preflight/parallel_review_batch_20261018T0318.json"
+REQUIRED_NAME = BASE + "preflight/parallel_review_batch_20261018T0318_git_required.json"
+PROOF_NAME = BASE + "preflight/parallel_review_batch_20261018T0318_git_delivery.json"
+PARENT = "fee1befa20681fd87228e17d3be04577d0e11430"
+SOURCE_SHA = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
+BASIS_SHA = "ea5f5ae2fe104faf5ee71a8fe5854a5f0a85112e356ab481e378010d76de2282"
+SNAPSHOT_NAME = BASE + "nonweight_archives/v1/snapshots/long_dev600_20261018.json"
+SNAPSHOT_SHA = "ac7e4dce68abeddb147dd412f83afffbc5041715868547d6f60811e5fca137f0"
+PINS = {
+    "scripts/ops/nonweight_archive.py":
+        "f81284b3c56fbfd1cce339c4ea98b20943c8cd0866b4e8b94c38ac3cdbd1e3c2",
+    "scripts/ops/check_nonweight_archive_stage.py":
+        "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6",
+}
+PANEL_PINS = {
+    "configs/manifests/formal_main_v2/libero_spatial/initial_states/development.json":
+        "07718b648bfb767472506c48b0ef1837a5e6af992c2460e7567c275064809c91",
+    "configs/manifests/formal_main_v2/libero_object/initial_states/development.json":
+        "6b7e6dd9fb5b6351ee47c7bb30eab911e7c144d700cd88f7e5162641738b2d6a",
+}
+PANEL_PROOFS = {
+    path: BASE + "preflight/" + suite + "_existing_development_panel_index_20261018T0318.json"
+    for path, suite in zip(PANEL_PINS, ("spatial", "object"))
+}
+TERMINAL = {
+    "COMPLETED", "FAILED", "CANCELLED", "TIMEOUT", "OUT_OF_MEMORY",
+    "NODE_FAIL", "PREEMPTED", "BOOT_FAIL", "DEADLINE", "REVOKED",
+}
+DENIED_SUFFIXES = {
+    ".pt", ".pth", ".bin", ".safetensors", ".ckpt", ".npy", ".npz",
+    ".pkl", ".pickle", ".h5", ".hdf5",
+}
+DENIED_STATE_STEMS = ("init_state", "initial_state", "final_state", "test_state")
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def git(*args):
+    return subprocess.check_output(["git", *args], cwd=ROOT)
+
+
+def safe_name(name, active_panels=()):
+    """Reject sealed/weight aliases lexically before any payload IO."""
+    assert isinstance(name, str) and name and "\\" not in name and ":" not in name, name
+    pure = PurePosixPath(name)
+    assert not pure.is_absolute() and pure.as_posix() == name, name
+    assert all(part not in ("", ".", "..") for part in pure.parts), name
+    low = tuple(part.lower() for part in pure.parts)
+    assert "test" not in low and not any("sealed" in part for part in low), name
+    assert "weights" not in low and "checkpoints" not in low, name
+    assert pure.suffix.lower() not in DENIED_SUFFIXES, name
+    assert not (pure.name.lower() == "panel.json" and "final" in low), name
+    scientific_py = pure.suffix == ".py" and pure.parts[0] in ("src", "scripts", "tests")
+    state_name = any(stem in part for stem in DENIED_STATE_STEMS for part in low)
+    assert not state_name or scientific_py or name in active_panels, name
+    if name in active_panels:
+        assert name in PANEL_PINS, name
+    return pure
+
+
+def ref(name, active_panels=()):
+    safe_name(name, active_panels)
+    path = ROOT / name
+    assert path.is_file() and not path.is_symlink(), name
+    for parent in path.parents:
+        if parent == ROOT:
+            break
+        assert not parent.is_symlink(), name
+    data = path.read_bytes()
+    return dict(path=name, sha256=sha(data), bytes=len(data))
+
+
+def read_json(name, expected_sha=None, active_panels=()):
+    row = ref(name, active_panels)
+    if expected_sha is not None:
+        assert row["sha256"] == expected_sha, name
+    data = (ROOT / name).read_bytes()
+    assert sha(data) == row["sha256"], name
+    return json.loads(data)
+
+
+def write_new(name, value):
+    payload = (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    with (ROOT / name).open("xb") as stream:
+        stream.write(payload)
+    return payload
+
+
+def main():
+    assert git("rev-parse", "HEAD").decode().strip() == PARENT
+    assert not git("diff", "--cached", "--name-only").strip()
+    assert ref(".local/stage_verify_parallel_0147.py")["sha256"] == BASIS_SHA
+    assert all(ref(name)["sha256"] == want for name, want in PINS.items())
+    batch = read_json(BATCH_NAME)
+    assert batch["parent_delivered_commit"] == PARENT
+    evidence = batch["evidence_sha256"]
+    assert isinstance(evidence, dict) and evidence
+
+    # Only the two registered, already committed development payloads can take
+    # the separate HEAD/index/worktree proof route. Spatial is mandatory here.
+    spatial_panel = next(iter(PANEL_PINS))
+    assert evidence[spatial_panel] == PANEL_PINS[spatial_panel]
+    active_panels = {name: pin for name, pin in PANEL_PINS.items() if name in evidence}
+    assert all(evidence[name] == pin for name, pin in active_panels.items())
+    for name in evidence:
+        safe_name(name, active_panels)
+    panel_proof_names = [PANEL_PROOFS[name] for name in active_panels]
+    for name in (REQUIRED_NAME, PROOF_NAME, *panel_proof_names):
+        assert not (ROOT / name).exists(), name
+    for label in ("ordinary", "required"):
+        assert not (ROOT / ".local" / ("stage_0318_" + label + ".nul")).exists()
+
+    def bound_json(name):
+        assert name in evidence, name
+        return read_json(name, evidence[name], active_panels)
+
+    listed_pulls = batch["current_terminal_pulls"]
+    assert isinstance(listed_pulls, list) and listed_pulls
+    current_pulls = set(listed_pulls)
+    assert len(current_pulls) == len(listed_pulls)
+    for name in current_pulls:
+        assert name.startswith(BASE + "pulls/") and name.endswith("/receipt.json"), name
+        assert name in evidence, name
+
+    # The batch, archived root operation, root review and independent review
+    # must describe the same seven boundaries. Final5000 never permits5500.
+    boundaries = batch["reviewed_boundaries"]
+    assert len(boundaries) == 7
+    assert len({row["job_id"] for row in boundaries}) == 7
+    assert len({(row["suite"], row["budget"], row["seed"]) for row in boundaries}) == 7
+    finals = {(row["suite"], row["budget"], row["seed"])
+              for row in boundaries if row["boundary"] == 5000}
+    assert finals == {("libero_10", 128, 23), ("libero_10", 128, 41)}
+    training_pulls = set()
+    boundary_records = []
+    for boundary in boundaries:
+        job = boundary["job_id"]
+        end = boundary["boundary"]
+        assert isinstance(end, int) and 500 <= end <= 5000 and end % 500 == 0
+        expected_next = None if end == 5000 else end + 500
+        assert boundary["allowed_next"] == expected_next
+        name = batch["audit_source_archive_map"][".local/root_pull_review_2250_" + job + ".json"]
+        op = bound_json(name)
+        assert op["status"] == "passed"
+        for key in ("job_id", "suite", "budget", "seed", "boundary", "allowed_next",
+                    "pair_gpu_seconds", "latest_gpu_seconds"):
+            assert op[key] == boundary[key], (job, key)
+        assert op["pull"] in current_pulls
+        assert op["pull_sha256"] == evidence[op["pull"]]
+        training_pulls.add(op["pull"])
+        root_name = op["root_review"]
+        assert evidence[root_name] == op["root_sha256"]
+        review = bound_json(root_name)
+        assert review["status"] == "passed" and review["job_id"] == job
+        assert (review["suite"], review["visual_tokens"], review["seed"]) == (
+            boundary["suite"], boundary["budget"], boundary["seed"])
+        assert review["source_sha256"] == SOURCE_SHA
+        assert review["completed_by_arm"] == {"A": end, "B": end}
+        assert review["allowed_next_segment_end"] == expected_next
+        assert review["pair_allocated_gpu_seconds"] == boundary["pair_gpu_seconds"]
+        assert review["sealed_states_opened"] is False and review["weights_copied"] is False
+        ind_name = root_name[:-5] + "_independent.json"
+        independent = bound_json(ind_name)
+        assert independent["status"] == "passed" and independent["job_id"] == job
+        assert independent["allowed_next_segment_end"] == expected_next
+        assert independent["read_evidence_sha256"][root_name] == evidence[root_name]
+        if end == 5000:
+            assert review["continuation"] == "formal_training_complete_no_extension"
+            assert review["resume_required"] is False
+            selected_name = root_name[:-5] + "_selected_server.json"
+            bound_json(selected_name)
+        boundary_records.append(dict(job_id=job, boundary=end, allowed_next=expected_next,
+                                     root_review=root_name, independent_review=ind_name,
+                                     current_pull=op["pull"]))
+
+    # No Object trial-count assumption: zero, one or two additional current
+    # downstream pull receipts are allowed, including recorded failed attempts.
+    # Their history can contain more jobs. Never require their exit code to be0.
+    extra_pulls = current_pulls - training_pulls
+    assert len(extra_pulls) <= 2
+    pull_records = {}
+    for name in sorted(current_pulls):
+        pull = bound_json(name)
+        assert pull["status"] == "verified_nonweight_snapshot", name
+        assert pull["weights_copied"] is False and pull["sealed_initial_states_copied"] is False
+        selected = pull["selected_jobs"]
+        assert selected and len({row["job_id"] for row in selected}) == len(selected)
+        selected_ids = {row["job_id"] for row in selected}
+        requested_ids = set(pull["requested_job_ids"])
+        assert selected_ids == requested_ids, name
+        accounts = pull["accounting_after"]["jobs"]
+        for row in selected:
+            assert row["source_sha256"] == SOURCE_SHA
+            assert not row["active_overlapping_job_ids"], name
+            assert accounts[row["job_id"]]["status"] in TERMINAL, (name, row["job_id"])
+            if name in extra_pulls:
+                assert row["mode"] == "development" and "/downstream/development/" in row["run_root"], name
+        file_names = [entry["relative"] for entry in pull["files"]]
+        assert len(file_names) == len(set(file_names)), name
+        pull_records[name] = pull
+
+    def check_existing_panels():
+        rows = {}
+        for name, pin in active_panels.items():
+            rows[name] = ref(name, active_panels)
+            assert rows[name]["sha256"] == pin, name
+            assert not git("status", "--porcelain", "--", name).strip(), name
+            assert sha(git("show", "HEAD:" + name)) == sha(git("show", ":" + name)) == pin, name
+        return rows
+
+    panel_rows = check_existing_panels()
+    required = {}
+    for name, want in evidence.items():
+        row = ref(name, active_panels)
+        assert row["sha256"] == want, name
+        if name not in active_panels:
+            required[name] = row
+        if name in current_pulls:
+            for entry in pull_records[name]["files"]:
+                row = ref(entry["relative"], active_panels)
+                assert row["sha256"] == entry["sha256"] and row["bytes"] == entry["bytes"], row["path"]
+                if row["path"] in active_panels:
+                    assert row["sha256"] == active_panels[row["path"]]
+                else:
+                    required[row["path"]] = row
+
+    snapshot = read_json(SNAPSHOT_NAME, SNAPSHOT_SHA)
+    raw_names = {row["path"] for row in snapshot["files"]}
+    assert len(raw_names) == len(snapshot["files"]) == 2
+    for row in snapshot["files"]:
+        actual = ref(row["path"])
+        assert all(actual[key] == row[key] for key in ("path", "sha256", "bytes"))
+        required[actual["path"]] = actual
+    for name in (BATCH_NAME, SNAPSHOT_NAME, "results/experiment_supervisor/state.json", BASE + "slurm_accounting.json"):
+        required[name] = ref(name)
+
+    changed = git("ls-files", "--modified", "--others", "--exclude-standard", "-z", "--",
+                  "docs", "results/formal_main_v2", "results/experiment_supervisor/state.json", "results/slurm").decode().split("\0")
+    ordinary = sorted({name for name in changed if name and name not in raw_names})
+    assert not set(active_panels).intersection(ordinary)
+    assert not set(active_panels).intersection(required)
+    for name in ordinary:
+        safe_name(name, active_panels)
+        if not name.endswith(".md"):
+            required[name] = ref(name, active_panels)
+
+    # All input checks above precede the first file/index mutation. These proof
+    # files document preexisting bytes; they do not deliver a new state payload.
+    for name, row in panel_rows.items():
+        record = dict(schema="formal_main_v2", kind="root_unchanged_preexisting_development_panel_index_check",
+                      status="verified", checked_utc=datetime.now(timezone.utc).isoformat(), file=row, head=PARENT,
+                      HEAD_index_worktree_equal=True, path_staged_or_modified=False, guard_implementation_changed=False,
+                      scope="Only this exact previously committed development panel; checked before and after the pinned guard. No new or modified payload is exempt.",
+                      final_states_opened=False)
+        write_new(PANEL_PROOFS[name], record)
+        required[PANEL_PROOFS[name]] = ref(PANEL_PROOFS[name])
+    write_new(REQUIRED_NAME, dict(schema="cti_nonweight_archive_stage_v1", kind="required_files",
+                                  files=[required[name] for name in sorted(required)]))
+
+    def add(names, label, force=False):
+        spec = ROOT / ".local" / ("stage_0318_" + label + ".nul")
+        with spec.open("xb") as stream:
+            stream.write(b"".join((":(literal)" + name).encode("utf-8") + b"\0" for name in sorted(names)))
+        subprocess.run(["git", "add"] + (["-f"] if force else []) +
+                       ["--pathspec-from-file=" + str(spec), "--pathspec-file-nul"], cwd=ROOT, check=True)
+
+    add(ordinary + [REQUIRED_NAME], "ordinary")
+    add(set(required) - raw_names, "required", True)
+    before, changes = git("ls-files", "--stage", "-z"), git("diff", "--cached", "--name-status", "-z")
+    assert all(ref(name)["sha256"] == want for name, want in PINS.items())
+    command = [sys.executable, "-B", "scripts/ops/check_nonweight_archive_stage.py", "--project-root", str(ROOT),
+               "--snapshot", SNAPSHOT_NAME, "--snapshot-sha256", SNAPSHOT_SHA, "--required-files", REQUIRED_NAME]
+    for name in sorted(raw_names):
+        command.extend(["--raw-path", name])
+    print(json.dumps(dict(status="staged_guard_running", required_count=len(required))), flush=True)
+    process = subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    assert process.returncode == 0, process.stderr.decode("utf-8", errors="replace")
+    report = json.loads(process.stdout)
+    assert report["status"] == "verified_index_archive_delivery" and report["head"] == PARENT
+    assert report["index_sha256"] == sha(before) and report["staged_changes_sha256"] == sha(changes)
+    assert report["required_count"] == len(required) and report["frozen_files_verified_in_worktree_and_index"] == 173
+    assert len(report["raw_paths_restored_exactly"]) == 2 and report["gpu_seconds"] == 0
+    assert before == git("ls-files", "--stage", "-z") and changes == git("diff", "--cached", "--name-status", "-z")
+    assert check_existing_panels() == panel_rows
+    proof = dict(schema="formal_main_v2", kind="root_git_index_nonweight_delivery", status="passed",
+                 reviewed_utc=datetime.now(timezone.utc).isoformat(), guard_result=report, guard_command=command,
+                 unchanged_index_until_guard_return=True, scientific_settings_changed=False, no_weights_delivered=True,
+                 separately_verified_existing_development_dependencies=panel_proof_names,
+                 existing_panels_HEAD_index_worktree_equal_before_and_after=True, final_state_values_opened=False,
+                 current_terminal_pulls=sorted(current_pulls), additional_downstream_terminal_pulls=sorted(extra_pulls),
+                 training_boundaries=boundary_records, prior_helper_sha256=BASIS_SHA)
+    payload = write_new(PROOF_NAME, proof)
+    subprocess.run(["git", "add", "--", PROOF_NAME], cwd=ROOT, check=True)
+    old = set(before.split(b"\0")) - {b""}
+    new = set(git("ls-files", "--stage", "-z").split(b"\0")) - {b""}
+    assert not old - new and len(new - old) == 1
+    assert next(iter(new - old)).split(b"\t", 1)[1].decode() == PROOF_NAME
+    assert git("show", ":" + PROOF_NAME) == payload
+    subprocess.run(["git", "diff", "--cached", "--check"], cwd=ROOT, check=True)
+    assert not git("diff", "--name-only").strip()
+    print(json.dumps(dict(status="passed", proof=PROOF_NAME, sha256=sha(payload), required_count=len(required),
+                          frozen_files=173, restored_raw_paths=2, commit_not_performed=True)), flush=True)
+
+
+if __name__ == "__main__":
+    main()

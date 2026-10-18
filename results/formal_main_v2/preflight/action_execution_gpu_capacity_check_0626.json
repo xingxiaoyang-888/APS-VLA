@@ -1,0 +1,50 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_registered_engineering_capacity_attempt",
+  "status": "completed_capacity_check",
+  "started_utc": "2026-10-18T07:39:56.961203+00:00",
+  "finished_utc": "2026-10-18T07:40:00.806391+00:00",
+  "command": [
+    "python",
+    "-B",
+    "F:\\CTI-VLA\\results\\formal_main_v2\\engineering\\formal_main_v2_action_execution_compat_gpu_v1\\source\\submit.py",
+    "--project-root",
+    "F:\\CTI-VLA",
+    "--root-review",
+    "results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json",
+    "--root-review-sha256",
+    "919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b",
+    "--manifest",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v1/source/candidate_manifest.json",
+    "--manifest-sha256",
+    "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    "--gpu-registration",
+    "configs/experiments/formal_main_v2_action_execution_compat_gpu_v1.json",
+    "--gpu-registration-sha256",
+    "c36906c1ff310229c92d09fb3b89e467cec03ef5ead4de1d05a478777b889672",
+    "--submit"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"submitted\": false, \"reason\": \"all8slotsoccupied\", \"active_request_job_ids\": [\"3024991\", \"3025000\", \"3025005\", \"3025017\", \"3025080\", \"3025196\", \"3025205\", \"3025581\"]}\r\n",
+  "stderr": "",
+  "result": {
+    "submitted": false,
+    "reason": "all8slotsoccupied",
+    "active_request_job_ids": [
+      "3024991",
+      "3025000",
+      "3025005",
+      "3025017",
+      "3025080",
+      "3025196",
+      "3025205",
+      "3025581"
+    ]
+  },
+  "evidence_sha256": {
+    "results/formal_main_v2/preflight/action_execution_gpu_registration_check_0626.json": "1fcefb8ac10438b28d6af3770fde0568f44fd55b6f4aed9231ae795a490725d7",
+    ".local/try_action_gpu_capacity_0626.py": "cfc868c1e12574395ec548089282cd8cfd977b674420eb5a55739a2f06b87406"
+  },
+  "scientific_release": false,
+  "final_states_opened": false
+}

@@ -1,0 +1,124 @@
+from __future__ import annotations
+from datetime import datetime, timezone
+import hashlib
+import json
+from pathlib import Path
+import xml.etree.ElementTree as ET
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+CANDIDATE = ROOT / ".local/action_execution_gpu_acceptance_candidate_0626"
+def sha(path):
+    h = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(8 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+def rel(path):
+    return Path(path).relative_to(ROOT).as_posix()
+def load(path):
+    return json.loads(Path(path).read_bytes())
+def xml_summary(path):
+    root = ET.parse(path).getroot()
+    suites = [root] if root.tag == "testsuite" else list(root.findall("testsuite"))
+    return dict(tests=sum(int(s.attrib["tests"]) for s in suites),
+        failures=sum(int(s.attrib["failures"]) for s in suites),
+        errors=sum(int(s.attrib["errors"]) for s in suites),
+        skipped=sum(int(s.attrib["skipped"]) for s in suites),
+        seconds=sum(float(s.attrib["time"]) for s in suites))
+
+run = load(HERE / "cpu_a1/run.json")
+summary = xml_summary(HERE / "cpu_a1/tests.xml")
+assert run["returncode"] == 0 and run["protected_unchanged"]
+assert summary["tests"] == 26 and summary["failures"] == summary["errors"] == summary["skipped"] == 0
+evidence = dict(run["input_sha256"])
+assert evidence == run["protected_after_sha256"]
+metadata = load(HERE / "actual_metadata_evidence.json")
+for path, digest in metadata["read_evidence_sha256"].items():
+    name = rel(Path(path))
+    assert name not in evidence or evidence[name] == digest
+    evidence[name] = digest
+additional = [
+    HERE / "test_independent.py", HERE / "run_checks.py", Path(__file__),
+    HERE / "actual_metadata_evidence.json", HERE / "cpu_a1/protected_before.json",
+    HERE / "cpu_a1/tests.xml", HERE / "cpu_a1/tests.log", HERE / "cpu_a1/run.json",
+    CANDIDATE / "candidate_review_a3.json", CANDIDATE / "README.md", CANDIDATE / "gpu_registration.template.json",
+    ROOT / "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+]
+rounds = []
+for label, expected_tests in (("cpu_a1", 40), ("cpu_a2", 44), ("cpu_a3", 9)):
+    folder = CANDIDATE / label
+    original = load(folder / "run.json")
+    measured = xml_summary(folder / "tests.xml")
+    assert original["exit_code"] == 0 and measured["tests"] == expected_tests
+    assert measured["failures"] == measured["errors"] == 0
+    rounds.append(dict(label=label, measured=measured, source_sha256=original["source_sha256"],
+        source_scope="author CPU; a1 and a2 are preserved earlier candidate bytes; a3 is nine final gate tests only"))
+    additional.extend(folder / name for name in ("run.json", "tests.xml", "tests.log", "probe.py.txt", "test_probe.py.txt", "candidate_manifest.json.txt"))
+additional.append(CANDIDATE / "cpu_a2/original_journal_failure.log")
+root_folder = ROOT / ".local/action_execution_gpu_root_cpu_0626"
+root_run = load(root_folder / "run.json")
+root_summary = xml_summary(root_folder / "tests.xml")
+assert root_run["exit_code"] == 0 and root_run["source_and_frozen_files_unchanged"] is True
+assert root_summary["tests"] == 53 and root_summary["failures"] == root_summary["errors"] == 0
+additional.extend(root_folder / name for name in ("run.json", "tests.xml", "tests.log"))
+for path in additional:
+    name, digest = rel(path), sha(path)
+    assert name not in evidence or evidence[name] == digest
+    evidence[name] = digest
+for name, digest in evidence.items():
+    assert sha(ROOT / name) == digest, "input changed before final independent receipt: " + name
+files = {
+    "probe": dict(path=rel(CANDIDATE / "probe.py"), sha256=sha(CANDIDATE / "probe.py")),
+    "manifest": dict(path=rel(CANDIDATE / "candidate_manifest.json"), sha256=sha(CANDIDATE / "candidate_manifest.json")),
+    "action_adapter": dict(path="scripts/ops/formal_action_execution_compat.py", sha256=sha(ROOT / "scripts/ops/formal_action_execution_compat.py")),
+}
+identity = dict(probe_sha256=files["probe"]["sha256"], manifest_sha256=files["manifest"]["sha256"],
+    action_adapter_sha256=files["action_adapter"]["sha256"])
+assert identity == dict(probe_sha256="5b08c59fa44cbca6d07afd4334c2a07dbe7a8bad7f7e69ba64b82b29cd954ebf",
+    manifest_sha256="12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    action_adapter_sha256="958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863")
+receipt = dict(schema="formal_main_v2", version="action-execution-gpu-candidate-0626-v1",
+    kind="bounded_action_execution_GPU_candidate_independent_CPU_review",
+    status="passed_CPU_independent_review_pending_registered_GPU", reviewer="deploy64",
+    created_utc=datetime.now(timezone.utc).isoformat(), candidate_identity=identity, candidate_files=files,
+    evidence_sha256=evidence, read_evidence_sha256=evidence,
+    independent_tests=dict(**summary, command=run["command"], process_seconds=run["duration_seconds"],
+        raw_xml=rel(HERE / "cpu_a1/tests.xml"), raw_log=rel(HERE / "cpu_a1/tests.log"),
+        execution_receipt=rel(HERE / "cpu_a1/run.json")),
+    author_prior_and_final_targeted_rounds=rounds, root_final_full_regression=root_summary,
+    findings=[], bounded_CPU_blockers_remaining=[],
+    previously_identified_and_resolved=[
+        "Author a1 Journal duplicate suite keyword on real metadata completion event; raw prior failure and source retained",
+        "Root preregistration must use fixed output_root because future Slurm job ID is unknown; runtime alone appends validated SLURM_JOB_ID",
+        "Typed current candidate/manifest/adapter CPU proof and exact root-to-independent receipt link now checked before GPU entry"],
+    independently_checked=[
+        "All four suites use their own completed5000 seed17 selected checkpoints and existing task0 minimum development rows0/3/5/7",
+        "Actual frozen PolicyChunk/run_episode AST and published action scope, all four methods, one chunk; float64 action bytes including signed zero and1.010742197890625 preserved",
+        "Early termination does not replay unexecuted tail; failed env.step retains attempted versus confirmed actions and stops",
+        "Seventeenth policy call denied before model/control execution; original bound functions/hooks restored",
+        "Actual metadata and Goal scoped event writers interoperate with new Journal and actual action-scope writer; repeated equal suite is accepted",
+        "Exact root/independent candidate type/status and probe/manifest/action-adapter hashes; unrelated passed receipt, missing evidence, stale linkage, output job path,17cells and retry rejected",
+        "State/weight/traversal CPU receipt aliases rejected before filesystem resolution and wrong Slurm job ID rejected before file reads",
+        "Actual frozen FormalRolloutPolicy source uses the counted vision/LLM/action-head/scorer/packing/Top-k interfaces; no future-head construction in deployment loader"],
+    explicit_stand_ins=[
+        "Author fixture only supplies synthetic env/model modules and original frozen AST; independent assertions are separate",
+        "Compatibility writer test uses original strict JSON manifest parser and scoped emit implementations; metadata source authorization and Goal component target I/O/torch model are deliberate CPU stand-ins",
+        "GPU registration tests use synthetic isolated project/approval JSON and SLURM environment; they are parser tests, never an actual root authorization",
+        "gpu_body and real simulator, GPU kernels, official component tensors, actual controller dispatch/physical action execution were not run by this audit"],
+    protected_inputs=dict(files_before_and_after=len(run["input_sha256"]), frozen_source_files=173,
+        original_development_ledgers=3, historical_terminal_records=1212, unchanged=True),
+    actual_metadata_inputs=metadata["verified_metadata_inputs"], new_GPU_seconds=0, SSH_used=False,
+    weights_opened=False, final_states_opened=False, state_or_Git_modified=False,
+    original_results_replaced=False, success_rate_computed=False, latency_claim=False,
+    production_or_reuse_authorized=False, actual_GPU_acceptance=False,
+    remaining_root_requirements=[
+        "Hash this independent receipt, create typed root CPU acceptance and single-attempt root preregistration; publish exact reviewed sources and manifest dependencies",
+        "Root alone submits one registeredL40 up to3600seconds with current capacity/identity checks; no automatic retry",
+        "Real job must verify all16cells and actual controller/source identities with original actions plus full scope restoration; any failure stops and retains original evidence",
+        "Root and independent reviewers must consume actual raw events and all Slurm cost before any production deployment or result reuse; final remains sealed"],
+    writes_confined_to=rel(HERE))
+out = HERE / "independent_review.json"
+with out.open("xb") as stream:
+    stream.write((json.dumps(receipt, sort_keys=True, indent=2, ensure_ascii=False) + "\n").encode())
+print(json.dumps(dict(path=rel(out), sha256=sha(out), evidence_files=len(evidence), independent_tests=summary), ensure_ascii=False))

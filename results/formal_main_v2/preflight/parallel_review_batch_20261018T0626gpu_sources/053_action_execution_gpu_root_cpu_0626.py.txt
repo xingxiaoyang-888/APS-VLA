@@ -1,0 +1,38 @@
+"""Root validates the final candidate's entire CPU suite, without GPU imports."""
+from pathlib import Path
+import hashlib
+import json
+import subprocess
+import sys
+from datetime import datetime, timezone
+
+ROOT = Path(__file__).resolve().parents[1]
+FOLDER = ROOT / '.local/action_execution_gpu_root_cpu_0626'
+FOLDER.mkdir(exist_ok=False)
+CANDIDATE = '.local/action_execution_gpu_acceptance_candidate_0626/'
+PINS = {
+    CANDIDATE+'probe.py': '5b08c59fa44cbca6d07afd4334c2a07dbe7a8bad7f7e69ba64b82b29cd954ebf',
+    CANDIDATE+'test_probe.py': 'aee1f17551866fa61c08c1820eda9bc44535bd3f7cb47d0fd44a91c21a1f3b51',
+    CANDIDATE+'candidate_manifest.json': '12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04',
+    CANDIDATE+'candidate_review_a3.json': 'b94c4c884023c3476fcd7fa6b113216cbd319181a17797491d71b2babafd40e8',
+}
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+inv = json.loads((ROOT/'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json').read_bytes())
+protected = {**inv['files'], **PINS,
+    'scripts/ops/formal_action_execution_compat.py': '958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863'}
+assert all(sha(ROOT/name)==digest for name,digest in protected.items())
+command = [sys.executable, '-B', '-m', 'pytest', CANDIDATE+'test_probe.py', '-q',
+    '--basetemp', str(FOLDER/'fixtures'), '--junitxml', str(FOLDER/'tests.xml')]
+started=datetime.now(timezone.utc).isoformat()
+run=subprocess.run(command,cwd=ROOT,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+(FOLDER/'tests.log').write_bytes(run.stdout)
+unchanged=all(sha(ROOT/name)==digest for name,digest in protected.items())
+value=dict(schema='formal_main_v2',kind='root_full_candidate_CPU_run',started_utc=started,
+    finished_utc=datetime.now(timezone.utc).isoformat(),command=command,exit_code=run.returncode,
+    source_and_frozen_files_unchanged=unchanged,evidence_sha256=protected,GPU_seconds=0,
+    scope='Final a3 complete author CPU suite; all environment/model/controller fixtures synthetic; no real GPU acceptance')
+(FOLDER/'run.json').write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8')
+print(run.stdout.decode('utf-8',errors='replace'))
+print(json.dumps(dict(exit_code=run.returncode,unchanged=unchanged,receipt=str(FOLDER/'run.json'))))
+assert run.returncode==0 and unchanged

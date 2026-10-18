@@ -1,0 +1,75 @@
+"""Prepare exact candidate publications; this does not register or submit a GPU job."""
+from pathlib import Path
+import argparse
+import hashlib
+import json
+import subprocess
+
+ROOT=Path(__file__).resolve().parents[1]
+BASE='results/formal_main_v2/'
+OUT=BASE+'engineering/formal_main_v2_action_execution_compat_gpu_v1/source/'
+CAND='.local/action_execution_gpu_acceptance_candidate_0626/'
+PINS={
+    CAND+'probe.py':'5b08c59fa44cbca6d07afd4334c2a07dbe7a8bad7f7e69ba64b82b29cd954ebf',
+    CAND+'candidate_manifest.json':'12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04',
+    CAND+'test_probe.py':'aee1f17551866fa61c08c1820eda9bc44535bd3f7cb47d0fd44a91c21a1f3b51',
+    CAND+'candidate_review_a3.json':'b94c4c884023c3476fcd7fa6b113216cbd319181a17797491d71b2babafd40e8',
+    'scripts/ops/formal_action_execution_compat.py':'958a5fc5f1c445df0fba115304de9a2b0aa26ffac1420109304411abeb16c863',
+}
+def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+def write_new(name,data):
+    dest=ROOT/name; dest.parent.mkdir(parents=True,exist_ok=True)
+    with dest.open('xb') as stream: stream.write(data)
+def main():
+    ap=argparse.ArgumentParser(); ap.add_argument('--independent-review',required=True)
+    ap.add_argument('--dispatch-review',required=True)
+    ap.add_argument('--dispatch-independent',required=True); args=ap.parse_args()
+    assert not subprocess.check_output(['git','diff','--cached','--name-only'],cwd=ROOT)
+    refs={}
+    def include(name,digest=None):
+        assert not name.startswith('/') and ':' not in name and '\\' not in name and '..' not in Path(name).parts
+        path=ROOT/name; assert path.is_file() and not path.is_symlink()
+        actual=sha(path); assert digest is None or actual==digest,(name,actual,digest)
+        assert name not in refs or refs[name]==actual
+        refs[name]=actual
+    for name,digest in PINS.items(): include(name,digest)
+    author=json.loads((ROOT/(CAND+'candidate_review_a3.json')).read_bytes())
+    ind=json.loads((ROOT/args.independent_review).read_bytes())
+    dispatch=json.loads((ROOT/args.dispatch_review).read_bytes())
+    dispatch_ind=json.loads((ROOT/args.dispatch_independent).read_bytes())
+    assert ind['status']=='passed_CPU_independent_review_pending_registered_GPU'
+    assert ind['candidate_identity']==dict(probe_sha256=PINS[CAND+'probe.py'],manifest_sha256=PINS[CAND+'candidate_manifest.json'],action_adapter_sha256=PINS['scripts/ops/formal_action_execution_compat.py'])
+    for name in (CAND+'candidate_review_a3.json',args.independent_review,args.dispatch_review,args.dispatch_independent,
+            '.local/action_execution_gpu_root_cpu_0626.py','.local/action_execution_gpu_root_cpu_0626/run.json',
+            '.local/action_execution_gpu_root_cpu_0626/tests.log','.local/action_execution_gpu_root_cpu_0626/tests.xml',
+            '.local/prepare_action_gpu_delivery_0626.py'): include(name)
+    for value in (author,ind,dispatch,dispatch_ind):
+        for key in ('read_evidence_sha256','evidence_sha256'):
+            for name,digest in value.get(key,{}).items(): include(name,digest)
+    run=json.loads((ROOT/'.local/action_execution_gpu_root_cpu_0626/run.json').read_bytes())
+    assert run['exit_code']==0 and run['source_and_frozen_files_unchanged'] and run['GPU_seconds']==0
+    mapping={
+        CAND+'probe.py':OUT+'probe.py', CAND+'candidate_manifest.json':OUT+'candidate_manifest.json',
+        CAND+'candidate_review_a3.json':BASE+'preflight/action_execution_gpu_candidate_author_0626.json',
+        args.independent_review:BASE+'preflight/action_execution_gpu_candidate_independent_0626.json',
+        args.dispatch_review:BASE+'preflight/action_execution_gpu_dispatch_author_0626.json',
+        args.dispatch_independent:BASE+'preflight/action_execution_gpu_dispatch_independent_0626.json',
+    }
+    for name in ('launcher.py','probe.slurm','submit.py'):
+        src='.local/action_execution_gpu_root_dispatch_candidate_0626/'+name
+        assert src in refs, ('dispatcher_missing_from_review',src)
+        mapping[src]=OUT+name
+    for src,dest in mapping.items():
+        write_new(dest,(ROOT/src).read_bytes()); refs[dest]=sha(ROOT/dest)
+    archives={}
+    for i,name in enumerate(sorted(x for x in refs if x.startswith('.local/')),1):
+        dest=BASE+'preflight/action_execution_gpu_candidate_sources_0626/'+f'{i:03d}_'+Path(name).name+'.txt'
+        write_new(dest,(ROOT/name).read_bytes()); archives[name]=dest
+    summary=dict(schema='formal_main_v2',kind='root_exact_CPU_candidate_publication',status='prepared_pending_root_registration',
+        publications=mapping,audit_source_archive_map=archives,evidence_sha256={**refs,**{n:sha(ROOT/n) for n in archives.values()}},
+        GPU_submitted=False,final_states_opened=False,weights_copied=False)
+    name=BASE+'preflight/action_execution_gpu_candidate_publication_0626.json'
+    write_new(name,(json.dumps(summary,indent=2)+'\n').encode())
+    print(json.dumps(dict(publication=name,sha256=sha(ROOT/name),archived_sources=len(archives))))
+
+if __name__=='__main__': main()

@@ -1,0 +1,46 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_GPU_acceptance_ready_capacity_hold",
+  "status": "registered_waiting_for_free_slot",
+  "registered_utc": "2026-10-18T07:40:47.624933+00:00",
+  "CPU_regression_tests": 53,
+  "independent_candidate_tests": 26,
+  "dispatch_author_tests": 32,
+  "dispatch_independent_tests": 22,
+  "actual_local_contract_inputs": 293,
+  "active_GPU_request_job_ids": [
+    "3024991",
+    "3025000",
+    "3025005",
+    "3025017",
+    "3025080",
+    "3025196",
+    "3025205",
+    "3025581"
+  ],
+  "GPU_submitted": false,
+  "root_review": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json",
+    "sha256": "919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b"
+  },
+  "registration": {
+    "path": "configs/experiments/formal_main_v2_action_execution_compat_gpu_v1.json",
+    "sha256": "c36906c1ff310229c92d09fb3b89e467cec03ef5ead4de1d05a478777b889672"
+  },
+  "manifest": {
+    "path": "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v1/source/candidate_manifest.json",
+    "sha256": "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04"
+  },
+  "next": "At the next free slot, root runs the exact registered16-cell action execution GPU command in results/formal_main_v2/preflight/action_execution_gpu_capacity_check_0626.json; the dispatcher rechecks all293 inputs, current registered requests and existing stage/invocation before a single1L403600s attempt. No ninth request, preemption, automatic retry, failed-Object-trial replay, historical-result reuse or final release. Pull actual events and Slurm cost for root and independent acceptance; training continues in other slots.",
+  "final_states_opened": false,
+  "weights_copied": false,
+  "evidence_sha256": {
+    "results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json": "919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b",
+    "configs/experiments/formal_main_v2_action_execution_compat_gpu_v1.json": "c36906c1ff310229c92d09fb3b89e467cec03ef5ead4de1d05a478777b889672",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v1/source/candidate_manifest.json": "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    "results/formal_main_v2/preflight/action_execution_gpu_capacity_check_0626.json": "2783c0122e08a97aa23e4935834defc2589ca6b8294266eeebdd34e96994b38c",
+    "results/formal_main_v2/preflight/action_execution_gpu_registration_check_0626.json": "1fcefb8ac10438b28d6af3770fde0568f44fd55b6f4aed9231ae795a490725d7",
+    "results/formal_main_v2/preflight/action_execution_gpu_delivery_independent_0626.json": "1eb5483dbc82a1029eb70309a384be111106b782996ef657047a572e4e25ce44",
+    ".local/record_action_gpu_ready_0626.py": "5f6c80623d5af82a6902b83556a04b4096af57a459744b251101f9a5aebc7fe9"
+  }
+}

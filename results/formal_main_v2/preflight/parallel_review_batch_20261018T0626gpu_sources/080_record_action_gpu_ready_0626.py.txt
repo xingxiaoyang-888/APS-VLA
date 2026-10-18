@@ -1,0 +1,47 @@
+"""Record the real full-capacity result without creating a ninth request."""
+from pathlib import Path
+from datetime import datetime,timezone
+import json,sys
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
+import formal_supervisor as f
+BASE='results/formal_main_v2/preflight/'
+src=ROOT/'.local/git_delivery_0626gpu_independent.json'
+dst=ROOT/(BASE+'action_execution_gpu_delivery_independent_0626.json')
+assert f.sha(src)=='1eb5483dbc82a1029eb70309a384be111106b782996ef657047a572e4e25ce44'
+with dst.open('xb') as out:out.write(src.read_bytes())
+cap=f.read(ROOT/(BASE+'action_execution_gpu_capacity_check_0626.json'))
+assert cap['exit_code']==0 and cap['result']['submitted'] is False and cap['result']['reason']=='all8slotsoccupied'
+check=f.read(ROOT/(BASE+'action_execution_gpu_registration_check_0626.json'))
+assert check['status']=='passed_local_contract_no_submission'
+for key in ('root_review','registration','manifest'):
+    row=check[key]; assert f.sha(ROOT/row['path'])==row['sha256']
+now=datetime.now(timezone.utc).isoformat()
+next_action=('At the next free slot, root runs the exact registered16-cell action execution GPU command in '
+    'results/formal_main_v2/preflight/action_execution_gpu_capacity_check_0626.json; the dispatcher rechecks all293 inputs, '
+    'current registered requests and existing stage/invocation before a single1L403600s attempt. '
+    'No ninth request, preemption, automatic retry, failed-Object-trial replay, historical-result reuse or final release. '
+    'Pull actual events and Slurm cost for root and independent acceptance; training continues in other slots.')
+with f.supervisor_lock():
+    state=f.read(f.STATE); p=state['formal_main_progress']; issue=p['downstream_action_range_issue']
+    assert state['pending_submission'] is None and p['trained_arms']==20 and p['completed_final_trials']==0
+    assert not any(j.get('stage_key')=='formal_main_v2_action_execution_compat_gpu_v1' for j in state['registered_jobs'])
+    issue.update(status='CPU_accepted_GPU_acceptance_registered_waiting_for_free_slot',
+        GPU_acceptance_registration=check['registration'],GPU_acceptance_root_review=check['root_review'],
+        GPU_acceptance_manifest=check['manifest'],
+        GPU_acceptance_capacity_result=dict(path=BASE+'action_execution_gpu_capacity_check_0626.json',sha256=f.sha(ROOT/(BASE+'action_execution_gpu_capacity_check_0626.json'))),
+        GPU_acceptance_job_id=None,new_rollouts_held=True,training_continues=True,next=next_action)
+    state['next_actions']=[next_action,*state['next_actions'][1:]]
+    state['updated_utc']=now;f.write(f.STATE,state)
+value=dict(schema='formal_main_v2',kind='root_GPU_acceptance_ready_capacity_hold',status='registered_waiting_for_free_slot',
+    registered_utc=now,CPU_regression_tests=53,independent_candidate_tests=26,
+    dispatch_author_tests=32,dispatch_independent_tests=22,actual_local_contract_inputs=293,
+    active_GPU_request_job_ids=cap['result']['active_request_job_ids'],GPU_submitted=False,
+    root_review=check['root_review'],registration=check['registration'],manifest=check['manifest'],
+    next=next_action,final_states_opened=False,weights_copied=False,
+    evidence_sha256={row['path']:row['sha256'] for row in (check['root_review'],check['registration'],check['manifest'])})
+for name in (BASE+'action_execution_gpu_capacity_check_0626.json',BASE+'action_execution_gpu_registration_check_0626.json',
+        BASE+'action_execution_gpu_delivery_independent_0626.json','.local/record_action_gpu_ready_0626.py'):
+    value['evidence_sha256'][name]=f.sha(ROOT/name)
+path=BASE+'action_execution_gpu_ready_0626.json'; assert not (ROOT/path).exists();f.write(ROOT/path,value)
+print(json.dumps(dict(receipt=path,sha256=f.sha(ROOT/path),GPU_submitted=False)))
