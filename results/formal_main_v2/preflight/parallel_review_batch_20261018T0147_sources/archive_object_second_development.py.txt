@@ -1,0 +1,49 @@
+"""Keep byte-exact second Object development evidence before any ledger resume."""
+from pathlib import Path
+from datetime import datetime, timezone
+import json
+import sys
+
+root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(root / 'scripts'))
+import formal_supervisor as f
+
+base = 'results/formal_main_v2/'
+review_path = base + 'downstream_reviews/3021603.json'
+review = f.read(root / review_path)
+assert review['status'] == 'passed' and review['completed_trials'] == 132
+assert not review['scientific_complete'] and not review['final_state_values_read']
+assert review['cost']['all_attempt_gpu_seconds'] == 1787 and review['cost']['current_gpu_seconds'] == 1401
+folder = root / (base + 'preflight/object_second_development_raw_v2')
+assert not folder.exists()
+items = []
+own_logs = {f'results/slurm/cti-formal-downstream_{jid}.{suffix}' for jid in ('3021394','3021603') for suffix in ('out','err')}
+pull = f.read(root / review['pull_receipt'])
+assert pull['status'] == 'verified_nonweight_snapshot'
+pulled = {row['relative']: row['sha256'] for row in pull['files']}
+assert len(pulled) == len(pull['files']) == 20
+assert len(review['files']) == 17 and all(pulled[name] == checksum for name, checksum in review['files'].items())
+for name, checksum in sorted(pulled.items()):
+    source = root / name
+    assert (name.startswith(base) or name in own_logs) and '..' not in Path(name).parts
+    assert source.is_file() and not source.is_symlink()
+    assert source.suffix in ('.json', '.jsonl', '.txt', '.out', '.err', '.log')
+    assert f.sha(source) == checksum
+    items.append((name, source.read_bytes(), checksum))
+assert len(items) == 20
+folder.mkdir()
+rows = []
+for index, (name, data, checksum) in enumerate(items, 1):
+    destination = folder / f'{index:02d}_{Path(name).name}'
+    with destination.open('xb') as stream:
+        stream.write(data)
+    assert f.sha(destination) == checksum
+    rows.append(dict(original=name, archive=destination.relative_to(root).as_posix(), sha256=checksum, bytes=len(data)))
+receipt = dict(schema='formal_main_v2', kind='immutable_second_object_development_nonweight_archive',
+    archived_utc=datetime.now(timezone.utc).isoformat(), job_id='3021603',
+    pull_receipt=review['pull_receipt'], pull_receipt_sha256=f.sha(root / review['pull_receipt']),
+    root_review=review_path, root_review_sha256=f.sha(root / review_path), files=rows,
+    weights_copied=False, sealed_states_copied=False, scientific_settings_changed=False)
+f.write(folder / 'receipt.json', receipt)
+print(json.dumps(dict(receipt=(folder / 'receipt.json').relative_to(root).as_posix(),
+    sha256=f.sha(folder / 'receipt.json'), files=len(rows), bytes=sum(row['bytes'] for row in rows))))

@@ -23,3 +23,11 @@
 2026-10-18 08:38：第二段已登记并提交`3021603`，同原账本显式resume，新增120、累计目标132/600，首12条不重跑。方法、任务、初态、环境与权重身份不变；下一分段须待实际终态双审。
 
 [v2登记](../results/formal_main_v2/preflight/object_first_pair_development_registration_v2.json)；[root重建及提交](../results/formal_main_v2/preflight/object_first_pair_development_submission_root_v2.json)。
+
+2026-10-18 10:24：第二段`3021603`已通过root与独立复核，新增120、累计132/600条，覆盖22个唯一开发初态。16条达到280步时限而未成功，0运行错误、0重放；2502次策略/视觉/packing调用及19601控制动作，未来头调用0。总分配1787 GPU秒含两段加载及失败任务。该固定前缀不作全套件成功率或未来监督收益结论。
+
+[实际GPU复核](../results/formal_main_v2/downstream_reviews/3021603.json)；[独立审计](../results/formal_main_v2/preflight/object_second_development_real_independent_20261018.json)；[20份完整非权重回存](../results/formal_main_v2/preflight/object_second_development_raw_v2/receipt.json)。
+
+原600条清单的剩余468条已登记并提交`3021844`，同账本显式恢复、原132条不重跑。已观测132条最大单trial尝试耗时19.433788秒，1.5倍余量乘468再加整段首次分配386秒，估计14028.519秒；这是工程估计，不是后续任务耗时上界。保留4小时时限，若未完成则保存前缀并审核后续跑。方法、初态、环境及checkpoint身份不变，不开放最终集。
+
+[v3登记](../results/formal_main_v2/preflight/object_first_pair_development_registration_v3.json)；[root重建及提交](../results/formal_main_v2/preflight/object_first_pair_development_submission_root_v3.json)。

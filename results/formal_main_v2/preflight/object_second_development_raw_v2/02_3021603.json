@@ -1,0 +1,100 @@
+{
+  "adapter_artifacts": [
+    {
+      "bytes": 19562,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.json",
+      "sha256": "0409f71f1017a2b2fac85af32e85a634ec76cfb964b73d318c34224b7a2475f6",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.json"
+    },
+    {
+      "bytes": 7196,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.jsonl",
+      "sha256": "47f42699b62dfc8e927e37a5504bbc5df96e22fb47c1f9bd77071a94ddb21d77",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.jsonl"
+    }
+  ],
+  "adapter_receipts": [
+    {
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.json",
+      "runner_status": "incomplete",
+      "status": "returned"
+    }
+  ],
+  "adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+  "asset_compatibility_artifacts": [
+    {
+      "bytes": 85631,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021603/identity.json",
+      "sha256": "5ee8c88e6e86c228a74042872cfa45f45441de5cde7b708fb286d14b55fb6f00",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/downstream_asset_invocations/3021603/identity.json"
+    },
+    {
+      "bytes": 51449,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021603/events.jsonl",
+      "sha256": "e0c5ba936b8a0aa93937d34555c7bf2b89860d83e11cd5fc3b69288437d2c42a",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/downstream_asset_invocations/3021603/events.jsonl"
+    },
+    {
+      "bytes": 7711,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021603/completion.json",
+      "sha256": "4aee3a53db82a41717ab4982a34cad27ba3fbc45a89ef5253f40c5cde642e690",
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/downstream_asset_invocations/3021603/completion.json"
+    }
+  ],
+  "cost_scope": "Complete Slurm allocation is billed separately, including preflight and every failed attempt",
+  "downstream_asset_compatibility": {
+    "controller": "scripts/ops/formal_downstream_supervisor.py",
+    "entrypoint": "scripts/ops/formal_asset_evaluation_adapter.py",
+    "evaluation_adapter": "scripts/ops/formal_evaluation_adapter.py",
+    "files": {
+      "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+      "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+      "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+      "scripts/ops/formal_asset_evaluation_adapter.py": "5762e163a00845c3404dbee87b724289bd6cef40cbb644cbec668bc4f7dbd688",
+      "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+      "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+      "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+      "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+      "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+      "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+    },
+    "kind": "formal_downstream_asset_compatibility",
+    "legacy_stage_wrappers_executed": false,
+    "metadata_implementation": {
+      "adapter": "scripts/ops/formal_asset_metadata_adapter.py",
+      "files": {
+        "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+        "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+        "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+        "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+        "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+        "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996"
+      },
+      "kind": "asset_metadata_compatibility",
+      "registration": "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json",
+      "schema": "formal_main_v2",
+      "slurm": "scripts/server/formal_asset_main.slurm",
+      "version": "formal-asset-metadata-compat-v1",
+      "wrapper": "scripts/server/run_formal_asset_stage.py"
+    },
+    "schema": "formal_main_v2",
+    "suite": "libero_object",
+    "version": "formal-downstream-assets-v1",
+    "wrapper": "scripts/server/run_formal_downstream.py"
+  },
+  "exit_code": 0,
+  "finished_utc": "2026-10-18T00:55:45.615025+00:00",
+  "invocation_sha256": "21b10a350c3372753f2225bf8503c952a3b48981451b27cbd48fcf528057f544",
+  "job_id": "3021603",
+  "kind": "formal_downstream_job_receipt",
+  "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01",
+  "schema": "formal_main_v2",
+  "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+  "stage": "development",
+  "stage_completed_claimed": false,
+  "stage_key": "libero_object_development_8c843c1d4ee8383c",
+  "started_utc": "2026-10-18T00:32:26.171935+00:00",
+  "status": "returned",
+  "wall_seconds": 1399.4433071501553,
+  "wrapper_sha256": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+}

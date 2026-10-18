@@ -1,0 +1,79 @@
+"""Root records the stable second Object development slice, without new trials."""
+from pathlib import Path
+from datetime import datetime,timezone
+import json,sys
+root=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(root/'scripts'))
+import formal_supervisor as f
+base='results/formal_main_v2/'
+rr=base+'downstream_reviews/3021603.json'
+ir=base+'preflight/object_second_development_real_independent_20261018.json'
+archive=base+'preflight/object_second_development_raw_v2/receipt.json'
+out=base+'preflight/object_second_development_root_integration_20261018.json'
+assert not (root/out).exists()
+r,i=f.read(root/rr),f.read(root/ir)
+assert r['status']==i['status']=='passed' and r['job_id']==i['job_id']=='3021603'
+assert i['root_review_sha256']==f.sha(root/rr)
+for name,checksum in i['read_evidence_sha256'].items():
+    assert f.sha(root/name)==checksum,name
+assert r['completed_trials']==i['completed_trials']==132
+assert i['new_completed_trials']==120 and i['previous_completed_trials']==12
+assert i['unique_observed_development_initial_states']==22 and i['runtime_errors']==0
+assert i['old_prefix_preserved_byte_for_byte'] and i['exact_fixed_prefix_order']
+assert not r['scientific_complete'] and not r['final_state_values_read']
+assert r['cost']['current_gpu_seconds']==1401 and r['cost']['all_attempt_gpu_seconds']==1787
+assert r['asset_runtime_review']['loader_bindings_restored']
+assert r['asset_runtime_review']['source_inputs_unchanged']
+for entry in f.read(root/archive)['files']:
+    assert f.sha(root/entry['archive'])==entry['sha256']
+    assert f.sha(root/entry['original'])==entry['sha256']
+run=base+'libero_object/downstream/development/8c843c1d4ee8383c/attempt01'
+rows=[json.loads(x) for x in (root/run/'trials.jsonl').read_bytes().splitlines()]
+results=[r for r in rows if r['event']=='result']
+assert len(results)==len({x['trial_id'] for x in results})==132
+assert len({x['state_trial_id'] for x in results})==22
+assert all(x['status']=='completed' and x['split']=='development' for x in results)
+calls=sum(x['policy_calls'] for x in results)
+chunks=[c for x in results for c in x['chunks']]
+assert len(chunks)==calls
+assert all(c['metadata'][k]==1 for c in chunks for k in ('policy_calls','vision_calls','packing_calls'))
+assert all(c['metadata']['future_head_calls']==0 for c in chunks)
+failures=sum(not x['success'] for x in results)
+assert failures==i['task_horizon_failures']
+assert all(x['success'] or x['termination']=='task_horizon' and x['control_steps']==280 for x in results)
+with f.supervisor_lock():
+    s=f.read(f.STATE);jobs=f.refresh(s);p=s['formal_main_progress'];d=p['first_object_development']
+    job=next(j for j in jobs if j['job_id']=='3021603')
+    assert job['status']=='COMPLETED' and job['exit_code']=='0:0' and job['elapsed_seconds']*job['gpus']==1401
+    assert d['completed_trials']==12 and p['completed_development_trials']==612
+    assert p['trained_arms']==6 and not p['test_opened'] and not p['global_release_created']
+    assert p['completed_final_trials']==0
+    value=dict(schema='formal_main_v2',kind='root_second_object_development_integration',status='passed',
+        recorded_utc=datetime.now(timezone.utc).isoformat(),job_id='3021603',
+        root_review=rr,independent_review=ir,raw_archive=archive,
+        object_completed_trials=132,object_unique_development_initial_states=22,new_trials=120,
+        completed_development_trials=732,target_object_trials=600,remaining_object_trials=468,
+        runtime_errors=0,task_horizon_failures=failures,
+        policy_calls=calls,control_actions=sum(x['control_steps'] for x in results),future_head_calls=0,
+        prior12_preserved_byte_for_byte=True,current_GPU_seconds=1401,total_Object_GPU_seconds=1787,
+        cost_included_in_global_snapshot_not_additional=True,all_formal_cost_snapshot=s['current_round_cost'],
+        completed_training_arms=6,final_states_opened=False,scientific_settings_changed=False,weights_copied=False,
+        conclusion='Fixed132 of600 trials on22 unique development initial states; no suite-wide success or future-supervision benefit conclusion.',
+        continuation='Preregister completion of the remaining468 original trials with exact resume identity and fresh capacity checks; no rerun of the first132. Review the final600 ledger before counting completion.',
+        evidence_sha256={name:f.sha(root/name) for name in (rr,ir,archive,r['pull_receipt'])})
+    f.write(root/out,value)
+    d.update(status='132_verified_waiting_registered_continuation',completed_trials=132,
+        unique_verified_development_initial_states=22,allocated_GPU_seconds=1787,actual_policy_calls=calls,
+        actual_control_actions=value['control_actions'],runtime_errors=0,task_horizon_failures=failures,
+        active_job_id=None,active_job_status=None,last_verified_job_id='3021603',
+        latest_root_review=rr,latest_root_review_sha256=f.sha(root/rr),latest_independent_review=ir,
+        latest_independent_review_sha256=f.sha(root/ir),latest_raw_archive=archive,next=value['continuation'])
+    assert not any(x['job_id']=='3021603' for x in d['verified_segments'])
+    d['verified_segments'].append(dict(job_id='3021603',new_trials=120,cumulative_trials=132,
+        allocated_GPU_seconds=1401,root_review=rr,independent_review=ir))
+    p['completed_development_trials']=732
+    d['latest_integration']=out;d['latest_integration_sha256']=f.sha(root/out)
+    s['updated_utc']=value['recorded_utc'];f.write(f.STATE,s)
+print(json.dumps(dict(receipt=out,sha256=f.sha(root/out),completed_development_trials=732,
+    object_trials=132,task_horizon_failures=failures,policy_calls=calls,control_actions=value['control_actions'],
+    Object_GPU_seconds=1787,cost=value['all_formal_cost_snapshot'])),flush=True)

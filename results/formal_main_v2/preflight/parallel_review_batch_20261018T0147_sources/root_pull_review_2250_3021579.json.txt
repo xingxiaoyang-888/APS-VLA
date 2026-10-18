@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "job_id": "3021579",
+  "suite": "libero_spatial",
+  "budget": 128,
+  "seed": 41,
+  "boundary": 4000,
+  "root_review": "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3021579.json",
+  "root_sha256": "0598073bd4c529c072676984282ee06364c302e7700727a184c5a63c1d29f749",
+  "pull": "results/formal_main_v2/pulls/20261018T020416Z_62db56593fd4/receipt.json",
+  "pull_sha256": "94bf28a8f6ca485d60a2ea74c75d63f1077cd1323e707947ba7c13b6566a237c",
+  "pair_gpu_seconds": 30584,
+  "latest_gpu_seconds": 3361,
+  "histories": [
+    "3012326",
+    "3012524",
+    "3016709",
+    "3017853",
+    "3019108",
+    "3020306",
+    "3021094",
+    "3021579"
+  ],
+  "allowed_next": 4500,
+  "operations": [
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/pull_formal_results.py",
+        "--job-id",
+        "3012326",
+        "--job-id",
+        "3012524",
+        "--job-id",
+        "3016709",
+        "--job-id",
+        "3017853",
+        "--job-id",
+        "3019108",
+        "--job-id",
+        "3020306",
+        "--job-id",
+        "3021094",
+        "--job-id",
+        "3021579"
+      ],
+      "started_utc": "2026-10-18T02:04:15.872068+00:00",
+      "exit_code": 0,
+      "stdout": "{\"status\": \"verified_nonweight_snapshot\", \"files\": 80, \"skipped_jobs\": [], \"receipt\": \"F:\\\\CTI-VLA\\\\results\\\\formal_main_v2\\\\pulls\\\\20261018T020416Z_62db56593fd4\\\\receipt.json\", \"weights_copied\": false, \"scientific_completion_inferred\": false}\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "-B",
+        "scripts/review_formal_segment.py",
+        "--job-id",
+        "3021579",
+        "--source-inventory",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "--pull-receipt",
+        "results/formal_main_v2/pulls/20261018T020416Z_62db56593fd4/receipt.json",
+        "--verify-server-resume"
+      ],
+      "started_utc": "2026-10-18T02:04:27.455043+00:00",
+      "exit_code": 0,
+      "stdout": "{\r\n  \"status\": \"passed\",\r\n  \"job_id\": \"3021579\",\r\n  \"completed_by_arm\": {\r\n    \"A\": 4000,\r\n    \"B\": 4000\r\n  },\r\n  \"allowed_next_segment_end\": 4500,\r\n  \"continuation\": \"advance_one_registered_boundary\",\r\n  \"server_resume_checklist\": [\r\n    {\r\n      \"arm\": \"A\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k128/seed41/A/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"b682abc8a643aea7cbc4e2c929b4ef7661390aef8e8b5d314a017c65e3acc72f\"\r\n    },\r\n    {\r\n      \"arm\": \"B\",\r\n      \"path\": \"/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k128/seed41/B/resume.pt\",\r\n      \"must_exist\": true,\r\n      \"sha256\": \"461f308d9bca90fe4e1dfd6df77d04aaafa4e533f7c026c8f54d18b004165977\"\r\n    }\r\n  ],\r\n  \"pair_allocated_gpu_seconds\": 30584\r\n}\r\n",
+      "stderr": ""
+    }
+  ]
+}
