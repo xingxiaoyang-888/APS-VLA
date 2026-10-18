@@ -1,0 +1,81 @@
+"""Preserve the bounded transport repair and update the operational hold."""
+from pathlib import Path
+from datetime import datetime, timezone
+import argparse, hashlib, json, sys
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
+import formal_supervisor as f
+BASE='results/formal_main_v2/'
+CAND='.local/action_execution_gpu_dispatch_transport_v2_0626/'
+ap=argparse.ArgumentParser();ap.add_argument('--independent-review',required=True);args=ap.parse_args()
+
+def sha(name):return hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+def read(name):return json.loads((ROOT/name).read_bytes())
+def copy_new(source,target):
+    p=ROOT/target;p.parent.mkdir(parents=True,exist_ok=True)
+    with p.open('xb') as stream:stream.write((ROOT/source).read_bytes())
+    assert sha(source)==sha(target)
+def ref(name):return dict(path=name,sha256=sha(name))
+
+author=read(CAND+'candidate_review.json')
+assert sha(CAND+'candidate_review.json')=='b0fe373431ea5d29d4972ad5e450a907010429775336d3862a7e1d4a64c494d3'
+assert author['status']=='passed_bounded_CPU_transport_candidate_pending_independent_review_new_registration_and_GPU'
+ind=read(args.independent_review)
+assert sha(args.independent_review)=='055eac643e5c33b30f24f9a5604aa646fb79be14e481ae69438c641a7c54d014'
+assert ind['status']=='passed_bounded_CPU_transport_candidate_review_pending_root_registration_and_GPU'
+assert ind['independent_findings']['blockers']==[]
+assert ind['tests']['passed']==12 and ind['tests']['failures']==ind['tests']['errors']==ind['tests']['skipped']==0
+evidence={}
+def include(name,want=None):
+    actual=sha(name);assert want is None or want==actual,name
+    assert name not in evidence or evidence[name]==actual,name
+    evidence[name]=actual
+for name,receipt in ((CAND+'candidate_review.json',author),(args.independent_review,ind)):
+    include(name)
+    for key in ('read_evidence_sha256','evidence_sha256'):
+        for path,digest in receipt.get(key,{}).items():include(path,digest)
+out=BASE+'engineering/formal_main_v2_action_execution_compat_gpu_v2/source/'
+for name,digest in author['source_files_sha256'].items():
+    include(CAND+name,digest);copy_new(CAND+name,out+name);include(out+name,digest)
+for source,dest in ((CAND+'candidate_review.json',BASE+'preflight/action_execution_transport_v2_author_0626.json'),
+                    (args.independent_review,BASE+'preflight/action_execution_transport_v2_independent_0626.json')):
+    copy_new(source,dest);include(dest)
+for name in (BASE+'preflight/action_execution_gpu_submission_0626.json',
+        BASE+'preflight/action_execution_gpu_dispatch_absence_0626.json',
+        BASE+'preflight/long64_seed41_terminal_pull_failure_0626.json',
+        '.local/submit_action_gpu_available_0626.py','.local/fill_fresh_object_pair_0626.py',
+        '.local/publish_action_transport_v2_0626.py'):
+    include(name)
+failed=read(BASE+'preflight/action_execution_gpu_submission_0626.json')
+assert failed['exit_code']==1 and failed['result'] is None and 'WinError 206' in failed['stderr']
+absent=read(BASE+'preflight/action_execution_gpu_dispatch_absence_0626.json')
+assert absent['status']=='confirmed_no_v1_remote_publication_or_invocation'
+assert all(v==dict(exists=False,is_symlink=False) for v in absent['paths'].values())
+now=datetime.now(timezone.utc).isoformat()
+name=BASE+'preflight/action_execution_transport_v2_CPU_root_0626.json'
+assert not (ROOT/name).exists()
+value=dict(schema='formal_main_v2',kind='root_bounded_transport_repair_candidate_review',
+    status='CPU_transport_reviewed_new_typed_GPU_registration_pending',reviewed_utc=now,
+    author_review=ref(BASE+'preflight/action_execution_transport_v2_author_0626.json'),
+    independent_review=ref(BASE+'preflight/action_execution_transport_v2_independent_0626.json'),
+    failed_v1_attempt=ref(BASE+'preflight/action_execution_gpu_submission_0626.json'),
+    no_remote_publication_proof=ref(BASE+'preflight/action_execution_gpu_dispatch_absence_0626.json'),
+    candidate_files={n:ref(out+n) for n in author['source_files_sha256']},
+    actual_Windows_author_tests=author['test_run'],
+    required_next='Create new typed candidate/root CPU evidence and v2 GPU registration binding these exact bytes, then --check-only and free-slot one-shot submission. Original v1 receipts remain unchanged. Actual16cell GPU acceptance and root/independent raw review remain pending.',
+    GPU_submitted=False,GPU_seconds=0,scientific_trials=0,scientific_settings_changed=False,
+    old_v1_bytes_changed=False,source173_changed=False,final_states_opened=False,
+    new_scientific_rollouts_held=True,training_continues=True,evidence_sha256=evidence)
+f.write(ROOT/name,value)
+with f.supervisor_lock():
+    state=f.read(f.STATE);issue=state['formal_main_progress']['downstream_action_range_issue']
+    assert state['pending_submission'] is None
+    assert not any(j.get('stage_key','').startswith('formal_main_v2_action_execution_compat_gpu_v') for j in state['registered_jobs'])
+    issue.update(status='v1_dispatch_blocked_Windows_argv_v2_CPU_transport_reviewed_registration_pending',
+        GPU_acceptance_job_id=None,GPU_acceptance_dispatch_failure=ref(BASE+'preflight/action_execution_gpu_submission_0626.json'),
+        transport_repair_CPU_review=ref(name),new_rollouts_held=True,training_continues=True,
+        next=value['required_next'])
+    state['next_actions'][0]=value['required_next'];state['updated_utc']=now;f.write(f.STATE,state)
+doc=ROOT/'docs/正式动作执行GPU验收登记.md'
+doc.write_text(doc.read_text(encoding='utf-8')+'\n\n2026-10-18 16时更新：v1首次提交在传输清单前触发Windows命令长度限制，无上传、pending或GPU作业；实际服务器缺省路径复核已留证。v2改用stdin传输并使用独立工程命名空间，CPU作者与独立检查通过；新typed CPU登记链及真实GPU验收仍待完成。原v1与全部科学配置保留，训练继续。\n',encoding='utf-8',newline='\n')
+print(json.dumps(dict(path=name,sha256=sha(name),evidence=len(evidence),GPU_submitted=False)))

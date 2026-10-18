@@ -1,0 +1,68 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "exact_fixed_diff_delivery_guard_static_patch_review",
+  "status": "passed_static_candidate_pending_root_pinned_archive_check",
+  "reviewed_utc": "2026-10-18T08:09:38.179845+00:00",
+  "scope": "Only the new unexecuted 0626final stage helper was patched. Original helper bytes were preserved. No stage main, Git, pinned archive checker, SSH, scientific job or shared state was executed or modified.",
+  "source": {
+    "path": ".local/action_execution_gpu_dispatch_transport_v2_0626/v1_to_v2.diff",
+    "sha256": "6c5f4cbcfb14dd8c5a301b5ffefb8d0364309f569712463edde1474ff1dd37f7",
+    "bytes": 2314,
+    "exact_line_number": 44,
+    "exact_line_bytes_hex": "20"
+  },
+  "before_guard": {
+    "path": ".local/stage_verify_parallel_0626final_before_format.py.txt",
+    "sha256": "29f1c905eeed3b352c0c90b3a66086c05b41722e81fb58514eb7cf33bc0b32c0"
+  },
+  "candidate_guard": {
+    "path": ".local/stage_verify_parallel_0626final_candidate.py",
+    "sha256": "6a42d3ba9c532216f4f4342a3c6c4798236a8b01785d85cd7ae38ade2b047c55"
+  },
+  "reproducible_patch": {
+    "path": ".local/patch_long_completion_format_0626.py",
+    "sha256": "e73e36f10d273d7f3fcfd80b6eb87e418c4173a91ea1347a82fd975fd65be305",
+    "instruction": "After deriving the original helper with prepare_long_completion_delivery_0626.py, this independent patch script requires the exact original SHA and writes its preserved backup plus the patched candidate. It was applied once to the current candidate; it must not be rerun over an already patched file."
+  },
+  "exact_diff": {
+    "path": ".local/stage_verify_parallel_0626final_format_diff.json",
+    "sha256": "5cc9815cf50df7d85a565479154b010704c905d6da4ff99614f67442d239faa3",
+    "encoding": "JSON escaped unified_diff_lines; no normalization of the original raw v1_to_v2.diff."
+  },
+  "static_checks": {
+    "AST_parses": true,
+    "all_other_top_level_functions_identical": 10,
+    "unique_batch_source_archive_required": true,
+    "local_archive_and_index_bytes_must_equal_fixed_SHA": true,
+    "exact_git_check_stdout_suffix": ":44: trailing whitespace.\n+ \n",
+    "exact_git_check_returncode": 2,
+    "exact_git_check_stderr": "",
+    "all_other_paths_require_exit0_and_empty_output": true,
+    "before_and_after_proof_checks_required": true,
+    "proof_records_exact_format_findings": true,
+    "original_pinned_codec_and_checker_unchanged": true,
+    "finalizer_unchanged": true,
+    "generator_unchanged": true,
+    "no_additional_format_exceptions": true,
+    "scientific_settings_changed": false
+  },
+  "actual_pinned_archive_check_completed": false,
+  "actual_Git_index_verified": false,
+  "stage_main_executed": false,
+  "Git_executed": false,
+  "ssh_used": false,
+  "GPU_seconds": 0,
+  "GPU_submitted": false,
+  "final_states_opened": false,
+  "evidence_sha256": {
+    ".local/stage_verify_parallel_0626final_before_format.py.txt": "29f1c905eeed3b352c0c90b3a66086c05b41722e81fb58514eb7cf33bc0b32c0",
+    ".local/patch_long_completion_format_0626.py": "e73e36f10d273d7f3fcfd80b6eb87e418c4173a91ea1347a82fd975fd65be305",
+    ".local/stage_verify_parallel_0626final_candidate.py": "6a42d3ba9c532216f4f4342a3c6c4798236a8b01785d85cd7ae38ade2b047c55",
+    ".local/stage_verify_parallel_0626final_format_diff.json": "5cc9815cf50df7d85a565479154b010704c905d6da4ff99614f67442d239faa3",
+    ".local/action_execution_gpu_dispatch_transport_v2_0626/v1_to_v2.diff": "6c5f4cbcfb14dd8c5a301b5ffefb8d0364309f569712463edde1474ff1dd37f7",
+    ".local/finalize_parallel_review_20261018T0626final.py": "9d9346387c3080eb4d6c9496c3c43ff0b168434562489ff4254a7e466daa70f0",
+    ".local/prepare_long_completion_delivery_0626.py": "bb92e3778d1460eed3cd911407a3350caba48b484e2e6b57b0f5fe0b37b47ef7",
+    "scripts/ops/nonweight_archive.py": "f81284b3c56fbfd1cce339c4ea98b20943c8cd0866b4e8b94c38ac3cdbd1e3c2",
+    "scripts/ops/check_nonweight_archive_stage.py": "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6"
+  }
+}

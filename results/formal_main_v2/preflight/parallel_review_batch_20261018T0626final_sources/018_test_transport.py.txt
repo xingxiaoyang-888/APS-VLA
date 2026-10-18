@@ -1,0 +1,182 @@
+"""Real Windows pipe/argv regression with local Python only; never SSH or Slurm."""
+from __future__ import annotations
+
+import ast
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import shlex
+import subprocess
+import sys
+from types import SimpleNamespace
+
+import pytest
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent.parent
+V1 = ROOT / 'results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v1/source'
+OLD_STAGE = 'formal_main_v2_action_execution_compat_gpu_v1'
+NEW_STAGE = 'formal_main_v2_action_execution_compat_gpu_v2'
+
+
+def load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    value = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(value)
+    return value
+
+
+new = load('transport_v2', HERE / 'submit.py')
+old = load('transport_v1', V1 / 'submit.py')
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def script_node(text, name):
+    return next(node for node in ast.parse(text).body if isinstance(node, ast.FunctionDef) and node.name == name)
+
+
+def test_exact_source_delta_and_new_namespace():
+    before = (V1 / 'submit.py').read_text(encoding='utf-8')
+    after = (HERE / 'submit.py').read_text(encoding='utf-8')
+    old_call = "    value = json.loads(f.remote(shlex.quote(c.H + '/venv/bin/python') + ' -c ' + shlex.quote(script)))\n"
+    new_call = "    # Send the potentially large source/path payload through stdin, not Windows argv.\n    command = shlex.quote(c.H + '/venv/bin/python') + ' -B -'\n    value = json.loads(subprocess.check_output(f.SSH + [command], input=script,\n        text=True, encoding='utf-8'))\n"
+    assert before.count(old_call) == 2
+    assert after == before.replace(old_call, new_call, 1)
+    before_tree, after_tree = ast.parse(before), ast.parse(after)
+    before_tree.body = [n for n in before_tree.body if not isinstance(n, ast.FunctionDef) or n.name != 'remote_hashes']
+    after_tree.body = [n for n in after_tree.body if not isinstance(n, ast.FunctionDef) or n.name != 'remote_hashes']
+    assert ast.dump(before_tree) == ast.dump(after_tree)
+    old_launcher = (V1 / 'launcher.py').read_text(encoding='utf-8')
+    assert (HERE / 'launcher.py').read_text(encoding='utf-8') == old_launcher.replace(OLD_STAGE, NEW_STAGE).replace(
+        'root-action-execution-engineering-dispatch-v1', 'root-action-execution-engineering-dispatch-v2-stdin')
+    assert (HERE / 'probe.slurm').read_text(encoding='utf-8') == (V1 / 'probe.slurm').read_text(encoding='utf-8').replace(OLD_STAGE, NEW_STAGE)
+    assert new.c.STAGE == NEW_STAGE and NEW_STAGE in new.c.OUT and NEW_STAGE in new.c.INVOCATION
+    for name in ['ENTRY', 'LAUNCHER', 'WRAPPER', 'SUBMITTER']:
+        assert NEW_STAGE in getattr(new.c, name)
+    assert new.c.DISPATCH['engineering_cells'] == 16 and new.c.DISPATCH['wall_limit_seconds'] == 3600
+    assert new.c.DISPATCH['maximum_attempts'] == 1 and new.c.DISPATCH['scientific_trials'] == 0
+
+
+def test_probe_only_one_engineering_constant_manifest_and_selection_identical():
+    original = (V1 / 'probe.py').read_bytes()
+    assert digest(V1 / 'probe.py') == '5b08c59fa44cbca6d07afd4334c2a07dbe7a8bad7f7e69ba64b82b29cd954ebf'
+    needle = ('GPU_VERSION = "' + OLD_STAGE + '"').encode()
+    assert original.count(needle) == 1
+    assert (HERE / 'probe.py').read_bytes() == original.replace(needle, ('GPU_VERSION = "' + NEW_STAGE + '"').encode())
+    assert (HERE / 'candidate_manifest.json').read_bytes() == (V1 / 'candidate_manifest.json').read_bytes()
+    template = json.loads((HERE / 'gpu_registration.template.json').read_bytes())
+    assert template['gpu_submission_authorized'] is False and template['status'].startswith('pending_')
+    assert template['version'] == NEW_STAGE and NEW_STAGE in template['output_root']
+    assert template['entrypoint']['sha256'] == digest(HERE / 'probe.py')
+    assert template['limits'] == new.c.LIMITS
+
+
+@pytest.mark.skipif(os.name != 'nt', reason='This evidence must be reproduced by actual Windows CreateProcess.')
+def test_actual_windows_large_argv_rejected_stdin_complete_293_keys(tmp_path):
+    # Local shim stands in only for SSH transport. It executes the exact supplied
+    # remote hash script in a real second Python process, with no network calls.
+    shim = tmp_path / 'local_pipe_shim.py'
+    shim.write_text("import shlex,sys\nparts=shlex.split(sys.argv[1])\n"
+        "assert parts[0].endswith('/venv/bin/python')\n"
+        "assert parts[1:]==['-B','-']\n"
+        "source=sys.stdin.read()\nexec(compile(source,'<transported-hash-script>','exec'))\n", encoding='utf-8')
+    names, expected = [], {}
+    for index in range(293):
+        # Individual paths remain ordinary local paths, while the combined argv
+        # exceeds Windows' 32767-character command-line limit.
+        filename = f'{index:03d}_' + ('synthetic_metadata_' * 3) + ("space quote ' 中文.json" if index == 0 else '.json')
+        path = tmp_path / filename
+        if index != 292:
+            path.write_bytes(json.dumps({'synthetic': index, 'no_model_or_state': True}).encode())
+        name = str(path.resolve())
+        names.append(name)
+        expected[name] = digest(path) if path.is_file() else None
+    prefix = [sys.executable, '-B', str(shim)]
+    seen = {}
+    def old_remote(command):
+        argv = prefix + [command]
+        seen['old_windows_commandline_characters'] = len(subprocess.list2cmdline(argv))
+        return subprocess.check_output(argv, text=True, encoding='utf-8')
+    with pytest.raises(OSError) as error:
+        old.remote_hashes(SimpleNamespace(remote=old_remote), names)
+    assert error.value.winerror == 206 and seen['old_windows_commandline_characters'] > 32767
+    # Production v2 remote_hashes runs unchanged; only f.SSH names a local shim.
+    got = new.remote_hashes(SimpleNamespace(SSH=prefix), names)
+    assert got == expected and len(got) == 293 and got[names[-1]] is None
+    command = shlex.quote(new.c.H + '/venv/bin/python') + ' -B -'
+    seen.update(new_windows_commandline_characters=len(subprocess.list2cmdline(prefix + [command])),
+        windows_error=error.value.winerror, exact_returned_keys=293, existing_files=292, missing_files=1,
+        unicode_space_quote_roundtrip=True, actual_local_python_subprocess=True, SSH_calls=0, GPU_calls=0)
+    assert seen['new_windows_commandline_characters'] < 1024
+    (tmp_path / 'windows_transport_metrics.json').write_text(json.dumps(seen, indent=2) + '\n', encoding='utf-8')
+
+
+@pytest.mark.parametrize('reply,exception', [
+    ('{}', ValueError), ('{"extra":null}', ValueError), ('{"wanted":"bad-sha"}', ValueError),
+    ('{"wanted":42}', ValueError), ('not-json', json.JSONDecodeError), ('[]', ValueError)])
+def test_reply_contract_unchanged_with_actual_local_process(reply, exception):
+    prefix = [sys.executable, '-B', '-c', 'import sys;sys.stdout.write(' + repr(reply) + ')']
+    with pytest.raises(exception):
+        new.remote_hashes(SimpleNamespace(SSH=prefix), ['wanted'])
+
+
+def test_nonzero_transport_failure_is_not_converted_to_missing_evidence():
+    prefix = [sys.executable, '-B', '-c', 'import sys;sys.stderr.write("synthetic transport failure");sys.exit(23)']
+    with pytest.raises(subprocess.CalledProcessError) as error:
+        new.remote_hashes(SimpleNamespace(SSH=prefix), ['wanted'])
+    assert error.value.returncode == 23
+
+
+def test_other_current_293_path_operations_have_bounded_arguments(tmp_path, monkeypatch):
+    root_path = ROOT / 'results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json'
+    assert digest(root_path) == '919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b'
+    registration_path = ROOT / 'configs/experiments/formal_main_v2_action_execution_compat_gpu_v1.json'
+    assert digest(registration_path) == 'c36906c1ff310229c92d09fb3b89e467cec03ef5ead4de1d05a478777b889672'
+    receipt = json.loads(root_path.read_bytes())
+    paths = [row['server'] for row in receipt['deployment_files']]
+    paths += [old.c.P + '/' + root_path.relative_to(ROOT).as_posix(), old.c.P + '/' + registration_path.relative_to(ROOT).as_posix()]
+    assert len(paths) == len(set(paths)) == 293
+    # No remote invocation or publication: only collect the real bounded command
+    # strings emitted by unchanged single-path operations.
+    commands = []
+    f = SimpleNamespace(SSH=['ssh', '-o', 'BatchMode=yes', 'tongji-cvpr'])
+    def remote(command):
+        commands.append(f.SSH + [command])
+        return json.dumps({'invocation_exists': False, 'unexpected_entries': []})
+    f.remote = remote
+    def scp(argv, **kwargs):
+        assert argv[0] == 'scp'
+        commands.append(argv)
+        return SimpleNamespace(returncode=0)
+    monkeypatch.setattr(new.subprocess, 'run', scp)
+    new.remote_attempt_absent(f)
+    for server in paths:
+        new.publish_missing(f, tmp_path / 'synthetic_metadata.json', server, '0' * 64)
+    invocation = new.c.P + '/' + new.c.INVOCATION
+    export = 'ALL,INVOCATION=' + invocation + ',INVOCATION_SHA256=' + '0' * 64 + ',WRAPPER_SHA256=' + '0' * 64
+    sbatch = 'cd ' + shlex.quote(new.c.P) + ' && sbatch --parsable --export=' + shlex.quote(export) + ' ' + shlex.quote(new.c.P + '/' + new.c.WRAPPER)
+    commands.append(f.SSH + [sbatch])
+    sizes = [len(subprocess.list2cmdline(argv)) for argv in commands]
+    assert len(commands) == 1 + 293 * 3 + 1
+    assert max(sizes) < 4096
+    (tmp_path / 'other_transport_lengths.json').write_text(json.dumps(dict(
+        current_metadata_paths=293, inspected_commands=len(commands), maximum_windows_commandline_characters=max(sizes),
+        no_transport_executed=True), indent=2) + '\n', encoding='utf-8')
+
+
+def test_original_failure_preserved_and_prior_transaction_order_unchanged():
+    original = ROOT / 'results/formal_main_v2/preflight/action_execution_gpu_submission_0626.json'
+    assert digest(original) == '9e18b0149bed9eb2b95ef194b4f25a323c2691a0e8dcc4f5e13c4d858003a2e2'
+    assert (HERE / 'observed_submission_failure_v1.json').read_bytes() == original.read_bytes()
+    failure = json.loads(original.read_bytes())
+    assert failure['exit_code'] == 1 and 'WinError 206' in failure['stderr'] and 'remote_hashes' in failure['stderr']
+    before, after = (V1 / 'submit.py').read_text(encoding='utf-8'), (HERE / 'submit.py').read_text(encoding='utf-8')
+    assert ast.dump(script_node(before, 'execute_submit')) == ast.dump(script_node(after, 'execute_submit'))
+    body = ast.get_source_segment(after, script_node(after, 'execute_submit'))
+    assert body.index('observed = remote_hashes') < body.index('publish_missing(') < body.index("state['pending_submission'] =") < body.index('sbatch --parsable')
+    assert 'Unknown sbatch outcome; pending preserved, no retry' in body

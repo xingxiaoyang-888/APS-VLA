@@ -1,0 +1,41 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_registered_engineering_submission_attempt",
+  "started_utc": "2026-10-18T07:54:09.895676+00:00",
+  "finished_utc": "2026-10-18T07:54:14.540952+00:00",
+  "command": [
+    "python",
+    "-B",
+    "F:\\CTI-VLA\\results\\formal_main_v2\\engineering\\formal_main_v2_action_execution_compat_gpu_v1\\source\\submit.py",
+    "--project-root",
+    "F:\\CTI-VLA",
+    "--root-review",
+    "results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json",
+    "--root-review-sha256",
+    "919231cbdb3c7b570ab8508d9b8c64d8a7393cffc1febfe1c09d59da9d2e1a9b",
+    "--manifest",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v1/source/candidate_manifest.json",
+    "--manifest-sha256",
+    "12b359cd6dfb261a5c5cb5c3876b06a556d18f23cece5e803cebe840751c8b04",
+    "--gpu-registration",
+    "configs/experiments/formal_main_v2_action_execution_compat_gpu_v1.json",
+    "--gpu-registration-sha256",
+    "c36906c1ff310229c92d09fb3b89e467cec03ef5ead4de1d05a478777b889672",
+    "--submit"
+  ],
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\r\n  File \"F:\\CTI-VLA\\results\\formal_main_v2\\engineering\\formal_main_v2_action_execution_compat_gpu_v1\\source\\submit.py\", line 219, in <module>\r\n    main()\r\n  File \"F:\\CTI-VLA\\results\\formal_main_v2\\engineering\\formal_main_v2_action_execution_compat_gpu_v1\\source\\submit.py\", line 215, in main\r\n    print(json.dumps(execute_submit(project, checked, refs, f)), flush=True)\r\n  File \"F:\\CTI-VLA\\results\\formal_main_v2\\engineering\\formal_main_v2_action_execution_compat_gpu_v1\\source\\submit.py\", line 132, in execute_submit\r\n    observed = remote_hashes(f, watched)\r\n  File \"F:\\CTI-VLA\\results\\formal_main_v2\\engineering\\formal_main_v2_action_execution_compat_gpu_v1\\source\\submit.py\", line 64, in remote_hashes\r\n    value = json.loads(f.remote(shlex.quote(c.H + '/venv/bin/python') + ' -c ' + shlex.quote(script)))\r\n  File \"F:\\CTI-VLA\\scripts\\formal_supervisor.py\", line 34, in remote\r\n    def remote(command):return subprocess.check_output(SSH+[command],text=True,encoding='utf-8')\r\n  File \"C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\lib\\subprocess.py\", line 421, in check_output\r\n    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,\r\n  File \"C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\lib\\subprocess.py\", line 503, in run\r\n    with Popen(*popenargs, **kwargs) as process:\r\n  File \"C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\lib\\subprocess.py\", line 971, in __init__\r\n    self._execute_child(args, executable, preexec_fn, close_fds,\r\n  File \"C:\\Users\\augus\\AppData\\Local\\Programs\\Python\\Python310\\lib\\subprocess.py\", line 1456, in _execute_child\r\n    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,\r\nFileNotFoundError: [WinError 206] \u6587\u4ef6\u540d\u6216\u6269\u5c55\u540d\u592a\u957f\u3002\r\n",
+  "result": null,
+  "previous_capacity_check": {
+    "path": "results/formal_main_v2/preflight/action_execution_gpu_capacity_check_0626.json",
+    "sha256": "2783c0122e08a97aa23e4935834defc2589ca6b8294266eeebdd34e96994b38c"
+  },
+  "helper": {
+    "path": ".local/submit_action_gpu_available_0626.py",
+    "sha256": "fd83383e177731f08b207fbd99f87582c01acd7e7c8edbe3da4accd3bf778bf9"
+  },
+  "automatic_retry": false,
+  "scientific_release": false,
+  "final_states_opened": false
+}

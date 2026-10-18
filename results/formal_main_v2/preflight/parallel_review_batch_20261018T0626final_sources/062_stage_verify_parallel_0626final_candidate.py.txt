@@ -1,0 +1,473 @@
+"""Candidate only: root may execute after the immutable 0626final batch exists.
+
+Retain the pinned archive delivery guard. Expand only the current terminal pulls;
+historical receipts remain exact-byte dependencies, not aliases for later logs.
+The sole historical source alias is pinned to the accepted 0318 CRLF archive.
+This script stages files when explicitly executed. It never commits or submits.
+"""
+from pathlib import Path, PurePosixPath
+from datetime import datetime, timezone
+import hashlib
+import json
+import subprocess
+import sys
+
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = "results/formal_main_v2/"
+BATCH_NAME = BASE + "preflight/parallel_review_batch_20261018T0626final.json"
+REQUIRED_NAME = BASE + "preflight/parallel_review_batch_20261018T0626final_git_required.json"
+PROOF_NAME = BASE + "preflight/parallel_review_batch_20261018T0626final_git_delivery.json"
+PARENT = "366258a00906abd41470464eae2ecdd396ad217a"
+SOURCE_SHA = "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e"
+BASIS_NAME = ".local/stage_verify_parallel_0318.py"
+BASIS_SHA = "2ea0ef588fec78561d3fd4f08df2530b1171cc812402fb61143a5ba9bfcc5f61"
+SNAPSHOT_NAME = BASE + "nonweight_archives/v1/snapshots/long_dev600_20261018.json"
+SNAPSHOT_SHA = "ac7e4dce68abeddb147dd412f83afffbc5041715868547d6f60811e5fca137f0"
+PINS = {
+    "scripts/ops/nonweight_archive.py":
+        "f81284b3c56fbfd1cce339c4ea98b20943c8cd0866b4e8b94c38ac3cdbd1e3c2",
+    "scripts/ops/check_nonweight_archive_stage.py":
+        "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6",
+}
+PANEL_PINS = {
+    "configs/manifests/formal_main_v2/libero_spatial/initial_states/development.json": "07718b648bfb767472506c48b0ef1837a5e6af992c2460e7567c275064809c91",
+    "configs/manifests/formal_main_v2/libero_object/initial_states/development.json": "6b7e6dd9fb5b6351ee47c7bb30eab911e7c144d700cd88f7e5162641738b2d6a",
+    "configs/manifests/formal_main_v2/libero_10/initial_states/development.json": "46a06087483151e36198167e7d4e5313c50b63172e09128d65a3650112f0a268",
+    "configs/manifests/formal_main_v2/libero_goal/initial_states/development.json": "ce8e3d31ab8f7616c87dd4d4031af41825713907ac184c6ea5b01d9040985aa9",
+}
+PANEL_PROOFS = {
+    path: BASE + "preflight/" + suite + "_existing_development_panel_index_20261018T0626final.json"
+    for path, suite in zip(PANEL_PINS, ("spatial", "object", "long", "goal"))
+}
+EXPECTED_BOUNDARIES = {"3025000": ("libero_10", 64, 23, 5000), "3025005": ("libero_10", 256, 23, 5000), "3024991": ("libero_10", 64, 41, 5000), "3025017": ("libero_10", 256, 41, 5000)}
+SELF_NAME = ".local/stage_verify_parallel_0626final_candidate.py"
+FORMAT_DIFF_SOURCE = ".local/action_execution_gpu_dispatch_transport_v2_0626/v1_to_v2.diff"
+FORMAT_DIFF_SHA = "6c5f4cbcfb14dd8c5a301b5ffefb8d0364309f569712463edde1474ff1dd37f7"
+FORMAT_DIFF_ARCHIVE_PREFIX = BASE + "preflight/parallel_review_batch_20261018T0626final_sources/"
+SOURCE_VERSION_NAME = BASE + "preflight/parallel_git_source_version_resolution_0318.json"
+SOURCE_VERSION_SHA = "6dd0122709396ea6151c7726656299d1393a89062c06483ff3c2b9bcf9a8b3a2"
+PRIOR_DELIVERY_NAME = BASE + "preflight/parallel_review_batch_20261018T0318_git_delivery_v2.json"
+PRIOR_DELIVERY_SHA = "e8a812d5bf4a3df4ae7240e7d3fc273592d58b02effd88daece7b46d276195fd"
+CANONICAL_SOURCE = dict(path="configs/assets/runtime_sources.json", bytes=663,
+                        sha256="4e699692dfbee08c2b41a0997ce8225ac07df429eb30c03e4baf12bf23c27c5f")
+HISTORICAL_SOURCE = dict(path=CANONICAL_SOURCE["path"], bytes=682,
+                         sha256="2dd246313eb56cb799d01fd097ff9608a56b8fa26255fe2a876d0fb0eac5ad07")
+HISTORICAL_ARCHIVE = dict(path=BASE + "preflight/parallel_git_failure_0318/runtime_sources_original_crlf.json",
+                          bytes=HISTORICAL_SOURCE["bytes"], sha256=HISTORICAL_SOURCE["sha256"])
+TERMINAL = {
+    "COMPLETED", "FAILED", "CANCELLED", "TIMEOUT", "OUT_OF_MEMORY",
+    "NODE_FAIL", "PREEMPTED", "BOOT_FAIL", "DEADLINE", "REVOKED",
+}
+DENIED_SUFFIXES = {
+    ".pt", ".pth", ".bin", ".safetensors", ".ckpt", ".npy", ".npz",
+    ".pkl", ".pickle", ".h5", ".hdf5",
+}
+DENIED_STATE_STEMS = ("init_state", "initial_state", "final_state", "test_state")
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def git(*args):
+    return subprocess.check_output(["git", *args], cwd=ROOT)
+
+
+def safe_name(name, active_panels=()):
+    """Reject sealed/weight aliases lexically before any payload IO."""
+    assert isinstance(name, str) and name and "\\" not in name and ":" not in name, name
+    pure = PurePosixPath(name)
+    assert not pure.is_absolute() and pure.as_posix() == name, name
+    assert all(part not in ("", ".", "..") for part in pure.parts), name
+    low = tuple(part.lower() for part in pure.parts)
+    assert "test" not in low and not any("sealed" in part for part in low), name
+    assert "weights" not in low and "checkpoints" not in low, name
+    assert pure.suffix.lower() not in DENIED_SUFFIXES, name
+    assert not (pure.name.lower() == "panel.json" and "final" in low), name
+    scientific_py = pure.suffix == ".py" and pure.parts[0] in ("src", "scripts", "tests")
+    state_name = any(stem in part for stem in DENIED_STATE_STEMS for part in low)
+    assert not state_name or scientific_py or name in active_panels, name
+    if name in active_panels:
+        assert name in PANEL_PINS, name
+    return pure
+
+
+def ref(name, active_panels=()):
+    safe_name(name, active_panels)
+    path = ROOT / name
+    assert path.is_file() and not path.is_symlink(), name
+    for parent in path.parents:
+        if parent == ROOT:
+            break
+        assert not parent.is_symlink(), name
+    data = path.read_bytes()
+    return dict(path=name, sha256=sha(data), bytes=len(data))
+
+
+def read_json(name, expected_sha=None, active_panels=()):
+    row = ref(name, active_panels)
+    if expected_sha is not None:
+        assert row["sha256"] == expected_sha, name
+    data = (ROOT / name).read_bytes()
+    assert sha(data) == row["sha256"], name
+    return json.loads(data)
+
+
+def write_new(name, value):
+    payload = (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    with (ROOT / name).open("xb") as stream:
+        stream.write(payload)
+    return payload
+
+
+def validate_boundary_rows(rows):
+    assert isinstance(rows, list) and len(rows) == len(EXPECTED_BOUNDARIES)
+    assert {row["job_id"] for row in rows} == set(EXPECTED_BOUNDARIES)
+    assert len({(row["suite"], row["budget"], row["seed"]) for row in rows}) == 4
+    for row in rows:
+        actual = (row["suite"], row["budget"], row["seed"], row["boundary"])
+        assert actual == EXPECTED_BOUNDARIES[row["job_id"]], row["job_id"]
+        assert type(row["boundary"]) is int
+        assert row["allowed_next"] == (None if row["boundary"] == 5000 else row["boundary"] + 500)
+    assert sum(row["boundary"] == 5000 for row in rows) == 4
+
+
+def classify_current_pulls(batch, training_pulls):
+    """No job inference or recursive expansion of old pull references."""
+    listed = batch["current_terminal_pulls"]
+    assert isinstance(listed, list) and listed and len(listed) == len(set(listed))
+    current = set(listed)
+    engineering = batch.get("new_engineering_evidence", [])
+    assert isinstance(engineering, list) and len(engineering) == len(set(engineering))
+    for name in engineering:
+        safe_name(name)
+        assert name in batch["evidence_sha256"], name
+    assert training_pulls <= current and len(training_pulls) == 4
+    for name in current:
+        assert name.startswith(BASE + "pulls/") and name.endswith("/receipt.json"), name
+        assert name in batch["evidence_sha256"], name
+    extra = current - training_pulls
+    assert extra <= set(engineering), sorted(extra - set(engineering))
+    return current, extra, engineering
+
+
+def resolve_evidence_name(name, expected_sha, expected_bytes=None):
+    """Only one exact historical tuple may resolve away from its original path."""
+    safe_name(name, PANEL_PINS)
+    if name != CANONICAL_SOURCE["path"]:
+        return name
+    if expected_sha == HISTORICAL_SOURCE["sha256"]:
+        assert expected_bytes is None or expected_bytes == HISTORICAL_SOURCE["bytes"]
+        return HISTORICAL_ARCHIVE["path"]
+    assert expected_sha == CANONICAL_SOURCE["sha256"], name
+    assert expected_bytes is None or expected_bytes == CANONICAL_SOURCE["bytes"]
+    return name
+
+
+def check_source_version_resolution():
+    """Revalidate the accepted exception without changing either old receipt."""
+    resolution = read_json(SOURCE_VERSION_NAME, SOURCE_VERSION_SHA)
+    prior = read_json(PRIOR_DELIVERY_NAME, PRIOR_DELIVERY_SHA)
+    assert resolution["status"] == "exact_version_archived"
+    assert resolution["kind"] == "single_historical_input_version_resolution"
+    assert resolution["original_path"] == HISTORICAL_SOURCE["path"]
+    assert resolution["original_sha256"] == HISTORICAL_SOURCE["sha256"]
+    assert resolution["original_bytes"] == HISTORICAL_SOURCE["bytes"]
+    assert resolution["canonical_bytes"] == CANONICAL_SOURCE["bytes"]
+    assert resolution["existing_HEAD_and_index_sha256"] == CANONICAL_SOURCE["sha256"]
+    assert resolution["exact_original_archive"] == HISTORICAL_ARCHIVE
+    assert resolution["arbitrary_SHA_mismatches_allowed"] is False and resolution["guard_changed"] is False
+    assert resolution["conversion"] == dict(JSON_value_equal=True, byte_equal_to_existing_HEAD=True,
+                                            not_a_frozen_runtime_file=True, operation="replace CRLF by LF", replacements=19)
+    assert prior["status"] == "passed" and prior["source_canonicalization_only"] is True
+    assert prior["old_batch_and_diagnosis_unchanged"] is True
+    assert prior["unrelated_evidence_mismatch_exemptions"] == 0
+    assert prior["canonical_current_source"] == CANONICAL_SOURCE
+    assert prior["exact_original_archive"] == HISTORICAL_ARCHIVE
+    assert prior["historical_source_resolution"] == ref(SOURCE_VERSION_NAME)
+    assert prior["guard_result"]["codec_sha256"] == PINS["scripts/ops/nonweight_archive.py"]
+    assert prior["guard_result"]["checker_sha256"] == PINS["scripts/ops/check_nonweight_archive_stage.py"]
+    assert prior["guard_result"]["frozen_files_verified_in_worktree_and_index"] == 173
+    rows = [ref(SOURCE_VERSION_NAME), ref(PRIOR_DELIVERY_NAME)]
+    for row in [CANONICAL_SOURCE, HISTORICAL_ARCHIVE,
+                resolution["batch"], resolution["diagnosis"], resolution["rejected_required"]]:
+        assert ref(row["path"]) == row, row["path"]
+        rows.append(row)
+    original = (ROOT / HISTORICAL_ARCHIVE["path"]).read_bytes()
+    canonical = (ROOT / CANONICAL_SOURCE["path"]).read_bytes()
+    assert sha(original) == HISTORICAL_SOURCE["sha256"] and sha(canonical) == CANONICAL_SOURCE["sha256"]
+    assert original.count(b"\r\n") == 19 and original.replace(b"\r\n", b"\n") == canonical
+    assert json.loads(original) == json.loads(canonical)
+    assert sha(git("show", "HEAD:" + CANONICAL_SOURCE["path"])) == CANONICAL_SOURCE["sha256"]
+    assert sha(git("show", ":" + CANONICAL_SOURCE["path"])) == CANONICAL_SOURCE["sha256"]
+    assert not git("status", "--porcelain", "--", CANONICAL_SOURCE["path"]).strip()
+    return rows
+
+def main():
+    assert git("rev-parse", "HEAD").decode().strip() == PARENT
+    assert not git("diff", "--cached", "--name-only").strip()
+    assert ref(BASIS_NAME)["sha256"] == BASIS_SHA
+    assert all(ref(name)["sha256"] == want for name, want in PINS.items())
+    batch = read_json(BATCH_NAME)
+    assert batch["parent_delivered_commit"] == PARENT
+    evidence = batch["evidence_sha256"]
+    assert isinstance(evidence, dict) and evidence
+
+    # This batch adds no development panel. Only an already committed exact
+    # dependency may take the separate HEAD/index/worktree proof route.
+    active_panels = {name: pin for name, pin in PANEL_PINS.items() if name in evidence}
+    assert all(evidence[name] == pin for name, pin in active_panels.items())
+    for name in evidence:
+        safe_name(name, active_panels)
+    panel_proof_names = [PANEL_PROOFS[name] for name in active_panels]
+    for name in (REQUIRED_NAME, PROOF_NAME, *panel_proof_names):
+        assert not (ROOT / name).exists(), name
+    for label in ("ordinary", "required"):
+        assert not (ROOT / ".local" / ("stage_0626final_" + label + ".nul")).exists()
+
+    def bound_json(name):
+        assert name in evidence, name
+        return read_json(name, evidence[name], active_panels)
+
+    listed_pulls = batch["current_terminal_pulls"]
+    assert isinstance(listed_pulls, list) and listed_pulls
+    current_pulls = set(listed_pulls)
+    assert len(current_pulls) == len(listed_pulls)
+    for name in current_pulls:
+        assert name.startswith(BASE + "pulls/") and name.endswith("/receipt.json"), name
+        assert name in evidence, name
+
+    # The batch and both reviews must bind exactly these four completed boundaries.
+    # All are final5000; none may permit5500.
+    boundaries = batch["reviewed_boundaries"]
+    validate_boundary_rows(boundaries)
+    stage_archive_name = batch["audit_source_archive_map"][SELF_NAME]
+    assert stage_archive_name.startswith(BASE + "preflight/") and stage_archive_name.endswith(".py.txt")
+    assert ref(stage_archive_name) == dict(path=stage_archive_name,
+                                          sha256=ref(SELF_NAME)["sha256"], bytes=ref(SELF_NAME)["bytes"])
+    assert evidence[stage_archive_name] == ref(SELF_NAME)["sha256"]
+    format_archive_name = batch["audit_source_archive_map"][FORMAT_DIFF_SOURCE]
+    safe_name(format_archive_name)
+    assert format_archive_name.startswith(FORMAT_DIFF_ARCHIVE_PREFIX)
+    assert PurePosixPath(format_archive_name).name.endswith("_v1_to_v2.diff.txt")
+    assert {name for name, pin in evidence.items() if pin == FORMAT_DIFF_SHA} == {format_archive_name}
+    format_source = (ROOT / FORMAT_DIFF_SOURCE).read_bytes()
+    assert ref(FORMAT_DIFF_SOURCE)["sha256"] == sha(format_source) == FORMAT_DIFF_SHA
+    assert len(format_source) == 2314 and format_source.splitlines()[43] == b" "
+    assert ref(format_archive_name)["sha256"] == FORMAT_DIFF_SHA
+    assert (ROOT / format_archive_name).read_bytes() == format_source
+
+    def check_exact_format():
+        assert (ROOT / FORMAT_DIFF_SOURCE).read_bytes() == format_source
+        assert (ROOT / format_archive_name).read_bytes() == format_source == git("show", ":" + format_archive_name)
+        expected = (format_archive_name + ":44: trailing whitespace.\n+ \n").encode("utf-8")
+        check = subprocess.run(["git", "diff", "--cached", "--check"], cwd=ROOT,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        assert check.returncode == 2 and check.stdout == expected and check.stderr == b"", check
+        rest = subprocess.run(["git", "diff", "--cached", "--check", "--", ".",
+                               ":(exclude,literal)" + format_archive_name], cwd=ROOT,
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        assert rest.returncode == 0 and rest.stdout == rest.stderr == b"", rest
+        return dict(source=ref(FORMAT_DIFF_SOURCE), preserved_copy=ref(format_archive_name),
+                    index_equals_original_bytes=True, returncode=check.returncode,
+                    stdout=check.stdout.decode("utf-8"), stderr="", expected_line=44,
+                    expected_line_bytes_hex="20", other_findings_allowed=False)
+
+    training_pulls = set()
+    boundary_records = []
+    for boundary in boundaries:
+        job = boundary["job_id"]
+        end = boundary["boundary"]
+        assert isinstance(end, int) and 500 <= end <= 5000 and end % 500 == 0
+        expected_next = None if end == 5000 else end + 500
+        assert boundary["allowed_next"] == expected_next
+        name = batch["audit_source_archive_map"][".local/root_pull_review_2250_" + job + ".json"]
+        op = bound_json(name)
+        assert op["status"] == "passed"
+        for key in ("job_id", "suite", "budget", "seed", "boundary", "allowed_next",
+                    "pair_gpu_seconds", "latest_gpu_seconds"):
+            assert op[key] == boundary[key], (job, key)
+        assert op["pull"] in current_pulls
+        assert op["pull_sha256"] == evidence[op["pull"]]
+        training_pulls.add(op["pull"])
+        root_name = op["root_review"]
+        assert evidence[root_name] == op["root_sha256"]
+        review = bound_json(root_name)
+        assert review["status"] == "passed" and review["job_id"] == job
+        assert (review["suite"], review["visual_tokens"], review["seed"]) == (
+            boundary["suite"], boundary["budget"], boundary["seed"])
+        assert review["source_sha256"] == SOURCE_SHA
+        assert review["completed_by_arm"] == {"A": end, "B": end}
+        assert review["allowed_next_segment_end"] == expected_next
+        assert review["pair_allocated_gpu_seconds"] == boundary["pair_gpu_seconds"]
+        assert review["sealed_states_opened"] is False and review["weights_copied"] is False
+        ind_name = root_name[:-5] + "_independent.json"
+        independent = bound_json(ind_name)
+        assert independent["status"] == "passed" and independent["job_id"] == job
+        assert independent["allowed_next_segment_end"] == expected_next
+        assert independent["read_evidence_sha256"][root_name] == evidence[root_name]
+        if end == 5000:
+            assert review["continuation"] == "formal_training_complete_no_extension"
+            assert review["resume_required"] is False
+            selected_name = root_name[:-5] + "_selected_server.json"
+            bound_json(selected_name)
+        boundary_records.append(dict(job_id=job, boundary=end, allowed_next=expected_next,
+                                     root_review=root_name, independent_review=ind_name,
+                                     current_pull=op["pull"]))
+
+    # Additional engineering evidence is explicit, never inferred from job IDs
+    # or a historical receipt. There is no new development run in this batch.
+    current_pulls, extra_pulls, engineering_names = classify_current_pulls(batch, training_pulls)
+    for name in engineering_names:
+        assert ref(name)["sha256"] == evidence[name], name
+    pull_records = {}
+    for name in sorted(current_pulls):
+        pull = bound_json(name)
+        assert pull["status"] == "verified_nonweight_snapshot", name
+        assert pull["weights_copied"] is False and pull["sealed_initial_states_copied"] is False
+        selected = pull["selected_jobs"]
+        assert selected and len({row["job_id"] for row in selected}) == len(selected)
+        selected_ids = {row["job_id"] for row in selected}
+        requested_ids = set(pull["requested_job_ids"])
+        assert selected_ids == requested_ids, name
+        accounts = pull["accounting_after"]["jobs"]
+        for row in selected:
+            assert not row["active_overlapping_job_ids"], name
+            assert accounts[row["job_id"]]["status"] in TERMINAL, (name, row["job_id"])
+            if name in training_pulls:
+                assert row["source_sha256"] == SOURCE_SHA and row["mode"] == "train"
+            else:
+                assert name in engineering_names
+                assert row["mode"] not in ("train", "development", "final"), name
+                assert isinstance(row["source_sha256"], str) and len(row["source_sha256"]) == 64
+        file_names = [entry["relative"] for entry in pull["files"]]
+        assert len(file_names) == len(set(file_names)), name
+        pull_records[name] = pull
+
+    def check_existing_panels():
+        rows = {}
+        for name, pin in active_panels.items():
+            rows[name] = ref(name, active_panels)
+            assert rows[name]["sha256"] == pin, name
+            assert not git("status", "--porcelain", "--", name).strip(), name
+            assert sha(git("show", "HEAD:" + name)) == sha(git("show", ":" + name)) == pin, name
+        return rows
+
+    panel_rows = check_existing_panels()
+    source_version_rows = check_source_version_resolution()
+    required = {row["path"]: row for row in source_version_rows}
+    source_aliases_used = []
+
+    def add_bound_file(name, want, size=None):
+        safe_name(name, active_panels)
+        resolved = resolve_evidence_name(name, want, size)
+        row = ref(resolved, active_panels)
+        assert row["sha256"] == want and (size is None or row["bytes"] == size), name
+        if resolved != name:
+            assert row == HISTORICAL_ARCHIVE
+            source_aliases_used.append(dict(requested=HISTORICAL_SOURCE, delivered=row,
+                                            resolution=ref(SOURCE_VERSION_NAME)))
+        if resolved not in active_panels:
+            assert resolved not in required or required[resolved] == row, resolved
+            required[resolved] = row
+        return row
+
+    for name, want in evidence.items():
+        add_bound_file(name, want)
+        if name in current_pulls:
+            for entry in pull_records[name]["files"]:
+                add_bound_file(entry["relative"], entry["sha256"], entry["bytes"])
+
+    snapshot = read_json(SNAPSHOT_NAME, SNAPSHOT_SHA)
+    raw_names = {row["path"] for row in snapshot["files"]}
+    assert len(raw_names) == len(snapshot["files"]) == 2
+    for row in snapshot["files"]:
+        actual = ref(row["path"])
+        assert all(actual[key] == row[key] for key in ("path", "sha256", "bytes"))
+        required[actual["path"]] = actual
+    for name in (BATCH_NAME, SNAPSHOT_NAME, "results/experiment_supervisor/state.json", BASE + "slurm_accounting.json"):
+        row = ref(name)
+        assert name not in required or required[name] == row, name
+        required[name] = row
+
+    changed = git("ls-files", "--modified", "--others", "--exclude-standard", "-z", "--",
+                  "docs", "results/formal_main_v2", "results/experiment_supervisor/state.json", "results/slurm").decode().split("\0")
+    ordinary = sorted({name for name in changed if name and name not in raw_names})
+    assert not set(active_panels).intersection(ordinary)
+    assert not set(active_panels).intersection(required)
+    for name in ordinary:
+        safe_name(name, active_panels)
+        if not name.endswith(".md"):
+            # An unreviewed engineering output must not enter via bulk add.
+            assert name in required, ("unregistered_changed_nonweight_file", name)
+            assert required[name] == ref(name, active_panels), name
+
+    # All input checks above precede the first file/index mutation. These proof
+    # files document preexisting bytes; they do not deliver a new state payload.
+    for name, row in panel_rows.items():
+        record = dict(schema="formal_main_v2", kind="root_unchanged_preexisting_development_panel_index_check",
+                      status="verified", checked_utc=datetime.now(timezone.utc).isoformat(), file=row, head=PARENT,
+                      HEAD_index_worktree_equal=True, path_staged_or_modified=False, guard_implementation_changed=False,
+                      scope="Only this exact previously committed development panel; checked before and after the pinned guard. No new or modified payload is exempt.",
+                      final_states_opened=False)
+        write_new(PANEL_PROOFS[name], record)
+        required[PANEL_PROOFS[name]] = ref(PANEL_PROOFS[name])
+    write_new(REQUIRED_NAME, dict(schema="cti_nonweight_archive_stage_v1", kind="required_files",
+                                  files=[required[name] for name in sorted(required)]))
+
+    def add(names, label, force=False):
+        spec = ROOT / ".local" / ("stage_0626final_" + label + ".nul")
+        with spec.open("xb") as stream:
+            stream.write(b"".join((":(literal)" + name).encode("utf-8") + b"\0" for name in sorted(names)))
+        subprocess.run(["git", "add"] + (["-f"] if force else []) +
+                       ["--pathspec-from-file=" + str(spec), "--pathspec-file-nul"], cwd=ROOT, check=True)
+
+    add(ordinary + [REQUIRED_NAME], "ordinary")
+    add(set(required) - raw_names, "required", True)
+    before, changes = git("ls-files", "--stage", "-z"), git("diff", "--cached", "--name-status", "-z")
+    assert all(ref(name)["sha256"] == want for name, want in PINS.items())
+    command = [sys.executable, "-B", "scripts/ops/check_nonweight_archive_stage.py", "--project-root", str(ROOT),
+               "--snapshot", SNAPSHOT_NAME, "--snapshot-sha256", SNAPSHOT_SHA, "--required-files", REQUIRED_NAME]
+    for name in sorted(raw_names):
+        command.extend(["--raw-path", name])
+    print(json.dumps(dict(status="staged_guard_running", required_count=len(required))), flush=True)
+    process = subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    assert process.returncode == 0, process.stderr.decode("utf-8", errors="replace")
+    report = json.loads(process.stdout)
+    assert report["status"] == "verified_index_archive_delivery" and report["head"] == PARENT
+    assert report["index_sha256"] == sha(before) and report["staged_changes_sha256"] == sha(changes)
+    assert report["required_count"] == len(required) and report["frozen_files_verified_in_worktree_and_index"] == 173
+    assert len(report["raw_paths_restored_exactly"]) == 2 and report["gpu_seconds"] == 0
+    assert before == git("ls-files", "--stage", "-z") and changes == git("diff", "--cached", "--name-status", "-z")
+    assert check_existing_panels() == panel_rows
+    assert check_source_version_resolution() == source_version_rows
+    format_findings = check_exact_format()
+    proof = dict(schema="formal_main_v2", kind="root_git_index_nonweight_delivery", status="passed",
+                 reviewed_utc=datetime.now(timezone.utc).isoformat(), guard_result=report, guard_command=command,
+                 unchanged_index_until_guard_return=True, scientific_settings_changed=False, no_weights_delivered=True,
+                 separately_verified_existing_development_dependencies=panel_proof_names,
+                 existing_panels_HEAD_index_worktree_equal_before_and_after=True, final_state_values_opened=False,
+                 current_terminal_pulls=sorted(current_pulls), additional_engineering_terminal_pulls=sorted(extra_pulls),
+                 new_engineering_evidence=engineering_names,
+                 historical_source_resolution=ref(SOURCE_VERSION_NAME), historical_source_alias_uses=source_aliases_used,
+                 canonical_current_source=CANONICAL_SOURCE, exact_original_archive=HISTORICAL_ARCHIVE,
+                 historical_receipts_recursively_expanded=False, old_receipts_modified=False,
+                 stage_helper_archive=ref(stage_archive_name),
+                 exact_immutable_raw_diff_format_findings=format_findings,
+                 training_boundaries=boundary_records, prior_helper_sha256=BASIS_SHA)
+    payload = write_new(PROOF_NAME, proof)
+    subprocess.run(["git", "add", "--", PROOF_NAME], cwd=ROOT, check=True)
+    old = set(before.split(b"\0")) - {b""}
+    new = set(git("ls-files", "--stage", "-z").split(b"\0")) - {b""}
+    assert not old - new and len(new - old) == 1
+    assert next(iter(new - old)).split(b"\t", 1)[1].decode() == PROOF_NAME
+    assert git("show", ":" + PROOF_NAME) == payload
+    assert check_exact_format() == format_findings
+    assert not git("diff", "--name-only").strip()
+    print(json.dumps(dict(status="passed", proof=PROOF_NAME, sha256=sha(payload), required_count=len(required),
+                          frozen_files=173, restored_raw_paths=2, commit_not_performed=True)), flush=True)
+
+
+if __name__ == "__main__":
+    main()

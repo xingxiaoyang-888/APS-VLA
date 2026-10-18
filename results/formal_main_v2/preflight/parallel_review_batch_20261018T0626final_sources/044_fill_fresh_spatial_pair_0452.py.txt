@@ -1,0 +1,115 @@
+"""Root explicit fresh Spatial pair from the existing 72-arm matrix."""
+from pathlib import Path
+from datetime import datetime, timezone
+from types import SimpleNamespace
+import argparse
+import json
+import shlex
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+import formal_supervisor as f
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--budget', type=int, choices=(256, 64), required=True)
+parser.add_argument('--seed', type=int, choices=(17, 23, 41), required=True)
+args = parser.parse_args()
+suite, seed, budget = 'libero_spatial', args.seed, args.budget
+key = f'{suite}_k{budget}_seed{seed}'
+stage_key = f'{suite}_train_k{budget}_seed{seed}'
+
+with f.supervisor_lock():
+    state = f.read(f.STATE)
+    jobs = f.refresh(state)
+    terminal = {'COMPLETED', 'FAILED', 'CANCELLED', 'TIMEOUT', 'OUT_OF_MEMORY',
+        'NODE_FAIL', 'BOOT_FAIL', 'DEADLINE', 'PREEMPTED', 'REVOKED'}
+    # Unknown, missing, pending and transitional statuses conservatively occupy a slot.
+    active = [j for j in jobs if str(j.get('status', '')).strip().upper().split(' ', 1)[0].rstrip('+') not in terminal]
+    assert len(active) <= 8 and len({j['stage_key'] for j in active}) == len(active)
+    assert state['pending_submission'] is None
+    if len(active) == 8:
+        print(json.dumps(dict(submitted=False, reason='all8slotsoccupied')))
+        raise SystemExit(0)
+    if any(j.get('stage_key') == stage_key or
+           (j.get('mode'), j.get('suite'), j.get('visual_tokens'), j.get('training_seed')) == ('train', suite, budget, seed)
+           for j in jobs):
+        print(json.dumps(dict(submitted=False, reason='pair_already_registered_no_fresh_restart')))
+        raise SystemExit(0)
+    par = state['formal_main_progress']['parallel_execution']
+    assert key not in par['pair_tracking']
+    assert f.sha(ROOT / 'configs/experiments/formal_main_v2.json') == 'a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9'
+    main = f.read(ROOT / 'configs/experiments/formal_main_v2.json')
+    pair = next(p for p in main['pairs'] if (p['suite'], p['visual_tokens'], p['seed']) == (suite, budget, seed))
+    source_path = 'results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+    source = f.read(ROOT / source_path)
+    assert f.sha(ROOT / source_path) == '5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926'
+    assert len(source['files']) == 173
+    assert all(f.sha(ROOT / n) == h for n, h in source['files'].items())
+    assert pair['path'] in source['files']
+    assert source['files'][pair['path']] == pair['sha256'] == f.sha(ROOT / pair['path'])
+    gate_path = f'results/formal_main_v2/{suite}/acceptance/root_review.json'
+    gate = f.read(ROOT / gate_path)
+    assert gate['status'] == 'passed' and str(gate['job_id']) == '3012294'
+    acceptance_job = next(j for j in jobs if j['job_id'] == str(gate['job_id']))
+    assert acceptance_job['status'] == 'COMPLETED' and acceptance_job['exit_code'] == '0:0'
+    evidence = {n: f.sha(ROOT / n) for n in ('configs/experiments/formal_main_v2.json',
+        'configs/experiments/formal_main_v2_parallel_execution_v1.json', source_path, pair['path'], gate_path)}
+    for name in ('input_acceptance.json', f'f01_k{budget}.json', 'resume_acceptance.json', 'f03_calls.jsonl', 'acceptance_complete.json'):
+        path = gate['output_relative'] + '/' + name
+        assert f.sha(ROOT / path) == gate['files'][name]
+        evidence[path] = gate['files'][name]
+    cache = par['shared_cache_cross_node_probe']
+    assert cache['status'] == 'passed' and f.sha(ROOT / cache['root_review']) == cache['sha256']
+    cache_review = f.read(ROOT / cache['root_review'])
+    assert cache_review['status'] == 'passed'
+    evidence[cache['root_review']] = cache['sha256']
+    independent_pins = {
+        'results/formal_main_v2/preflight/fs_parallel_probe/3012316/independent_review.json': '8a69e34f8af5834e95bc57cea1ae880d35901bd1539ca98386c5d62af8605a1c',
+        'results/formal_main_v2/preflight/parallel_batch1_root_registration_independent.json': '328c73c0dd49c68b281c22c42998eb9fb41907b5ed669831e2b5dfa29de93dce',
+    }
+    for path, digest in independent_pins.items():
+        assert f.sha(ROOT / path) == digest
+        evidence[path] = digest
+    outrel = f'results/formal_main_v2/{suite}/k{budget}/seed{seed}/training'
+    assert not (ROOT / outrel).exists()
+    remote_paths = [f.P + '/' + outrel, pair['checkpoint_root_server']]
+    assert remote_paths[0].startswith(f.P + '/results/formal_main_v2/')
+    assert remote_paths[1].startswith('/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/')
+    command = ' && '.join('test ! -e ' + shlex.quote(n) for n in remote_paths) + " && printf 'fresh_pair_absent\\n'"
+    observed = f.remote(command).strip()
+    assert observed == 'fresh_pair_absent'
+    cache_root = main['suites'][suite]['cache_root_server']
+    assert cache_root.startswith(f.H + '/data/formal_main_v2/')
+    cache_observation = f.remote('test -d ' + shlex.quote(cache_root) + ' && readlink -f ' + shlex.quote(cache_root) + ' && df -Pk ' + shlex.quote(cache_root))
+    assert cache_observation.splitlines()[0] == cache_root
+    cache_available_KiB = int(cache_observation.splitlines()[-1].split()[3])
+    assert cache_available_KiB > 16 * 1024 * 1024
+    now = datetime.now(timezone.utc)
+    prereg = f'results/formal_main_v2/preflight/fresh_pair_prechecks/{key}_{now:%Y%m%dT%H%M%SZ}.json'
+    assert not (ROOT / prereg).exists()
+    value = dict(schema='formal_main_v2', kind='root_explicit_registered_fresh_pair_precheck', status='passed',
+        registered_utc=now.isoformat(), pair=key, suite=suite, visual_tokens=budget, training_seed=seed,
+        start_updates_by_arm={'A': 0, 'B': 0}, stop_after_updates=500, schedule_updates=5000,
+        full_legal_train_pool=True, initialization='fresh matched A/B from registered seed; no previous checkpoint reused',
+        source_sha256=source['source_sha256'], evidence_sha256=evidence,
+        remote_absence_checked=remote_paths, remote_absence_result=observed,
+        existing_shared_cache_root=cache_root, cache_filesystem_observation=cache_observation,
+        cache_available_KiB=cache_available_KiB,
+        active_job_ids_before=[j['job_id'] for j in active], active_slots_before=len(active), max_slots=8,
+        scientific_matrix_expanded=False, hyperparameters_changed=False, final_states_opened=False,
+        next_boundary_requires_own_root_and_independent_review=True)
+    f.write(ROOT / prereg, value)
+    launch = SimpleNamespace(stage='train', suite=suite, budget=budget, seed=seed, segment=500,
+        source_inventory=ROOT / source_path, resume=False, repair_record=None, wall_seconds=12600)
+    f.submit(launch, state, jobs)
+    job = state['registered_jobs'][-1]
+    assert job['stage_key'] == stage_key and job['segment_end'] == 500
+    par['pair_tracking'][key] = dict(active_job_id=job['job_id'], segment_target=500,
+        last_root_reviewed_common_update=0, allowed_next_segment_end=500,
+        next_segment_requires_own_terminal_pull_and_root_review=True,
+        no_restart_or_duplicate_submission=True, fresh_start_precheck=prereg,
+        fresh_start_precheck_sha256=f.sha(ROOT / prereg))
+    par['registered_requested_active_GPU_jobs'] = len(active) + 1
+    state['updated_utc'] = datetime.now(timezone.utc).isoformat()
+    f.write(f.STATE, state)

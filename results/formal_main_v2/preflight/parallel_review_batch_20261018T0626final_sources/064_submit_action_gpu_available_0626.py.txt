@@ -1,0 +1,29 @@
+"""Root invokes the exact already-registered command once when capacity frees."""
+from pathlib import Path
+from datetime import datetime, timezone
+import hashlib
+import json
+import subprocess
+
+ROOT = Path(__file__).resolve().parents[1]
+CAP = 'results/formal_main_v2/preflight/action_execution_gpu_capacity_check_0626.json'
+OUT = ROOT / 'results/formal_main_v2/preflight/action_execution_gpu_submission_0626.json'
+assert not OUT.exists()
+prior = json.loads((ROOT / CAP).read_bytes())
+assert prior['result']['reason'] == 'all8slotsoccupied' and prior['exit_code'] == 0
+command = prior['command']
+assert command[-1] == '--submit'
+started = datetime.now(timezone.utc).isoformat()
+run = subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+result = json.loads(run.stdout) if run.returncode == 0 else None
+value = dict(schema='formal_main_v2', kind='root_registered_engineering_submission_attempt',
+    started_utc=started, finished_utc=datetime.now(timezone.utc).isoformat(),
+    command=command, exit_code=run.returncode, stdout=run.stdout.decode(errors='replace'),
+    stderr=run.stderr.decode(errors='replace'), result=result,
+    previous_capacity_check=dict(path=CAP, sha256=hashlib.sha256((ROOT/CAP).read_bytes()).hexdigest()),
+    helper=dict(path=Path(__file__).relative_to(ROOT).as_posix(), sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()),
+    automatic_retry=False, scientific_release=False, final_states_opened=False)
+with OUT.open('x', encoding='utf-8', newline='\n') as stream:
+    json.dump(value, stream, indent=2); stream.write('\n')
+print(json.dumps(value), flush=True)
+raise SystemExit(run.returncode)

@@ -1,0 +1,40 @@
+"""Resolve one local audit argument to its already-delivered exact-byte archive.
+
+The initial builder accepted a .local receipt but listed that source name as an
+engineering deliverable. Preserve that initial batch, resolve only this reference,
+and bind this repair; do not change training, jobs, costs, or audit conclusions.
+"""
+from pathlib import Path
+import hashlib,json,sys
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'));import formal_supervisor as f
+B='results/formal_main_v2/preflight/parallel_review_batch_20261018T0626final'
+ORIGINAL=B+'.json';SAVED=B+'_before_engineering_reference_resolution.json'
+REPAIR=B+'_engineering_reference_resolution.json';SOURCE=B+'_engineering_reference_resolution.py.txt'
+LOCAL='.local/git_delivery_0626final_format_patch_review.json'
+def sha(n):return hashlib.sha256((ROOT/n).read_bytes()).hexdigest()
+assert sha(ORIGINAL)=='9a8ec490410e3a7bfb8afa5bc18954cfd1b5eb50e0b5687aeeea732e8e85cecf'
+batch=f.read(ROOT/ORIGINAL);archive=batch['audit_source_archive_map'][LOCAL]
+assert sha(LOCAL)==sha(archive)==batch['evidence_sha256'][archive]=='f205c43e9b2f89d1966abc045c2bc822bfb1710ca0ebc08c983a76720a7c580b'
+assert LOCAL in batch['new_engineering_evidence'] and LOCAL not in batch['evidence_sha256']
+assert all(not (ROOT/n).exists() for n in (SAVED,REPAIR,SOURCE))
+with (ROOT/SAVED).open('xb') as out:out.write((ROOT/ORIGINAL).read_bytes())
+with (ROOT/SOURCE).open('xb') as out:out.write(Path(__file__).read_bytes())
+before=batch['new_engineering_evidence'][:]
+batch['new_engineering_evidence']=sorted(archive if n==LOCAL else n for n in before)
+repair=dict(schema='formal_main_v2',kind='single_local_receipt_delivery_reference_resolution',
+    status='resolved_to_existing_exact_byte_archive_before_staging',
+    original_batch=dict(path=SAVED,sha256=sha(SAVED)),source=dict(path=SOURCE,sha256=sha(SOURCE)),
+    original_local_receipt=dict(path=LOCAL,sha256=sha(LOCAL)),
+    already_bound_archive=dict(path=archive,sha256=sha(archive)),
+    engineering_names_before=before,engineering_names_after=batch['new_engineering_evidence'],
+    scope='Only deliverable name normalization and this repair evidence binding. Original batch and receipts preserved. No helper/guard/scientific source, training rows, costs or registered jobs changed.',
+    GPU_seconds=0,GPU_submitted=False,scientific_settings_changed=False,final_states_opened=False)
+f.write(ROOT/REPAIR,repair)
+for n in (SAVED,SOURCE,REPAIR):batch['evidence_sha256'][n]=sha(n)
+with f.supervisor_lock():
+    state=f.read(f.STATE);current=state['formal_main_progress']['latest_incremental_review']
+    assert current==dict(path=ORIGINAL,sha256=sha(ORIGINAL))
+    f.write(ROOT/ORIGINAL,batch)
+    current['sha256']=sha(ORIGINAL);f.write(f.STATE,state)
+print(json.dumps(dict(batch=ORIGINAL,sha256=sha(ORIGINAL),repair=REPAIR,initial_batch_preserved=True)))

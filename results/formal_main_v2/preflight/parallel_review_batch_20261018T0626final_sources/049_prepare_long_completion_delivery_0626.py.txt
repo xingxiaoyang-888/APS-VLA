@@ -1,0 +1,51 @@
+"""Derive delivery helpers for four observed Long terminal pairs only."""
+from pathlib import Path
+import ast
+ROOT=Path(__file__).resolve().parents[1]
+PARENT='366258a00906abd41470464eae2ecdd396ad217a'
+
+def replace(text, old, new):
+    assert text.count(old)==1,(old,text.count(old))
+    return text.replace(old,new,1)
+
+text=(ROOT/'.local/stage_verify_parallel_0626gpu_candidate.py').read_text(encoding='utf-8')
+text=text.replace('0626gpu','0626final')
+text=replace(text,'73d6ef20174659e7cfbf5d5d4d96c37a56317809',PARENT)
+text=replace(text,'EXPECTED_BOUNDARIES = {"3024981": ("libero_spatial", 64, 17, 1000)}',
+    'EXPECTED_BOUNDARIES = {"3025000": ("libero_10", 64, 23, 5000), "3025005": ("libero_10", 256, 23, 5000), "3024991": ("libero_10", 64, 41, 5000), "3025017": ("libero_10", 256, 41, 5000)}')
+text=replace(text,'for row in rows}) == 1','for row in rows}) == 4')
+text=replace(text,'sum(row["boundary"] == 5000 for row in rows) == 0','sum(row["boundary"] == 5000 for row in rows) == 4')
+text=replace(text,'len(training_pulls) == 1','len(training_pulls) == 4')
+text=text.replace('these three boundaries.','these four completed boundaries.').replace('None is final5000; none of those can permit5500.','All are final5000; none may permit5500.')
+ast.parse(text)
+with (ROOT/'.local/stage_verify_parallel_0626final_candidate.py').open('x',encoding='utf-8',newline='\n') as stream:stream.write(text)
+
+text=(ROOT/'.local/finalize_parallel_review_20261018T0626.py').read_text(encoding='utf-8')
+text=text.replace('0626','0626final')
+text=replace(text,'1bbaff1e2cb29d0e7d23d2857c11be326e0c1193',PARENT)
+text=replace(text,"JOBS = ['3023228', '3023516', '3023299', '3023274', '3023285', '3023249']",
+    "JOBS = ['3025000', '3025005', '3024991', '3025017']")
+text=replace(text,"EXPECTED_NEW = {'3024981', '3024991', '3025000', '3025005', '3025017', '3025080'}",
+    "EXPECTED_NEW = {'3025841', '3025845', '3025874', '3025875'}")
+text=replace(text,"prior['formal_main_progress']['trained_arms'] == 18","prior['formal_main_progress']['trained_arms'] == 20")
+text=replace(text,'closed_seconds == 24733','closed_seconds == 18279')
+text=replace(text,"p['trained_arms'] == 20","p['trained_arms'] == 28")
+text=replace(text,'updates == 138000','updates == 146000')
+text=text.replace('completed_training_arms=20','completed_training_arms=28').replace('newly_completed_training_arms=2','newly_completed_training_arms=8').replace('newly_reviewed_arm_updates=6000','newly_reviewed_arm_updates=4000').replace('Formal completed20/72 arms','Formal completed28/72 arms').replace('completed_arms=20','completed_arms=28')
+text=replace(text,"'.local/prepare_guard_0626final.py'","'.local/prepare_long_completion_delivery_0626.py', '.local/fill_fresh_object_pair_0626.py', '.local/submit_action_gpu_available_0626.py'")
+text=replace(text,'Four Long pairs now run4500-to5000; never extend a completed5000 pair.','All18 Long arms completed5000; never extend a completed5000 pair. Six Spatial and two Object pairs now train in parallel.')
+start=text.index('        text=(f');end=text.index("        for name in ('正式主实验规划.md'",start)
+text=text[:start]+'''        text=(f'\\n{local:%Y-%m-%d %H:%M}进度：完整训练28/72组，Long的18组全部完成5000步及所选权重核验。'
+            '本批新增Long256/64 seed23/41的8组；均保留11次验证、全恢复链、全部种子及原始记录。'
+            f'累计{updates}/360000次臂更新通过双重复核，当前{len(active)}个独立单GPU训练并行；'
+            f'正式轮累计分配{state["current_round_cost"]["allocated_gpu_hours"]:.6f} GPU小时。\\n\\n'
+            '空槽已用于Spatial64 seed17续至1500、Spatial256 seed41从头开始，以及Object128 seed23/41从头开始。'
+            '动作执行GPU验收在提交前遇到Windows命令长度限制，尚未上传或申请GPU；失败证据保留，传输修正候选另行审计。'
+            '一次非权重回存因新提交作业账单尚未出现而中止，随后同入口重读成功；未重跑训练。'
+            '开发记录仍为原1212条，新增科学闭环保持暂停；最终0/35200继续封存。'
+            f'\\n\\n[完成与成本凭据](../{BATCH})。\\n\\n')
+'''+text[end:]
+text=text.replace("'Root closes six real boundaries and preserves this heartbeat's CPU evidence.'", "'Root closes four actual Long terminal pairs and retains transport failure evidence.'")
+ast.parse(text)
+with (ROOT/'.local/finalize_parallel_review_20261018T0626final.py').open('x',encoding='utf-8',newline='\n') as stream:stream.write(text)
+print('Prepared four completed Long pair delivery helpers; no mutation of state or Git.')

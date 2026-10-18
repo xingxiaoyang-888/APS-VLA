@@ -22,3 +22,6 @@ Object使用已验收的元数据适配，Goal同时使用其组件适配。所�
 提交前发现的日志重复字段和未知Slurm job ID输出登记问题均已修正，旧版源码与CPU复现保留；这些是工程问题，未产生GPU试验结果。
 
 root已登记[单次GPU配置](../configs/experiments/formal_main_v2_action_execution_compat_gpu_v1.json)，[CPU验收](../results/formal_main_v2/preflight/action_execution_gpu_candidate_root_0626.json)及实际293项本地提交依赖检查通过。2026-10-18 15:40的容量核对确认8个训练请求占满，因此未提交第9个请求；待首个空闲槽按同一登记提交，见[就绪记录](../results/formal_main_v2/preflight/action_execution_gpu_ready_0626.json)。提交器另经作者32项、独立22项CPU检查；服务器发布和真实GPU结果尚未取得。
+
+
+2026-10-18 16时更新：v1首次提交在传输清单前触发Windows命令长度限制，无上传、pending或GPU作业；实际服务器缺省路径复核已留证。v2改用stdin传输并使用独立工程命名空间，CPU作者与独立检查通过；新typed CPU登记链及真实GPU验收仍待完成。原v1与全部科学配置保留，训练继续。
