@@ -1,0 +1,56 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_scoped_scheduler_argv_transformation",
+  "version": "root-ssh-node-exclusion-v2-action-gpu-v3",
+  "status": "argv_prepared_not_submission_result",
+  "utc": "2026-10-18T18:31:33.248968+00:00",
+  "node_exclusion": [
+    "gpu4020"
+  ],
+  "request": {
+    "kind": "action_execution_gpu_v3"
+  },
+  "registration": {
+    "path": "configs/experiments/formal_main_v2_node_exclusion_action_gpu_v3.json",
+    "sha256": "b5e083acbd93a35d561607fbf0c76862438e19d12629258c79845267b3ba50f3"
+  },
+  "invocation": "results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v3_attempt01.json",
+  "invocation_sha256": "a08c2d0a8bc03d31e454f68b4d64898649d1ab1dacaa3c32b8408b2b008e482d",
+  "pending_submission_at_transform": {
+    "invocation": "results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v3_attempt01.json",
+    "invocation_sha256": "a08c2d0a8bc03d31e454f68b4d64898649d1ab1dacaa3c32b8408b2b008e482d",
+    "stage_key": "formal_main_v2_action_execution_compat_gpu_v3",
+    "status": "prepared_before_invocation_publication",
+    "utc": "2026-10-18T18:31:32.428490+00:00"
+  },
+  "original_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v3_attempt01.json,INVOCATION_SHA256=a08c2d0a8bc03d31e454f68b4d64898649d1ab1dacaa3c32b8408b2b008e482d,WRAPPER_SHA256=69277a63fcbcb24f94a6d333bb70e490f702df9edade25e042b49fdaafe37dc0 /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.slurm",
+  "actual_command": "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v3_attempt01.json,INVOCATION_SHA256=a08c2d0a8bc03d31e454f68b4d64898649d1ab1dacaa3c32b8408b2b008e482d,WRAPPER_SHA256=69277a63fcbcb24f94a6d333bb70e490f702df9edade25e042b49fdaafe37dc0 /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.slurm",
+  "original_ssh_argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "tongji-cvpr",
+    "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v3_attempt01.json,INVOCATION_SHA256=a08c2d0a8bc03d31e454f68b4d64898649d1ab1dacaa3c32b8408b2b008e482d,WRAPPER_SHA256=69277a63fcbcb24f94a6d333bb70e490f702df9edade25e042b49fdaafe37dc0 /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.slurm"
+  ],
+  "actual_ssh_argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "tongji-cvpr",
+    "cd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA && sbatch --parsable --exclude=gpu4020 --export=ALL,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v3_attempt01.json,INVOCATION_SHA256=a08c2d0a8bc03d31e454f68b4d64898649d1ab1dacaa3c32b8408b2b008e482d,WRAPPER_SHA256=69277a63fcbcb24f94a6d333bb70e490f702df9edade25e042b49fdaafe37dc0 /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/probe.slurm"
+  ],
+  "shell_argv_unchanged_except_exclude": true,
+  "metadata_evidence_sha256": {
+    "configs/experiments/formal_main_v2_node_exclusion_action_gpu_v3.json": "b5e083acbd93a35d561607fbf0c76862438e19d12629258c79845267b3ba50f3",
+    "results/formal_main_v2/preflight/cuda_startup_root_observation_0840.json": "a6bb5a481e3576f9fb87892d29e37eb6425891a5d55872a589561042384d8ef2",
+    "results/formal_main_v2/preflight/cuda_startup_server_paths_0840.json": "5e5afef2f7bc9e52db23df3f7cd5c7e3e7923c0b5bcd839eaddd84964f6617a4",
+    "results/formal_main_v2/invocations/formal_main_v2_action_execution_compat_gpu_v3_attempt01.json": "a08c2d0a8bc03d31e454f68b4d64898649d1ab1dacaa3c32b8408b2b008e482d"
+  },
+  "supervisor_sha256": "3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95",
+  "adapter_sha256": "0886ce865ca3edc01bf1ba4d875d139bdf8267a2b6992d1630f1a84c4efcc506",
+  "wrapper_sha256": "69277a63fcbcb24f94a6d333bb70e490f702df9edade25e042b49fdaafe37dc0",
+  "automatic_retry": false,
+  "subprocess_executed_by_adapter": false,
+  "existing_jobs_changed": false,
+  "scientific_configuration_changed": false
+}

@@ -1,0 +1,55 @@
+................F                                                        [100%]
+=================================== FAILURES ===================================
+_________________ test_success_reentry_is_not_a_second_attempt _________________
+
+box = namespace(root=PosixPath('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_...onomous_dispatch_audit_1808/pytest_a1/test_success_reentry_is_not_a_0/synthetic_project/scripts/formal_supervisor.py'>)
+
+    def test_success_reentry_is_not_a_second_attempt(box):
+     box.run();first=box.sp.read_bytes()
+     # New audit directory cannot bypass durable stage identity.
+     fac,f=box.build()
+     fac.audit=box.root/".local/second_independent_attempt"
+     with pytest.raises(ValueError,match="already registered"):
+      with a.node.exclude_future_sbatch(f,request={"kind":"action_execution_gpu_v3"},registration_ref=a.entry.NODE_REG,
+       audit_relative=".local/second_independent_attempt/node.json"):
+>      a.orig.execute_submit(box.root,box.checked,a.entry.REFS,f)
+
+test_independent.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/submit.py:128: in execute_submit
+    jobs = f.refresh(state)
+           ^^^^^^^^^^^^^^^^
+../action_v3_autonomous_dispatch_1808/facade.py:86: in refresh
+    self._reservation(state)
+../action_v3_autonomous_dispatch_1808/facade.py:78: in _reservation
+    require(type(control.get('reserved_GPU_slots')) is int and control['reserved_GPU_slots']==1 and control.get('reservation_root_record')==RESERVATION,'dedicated one-GPU reservation missing')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = False, message = 'dedicated one-GPU reservation missing'
+
+    def require(value,message):
+>       if not value: raise ValueError(message)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: dedicated one-GPU reservation missing
+
+../action_v3_autonomous_dispatch_1808/facade.py:21: ValueError
+
+During handling of the above exception, another exception occurred:
+
+box = namespace(root=PosixPath('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_...onomous_dispatch_audit_1808/pytest_a1/test_success_reentry_is_not_a_0/synthetic_project/scripts/formal_supervisor.py'>)
+
+    def test_success_reentry_is_not_a_second_attempt(box):
+     box.run();first=box.sp.read_bytes()
+     # New audit directory cannot bypass durable stage identity.
+     fac,f=box.build()
+     fac.audit=box.root/".local/second_independent_attempt"
+>    with pytest.raises(ValueError,match="already registered"):
+E    AssertionError: Regex pattern did not match.
+E     Regex: 'already registered'
+E     Input: 'dedicated one-GPU reservation missing'
+
+test_independent.py:156: AssertionError
+- generated xml file: /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_1808/pytest_a1.xml -
+=========================== short test summary info ============================
+FAILED test_independent.py::test_success_reentry_is_not_a_second_attempt - As...
+1 failed, 16 passed in 1.89s

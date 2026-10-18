@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="17" time="1.888" timestamp="2026-10-19T02:22:54.751280+08:00" hostname="logina04"><testcase classname="test_independent" name="test_actual_transaction_preserves_all_fields_and_old_refresh_never_runs" time="0.151" /><testcase classname="test_independent" name="test_eight_mixed_GPU_modes_and_confirmed_CPU_do_not_submit" time="0.111" /><testcase classname="test_independent" name="test_all_registered_unknowns_fail_closed[missing_historical]" time="0.082" /><testcase classname="test_independent" name="test_all_registered_unknowns_fail_closed[missing_CPU]" time="0.083" /><testcase classname="test_independent" name="test_all_registered_unknowns_fail_closed[CPU_unknown]" time="0.078" /><testcase classname="test_independent" name="test_all_registered_unknowns_fail_closed[CPU_queue_unknown]" time="0.082" /><testcase classname="test_independent" name="test_all_registered_unknowns_fail_closed[GPU_queue_unknown]" time="0.099" /><testcase classname="test_independent" name="test_all_registered_unknowns_fail_closed[CPU_actual_GPU]" time="0.078" /><testcase classname="test_independent" name="test_same_pair_two_different_stage_keys_blocks" time="0.100" /><testcase classname="test_independent" name="test_ack_failures_keep_exact_pending_and_prevent_second_submission[ambiguous]" time="0.114" /><testcase classname="test_independent" name="test_ack_failures_keep_exact_pending_and_prevent_second_submission[bad_rc]" time="0.113" /><testcase classname="test_independent" name="test_ack_failures_keep_exact_pending_and_prevent_second_submission[sbatch_raise]" time="0.115" /><testcase classname="test_independent" name="test_known_ack_but_receipt_failure_preserves_identifier_and_reservation" time="0.130" /><testcase classname="test_independent" name="test_CAS_detects_foreign_state_and_never_overwrites" time="0.111" /><testcase classname="test_independent" name="test_shared_writer_conflict_blocks_before_scheduler_query" time="0.070" /><testcase classname="test_independent" name="test_state_whitelist_rejects_foreign_field_during_pending" time="0.075" /><testcase classname="test_independent" name="test_success_reentry_is_not_a_second_attempt" time="0.153"><failure message="AssertionError: Regex pattern did not match.&#10; Regex: 'already registered'&#10; Input: 'dedicated one-GPU reservation missing'">box = namespace(root=PosixPath('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_...onomous_dispatch_audit_1808/pytest_a1/test_success_reentry_is_not_a_0/synthetic_project/scripts/formal_supervisor.py'&gt;)
+
+    def test_success_reentry_is_not_a_second_attempt(box):
+     box.run();first=box.sp.read_bytes()
+     # New audit directory cannot bypass durable stage identity.
+     fac,f=box.build()
+     fac.audit=box.root/".local/second_independent_attempt"
+     with pytest.raises(ValueError,match="already registered"):
+      with a.node.exclude_future_sbatch(f,request={"kind":"action_execution_gpu_v3"},registration_ref=a.entry.NODE_REG,
+       audit_relative=".local/second_independent_attempt/node.json"):
+&gt;      a.orig.execute_submit(box.root,box.checked,a.entry.REFS,f)
+
+test_independent.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/submit.py:128: in execute_submit
+    jobs = f.refresh(state)
+           ^^^^^^^^^^^^^^^^
+../action_v3_autonomous_dispatch_1808/facade.py:86: in refresh
+    self._reservation(state)
+../action_v3_autonomous_dispatch_1808/facade.py:78: in _reservation
+    require(type(control.get('reserved_GPU_slots')) is int and control['reserved_GPU_slots']==1 and control.get('reservation_root_record')==RESERVATION,'dedicated one-GPU reservation missing')
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = False, message = 'dedicated one-GPU reservation missing'
+
+    def require(value,message):
+&gt;       if not value: raise ValueError(message)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: dedicated one-GPU reservation missing
+
+../action_v3_autonomous_dispatch_1808/facade.py:21: ValueError
+
+During handling of the above exception, another exception occurred:
+
+box = namespace(root=PosixPath('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_...onomous_dispatch_audit_1808/pytest_a1/test_success_reentry_is_not_a_0/synthetic_project/scripts/formal_supervisor.py'&gt;)
+
+    def test_success_reentry_is_not_a_second_attempt(box):
+     box.run();first=box.sp.read_bytes()
+     # New audit directory cannot bypass durable stage identity.
+     fac,f=box.build()
+     fac.audit=box.root/".local/second_independent_attempt"
+&gt;    with pytest.raises(ValueError,match="already registered"):
+E    AssertionError: Regex pattern did not match.
+E     Regex: 'already registered'
+E     Input: 'dedicated one-GPU reservation missing'
+
+test_independent.py:156: AssertionError</failure></testcase></testsuite></testsuites>

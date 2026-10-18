@@ -1,0 +1,54 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_action_v3_autonomous_dispatch_CPU_acceptance",
+  "status": "approved_single_registered_engineering_dispatch",
+  "approved_utc": "2026-10-18T18:28:24.081446+00:00",
+  "approved_by": "root",
+  "entrypoint": {
+    "path": ".local/action_v3_autonomous_dispatch_1808/entry.py",
+    "sha256": "1cb2e30fbde96376183f77b5fb863e823500e2601f2157af00f93ff5ee703788"
+  },
+  "facade": {
+    "path": ".local/action_v3_autonomous_dispatch_1808/facade.py",
+    "sha256": "5bee1357c507df49627b9f38e358c7d48c91b8e1e598cb8ffa8aae641724985a"
+  },
+  "author": {
+    "path": "results/formal_main_v2/engineering/action_v3_autonomous_dispatch_1808/author/candidate_review.json",
+    "sha256": "940f1d4358910f5169a100e317be83e1a68e16cd32372167be3e77481a7dbf73"
+  },
+  "independent": {
+    "path": "results/formal_main_v2/engineering/action_v3_autonomous_dispatch_1808/independent/independent_review.json",
+    "sha256": "cff0d1fc16dccc3f4448c1cd2d05dc1788d2544c801d7bbfe5dbfe037ee5d262"
+  },
+  "author_CPU_tests_passed": 34,
+  "independent_CPU_tests_passed": 19,
+  "source_files_checked_per_root": 173,
+  "original_v3_eight_files_unchanged": true,
+  "root_source_read": true,
+  "root_assertions": [
+    "Only explicit read/write/refresh/lock facade changes; original execute_submit and307-source contract remain.",
+    "Full registered Slurm evidence including CPU0 is retained; only real GPU capacity projection differs.",
+    "Writer lock and CAS whitelist preserve all other state, including autonomous controller history and next_actions.",
+    "Pending is durable before submission; ambiguity retains pending and owned reservation, never auto retry.",
+    "Dedicated reservation consumed only with durable known engineering job registration; healthy training untouched."
+  ],
+  "scope": {
+    "stage_key": "formal_main_v2_action_execution_compat_gpu_v3",
+    "engineering_cells": 16,
+    "scientific_trials": 0,
+    "gpus": 1,
+    "max_all_registered_GPU_jobs": 8,
+    "wall_seconds": 3600,
+    "maximum_attempts": 1,
+    "automatic_retry": false,
+    "excluded_node": "gpu4020"
+  },
+  "GPU_acceptance_passed": false,
+  "final_opened": false,
+  "reservation": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T0208/action_gpu_v3_slot_reservation.json",
+    "sha256": "d4966f8d601323d125534a5a01ecb5879759ae7b2df700732dbf541febdc2194"
+  },
+  "controller_job_id": "3034538",
+  "next": "One explicit original v3 engineering submission under the exact audited transport and fresh locked capacity gate; actual GPU result remains pending."
+}

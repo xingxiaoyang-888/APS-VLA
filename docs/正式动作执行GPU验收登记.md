@@ -1,5 +1,9 @@
 # 正式动作执行 GPU 验收登记
 
+2026-10-19 02:32执行更新：正常训练由3034538控制器自动连续至5000步；本轮在7个训练GPU之外，用保留的第8槽提交动作执行v3工程作业3034675（固定16格、单次1小时）。共享writer锁、CAS和同事务消耗预约通过实际登记核验，无重复pair、pending或超额GPU。真实GPU验收尚未通过，不开放新增科学闭环或最终集。
+
+三组历史CUDA失败仅完成证据发布，恢复入口与自动连续控制器的共同状态协议仍待验收，保持阻断。方法、数据、预算、全部验证节点和最终release条件不变。[本轮证据](../results/formal_main_v2/preflight/heartbeat_20261019T0208/summary.json)。
+
 2026-10-19 00:57：v3八份GPU候选源码及固定16格面板已按原审核字节发布，服务器控制入口通过14项作者、16项独立CPU检查，root重核533条输入；实际服务器check-only返回0，173个冻结源未变。新登记仅允许一次有界GPU尝试，当前8槽均用于健康训练，尚未提交v3 GPU作业。CPU通过不等于GPU验收；新增科学闭环、旧结果复用与最终release仍暂停。[v3配置](../configs/experiments/formal_main_v2_action_execution_compat_gpu_v3.json)；[实际check-only](../results/formal_main_v2/preflight/action_execution_gpu_v3_server_check_only_v1.json)；[服务器入口根复核](../results/formal_main_v2/preflight/heartbeat_20261019T0037/v3_server_entry_root_acceptance.json)。
 
 2026-10-18：v2作业3030159在构造身份检查处失败（85 GPU秒，0/16工程格），原结果保留。差异来自Python3.11整模块与截取class的编译上下文。最小候选在本地3.10/3.12及服务器3.11分别通过14/16/16项CPU检查，并经独审；尚未集成或通过GPU验收。新的16格版本正在准备，新增科学闭环仍暂停，训练并行继续。

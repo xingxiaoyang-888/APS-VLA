@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/server_control_transport_v1/run_server_control.py",
+    "--bundle-manifest-sha256",
+    "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+    "--entrypoint",
+    ".local/action_v3_autonomous_dispatch_1808/entry.py",
+    "--entrypoint-sha256",
+    "1cb2e30fbde96376183f77b5fb863e823500e2601f2157af00f93ff5ee703788",
+    "--audit-relative",
+    "results/formal_main_v2/control_transport/action_v3_autonomous_dispatch_1808.jsonl",
+    "--",
+    "--entry-sha256",
+    "1cb2e30fbde96376183f77b5fb863e823500e2601f2157af00f93ff5ee703788",
+    "--submit",
+    "--root-reviewed-submit",
+    "--audit-relative",
+    "results/formal_main_v2/preflight/heartbeat_20261019T0208/action_v3_dispatch_01"
+  ],
+  "started_at": "2026-10-18T18:31:16.993383+00:00",
+  "root_acceptance_sha256": "7b0ce2e68e504199621553732a8d81e60514ff3d26e3329de6fca11fa7c570e9"
+}

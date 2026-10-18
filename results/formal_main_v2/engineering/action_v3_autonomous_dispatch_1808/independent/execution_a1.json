@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_1808/test_independent.py",
+    "--rootdir=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_1808",
+    "-p",
+    "no:cacheprovider",
+    "--basetemp=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_1808/pytest_a1",
+    "--junitxml=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_1808/pytest_a1.xml",
+    "-q"
+  ],
+  "cwd": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_v3_autonomous_dispatch_audit_1808",
+  "returncode": 1,
+  "duration_seconds": 2.189284563064575,
+  "test_sha256": "94bc23b153663f1271dce166e96c9e2146faf8a93f9131c365ae2a6af0053b06",
+  "scope": "CPU synthetic scheduler/transport; actual original dispatcher/facade/controller parser/CAS/node adapter; no production state or submission"
+}
