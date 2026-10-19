@@ -1,0 +1,8 @@
+{
+  "cause": "Broad sanity token ==64 also matches correct cost comparison ==64274. No scientific audit was run and no checker was published.",
+  "error": "AssertionError: ==64",
+  "kind": "audit_preparation_failure",
+  "production_mutation": false,
+  "resolution": "Use field-specific stale-budget sentinel instead of numeric substring.",
+  "stage": "in_memory_source_adaptation"
+}

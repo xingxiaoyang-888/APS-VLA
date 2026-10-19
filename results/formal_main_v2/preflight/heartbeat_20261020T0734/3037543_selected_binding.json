@@ -1,0 +1,40 @@
+{
+  "actual_server_bytes": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T0734/3037543_selected_server.json",
+    "sha256": "7b079de6d56fa15ef16821287c071c8c50c7a5a22b8da215552cb52f2dfa7785"
+  },
+  "independent_review": {
+    "path": "results/formal_main_v2/libero_goal/k256/seed17/training/segment_reviews/3037543_independent.json",
+    "sha256": "4df4dc75041622fc582a3e6abc56de71d11fec640f086d94563e30f841c0315f"
+  },
+  "root_review": {
+    "path": "results/formal_main_v2/libero_goal/k256/seed17/training/segment_reviews/3037543.json",
+    "sha256": "15ba5f131999cf1ea9aa0137f5f2e4dba80c4abbb1c548a35df2c6c339c90f7f"
+  },
+  "selected_checkpoints": [
+    {
+      "arm": "A",
+      "expected_sha256": "756e7033ed467d50c748ff2a6290a3c9f84928c4a5a30c3304669c9e5f28d928",
+      "metadata_source": {
+        "path": "results/formal_main_v2/libero_goal/k256/seed17/training/A/deployment_receipt.json",
+        "sha256": "f69be1d5cde96dc18d467364a433cb00e239a63df89bec1da32d1dd96067c80c"
+      },
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k256/seed17/A/best.pt",
+      "selected_update": 4000,
+      "validation_metric": 0.007607010809061604
+    },
+    {
+      "arm": "B",
+      "expected_sha256": "48cadc7b53914b87f4a7e8ef232bdcfe87bf94a1e28d8758e2db44d31e4ab2c3",
+      "metadata_source": {
+        "path": "results/formal_main_v2/libero_goal/k256/seed17/training/B/deployment_receipt.json",
+        "sha256": "9857085154c8c1c85102d3e8a4c45a9e461dd7cf5379ba9e2bec15773ba521a0"
+      },
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k256/seed17/B/best.pt",
+      "selected_update": 5000,
+      "validation_metric": 0.007694445978813168
+    }
+  ],
+  "status": "root_and_independent_selected_identity_verified",
+  "weights_copied": false
+}
