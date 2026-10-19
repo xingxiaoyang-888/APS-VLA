@@ -1,0 +1,52 @@
+{
+  "core_replacements": [
+    [
+      "read(base+\"/training_report.json\")",
+      "read(base+\"/progress_report.json\")"
+    ],
+    [
+      "{\"schema\":\"formal_main_v2\",\"arm\":arm,\"status\":\"completed\",\"training_updates_completed\":5000,\"committed_samples\":40000,\"next_sample_cursor\":40000,\"unique_committed_windows\":len(set(order)),\"attempted_forward_backward_samples_completed\":40000,\"train_pool_windows\":44068,\"validation_pool_windows\":204,\"vla_parameters_unchanged\":True,\"attempts\":3,\"resumed_from_update\":1000,\"job_ids\":JOBS}",
+      "{\"schema\":\"formal_main_v2\",\"arm\":arm,\"status\":\"checkpointed\",\"training_updates_completed\":1500,\"planned_updates\":5000,\"committed_samples\":12000,\"next_sample_cursor\":12000,\"unique_committed_windows\":len(set(order[:12000])),\"attempted_forward_backward_samples_completed\":12000,\"train_pool_windows\":34703,\"vla_parameters_unchanged\":True,\"final_deployment_receipt_emitted\":False,\"stop_reason\":\"registered_engineering_segment_boundary\",\"job_ids\":JOBS}"
+    ],
+    [
+      "for wid in order:",
+      "for wid in order[:12000]:"
+    ],
+    [
+      "==report[\"committed_sampling_by_task\"]==report[\"attempted_completed_sampling_by_task\"]",
+      "==report[\"committed_sampling_by_task\"]"
+    ],
+    [
+      "204",
+      "189"
+    ],
+    [
+      "range(0,5001,500)",
+      "range(0,1501,500)"
+    ],
+    [
+      "(\"checkpointed\" if index<2 else \"completed\")",
+      "\"checkpointed\""
+    ],
+    [
+      "[500,500,4000][index] and v_count==[2,1,8][index]",
+      "[500,500,500][index] and v_count==[2,1,1][index]"
+    ],
+    [
+      "cur==5000 and sampleids==order and len(sampleids)==40000 and len(set(sampleids))==len(set(order))",
+      "cur==1500 and sampleids==order[:12000] and len(sampleids)==12000 and len(set(sampleids))==len(set(order[:12000]))"
+    ],
+    [
+      "set(range(0,5001,50)) and len(grad)==5000",
+      "set(range(0,1501,50)) and len(grad)==1500"
+    ],
+    [
+      "need(report[\"best_update\"]==best[\"update\"],\"earliest min selection\");close(report[\"best_validation_metric\"],best[\"teacher_l1\"])",
+      "need(best[\"update\"] in [0,500,1000,1500],\"earliest prefix candidate\")"
+    ]
+  ],
+  "purpose": "No review() call/global pending bypass; private independent raw reconstruction, explicit root binding only when supplied.",
+  "sha256": "f87bd1e386a09de6628abb3e35a33fe6b40bd566a4aba9c0d049be8d5b117ba6",
+  "template": ".local/terminal_independent_1932/audit_3037054.py",
+  "unchanged_original_review_primitive": "scripts/formal_cuda_terminal_review_v1/review_formal_segment_startup.py:audit_arm/require_pulled_startup_ownership"
+}

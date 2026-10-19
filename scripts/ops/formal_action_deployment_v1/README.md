@@ -1,5 +1,9 @@
 # Versioned action deployment candidates
 
+Current status, 2026-10-20 CST: the first exact Long128 seed23 fresh A/B development200 shard is running as3043709. A delayed accounting row stopped its original submission transaction after ACK; root reconciled the exact existing job/token and consumed its own reservation with zero new sbatch calls. Original failure evidence is retained. Runtime identity and original scientific adapter startup are observed, not terminal scientific acceptance. The other7 shard authorizations remain unused. See results/formal_main_v2/preflight/heartbeat_20261020T0530/summary.json.
+
+The earlier status paragraphs below are retained historical snapshots.
+
 Current status, 2026-10-20 CST: eight fresh Long A/B development shards (16 already selected checkpoints,1600 planned trials) have exact per-plan root/independent readiness and one-use authorizations. Root and independent checks each ran the unchanged full P wrapper for all8; no new GPU execution or trial is claimed. Their reservations are not activated. The next reserved slot still belongs to the approved Spatial64 seed23 CUDA recovery. See results/formal_main_v2/preflight/heartbeat_20261020T0227/Long_development_runtime_root_acceptance.json.
 
 The following records earlier component/Spatial preparation and remains historical evidence.

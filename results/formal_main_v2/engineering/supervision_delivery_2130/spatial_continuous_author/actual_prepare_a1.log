@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/prepare.py", line 77, in <module>
+    try:main()
+        ^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/prepare.py", line 75, in main
+    prepare(refs,label=args.label)
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/prepare.py", line 44, in prepare
+    native=a.NativeIO().preflight(plan)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/admission.py", line 200, in preflight
+    def preflight(self,plan):return self._verify(plan)
+                                    ^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/admission.py", line 192, in _verify
+    require(actual==expected|{'.training.lock'} and (P/OUT/'.training.lock').stat().st_size==0,'server output added/missing after review')
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/admission.py", line 44, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: server output added/missing after review
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/prepare.py", line 77, in <module>
+    try:main()
+        ^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/prepare.py", line 75, in main
+    prepare(refs,label=args.label)
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/prepare.py", line 44, in prepare
+    native=a.NativeIO().preflight(plan)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/admission.py", line 200, in preflight
+    def preflight(self,plan):return self._verify(plan)
+                                    ^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/admission.py", line 192, in _verify
+    require(actual==expected|{'.training.lock'} and (P/OUT/'.training.lock').stat().st_size==0,'server output added/missing after review')
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_continuous_admission_2130/admission.py", line 44, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: server output added/missing after review

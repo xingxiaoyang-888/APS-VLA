@@ -1,0 +1,193 @@
+"""Exact old failure/scientific gates and read-only server preflight."""
+from pathlib import Path, PurePosixPath
+from types import SimpleNamespace
+from datetime import datetime, timezone
+import copy, hashlib, importlib.util, json, os, stat
+
+R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+H=Path('/share/home/u15016/XXY_CVPR/CTI-VLA')
+S=P/'snapshots/formal_main_v2_run_564be0995e'
+SOURCE_SHA='dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e'
+OLD='.local/cuda_startup_recovery_0840/'
+FIVE={
+ OLD+'startup_failure_evidence.py':'c07c5b686d103aaabfe8a7280c62ff2a8b61fcb3ab5d07ff7592011fabbfa480',
+ OLD+'recover_startup_failure.py':'a9440b5d6bc15a61901f1284267ef36850450a1a59e69c1ff672bc66dcdd7cc3',
+ OLD+'formal_asset_supervisor_startup.py':'5a965024487a10feceb0356b5b0c371ab49adcb7f5b6b61f5f75ea3cd4516265',
+ OLD+'review_formal_segment_startup.py':'a06069b9139d24e9ac35944559fa0918afce62a4c58d57adee63ace2c3776f4a',
+ OLD+'formal_asset_downstream_review_startup.py':'0e334fee9299905c9fd60768241705548c1c8df2f1100077907e6cb0236a5ca0'}
+SUPERVISOR='scripts/formal_supervisor.py'
+SUPERVISOR_SHA='3e0786da690552356bbe2f56458fe19e88c90b4de079211dc652d655fe3c2e95'
+REG='configs/experiments/formal_main_v2.json'
+REG_SHA='a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9'
+PUBLICATION={'path':'results/formal_main_v2/preflight/heartbeat_20261019T0208/cuda_failure_canonical_publication_root.json','sha256':'65382bd0fbc599224129f8bcfea6a526f962aed9b1383b799aa0e4d785dac64b'}
+NODE={'path':'configs/experiments/formal_main_v2_node_exclusion_v1.json','sha256':'bb14944d4c27bc56685f1b845553a68dbff0545360e37331316d95508a12ce38'}
+CASES={
+ '3028460':('libero_object',256,23,500,84,'d77e2a9b4dd9a23da41fea7611ffef20fa00c1bfdef627a456ad65902e05031f'),
+ '3028468':('libero_object',64,23,500,69,'2555c99a68778af2659d49e8ce337d84473484d66c43dfc140073e0fbdb5ccbd'),
+ '3028522':('libero_spatial',64,23,1500,73,'e3e00f34b1cbc5e8cb83f3aad7b470373d532239efe2057d95956004cebafae5')}
+WRAPPERS={
+ 'libero_object':('scripts/server/formal_asset_main.slurm','9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a'),
+ 'libero_spatial':('scripts/server/formal_main.slurm','4e0b7b714b2d6cb0440acc145dab770c4f53a9ba561fa208931af7ce9ae364ab')}
+
+def require(v,m):
+    if not v: raise ValueError(m)
+def digest(b):return hashlib.sha256(b).hexdigest()
+def relative(v):
+    require(isinstance(v,str) and '\\' not in v and ':' not in v,'noncanonical relative path')
+    p=PurePosixPath(v)
+    require(not p.is_absolute() and p.as_posix()==v and '..' not in p.parts,'path escape')
+    require(not any('sealed' in x.lower() or x.lower() in {'test','weights','checkpoints'} for x in p.parts),'forbidden path')
+    require(not any(x.lower() in {'.pt','.pth','.bin','.safetensors','.ckpt'} for x in p.suffixes),'weight path')
+    require(p.suffix=='.py' or not any(x in v.lower() for x in ('init_state','initial_state','final_state','test_state')),'state payload')
+    return p
+def no_links(p):
+    p=Path(p).absolute()
+    require(not any(x.is_symlink() for x in (p,*p.parents)),'symlink path')
+    return p
+def stable_sha(p):
+    p=no_links(p);a=p.stat();require(stat.S_ISREG(a.st_mode),'not a regular file')
+    h=hashlib.sha256()
+    with p.open('rb') as f:
+        for b in iter(lambda:f.read(8<<20),b''):h.update(b)
+    z=p.stat()
+    require((a.st_dev,a.st_ino,a.st_size,a.st_mtime_ns,a.st_ctime_ns)==(z.st_dev,z.st_ino,z.st_size,z.st_mtime_ns,z.st_ctime_ns),'file changed while hashing')
+    return dict(sha256=h.hexdigest(),bytes=a.st_size)
+def load(path,name,pin):
+    b=no_links(path).read_bytes();require(digest(b)==pin,'module SHA differs')
+    spec=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(spec)
+    exec(compile(b,str(path),'exec'),m.__dict__);return m
+
+class Evidence:
+    def __init__(self,root):self.root=Path(root);self.hashes={}
+    def watch(self,name,pin=None):
+        relative(name);require(name!='results/experiment_supervisor/state.json','mutable state is not immutable evidence')
+        value=stable_sha(self.root/name)['sha256']
+        require(pin is None or value==pin,'SHA differs: '+name)
+        require(name not in self.hashes or self.hashes[name]==value,'input drift: '+name)
+        self.hashes[name]=value;return value
+    def read(self,name,pin=None):
+        self.watch(name,pin);return json.loads((self.root/name).read_bytes())
+    def ref(self,r):
+        require(isinstance(r,dict) and set(r)=={'path','sha256'},'reference fields differ')
+        return self.read(r['path'],r['sha256'])
+    def unchanged(self):
+        for rel,sha in list(self.hashes.items()):self.watch(rel,sha)
+
+class RecoveryScience:
+    def __init__(self,root):
+        self.root=Path(root);self.e=Evidence(root)
+        for rel,sha in FIVE.items():self.e.watch(rel,sha)
+        self.e.watch(SUPERVISOR,SUPERVISOR_SHA)
+        self.old=load(self.root/(OLD+'recover_startup_failure.py'),'cuda_original_recovery',FIVE[OLD+'recover_startup_failure.py'])
+        require(self.old.ROOT==self.root,'old gateway root mismatch')
+        self.failure=self.old.failure
+    def prepare(self,state,projection,auth):
+        e=self.e;jid=auth['failed_job_id'];case=CASES[jid]
+        pub=e.ref(PUBLICATION)
+        require(pub['kind']=='root_canonical_startup_failure_proof_publication' and pub['status']=='failure_evidence_published_retry_not_authorized'
+                and pub['retry_authorized'] is False and pub['registered_failed_rows_untouched'] is True,'publication type differs')
+        canonical=f'results/formal_main_v2/{case[0]}/k{case[1]}/seed23/training/startup_failure_reviews/{jid}.json'
+        require(auth['canonical_failure_review']==dict(path=canonical,sha256=case[5]),'wrong canonical failure')
+        require(next(x for x in pub['proofs'] if x['job_id']==jid)['sha256']==case[5],'publication proof mismatch')
+        e.ref(auth['canonical_failure_review']);e.ref(auth['repair_record'])
+        require(Path(auth['repair_record']['path']).stem==auth['repair_record']['sha256'],'repair must be content-addressed')
+        plan=self.old.build_recovery_plan(self.root,state,projection,failed_job_id=jid,repair_relative=auth['repair_record']['path'])
+        for rel,sha in plan['evidence_sha256'].items():e.watch(rel,sha)
+        proof=plan['proof'];args=SimpleNamespace(**plan['args'])
+        require(args.segment==case[3] and args.wall_seconds==12600 and args.resume is True,'recovery target drift')
+        oldjob=next(j for j in projection if j['job_id']==jid)
+        original=e.read(oldjob['invocation'],oldjob['invocation_sha256'])
+        reg=e.read(REG,REG_SHA);suite=reg['suites'][case[0]]
+        gates=e.read(f'results/formal_main_v2/{case[0]}/acceptance/root_review.json')
+        accepted=[j for j in projection if j['job_id']==str(gates['job_id'])]
+        require(gates.get('status')=='passed' and len(accepted)==1 and accepted[0]['status']=='COMPLETED' and accepted[0]['exit_code']=='0:0','own acceptance missing')
+        for name in ('input_acceptance.json',f'f01_k{case[1]}.json','resume_acceptance.json','f03_calls.jsonl','acceptance_complete.json'):
+            e.watch(gates['output_relative']+'/'+name,gates['files'][name])
+        if case[0]=='libero_object':
+            dispatcher=load(self.root/(OLD+'formal_asset_supervisor_startup.py'),'cuda_original_asset',FIVE[OLD+'formal_asset_supervisor_startup.py'])
+            require(dispatcher.ROOT==self.root and stable_sha(dispatcher.f.__file__)['sha256']==SUPERVISOR_SHA,'Object dispatcher source differs')
+            p=dispatcher.build_plan(args,state,projection,root=self.root);inv=p['invocation'];invrel=p['invocation_relative']
+            require(p['server_resume_checks']==proof['server_resume_checks'],'Object resume checks differ')
+        else:
+            inv=copy.deepcopy(original);inv['registered_utc']=datetime.now(timezone.utc).isoformat()
+            inv['repair_record']=str(self.root/auth['repair_record']['path'])
+            invrel=f"results/formal_main_v2/invocations/{proof['stage_key']}_attempt{len(plan['prior_jobs'])+1:02d}.json"
+        expected=copy.deepcopy(original)
+        expected['registered_utc']=inv['registered_utc'];expected['repair_record']=str(self.root/auth['repair_record']['path'])
+        if '--resume' not in expected['argv']:expected['argv'].append('--resume')
+        require(inv==expected,'only timestamp/repair and explicit fresh-resume may differ from original invocation')
+        require(inv['argv'][-1]=='--resume' and inv['segment_end']==case[3],'invocation not original-target resume')
+        require(not (self.root/invrel).exists() and not (P/invrel).exists(),'invocation already exists; do not retry')
+        invpathmap=dict(inv['watched_files'])
+        if 'runtime_compatibility' in inv:
+            invpathmap.update({str(P/rel):sha for rel,sha in inv['runtime_compatibility']['files'].items()})
+        for path,sha in invpathmap.items():
+            local=self.failure.local_server(path);e.watch(local,sha)
+        inventory=e.read(self.failure.SOURCE,self.failure.SOURCE_PIN)
+        for rel,sha in inventory['files'].items():e.watch(rel,sha)
+        wrapperrel,wrappersha=WRAPPERS[case[0]];e.watch(wrapperrel,wrappersha)
+        wrapper=(P if case[0]=='libero_object' else S)/wrapperrel
+        return dict(proof=proof,invocation=inv,invocation_relative=invrel,prior_jobs=plan['prior_jobs'],
+            wrapper=str(wrapper),wrapper_sha256=wrappersha,remote_watched=invpathmap,
+            inventory=inventory,evidence_sha256=e.hashes,args=dict(suite=case[0],budget=case[1],seed=23,segment=case[3]),
+            fresh=(case[3]==500))
+
+class NativeIO:
+    """Fixed same-server roots only. No models loaded; checkpoint bytes only SHA."""
+    def preflight(self,plan):
+        remote={}
+        for rel,sha in plan['inventory']['files'].items():
+            got=stable_sha(S/rel);require(got['sha256']==sha,'server frozen source differs');remote[str(S/rel)]=got
+        for path,sha in plan['remote_watched'].items():
+            p=Path(path);require(p.is_relative_to(P) or p.is_relative_to(S),'foreign watched path')
+            got=stable_sha(p);require(got['sha256']==sha,'server watched SHA differs');remote[path]=got
+        got=stable_sha(plan['wrapper']);require(got['sha256']==plan['wrapper_sha256'],'server wrapper drift');remote[plan['wrapper']]=got
+        proof=plan['proof'];out=no_links(P/proof['output_relative'])
+        require(out.is_dir(),'missing original output')
+        expected={rel[len(proof['output_relative'])+1:]:row for rel,row in proof['evidence_bundle'].items() if rel.startswith(proof['output_relative']+'/')}
+        # The exact previous root review is R-only evidence, not a runtime
+        # output. Its SHA/bytes remain checked; no directory-wide exemption.
+        control_metadata={}
+        previous=proof.get('previous_boundary_review')
+        if previous is not None:
+            require(isinstance(previous,dict) and set(previous)=={'path','sha256'},'previous review reference differs')
+            rel=relative(previous['path']).as_posix()
+            prefix=proof['output_relative']+'/segment_reviews/'
+            require(rel.startswith(prefix) and '/' not in rel[len(prefix):]
+                    and Path(rel).suffix=='.json' and Path(rel).stem.isdigit(),'previous review path differs')
+            name=rel[len(proof['output_relative'])+1:]
+            require(name in expected and expected[name]['sha256']==previous['sha256'],'previous review not bound to failure evidence')
+            got=stable_sha(R/rel)
+            require(got==dict(sha256=previous['sha256'],bytes=expected[name]['bytes']),'control previous review SHA/bytes differ')
+            control_metadata[str(R/rel)]=got
+            del expected[name]
+        actual={}
+        for directory,dirs,files in os.walk(out,followlinks=False):
+            for name in dirs:no_links(Path(directory)/name)
+            for name in files:
+                q=no_links(Path(directory)/name);actual[q.relative_to(out).as_posix()]=q
+        require(set(actual)==set(expected)|{'.training.lock'},'server output inventory changed since startup failure')
+        require(actual['.training.lock'].stat().st_size==0,'training lock metadata changed')
+        for name,row in expected.items():
+            got=stable_sha(actual[name]);require(got==dict(sha256=row['sha256'],bytes=row['bytes']),'server output SHA/bytes differ');remote[str(actual[name])]=got
+        resumes=[]
+        checkpoint=Path(proof['server_resume_checks'][0]['path']).parents[1]
+        require(checkpoint==H/f"checkpoints/formal_main_v2/{proof['suite']}/k{proof['visual_tokens']}/seed23",'foreign checkpoint root')
+        if plan['fresh']:require(not no_links(checkpoint).exists(),'zero-start checkpoint root appeared')
+        for check in proof['server_resume_checks']:
+            p=no_links(check['path']);require(p==checkpoint/check['arm']/'resume.pt','resume path differs')
+            if not check['exists']:
+                require(not p.exists(),'zero-start resume appeared');resumes.append(dict(check))
+            else:
+                got=stable_sha(p);require(got==dict(sha256=check['sha256'],bytes=check['bytes']),'actual resume differs')
+                resumes.append(dict(check,stable_during_hash=True))
+        require(not (P/plan['invocation_relative']).exists(),'remote invocation already exists')
+        return dict(server_files=remote,control_metadata=control_metadata,server_resume_checks=resumes,model_loaded=False,final_states_opened=False)
+    def publish(self,plan,raw):
+        p=no_links(P/plan['invocation_relative']);p.parent.mkdir(parents=True,exist_ok=True)
+        with p.open('xb') as f:f.write(raw);f.flush();os.fsync(f.fileno())
+        fd=os.open(p.parent,os.O_RDONLY|os.O_DIRECTORY)
+        try:os.fsync(fd)
+        finally:os.close(fd)
+        require(stable_sha(p)==dict(sha256=digest(raw),bytes=len(raw)),'published invocation differs')

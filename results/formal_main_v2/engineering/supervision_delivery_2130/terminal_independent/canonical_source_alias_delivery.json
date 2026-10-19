@@ -1,0 +1,47 @@
+{
+  "checker_changed": false,
+  "explanation": "The unmodified archive stage guard rejects state-named metadata aliases. These five files are SHA-identical frozen source already present at canonical src/scripts paths, not state values. Raw server copies and original audit manifests remain intact. Reconstruct an original alias from its mapped canonical source and verify SHA/bytes when needed.",
+  "kind": "canonical_frozen_source_alias_delivery",
+  "mapping": [
+    {
+      "byte_exact": true,
+      "bytes": 1333,
+      "git_canonical_source": "scripts/data/build_formal_initial_states.py",
+      "retained_server_archive_path": "results/formal_main_v2/engineering/supervision_delivery_2130/terminal_independent/dependencies/201611f6d862_build_formal_initial_states.py.txt",
+      "sha256": "201611f6d8622ea4264c6415f7b5ce2088988b7206304dbcf24e061efac7470f"
+    },
+    {
+      "byte_exact": true,
+      "bytes": 12244,
+      "git_canonical_source": "src/cti_vla/data/initial_states.py",
+      "retained_server_archive_path": "results/formal_main_v2/engineering/supervision_delivery_2130/terminal_independent/dependencies/34b73213fce6_initial_states.py.txt",
+      "sha256": "34b73213fce668575b29a3fb52a63fee0b8914c8ef3eba04466dda8de9703383"
+    },
+    {
+      "byte_exact": true,
+      "bytes": 947,
+      "git_canonical_source": "scripts/data/build_long_initial_states.py",
+      "retained_server_archive_path": "results/formal_main_v2/engineering/supervision_delivery_2130/terminal_independent/dependencies/6ef472b85cbb_build_long_initial_states.py.txt",
+      "sha256": "6ef472b85cbbce6fd73b104cf544e095e4d3533ebdbd19cd4fb38d50d18f2484"
+    },
+    {
+      "byte_exact": true,
+      "bytes": 10622,
+      "git_canonical_source": "src/cti_vla/data/formal_initial_states.py",
+      "retained_server_archive_path": "results/formal_main_v2/engineering/supervision_delivery_2130/terminal_independent/dependencies/752e8e35ab6f_formal_initial_states.py.txt",
+      "sha256": "752e8e35ab6f884657057cd9f2bb8d6ab02ef576a771644f044566a211be5e99"
+    },
+    {
+      "byte_exact": true,
+      "bytes": 11293,
+      "git_canonical_source": "src/cti_vla/data/long_initial_states.py",
+      "retained_server_archive_path": "results/formal_main_v2/engineering/supervision_delivery_2130/terminal_independent/dependencies/972a8257320d_long_initial_states.py.txt",
+      "sha256": "972a8257320d9c2f080fe999e19eac784340bfc21dd8d2b17baca25ebb2e5d22"
+    }
+  ],
+  "original_source_173_unchanged": true,
+  "schema": "formal_main_v2",
+  "sealed_values_read": false,
+  "server_copies_deleted": false,
+  "status": "all_five_exact_source_bytes_already_in_Git"
+}

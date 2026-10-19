@@ -1,0 +1,105 @@
+{
+  "author_live_scheduler_calls": 0,
+  "author_state_P_Git_Slurm_mutations": 0,
+  "independent_approval_claimed": false,
+  "job_id": "3043709",
+  "kind": "known_ack_reconciliation_candidate_author_CPU_review",
+  "new_GPU_submissions": 0,
+  "original_evidence": [
+    {
+      "bytes": 35248,
+      "path": "scripts/ops/formal_action_deployment_v1/gateway.py",
+      "sha256": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a"
+    },
+    {
+      "bytes": 34535,
+      "path": "scripts/ops/formal_autonomous_training_v1/controller.py",
+      "sha256": "acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363"
+    },
+    {
+      "bytes": 583063,
+      "path": "results/formal_main_v2/downstream_gateway/6e574361d66aaba7869b536082d9c605106bdaf2ec428f3ccb46ea986c8ef37a/preflight.json",
+      "sha256": "48fbfc52f482a790d283a7e7f2033ec981771af748152a7092da4b9ed7a02f11"
+    },
+    {
+      "bytes": 1531,
+      "path": "results/formal_main_v2/downstream_gateway/6e574361d66aaba7869b536082d9c605106bdaf2ec428f3ccb46ea986c8ef37a/sbatch_result.json",
+      "sha256": "24cfb9362989ae65c5628b2ead90ae635db79ff997a5c9f144d2c43d44e124c2"
+    },
+    {
+      "bytes": 281,
+      "path": "results/formal_main_v2/downstream_gateway/6e574361d66aaba7869b536082d9c605106bdaf2ec428f3ccb46ea986c8ef37a/failed_transaction.json",
+      "sha256": "e24132ccb84a72385d2346a8cc52f225a59770de197ef08c7d8c808a7aebb643"
+    },
+    {
+      "bytes": 3016,
+      "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed23/submission_authorization.json",
+      "sha256": "6e574361d66aaba7869b536082d9c605106bdaf2ec428f3ccb46ea986c8ef37a"
+    },
+    {
+      "bytes": 136511,
+      "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed23/prepared_invocation.json",
+      "sha256": "2bf41d87718038e41f35d52b90506a3e973a7270869278157fb953d8238a7f84"
+    },
+    {
+      "bytes": 951,
+      "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed23/reservation_root_record.json",
+      "sha256": "2233de819653db5c84512902a61972aace9fa4adee787d860bbb8dbd47c865ee"
+    },
+    {
+      "bytes": 478,
+      "path": "results/formal_main_v2/autonomous_training/run_v1/owner.json",
+      "sha256": "2ba2100d6f20e8a00f7853e193d1546b3d7c4195f174c75d54605ec504e33bc2"
+    }
+  ],
+  "remaining": [
+    "Root independently review pinned candidate.",
+    "Root exact-SHA default check and explicit commit must each query fresh all-registered-plus-known-job Slurm and validate held owner/lease under shared writer lock.",
+    "Do not reissue original authorization or sbatch; preserve original accounting-delay failure."
+  ],
+  "root_commit_executed": false,
+  "schema": "formal_main_v2",
+  "scientific_trials_or_success_claimed": false,
+  "source": {
+    "bytes": 14974,
+    "path": ".local/downstream_pending_reconcile_2130/reconcile.py",
+    "sha256": "6e1ce05c0dcde70b7b9fcbd1ffc763b40c2766e6fac4abe1103e1a7350811d06"
+  },
+  "status": "passed_23_bounded_CPU_checks_pending_root_review_and_actual_reconciliation",
+  "test_source": {
+    "bytes": 5539,
+    "path": ".local/downstream_pending_reconcile_2130/test_reconcile.py",
+    "sha256": "1f5202394a31f312dfd6fa74f1db71dee21992fd3525fbcf7e2f0daf50173b27"
+  },
+  "tests": {
+    "GPU_calls": 0,
+    "Slurm_calls": 0,
+    "all_passed": true,
+    "errors": 0,
+    "failures": 0,
+    "kind": "bounded_reconciliation_CPU_checks",
+    "production_state_writes": 0,
+    "real_readonly_context": [
+      "exact production pending/source/ack validation",
+      "owner identity and held lease probe"
+    ],
+    "synthetic_boundary": "Scheduler snapshot test cases are derived from original preflight plus a synthetic known-job row; they are not new Slurm or GPU evidence.",
+    "tests_run": 23
+  },
+  "tests_command": {
+    "bytes": 575,
+    "path": ".local/downstream_pending_reconcile_2130/test_command_a1.json",
+    "sha256": "cb7a11687cb41f9e4deabf620d6276d132b469a9b1fc4201a223930ea7e172a8"
+  },
+  "tests_log": {
+    "bytes": 1941,
+    "path": ".local/downstream_pending_reconcile_2130/test_run_a1.log",
+    "sha256": "da10fd74099942bc36116ae957b1776bd9cdc529fd7858c403c46793e37f6ef8"
+  },
+  "transport_log": {
+    "bytes": 1081,
+    "path": "results/formal_main_v2/control_transport/downstream_pending_reconcile_2130_CPU_a1.jsonl",
+    "sha256": "fddfa383d79138a4a8c1bbca0a78a7cd94a0da38169e11d7181a893627edb2ee"
+  },
+  "utc": "2026-10-19T21:41:03.742515+00:00"
+}
