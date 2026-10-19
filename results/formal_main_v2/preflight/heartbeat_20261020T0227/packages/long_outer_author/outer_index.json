@@ -1,0 +1,305 @@
+{
+  "execution_version": "formal-downstream-action-v1",
+  "expected_total_trials": 1600,
+  "final_release": false,
+  "historical_Long_GPU_seconds": 10531,
+  "historical_cost_reference": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T0122/Long_selected_identity_root_check.json",
+    "sha256": "e3b08dff62a583e910aecd04179841017e10f1216f6a19f431036fe056ff5757"
+  },
+  "history_reused_as_new_results": false,
+  "kind": "Long16_eight_action_outer_candidates",
+  "methods": [
+    "A128_seed23",
+    "A128_seed41",
+    "A256_seed17",
+    "A256_seed23",
+    "A256_seed41",
+    "A64_seed17",
+    "A64_seed23",
+    "A64_seed41",
+    "B128_seed23",
+    "B128_seed41",
+    "B256_seed17",
+    "B256_seed23",
+    "B256_seed41",
+    "B64_seed17",
+    "B64_seed23",
+    "B64_seed41"
+  ],
+  "publication_map": {
+    "bytes": 14671,
+    "path": ".local/long_action_outer_1827/publication_map.json",
+    "sha256": "6fd6543dcb538335122ee369609e3ed68a2faaf9c1bdf33cca207890e9241f7f"
+  },
+  "registry_count": 259,
+  "registry_unfiltered": true,
+  "schema": "formal_main_v2",
+  "scientific_settings_changed": false,
+  "shards": [
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed23/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed23/effective_plan.json",
+        "sha256": "2da4bc396a2ee03d505f8ff8ea97b97238bca117d63f55a591b439d757c01615"
+      },
+      "full_registry_original_plan_exact": true,
+      "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_ea4e52de3babd049_attempt01.json",
+      "method_ids": [
+        "A128_seed23",
+        "B128_seed23"
+      ],
+      "original_inner_P_verify": true,
+      "pair": "k128_seed23",
+      "plan_sha256": "425a7d5c6cbeae35ab3c2f03f9b4ed38ac8de1750ffe084514d30fee5e6c5689",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/ea4e52de3babd049/attempt01",
+      "runtime_projection": {
+        "bytes": 43456,
+        "path": ".local/long_action_outer_1827/shards/k128_seed23/runtime_projection.json",
+        "sha256": "f164704c5b6bcf54b670e7c0a9d03f154b955a446c18419c49262ddcbbb8f30a"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed23/scientific_plan.json",
+        "sha256": "4251b675d8f25bf2330ad83858601cf5dc1723c688edd679836b4987a2ffed9e"
+      },
+      "scientific_plan_sha256": "ad9f378794c809c24a6df4d4325a9839cd8ab709e81a8b03b8e66dcd7d5840c8",
+      "stage_key": "libero_10_development_ea4e52de3babd049",
+      "unsigned_outer_rejected": "Exact path/SHA reference required"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed41/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed41/effective_plan.json",
+        "sha256": "bb91d170ee4f980b6ff7e25c24c265c8c9487352092e1d57eb78fe500c75158a"
+      },
+      "full_registry_original_plan_exact": true,
+      "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_428eafaeb10a5ce3_attempt01.json",
+      "method_ids": [
+        "A128_seed41",
+        "B128_seed41"
+      ],
+      "original_inner_P_verify": true,
+      "pair": "k128_seed41",
+      "plan_sha256": "921222d67f2eb5ac64e28add40ac667a1afe112c3ec1d84a15e9b7c4e6b0a5a7",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/428eafaeb10a5ce3/attempt01",
+      "runtime_projection": {
+        "bytes": 43456,
+        "path": ".local/long_action_outer_1827/shards/k128_seed41/runtime_projection.json",
+        "sha256": "766f4641802f4a183df6addfc7ab3122e240f506cf0a985e2765e5f12edc90ab"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed41/scientific_plan.json",
+        "sha256": "790afe3ffac5928b860c32b1b9b1eb9e74030f6a0b1447d71c3b28b10ba59e64"
+      },
+      "scientific_plan_sha256": "805c1ab6d5c4fba93883c39c5181c3875797e308560ce3a5a8b8ce54a0f5e445",
+      "stage_key": "libero_10_development_428eafaeb10a5ce3",
+      "unsigned_outer_rejected": "Exact path/SHA reference required"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed17/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed17/effective_plan.json",
+        "sha256": "0291fc7219fc21740e4aa0cec7604185fe7e75e27f527e47bbfbc6ad5f0d48b0"
+      },
+      "full_registry_original_plan_exact": true,
+      "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_5185766bb353c8e6_attempt01.json",
+      "method_ids": [
+        "A256_seed17",
+        "B256_seed17"
+      ],
+      "original_inner_P_verify": true,
+      "pair": "k256_seed17",
+      "plan_sha256": "3935a71dca0c1df9b220096936497cc18e40f7396a8e48b2f496e4cfd1c3ead4",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/5185766bb353c8e6/attempt01",
+      "runtime_projection": {
+        "bytes": 43456,
+        "path": ".local/long_action_outer_1827/shards/k256_seed17/runtime_projection.json",
+        "sha256": "afaa2202801f46c18192ba1ac9afc11d0a053203bacf0e5b0346cf1894fa2309"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed17/scientific_plan.json",
+        "sha256": "a084e3d505159b9197be11f0f755f6d52cef969541dfc9753b74feb72f483cee"
+      },
+      "scientific_plan_sha256": "4347f78c77c0b212714d4525ab030d37a5781682f46cdfc70c3de2d2e57d53d9",
+      "stage_key": "libero_10_development_5185766bb353c8e6",
+      "unsigned_outer_rejected": "Exact path/SHA reference required"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed23/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed23/effective_plan.json",
+        "sha256": "f7973afc67ca40304033d9ef379a07c893f666d305b72a27feff310bab47356a"
+      },
+      "full_registry_original_plan_exact": true,
+      "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_b0a59115666b5afa_attempt01.json",
+      "method_ids": [
+        "A256_seed23",
+        "B256_seed23"
+      ],
+      "original_inner_P_verify": true,
+      "pair": "k256_seed23",
+      "plan_sha256": "2d513bb70ed98b345bc8c4fe9934fb74b055b72393663c189cce66d07ecf929b",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/b0a59115666b5afa/attempt01",
+      "runtime_projection": {
+        "bytes": 43456,
+        "path": ".local/long_action_outer_1827/shards/k256_seed23/runtime_projection.json",
+        "sha256": "e21d2cbe864f9009c053e6aeb5033f43d043c5ae8515a5e14a49ee5e7f856ac2"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed23/scientific_plan.json",
+        "sha256": "f9b30d17e044661c9d9644a2fd3a5cb4e8d4db6bf82c57964c35963aad9ba39f"
+      },
+      "scientific_plan_sha256": "0d9bfb260a88f27c3e7dd90b6f81379c50f6ff207cbe28de8ae37c7a571a24c5",
+      "stage_key": "libero_10_development_b0a59115666b5afa",
+      "unsigned_outer_rejected": "Exact path/SHA reference required"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed41/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed41/effective_plan.json",
+        "sha256": "896834c8ffcf75c7fb87d0737a29f2da99afc657b7617cef28458f51039aa9b9"
+      },
+      "full_registry_original_plan_exact": true,
+      "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_460db0e9701de590_attempt01.json",
+      "method_ids": [
+        "A256_seed41",
+        "B256_seed41"
+      ],
+      "original_inner_P_verify": true,
+      "pair": "k256_seed41",
+      "plan_sha256": "45e3bd1278bbb4c57b761eec8c235958b6079f20df21ba6cbad5b969949438a7",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/460db0e9701de590/attempt01",
+      "runtime_projection": {
+        "bytes": 43456,
+        "path": ".local/long_action_outer_1827/shards/k256_seed41/runtime_projection.json",
+        "sha256": "c776cbb20f53abb15a3464e2bfcfd96f12f9e1fe8e88624d2e45ab3c4d7ebdfd"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed41/scientific_plan.json",
+        "sha256": "dc91317a9d32b2269d269eea5593ea4a2793ed5642d492a729e439f88c00a6dc"
+      },
+      "scientific_plan_sha256": "0134fd7cfb91f2ceeaf2f1a912a7d9a2665847e20eb071d626a6e4b3c623c9a8",
+      "stage_key": "libero_10_development_460db0e9701de590",
+      "unsigned_outer_rejected": "Exact path/SHA reference required"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed17/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed17/effective_plan.json",
+        "sha256": "a66658a3724c687990973a1f04c6c21a4ccfd50f1cb9082b127cd66fe211bd41"
+      },
+      "full_registry_original_plan_exact": true,
+      "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_421cbed0b5a0fa49_attempt01.json",
+      "method_ids": [
+        "A64_seed17",
+        "B64_seed17"
+      ],
+      "original_inner_P_verify": true,
+      "pair": "k64_seed17",
+      "plan_sha256": "af4ffdf9569e022d8dd9f74156365c0586c2ef7a52f60879bd11b71ad32593e1",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/421cbed0b5a0fa49/attempt01",
+      "runtime_projection": {
+        "bytes": 43444,
+        "path": ".local/long_action_outer_1827/shards/k64_seed17/runtime_projection.json",
+        "sha256": "326e868d4b34d495b4c3e19509765f287029322d1e9180078e16efed9e56b56f"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed17/scientific_plan.json",
+        "sha256": "da01df74bc33a3dc6a6619bcd9840e17a3d10efd4def3afac8c835b1d2735cde"
+      },
+      "scientific_plan_sha256": "067d6fa1f529a25a049793ec6bace8220989ad9a491c26a5bad62a4eb71d0d1b",
+      "stage_key": "libero_10_development_421cbed0b5a0fa49",
+      "unsigned_outer_rejected": "Exact path/SHA reference required"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed23/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed23/effective_plan.json",
+        "sha256": "dc78b592690d628b03c625cc883fcda1c1cd901a35b57397703ad3527940e004"
+      },
+      "full_registry_original_plan_exact": true,
+      "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_2eea5a76505a0f3c_attempt01.json",
+      "method_ids": [
+        "A64_seed23",
+        "B64_seed23"
+      ],
+      "original_inner_P_verify": true,
+      "pair": "k64_seed23",
+      "plan_sha256": "84737cbbe8b9006dab432aeca7c590390ef057796b6cd490b791c265f9f469a9",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/2eea5a76505a0f3c/attempt01",
+      "runtime_projection": {
+        "bytes": 43444,
+        "path": ".local/long_action_outer_1827/shards/k64_seed23/runtime_projection.json",
+        "sha256": "798cd1932ff3cbd6837f025f3a4bb10f56564488655e0c72b293ddd3272e4544"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed23/scientific_plan.json",
+        "sha256": "1fc257dac0219100b8e3b61d571f7d7a803baa3fa8fe151700f9f3554b0fd4e5"
+      },
+      "scientific_plan_sha256": "27450b2677623cd3dfb701e111bd182154455be5f56a857bf2dbadd6c47ceb52",
+      "stage_key": "libero_10_development_2eea5a76505a0f3c",
+      "unsigned_outer_rejected": "Exact path/SHA reference required"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed41/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed41/effective_plan.json",
+        "sha256": "f5e88adc3712e7050d3b4e456783dd88953936e9ccaf77f5722dbc8e98d529c2"
+      },
+      "full_registry_original_plan_exact": true,
+      "invocation_relative": "results/formal_main_v2/invocations/libero_10_development_b426228fe9d2fd0a_attempt01.json",
+      "method_ids": [
+        "A64_seed41",
+        "B64_seed41"
+      ],
+      "original_inner_P_verify": true,
+      "pair": "k64_seed41",
+      "plan_sha256": "0f0ecf0ecd04e20f6d59bc67b7f4f476d2da98ff9847479177d35ef0f607f13d",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/b426228fe9d2fd0a/attempt01",
+      "runtime_projection": {
+        "bytes": 43444,
+        "path": ".local/long_action_outer_1827/shards/k64_seed41/runtime_projection.json",
+        "sha256": "09578bc84e7b053242ffade9abedd964e52c8842cca2b12d6757b3d1f54b0e96"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed41/scientific_plan.json",
+        "sha256": "b1cd61e0918c17f3bd49782ec54dcaa66783241618bf2d8970aceecbcc12ed76"
+      },
+      "scientific_plan_sha256": "3a33f112f5ffee83f586e5c6db8573dc52ea20701bcd9f3741271f0822a0f607",
+      "stage_key": "libero_10_development_b426228fe9d2fd0a",
+      "unsigned_outer_rejected": "Exact path/SHA reference required"
+    }
+  ],
+  "state_observation": {
+    "bytes": 3059031,
+    "path": ".local/long_action_outer_1827/state_snapshot_observed.json",
+    "sha256": "40a4773e8402f650015f60ce13c4a7ea81c2150ba3e33979847d55c9431d70a3"
+  },
+  "status": "candidate_pending_root_readiness",
+  "submission_authorized": false,
+  "unique_development_initial_states_per_method": 100
+}

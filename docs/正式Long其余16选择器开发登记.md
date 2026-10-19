@@ -1,5 +1,13 @@
 # 正式Long其余16选择器开发登记
 
+2026-10-20 02:45 CST 监督快照：正式训练仍 **46/72组**（Long18、Spatial16、Object10、Goal2），**8卡运行，累计401.066111 GPU小时**，含失败和运行中分配，非最终成本。本轮完成Long其余16选择器的8份开发运行入口验收：作者42项、独立39项检查，root和另一独审各执行8次真实P端完整wrapper校验。科学方法、原checkpoint、100个共同开发初态及173冻结文件不变；没有新增训练完成量或闭环结果。
+
+8份readiness与一次性提交授权已登记，专属预约均未激活；下一实际空槽仍优先Spatial64seed23的已批准CUDA恢复。恢复预约正确消费后，root按本批顺序、实时容量和唯一请求保护启用开发评测。现有1212条结果及费用保留，最终0/35200封存；正常训练交控制器和下次定时监督。
+
+[本轮收据](../results/formal_main_v2/preflight/heartbeat_20261020T0227/summary.json)。
+
+本次canonical目录：results/formal_main_v2/execution/long_remaining16_action_v1_1827/。每pair包含scientific/effective plan、execution contract、root/independent review、readiness、prepared invocation、单次authorization/reservation和实际P入口check。prepared invocation不等于已登记调用；正式invocation仅在真实提交事务发布。每个reservation只属于其本身计划，不能消费Spatial CUDA预约。旧方案HOLD状态保留如下作为历史，本批新readiness仅适用这16方法的fresh development；旧Long6方法的身份处理、完整O2A和最终release另行验收。
+
 2026-10-20 CST。范围仅为正式矩阵中尚无开发闭环的16个Long选择器，科学计划已通过作者31项CPU检查、独立18项检查和root复核；原规划器使用完整259条登记记录，无过滤。当前为 **HOLD_PRODUCTION**，没有新GPU提交、开发trial或成功率结论。
 
 | 总token | 训练seed | 方法 | 开发trial |

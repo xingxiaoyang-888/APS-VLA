@@ -1,5 +1,9 @@
 # Versioned action deployment candidates
 
+Current status, 2026-10-20 CST: eight fresh Long A/B development shards (16 already selected checkpoints,1600 planned trials) have exact per-plan root/independent readiness and one-use authorizations. Root and independent checks each ran the unchanged full P wrapper for all8; no new GPU execution or trial is claimed. Their reservations are not activated. The next reserved slot still belongs to the approved Spatial64 seed23 CUDA recovery. See results/formal_main_v2/preflight/heartbeat_20261020T0227/Long_development_runtime_root_acceptance.json.
+
+The following records earlier component/Spatial preparation and remains historical evidence.
+
 Current status, 2026-10-20 CST: the original seven files are present in P. The first actual Spatial deployment allocation3042529 failed before the child and produced0 trials. Its missing immutable prior-review dependency was restored exactly; the unchanged P wrapper now passes CPU preflight. The attempt03 proposal is independently reviewed preparation only and remains HOLD_PRODUCTION pending explicit no-child planning/cost integration and a new exact authorization. Authorization55f6 is consumed. The next reserved GPU slot belongs to the separately approved Spatial64 seed23 training recovery.
 
 The following preserves the initial component publication description; its initial not-activated status is historical.
