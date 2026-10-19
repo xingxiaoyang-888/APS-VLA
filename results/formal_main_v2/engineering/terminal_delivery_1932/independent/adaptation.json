@@ -1,0 +1,198 @@
+{
+  "additional_checks": "canonical_ref=REL+\"/segment_reviews/3037054.json\"\ncanonical_sha=\"b7e528439916fd881668ca2d2960735a8aa751b05e198fff6e15cccb68ec1756\"\nextra=read(canonical_ref,canonical_sha)\nneed(extra[\"kind\"]==\"root_segment_review\" and extra[\"status\"]==\"passed\",\"canonical root typed\")\nfor key in [\"job_id\",\"suite\",\"visual_tokens\",\"seed\",\"source_sha256\",\"completed_by_arm\",\"allowed_next_segment_end\",\"resume_required\",\"pair_allocated_gpu_seconds\",\"cache_event_counts\",\"files\"]:\n need(extra[key]==root[key],\"canonical root agrees with independent raw reconstruction \"+key)\nneed(extra[\"server_resume_checks\"]==[x[\"resume\"] for x in actualchecks],\"canonical actual resume proof\")\nrr1000=read(REL+\"/segment_reviews/3030833.json\",\"3fbca741a29a01e705de9f9d185418b7418d04341113482b64dfbb88b744d891\")\nneed(rr1000[\"status\"]==\"passed\" and rr1000[\"completed_by_arm\"]=={\"A\":1000,\"B\":1000} and rr1000[\"server_resume_checks\"]==prior_checks[-1],\"root1000 and machine predecessor same actual resume\")\nroot_best_ref=\"results/formal_main_v2/preflight/heartbeat_20261020T0332/3037054_selected_server.json\"\nroot_best_sha=\"cbf3a3153b939ec08fa93f5cd8704eef3566a69de21c198d5b976a6e54474220\"\nroot_best=read(root_best_ref,root_best_sha)\nneed(root_best[\"status\"]==\"verified_actual_server_bytes\" and root_best[\"job_id\"]==\"3037054\" and root_best[\"weights_copied\"] is False and root_best[\"optimizer_rng_deserialized\"] is False and root_best[\"root_review\"]=={\"path\":canonical_ref,\"sha256\":canonical_sha},\"root actual best proof exact binding\")\nneed(len(root_best[\"checks\"])==2 and {x[\"arm\"] for x in root_best[\"checks\"]}=={\"A\",\"B\"},\"two actual selected checks\")\nfor x in actualchecks:\n proof=next(v for v in root_best[\"checks\"] if v[\"arm\"]==x[\"arm\"])\n need(all(proof[k]==x[\"best\"][k] for k in [\"path\",\"sha256\",\"bytes\"]),\"fresh independently hashed best equals root bytes\")\nparallel_root={\"path\":canonical_ref,\"sha256\":canonical_sha,\"kind\":extra[\"kind\"],\"status\":extra[\"status\"],\"selected_server_proof\":{\"path\":root_best_ref,\"sha256\":root_best_sha},\"prior_reviewed_updates_per_arm\":1000,\"new_reviewed_arm_updates\":8000}\nraw(\".local/terminal_independent_1518/audit_3036313.py\",\"41a4990834803841865431c553f0f89df681e7b1ee551d4e98c98ddd993898d0\")\n",
+  "changes": [
+    {
+      "new": "Object64 seed17",
+      "occurrences": 1,
+      "old": "Object128 seed41"
+    },
+    {
+      "new": ".local/terminal_independent_1932",
+      "occurrences": 1,
+      "old": ".local/terminal_independent_1518"
+    },
+    {
+      "new": "libero_object/k64/seed17",
+      "occurrences": 3,
+      "old": "libero_object/k128/seed41"
+    },
+    {
+      "new": "libero_object_k64_seed17",
+      "occurrences": 3,
+      "old": "libero_object_k128_seed41"
+    },
+    {
+      "new": "d4abd059ff114163a3be1e4c0e85868f",
+      "occurrences": 1,
+      "old": "c274fa169f1b454a89252d9053b5037b"
+    },
+    {
+      "new": "bfcaeb5ce3eddf41defced0a048cb87747ee8d948d40023eabe0d6697610410e",
+      "occurrences": 1,
+      "old": "13dc2667330fc2af352a8bbfaf1141eafdc096d2962d7056f36d7e7e52d1edca"
+    },
+    {
+      "new": "8a8e64e038e9c3a88bc1d2908a7b3e643c0fee47ca5e1abc280ab79dfca9347a",
+      "occurrences": 1,
+      "old": "ad2253c864d37f4f1a29d08822e6ed509bdf315f16229ab4f156ede9b578e8d5"
+    },
+    {
+      "new": "20261019T190051Z_b73e8f8d7a36",
+      "occurrences": 1,
+      "old": "20261019T142715Z_4a0a2ba8263f"
+    },
+    {
+      "new": "701369dcc8b53a8c9eefec3385f64097917eb9c0f2f8a6981ee539c6e5ac8883",
+      "occurrences": 1,
+      "old": "0a80506e495d23736b20e32208fa634d65ef819574ac91e30866e7e687f29484"
+    },
+    {
+      "new": "JOBS=[\"3026219\",\"3030833\",\"3037054\"]",
+      "occurrences": 1,
+      "old": "JOBS=[\"3025875\",\"3030276\",\"3033928\",\"3036313\"]"
+    },
+    {
+      "new": "ENDS=[500,1000,5000]",
+      "occurrences": 1,
+      "old": "ENDS=[500,1000,1500,5000]"
+    },
+    {
+      "new": "STARTS=[0,500,1000]",
+      "occurrences": 1,
+      "old": "STARTS=[0,500,1000,1500]"
+    },
+    {
+      "new": "COSTS=[4197,4052,53683]",
+      "occurrences": 1,
+      "old": "COSTS=[4262,4127,3941,42944]"
+    },
+    {
+      "new": "3037054",
+      "occurrences": 11,
+      "old": "3036313"
+    },
+    {
+      "new": "3030833",
+      "occurrences": 2,
+      "old": "3033928"
+    },
+    {
+      "new": "root[\"visual_tokens\"]==64 and root[\"seed\"]==17",
+      "occurrences": 1,
+      "old": "root[\"visual_tokens\"]==128 and root[\"seed\"]==41"
+    },
+    {
+      "new": "config[\"seed\"]==17 and config[\"tokens_per_camera\"]==32",
+      "occurrences": 1,
+      "old": "config[\"seed\"]==41 and config[\"tokens_per_camera\"]==64"
+    },
+    {
+      "new": "len(root[\"registered_pair_jobs_at_review\"])==3,\"exact three actual allocations\"",
+      "occurrences": 1,
+      "old": "len(root[\"registered_pair_jobs_at_review\"])==4,\"exact four actual allocations\""
+    },
+    {
+      "new": "61932",
+      "occurrences": 2,
+      "old": "55274"
+    },
+    {
+      "new": "{\"A\":1000,\"B\":1000}",
+      "occurrences": 2,
+      "old": "{\"A\":1500,\"B\":1500}"
+    },
+    {
+      "new": "(\"--stop-after-updates\",\"1000\")",
+      "occurrences": 1,
+      "old": "(\"--stop-after-updates\",\"1500\")"
+    },
+    {
+      "new": "[(\"3026219\",\"2c81da6b6121e7bb6ac46891b4d9ee06af6ace659c50db48099521786e0b24c7\")]",
+      "occurrences": 1,
+      "old": "[(\"3025875\",\"b272001b45a6b274de6305032ecc61e6602223900b742f4a114d8d9f8c313c1e\"),(\"3030276\",\"351f694c3cdce8bd8c434234fb524582b408151761d0d42d776d404617716b3a\")]"
+    },
+    {
+      "new": "\"predecessor1000\"",
+      "occurrences": 1,
+      "old": "\"predecessor1500\""
+    },
+    {
+      "new": "26940ef1c089d77e2dc26482e2439e8a1ff934f1b01a3550abda9d03b24ab416",
+      "occurrences": 1,
+      "old": "e5e4f8e0ea728b52e68358e186f3b446613d0e12e262f516b11d92da3426fcba"
+    },
+    {
+      "new": "000dd6d4527601d9a1cda86c33e1a96429d77c50447082f72080afd0512361b8",
+      "occurrences": 1,
+      "old": "c7e7476e3e0b99401da806f512b93635c7fa477569a43cec8788a309bc1b3be4"
+    },
+    {
+      "new": "random.Random(17)",
+      "occurrences": 1,
+      "old": "random.Random(41)"
+    },
+    {
+      "new": "\"attempts\":3,\"resumed_from_update\":1000",
+      "occurrences": 1,
+      "old": "\"attempts\":4,\"resumed_from_update\":1500"
+    },
+    {
+      "new": "/f01_k64.json",
+      "occurrences": 1,
+      "old": "/f01_k128.json"
+    },
+    {
+      "new": "len(paths)==3,\"three attempts\"",
+      "occurrences": 1,
+      "old": "len(paths)==4,\"four attempts\""
+    },
+    {
+      "new": "len(ids)==64",
+      "occurrences": 1,
+      "old": "len(ids)==128"
+    },
+    {
+      "new": "sum(i<256 for i in ids)==32,\"hard64 original packing\"",
+      "occurrences": 1,
+      "old": "sum(i<256 for i in ids)==64,\"hard128 original packing\""
+    },
+    {
+      "new": "(\"checkpointed\" if index<2 else \"completed\")",
+      "occurrences": 1,
+      "old": "(\"checkpointed\" if index<3 else \"completed\")"
+    },
+    {
+      "new": "[500,500,4000][index] and v_count==[2,1,8][index]",
+      "occurrences": 1,
+      "old": "[500,500,500,3500][index] and v_count==[2,1,1,7][index]"
+    },
+    {
+      "new": "md[\"seed\"]==17 and md[\"visual_tokens\"]==64 and md[\"per_camera_budgets\"]==[32,32]",
+      "occurrences": 1,
+      "old": "md[\"seed\"]==41 and md[\"visual_tokens\"]==128 and md[\"per_camera_budgets\"]==[64,64]"
+    },
+    {
+      "new": "3037054_d57bf86b76bf.json",
+      "occurrences": 1,
+      "old": "3037054_78078dd1b2e7.json"
+    },
+    {
+      "new": "len(paths)==3,\"three actual cache logs\"",
+      "occurrences": 1,
+      "old": "len(paths)==4,\"four actual cache logs\""
+    },
+    {
+      "new": "visual_tokens=64,seed=17",
+      "occurrences": 1,
+      "old": "visual_tokens=128,seed=41"
+    },
+    {
+      "new": "\"historical_segments_GPU_seconds\":8249,\"continuous_segment_GPU_seconds\":53683",
+      "occurrences": 1,
+      "old": "\"historical_segments_GPU_seconds\":12330,\"continuous_segment_GPU_seconds\":42944"
+    }
+  ],
+  "scope": "Exact Object64 seed17 three-allocation terminal adaptation. Original scientific checks retained; canonical root/best checks added.",
+  "template": ".local/terminal_independent_1518/audit_3036313.py",
+  "template_sha256": "41a4990834803841865431c553f0f89df681e7b1ee551d4e98c98ddd993898d0"
+}
