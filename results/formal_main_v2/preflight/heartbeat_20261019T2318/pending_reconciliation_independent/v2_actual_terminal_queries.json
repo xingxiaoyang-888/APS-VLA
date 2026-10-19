@@ -1,0 +1,37 @@
+{
+  "job_id": "3042529",
+  "kind": "independent_exact_job_terminal_identity_queries",
+  "queries": [
+    {
+      "argv": [
+        "scontrol",
+        "show",
+        "job",
+        "-o",
+        "3042529"
+      ],
+      "returncode": 1,
+      "stderr": "slurm_load_jobs error: Invalid job id specified\n",
+      "stdout": "",
+      "utc": "2026-10-19T15:37:07.619403+00:00"
+    },
+    {
+      "argv": [
+        "sacct",
+        "-n",
+        "-X",
+        "-P",
+        "-j",
+        "3042529",
+        "--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES,JobName,User,Submit,Start,End,NodeList,WorkDir%256,Comment%200"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "3042529|FAILED|1:0|2|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|cti-formal-downstream|u15016|2026-10-19T23:21:38|2026-10-19T23:21:38|2026-10-19T23:21:40|gpu4002|/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA|\n",
+      "utc": "2026-10-19T15:37:07.625150+00:00"
+    }
+  ],
+  "read_only": true,
+  "schema": "formal_main_v2",
+  "submission_or_cancellation": false
+}

@@ -1,0 +1,50 @@
+{
+  "AB_order_bytes_identical": true,
+  "B_resume_not_yet_observed": true,
+  "arm": "A",
+  "checkpoint_tensors_read_by_this_probe": false,
+  "completed_training_claimed": false,
+  "continued_polling": false,
+  "first_update": {
+    "action_loss": 0.011831666226498783,
+    "alpha": 1.953485239701583,
+    "attempt_elapsed_seconds": 13.364321140572429,
+    "attempt_id": "20261019T154719_f82c43afe6e5",
+    "demonstration_l1": 0.01251227397006005,
+    "event": "update_end",
+    "forward_backward_samples": 8,
+    "grad_norm": 0.0025714009534567595,
+    "job_id": "3042627",
+    "loss": 0.011831666226498783,
+    "peak_cuda_memory_allocated_bytes": 18222231040,
+    "peak_cuda_memory_reserved_bytes": 18884853760,
+    "seconds": 13.360016351565719,
+    "teacher_l1": 0.01115105877397582,
+    "update": 501,
+    "utc": "2026-10-19T15:47:32.615429+00:00"
+  },
+  "initial_scorer_sha256": "0b5afb698921d8d3fd10c42b15c5a178eb6a666c32df187f4961a98bab98c051",
+  "invocation": {
+    "path": "results/formal_main_v2/invocations/libero_object_train_k256_seed23_attempt03.json",
+    "sha256": "69af3f5116e56c1ca89e8993f2f7e7685105c91c4d9ce2f35613972e5de9f47e"
+  },
+  "job_id": "3042627",
+  "kind": "bounded_first_actual_resume_observation",
+  "next_sample_cursor": 4000,
+  "optimizer_rng_recovery_enforced_by_frozen_trainer": true,
+  "resume_completed_update": 500,
+  "schema": "formal_main_v2",
+  "source_journal": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed23/training/A/attempts/20261019T154719_f82c43afe6e5/cost_events.jsonl",
+  "source_may_continue_appending": true,
+  "source_prefix_bytes": 22746,
+  "source_prefix_rows": 19,
+  "source_prefix_sha256": "5ae24337d514ee07909f98aaec5f7ec1e4455ca035f93b78a6e06b9d467a1b2c",
+  "state_unchanged": true,
+  "status": "A_resume500_cursor4000_and_update501_match_original_order",
+  "training_order": {
+    "order_sha256": "6f72f81d5a35798628c92b5a63e2d23192a466ddad50a508480fb92b382a824f",
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed23/training/A/training_order.json",
+    "sha256": "368ad2d08379abe62003b649af1978780a12c70cd73b29e2c88e8a1fdd128ced"
+  },
+  "utc": "2026-10-19T15:52:36.045114+00:00"
+}

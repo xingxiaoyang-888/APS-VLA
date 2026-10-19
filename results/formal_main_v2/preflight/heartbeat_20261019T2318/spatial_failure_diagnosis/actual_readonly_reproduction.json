@@ -1,0 +1,65 @@
+{
+  "after_the_fact_reproduction": true,
+  "error": "Noncanonical or missing evidence",
+  "error_type": "ValueError",
+  "not_original_job_stdout": true,
+  "read_ref_calls": [
+    {
+      "reference": {
+        "path": "results/formal_main_v2/execution/action_spatial_resume_0943/runtime_readiness.json",
+        "sha256": "3e192788730bdfd97115713c332640c3b2de1f380e046ec7d045d274b9e07bb4"
+      },
+      "root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"
+    },
+    {
+      "reference": {
+        "path": "results/formal_main_v2/execution/action_spatial_resume_0943/effective_plan.json",
+        "sha256": "a56ff9e12b6ddad13e3e6ee4b78f5181ffa3ead3f8df8c620370e00c95d2eb3b"
+      },
+      "root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"
+    },
+    {
+      "reference": {
+        "path": "results/formal_main_v2/execution/action_spatial_resume_0943/scientific_plan.json",
+        "sha256": "43a521e2b1c5b7f8ceff442ce655dde5cae73dfde0f9f7598f65fa57446b4a94"
+      },
+      "root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"
+    },
+    {
+      "reference": {
+        "path": "results/formal_main_v2/execution/action_spatial_resume_0943/execution_contract.json",
+        "sha256": "b63689d9f3fb3dece0c2fee8c219ad94cd8e1e694962afdb2cd66a40bf551bc0"
+      },
+      "root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"
+    },
+    {
+      "reference": {
+        "path": "results/formal_main_v2/execution/action_spatial_resume_0943/plan_root_review.json",
+        "sha256": "11aacf94c1ca157d4777bd75c47c12f053f7abdf37bf85ed55cf414e4e5c3eb9"
+      },
+      "root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"
+    },
+    {
+      "reference": {
+        "path": "results/formal_main_v2/execution/action_spatial_resume_0943/plan_independent_review.json",
+        "sha256": "37a9a8afec7975a49461de1d5855779488bfa40f2368939f1e6e2bb9d1baaabc"
+      },
+      "root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"
+    },
+    {
+      "reference": {
+        "path": "results/formal_main_v2/execution/action_spatial_resume_0943/transition.json",
+        "sha256": "95da28cbfd0968d38e5e92b9468c331b377cccf88ec3bfcdb342b4ce2f1a43a1"
+      },
+      "root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"
+    },
+    {
+      "reference": {
+        "path": "results/formal_main_v2/downstream_reviews/3022743.json",
+        "sha256": "9e14b86a1e556c53ef1cbd8c7bdc1733c3d5eb744f62ffee8df9395645816650"
+      },
+      "root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA"
+    }
+  ],
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_failure_diagnosis_1518/diagnose_3042529.py\", line 88, in main\n    parent.verify(invocation,project=P)\n  File \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_action_deployment_v1/wrapper.py\", line 83, in verify\n    contract.validate_transition(transition,original,root=project,execution_contract=runtime_contract)\n  File \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_action_deployment_v1/contract.py\", line 204, in validate_transition\n    prior=read_ref(root,{'path':inv['prior_review'],'sha256':inv['root_evidence_sha256'][inv['prior_review']]})\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_failure_diagnosis_1518/diagnose_3042529.py\", line 83, in traced\n    return original_read(root,value)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_action_deployment_v1/contract.py\", line 76, in read_ref\n    require(p.resolve()==p and p.is_file(),'Noncanonical or missing evidence')\n  File \"/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_action_deployment_v1/contract.py\", line 44, in require\n    if not condition: raise ValueError(message)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Noncanonical or missing evidence\n"
+}

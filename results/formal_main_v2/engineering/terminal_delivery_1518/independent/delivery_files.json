@@ -1,0 +1,74 @@
+{
+  "created_utc": "2026-10-19T15:27:24.902099+00:00",
+  "current_audit_attempts": 1,
+  "failed_audit_attempts": 0,
+  "file_count": 6,
+  "files": [
+    {
+      "bytes": 25803,
+      "path": ".local/terminal_independent_1518/audit_3036313.py",
+      "role": "new_audit_artifact",
+      "sha256": "41a4990834803841865431c553f0f89df681e7b1ee551d4e98c98ddd993898d0"
+    },
+    {
+      "bytes": 105413,
+      "path": ".local/terminal_independent_1518/3036313_independent_review.json",
+      "role": "new_audit_artifact",
+      "sha256": "046b6e9b7001ad314920563d42b25ed565dab39496407d8514ee566c17272338"
+    },
+    {
+      "bytes": 1114,
+      "path": ".local/terminal_independent_1518/audit_3036313_a1.log",
+      "role": "new_audit_artifact",
+      "sha256": "b9ab1083e93ff0db153a1a9b88d106f81fd17d88b73eb02effc2ad65c39da577"
+    },
+    {
+      "bytes": 715,
+      "path": ".local/terminal_independent_1518/audit_3036313_a1_run.json",
+      "role": "new_audit_artifact",
+      "sha256": "0a6ab78e2bc46b6f7c759ebad503ee27cf034c605d30622774e46d748e90641f"
+    },
+    {
+      "bytes": 25168,
+      "path": ".local/cuda_recovery_independent_0943/audit_3039258.py",
+      "role": "exact_reused_audit_source_dependency",
+      "sha256": "fd566045bc20e76a10dc05b7ed56377d9817231bb5538eb828c087eb7dd5ef1a"
+    },
+    {
+      "bytes": 23318,
+      "path": ".local/cuda_recovery_independent_0943/audit_3034570_v3.py",
+      "role": "exact_reused_audit_source_dependency",
+      "sha256": "bdca1e2f330ca32abc0aecf2ecc31a8f1a4769c3cb1a28d8ced479ac12645b64"
+    }
+  ],
+  "job_id": "3036313",
+  "kind": "independent_audit_minimal_delivery_manifest",
+  "machine_review": {
+    "path": "results/formal_main_v2/autonomous_training/run_v1/reviews/libero_object_k128_seed41_c274fa169f1b454a89252d9053b5037b/machine_review.json",
+    "sha256": "13dc2667330fc2af352a8bbfaf1141eafdc096d2962d7056f36d7e7e52d1edca"
+  },
+  "no_checkpoint_copy": true,
+  "no_final_states_read": true,
+  "notes": [
+    "The two pre-existing audit source dependencies are listed by exact original bytes for archival; no prior receipt or source was modified.",
+    "The independent result recomputes raw training/validation and hashes server checkpoint bytes; the source machine review is explicitly not labelled independent/root-signed.",
+    "The live supervisor state is excluded from immutable current read_evidence; the machine receipt preserves its historical state SHA and registered job snapshot.",
+    "The root parallel review is independent of this private audit; no claim of its signature is made."
+  ],
+  "production_writes": false,
+  "pull": {
+    "path": "results/formal_main_v2/pulls/20261019T142715Z_4a0a2ba8263f/receipt.json",
+    "sha256": "0a80506e495d23736b20e32208fa634d65ef819574ac91e30866e7e687f29484"
+  },
+  "read_evidence_count": 294,
+  "schema": "formal_main_v2",
+  "selected_server_review": {
+    "path": "results/formal_main_v2/autonomous_training/run_v1/reviews/libero_object_k128_seed41_c274fa169f1b454a89252d9053b5037b/selected_server_hashes.json",
+    "sha256": "ad2253c864d37f4f1a29d08822e6ed509bdf315f16229ab4f156ede9b578e8d5"
+  },
+  "server_read_evidence_count": 246,
+  "state_writes": false,
+  "status": "frozen_private_audit_files",
+  "tests_added": 0,
+  "total_bytes": 181531
+}
