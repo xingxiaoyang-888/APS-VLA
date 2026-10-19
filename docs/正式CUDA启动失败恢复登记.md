@@ -1,5 +1,9 @@
 # 正式 CUDA 启动失败恢复登记
 
+2026-10-19原目标终态验收：3039258 COMPLETED 0:0，Object256 seed23 A/B均500更新、4000实际唯一窗口、0/500各204窗口硬剪枝验证通过root及独立原始复算。原失败3028460没有初始化/训练checkpoint，故此次resumed=false正确，不能称其恢复了原优化器/RNG。新resume字节SHA已核，下一次实际恢复仍由冻结训练核验证完整状态。费用84+6512=6596 GPU秒，FAILED身份保留；另外两组尚未重提。
+
+新增审核器只修旧失败三份外部证据的原作业归属，当前作业及共享run-root仍走原严格pull校验，33项CPU检查通过。保留初版schema/测试脚本错误及全部日志。3039258日志实际由原wrapper写于R，基于真实sacct WorkDir与原wrapper登记镜像到P，原始日志未改。该恢复未获自动5000例外准入，不能直接清blocked或调用旧手动500续跑。[root](../results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3039258.json)；[独审](../results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3039258_independent.json)。
+
 2026-10-19 15:56：首个登记失败3028460通过专属预约、全登记容量和双次现场证据检查，由root单次提交为3039258；实际gpu4010、1张L40、4小时、no-requeue、exclude gpu4020，目标仍500步。A已出现正常训练更新，完整恢复验收未完成；终态复核后才另行版本化5000准入。旧失败及blocked历史不变，3028468/3028522尚未提交，未激活第二CUDA预约。[本轮凭据](../results/formal_main_v2/preflight/heartbeat_20261019T1347/summary.json)。
 
 本登记仅处理3个已保留的CUDA启动失败，不改变方法、5000步总调度、每500步验证、数据、选模或最终集门槛。当前正常训练由CPU控制器3034538持续运行；异常恢复由root通过独立入口单次提交。

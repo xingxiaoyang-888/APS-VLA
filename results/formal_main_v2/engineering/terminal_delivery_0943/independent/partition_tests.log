@@ -1,0 +1,67 @@
+.............................F...                                        [100%]
+=================================== FAILURES ===================================
+__________ test_nonstartup_path_preserves_original_current_ownership ___________
+
+fixture = namespace(root=PosixPath('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_independent_0943/pytes..., publish=<function fixture.<locals>.publish at 0x153dc2e5e160>, run=<function fixture.<locals>.run at 0x153dc2e5e3e0>)
+
+    def test_nonstartup_path_preserves_original_current_ownership(fixture):
+        f = fixture
+        f.required = [f.shared, f.new]
+>       assert f.run(history=False) == {}
+               ^^^^^^^^^^^^^^^^^^^^
+
+.local/cuda_recovery_independent_0943/test_startup_pull_partition.py:176: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.local/cuda_recovery_independent_0943/test_startup_pull_partition.py:94: in run
+    return m.require_pulled_startup_ownership(m.Evidence(root), receipt_rel, current, required,
+.local/cuda_terminal_review_0943/review_formal_segment_startup.py:66: in require_pulled_startup_ownership
+    require_pulled(evidence, receipt_path, job, sorted(set(required) - set(external)))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+evidence = <formal_segment_evidence.Evidence object at 0x153dc2e80210>
+receipt_path = PosixPath('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_independent_0943/pytest_partition/test_nonstartup_path_preserves0/project/results/formal_main_v2/pulls/synthetic/receipt.json')
+job = {'elapsed_seconds': 6512, 'exit_code': '0:0', 'gpus': 1, 'job_id': '3039258', ...}
+required = ['results/formal_main_v2/job_receipts/3028460.json', 'results/formal_main_v2/job_receipts/3039258.json', 'results/form...ning/runtime_compat/old_identity.json', 'results/slurm/cti-formal_3028460.err', 'results/slurm/cti-formal_3028460.out']
+
+    def require_pulled(evidence, receipt_path, job, required):
+        receipt_path = evidence.path(receipt_path)
+        pull_root = evidence.root / f"results/{ROUND}/pulls"
+        if pull_root not in receipt_path.parents:
+            raise ValueError("Pull receipt must belong to this formal round")
+        receipt = evidence.read(receipt_path)
+        expect(receipt, dict(schema=ROUND, kind="nonweight_pull", status="verified_nonweight_snapshot",
+            final_evidence=True, weights_copied=False, sealed_initial_states_copied=False), "SHA pull receipt")
+        selected = [r for r in receipt.get("selected_jobs", []) if r.get("job_id") == job["job_id"]]
+        if (len(selected) != 1 or selected[0].get("run_root") != job["run_root"]
+                or selected[0].get("source_sha256") != job["source_sha256"] or selected[0].get("include_run_root") is not True):
+            raise ValueError("Pull did not finalize this exact registered run_root")
+        for key in ("accounting_before", "accounting_after"):
+            expect(receipt.get(key, {}).get("jobs", {}).get(job["job_id"], {}),
+                   dict(status="COMPLETED", exit_code="0:0"), "Pulled job accounting")
+        before_path, after_path = receipt_path.parent / "inventory_before.json", receipt_path.parent / "inventory_after.json"
+        before, after = evidence.read(before_path), evidence.read(after_path)
+        if before != after or evidence.watch(before_path) != receipt.get("inventory_sha256"):
+            raise ValueError("Pull has no stable double remote SHA inventory")
+        rows = {r["relative"]: r for r in receipt.get("files", [])}
+        remote = {r["relative"]: r for r in before.get("files", [])}
+        if len(rows) != len(receipt.get("files", [])) or len(remote) != len(before.get("files", [])):
+            raise ValueError("Duplicate pull inventory entries")
+        for relative in required:
+            row, original = rows.get(relative, {}), remote.get(relative, {})
+            digest = evidence.watch(relative)
+            if (row.get("sha256") != digest or original.get("sha256") != digest
+                    or row.get("path") != str(P / relative) or original.get("path") != str(P / relative)
+                    or job["job_id"] not in row.get("job_ids", []) or job["job_id"] not in original.get("job_ids", [])
+                    or row.get("bytes") != evidence.path(relative).stat().st_size
+                    or original.get("bytes") != row.get("bytes")
+                    or row.get("action") not in ("same_sha_skipped", "downloaded_verified")):
+>               raise ValueError("Required evidence is not a verified SHA-pulled file: " + relative)
+E               ValueError: Required evidence is not a verified SHA-pulled file: results/formal_main_v2/job_receipts/3028460.json
+
+scripts/review_formal_acceptance.py:136: ValueError
+- generated xml file: /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_independent_0943/partition_tests.xml -
+=========================== short test summary info ============================
+FAILED .local/cuda_recovery_independent_0943/test_startup_pull_partition.py::test_nonstartup_path_preserves_original_current_ownership
+1 failed, 32 passed in 6.72s
+
+STDERR

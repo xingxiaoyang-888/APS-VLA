@@ -1,0 +1,18 @@
+
+STDERR
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_independent_0943/audit_3034570_v2.py", line 223, in <module>
+    if __name__=="__main__":main()
+                            ^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_independent_0943/audit_3034570_v2.py", line 51, in main
+    ref=contract[key];read(ref["path"],ref["sha256"])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_recovery_independent_0943/audit_3039258.py", line 37, in read
+    def read(rel,expected=None):return json.loads(raw(rel,expected))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/apps/anaconda3/lib/python3.11/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/apps/anaconda3/lib/python3.11/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 1 column 3 (char 2)
