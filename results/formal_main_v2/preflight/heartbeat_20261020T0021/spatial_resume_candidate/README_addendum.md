@@ -1,0 +1,5 @@
+# 子进程启动证据限定补充
+原 prepare.py、作者收据、测试和a2实际产物保持字节不变。
+original_scientific_wrapper_executed=False 是旧wrapper记录“未执行原科学wrapper”的字段，不能单独当作新entry child未启动标志。
+本案3042529的无child结论仅由精确verify缺依赖异常、已绑定事后P复现（不是原始stdout）、verify先于subprocess.run的固定源码控制流、空artifact、无action目录及原12条prefix不变共同支持。
+详见 proof_basis_addendum.json。此候选始终不可执行，不是泛化生产失败检测器；原5项接入阻断未解除。

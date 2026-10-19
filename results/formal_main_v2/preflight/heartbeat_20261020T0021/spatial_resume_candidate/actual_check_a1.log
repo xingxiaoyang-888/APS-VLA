@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_resume_1621/prepare.py", line 293, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_resume_1621/prepare.py", line 256, in main
+    e,facts,context=inspect_actual()
+                    ^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_resume_1621/prepare.py", line 181, in inspect_actual
+    rbytes=e.read(rrel,row['sha256'],json_value=False);pbytes=e.read(prel,row['sha256'],root=P,json_value=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_resume_1621/prepare.py", line 73, in read
+    relative(rel);p=root/rel;data=stable(p);sha=digest(data)
+                                  ^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/spatial_resume_1621/prepare.py", line 66, in stable
+    a=path.stat();require(stat.S_ISREG(a.st_mode),'not regular')
+      ^^^^^^^^^^^
+  File "/share/apps/anaconda3/lib/python3.11/pathlib.py", line 1013, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/snapshots/formal_main_v2_run_564be0995e/AGENTS.md'

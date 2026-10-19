@@ -1,5 +1,9 @@
 # Versioned action deployment candidates
 
+Current status, 2026-10-20 CST: the original seven files are present in P. The first actual Spatial deployment allocation3042529 failed before the child and produced0 trials. Its missing immutable prior-review dependency was restored exactly; the unchanged P wrapper now passes CPU preflight. The attempt03 proposal is independently reviewed preparation only and remains HOLD_PRODUCTION pending explicit no-child planning/cost integration and a new exact authorization. Authorization55f6 is consumed. The next reserved GPU slot belongs to the separately approved Spatial64 seed23 training recovery.
+
+The following preserves the initial component publication description; its initial not-activated status is historical.
+
 formal-downstream-action-v1 has CPU component author and independent reviews. Seven files are published in the server control repository only. They are not activated in the runtime directory. No per-plan readiness or GPU reservation is issued here.
 
 The immutable inner v1 plan describes scientific inputs; the outer invocation, parent/child journals and consumer use their actual new execution identity. All 173 frozen files, training settings, model/checkpoint identities, panels and timing boundaries remain unchanged.

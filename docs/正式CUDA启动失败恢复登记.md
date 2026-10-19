@@ -1,5 +1,11 @@
 # 正式 CUDA 启动失败恢复登记
 
+2026-10-20 00:35 CST 快照：正式训练仍为 **46/72组**（Long18、Spatial16、Object10、Goal2），8个GPU作业运行，累计分配 **383.799 GPU小时**，含失败及运行中分配，非最终费用。Object256 seed23的已登记恢复作业3042627在本轮单次日志快照中A已到937步；不将日志进度算作完成验收。
+
+Spatial64 seed23（原3028522）A/B1000步、cursor8000的实际resume字节及授权经root/独审复核，已用writer锁/CAS激活已有精确1槽预约，等待下一真实空槽恢复至1500；正常8卡不取消，原5000调度不变。预约不是额外占用GPU，本轮未提交新作业；实际恢复后仍须复核再准入连续5000。
+
+Spatial开发attempt03仅完成不可执行的准备与审查：作者41项、独立23项CPU检查；原12条终态/25行账本、3022743与3042529合计395 GPU秒完整保留，仅计划剩余588条。既有P侧输入与未改wrapper检查通过，但最新失败审阅、规划及零trial作业费用消费接口尚未接入，新readiness和授权未生成，**保持HOLD_PRODUCTION**。原字段original_scientific_wrapper_executed恒False不能独自证明新child未启动，本案依据精确父verify异常复现、控制流、空产物及未变前缀的组合证据。173冻结文件未改，最终仍0/35200，正常训练交控制器和后续定时监督。[本轮收据](../results/formal_main_v2/preflight/heartbeat_20261020T0021/summary.json)。
+
 2026-10-19 19:45 CST：新增独立入口 scripts/ops/formal_cuda_continuous_admission_v1 与授权 configs/experiments/formal_main_v2_cuda_continuous_3039258_v1.json，精确Object256 seed23从A/B500、cursor4000恢复至5000；48小时分配、169200秒软时限，11次验证。作者38项CPU检查、独立20项入口＋3项原控制器pending检查通过；实际canonical原日志重建及211份服务器输入、两resume SHA通过。历史84＋6512＝6596 GPU秒保留；本次只做hash-only预检，完整optimizer/RNG/cursor由实际恢复训练加载验证。当前8满且Spatial保留1槽，未提交；正常控制器不接管异常历史。若该次软时限仍未完成或异常，先root重新复核；完成5000需原始证据root和独审后显式继承。其他两组仍待原目标有界恢复。[本轮收据](../results/formal_main_v2/preflight/heartbeat_20261019T1911/summary.json)。
 
 2026-10-19原目标终态验收：3039258 COMPLETED 0:0，Object256 seed23 A/B均500更新、4000实际唯一窗口、0/500各204窗口硬剪枝验证通过root及独立原始复算。原失败3028460没有初始化/训练checkpoint，故此次resumed=false正确，不能称其恢复了原优化器/RNG。新resume字节SHA已核，下一次实际恢复仍由冻结训练核验证完整状态。费用84+6512=6596 GPU秒，FAILED身份保留；另外两组尚未重提。
