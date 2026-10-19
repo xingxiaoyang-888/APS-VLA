@@ -1,0 +1,40 @@
+{
+  "GPU_jobs_submitted": 0,
+  "argv": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/server_control_transport_v1/run_server_control.py",
+    "--bundle-manifest-sha256",
+    "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+    "--entrypoint",
+    ".local/object64seed41_independent_2232/audit_3037535.py",
+    "--entrypoint-sha256",
+    "8915925e39aebb194d9b25368025db293ada03e6baf1bf3e6f48ba7ee98e5514",
+    "--audit-relative",
+    "results/formal_main_v2/control_transport/object64seed41_terminal_independent_2232_a1.jsonl"
+  ],
+  "checkpoint_tensors_deserialized": false,
+  "cwd": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+  "duration_seconds": 8.233173595741391,
+  "ended_utc": "2026-10-19T22:39:04.972005+00:00",
+  "kind": "independent_terminal_CPU_execution",
+  "production_state_or_Git_modified": false,
+  "returncode": 0,
+  "schema": "formal_main_v2",
+  "script_sha256": "8915925e39aebb194d9b25368025db293ada03e6baf1bf3e6f48ba7ee98e5514",
+  "started_utc": "2026-10-19T22:38:56.738817+00:00",
+  "stderr": {
+    "bytes": 0,
+    "path": ".local/object64seed41_independent_2232/audit_a1.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "bytes": 1030,
+    "path": ".local/object64seed41_independent_2232/audit_a1.stdout.log",
+    "sha256": "07c480d5d7874bd8c0d3fba5d5ee1771957782696c7c9f0d178d3c5c0eafdb26"
+  },
+  "transport": {
+    "path": "results/formal_main_v2/control_transport/object64seed41_terminal_independent_2232_a1.jsonl",
+    "sha256": "2240fd4b043a233457df6a12d8ec4aa497378882cfce7d1d02d76d402cc05041"
+  }
+}

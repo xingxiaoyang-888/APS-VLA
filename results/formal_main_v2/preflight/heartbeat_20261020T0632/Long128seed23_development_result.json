@@ -1,0 +1,129 @@
+{
+  "B_minus_A_percentage_points": -3,
+  "all_costs_counted_once": true,
+  "allocated_GPU_seconds": 3083,
+  "closed_loop_trials": 200,
+  "final_evaluation": false,
+  "independent_review": {
+    "path": "results/formal_main_v2/downstream_reviews/3043709_independent.json",
+    "sha256": "bc7e6d2abc1a73529d1b57d8a7f6e03ac4c301f8eb98c3565cd18ef03217535a"
+  },
+  "initial_observation_token_overlap_mean": 0.866328125,
+  "job_id": "3043709",
+  "latency_not_yet_measured": true,
+  "no_three_seed_or_significance_inference": true,
+  "paired_outcomes": {
+    "(0, 0)": 4,
+    "(0, 1)": 1,
+    "(1, 0)": 4,
+    "(1, 1)": 91
+  },
+  "per_task": {
+    "A128_seed23": {
+      "0": {
+        "successes": 10,
+        "trials": 10
+      },
+      "1": {
+        "successes": 10,
+        "trials": 10
+      },
+      "2": {
+        "successes": 10,
+        "trials": 10
+      },
+      "3": {
+        "successes": 7,
+        "trials": 10
+      },
+      "4": {
+        "successes": 10,
+        "trials": 10
+      },
+      "5": {
+        "successes": 10,
+        "trials": 10
+      },
+      "6": {
+        "successes": 9,
+        "trials": 10
+      },
+      "7": {
+        "successes": 10,
+        "trials": 10
+      },
+      "8": {
+        "successes": 10,
+        "trials": 10
+      },
+      "9": {
+        "successes": 9,
+        "trials": 10
+      }
+    },
+    "B128_seed23": {
+      "0": {
+        "successes": 10,
+        "trials": 10
+      },
+      "1": {
+        "successes": 10,
+        "trials": 10
+      },
+      "2": {
+        "successes": 9,
+        "trials": 10
+      },
+      "3": {
+        "successes": 8,
+        "trials": 10
+      },
+      "4": {
+        "successes": 8,
+        "trials": 10
+      },
+      "5": {
+        "successes": 10,
+        "trials": 10
+      },
+      "6": {
+        "successes": 9,
+        "trials": 10
+      },
+      "7": {
+        "successes": 10,
+        "trials": 10
+      },
+      "8": {
+        "successes": 9,
+        "trials": 10
+      },
+      "9": {
+        "successes": 9,
+        "trials": 10
+      }
+    }
+  },
+  "root_review": {
+    "path": "results/formal_main_v2/downstream_reviews/3043709.json",
+    "sha256": "3868af9c4d8c5a1c2a896047f3b9d170b7fa2f1eaeb10fcc51689686a8589325"
+  },
+  "schema": "formal_main_v2",
+  "selected_checkpoints": {
+    "A": {
+      "update": 3500,
+      "validation_metric": 0.019418040788658553
+    },
+    "B": {
+      "update": 4500,
+      "validation_metric": 0.019737080455432453
+    }
+  },
+  "status": "partial_development_result_root_and_independent_verified",
+  "successes": {
+    "A128_seed23": 95,
+    "B128_seed23": 92
+  },
+  "token_overlap_scope": "only100 identical paired initial observations; not same later states and not a replacement for full diagnostics",
+  "unique_initial_states": 100
+}

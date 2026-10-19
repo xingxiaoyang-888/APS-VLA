@@ -1,5 +1,7 @@
 # 服务器工作区与 GitHub 同步
 
+2026-10-20：首次新动作开发终态复核补齐R/snapshots/formal_main_v2_run_564be0995e的173份精确源镜像；原S、canonical R与镜像SHA一致。Git保留canonical源的全部原字节、[精确路径映射](../results/formal_main_v2/preflight/heartbeat_20261020T0632/source_snapshot_canonical_Git_delivery.json)和重建器，不重复提交同源目录。服务器Git克隆后，如需审核这些路径别名，可运行 python -B scripts/ops/restore_formal_source_mirror_v1.py --project-root <服务器仓库绝对路径>；它只重建已登记同SHA源码，已有不同内容即拒绝，无权重/封存值/Slurm/state访问。该重建不冒称新的原S核验，原实测传输证明保留。
+
 2026-10-19 用户新要求覆盖旧的本地保存规则：本机不再新增项目文件；代码、文档、配置、日志整理、审计、Git 提交和非权重归档均在服务器完成，并同步到 https://github.com/xingxiaoyang-888/DIWA.git 。
 
 - 唯一控制工作区：/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo。通过现有 SSH 别名 tongji-cvpr 操作；Windows 端只在内存中传递命令与必要认证，不写临时脚本、结果或 Git 索引。

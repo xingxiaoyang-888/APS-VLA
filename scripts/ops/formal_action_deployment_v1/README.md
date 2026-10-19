@@ -1,5 +1,9 @@
 # Versioned action deployment candidates
 
+Current status, 2026-10-20 CST: genuine fresh Long128 seed23 development job3043709 passed root and independent raw reconstruction,200 trials over100 common initial states,A95/B92,3083 allocated GPU seconds. Exact published consumer and unchanged scientific primitives verified actual runtime, checkpoints, fixed panel and actions.173 missing control source mirrors were copied from the actual frozen snapshot at identical hashes; initial audit failure retained. This proves only these two development instances, not the remaining7 shards, old/new semantic equivalence, O2A or final release. See results/formal_main_v2/preflight/heartbeat_20261020T0632/summary.json.
+
+Earlier status paragraphs are historical snapshots.
+
 Current status, 2026-10-20 CST: the first exact Long128 seed23 fresh A/B development200 shard is running as3043709. A delayed accounting row stopped its original submission transaction after ACK; root reconciled the exact existing job/token and consumed its own reservation with zero new sbatch calls. Original failure evidence is retained. Runtime identity and original scientific adapter startup are observed, not terminal scientific acceptance. The other7 shard authorizations remain unused. See results/formal_main_v2/preflight/heartbeat_20261020T0530/summary.json.
 
 The earlier status paragraphs below are retained historical snapshots.
