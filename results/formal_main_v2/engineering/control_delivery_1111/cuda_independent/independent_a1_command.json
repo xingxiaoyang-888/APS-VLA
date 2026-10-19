@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_continuous_admission_independent_1111/test_independent.py",
+    "--basetemp=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_continuous_admission_independent_1111/pytest_independent_a1",
+    "--junitxml=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_continuous_admission_independent_1111/independent_a1.xml"
+  ],
+  "cwd": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/cuda_continuous_admission_independent_1111",
+  "returncode": 0,
+  "test_sha256": "f22cacadc399d39876be610ce31cdf58d03990db65b3b3230a836d8c6d83123e",
+  "scope": "independent CPU cases using pinned author fixture; actual controller/Gateway/NativeIO/typed validator; Slurm and scientific plan stand-ins; no production state writes"
+}

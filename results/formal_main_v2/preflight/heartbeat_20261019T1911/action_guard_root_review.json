@@ -1,0 +1,38 @@
+{
+  "actual_O2A_join_verified": false,
+  "author_CPU_tests": 23,
+  "author_review": {
+    "path": "results/formal_main_v2/engineering/control_delivery_1111/guard_author/candidate_review.json",
+    "sha256": "a3232e8db5162725ed24cbb15de770f789b58769ac06a30e382933bfe81ceb8f"
+  },
+  "checks": [
+    "original O2A full raw consumption preserved",
+    "all inherited prefixes exact SHA recursively checked",
+    "legacy prefix rejected even after several current ancestors",
+    "real original release_global(release=False) fixture only; no final release created",
+    "existing 7 runtime source bytes unchanged"
+  ],
+  "independent_CPU_tests": 13,
+  "independent_review": {
+    "path": "results/formal_main_v2/engineering/control_delivery_1111/guard_independent/independent_review.json",
+    "sha256": "45a3c2ba2897dc559dd0af6685b368a548dcdabd2cc5d327b94373fe4bdc3681"
+  },
+  "kind": "root_transitive_execution_ancestry_guard_review",
+  "limitations": "No production O2A or GPU join. No equivalence exception implemented. New caller integration and real full evidence still required. Existing old prefixes remain blocked for O2A/freeze/final.",
+  "original_development_authorization_changed": false,
+  "production_callers_changed": false,
+  "reviewed_by": "root",
+  "schema": "formal_main_v2",
+  "source_files": [
+    {
+      "path": "scripts/ops/formal_action_consumption_guard_v1/reviewer.py",
+      "sha256": "843f0336fd4161eb23d512b34935c7fca7d75032aceefe86084a16a7939a642c"
+    },
+    {
+      "path": "scripts/ops/formal_action_consumption_guard_v1/consumer.py",
+      "sha256": "b3f754557646c8e5fa6172fd8a1bcded7e246bbfb4c490502bdc1e3f73e21b31"
+    }
+  ],
+  "status": "CPU_candidate_published_not_activated",
+  "utc": "2026-10-19T11:45:23.944263+00:00"
+}

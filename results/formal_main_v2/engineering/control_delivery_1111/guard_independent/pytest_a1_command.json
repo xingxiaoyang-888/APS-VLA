@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_mixed_prefix_independent_1111/test_independent.py",
+    "--basetemp=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_mixed_prefix_independent_1111/pytest_a1_tmp",
+    "--junitxml=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_mixed_prefix_independent_1111/pytest_a1.xml",
+    "-p",
+    "no:cacheprovider",
+    "-q"
+  ],
+  "cwd": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_mixed_prefix_independent_1111/tmp"
+  },
+  "real_GPU_or_Slurm": false,
+  "returncode": 0,
+  "started_utc": "2026-10-19T11:38:22.375962+00:00",
+  "test_sha256": "8ca45defe5f54ebcda2417c8d5df8c0ae2ca9ff607d1e63770c77e9de88182ba",
+  "wall_seconds": 24.658446868881583
+}

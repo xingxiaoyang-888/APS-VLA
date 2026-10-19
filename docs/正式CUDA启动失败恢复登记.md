@@ -1,5 +1,7 @@
 # 正式 CUDA 启动失败恢复登记
 
+2026-10-19 19:45 CST：新增独立入口 scripts/ops/formal_cuda_continuous_admission_v1 与授权 configs/experiments/formal_main_v2_cuda_continuous_3039258_v1.json，精确Object256 seed23从A/B500、cursor4000恢复至5000；48小时分配、169200秒软时限，11次验证。作者38项CPU检查、独立20项入口＋3项原控制器pending检查通过；实际canonical原日志重建及211份服务器输入、两resume SHA通过。历史84＋6512＝6596 GPU秒保留；本次只做hash-only预检，完整optimizer/RNG/cursor由实际恢复训练加载验证。当前8满且Spatial保留1槽，未提交；正常控制器不接管异常历史。若该次软时限仍未完成或异常，先root重新复核；完成5000需原始证据root和独审后显式继承。其他两组仍待原目标有界恢复。[本轮收据](../results/formal_main_v2/preflight/heartbeat_20261019T1911/summary.json)。
+
 2026-10-19原目标终态验收：3039258 COMPLETED 0:0，Object256 seed23 A/B均500更新、4000实际唯一窗口、0/500各204窗口硬剪枝验证通过root及独立原始复算。原失败3028460没有初始化/训练checkpoint，故此次resumed=false正确，不能称其恢复了原优化器/RNG。新resume字节SHA已核，下一次实际恢复仍由冻结训练核验证完整状态。费用84+6512=6596 GPU秒，FAILED身份保留；另外两组尚未重提。
 
 新增审核器只修旧失败三份外部证据的原作业归属，当前作业及共享run-root仍走原严格pull校验，33项CPU检查通过。保留初版schema/测试脚本错误及全部日志。3039258日志实际由原wrapper写于R，基于真实sacct WorkDir与原wrapper登记镜像到P，原始日志未改。该恢复未获自动5000例外准入，不能直接清blocked或调用旧手动500续跑。[root](../results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3039258.json)；[独审](../results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3039258_independent.json)。

@@ -1,0 +1,51 @@
+"""Candidate O2A consumer layer with strict historical-prefix ancestry checks.
+
+The approved deployment and raw-consumer files remain unchanged. This explicit
+new layer is not activated by importing or publishing its source.
+"""
+from __future__ import annotations
+import copy
+import hashlib
+import types
+from pathlib import Path
+
+POLICY_VERSION = "formal-action-mixed-prefix-consumption-v1"
+GUARD_SHA256 = "843f0336fd4161eb23d512b34935c7fca7d75032aceefe86084a16a7939a642c"
+
+
+def _guard(evidence):
+    own = Path(__file__)
+    if not own.is_absolute() or own.is_symlink() or own.resolve() != own:
+        raise ValueError("Noncanonical guarded consumer")
+    evidence.watch(own.relative_to(evidence.project).as_posix())
+    path = own.with_name("reviewer.py")
+    relative = path.relative_to(evidence.project).as_posix()
+    if evidence.path(relative) != path or evidence.watch(relative) != GUARD_SHA256:
+        raise ValueError("Exact independent ancestry guard required")
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != GUARD_SHA256:
+        raise ValueError("Guard bytes changed while loading")
+    module = types.ModuleType("_mixed_prefix_guard_" + GUARD_SHA256)
+    module.__file__ = str(path); module.__package__ = ""
+    exec(compile(raw, str(path), "exec", dont_inherit=True), module.__dict__)
+    return module
+
+
+def require_matching_o2a(evidence, development_refs, full_ref, components_ref, *, suite):
+    guard = _guard(evidence)
+    base, original, consume, proofs = guard.guarded_consumer(evidence)
+    # Exact original gate code and call order; only its explicit consumer
+    # dependency gains a post-reconstruction ancestry check in a private scope.
+    fn = original.require_matching_o2a
+    namespace = {**fn.__globals__, "review_downstream_output": consume}
+    checked = types.FunctionType(fn.__code__, namespace, fn.__name__, fn.__defaults__, fn.__closure__)
+    checked.__kwdefaults__ = copy.copy(fn.__kwdefaults__)
+    result = checked(evidence, development_refs, full_ref, components_ref, suite=suite)
+    evidence.unchanged()
+    return {"schema": "formal_main_v2", "kind": "formal_action_O2A_guarded_consumption",
+        "version": POLICY_VERSION, "status": "verified", "original_verification": result,
+        "development_ancestry": proofs, "equivalence_claimed": False, "final_release": False}
+
+
+def audit_freeze(evidence, directory, registration):
+    return _guard(evidence).audit_freeze(evidence, directory, registration)

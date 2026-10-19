@@ -1,0 +1,221 @@
+"""Candidate read-only consumption guard; no equivalence exceptions are supported.
+
+This is a separate audit layer. It never changes the approved action-v1 runtime,
+its raw reviewer/consumer, reports or trial outcomes. Public wrappers first use
+that exact original consumer; historical receipts are then walked by exact SHA.
+"""
+from __future__ import annotations
+import hashlib
+import sys
+import types
+from pathlib import Path
+
+POLICY_VERSION = "formal-action-mixed-prefix-consumption-v1"
+EXECUTION_VERSION = "formal-downstream-action-v1"
+OLD_VERSION = "formal-downstream-root-v1"
+UPSTREAM_REVIEWER = "scripts/ops/formal_action_deployment_v1/reviewer.py"
+UPSTREAM_CONSUMER = "scripts/ops/formal_action_deployment_v1/consumer.py"
+UPSTREAM_SHA = {
+    UPSTREAM_REVIEWER: "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    UPSTREAM_CONSUMER: "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+}
+SUITES = {"libero_spatial", "libero_object", "libero_goal", "libero_10"}
+
+
+def require(value, message):
+    if not value:
+        raise ValueError(message)
+
+
+def _watch_self(evidence):
+    path = Path(__file__)
+    require(path.is_absolute() and path.resolve() == path and not path.is_symlink(), "Noncanonical guard source")
+    name = path.relative_to(evidence.project).as_posix()
+    require(evidence.path(name) == path, "Guard is outside evidence project")
+    return {"path": name, "sha256": evidence.watch(name)}
+
+
+def _load(evidence, relative, checksum, label):
+    require(evidence.watch(relative) == checksum, "Pinned upstream source changed: " + relative)
+    path = evidence.path(relative)
+    raw = path.read_bytes()
+    require(hashlib.sha256(raw).hexdigest() == checksum, "Upstream bytes changed during load")
+    # Private fresh namespaces avoid process-global source replacement or mutation.
+    module = types.ModuleType(label + "_" + checksum)
+    module.__file__ = str(path); module.__package__ = ""
+    exec(compile(raw, str(path), "exec", dont_inherit=True), module.__dict__)
+    return module
+
+
+def upstreams(evidence):
+    _watch_self(evidence)
+    reviewer = _load(evidence, UPSTREAM_REVIEWER, UPSTREAM_SHA[UPSTREAM_REVIEWER], "_prefix_guard_raw")
+    consumer = _load(evidence, UPSTREAM_CONSUMER, UPSTREAM_SHA[UPSTREAM_CONSUMER], "_prefix_guard_consumer")
+    return reviewer, consumer
+
+
+def _read_ref(evidence, base, reference):
+    base.ref(reference)
+    require(evidence.watch(reference["path"]) == reference["sha256"], "Historical reference SHA mismatch")
+    return evidence.read(reference["path"])
+
+
+def _no_exception_claims(value):
+    # False/null bookkeeping is not an approval. No positive or unknown claim,
+    # even one carrying a path/SHA, is a supported equivalence exception here.
+    require(type(value) is dict, "Historical metadata must be a mapping")
+    for key, item in value.items():
+        if "equivalence" in key.lower() or "resolution" in key.lower() or "separate_treatment" in key.lower():
+            require(item is False or item is None,
+                "Unsupported historical-equivalence/handling claim; separately registered protocol required")
+
+
+def _require_current_ancestry(evidence, base, reference, rebuilt, *, suite):
+    """Called only after the unchanged consumer reconstructs the current root.
+
+    Ancestors are immutable SHA-bound receipt metadata, not re-reviews of mutable
+    old output directories. The current raw reviewer already verifies the actual
+    preserved byte prefix. We never relabel historical rows as current execution.
+    """
+    require(suite in SUITES, "Unknown suite")
+    saved = _read_ref(evidence, base, reference)
+    omit_time = lambda value: {k: v for k, v in value.items() if k != "reviewed_utc"}
+    require(omit_time(saved) == omit_time(rebuilt), "Current report is not the consumed immutable root")
+    seen = set(); chain = []; report = saved; current_ref = reference
+    expected_semantics = rebuilt.get("action_semantics_sha256")
+    expected_root = rebuilt.get("run_root"); expected_stage = rebuilt.get("stage_key")
+    expected_manifest = rebuilt.get("execution_manifest_sha256")
+    while True:
+        base.ref(current_ref)
+        require(current_ref["path"] not in seen, "Cyclic historical development chain")
+        seen.add(current_ref["path"])
+        _no_exception_claims(report)
+        require(report.get("execution_version", OLD_VERSION) == EXECUTION_VERSION,
+            "Unresolved legacy execution in development ancestry; current top-level version is insufficient")
+        require(report.get("schema") == "formal_main_v2" and report.get("kind") == "root_downstream_review"
+            and report.get("status") == "passed" and report.get("reviewed_by") == "root"
+            and report.get("stage") == "development" and report.get("suite") == suite,
+            "Historical root is not a matching development receipt")
+        require(report.get("run_root") == expected_root and report.get("stage_key") == expected_stage
+            and report.get("execution_manifest_sha256") == expected_manifest,
+            "Historical development identity changed")
+        require("historical_transition" in report, "Historical-transition marker is missing")
+        require(type(report.get("scientific_complete")) is bool, "Historical completion scope is missing")
+        base.sha(expected_semantics)
+        require(report.get("action_semantics_sha256") == expected_semantics, "Historical action semantics differ")
+        inv_ref = report.get("invocation_ref")
+        invocation = _read_ref(evidence, base, inv_ref)
+        require(inv_ref["path"].startswith("results/formal_main_v2/invocations/")
+            and report.get("invocation") == inv_ref["path"] and report.get("invocation_sha256") == inv_ref["sha256"],
+            "Historical invocation reference differs")
+        require(invocation.get("schema") == "formal_main_v2" and invocation.get("kind") == "formal_downstream_invocation"
+            and invocation.get("version") == EXECUTION_VERSION and invocation.get("stage") == "development"
+            and invocation.get("suite") == suite and invocation.get("run_root") == expected_root
+            and invocation.get("stage_key") == expected_stage
+            and invocation.get("execution_manifest_sha256") == expected_manifest,
+            "Historical invocation identity changed")
+        _no_exception_claims(invocation)
+        contract_ref = report.get("action_execution_contract")
+        require(invocation.get("action_execution_contract") == contract_ref, "Historical runtime contract reference differs")
+        contract = _read_ref(evidence, base, contract_ref)
+        _no_exception_claims(contract)
+        require(contract.get("version") == EXECUTION_VERSION
+            and all(contract.get("files", {}).get(name) == checksum for name, checksum in UPSTREAM_SHA.items())
+            and base.semantic_identity(contract) == expected_semantics, "Historical runtime source/semantic binding differs")
+        chain.append({"root_review": dict(current_ref), "invocation": dict(inv_ref), "action_execution_contract": dict(contract_ref)})
+        resume = invocation.get("resume")
+        require(type(resume) is bool, "Explicit historical resume state required")
+        historical = report["historical_transition"]
+        if not resume:
+            require(historical is None and contract.get("transition") is None
+                and invocation.get("prior_review") is None and invocation.get("prior_job_ids") == [],
+                "Fresh execution has hidden or contradictory ancestry")
+            break
+        require(type(historical) is dict and historical.get("reference") == contract.get("transition"),
+            "Resume lost its exact historical transition reference")
+        _no_exception_claims(historical)
+        transition = _read_ref(evidence, base, contract["transition"])
+        _no_exception_claims(transition)
+        require(transition.get("schema") == "formal_main_v2" and transition.get("kind") == "formal_action_runtime_transition"
+            and transition.get("status") == "root_reviewed" and transition.get("to_version") == EXECUTION_VERSION
+            and transition.get("run_root") == expected_root and transition.get("stage_key") == expected_stage
+            and transition.get("execution_manifest_sha256") == expected_manifest,
+            "Historical transition identity differs")
+        require(transition.get("terminal_trials_repeated") is False and transition.get("prior_outcomes_replaced") is False
+            and transition.get("new_trial_ids_only") is True and historical.get("historical_terminal_outcomes_replaced") is False,
+            "Historical outcomes cannot be replaced or replayed")
+        prior_path = invocation.get("prior_review")
+        require(isinstance(prior_path, str) and prior_path.startswith("results/formal_main_v2/downstream_reviews/")
+            and transition.get("prior_review") == prior_path
+            and transition.get("prior_job_ids") == invocation.get("prior_job_ids"), "Historical prior-review binding differs")
+        prior_ref = {"path": prior_path, "sha256": invocation.get("root_evidence_sha256", {}).get(prior_path)}
+        prior = _read_ref(evidence, base, prior_ref)
+        prior_version = prior.get("execution_version", OLD_VERSION)
+        require(historical.get("from_version") == transition.get("from_version") == prior_version,
+            "Historical transition conceals its actual prior version")
+        prefix_sha = historical.get("preserved_prefix_sha256"); base.sha(prefix_sha)
+        require(type(historical.get("preserved_prefix_bytes")) is int and historical["preserved_prefix_bytes"] > 0,
+            "Historical byte-prefix extent is missing")
+        output = base.remote_relative(expected_root)
+        files = transition.get("files", {})
+        require(type(files) is dict and {output + "/" + n for n in ("trials.jsonl", "closed_loop_report.json", "config.json", "panel.json")} <= set(files),
+            "Historical transition omits original prefix/config/panel")
+        require(files.get(output + "/trials.jsonl") == prefix_sha
+            and all(prior.get("files", {}).get(name) == checksum for name, checksum in files.items()),
+            "Historical prefix is not bound to the prior immutable review")
+        independent = _read_ref(evidence, base, transition.get("independent_review"))
+        require(independent.get("kind") == "formal_action_runtime_transition_review" and independent.get("status") == "passed"
+            and independent.get("review_role") == "independent" and independent.get("stage_key") == expected_stage
+            and independent.get("files") == files and independent.get("prior_review") == prior_path
+            and independent.get("from_version") == prior_version and independent.get("to_version") == EXECUTION_VERSION,
+            "Historical transition independent binding differs")
+        chain[-1]["transition"] = dict(contract["transition"])
+        chain[-1]["preserved_prefix_sha256"] = prefix_sha
+        current_ref, report = prior_ref, prior
+    evidence.unchanged()
+    return {"kind": "formal_action_development_ancestry_verification", "version": POLICY_VERSION,
+        "status": "verified_current_execution_only", "development": dict(reference), "suite": suite,
+        "action_semantics_sha256": expected_semantics, "chain": chain,
+        "legacy_prefix_equivalence_inferred": False, "exception_receipts_supported": False, "final_release": False}
+
+
+def guarded_consumer(evidence):
+    base, original = upstreams(evidence)
+    proofs = []; cached = {}
+    def consume(ev, reference, **kwargs):
+        require(ev is evidence, "Evidence scope changed")
+        # Cache only identical immutable reference and complete call arguments.
+        key = base.signature({"reference": reference, "arguments": kwargs})
+        if key in cached:
+            evidence.unchanged(); return cached[key]
+        report = original.review_downstream_output(ev, reference, **kwargs)
+        if kwargs.get("expected_stage") == "development":
+            proofs.append(_require_current_ancestry(ev, base, reference, report, suite=kwargs["suite"]))
+        cached[key] = report
+        return report
+    return base, original, consume, proofs
+
+
+def audit_freeze(evidence, directory, registration):
+    """Read-only verification; any unresolved ancestor rejects before global gate.
+
+    The original 88-identity and four-suite validations still run, unchanged,
+    with release=False. This function never creates or activates a release.
+    """
+    base, original, consume, proofs = guarded_consumer(evidence)
+    base.relative(directory)
+    matrix = evidence.read(directory + "/global_freeze.json")
+    suites = matrix.get("suites")
+    require(type(suites) is list and suites and len(set(suites)) == len(suites)
+        and all(s in SUITES for s in suites), "Malformed freeze suite list")
+    for suite in suites:
+        roots = evidence.read(directory + "/development_root_reviews/" + suite + ".json")
+        require(type(roots.get("reviews")) is list and roots["reviews"], "Missing frozen development references")
+        for item in roots["reviews"]:
+            consume(evidence, item["reference"], expected_stage="development", suite=suite)
+    helper = base.load(evidence, base.OLD_HELPER, base.PINNED[base.OLD_HELPER])
+    result = base.audit_freeze(evidence, helper, directory, registration, consume)
+    evidence.unchanged()
+    return {"schema": "formal_main_v2", "kind": "formal_action_global_freeze_guarded_consumption",
+        "version": POLICY_VERSION, "status": "verified", "original_verification": result,
+        "development_ancestry": proofs, "equivalence_claimed": False, "final_release": False}
