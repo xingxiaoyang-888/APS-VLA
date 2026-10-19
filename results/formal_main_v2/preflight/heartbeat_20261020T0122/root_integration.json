@@ -1,0 +1,56 @@
+{
+  "CPU_failures_retained": true,
+  "controller_and_registered_jobs_unchanged": true,
+  "cost_field_not_overwritten": true,
+  "documentation": [
+    {
+      "after_sha256": "448cbb434c358d9267e494d02678ec5c23df16dfef5358f8e82063be44400136",
+      "before_sha256": null,
+      "path": "docs/正式Long其余16选择器开发登记.md"
+    },
+    {
+      "after_sha256": "f15a8e0ee833a8be5abbca563967fdf7e45ad84050a05cd2722e18f5953231e5",
+      "before_sha256": "d1d33dd7890d875d0e749503fc3bc2ed9415fc7c526d34fe8ffa365aa10cbcd8",
+      "path": "docs/实验进度.md"
+    },
+    {
+      "after_sha256": "e4ef0614c01c27f3a4b830019b9a81ecb3b42676f529554c669027c6989e0027",
+      "before_sha256": "86544b2f76edd616755a98a9a8ff15fc2ede93c860fdff0c39f099efe3d54add",
+      "path": "docs/完整实验计划.md"
+    },
+    {
+      "after_sha256": "1194383a18f4d0cf43278bfc29b13965d3b4b46d99aca4ec5758f4613f95941c",
+      "before_sha256": "266eb0250790be9db75e873b15e857f7b6e0cae0f0ee1081858a6110ed03e231",
+      "path": "docs/正式主实验阶段结论.md"
+    },
+    {
+      "after_sha256": "edbc2e3a2f38a63d4178f777b2b7b9ab68c3dd3dfe9581458f48e64d54f9ef9d",
+      "before_sha256": "23129142790a165472bf754cd9d9cae98573a49845fb240647efbe8f1cac3eb1",
+      "path": "docs/正式主实验规划.md"
+    },
+    {
+      "after_sha256": "9eb71ecd983e631d526c1f1217058d01f040fab9e56a6c038e28a99f9cc190f6",
+      "before_sha256": "d7c20d49125315affc1d2706807040831c34b5c6c29f579abbaee30f2d00898c",
+      "path": "docs/正式自动连续训练执行登记.md"
+    },
+    {
+      "after_sha256": "a432b9a35770757fa13bd61769f1e8069ec54f648e03e6420581a482d66eebd5",
+      "before_sha256": "8db4f403a5d4a42596c85667561222122d9121eacb55820d8561fcdd1e82b69b",
+      "path": "docs/正式动作执行入口接入记录.md"
+    }
+  ],
+  "engineering_notes": [
+    "Initial manifest publisher guard confused canonical JSON receipt signature with raw bytes; stopped before any manifest write; corrected exact original json_signature formula without scientific change.",
+    "Private audit transport path rejection and parser/finalizer failed attempts preserved in package mappings.",
+    "Independent finalizer saw initial16 missing P inputs already published by root; retained failure and distinguished prior snapshot from fresh exact222-input check; science tests not rerun or altered."
+  ],
+  "no_new_GPU_job": true,
+  "schema": "formal_main_v2",
+  "source_and_science_unchanged": true,
+  "state_after": "9ddd4af3d94972eff156f33210b7c8799076014dbabd3104d4052221e30e95f7",
+  "state_before": "0b1a99029d6af44ea52cb215949796c3215c437405aa5302f0ed2bc4252cde81",
+  "summary": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T0122/summary.json",
+    "sha256": "3a2a2f6840af41eb6113b1410f5732c518afa69112d7cb166b2c9f68d0a88fc4"
+  }
+}

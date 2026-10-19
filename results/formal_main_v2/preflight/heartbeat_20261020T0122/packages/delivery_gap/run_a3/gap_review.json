@@ -1,0 +1,1735 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "read_only_formal_delivery_gap_review",
+  "status": "inventory_integrity_findings",
+  "observed_utc": "2026-10-19T17:38:16.389192+00:00",
+  "scope": "Real server metadata and complete terminal legacy development raw files; existing accepted training proofs consumed, not a new reconstruction of every training cost event. No model/checkpoint deserialization or Slurm query/submission.",
+  "counts": {
+    "root_independent_training_complete": 46,
+    "training_total": 72,
+    "remaining_training": 26,
+    "deployment_identity_target": 88,
+    "existing_distinct_manifest_identities": 18,
+    "accepted_selectors_without_manifest": 40,
+    "legacy_development_terminal_trials": 1212,
+    "qualified_complete_current_action_suite_development_receipts": 0,
+    "formal_O2A_root_receipts": 0,
+    "final_trials": 0,
+    "final_trial_target": 35200
+  },
+  "by_suite": {
+    "libero_10": {
+      "root_independent_completed_arms": 18,
+      "remaining_training_arms": 0,
+      "existing_manifest_method_ids": [
+        "A128_seed17",
+        "B128_seed17",
+        "dense",
+        "uniform128",
+        "uniform256",
+        "uniform64"
+      ],
+      "completed_selectors_without_manifest": [
+        "A128_seed23",
+        "A128_seed41",
+        "A256_seed17",
+        "A256_seed23",
+        "A256_seed41",
+        "A64_seed17",
+        "A64_seed23",
+        "A64_seed41",
+        "B128_seed23",
+        "B128_seed41",
+        "B256_seed17",
+        "B256_seed23",
+        "B256_seed41",
+        "B64_seed17",
+        "B64_seed23",
+        "B64_seed41"
+      ],
+      "missing_training_method_ids": [],
+      "references_without_manifest": []
+    },
+    "libero_spatial": {
+      "root_independent_completed_arms": 16,
+      "remaining_training_arms": 2,
+      "existing_manifest_method_ids": [
+        "A128_seed17",
+        "B128_seed17",
+        "dense",
+        "uniform128",
+        "uniform256",
+        "uniform64"
+      ],
+      "completed_selectors_without_manifest": [
+        "A128_seed23",
+        "A128_seed41",
+        "A256_seed17",
+        "A256_seed23",
+        "A256_seed41",
+        "A64_seed17",
+        "A64_seed41",
+        "B128_seed23",
+        "B128_seed41",
+        "B256_seed17",
+        "B256_seed23",
+        "B256_seed41",
+        "B64_seed17",
+        "B64_seed41"
+      ],
+      "missing_training_method_ids": [
+        "A64_seed23",
+        "B64_seed23"
+      ],
+      "references_without_manifest": []
+    },
+    "libero_object": {
+      "root_independent_completed_arms": 10,
+      "remaining_training_arms": 8,
+      "existing_manifest_method_ids": [
+        "A128_seed17",
+        "B128_seed17",
+        "dense",
+        "uniform128",
+        "uniform256",
+        "uniform64"
+      ],
+      "completed_selectors_without_manifest": [
+        "A128_seed23",
+        "A128_seed41",
+        "A256_seed17",
+        "A256_seed41",
+        "B128_seed23",
+        "B128_seed41",
+        "B256_seed17",
+        "B256_seed41"
+      ],
+      "missing_training_method_ids": [
+        "A256_seed23",
+        "A64_seed17",
+        "A64_seed23",
+        "A64_seed41",
+        "B256_seed23",
+        "B64_seed17",
+        "B64_seed23",
+        "B64_seed41"
+      ],
+      "references_without_manifest": []
+    },
+    "libero_goal": {
+      "root_independent_completed_arms": 2,
+      "remaining_training_arms": 16,
+      "existing_manifest_method_ids": [],
+      "completed_selectors_without_manifest": [
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "missing_training_method_ids": [
+        "A128_seed23",
+        "A128_seed41",
+        "A256_seed17",
+        "A256_seed23",
+        "A256_seed41",
+        "A64_seed17",
+        "A64_seed23",
+        "A64_seed41",
+        "B128_seed23",
+        "B128_seed41",
+        "B256_seed17",
+        "B256_seed23",
+        "B256_seed41",
+        "B64_seed17",
+        "B64_seed23",
+        "B64_seed41"
+      ],
+      "references_without_manifest": [
+        "dense",
+        "uniform128",
+        "uniform256",
+        "uniform64"
+      ]
+    }
+  },
+  "legacy_action_semantics": {
+    "long": 600,
+    "object": 600,
+    "spatial": 12,
+    "object_policy_error_retained": 1,
+    "new_top_level_version_does_not_rewrite_ancestors": true,
+    "mixed_Spatial12plus588_does_not_satisfy_whole_ancestry_gate": true,
+    "equality_between_legacy_and_current_action_semantics_proven": false,
+    "existing_guard_is_published_but_production_consumer_integration_still_required": true,
+    "engineering16cells_are_not_scientific_performance": true
+  },
+  "next_actions": [
+    {
+      "priority": 1,
+      "action": "Build eight independent A/B-pair Long development manifests and original fresh scientific plans for the 16 completed, previously unevaluated selectors. Each pair uses the unchanged 100-state development panel (200 trials), fixed 4h resource request and exact selected checkpoint identities. Bind new action runtime and per-plan control admission; only root may submit.",
+      "why_executable": "All 18 Long arms have terminal root/independent receipts; these 16 method IDs do not overlap registered development allocations. Original Long six-method run cost 10531 allocated GPU-seconds for 600 trials. This is resource context, not a guaranteed 200-trial duration.",
+      "does_not_require": "Waiting for remaining suites or resolving mixed Spatial prefix.",
+      "remaining_checks": "Original suite_rows/source_provenance/plan, complete R/P publication closure and fresh capacity/one-shot admission must still actually pass."
+    },
+    {
+      "priority": 2,
+      "action": "Prepare equivalent source-bound manifests for other completed, unevaluated selector IDs (Spatial14,Object8,Goal2); Goal also has four as-yet-unlisted references.",
+      "remaining_checks": "Canonical final training source review, official own-suite acceptance, metadata/Goal component contracts and per-plan original planner must pass. This inventory does not substitute for them."
+    },
+    {
+      "priority": 3,
+      "action": "Register a narrow versioned execution-identity migration for old-interface method/state instances. Keep all old raw trials, policy_error, selected checkpoints, panels and allocation costs immutable. Under the new execution identity, rerun required development instances without splicing an old prefix into a supposedly all-new receipt.",
+      "why": "Current planner deduplicates by suite/stage/method-state overlap, not action execution version; all22 fresh plans overlap old first6 and are correctly rejected today. Reusing completed old rows would fail the strict whole-ancestry consumption gate. New runtime is not an identical execution identity, so the user no-duplicate-identical-results rule does not establish equivalence or prohibit necessary engineering correction.",
+      "not_authorized_by_this_report": "No new transition, retry, reservation, job submission, equivalent-results claim or current state mutation is issued."
+    },
+    {
+      "priority": 4,
+      "action": "Create all88 deployment identity inventory as training completes; combine all22 methods per suite only through qualified development receipts. Prepare fixed Dense-only 30-observation O2A collection plans without reading sealed values.",
+      "remaining_checks": "Actual new runtime chain and whole-ancestry consumer integration; full/components planner currently requires complete global freeze and matched collection review; new per-plan readiness is needed."
+    },
+    {
+      "priority": 5,
+      "action": "After all72 selected checkpoints, 16 references, four all22-method current-semantics development receipts and complete final identity manifest are frozen, root global release may enable the registered35200 final trials. Execute matching full O2A/component timings and final statistics; no result-driven reselection.",
+      "current_status": "No global freeze/release or qualified complete four-suite current-semantics development/O2A evidence exists."
+    }
+  ],
+  "canonical_final_segment_review_missing": [
+    "results/formal_main_v2/libero_object/k128/seed23/training/segment_reviews/3034580.json",
+    "results/formal_main_v2/libero_object/k256/seed17/training/segment_reviews/3034584.json",
+    "results/formal_main_v2/libero_spatial/k256/seed17/training/segment_reviews/3034597.json",
+    "results/formal_main_v2/libero_spatial/k256/seed23/training/segment_reviews/3034604.json",
+    "results/formal_main_v2/libero_spatial/k256/seed41/training/segment_reviews/3034611.json",
+    "results/formal_main_v2/libero_spatial/k64/seed17/training/segment_reviews/3034616.json",
+    "results/formal_main_v2/libero_spatial/k64/seed41/training/segment_reviews/3034689.json"
+  ],
+  "known_startup_failure": {
+    "status": "12_preserved_new_attempt3042529_startup_FAILED_dependency_repaired_new_authorization_required",
+    "new_trials_added": 0,
+    "failed_continuation_job_id": "3042529",
+    "failed_continuation_GPU_seconds": 2
+  },
+  "state_snapshot_sha256": "5abba90246f3307ef2c4f6887df2640adf2f513f79f1622d1d4ccf7b7fa4f3d4",
+  "source_gate_evidence": ".local/delivery_gap_1722/run_a3/source_gate_evidence.json",
+  "checks": [
+    {
+      "check": "libero_10_k128_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed23_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed23_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed23_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed23_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed41_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed41_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed41_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k128_seed41_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed23_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed23_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed23_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed23_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed41_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed41_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed41_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k256_seed41_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed23_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed23_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed23_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed23_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed41_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed41_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed41_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_10_k64_seed41_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_goal_k128_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_goal_k128_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_goal_k128_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_goal_k128_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed23_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed23_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed23_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed23_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed41_terminal_root_independent",
+      "passed": false,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed41_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed41_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k128_seed41_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k256_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k256_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k256_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k256_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k256_seed41_terminal_root_independent",
+      "passed": false,
+      "details": null
+    },
+    {
+      "check": "libero_object_k256_seed41_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k256_seed41_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_object_k256_seed41_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed23_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed23_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed23_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed23_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed41_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed41_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed41_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k128_seed41_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed23_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed23_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed23_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed23_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed41_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed41_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed41_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k256_seed41_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k64_seed17_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k64_seed17_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k64_seed17_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k64_seed17_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k64_seed41_terminal_root_independent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k64_seed41_summary5000",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k64_seed41_A_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "libero_spatial_k64_seed41_B_5000_selection",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "accepted_training_count_consistent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "3019954_raw_terminals",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "3019954_raw_unique_states_within_registered_panel",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "3021844_raw_terminals",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "3021844_raw_unique_states_within_registered_panel",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "3022743_raw_terminals",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "3022743_raw_unique_states_within_registered_panel",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "legacy1212_preserved",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "no_formal_O2A_or_final_root_receipt",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "final_remains_sealed",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Long_unseen16_has_no_registered_method_overlap",
+      "passed": true,
+      "details": []
+    }
+  ],
+  "integrity_findings": [
+    {
+      "kind": "check_failed",
+      "check": "libero_object_k128_seed41_terminal_root_independent",
+      "details": null
+    },
+    {
+      "kind": "check_failed",
+      "check": "libero_object_k256_seed41_terminal_root_independent",
+      "details": null
+    }
+  ],
+  "limits": {
+    "actual_new_GPU_runtime_chain_verified": false,
+    "new_trials_executed": 0,
+    "GPU_submissions": 0,
+    "state_modified": false,
+    "P_written": false,
+    "Git_modified": false,
+    "sealed_values_read": false,
+    "weights_or_checkpoint_bytes_read": false,
+    "equivalence_proof_created": false,
+    "production_readiness_or_release_created": false
+  },
+  "evidence_sha256": {
+    "results/experiment_supervisor/state.json": {
+      "sha256": "5abba90246f3307ef2c4f6887df2640adf2f513f79f1622d1d4ccf7b7fa4f3d4",
+      "bytes": 3057612,
+      "mutable_snapshot_at_utc": "2026-10-19T17:38:16.389192+00:00"
+    },
+    "AGENTS.md": {
+      "sha256": "f32733b595a747a9f82f5ac5949ee62cfa5a9fc750c97f5e4fb97d0f6a9e4510",
+      "bytes": 5345
+    },
+    "SERVER_WORKSPACE.md": {
+      "sha256": "fe43ae998a45bc749b3de1acbb8841d5b413962b59b05f62284e3f503a9baf62",
+      "bytes": 363
+    },
+    "docs/服务器工作区与GitHub同步.md": {
+      "sha256": "a871dbefb420ac06ad4818fbf85116ae9db243839911afff999ebf9b49e83854",
+      "bytes": 4377
+    },
+    "docs/正式主实验规划.md": {
+      "sha256": "23129142790a165472bf754cd9d9cae98573a49845fb240647efbe8f1cac3eb1",
+      "bytes": 54819
+    },
+    "docs/正式动作执行入口接入记录.md": {
+      "sha256": "8db4f403a5d4a42596c85667561222122d9121eacb55820d8561fcdd1e82b69b",
+      "bytes": 7443
+    },
+    "scripts/formal_execution_manifests.py": {
+      "sha256": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+      "bytes": 56235
+    },
+    "scripts/ops/formal_downstream_supervisor.py": {
+      "sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+      "bytes": 51279
+    },
+    "scripts/ops/formal_asset_downstream_review.py": {
+      "sha256": "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699",
+      "bytes": 55397
+    },
+    "scripts/ops/server_control_transport_v1/bundle_manifest.json": {
+      "sha256": "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+      "bytes": 602
+    },
+    "scripts/ops/formal_action_deployment_v1/runtime_scope.py": {
+      "sha256": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53",
+      "bytes": 40302
+    },
+    "scripts/ops/formal_action_deployment_v1/contract.py": {
+      "sha256": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+      "bytes": 15889
+    },
+    "scripts/ops/formal_action_deployment_v1/entry.py": {
+      "sha256": "2cdb69923146cbffcaaec555b970d03efbce0c9b9f74e3b743a2ce67a21aae19",
+      "bytes": 7563
+    },
+    "scripts/ops/formal_action_deployment_v1/wrapper.py": {
+      "sha256": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33",
+      "bytes": 10940
+    },
+    "scripts/ops/formal_action_deployment_v1/gateway.py": {
+      "sha256": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+      "bytes": 35248
+    },
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": {
+      "sha256": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+      "bytes": 44694
+    },
+    "scripts/ops/formal_action_deployment_v1/consumer.py": {
+      "sha256": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+      "bytes": 7244
+    },
+    "scripts/ops/formal_action_consumption_guard_v1/reviewer.py": {
+      "sha256": "843f0336fd4161eb23d512b34935c7fca7d75032aceefe86084a16a7939a642c",
+      "bytes": 13686
+    },
+    "scripts/ops/formal_action_consumption_guard_v1/consumer.py": {
+      "sha256": "b3f754557646c8e5fa6172fd8a1bcded7e246bbfb4c490502bdc1e3f73e21b31",
+      "bytes": 2477
+    },
+    "results/formal_main_v2/preflight/heartbeat_20261019T1347/v4_GPU_root_acceptance.json": {
+      "sha256": "3ee503429d703bb9d8da5970a9e183d371defbaf86884b24ae164d6cbc7bc1e9",
+      "bytes": 1386
+    },
+    ".local/action_mixed_prefix_guard_1111/actual_metadata_rejections.json": {
+      "sha256": "25f5daa6f8e7013e7ec2cff6591cf81d32e38966cb46f216106202c3e7c681b5",
+      "bytes": 26124
+    },
+    ".local/action_mixed_prefix_independent_1111/independent_review.json": {
+      "sha256": "45a3c2ba2897dc559dd0af6685b368a548dcdabd2cc5d327b94373fe4bdc3681",
+      "bytes": 78058
+    },
+    "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3016464.json": {
+      "sha256": "d63782dd426d72f586d96cdff26bbd65c05ae11c230069c972f1ae3613279e81",
+      "bytes": 49638
+    },
+    "results/formal_main_v2/libero_10/k128/seed17/training/segment_reviews/3016464_independent.json": {
+      "sha256": "4c3d4a8b4d4c905ecdd26af4b044f30dc0b4dc620b55fc1aeee46add9599059b",
+      "bytes": 57016
+    },
+    "results/formal_main_v2/libero_10/k128/seed17/training/training_summary.json": {
+      "sha256": "55e62868361a834384868b9f6cd48abada2cd09ee2ad206228b0c0670de66ce9",
+      "bytes": 72028
+    },
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/training_report.json": {
+      "sha256": "78d71a2b89a8e432cfc2d551da4558a08328b02d4f1e944b85945bba10737396",
+      "bytes": 30216
+    },
+    "results/formal_main_v2/libero_10/k128/seed17/training/A/deployment_receipt.json": {
+      "sha256": "e02c30a5e16674b22aef9c8372a4fce6bd2ca5dc8aa94dec3399037f1c4f981b",
+      "bytes": 23396
+    },
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/training_report.json": {
+      "sha256": "6434f79fe5f70c099cf11cc7b2722b0abbfdbe942d72bbc06f8cd92c14362779",
+      "bytes": 30221
+    },
+    "results/formal_main_v2/libero_10/k128/seed17/training/B/deployment_receipt.json": {
+      "sha256": "a0160b18a6d69ed0df4df40f7d401e85295409a2ff854a8f307cbcb459a936b4",
+      "bytes": 23396
+    },
+    "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3021774.json": {
+      "sha256": "9966fb3cfd5ce308b09319baf5da10f94d8b691bf54137686e661af694916f9c",
+      "bytes": 49638
+    },
+    "results/formal_main_v2/libero_10/k128/seed23/training/segment_reviews/3021774_independent.json": {
+      "sha256": "710fdb4f4dfe342fa18ea7b2416d7db5a82e5dae38805be9cd6bbdb6bc67ea9c",
+      "bytes": 72521
+    },
+    "results/formal_main_v2/libero_10/k128/seed23/training/training_summary.json": {
+      "sha256": "94139be985aba9894bc1cac07ae1ab2c6666387d311403473e38eba5ba3cb154",
+      "bytes": 72033
+    },
+    "results/formal_main_v2/libero_10/k128/seed23/training/A/training_report.json": {
+      "sha256": "2264dff57eef955867025c59850b4b7b6a66440e2aa030cf90f889f20be3be93",
+      "bytes": 30219
+    },
+    "results/formal_main_v2/libero_10/k128/seed23/training/A/deployment_receipt.json": {
+      "sha256": "0358718f15c539697e9a9c814281c9ced4b79f1eeccdf3210a9b2fd201319775",
+      "bytes": 23399
+    },
+    "results/formal_main_v2/libero_10/k128/seed23/training/B/training_report.json": {
+      "sha256": "80c5a3135021dd73512e4542119d85a620891044e8f2501cd6d528c3549414f6",
+      "bytes": 30223
+    },
+    "results/formal_main_v2/libero_10/k128/seed23/training/B/deployment_receipt.json": {
+      "sha256": "faa714126882aefe183591c8c38fdb2428df92043e7f21fe94dd89771ee69d8b",
+      "bytes": 23398
+    },
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3021781.json": {
+      "sha256": "7806513de84156e302df90951282dfb89ed829a433695e1cf5a964c729d463bc",
+      "bytes": 49636
+    },
+    "results/formal_main_v2/libero_10/k128/seed41/training/segment_reviews/3021781_independent.json": {
+      "sha256": "c750cb7665a0e7f2123982c08f88818e77d260298873b38b0c9ba253935711ba",
+      "bytes": 72433
+    },
+    "results/formal_main_v2/libero_10/k128/seed41/training/training_summary.json": {
+      "sha256": "d3e11d12386bc1dfa76760ea500bdc6e78cf92adfc9cd2a72bcceac2d8b0338a",
+      "bytes": 72027
+    },
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/training_report.json": {
+      "sha256": "2008372f74fda98387cbea19be63654116a38a689d98dd144a34c301473162ce",
+      "bytes": 30213
+    },
+    "results/formal_main_v2/libero_10/k128/seed41/training/A/deployment_receipt.json": {
+      "sha256": "fab6c0de1ed8eb7f8a331f642363d1242c189efd28535c81e461394a0c27504a",
+      "bytes": 23394
+    },
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/training_report.json": {
+      "sha256": "febc941d54e1ada8dc45836e50758828e5faa8ac704f875882e6a10c148bef84",
+      "bytes": 30223
+    },
+    "results/formal_main_v2/libero_10/k128/seed41/training/B/deployment_receipt.json": {
+      "sha256": "dbe2718bbf614e87d7e482d9039b0172f1622a80271b02e6349069c2e677c19a",
+      "bytes": 23398
+    },
+    "results/formal_main_v2/libero_10/k256/seed17/training/segment_reviews/3022617.json": {
+      "sha256": "86d429592f16aca0c2441d7568eba0e487838ac6d0d7af15ef04e30172d153dc",
+      "bytes": 49671
+    },
+    "results/formal_main_v2/libero_10/k256/seed17/training/segment_reviews/3022617_independent.json": {
+      "sha256": "c4e23dd25618602484182887a0be005dab7bb19214769340c4bd63237272af36",
+      "bytes": 72766
+    },
+    "results/formal_main_v2/libero_10/k256/seed17/training/training_summary.json": {
+      "sha256": "033bd74fa873daeb29ccdff3ebf3d4ec37f32cbd7f83169c0aec5bddccee19d0",
+      "bytes": 72036
+    },
+    "results/formal_main_v2/libero_10/k256/seed17/training/A/training_report.json": {
+      "sha256": "8d6cf724b3001dfa47a30d1c2ee01d6bf1f53984fd639eb919928f2d1da5d959",
+      "bytes": 30218
+    },
+    "results/formal_main_v2/libero_10/k256/seed17/training/A/deployment_receipt.json": {
+      "sha256": "3b55ef4698666a800a9dc6d2cc34ec2f475157586b0efbb580c706f3514e1567",
+      "bytes": 23404
+    },
+    "results/formal_main_v2/libero_10/k256/seed17/training/B/training_report.json": {
+      "sha256": "1dd2aa1b9aed9e6edb6dc798e8a1735a210ca3815936d4a1faa4180bbc13b187",
+      "bytes": 30227
+    },
+    "results/formal_main_v2/libero_10/k256/seed17/training/B/deployment_receipt.json": {
+      "sha256": "2cba3e0da5f72b11644f10813db6b2cca6164f28381681a42d0fc920e6786b22",
+      "bytes": 23405
+    },
+    "results/formal_main_v2/libero_10/k256/seed23/training/segment_reviews/3025005.json": {
+      "sha256": "e924f2f37ee8d27bcd0476546b772ec0524715f7edf8117b21a853db6813ed2f",
+      "bytes": 49669
+    },
+    "results/formal_main_v2/libero_10/k256/seed23/training/segment_reviews/3025005_independent.json": {
+      "sha256": "f96249bec3c4f38e4e1a2bfdc2f934489664cbdff5d18bbdd03233267c28be7d",
+      "bytes": 73106
+    },
+    "results/formal_main_v2/libero_10/k256/seed23/training/training_summary.json": {
+      "sha256": "dbd4748243082a0160773b43e32dc496c86d80cbbbe1ad79a9cff9204e5e2f54",
+      "bytes": 72039
+    },
+    "results/formal_main_v2/libero_10/k256/seed23/training/A/training_report.json": {
+      "sha256": "690443b75295600a35e88e80a00545168ea4588557cac52941a29b5584e7b202",
+      "bytes": 30221
+    },
+    "results/formal_main_v2/libero_10/k256/seed23/training/A/deployment_receipt.json": {
+      "sha256": "f92dec4ce47131b88cafb0cbda34eab837da130743592c83bdf7542533bf8692",
+      "bytes": 23406
+    },
+    "results/formal_main_v2/libero_10/k256/seed23/training/B/training_report.json": {
+      "sha256": "f4cd097cafc82ca57142f517774665d66fe95a13749ac378d3a6886908c8cbca",
+      "bytes": 30227
+    },
+    "results/formal_main_v2/libero_10/k256/seed23/training/B/deployment_receipt.json": {
+      "sha256": "a182f2e1d2e8ac7e3d39b82ed7e6cd49df2c53aae86aef31014b851e1fd56f8b",
+      "bytes": 23404
+    },
+    "results/formal_main_v2/libero_10/k256/seed41/training/segment_reviews/3025017.json": {
+      "sha256": "17328087491546d922b8674762dead901fd178a94cfd9f5c3a4f26c3d5d90577",
+      "bytes": 49637
+    },
+    "results/formal_main_v2/libero_10/k256/seed41/training/segment_reviews/3025017_independent.json": {
+      "sha256": "36991e62948796482b2f280bbeab26f6fad304c4aa2368ded7a508f5f1c74cd3",
+      "bytes": 73075
+    },
+    "results/formal_main_v2/libero_10/k256/seed41/training/training_summary.json": {
+      "sha256": "44403a8b542f58242ca1109e8e3349c2c149556eee70e64842013f8e29c3c983",
+      "bytes": 72039
+    },
+    "results/formal_main_v2/libero_10/k256/seed41/training/A/training_report.json": {
+      "sha256": "d3ad179a24cc02afbe1dfab5a80a3caf9de3fe7fb3c8976a50d7a600aea04e96",
+      "bytes": 30220
+    },
+    "results/formal_main_v2/libero_10/k256/seed41/training/A/deployment_receipt.json": {
+      "sha256": "46b67446533f561b6b232c7b7402e27761e3d5f391665bbbd58d27dfbe4c1125",
+      "bytes": 23404
+    },
+    "results/formal_main_v2/libero_10/k256/seed41/training/B/training_report.json": {
+      "sha256": "f359c8d0b01af5f4277da9badfdba2e441ac894bcce2b5daa3e7cf4bd03935e8",
+      "bytes": 30228
+    },
+    "results/formal_main_v2/libero_10/k256/seed41/training/B/deployment_receipt.json": {
+      "sha256": "3a790723eeb7965e10d61a064b07ef902584e2c64d6a804330754e10a453141e",
+      "bytes": 23406
+    },
+    "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3022775.json": {
+      "sha256": "ca61aec40eb238af4c398fec273f0f47f5104e685b34504c1b78dfb1708eece4",
+      "bytes": 49465
+    },
+    "results/formal_main_v2/libero_10/k64/seed17/training/segment_reviews/3022775_independent.json": {
+      "sha256": "3cfc433f5248c5e9c3f0c4d6bfb48884f014e6d4e58e7fd73d3db04aad30a470",
+      "bytes": 72592
+    },
+    "results/formal_main_v2/libero_10/k64/seed17/training/training_summary.json": {
+      "sha256": "7d8906c6bb4df77c34518060ae0e4b412a68e3a2e257bc70e4a1af8d40dc9473",
+      "bytes": 71975
+    },
+    "results/formal_main_v2/libero_10/k64/seed17/training/A/training_report.json": {
+      "sha256": "9056d2cd9ca5864d209aaf5a46008908ef5bc1c491cb74dc146697263d386361",
+      "bytes": 30190
+    },
+    "results/formal_main_v2/libero_10/k64/seed17/training/A/deployment_receipt.json": {
+      "sha256": "6ac7ce2f6869df0739199f903fbee96a780e7e8750d6597566486d9d3664866d",
+      "bytes": 23367
+    },
+    "results/formal_main_v2/libero_10/k64/seed17/training/B/training_report.json": {
+      "sha256": "d1d7c34d661b273e547849445ed83269fffa45bedc354a1f1c76d2f82ac52606",
+      "bytes": 30194
+    },
+    "results/formal_main_v2/libero_10/k64/seed17/training/B/deployment_receipt.json": {
+      "sha256": "ca08a5b57aa04627c379204df678b7ec416aef5de5c110e65f50dd6bd33869be",
+      "bytes": 23366
+    },
+    "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3025000.json": {
+      "sha256": "faf62d77db9a844ee160d3b646fed2080331ad8b68ec8fcc4b23261417769bcd",
+      "bytes": 49460
+    },
+    "results/formal_main_v2/libero_10/k64/seed23/training/segment_reviews/3025000_independent.json": {
+      "sha256": "9acc9243510af4784b52ae5788d4371fc93e7555474bbaaf9688228d7b4e0ade",
+      "bytes": 72762
+    },
+    "results/formal_main_v2/libero_10/k64/seed23/training/training_summary.json": {
+      "sha256": "e7eeedb6baa14637e633f68907b0d0403d842ddce7ba1226b6591894eb806e95",
+      "bytes": 71973
+    },
+    "results/formal_main_v2/libero_10/k64/seed23/training/A/training_report.json": {
+      "sha256": "ee47cb67cc927ce23dc67f70714a3f249575cc008d69e05fe6fedb6b768b6077",
+      "bytes": 30188
+    },
+    "results/formal_main_v2/libero_10/k64/seed23/training/A/deployment_receipt.json": {
+      "sha256": "a79df0709486a7bb48b28a2b9befb0d0cae26cce099b80b101f9046a073c1353",
+      "bytes": 23367
+    },
+    "results/formal_main_v2/libero_10/k64/seed23/training/B/training_report.json": {
+      "sha256": "4de0f0bea87aac14d837ed7a407d563b8fff8fee498416029bdcbbb63ae7b614",
+      "bytes": 30194
+    },
+    "results/formal_main_v2/libero_10/k64/seed23/training/B/deployment_receipt.json": {
+      "sha256": "83533d786dfa0620ffddc5f34c68412bf0c57d01c1c54c17296587c41e7b6149",
+      "bytes": 23366
+    },
+    "results/formal_main_v2/libero_10/k64/seed41/training/segment_reviews/3024991.json": {
+      "sha256": "e60886e731d4ebc719166226defe0864a310843b6f9970ebd70323e2fd931ef9",
+      "bytes": 49490
+    },
+    "results/formal_main_v2/libero_10/k64/seed41/training/segment_reviews/3024991_independent.json": {
+      "sha256": "a141595be7743586f5e2405262d351a171325730f5bf5d1b6dc246d4cb4c9dfd",
+      "bytes": 73329
+    },
+    "results/formal_main_v2/libero_10/k64/seed41/training/training_summary.json": {
+      "sha256": "e30d370794e103a795a0e352725694c051920083de73587be812e13a8657be71",
+      "bytes": 71973
+    },
+    "results/formal_main_v2/libero_10/k64/seed41/training/A/training_report.json": {
+      "sha256": "31ba354f82ae7b70af3ac6c95eb43a26af25995d38c22cae96ce49b4752a95c2",
+      "bytes": 30189
+    },
+    "results/formal_main_v2/libero_10/k64/seed41/training/A/deployment_receipt.json": {
+      "sha256": "1cb0b0af4b22da98a68bf4b197507dfb4ea34e94f55b5bd512fcea581a1a2c4c",
+      "bytes": 23368
+    },
+    "results/formal_main_v2/libero_10/k64/seed41/training/B/training_report.json": {
+      "sha256": "e8ec30723697aa230410723d064b14dfa532efd407a302f6ce94e35fd27735af",
+      "bytes": 30193
+    },
+    "results/formal_main_v2/libero_10/k64/seed41/training/B/deployment_receipt.json": {
+      "sha256": "86b06e92b7f212b5952337e0168eebd585baf06a28706660e9fdd7cd9c6dfe82",
+      "bytes": 23367
+    },
+    "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3022615.json": {
+      "sha256": "c04bb8376f52a44fca147ec86ab1645fac21e5e7e049a7fa63a91409556c87af",
+      "bytes": 477896
+    },
+    "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3022615_independent.json": {
+      "sha256": "a25dc70d221ef952c729142c62a89607dfc6893ede1421a4a242825250b2ccf9",
+      "bytes": 458031
+    },
+    "results/formal_main_v2/libero_goal/k128/seed17/training/training_summary.json": {
+      "sha256": "fe0b3b86748a38194454cd645db851e945fd122348f7bce8e3732a46aad3b6c2",
+      "bytes": 72129
+    },
+    "results/formal_main_v2/libero_goal/k128/seed17/training/A/training_report.json": {
+      "sha256": "abda7839a54f4f06b75c66369a6bc1af6155c7602b1979c3379e593e65614ab4",
+      "bytes": 30266
+    },
+    "results/formal_main_v2/libero_goal/k128/seed17/training/A/deployment_receipt.json": {
+      "sha256": "4ab6ab0716e4335e631f72457f46b795909953b394060ed5703770bb5c5ac766",
+      "bytes": 23467
+    },
+    "results/formal_main_v2/libero_goal/k128/seed17/training/B/training_report.json": {
+      "sha256": "1bb3818eed7e94425843efc691696f18bef3288201dd7e979625a345762af999",
+      "bytes": 30272
+    },
+    "results/formal_main_v2/libero_goal/k128/seed17/training/B/deployment_receipt.json": {
+      "sha256": "4dcf58665320c621321dc0bb2c5c704c695c514fce48815425184c5ad5b17085",
+      "bytes": 23466
+    },
+    "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3021103.json": {
+      "sha256": "478a5f33b34637c12532d1df7d6ecfe80831a12c3b8613d9b15c4d7379aaf060",
+      "bytes": 121580
+    },
+    "results/formal_main_v2/libero_object/k128/seed17/training/segment_reviews/3021103_independent.json": {
+      "sha256": "6bd6d1b902a103741d24e78c2a0d8a9e10de80d73ac991eec5c2da1708180904",
+      "bytes": 113613
+    },
+    "results/formal_main_v2/libero_object/k128/seed17/training/training_summary.json": {
+      "sha256": "ee52e423d84f57448a2e3d175b8cbabb8699d7f2da1cb3ba72ddad51581cb278",
+      "bytes": 72220
+    },
+    "results/formal_main_v2/libero_object/k128/seed17/training/A/training_report.json": {
+      "sha256": "067ad66fbd631a7366835653b4b7b214ed603a4105aec9b9b14cc14d5bba624a",
+      "bytes": 30312
+    },
+    "results/formal_main_v2/libero_object/k128/seed17/training/A/deployment_receipt.json": {
+      "sha256": "bb9d34aff43462fbaf41837838c1dfc2fa873b037706deb9195bb3cc0d13743d",
+      "bytes": 23532
+    },
+    "results/formal_main_v2/libero_object/k128/seed17/training/B/training_report.json": {
+      "sha256": "857366f1b3a1569a169d7db4aae8373740d267d2af153ffd221d85f01b3d318d",
+      "bytes": 30317
+    },
+    "results/formal_main_v2/libero_object/k128/seed17/training/B/deployment_receipt.json": {
+      "sha256": "8a10a71bc527f36d7fc23d858caf75e73f0535f8040d3a2d4c2c5469315f1d62",
+      "bytes": 23532
+    },
+    "results/formal_main_v2/preflight/heartbeat_20261019T1347/completed_pairs_root_integration.json": {
+      "sha256": "e1f62833cbad201a80e3a45639b8762dedef2388c20a65c6c190d91e232d2a76",
+      "bytes": 202153
+    },
+    "results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_object_k128_seed23_independent.json": {
+      "sha256": "e2f81dc694cca5c5a7e038ec545dbb47939e35ae2227738be907f2fcff7e9733",
+      "bytes": 98842
+    },
+    "results/formal_main_v2/libero_object/k128/seed23/training/training_summary.json": {
+      "sha256": "c560602b82c415852985e760d7bae165c8615e273dc2c51b2dbf0f6273a146f8",
+      "bytes": 71994
+    },
+    "results/formal_main_v2/libero_object/k128/seed23/training/A/training_report.json": {
+      "sha256": "2f3d72558b63803c481292896ec7c317fea474df1728a5f69790e9bbd2d315ce",
+      "bytes": 30223
+    },
+    "results/formal_main_v2/libero_object/k128/seed23/training/A/deployment_receipt.json": {
+      "sha256": "1c8d11be99b8ac102a994ff6813f2a9ea1ed1ca778eb2eb5f6c98cef5e98b02d",
+      "bytes": 23534
+    },
+    "results/formal_main_v2/libero_object/k128/seed23/training/B/training_report.json": {
+      "sha256": "0a19d51f7b7c02372a8d3105566583be35a11947a2c44282710606722675bcce",
+      "bytes": 30228
+    },
+    "results/formal_main_v2/libero_object/k128/seed23/training/B/deployment_receipt.json": {
+      "sha256": "5099cf639576e1076d618d45e769b94fd8d58fb9ddef70118cae50ff272c2d22",
+      "bytes": 23535
+    },
+    "results/formal_main_v2/libero_object/k128/seed41/training/segment_reviews/3036313.json": {
+      "sha256": "5271261a84b6ad1bcbfd924788c31e1143b2183aa3fadcab0360930f058f8dd9",
+      "bytes": 79335
+    },
+    "results/formal_main_v2/libero_object/k128/seed41/training/segment_reviews/3036313_independent.json": {
+      "sha256": "046b6e9b7001ad314920563d42b25ed565dab39496407d8514ee566c17272338",
+      "bytes": 105413
+    },
+    "results/formal_main_v2/libero_object/k128/seed41/training/training_summary.json": {
+      "sha256": "0b798f7be4e68f1547d0e17da616f9882b901b89ed6066520ef0bb3d5ca98df3",
+      "bytes": 71988
+    },
+    "results/formal_main_v2/libero_object/k128/seed41/training/A/training_report.json": {
+      "sha256": "8ad50c94ed9197ae40ea163b52e75e82dd2651883148346bffcc102099dbfa60",
+      "bytes": 30219
+    },
+    "results/formal_main_v2/libero_object/k128/seed41/training/A/deployment_receipt.json": {
+      "sha256": "c76021a8ef219dbc9471dc588e38a049fa1b7dc81f4035116567ff6f9ca2c5a4",
+      "bytes": 23531
+    },
+    "results/formal_main_v2/libero_object/k128/seed41/training/B/training_report.json": {
+      "sha256": "fe3bef373997b639d3666db2d0033857d47fab63293e07793bd10773b0f28af8",
+      "bytes": 30226
+    },
+    "results/formal_main_v2/libero_object/k128/seed41/training/B/deployment_receipt.json": {
+      "sha256": "5f3b2493d8f412934c9aa4e8eee738f7616d9db316f9640c36ee769d56eb0a57",
+      "bytes": 23533
+    },
+    "results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_object_k256_seed17_independent.json": {
+      "sha256": "f8420cf737d6a2606e432a6da20a3c8fef3b2cde700e0989c20b6350219b4677",
+      "bytes": 98840
+    },
+    "results/formal_main_v2/libero_object/k256/seed17/training/training_summary.json": {
+      "sha256": "1b5441740c32d31812bd5b945ed73102ff02aca75bdb325eb23e623757550427",
+      "bytes": 71993
+    },
+    "results/formal_main_v2/libero_object/k256/seed17/training/A/training_report.json": {
+      "sha256": "2b67282b0cc7002dc69d9cda987015650080f532af9bb66c9c1e9d3499612a66",
+      "bytes": 30222
+    },
+    "results/formal_main_v2/libero_object/k256/seed17/training/A/deployment_receipt.json": {
+      "sha256": "ba12a68c8028dac0f211137dbb95fb8d127dfb0c309377b43bc6ee58a6a40eba",
+      "bytes": 23537
+    },
+    "results/formal_main_v2/libero_object/k256/seed17/training/B/training_report.json": {
+      "sha256": "2e53f5532cf60a09241ded5b6e5fa99f960b54d1c5c0e8eb789a1c6bd0272031",
+      "bytes": 30228
+    },
+    "results/formal_main_v2/libero_object/k256/seed17/training/B/deployment_receipt.json": {
+      "sha256": "0b75b59754d94131c1f90ab40d720c8c46520b8d4989f4c17774e20f00f099cc",
+      "bytes": 23538
+    },
+    "results/formal_main_v2/libero_object/k256/seed41/training/segment_reviews/3034570.json": {
+      "sha256": "373c593c00752655b94cd02d51789716e292d78310149753b475532daf78c545",
+      "bytes": 63750
+    },
+    "results/formal_main_v2/libero_object/k256/seed41/training/segment_reviews/3034570_independent.json": {
+      "sha256": "b1e96f4b174b7b7208ac1bf90312cc0d88b04c64823784c46538187a9ff58ec5",
+      "bytes": 95865
+    },
+    "results/formal_main_v2/libero_object/k256/seed41/training/training_summary.json": {
+      "sha256": "da9f998bc16a7971fe62fbd6471ad4b4b8aaa3ebf73db60ce6305b0d8a99fab4",
+      "bytes": 71914
+    },
+    "results/formal_main_v2/libero_object/k256/seed41/training/A/training_report.json": {
+      "sha256": "2debbe12cb96b7fb1f4ad2f9b365e8bb2b211ad5b665344ad08467193d6ba4e0",
+      "bytes": 30190
+    },
+    "results/formal_main_v2/libero_object/k256/seed41/training/A/deployment_receipt.json": {
+      "sha256": "23c09d10c67e30b13c33b8ee0bd827c9ac288d343fb0b71db0f5d444297ea161",
+      "bytes": 23537
+    },
+    "results/formal_main_v2/libero_object/k256/seed41/training/B/training_report.json": {
+      "sha256": "d699a5cd013d36b463ca8189195d58ce338f63ca3c464a9eb1654c94b076fc05",
+      "bytes": 30197
+    },
+    "results/formal_main_v2/libero_object/k256/seed41/training/B/deployment_receipt.json": {
+      "sha256": "c05dcd3d656acfb322cf7c9e327a8be3553d8ebdf55d9695c32b77deba019879",
+      "bytes": 23538
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3021362.json": {
+      "sha256": "3f3b00a9e141aae0e7105c7b28a906f0db0835f1af7c8dcf6853cc30608c94fb",
+      "bytes": 50544
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/segment_reviews/3021362_independent.json": {
+      "sha256": "dcac42df8b98bdf5c2ee4496396442f1444fdc5027cb8ffc523d29232d976c60",
+      "bytes": 73242
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/training_summary.json": {
+      "sha256": "61147a1aebc24f2b4c6f00679728a290fc1ca0517115b5659c9d7b33a930f919",
+      "bytes": 72271
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/A/training_report.json": {
+      "sha256": "41ea738c1859024692aa5a88c98ab8dd08462b89e870448cfb4146391e77328b",
+      "bytes": 30337
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/A/deployment_receipt.json": {
+      "sha256": "b7c2828291366358c4c24685e36631084eceb200fe969cb7df6d9d912e5a1ac3",
+      "bytes": 23568
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/B/training_report.json": {
+      "sha256": "1ad6d3c685fb87dd102d869f82bd586b1463b0a249e17d6642b7e47c56203bf3",
+      "bytes": 30343
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed17/training/B/deployment_receipt.json": {
+      "sha256": "d11087f91e648b5737ed13b298faa8783ebde2a5fe893094f347c5083635be0e",
+      "bytes": 23570
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3022808.json": {
+      "sha256": "43cd094fd04f3fba3e2cfa2b1d60cf4238776ac727d06db362f735b04457cd88",
+      "bytes": 50543
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3022808_independent.json": {
+      "sha256": "5b392a1780f029c0c57817b847ce26dafd79aaeef58e93ab029dce33ee86b31c",
+      "bytes": 73343
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/training_summary.json": {
+      "sha256": "1e81164fa48b55e0d4fc2dea0246dd8380c82e3042209a51dc9ecfad04114d66",
+      "bytes": 72261
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/A/training_report.json": {
+      "sha256": "0e7dcd8a04c20fde629873eb8da7fb1958b65aad8c8e4390e5717f0434a80180",
+      "bytes": 30334
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/A/deployment_receipt.json": {
+      "sha256": "215457038bbbbc1cbb5460f3a98684fe40ae595d10af905560c9716e7064d4b7",
+      "bytes": 23567
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/B/training_report.json": {
+      "sha256": "b5796709f60279d409a4d85edd7be4017f94acae825968b97c5a43a7868ffcc5",
+      "bytes": 30336
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed23/training/B/deployment_receipt.json": {
+      "sha256": "a09844117e0bb9c86937cd9afde7e237cca58586538b9ec3a1caab3e8cd8cf70",
+      "bytes": 23560
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3023249.json": {
+      "sha256": "5749480011fdf58282d4f99eaa298236764a2956bfd4950d7516a08a621c4a08",
+      "bytes": 50545
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/segment_reviews/3023249_independent.json": {
+      "sha256": "8e88afc34766cd36562e33159ca7b612796a4cecc4593b2ac61c2798df8bdc47",
+      "bytes": 73681
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/training_summary.json": {
+      "sha256": "873219a99e75ec3aa813fa9adb6652b051226196c919c4fa685661798a927aba",
+      "bytes": 72260
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/A/training_report.json": {
+      "sha256": "6b17d6fb3954c984a234843c9b1cfb2e6e9c271fb819f68adfa8ef1750b18e64",
+      "bytes": 30332
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/A/deployment_receipt.json": {
+      "sha256": "8ed9665b1e5f42489d86a6cca462fc89f1bd762ca8a8e73a9345e49c9379f3bd",
+      "bytes": 23564
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/B/training_report.json": {
+      "sha256": "58b9fb924aaabd08c2136ed9de9f25902f3189c9588efc7b528658f52ebf6a6a",
+      "bytes": 30337
+    },
+    "results/formal_main_v2/libero_spatial/k128/seed41/training/B/deployment_receipt.json": {
+      "sha256": "557022f38157ffccdab621fed06ed7df755a995d134bca639f53a24e4cad83e2",
+      "bytes": 23561
+    },
+    "results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k256_seed17_independent.json": {
+      "sha256": "05488e0e8e27baa6891dcc42e4d1594c2bde95633a3a0765bd76e764a7ce983b",
+      "bytes": 98584
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed17/training/training_summary.json": {
+      "sha256": "cfdfea6a54453b2b19e7b31af8b08229e208d87746c612270fbde255ab63cbbd",
+      "bytes": 72124
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed17/training/A/training_report.json": {
+      "sha256": "c51f4c50e78b1412db73c59edd30f42211109defa5aa773c9f021ad7b7c3518c",
+      "bytes": 30280
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed17/training/A/deployment_receipt.json": {
+      "sha256": "949f1d6d43a0673c466beaa9ed16dfdc18144a898c31806916615b99548c4e5b",
+      "bytes": 23575
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed17/training/B/training_report.json": {
+      "sha256": "1cc171622009f21cfbdb63e53d11052357f893edc5dc6357cb4a85b64350482b",
+      "bytes": 30285
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed17/training/B/deployment_receipt.json": {
+      "sha256": "ec855fe7733800cbcbcee1dbfa9926e920a182b33ad8acd8cf2f5df4d5cacd45",
+      "bytes": 23573
+    },
+    "results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k256_seed23_independent.json": {
+      "sha256": "9276d3727c0702ac8358a1404c7fc45b37d62c5c27358841239313c33eb7e6c8",
+      "bytes": 96581
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed23/training/training_summary.json": {
+      "sha256": "177ebeee52a3044642ff6af609a6539994959c0e0163917845b2058211b107b5",
+      "bytes": 72082
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed23/training/A/training_report.json": {
+      "sha256": "83a0ccf962c1e3f53c0b2a29af281226a7bf4be6a71f515ac5fabe50a4fe62d0",
+      "bytes": 30263
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed23/training/A/deployment_receipt.json": {
+      "sha256": "742c76cdb543e34e0769f9f06dc6ea1e12a6abf7e9bfbe82a2ebb219c8122914",
+      "bytes": 23576
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed23/training/B/training_report.json": {
+      "sha256": "626038ff6d846c11e91902aac377d500052feca666d1ab101aa7b4366fddc9a1",
+      "bytes": 30268
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed23/training/B/deployment_receipt.json": {
+      "sha256": "ddb34fb1a2d6aca4f0fd19371aa598cd078a037f441ea0e2592cccacf69d1583",
+      "bytes": 23574
+    },
+    "results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k256_seed41_independent.json": {
+      "sha256": "1743fc2a975cedecdfad4a591d611464ec1a24ba3f1c97ee3e3e7a7aba70445d",
+      "bytes": 94576
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed41/training/training_summary.json": {
+      "sha256": "5de42f533ef60f6c1aec8d75b083063344a7854ba962d8786cabd7dfc0a39899",
+      "bytes": 72043
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed41/training/A/training_report.json": {
+      "sha256": "cbd4e80817df0c89f573388f04b1e4b3887318e2db472a4665e497eedc8ad744",
+      "bytes": 30247
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed41/training/A/deployment_receipt.json": {
+      "sha256": "4a37e4a885d5969261158a1f4b5dfecb23d3f2f3e37ed49ab7e72afc41630233",
+      "bytes": 23570
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed41/training/B/training_report.json": {
+      "sha256": "b761fb0ff9edae835ce3de99e5a5823a0a8549e969d0890c7c6f4d2ebba733ef",
+      "bytes": 30253
+    },
+    "results/formal_main_v2/libero_spatial/k256/seed41/training/B/deployment_receipt.json": {
+      "sha256": "ddcb8317d9eb503562d5d053266a18e01513a55d2f1dbfa21a51522d1b5010b0",
+      "bytes": 23575
+    },
+    "results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k64_seed17_independent.json": {
+      "sha256": "fcb1399cdb1c1caf24ae99186110b0bcae2f58290c8c87f9a478e7e7f100197f",
+      "bytes": 98513
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed17/training/training_summary.json": {
+      "sha256": "621177c8f62e0012b13a936e5f7d802d5c6b98ba8fbd83b9fa7730100c75372a",
+      "bytes": 72060
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed17/training/A/training_report.json": {
+      "sha256": "c0bd709d41e7cf3eec0353a9d3480c1cdeb43d780df7dbd18df9e1ea04010720",
+      "bytes": 30252
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed17/training/A/deployment_receipt.json": {
+      "sha256": "3eb1b541e61a58edfaf014619ff361ed05a8694b7745c484d8731ff989d3e301",
+      "bytes": 23540
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed17/training/B/training_report.json": {
+      "sha256": "1e9c8e3686109d8f17c7de18507c67e99d8a2ddba21e9fb75c4f3fa0165d83b2",
+      "bytes": 30249
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed17/training/B/deployment_receipt.json": {
+      "sha256": "45a37c2646988c192b44810f465940e1fe48501fce394022dde94d54df2cf426",
+      "bytes": 23533
+    },
+    "results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k64_seed41_independent.json": {
+      "sha256": "6ef35840966f673c6c8f6a6789f32b848ed2eca5bec2b0b2411f12cc4bde3e77",
+      "bytes": 94515
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed41/training/training_summary.json": {
+      "sha256": "1421a797da48ffb581180163ce937b57e5515fa27bd9bd7e6c81b4834b5b311e",
+      "bytes": 71985
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed41/training/A/training_report.json": {
+      "sha256": "8ef2da131d471f7e479e983c9a101ff3133b3b2febb729309d41c5be8d86b68e",
+      "bytes": 30220
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed41/training/A/deployment_receipt.json": {
+      "sha256": "263791d667815e55a8a7c5e1343b520bce5b1168d0b5f1c659adfbd48b9f3d26",
+      "bytes": 23539
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed41/training/B/training_report.json": {
+      "sha256": "40977f42f6f8b28fc4a1d2db4803c10a62c5fa31ac46bdf3b07aaa7ad9f2f56a",
+      "bytes": 30222
+    },
+    "results/formal_main_v2/libero_spatial/k64/seed41/training/B/deployment_receipt.json": {
+      "sha256": "c54003a0a34eabdd8a8ea9bd9c792132d58a52b7c8204f49a8ead7a5e55aab86",
+      "bytes": 23538
+    },
+    "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json": {
+      "sha256": "d8c22787050b3223390627d74a804505c62f470b064bab112c2c230c4369051a",
+      "bytes": 7418
+    },
+    "results/formal_main_v2/execution/libero_10_development_first_pair_v1.json.evidence.json": {
+      "sha256": "7e7e88282814562e381f70cb230a4334ad0d1619ee2a8258ee6fdbdcb74e1b6a",
+      "bytes": 99371
+    },
+    "results/formal_main_v2/execution/libero_10_development_references_v1.json": {
+      "sha256": "767007059484e48540d0f2f23c9eaca9f5ea7bc914c334cb87ffe639bde408d3",
+      "bytes": 3644
+    },
+    "results/formal_main_v2/execution/libero_10_development_references_v1.json.evidence.json": {
+      "sha256": "b2ff6f368e55fd109e3a5abb771ecf80186b2e226071735eadbb1e5f9550c210",
+      "bytes": 15495
+    },
+    "results/formal_main_v2/execution/libero_object_development_first_pair_v1.json": {
+      "sha256": "34062573869c7b947fbd3c37b09da476bec673e8e16fc4ea49c6ce8c5932db5a",
+      "bytes": 7506
+    },
+    "results/formal_main_v2/execution/libero_object_development_first_pair_v1.json.evidence.json": {
+      "sha256": "43535977b6db8b3d406fb97c753bedc35a24ecfd5e2fc75cb2e268bc30cf2643",
+      "bytes": 126670
+    },
+    "results/formal_main_v2/execution/libero_spatial_development_first_pair_v1.json": {
+      "sha256": "efc2fc4435442ba6458a033876c813a33de2afd69e952fae8ef86afd8727be03",
+      "bytes": 7528
+    },
+    "results/formal_main_v2/execution/libero_spatial_development_first_pair_v1.json.evidence.json": {
+      "sha256": "799483c091ce4d15b03fbe8cc10782e1fd8c21c1fd6a7cedbae0709079b02a0c",
+      "bytes": 100639
+    },
+    "results/formal_main_v2/downstream_reviews/3019954.json": {
+      "sha256": "cde7e784bced622a6a30169af1f3c34ece8b710da8a6d65ab804454457c5d9ba",
+      "bytes": 300178
+    },
+    "results/formal_main_v2/job_receipts/3019954.json": {
+      "sha256": "e2c061190a8cae878fb6513b5cdfe9c57084f3ee576853a158969e56c05ca0d2",
+      "bytes": 2297
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3016981_7578d107537c41059c11805b44c9e37c.json": {
+      "sha256": "c7830430a3ebf3c9154f7fd6d93944d70232f9bef71656bc64af5cdf529aa9c8",
+      "bytes": 5794
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3016981_7578d107537c41059c11805b44c9e37c.jsonl": {
+      "sha256": "865c81ebff537de4545b6bc9028d1b1d3e96683444c78e00d8200c4f8780c219",
+      "bytes": 5627
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017161_166c498ed55e4453bb0c52e50196fb61.json": {
+      "sha256": "7e247e43ff302613b3621693715a52c82c81f2426e0e5a8cf1b9e5035bb4faf0",
+      "bytes": 22630
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017161_166c498ed55e4453bb0c52e50196fb61.jsonl": {
+      "sha256": "096fa4b2f2c10a7b18a96834b798ffde9ea04d99806de6c5dfbf78dd401ed945",
+      "bytes": 7480
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017959_47833812f6db4847aeec831026555007.json": {
+      "sha256": "7ac4779ede5d18aa076bd2a8e55db24c3367953cb22b7b852e18f314d336c292",
+      "bytes": 52219
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017959_47833812f6db4847aeec831026555007.jsonl": {
+      "sha256": "97f9a37ae4fe6a26fd103088ea0a0031ff940e1c7647ce306d24b26fadc7f79e",
+      "bytes": 21621
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3018505_aa1c9dd29d4a465b91c3a6613ce857bf.json": {
+      "sha256": "b7d99e583b72f6ecbf57ea2823c98b6fb8daf02a17893baaa1aba264c4a4ffda",
+      "bytes": 83725
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3018505_aa1c9dd29d4a465b91c3a6613ce857bf.jsonl": {
+      "sha256": "aaa39f72e11f24bf25dcb7ad17636539ffafc170a58c0795021881993b195acd",
+      "bytes": 35616
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019176_f3c8f0d3eef64ab2ad9e2f3dd820ae89.json": {
+      "sha256": "e2f8ff4297d47e5235a7c81fda495c0b11755dcab605a63d341223824c4b4a8e",
+      "bytes": 116839
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019176_f3c8f0d3eef64ab2ad9e2f3dd820ae89.jsonl": {
+      "sha256": "685a4abe4dfd6dd5aee822d5c43595a59e526779af1a32da9773d46a54642825",
+      "bytes": 51675
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019954_78d083646a3e4b40ab0e7a5f53359020.json": {
+      "sha256": "1c8acc701d4c36b499d9e93deff731ee9e67e41012b384b7e684d7db32cceaff",
+      "bytes": 144886
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019954_78d083646a3e4b40ab0e7a5f53359020.jsonl": {
+      "sha256": "e9384c59afe343c756ee022c67c5a616c5569992c4e4fe281224727ef68dc131",
+      "bytes": 67277
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/closed_loop_report.json": {
+      "sha256": "9d13c302c2fad76515bce16d842deaf37922703724406c6cf275783b3265ea5a",
+      "bytes": 55680
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/config.json": {
+      "sha256": "35724e624de06166c78e11c9e4bcd56b199cce73e5d5df284b3cc4365e0b7e14",
+      "bytes": 19185
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/panel.json": {
+      "sha256": "46a06087483151e36198167e7d4e5313c50b63172e09128d65a3650112f0a268",
+      "bytes": 188619
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl": {
+      "sha256": "0f8b8d265fce7d77728e5c8923420ad40eb780a26289fd8094837ea2a851c136",
+      "bytes": 110234480
+    },
+    "results/slurm/cti-formal-downstream_3019954.err": {
+      "sha256": "68f0e359b7901b3a1ac2fbc0c0a8eb6e0d3ad37cd2fbabc6024a896804aecd9e",
+      "bytes": 1798
+    },
+    "results/slurm/cti-formal-downstream_3019954.out": {
+      "sha256": "d048cfc7c21e705ff724abc6a3d6ff68d4250a7f467d47b77f9dd431234254fa",
+      "bytes": 59798
+    },
+    "results/formal_main_v2/downstream_reviews/3021844.json": {
+      "sha256": "004a810edd7f097bbeec755315beed11bbfa86640a78ffd75ef0ff78a769ee37",
+      "bytes": 472381
+    },
+    "results/formal_main_v2/job_receipts/3021844.json": {
+      "sha256": "bc8fbef0197e5aedbcde35d88ff5ddf2024346fa514b9901a280d5eee9c8c31e",
+      "bytes": 6683
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021394_cdc33b6d9157408d8a365d21fed2cb2d.json": {
+      "sha256": "730c4802097cca57c2766239371dabab825cc5bec414f2913d4021ad1a7692bb",
+      "bytes": 5510
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021394_cdc33b6d9157408d8a365d21fed2cb2d.jsonl": {
+      "sha256": "183a840d56d8ff8578acb7011d4f2a920653a2fd32989efcdad06f8c01bf96ac",
+      "bytes": 5631
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.json": {
+      "sha256": "0409f71f1017a2b2fac85af32e85a634ec76cfb964b73d318c34224b7a2475f6",
+      "bytes": 19562
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.jsonl": {
+      "sha256": "47f42699b62dfc8e927e37a5504bbc5df96e22fb47c1f9bd77071a94ddb21d77",
+      "bytes": 7196
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021844_f89ee113dc8c4d2db7c491436067f418.json": {
+      "sha256": "f060a877343b357cc4c626887f6e23ceceb390a03483e656fe85b21996167f82",
+      "bytes": 78919
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021844_f89ee113dc8c4d2db7c491436067f418.jsonl": {
+      "sha256": "b30eaca05921dcb2a015f8b370c6d5ba69d396ae52aefab49c0dd0efaf432e77",
+      "bytes": 18840
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021394/completion.json": {
+      "sha256": "6386f62b04f444613b7a12d35931aa6072872110cc369317f27603f493817ac8",
+      "bytes": 7709
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021394/events.jsonl": {
+      "sha256": "8695516cd026098d224414a40196634357d9d45c058b20956574de3165514e40",
+      "bytes": 51435
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021394/identity.json": {
+      "sha256": "66d7302a272338786ba428861d6325218d86d5361fee105f51db37cfbf62acbc",
+      "bytes": 83444
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021603/completion.json": {
+      "sha256": "4aee3a53db82a41717ab4982a34cad27ba3fbc45a89ef5253f40c5cde642e690",
+      "bytes": 7711
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021603/events.jsonl": {
+      "sha256": "e0c5ba936b8a0aa93937d34555c7bf2b89860d83e11cd5fc3b69288437d2c42a",
+      "bytes": 51449
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021603/identity.json": {
+      "sha256": "5ee8c88e6e86c228a74042872cfa45f45441de5cde7b708fb286d14b55fb6f00",
+      "bytes": 85631
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021844/completion.json": {
+      "sha256": "e4690a5d7f137913ad37ae9416a2c56803ab7f335da92b615f15a34c5c31288d",
+      "bytes": 7711
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021844/events.jsonl": {
+      "sha256": "6ce5c0d219cf5f9ce8812a8331e5afc15f36f3db93963843a7dbdf6561ffa48c",
+      "bytes": 51448
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/asset_compatibility/3021844/identity.json": {
+      "sha256": "ad9b500080e0c4bf2dce14671f0beeba3a02bdbdc7f078c9148a90a871a5e5e7",
+      "bytes": 86901
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/closed_loop_report.json": {
+      "sha256": "1358c3fadd28c91221dea30674bb2b082d766e1fc7b0eeacd9f2709fd8131cab",
+      "bytes": 53290
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/config.json": {
+      "sha256": "ccbb680ade2c6cab783568ea34f2fd3d3ae9abb69a62e7088f53d7150dad27a5",
+      "bytes": 19335
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/panel.json": {
+      "sha256": "6b7e6dd9fb5b6351ee47c7bb30eab911e7c144d700cd88f7e5162641738b2d6a",
+      "bytes": 238727
+    },
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl": {
+      "sha256": "d93ad5a4eb4ae3edb7a9b20e640a72fe4971ca0e4eeb62eea71acc4d71a257d1",
+      "bytes": 55901335
+    },
+    "results/slurm/cti-formal-downstream_3021844.err": {
+      "sha256": "cec63b18f4bb6c47139072d7411c1480a648e034b107f227d4592cc050897a6d",
+      "bytes": 1798
+    },
+    "results/slurm/cti-formal-downstream_3021844.out": {
+      "sha256": "c492cc32ed28b4f0a8ff5f8e5f7fcf49433eaee48e4a3d476dde1815914aa440",
+      "bytes": 69087
+    },
+    "results/formal_main_v2/downstream_reviews/3022743.json": {
+      "sha256": "9e14b86a1e556c53ef1cbd8c7bdc1733c3d5eb744f62ffee8df9395645816650",
+      "bytes": 360831
+    },
+    "results/formal_main_v2/job_receipts/3022743.json": {
+      "sha256": "174ea9b8562581f5e3c044a3154275454a07f4f3b6a74e0b42a42d0bcdb8e40b",
+      "bytes": 2319
+    },
+    "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3022743_4b29c36de3ef40c78ef20e0b7a425811.json": {
+      "sha256": "a2c68eee0a47872f557cf08d32cd4e51665a6e3c37e25b7dc9f21edbb9fe8936",
+      "bytes": 5882
+    },
+    "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3022743_4b29c36de3ef40c78ef20e0b7a425811.jsonl": {
+      "sha256": "8811ca08e9f6ab63ba21fc093a3201e56a663b03250c803a786ef9d930ce6c1a",
+      "bytes": 5632
+    },
+    "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/closed_loop_report.json": {
+      "sha256": "f21c2e9d60ff246e51dbd4a04f09c147d49b94f9db8b9264bd0cb288fa0a1c9d",
+      "bytes": 29737
+    },
+    "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/config.json": {
+      "sha256": "41458e92e1b4f8d6ef7ca3230c5154c9b87c83d107ca51c334ad8850018f699d",
+      "bytes": 19373
+    },
+    "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/panel.json": {
+      "sha256": "07718b648bfb767472506c48b0ef1837a5e6af992c2460e7567c275064809c91",
+      "bytes": 222649
+    },
+    "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl": {
+      "sha256": "3a175dbc5dd7a23cd2c3c8385cb6ff3c525f09d4e607ff32a69a10869672a2f9",
+      "bytes": 592887
+    },
+    "results/slurm/cti-formal-downstream_3022743.err": {
+      "sha256": "472124b2227d7edbd0d17a1ca390676b3335b17f4f7edbba057b331ffe04f7db",
+      "bytes": 1798
+    },
+    "results/slurm/cti-formal-downstream_3022743.out": {
+      "sha256": "b23e48731999b0f3cf24ebf5365887c3a668b3f4e045b17898dd547669631dcb",
+      "bytes": 25897
+    },
+    "results/formal_main_v2/downstream_reviews/3016981.json": {
+      "sha256": "7bb724e15cf904058ea038e54d1d162c862d9f53512943b73935cdf406e9e4bb",
+      "bytes": 207231
+    },
+    "results/formal_main_v2/downstream_reviews/3017161.json": {
+      "sha256": "d3b2c420dad090b6e7041237ca0d7e93cbde2c125bbb02c11c7bc0a444791f40",
+      "bytes": 230566
+    },
+    "results/formal_main_v2/downstream_reviews/3017959.json": {
+      "sha256": "3f57181ecf27555bade6b8302c7c93694cd558a60afed483041112315ca27d7a",
+      "bytes": 251605
+    },
+    "results/formal_main_v2/downstream_reviews/3018505.json": {
+      "sha256": "24cd9846ad568e0164434dc4b30239b0522c93e025941196c21031e47a68451e",
+      "bytes": 268241
+    },
+    "results/formal_main_v2/downstream_reviews/3019176.json": {
+      "sha256": "1ef06e891a2943bd5f67e8f5af66a4fdac2cbc7d0c52dcdd7499138015880c90",
+      "bytes": 291852
+    },
+    "results/formal_main_v2/downstream_reviews/3021394.json": {
+      "sha256": "bfcb0bc41be8c2eab9e058536f44afcb30e6e70ab1cc7d6e88fc17a6a07fcd3f",
+      "bytes": 396917
+    },
+    "results/formal_main_v2/downstream_reviews/3021603.json": {
+      "sha256": "c065fcda1a70545741fe7f462c8262263888e6bd22fbbd6e1d5b3600534a01bc",
+      "bytes": 432915
+    }
+  }
+}

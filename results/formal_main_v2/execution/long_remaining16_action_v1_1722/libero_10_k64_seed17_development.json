@@ -1,0 +1,76 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "evaluation_execution",
+  "registration_sha256": "2e4362b81ec5b7265871a8a8321f4fd8cfdffd42aa33af68c842c4caad57c6ac",
+  "suite": "libero_10",
+  "split": "development",
+  "environment": {
+    "environment_seed": 0,
+    "runtime_seed": 17,
+    "wait_steps": 10,
+    "action_chunk": 8,
+    "max_steps": 520
+  },
+  "methods": [
+    {
+      "identity": {
+        "schema": "formal_main_v2",
+        "suite": "libero_10",
+        "method": "A",
+        "visual_tokens": 64,
+        "training_seed": 17,
+        "method_id": "A64_seed17",
+        "config_sha256": "9bba86b703625f8780b5f41e0be2de249f1e931d8db726eaf28e5a3cb7d15db9",
+        "frozen_model_sha256": "9c8fac3f8dcb40c75182d0a4fc6e5329c09185e5ce9eaa3ba561bb3817c9eb77",
+        "input_acceptance_sha256": "bb07ff7f78c80b68cc455e46163db1794f200aeaf91cd7d21379a6170979b6e3",
+        "model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+        "stats_key": "libero_10_no_noops",
+        "pair_id": "668a0b2c336ab9798b00c6291dcc3780a8ed78b6b0c50b1fb575446a5c38bea2",
+        "selection_protocol_sha256": "893e208ba12f74cb5759f914425d40497c5f62a94d3a4b3346f9eaf0b438fbd3",
+        "window_manifest_sha256": "9a6ba246ca534ba2af9cc34e4a19f90e430fe154f0235adcd09cedfe6d33760a",
+        "data_protocol_sha256": "fc54f424b139f09bdd394cb6ac551e9212fb46b23b53c9c040392735cea4b62a",
+        "source_sha256": "36b4654ba1479a040c5415258f5e043abfff41fc4ed4200f81dd5bc4638d7662",
+        "checkpoint_sha256": "c0f7d854d7d6b439cfbfa0a5d5c1603caf8dd68f873880410d7b48111b026aa3",
+        "deployment_receipt_sha256": "436b2f228c21839cddd033abf912b779fea4074d7e2e9f562cdab3549e3ccb59",
+        "f01_report_sha256": "cb62bbd6dd0dc1d48302fde9997138dbc54148996d6851edfd6c3f58f8597364",
+        "training_complete": true,
+        "future_head_deployed": false
+      },
+      "checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k64/seed17/A/best.pt",
+      "receipt": "results/formal_main_v2/libero_10/k64/seed17/training/A/deployment_receipt.json",
+      "pair_config": "configs/experiments/formal_main_v2/libero_10_k64_seed17.json",
+      "f01_report": "results/formal_main_v2/libero_10/acceptance/attempt02/f01_k64.json"
+    },
+    {
+      "identity": {
+        "schema": "formal_main_v2",
+        "suite": "libero_10",
+        "method": "B",
+        "visual_tokens": 64,
+        "training_seed": 17,
+        "method_id": "B64_seed17",
+        "config_sha256": "de55a6255297539bb6171e3de8c97987ee5c439d0ada782d3382b21441370098",
+        "frozen_model_sha256": "9c8fac3f8dcb40c75182d0a4fc6e5329c09185e5ce9eaa3ba561bb3817c9eb77",
+        "input_acceptance_sha256": "bb07ff7f78c80b68cc455e46163db1794f200aeaf91cd7d21379a6170979b6e3",
+        "model_revision": "95220f9a3421a7ff12d4218e73d09ade830fa9a3",
+        "stats_key": "libero_10_no_noops",
+        "pair_id": "668a0b2c336ab9798b00c6291dcc3780a8ed78b6b0c50b1fb575446a5c38bea2",
+        "selection_protocol_sha256": "893e208ba12f74cb5759f914425d40497c5f62a94d3a4b3346f9eaf0b438fbd3",
+        "window_manifest_sha256": "9a6ba246ca534ba2af9cc34e4a19f90e430fe154f0235adcd09cedfe6d33760a",
+        "data_protocol_sha256": "fc54f424b139f09bdd394cb6ac551e9212fb46b23b53c9c040392735cea4b62a",
+        "source_sha256": "36b4654ba1479a040c5415258f5e043abfff41fc4ed4200f81dd5bc4638d7662",
+        "checkpoint_sha256": "9bf657bdc0b51b5691da34824c5661bdcbe012738c59e1ff6054d3eb0633b44a",
+        "deployment_receipt_sha256": "cb7c20615b4e150716a8e884c3e354204c417782753b14160cbe220f8448f4f3",
+        "f01_report_sha256": "cb62bbd6dd0dc1d48302fde9997138dbc54148996d6851edfd6c3f58f8597364",
+        "training_complete": true,
+        "future_head_deployed": false
+      },
+      "checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_10/k64/seed17/B/best.pt",
+      "receipt": "results/formal_main_v2/libero_10/k64/seed17/training/B/deployment_receipt.json",
+      "pair_config": "configs/experiments/formal_main_v2/libero_10_k64_seed17.json",
+      "f01_report": "results/formal_main_v2/libero_10/acceptance/attempt02/f01_k64.json"
+    }
+  ],
+  "development_panel": "configs/manifests/formal_main_v2/libero_10/initial_states/development.json",
+  "development_panel_sha256": "46a06087483151e36198167e7d4e5313c50b63172e09128d65a3650112f0a268"
+}
