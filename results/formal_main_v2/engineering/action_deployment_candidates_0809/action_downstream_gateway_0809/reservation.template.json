@@ -1,0 +1,15 @@
+{
+  "automatic_retry": false,
+  "capacity_limit_all_GPU_modes": 8,
+  "kind": "root_downstream_GPU_slot_reservation",
+  "required_root_inputs": [
+    "controller_job_id",
+    "stage_key",
+    "plan",
+    "authorization_path",
+    "authorization_intent_sha256"
+  ],
+  "reserved_slots": 1,
+  "schema": "formal_main_v2",
+  "status": "UNSIGNED_NOT_RESERVED"
+}

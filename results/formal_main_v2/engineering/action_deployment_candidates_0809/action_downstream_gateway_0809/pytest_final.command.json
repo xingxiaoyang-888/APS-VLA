@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-p",
+    "no:cacheprovider",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_downstream_gateway_0809/test_gateway.py",
+    "--basetemp=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_downstream_gateway_0809/pytest_final",
+    "--junitxml=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_downstream_gateway_0809/pytest_final.xml",
+    "-q"
+  ],
+  "cwd": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_downstream_gateway_0809",
+  "returncode": 0,
+  "seconds": 9.633522873744369,
+  "before_sha256": {
+    "gateway.py": "ecc8aa2e6f22ebf5d22ad89ecc44b8706b0dd9e410a0f5c0f9fb708cdc0aaf3c",
+    "test_gateway.py": "a385f04bc04e6de0c2802bce1fd6df7eb8f1350483da18765d7f902d8a1001e7"
+  },
+  "after_sha256": {
+    "gateway.py": "ecc8aa2e6f22ebf5d22ad89ecc44b8706b0dd9e410a0f5c0f9fb708cdc0aaf3c",
+    "test_gateway.py": "a385f04bc04e6de0c2802bce1fd6df7eb8f1350483da18765d7f902d8a1001e7"
+  }
+}

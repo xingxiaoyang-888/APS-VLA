@@ -1,0 +1,56 @@
+......................................................F................. [ 83%]
+..............                                                           [100%]
+=================================== FAILURES ===================================
+_________ test_full_runtime_original_cpu_rejection_restores_and_poison _________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x14aa7a07f690>
+
+    def test_full_runtime_original_cpu_rejection_restores_and_poison(monkeypatch):
+        # Actual canonical loader is reached, but rejects CPU before any CUDA API or weights.
+        from cti_vla.models import openvla_oft_loader as loader
+        from cti_vla.evaluation import libero_runtime,formal_trials
+        monkeypatch.setattr(c,'_PROCESS_USED',False)
+        value=contract(stage='full');rows,emit=events()
+        original=loader.load_openvla_oft_components;episode=libero_runtime.run_episode;validator=profiling._validate_chunk
+        with pytest.raises(RuntimeError,match='explicit CUDA'):
+            with c.runtime_scope(project_root=c.R,source_root=c.S,contract=value,emit=emit):
+>               loader.load_openvla_oft_components(value['checkpoint'],device='cpu',use_minimal_prismatic_compat=True)
+
+test_runtime.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime.py:295: in once
+    value=lifecycle.load(original,requested,device=device)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/probe.py:576: in load
+    value = loader(checkpoint, device=device, use_minimal_prismatic_compat=first)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+checkpoint = '/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-10-95220f9'
+
+    def load_openvla_oft_components(
+        checkpoint: str | Path,
+        *,
+        device: str | torch.device = "cuda:0",
+        dtype: torch.dtype = torch.bfloat16,
+        num_images_in_input: int = 2,
+        local_files_only: bool = True,
+        use_minimal_prismatic_compat: bool = False,
+    ) -> OpenVLAOFTComponents:
+        """Load the immutable model and OFT components without upstream file mutation."""
+    
+        checkpoint_path = Path(checkpoint).resolve()
+        if checkpoint_path.is_symlink() or not checkpoint_path.is_dir():
+            raise FileNotFoundError(checkpoint_path)
+        if checkpoint_path.name.startswith(".") or "partial" in checkpoint_path.name.lower():
+            raise ValueError("refusing to load a partial/hidden checkpoint directory")
+        target_device = torch.device(device)
+        if target_device.type != "cuda" or target_device.index is None:
+>           raise ValueError("real 7B smoke requires an explicit CUDA device such as cuda:0")
+E           ValueError: real 7B smoke requires an explicit CUDA device such as cuda:0
+
+/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/src/cti_vla/models/openvla_oft_loader.py:189: ValueError
+- generated xml file: /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_deployment_runtime_0809/pytest_a2.xml -
+=========================== short test summary info ============================
+FAILED test_runtime.py::test_full_runtime_original_cpu_rejection_restores_and_poison
+1 failed, 85 passed in 22.48s

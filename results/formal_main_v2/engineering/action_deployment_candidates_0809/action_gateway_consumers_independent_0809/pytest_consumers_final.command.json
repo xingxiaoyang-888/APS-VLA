@@ -1,0 +1,27 @@
+{
+  "utc": "2026-10-19T08:59:51.610644+00:00",
+  "argv": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_downstream_consumers_0809/test_consumers.py",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_gateway_consumers_independent_0809/test_consumers_independent.py",
+    "--basetemp",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_gateway_consumers_independent_0809/pytest_consumers_final",
+    "--junitxml",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_gateway_consumers_independent_0809/pytest_consumers_final.xml"
+  ],
+  "cwd": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_gateway_consumers_independent_0809",
+  "frozen_sources": {
+    "reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+    "test_consumers.py": "7b2b04f83f72cb3431112d1a77e5a3c4ba8c87c74a9f9225244c2b5c4dcaadea"
+  },
+  "test_sha256": "804f072ee7d966b1b59b57d6c1a800cbf198383804cec9830b61cf476557aa46",
+  "scope": "isolated CPU synthetic fixtures plus original helper API metadata-only early boundary; no state/Slurm/GPU",
+  "own_runtime_independently_audited": false
+}

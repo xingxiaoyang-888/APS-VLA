@@ -1,0 +1,355 @@
+"""CPU-only transaction tests. No production state, scheduler or GPU call."""
+from pathlib import Path
+from types import SimpleNamespace
+import copy, hashlib, importlib.util, json, subprocess, sys
+import pytest
+sys.dont_write_bytecode=True
+HERE=Path(__file__).parent
+REAL_R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+def module(path,name):
+ s=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(s);sys.modules[name]=m;s.loader.exec_module(m);return m
+g=module(HERE/'gateway.py','gateway0809_test')
+c=g.load(REAL_R/g.CONTROLLER,g.CONTROLLER_SHA,'actual_controller0809_test')
+def write(p,v):
+ p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(g.canonical(v)+b'\n')
+def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def files(root):return {p.relative_to(root).as_posix():digest(p) for p in root.rglob('*') if p.is_file()}
+class Box:
+ def __init__(self,root):
+  self.root=root;self.events=[];self.fault=None;self.answer=SimpleNamespace(returncode=0,stdout='901\n',stderr='');self.submits=0;self.controls=0;self.no_new_queue=False
+  self.ref={'path':'results/formal_main_v2/auth.json','sha256':'a'*64}
+  self.a=dict(controller_activation=copy.deepcopy(g.ACTIVATION),controller_job_id='900',root_reservation={'path':'results/formal_main_v2/res.json','sha256':'b'*64},runtime_readiness={'path':'results/formal_main_v2/readiness.json','sha256':'c'*64},plan={'path':'results/formal_main_v2/plan.json','sha256':'d'*64},scientific_plan={'path':'results/formal_main_v2/science.json','sha256':'e'*64},prepared_invocation={'path':'results/formal_main_v2/prepared.json','sha256':'f'*64})
+  self.jobs=[]
+  for idx,(suite,budget,seed) in enumerate([('libero_10',128,17),('libero_10',128,23),('libero_10',128,41),('libero_spatial',128,17),('libero_spatial',128,23),('libero_spatial',128,41),('libero_object',128,17)]):
+   jid=str(100+idx);token='token'+jid
+   self.jobs.append(dict(job_id=jid,name='cti-formal',experiment=g.ROUND,mode='train',suite=suite,visual_tokens=budget,training_seed=seed,gpus=1,status='RUNNING',autonomous_control={'request_token':token,'actual_sbatch_argv':['sbatch','--comment=cti-auto-v1:'+token]}))
+  self.jobs += [dict(job_id='900',name='cti-controller',experiment=g.ROUND,mode='controller',gpus=0,status='RUNNING'),dict(job_id='800',name='old-g0',experiment='g0',gpus=1,status='COMPLETED',exit_code=0)]
+  self.state=dict(registered_jobs=self.jobs,pending_submission=None,autonomous_training_v1=dict(activation=copy.deepcopy(g.ACTIVATION),activation_sha256=g.ACTIVATION['sha256'],controller_job_id='900',root_submission_hold=None,reserved_GPU_slots=1,reservation_root_record=self.a['root_reservation'],preserve={'lease':'opaque','completed_pairs':['prior']}),current_round_cost={'keep':12},formal_main_progress={'unrelated':'retain'},foreign={'keep':True})
+  self.path=root/g.STATE;write(self.path,self.state);(self.path.parent/'.writer.lock').touch()
+  inv=dict(schema=g.ROUND,kind='formal_downstream_invocation',version=g.OUTER_VERSION,stage='development',stage_key='libero_object_development_abcd',suite='libero_object',method_ids=['dense'],source_root=str(g.S),source_sha256=g.SOURCE_SHA,adapter_sha256='9'*64,entrypoint='scripts/ops/formal_action_deployment_v1/entry.py',wrapper='scripts/ops/formal_action_deployment_v1/wrapper.py',wrapper_sha256='8'*64,run_root=str(g.P/'results/formal_main_v2/libero_object/downstream/development/abcd/attempt01'),resume=False,prior_job_ids=[],prior_review=None,execution_manifest_sha256='7'*64,source_provenance={'real_upstream_reconstruction':'explicit_test_standin'},registered_utc='2026-10-19T00:00:00+00:00',watched_files={},support_files={},root_evidence_sha256={},action_execution_contract={'path':'results/formal_main_v2/contract.json','sha256':'6'*64},scientific_plan=self.a['scientific_plan'],runtime_readiness=self.a['runtime_readiness'])
+  self.plan=dict(schema=g.ROUND,kind='formal_downstream_plan',resources=copy.deepcopy(g.RESOURCES),invocation=copy.deepcopy(inv),publish_files={},output_relative='results/formal_main_v2/libero_object/downstream/development/abcd/attempt01',output_must_exist=False,invocation_relative='results/formal_main_v2/invocations/synthetic_once.json')
+  self.plan['plan_sha256']=g.sha(g.canonical(self.plan));inv['plan_sha256']=self.plan['plan_sha256']
+  self.bundle=dict(plan=self.plan,invocation=inv,invocation_bytes=g.canonical(inv)+b'\n',prefix={},inventory={})
+  self.e=SimpleNamespace(hashes={},ref=lambda _: {'runtime_publication_files':{}},watch=lambda *a:None,unchanged=lambda:None)
+  self.science=SimpleNamespace(plan=self.plan,prepare=self.prepare);self.io=SimpleNamespace(preflight=self.preflight,publish=self.publish)
+  self.hook=lambda point:None
+ def save(self):write(self.path,self.state)
+ def read(self):return json.loads(self.path.read_bytes())
+ def prepare(self,projection):
+  self.events.append('science');self.hook('prepare');assert projection['autonomous_training_v1']==self.state['autonomous_training_v1'];return copy.deepcopy(self.bundle)
+ def preflight(self,b):self.events.append('preflight');self.hook('preflight');return {'synthetic_metadata_preflight':True}
+ def publish(self,b):
+  assert self.read()['pending_submission']['status']=='prepared_before_invocation_publication'
+  assert (self.root/b['plan']['invocation_relative']).read_bytes()==b['invocation_bytes']
+  self.events.append('published');self.hook('publish')
+ def observe(self,jobs):
+  self.events.append('observe');rows={};q={}
+  for j in jobs:
+   jid=j['job_id'];new=jid=='901';status='PENDING' if new else j['status'];gp=0 if new else j['gpus'];comment=g.registered_comment(j) or ''
+   rows[jid]=dict(job_id=jid,status=status,exit_code='0:0',elapsed_seconds=0 if new else 100,allocation='cpu=7,gres/gpu='+str(gp),node='synthetic',gpus=gp,scheduler_name=j['name'],scheduler_comment='')
+   if status not in c.TERMINAL and not(new and self.no_new_queue):q[jid]={'status':status,'comment':comment}
+  out=dict(rows=rows,queue=q,raw_sacct='synthetic actual parse shape',raw_squeue='synthetic')
+  self.hook(('observe',out));return out
+ def submit(self,argv):
+  assert self.read()['pending_submission']['actual_sbatch_argv']==argv
+  assert self.events[-1]=='published'
+  self.submits+=1;self.events.append('submitted');self.actual=argv;self.hook('submit')
+  if isinstance(self.answer,BaseException):raise self.answer
+  return self.answer
+ def run(self,argv):
+  self.controls+=1;assert argv==['scontrol','show','job','-o','901']
+  token=next(x.split('=',1)[1] for x in self.actual if x.startswith('--comment='))
+  response=SimpleNamespace(returncode=0,stdout='JobId=901 JobName=cti-formal-downstream JobState=PENDING Comment='+token+'\n',stderr='')
+  self.hook(('scontrol',response));return response
+ def gateway(self):return g.Gateway(self.root,c,self,self.science,self.io,self.a,self.ref,self.e)
+@pytest.fixture
+def box(tmp_path):return Box(tmp_path/'R')
+def test_check_only_zero_write_and_all_registered_query(box):
+ before=files(box.root);out=box.gateway().run();assert out['status']=='read_only_checks_passed_not_submitted';assert files(box.root)==before and box.submits==0
+ assert out['capacity']['occupied']==[str(x) for x in range(100,107)];assert out['confirmed_CPU0']==['900'];assert set(out['scheduler_observation']['rows'])=={j['job_id'] for j in box.jobs}
+def test_success_pending_precedes_publication_preserves_history(box):
+ before=copy.deepcopy(box.state);out=box.gateway().run(submit=True);after=box.read()
+ assert out['status']=='submitted_once' and box.submits==1
+ assert after['registered_jobs'][:-1]==before['registered_jobs'] and after['foreign']==before['foreign']
+ assert after['autonomous_training_v1']['preserve']==before['autonomous_training_v1']['preserve'] and after['autonomous_training_v1']['reserved_GPU_slots']==0 and after['pending_submission'] is None
+ j=after['registered_jobs'][-1]
+ for k in ('entrypoint','wrapper','wrapper_sha256','action_execution_contract','scientific_plan','runtime_readiness','plan_sha256'):assert j[k]==box.bundle['invocation'][k]
+ assert j['execution_version']==g.OUTER_VERSION and after['current_round_cost']['allocated_gpu_seconds']==700
+ assert after['current_round_cost']['keep']==12
+@pytest.mark.parametrize('fault',['eight','missing','unknown','cpu_gpu','duplicate_pair','pending','reservation','hold','terminal_drift','active_stage','old_invocation'])
+def test_preflight_blocked_no_publication(box,fault):
+ if fault=='eight':
+  j=dict(box.jobs[0],job_id='107',suite='libero_goal');box.state['registered_jobs'].append(j)
+ elif fault=='cpu_gpu':
+  def hook(p):
+   if isinstance(p,tuple) and p[0]=='observe':p[1]['rows']['900']['gpus']=1
+  box.hook=hook
+ elif fault in ('missing','unknown','terminal_drift'):
+  def hook(p):
+   if isinstance(p,tuple) and p[0]=='observe':
+    if fault=='missing':p[1]['rows'].pop('800')
+    elif fault=='unknown':p[1]['rows']['100']['status']='UNEXPLAINED'
+    else:p[1]['rows']['800']['status']='FAILED'
+  box.hook=hook
+ elif fault=='duplicate_pair':box.state['registered_jobs'][1].update(suite='libero_10',visual_tokens=128,training_seed=17)
+ elif fault=='pending':box.state['pending_submission']={'existing':'retain'}
+ elif fault=='reservation':box.state['autonomous_training_v1']['reserved_GPU_slots']=0
+ elif fault=='hold':box.state['autonomous_training_v1']['root_submission_hold']={'reason':'root'}
+ elif fault=='active_stage':box.state['registered_jobs'][0].update(mode='development',stage_key=box.plan['invocation']['stage_key'],suite='libero_object',method_ids=['dense'])
+ elif fault=='old_invocation':box.state['registered_jobs'][0]['invocation']=box.plan['invocation_relative']
+ box.save();before=files(box.root)
+ with pytest.raises((ValueError,KeyError)):box.gateway().run(submit=True)
+ assert files(box.root)==before and box.submits==0 and 'published' not in box.events
+def test_missing_writer_lock_no_creation(box):
+ (box.path.parent/'.writer.lock').unlink();before=files(box.root)
+ with pytest.raises(ValueError,match='lock missing'):box.gateway().run()
+ assert files(box.root)==before
+@pytest.mark.parametrize('raw,rc',[('901\nextra',0),('901\n',1),('100\n',0),('901 \n',0),('',0)])
+def test_uncertain_ack_never_repeats_and_keeps_pending(box,raw,rc):
+ box.answer=SimpleNamespace(returncode=rc,stdout=raw,stderr='retained')
+ with pytest.raises(ValueError):box.gateway().run(submit=True)
+ s=box.read();assert s['pending_submission'] and len(s['registered_jobs'])==len(box.jobs) and box.submits==1
+ with pytest.raises(ValueError):box.gateway().run(submit=True)
+ assert box.submits==1
+def test_timeout_raw_output_preserved(box):
+ box.answer=subprocess.TimeoutExpired(['sbatch'],60,output=b'901\n',stderr=b'late')
+ with pytest.raises(subprocess.TimeoutExpired):box.gateway().run(submit=True)
+ p=box.root/'results/formal_main_v2/downstream_gateway'/box.ref['sha256']/'failed_transaction.json'
+ assert json.loads(p.read_bytes())['captured_stdout']=={'encoding':'hex','value':b'901\n'.hex()}
+ assert box.read()['pending_submission'] and box.submits==1
+@pytest.mark.parametrize('point',['prepare','publish','submit'])
+def test_cas_drift_does_not_overwrite_or_retry(box,point):
+ def hook(p):
+  if p==point:
+   s=box.read();s['external_change']='retain';write(box.path,s)
+ box.hook=hook
+ with pytest.raises(ValueError):box.gateway().run(submit=True)
+ assert box.read()['external_change']=='retain' and box.submits==(1 if point=='submit' else 0)
+ if point!='prepare':assert box.read()['pending_submission']
+@pytest.mark.parametrize('fault',['missing','wrong_queue_token','sacct_conflict'])
+def test_acknowledged_but_unverified_stays_known_pending(box,fault):
+ def hook(p):
+  if isinstance(p,tuple) and p[0]=='observe' and '901' in p[1]['rows']:
+   if fault=='missing':p[1]['rows'].pop('901')
+   elif fault=='wrong_queue_token':p[1]['queue']['901']['comment']='wrong'
+   else:p[1]['rows']['901']['scheduler_comment']='wrong'
+ box.hook=hook
+ with pytest.raises(ValueError):box.gateway().run(submit=True)
+ assert box.read()['pending_submission']['known_job_id']=='901' and box.submits==1
+def test_new_job_without_queue_needs_actual_scontrol(box):
+ box.no_new_queue=True;out=box.gateway().run(submit=True)
+ assert out['status']=='submitted_once' and box.controls==1
+ p=box.root/'results/formal_main_v2/downstream_gateway'/box.ref['sha256']/'submitted_job_observation.json'
+ proof=json.loads(p.read_bytes())['scontrol_corroboration'];assert proof['stdout'].startswith('JobId=901') and proof['argv'][-1]=='901'
+@pytest.mark.parametrize('field',['JobId=901','JobName=cti-formal-downstream','Comment=cti-downstream-gateway-v1:'])
+def test_scontrol_mismatch_blocks_commit(box,field):
+ box.no_new_queue=True
+ def hook(p):
+  if isinstance(p,tuple) and p[0]=='scontrol':p[1].stdout=p[1].stdout.replace(field,'WRONG=')
+ box.hook=hook
+ with pytest.raises(ValueError):box.gateway().run(submit=True)
+ assert box.read()['pending_submission']['known_job_id']=='901'
+def test_active_accounting_empty_queue_token_real_shape(box):
+ out=box.gateway().run()
+ assert all(not row['scheduler_comment'] for row in out['scheduler_observation']['rows'].values())
+ assert all(out['scheduler_observation']['queue'][str(i)]['comment'].startswith('cti-auto-v1:') for i in range(100,107))
+def test_active_both_comments_absent_is_not_admission(box):
+ def hook(p):
+  if isinstance(p,tuple) and p[0]=='observe':p[1]['queue']['100']['comment']=''
+ box.hook=hook
+ with pytest.raises(ValueError,match='comment'):box.gateway().run()
+def test_exact_old_terminal_history_and_explicit_resume_kept(box):
+ j=dict(job_id='801',name='cti-formal-downstream',experiment=g.ROUND,mode='development',stage_key=box.plan['invocation']['stage_key'],suite='libero_object',method_ids=['dense'],gpus=1,status='FAILED',exit_code='0:0')
+ box.state['registered_jobs'].append(j);box.save()
+ for obj in (box.plan['invocation'],box.bundle['invocation']):obj.update(prior_job_ids=['801'],prior_review='results/formal_main_v2/old_review.json',resume=True)
+ box.plan['output_must_exist']=True;box.bundle['invocation_bytes']=g.canonical(box.bundle['invocation'])
+ out=box.gateway().run(submit=True)
+ assert out['job']['prior_job_ids']==['801'] and out['job']['resume'] is True and box.read()['registered_jobs'][-2]==j
+def test_command_scope_no_scientific_args_modified(box):
+ argv=g.submission_argv(box.bundle,'token')
+ assert argv[:4]==['sbatch','--parsable','--no-requeue','--exclude=gpu4020']
+ for flag in ['--time=04:00:00','--gres=gpu:l40:1','--cpus-per-task=7','--mem=64G','--comment=token']:assert flag in argv
+ assert '--invocation ' in argv[-1] and '--invocation-sha256 ' in argv[-1] and str(g.P/box.bundle['invocation']['wrapper']) in argv[-1]
+ assert '--stop-after' not in argv[-1] and '--sealed-final' not in argv[-1]
+def test_checkonly_final_stage_and_raw_refs_do_not_authorize(box):
+ # Authorization is a separate real gate; minimal FakeScience transaction fixture
+ # cannot be used as a production CLI admission.
+ assert 'validate_authorization(R,ref)' in (HERE/'gateway.py').read_text()
+ assert 'planner.plan(' in (HERE/'gateway.py').read_text()
+ assert '.refresh(' not in (HERE/'gateway.py').read_text()
+@pytest.mark.parametrize('path',['../secret','/tmp/x','a//b','a/./b','.','results/sealed_any/x.json','results/test/x.json','results/init_states_test.json','results/final_states.jsonl','weights/a.json','results/x.pt'])
+def test_lexical_reject_before_filesystem(path,monkeypatch):
+ monkeypatch.setattr(Path,'stat',lambda *a,**k:pytest.fail('unexpected I/O'))
+ with pytest.raises(ValueError):g.relative(path)
+def native_case(tmp_path,monkeypatch):
+ root=tmp_path/'R';runtime=tmp_path/'P';source=runtime/'snapshots/frozen'
+ root.mkdir();source.mkdir(parents=True);monkeypatch.setattr(g,'P',runtime);monkeypatch.setattr(g,'S',source)
+ rel='scripts/ops/new.py';raw=b'# exact CRLF bytes\r\n';(root/rel).parent.mkdir(parents=True);(root/rel).write_bytes(raw)
+ frozen=source/'src/a.py';frozen.parent.mkdir();frozen.write_bytes(b'unchanged')
+ output='results/formal_main_v2/libero_object/downstream/development/id/attempt01'
+ bundle={'plan':{'publish_files':{rel:g.sha(raw)},'output_relative':output,'output_must_exist':False,'invocation_relative':'results/formal_main_v2/invocations/new.json'},'invocation':{'watched_files':{str(frozen):digest(frozen)}},'prefix':{},'readiness_files':{},'invocation_bytes':b'{"synthetic":true}\n'}
+ return root,runtime,source,rel,bundle
+def test_native_publication_roundtrip_and_existing_equal(tmp_path,monkeypatch):
+ r,p,s,rel,b=native_case(tmp_path,monkeypatch);io=g.NativeIO(r);assert io.preflight(b)['missing_publications']==[rel]
+ io.publish(b);assert (p/rel).read_bytes()==(r/rel).read_bytes()
+ with pytest.raises(ValueError,match='already exists'):io.preflight(b)
+ # Another exact invocation may reuse identical metadata, never overwrite it.
+ b['plan']['invocation_relative']='results/formal_main_v2/invocations/new2.json';assert io.preflight(b)['missing_publications']==[];io.publish(b)
+@pytest.mark.parametrize('fault',['mismatch','missing_frozen','snapshot_publish','symlink','prefix_collision'])
+def test_native_reject_invalid_inputs_no_partial_publication(tmp_path,monkeypatch,fault):
+ r,p,s,rel,b=native_case(tmp_path,monkeypatch)
+ if fault=='mismatch':(p/rel).parent.mkdir(parents=True);(p/rel).write_bytes(b'wrong')
+ elif fault=='missing_frozen':(s/'src/a.py').unlink()
+ elif fault=='snapshot_publish':b['plan']['publish_files']['snapshots/frozen/new.py']='a'*64
+ elif fault=='symlink':(p/'scripts').symlink_to(r/'scripts',target_is_directory=True)
+ elif fault=='prefix_collision':b['prefix'][str(s/'src/a.py')]='a'*64
+ before=files(r)
+ with pytest.raises(ValueError):g.NativeIO(r).preflight(b)
+ assert files(r)==before and not (p/b['plan']['invocation_relative']).exists()
+def test_source_pins_and_frozen_science_unchanged():
+ assert digest(REAL_R/g.CONTROLLER)==g.CONTROLLER_SHA and digest(REAL_R/g.PLANNER)==g.PLANNER_SHA
+ inv=json.loads((REAL_R/g.INVENTORY).read_bytes());assert digest(REAL_R/g.INVENTORY)==g.INVENTORY_SHA and len(inv['files'])==173
+ for rel,h in inv['files'].items():assert digest(REAL_R/rel)==h and digest(g.S/rel)==h
+
+# Exact typed root/readiness and real converter tests. GPU/runtime execution and
+# old scientific planner are explicit upstream stand-ins, never claimed verified.
+CONTRACT_SOURCE=REAL_R/'.local/action_downstream_integration_0809/contract.py'
+CONTRACT_PIN='efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19'
+class TypedCase:
+ def __init__(self,root,monkeypatch,mutate=None):
+  self.root=root;root.mkdir();self.change=mutate or (lambda name,value:None)
+  self.sources='scripts/ops/formal_action_deployment_v1/'
+  for name in ('gateway','entry','wrapper','runtime_scope','reviewer','consumer','contract'):
+   p=root/(self.sources+name+'.py');p.parent.mkdir(parents=True,exist_ok=True)
+   if name=='gateway':raw=(HERE/'gateway.py').read_bytes()
+   elif name=='contract':assert digest(CONTRACT_SOURCE)==CONTRACT_PIN;raw=CONTRACT_SOURCE.read_bytes()
+   else:raw=b'# SYNTHETIC: no GPU/runtime behavior\n'
+   p.write_bytes(raw)
+  monkeypatch.setattr(g,'R',root);monkeypatch.setattr(g,'__file__',str(root/(self.sources+'gateway.py')))
+  for path in (g.CONTROLLER,g.PLANNER,g.ACTIVATION['path'],g.GAP['path']):
+   dst=root/path;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((REAL_R/path).read_bytes())
+  self.converter=module(root/(self.sources+'contract.py'),'synthetic_actual_converter_'+root.name)
+  cc=self.converter
+  files={name:digest(root/name) for name in cc.EXPECTED_NEW_FILES}
+  dst=root/cc.ACTION_ADAPTER;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((REAL_R/cc.ACTION_ADAPTER).read_bytes());files[cc.ACTION_ADAPTER]=cc.ACTION_SHA
+  dep='scripts/ops/synthetic_dep.py';(root/dep).write_bytes(b'# explicit runtime dependency\n')
+  self.action=dict(schema=g.ROUND,kind='formal_action_execution_contract',version=g.OUTER_VERSION,status='candidate_pending_root_readiness',scientific_settings_changed=False,final_evaluation_enabled=False,files=files,runtime_contract={'suite':'libero_object','stage':'development','source_root':str(g.S),'source_sha256':g.SOURCE_SHA,'dependencies':{dep:digest(root/dep)}},GPU_acceptance=cc.GPU_REFS,source_inventory={'path':g.INVENTORY,'sha256':g.INVENTORY_SHA},transition=None)
+  self.action_ref=self.put('action_contract',self.action)
+  out='results/formal_main_v2/libero_object/downstream/development/abcd/attempt01'
+  inv=dict(schema=g.ROUND,kind='formal_downstream_invocation',version='formal-downstream-root-v1',stage='development',stage_key='libero_object_development_abcd',suite='libero_object',method_ids=['dense'],source_root=str(g.S),source_sha256=g.SOURCE_SHA,source_inventory=str(g.P/g.INVENTORY),source_inventory_sha256=g.INVENTORY_SHA,scientific_settings_changed=False,final_values_read_locally=False,argv=['--mode','evaluate','--output',str(g.P/out)],run_root=str(g.P/out),resume=False,entrypoint='old.py',wrapper='old_wrapper.py',wrapper_sha256='1'*64,adapter_sha256='2'*64,support_files={},watched_files={},root_evidence_sha256={},prior_job_ids=[],prior_review=None,execution_manifest_sha256='3'*64,source_provenance={'boundary':'SYNTHETIC upstream already-tested science'})
+  self.scientific=dict(schema=g.ROUND,kind='formal_downstream_plan',invocation=inv,resources=copy.deepcopy(g.RESOURCES),output_relative=out,output_must_exist=False,invocation_relative='results/formal_main_v2/invocations/typed_synthetic.json',publish_files={})
+  self.scientific['plan_sha256']=cc.signature(self.scientific)
+  self.science_ref=self.put('science',self.scientific)
+  self.plan=cc.effective_plan(self.scientific,scientific_plan_ref=self.science_ref,execution_contract_ref=self.action_ref,execution_contract=self.action)
+  self.plan_ref=self.put('effective',self.plan)
+  current=g.source_files(root)
+  ind=dict(schema=g.ROUND,kind='formal_downstream_server_gateway_independent_CPU_review',status='passed_CPU_review',files=current,blockers=[])
+  self.ind_ref=self.put('gateway_ind',ind)
+  proof=dict(status='passed',execution_version=g.OUTER_VERSION,runtime_sources=files,production_chain_complete=True)
+  rroot=self.put('runtime_root',{**proof,'synthetic_role':'root'})
+  rind=self.put('runtime_ind',{**proof,'synthetic_role':'independent'})
+  components={}
+  for name in ('runtime','wrapper','raw_consumer'):
+   components[name]=self.put('component_'+name,dict(schema=g.ROUND,kind='formal_downstream_action_component_independent_CPU_review',component=name,status='passed_CPU_review',files=files))
+  self.ready=dict(schema=g.ROUND,kind='formal_action_runtime_readiness',status='passed',reviewed_by='root',execution_version=g.OUTER_VERSION,scientific_settings_changed=False,final_evaluation_enabled=False,raw_consumer_ready=True,effective_plan=self.plan_ref,scientific_plan=self.science_ref,plan_sha256=self.plan['plan_sha256'],runtime_sources=files,root_review=rroot,independent_review=rind,support_files=self.plan['invocation']['support_files'],action_execution_contract=self.action_ref,component_reviews=components,allowed_stages=['development'],runtime_publication_files={})
+  self.ready_ref=self.put('readiness',self.ready)
+  self.prepared={**self.plan['invocation'],'registered_utc':'2026-10-19T00:00:00+00:00','plan_sha256':self.plan['plan_sha256'],'runtime_readiness':self.ready_ref}
+  self.prepared_ref=self.put('prepared',self.prepared)
+  args=dict(stage='development',source_inventory=g.INVENTORY,execution_manifest='results/formal_main_v2/synthetic_manifest.json',output_relative=out,freeze_directory=None,profile_panel=None,prior_review=None,collection_review=None,repair_record=None,resume=False,stop_after=None)
+  self.auth=dict(schema=g.ROUND,kind='formal_downstream_single_submission_authorization',version=g.VERSION,status='approved_for_exactly_one_registered_downstream_submission',control_root=str(root),runtime_root=str(g.P),controller_activation=g.ACTIVATION,maximum_attempts=1,automatic_retry=False,excluded_nodes=['gpu4020'],gateway_files=current,planner={'path':g.PLANNER,'sha256':g.PLANNER_SHA},controller={'path':g.CONTROLLER,'sha256':g.CONTROLLER_SHA},gap_review=g.GAP,final_release_authorized_by_gateway=False,independent_review=self.ind_ref,plan=self.plan_ref,scientific_plan=self.science_ref,prepared_invocation=self.prepared_ref,plan_arguments=args,runtime_readiness=self.ready_ref,controller_job_id='900')
+  self.change('authorization',self.auth)
+  authpath='results/formal_main_v2/synthetic_authorization.json'
+  reservation=dict(schema=g.ROUND,kind='root_downstream_GPU_slot_reservation',status='approved_for_exact_downstream_request',reserved_slots=1,capacity_limit_all_GPU_modes=8,controller_job_id='900',automatic_retry=False,stage_key=self.plan['invocation']['stage_key'],plan=self.plan_ref,authorization_path=authpath,authorization_intent_sha256=g.intent_sha(self.auth))
+  self.auth['root_reservation']=self.put('reservation',reservation)
+  write(root/authpath,self.auth);self.ref={'path':authpath,'sha256':digest(root/authpath)}
+ def put(self,name,value):
+  self.change(name,value);rel='results/formal_main_v2/synthetic_'+name+'.json';write(self.root/rel,value);return {'path':rel,'sha256':digest(self.root/rel)}
+ def validate(self):return g.validate_authorization(self.root,self.ref)
+def test_actual_typed_authorization_and_converter(tmp_path,monkeypatch):
+ t=TypedCase(tmp_path/'typed',monkeypatch);a,e,plan,science,prepared=t.validate()
+ assert t.converter.validate_effective(science,plan,scientific_plan_ref=t.science_ref,execution_contract_ref=t.action_ref,execution_contract=t.action)
+ assert plan['invocation']['argv']==science['invocation']['argv'] and plan['resources']==science['resources']
+ assert 'scripts/ops/synthetic_dep.py' in plan['publish_files'] and prepared['runtime_readiness']==a['runtime_readiness']
+ e.unchanged()
+@pytest.mark.parametrize('name,field,value,match',[
+ ('readiness','status','pending','hold'),
+ ('readiness','raw_consumer_ready',False,'consumer'),
+ ('readiness','final_evaluation_enabled',True,'stage/final'),
+ ('readiness','runtime_sources',{},'runtime source'),
+ ('readiness','allowed_stages',['final'],'stage/final'),
+ ('readiness','plan_sha256','0'*64,'exact effective'),
+ ('runtime_root','production_chain_complete',False,'production-chain'),
+ ('runtime_ind','execution_version','formal-downstream-root-v1','production-chain'),
+ ('gateway_ind','files',{},'source differs'),
+ ('component_wrapper','status','pending','component CPU'),
+ ('reservation','reserved_slots',2,'reservation'),
+ ('authorization','maximum_attempts',2,'single request'),
+])
+def test_typed_readiness_and_authorization_fail_closed(tmp_path,monkeypatch,name,field,value,match):
+ def change(n,v):
+  if n==name:v[field]=value
+ t=TypedCase(tmp_path/'typed',monkeypatch,change)
+ with pytest.raises(ValueError,match=match):t.validate()
+def test_same_root_and_independent_ref_refused(tmp_path,monkeypatch):
+ def change(n,v):
+  if n=='readiness':v['independent_review']=v['root_review']
+ t=TypedCase(tmp_path/'typed',monkeypatch,change)
+ with pytest.raises(ValueError,match='must differ'):t.validate()
+def test_drift_after_read_ref_refused(tmp_path,monkeypatch):
+ t=TypedCase(tmp_path/'typed',monkeypatch);a,e,*_=t.validate()
+ (t.root/t.ind_ref['path']).write_bytes(b'{}')
+ with pytest.raises(ValueError,match='SHA differs'):e.unchanged()
+@pytest.mark.parametrize('field,value',[('argv',['--changed']),('resume',True),('source_provenance',{}),('prior_job_ids',['123'])])
+def test_real_converter_forbids_scientific_mutation(tmp_path,monkeypatch,field,value):
+ t=TypedCase(tmp_path/'typed',monkeypatch);bad=copy.deepcopy(t.plan);bad['invocation'][field]=value;bad['plan_sha256']=t.converter.signature({k:v for k,v in bad.items() if k!='plan_sha256'})
+ with pytest.raises(ValueError,match='Scientific invocation changed'):t.converter.validate_effective(t.scientific,bad,scientific_plan_ref=t.science_ref,execution_contract_ref=t.action_ref,execution_contract=t.action)
+def test_frozen_plan_actual_converter_prepared_and_173_with_science_standin(tmp_path,monkeypatch):
+ t=TypedCase(tmp_path/'typed',monkeypatch)
+ # Full copied source metadata, not weights/state values. The old scientific
+ # planner ONLY is replaced; no claim of new real scientific admission.
+ inventory=json.loads((REAL_R/g.INVENTORY).read_bytes())
+ for rel in [g.INVENTORY,*inventory['files'],*t.converter.GPU_REFS]:
+  dst=t.root/rel;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((REAL_R/rel).read_bytes())
+ for rel,h in inventory['files'].items():t.scientific['invocation']['watched_files'][str(g.S/rel)]=h
+ t.scientific['plan_sha256']=t.converter.signature({k:v for k,v in t.scientific.items() if k!='plan_sha256'})
+ # Recreate complete reference chain for changed synthetic original watch map.
+ t.science_ref=t.put('science',t.scientific)
+ t.plan=t.converter.effective_plan(t.scientific,scientific_plan_ref=t.science_ref,execution_contract_ref=t.action_ref,execution_contract=t.action)
+ t.plan_ref=t.put('effective',t.plan)
+ t.ready.update(effective_plan=t.plan_ref,scientific_plan=t.science_ref,plan_sha256=t.plan['plan_sha256']);t.ready_ref=t.put('readiness',t.ready)
+ t.prepared={**t.plan['invocation'],'registered_utc':'2026-10-19T00:00:00+00:00','plan_sha256':t.plan['plan_sha256'],'runtime_readiness':t.ready_ref}
+ t.prepared_ref=t.put('prepared',t.prepared)
+ a={**t.auth,'plan':t.plan_ref,'scientific_plan':t.science_ref,'prepared_invocation':t.prepared_ref,'runtime_readiness':t.ready_ref}
+ e=g.Evidence(t.root);calls=[]
+ original=g.load
+ def loading(path,pin,name):
+  if Path(path)==t.root/g.PLANNER:
+   assert pin==g.PLANNER_SHA
+   return SimpleNamespace(plan=lambda args,state,project:(calls.append((copy.deepcopy(state),project)) or copy.deepcopy(t.scientific)),resume_prefix_inputs=lambda inv:{})
+  return original(path,pin,name)
+ monkeypatch.setattr(g,'load',loading)
+ result=g.FrozenPlan(t.root,a,e,t.plan,t.scientific,t.prepared).prepare({'pending_submission':None})
+ assert len(calls)==1 and len(result['inventory']['files'])==173 and result['invocation']==t.prepared
+ assert len(e.hashes)>173
+ bad=copy.deepcopy(t.prepared);bad['argv']=['--tampered']
+ with pytest.raises(ValueError,match='prepared invocation changes'):g.FrozenPlan(t.root,a,e,t.plan,t.scientific,bad).prepare({'pending_submission':None})
+
+def test_final_plan_denied_by_actual_converter(tmp_path,monkeypatch):
+ t=TypedCase(tmp_path/'typed',monkeypatch)
+ old=copy.deepcopy(t.scientific);old['invocation']['stage']='final'
+ old['plan_sha256']=t.converter.signature({k:v for k,v in old.items() if k!='plan_sha256'})
+ with pytest.raises(ValueError,match='never permits final'):t.converter.effective_plan(old,scientific_plan_ref=t.science_ref,execution_contract_ref=t.action_ref,execution_contract=t.action)
+
+@pytest.mark.parametrize('suite',g.SUITES)
+def test_all_suite_resume_exact_two_prefix_only(tmp_path,monkeypatch,suite):
+ t=TypedCase(tmp_path/'typed',monkeypatch);inner=copy.deepcopy(t.scientific['invocation'])
+ out='results/formal_main_v2/'+suite+'/downstream/development/id/attempt01';inner.update(suite=suite,run_root=str(g.P/out),resume=True,prior_job_ids=['old'],prior_review='results/formal_main_v2/old.json')
+ exact={str(g.P/out/name):str(i)*64 for i,name in [(1,'trials.jsonl'),(2,'closed_loop_report.json')]}
+ inner['root_evidence_sha256']={str(Path(name).relative_to(g.P)):h for name,h in exact.items()}
+ keep=str(g.P/out/'config.json');inner['watched_files']={**exact,keep:'3'*64}
+ original=copy.deepcopy(inner)
+ assert t.converter.resume_prefix_inputs(inner)==exact
+ assert t.converter.immutable_watches(inner)=={keep:'3'*64}
+ assert inner==original
+ inner['watched_files'][next(iter(exact))]='4'*64
+ with pytest.raises(ValueError,match='conflicts'):t.converter.resume_prefix_inputs(inner)

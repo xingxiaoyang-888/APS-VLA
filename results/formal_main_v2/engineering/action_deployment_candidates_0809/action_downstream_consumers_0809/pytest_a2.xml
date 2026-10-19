@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="19.001" timestamp="2026-10-19T16:50:27.554287+08:00" hostname="logina04"><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_exact_envelope_gate_does_not_call_pre_run_wrapper" time="0.121" /><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_envelope_fails_closed_identity_changes[version]" time="0.098" /><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_envelope_fails_closed_identity_changes[contract]" time="0.099" /><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_envelope_fails_closed_identity_changes[job_source]" time="0.129" /><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_envelope_fails_closed_identity_changes[readiness]" time="0.106" /><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_envelope_fails_closed_identity_changes[extra]" time="0.158" /><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_envelope_fails_closed_identity_changes[argv]" time="0.124" /><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_envelope_fails_closed_identity_changes[support]" time="0.100" /><testcase classname=".local.action_downstream_consumers_0809.test_consumers" name="test_layered_original_writer_new_review_and_consumer" time="3.685"><failure message="AttributeError: 'Evidence' object has no attribute 'source_provenance'">tmp_path = PosixPath('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_downstream_consumers_0809/tmp_a2/test_layered_original_writer_n0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x150f3811ddd0&gt;
+
+    def test_layered_original_writer_new_review_and_consumer(tmp_path,monkeypatch):
+        ng,nc,p,a,invref,contract_ref,parentpath,writer=layered_writer_fixture(tmp_path,monkeypatch)
+        pullref={"path":a.pull_relative,"sha256":g.digest(tmp_path/a.pull_relative)}
+&gt;       out=ng.review(tmp_path,job=a.job,invocation_ref=invref,pull_ref=pullref,
+            registered_jobs=p.state["registered_jobs"],expected_contract_ref=contract_ref)
+
+.local/action_downstream_consumers_0809/test_consumers.py:426: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.local/action_downstream_consumers_0809/tmp_a2/test_layered_original_writer_n0/scripts/ops/formal_action_deployment_v1/reviewer.py:673: in review
+    value, scheduler_proxy = science_context(evidence, old, scheduler, helper, job, invocation,
+.local/action_downstream_consumers_0809/tmp_a2/test_layered_original_writer_n0/scripts/ops/formal_action_deployment_v1/reviewer.py:629: in science_context
+    value = old.validate_invocation(evidence, scheduler_proxy, helper_proxy, state, job, invocation)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/review_formal_downstream.py:160: in validate_invocation
+    value = scheduler.validate_inputs(args, state, evidence.project, helper)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/ops/formal_downstream_supervisor.py:271: in validate_inputs
+    rows = helper.suite_rows(evidence, registration, suite, sources, identifiers)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/formal_execution_manifests.py:530: in suite_rows
+    source_provenance_for_rows(evidence, registration, suite, rows)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+evidence = &lt;g5_layered_review_test_layered_original_writer_n0.Evidence object at 0x150f37fd12d0&gt;
+reg = {'pairs': [{'checkpoint_root_server': '/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k...ision': 'synthetic-base', 'model_root_server': '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/weights/libero_spatial', ...}}}
+suite = 'libero_10'
+rows = [{'identity': {'config_sha256': 'd615ce68807dc2d65f4e697c609fbca2d87a7176a2e5a30388f34d11f50fdf1f', 'frozen_model_sha2...deployed': False, 'input_acceptance_sha256': 'b13b0aa3bb17c0a1f7450b129b9b614d4988ca2a692df958edfb17c310faa5c2', ...}}]
+kwargs = {}
+value = {'evidence_sha256': {'configs/experiments/formal_main_v2.json': '534d2b864b4cd3a73212e72a31faec9a7392eba972be0a27feb91...bb17c0a1f7450b129b9b614d4988ca2a692df958edfb17c310faa5c2', ...}, 'method_id': 'uniform64', 'suite': 'libero_10'}}, ...}
+
+    def source_proof(evidence, reg, suite, rows, **kwargs):
+        value = dict(schema=tool.SCHEMA, kind="asset_downstream_source_provenance", status="verified", suite=suite,
+            helper_sha256=tool.SOURCE_REVIEW_SHA256, shared_projection=dict(suite=suite, synthetic=True),
+            method_bindings={row["identity"]["method_id"]: dict(suite=suite,
+                method_id=row["identity"]["method_id"], identity=row["identity"]) for row in rows},
+            evidence_sha256={name: checksum for name, checksum in evidence.files.items()
+                if not name.startswith("results/formal_main_v2/downstream_reviews/")},
+            registered_source_jobs=[], scientific_gates_replaced=False)
+&gt;       evidence.source_provenance[suite] = value
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Evidence' object has no attribute 'source_provenance'
+
+tests/test_formal_execution_manifests.py:153: AttributeError</failure></testcase></testsuite></testsuites>

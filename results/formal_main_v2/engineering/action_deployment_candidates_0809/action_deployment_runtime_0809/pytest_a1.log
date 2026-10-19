@@ -1,0 +1,15 @@
+......................................F...............                   [100%]
+=================================== FAILURES ===================================
+_____________ test_analyzer_chunk_same_values_and_all_other_checks _____________
+
+    def test_analyzer_chunk_same_values_and_all_other_checks():
+        module=c.load(c.R/c.ANALYZER,c.ANALYZER_SHA)
+        from cti_vla.models.abstraction.packing import PACKING_VERSION
+>       from cti_vla.evaluation.libero_inputs import INPUTS_VERSION
+E       ModuleNotFoundError: No module named 'cti_vla.evaluation.libero_inputs'
+
+test_runtime.py:119: ModuleNotFoundError
+- generated xml file: /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/action_deployment_runtime_0809/pytest_a1.xml -
+=========================== short test summary info ============================
+FAILED test_runtime.py::test_analyzer_chunk_same_values_and_all_other_checks
+1 failed, 53 passed in 17.23s

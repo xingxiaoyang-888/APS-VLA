@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="18" time="1.119" timestamp="2026-10-19T16:49:28.208352+08:00" hostname="logina04"><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_independent_preflight_denial_is_zero_write[cpu_missing]" time="0.028" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_independent_preflight_denial_is_zero_write[cpu_unknown]" time="0.025" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_independent_preflight_denial_is_zero_write[queue_foreign]" time="0.024" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_independent_preflight_denial_is_zero_write[queue_status]" time="0.032" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_independent_preflight_denial_is_zero_write[foreign_cpu_unobserved]" time="0.032" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_independent_preflight_denial_is_zero_write[foreign_CPU_claim]" time="0.024" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_independent_preflight_denial_is_zero_write[formal_legacy_int_zero]" time="0.028" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_independent_preflight_denial_is_zero_write[reservation_other]" time="0.026" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_publication_failure_keeps_prepared_pending_and_all_history" time="0.047" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_new_CPU_sized_pending_GPU_request_counts_as_slot" time="0.129"><failure message="KeyError: 'active_GPU_job_count'">b = &lt;ind_gateway_fixture_0809.Box object at 0x14afb7ecd210&gt;
+
+    def test_new_CPU_sized_pending_GPU_request_counts_as_slot(b):
+     out=b.gateway().run(submit=True)
+     assert out['status']=='submitted_once'
+     after=b.read();assert after['registered_jobs'][-1]['gpus']==1
+&gt;    assert after['active_GPU_job_count']==8
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    KeyError: 'active_GPU_job_count'
+
+test_gateway_independent.py:52: KeyError</failure></testcase><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_post_ack_failure_keeps_known_pending_not_committed[name]" time="0.077" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_post_ack_failure_keeps_known_pending_not_committed[actual_cpu]" time="0.090"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">b = &lt;ind_gateway_fixture_0809.Box object at 0x14afb7ecd3d0&gt;
+fault = 'actual_cpu'
+
+    @pytest.mark.parametrize('fault',['name','actual_cpu','unknown','queue_absent_with_wrong_scontrol'])
+    def test_post_ack_failure_keeps_known_pending_not_committed(b,fault):
+     if fault=='queue_absent_with_wrong_scontrol':b.no_new_queue=True
+     def hook(point):
+      if not isinstance(point,tuple):return
+      if point[0]=='observe' and '901' in point[1]['rows']:
+       if fault=='name':point[1]['rows']['901']['scheduler_name']='other-job'
+       elif fault=='actual_cpu':point[1]['rows']['901'].update(status='RUNNING',gpus=0);point[1]['queue']['901']['status']='RUNNING'
+       elif fault=='unknown':point[1]['rows']['901']['status']='UNRECOGNIZED'
+      elif point[0]=='scontrol' and fault=='queue_absent_with_wrong_scontrol':point[1].stdout=point[1].stdout.replace('JobState=PENDING','JobState=RUNNING')
+     b.hook=hook;old=copy.deepcopy(b.state)
+&gt;    with pytest.raises(ValueError):b.gateway().run(submit=True)
+E    Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+test_gateway_independent.py:66: Failed</failure></testcase><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_post_ack_failure_keeps_known_pending_not_committed[unknown]" time="0.082" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_post_ack_failure_keeps_known_pending_not_committed[queue_absent_with_wrong_scontrol]" time="0.075" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_CAS_after_ack_preserves_external_controller_field" time="0.072" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_real_237_row_accounting_empty_Comment_parse" time="0.029" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_accounting_malformed_columns_fail[100|RUNNING|0:0|1|gres/gpu=1|gpu|name|extra|notempty]" time="0.000" /><testcase classname=".local.action_gateway_consumers_independent_0809.test_gateway_independent" name="test_accounting_malformed_columns_fail[100|RUNNING|0:0|1|gres/gpu=1|gpu|name]" time="0.000" /></testsuite></testsuites>

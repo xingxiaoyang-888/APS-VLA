@@ -1,0 +1,456 @@
+"""CPU-only fixtures. No real job, policy, tensor, sealed value, or scheduler.
+
+The layered writer test uses original trial/report/adapter writers and their
+scientific parsers. Its upstream GPU/72-checkpoint gates and new runtime's actual
+GPU lifecycle are declared stand-ins, not evidence of production readiness.
+"""
+import ast
+import copy
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+from types import SimpleNamespace
+import sys
+import pytest
+
+ROOT = Path("/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo")
+HERE = Path(__file__).resolve().parent
+sys.path[:0] = [str(ROOT / "src"), str(ROOT / "tests")]
+
+
+def module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    result = importlib.util.module_from_spec(spec);sys.modules[name] = result
+    spec.loader.exec_module(result);return result
+
+
+g = module(HERE / "reviewer.py", "g5_author_review")
+c = module(HERE / "consumer.py", "g5_author_consumer")
+runtime = module(ROOT / ".local/action_deployment_runtime_0809/runtime.py", "g5_runtime")
+old = module(ROOT / g.OLD_REVIEW, "g5_old_review")
+analyzer = module(ROOT / g.ANALYZER, "g5_old_analyzer")
+
+
+def save(root, path, value):
+    p = root / path;p.parent.mkdir(parents=True, exist_ok=True)
+    data = value if isinstance(value, bytes) else json.dumps(value, sort_keys=True, allow_nan=False).encode()
+    p.write_bytes(data)
+    return {"path": path, "sha256": hashlib.sha256(data).hexdigest()}
+
+
+def chunk_and_row():
+    from cti_vla.evaluation.libero_runtime import INPUTS_VERSION, ACTION_VERSION
+    from cti_vla.models.abstraction.packing import PACKING_VERSION
+    identity = dict(suite="libero_10", method="A", visual_tokens=64, checkpoint_sha256="a"*64,
+                    training_seed=17, pair_id="b"*64)
+    meta = dict(schema="formal_main_v2", suite="libero_10", method="A", visual_tokens=64,
+        per_camera_budgets=[32,32], policy_calls=1, vision_calls=1, packing_calls=1, scorer_calls=1,
+        future_head_calls=0, language_cache="disabled", inputs_version=INPUTS_VERSION,
+        action_version=ACTION_VERSION, packing_version=PACKING_VERSION,
+        retained_indices=list(range(32))+list(range(256,288)),
+        selector_checkpoint_sha256=identity["checkpoint_sha256"],training_seed=17,pair_id=identity["pair_id"])
+    actions = [[1.2, 0.,0.,0.,0.,0.,1.] for _ in range(8)]
+    chunk = dict(metadata=meta, normalized_actions=[[0.]*7 for _ in range(8)],
+        environment_actions=actions, observation_sha256="3"*64, control_step=0)
+    row = dict(status="completed", success=True, control_steps=8, wait_steps=10, chunks=[chunk],
+        executed_actions=copy.deepcopy(actions), policy_calls=1, termination="environment_success", wall_seconds=1.)
+    return identity, row
+
+
+@pytest.mark.parametrize("path", [
+    "../x.json", "/etc/passwd", "a\\b.json", "a//b.json", "a/../b.json",
+    "results/final/panel.json", "configs/manifests/formal_main_v2/libero_10/initial_states/sealed_final.json",
+    "results/init_states_test.json", "results/initial_state/raw.json", "results/test/a.json",
+    "results/checkpoints/best.pt", "results/weights/a.json", "results/model.safetensors",
+    "results/experiment_supervisor/state.json",
+])
+def test_lexical_rejection_before_file_access(path, monkeypatch):
+    monkeypatch.setattr(Path, "open", lambda *a, **k: pytest.fail("unexpected file open"))
+    with pytest.raises(ValueError):g.relative(path)
+
+
+def test_exact_registered_dev_and_scientific_source_names():
+    assert g.relative("configs/manifests/formal_main_v2/libero_10/initial_states/development.json")
+    assert g.relative("src/cti_vla/data/formal_initial_states.py")
+
+
+@pytest.mark.parametrize("stage", ["final", "unknown", None])
+def test_final_stage_rejected_before_reference_read(stage, monkeypatch):
+    monkeypatch.setattr(c, "_reviewer", lambda e: pytest.fail("must reject before I/O"))
+    with pytest.raises(ValueError):
+        c.review_downstream_output(None, {"path":"sealed.json"}, expected_stage=stage, suite="libero_10")
+
+
+def test_original_two_amplitude_predicates_only_and_no_mutation():
+    identity,row = chunk_and_row()
+    originals = (old.trajectory, analyzer.validate_chunk, old.trajectory.__code__, analyzer.validate_chunk.__code__)
+    current,proof = g.trajectory_validator(old,analyzer,runtime)
+    before = copy.deepcopy(row)
+    with pytest.raises(ValueError):old.trajectory(row,identity)
+    current(row,identity)
+    assert row == before
+    assert originals == (old.trajectory, analyzer.validate_chunk, old.trajectory.__code__, analyzer.validate_chunk.__code__)
+    assert proof["chunk"]["action_values_modified"] is False
+    assert proof["trajectory"]["changes"] == "one executed-action amplitude conjunct"
+
+
+@pytest.mark.parametrize("mutation", [
+    "nan","shape","future","packing","vision","scorer","tokens","camera","checkpoint",
+    "seed","pair","executed","cadence","policy_calls","wait","success","chunk_nan"
+])
+def test_all_other_scientific_checks_preserved(mutation):
+    identity,row=chunk_and_row();chunk=row["chunks"][0];meta=chunk["metadata"]
+    if mutation=="nan":row["executed_actions"][0][0]=float("nan")
+    elif mutation=="shape":chunk["environment_actions"].pop()
+    elif mutation=="future":meta["future_head_calls"]=1
+    elif mutation=="packing":meta["packing_calls"]=2
+    elif mutation=="vision":meta["vision_calls"]=2
+    elif mutation=="scorer":meta["scorer_calls"]=0
+    elif mutation=="tokens":meta["retained_indices"][1]=0
+    elif mutation=="camera":meta["per_camera_budgets"]=[64,0]
+    elif mutation=="checkpoint":meta["selector_checkpoint_sha256"]="b"*64
+    elif mutation=="seed":meta["training_seed"]=23
+    elif mutation=="pair":meta["pair_id"]="f"*64
+    elif mutation=="executed":row["executed_actions"][0][1]=.5
+    elif mutation=="cadence":chunk["control_step"]=1
+    elif mutation=="policy_calls":row["policy_calls"]=2
+    elif mutation=="wait":row["wait_steps"]=9
+    elif mutation=="success":row["termination"]="task_horizon"
+    elif mutation=="chunk_nan":chunk["normalized_actions"][0][0]=float("nan")
+    derived,_=g.trajectory_validator(old,analyzer,runtime)
+    with pytest.raises(ValueError):derived(row,identity)
+
+
+def test_evidence_duplicate_changed_and_truncated(tmp_path):
+    save(tmp_path,"results/x.json",b'{"x":1,"x":2}')
+    with pytest.raises(ValueError):g.Evidence(tmp_path).read("results/x.json")
+    save(tmp_path,"results/x.jsonl",b'{"x":1}')
+    with pytest.raises(ValueError):g.lines(g.Evidence(tmp_path),"results/x.jsonl")
+    save(tmp_path,"results/x.json",{"x":1})
+    e=g.Evidence(tmp_path);e.read("results/x.json");save(tmp_path,"results/x.json",{"x":2})
+    with pytest.raises(ValueError):e.unchanged()
+
+
+def transport_fixture(root):
+    job=dict(job_id="999",mode="development",name="cti-formal-downstream",status="COMPLETED",
+        exit_code="0:0",elapsed_seconds=100,gpus=1,source_sha256="a"*64,
+        run_root=str(g.P/"results/formal_main_v2/libero_10/downstream/development/x/attempt01"))
+    output=g.remote_relative(job["run_root"]);attempt="999_"+"b"*32
+    names=[output+"/config.json",output+"/adapter_invocations/"+attempt+".json",
+        output+"/adapter_invocations/"+attempt+".jsonl"]
+    for name in names:save(root,name,b"{}\n")
+    arts=[dict(path=str(g.P/n),source=str(g.P/"results/formal_main_v2/adapter_invocations"/Path(n).name),
+        sha256=g.digest(root/n),bytes=(root/n).stat().st_size) for n in names[1:]]
+    parent=f"results/formal_main_v2/job_receipts/999.json";save(root,parent,dict(adapter_artifacts=arts))
+    names += [parent,"results/slurm/cti-formal-downstream_999.out","results/slurm/cti-formal-downstream_999.err"]
+    for n in names[-2:]:save(root,n,b"synthetic\n")
+    for name in ("identity.json","events.jsonl","completion.json"):
+        n=output+"/action_execution/999/"+name;save(root,n,b"{}\n");names.append(n)
+    pullpath="results/formal_main_v2/pulls/synthetic/receipt.json"
+    def publish(mutate=None):
+        rows=[dict(relative=n,path=str(g.P/n),bytes=(root/n).stat().st_size,
+            sha256=g.digest(root/n),job_ids=["999"]) for n in names]
+        inventory=dict(files=rows,missing=[],excluded=[dict(job_id="999",path=job["run_root"]+"/.evaluation.lock",
+            reason="unregistered_nonweight_extension")])
+        if mutate:mutate(inventory)
+        folder=str(Path(pullpath).parent)
+        ref1=save(root,folder+"/inventory_before.json",inventory);save(root,folder+"/inventory_after.json",inventory)
+        pull=dict(schema=g.SCHEMA,kind="nonweight_pull",status="verified_nonweight_snapshot",final_evidence=True,
+            weights_copied=False,sealed_initial_states_copied=False,selected_jobs=[{**job,"include_run_root":True}],
+            accounting_before={"jobs":{"999":job}},accounting_after={"jobs":{"999":job}},
+            inventory_sha256=ref1["sha256"],files=[{**r,"action":"downloaded_verified"} for r in rows])
+        return save(root,pullpath,pull)
+    return job,publish,parent
+
+
+def test_real_pull_schema_and_exact_lock(tmp_path):
+    job,publish,_=transport_fixture(tmp_path)
+    files=g.verify_pull(g.Evidence(tmp_path),job,publish())
+    assert len(files)==9
+
+
+@pytest.mark.parametrize("mutation", ["missing","foreign_lock","wrong_reason","sealed","duplicate","unknown_extension"])
+def test_pull_rejects_loss_and_extra_scope(tmp_path,mutation):
+    job,publish,_=transport_fixture(tmp_path)
+    def mutate(inv):
+        if mutation=="missing":inv["missing"]=[dict(job_id="999",path=job["run_root"]+"/config.json")]
+        elif mutation=="foreign_lock":inv["excluded"][0]["path"]+="_other"
+        elif mutation=="wrong_reason":inv["excluded"][0]["reason"]="ignored"
+        elif mutation=="sealed":inv["files"].append(dict(relative="results/sealed_final.json"))
+        elif mutation=="duplicate":inv["files"].append(copy.deepcopy(inv["files"][0]))
+        else:inv["excluded"].append(dict(job_id="999",path=job["run_root"]+"/other.lock",reason="unregistered_nonweight_extension"))
+    with pytest.raises(ValueError):g.verify_pull(g.Evidence(tmp_path),job,publish(mutate))
+
+
+def test_original_adapter_archive_cannot_be_foreign(tmp_path):
+    job,publish,parent=transport_fixture(tmp_path)
+    value=json.loads((tmp_path/parent).read_bytes());value["adapter_artifacts"][0]["source"]="/other/a.json"
+    save(tmp_path,parent,value)
+    with pytest.raises(ValueError):g.verify_pull(g.Evidence(tmp_path),job,publish())
+
+
+def test_legacy_consumer_dispatched_unchanged_and_unknown_refused(tmp_path,monkeypatch):
+    e=g.Evidence(tmp_path)
+    ref=save(tmp_path,"results/formal_main_v2/downstream_reviews/999.json",dict(
+        schema=g.SCHEMA,kind="root_downstream_review",status="passed",reviewed_by="root",
+        stage="development",run_root=str(g.P/"results/formal_main_v2/libero_10/downstream/development/x/attempt01"),
+        source_provenance={"suite":"libero_10"},scientific_complete=True))
+    marker=object();calls=[]
+    def original(ev,r,**kw):calls.append((ev,r,kw));return marker
+    monkeypatch.setattr(c,"_reviewer",lambda evidence:g)
+    monkeypatch.setattr(g,"load",lambda evidence,path,checksum=None: SimpleNamespace(review_downstream_output=original))
+    assert c.review_downstream_output(e,ref,expected_stage="development",suite="libero_10") is marker
+    assert calls[0][1] == ref
+    value=e.read(ref["path"]);value["execution_version"]="other";ref=save(tmp_path,ref["path"],value)
+    with pytest.raises(ValueError):
+        c.review_downstream_output(g.Evidence(tmp_path),ref,expected_stage="development",suite="libero_10")
+
+
+def test_o2a_refuses_old_semantics_or_mismatching_components(monkeypatch):
+    fake=dict(execution_version="formal-downstream-root-v1",action_semantics_sha256="a"*64,
+        execution_manifest_sha256="b"*64,observations=30,methods=22,attempted_policy_forwards=14300)
+    monkeypatch.setattr(c,"_reviewer",lambda evidence:g)
+    monkeypatch.setattr(c,"review_downstream_output",lambda *a,**k:copy.deepcopy(fake))
+    with pytest.raises(ValueError):c.require_matching_o2a(None,[{}],{}, {},suite="libero_10")
+    fake["execution_version"]=g.VERSION
+    out=c.require_matching_o2a(None,[{}],{}, {},suite="libero_10")
+    assert out["final_release"] is False
+    def altered(*a,**kw):
+        result=copy.deepcopy(fake)
+        if kw["expected_stage"]=="components":result["action_semantics_sha256"]="c"*64
+        return result
+    monkeypatch.setattr(c,"review_downstream_output",altered)
+    with pytest.raises(ValueError):c.require_matching_o2a(None,[{}],{}, {},suite="libero_10")
+
+
+def test_raw_prefix_transition_rechecks_old_bytes_without_reopening_old_report(tmp_path):
+    output="results/formal_main_v2/libero_10/downstream/development/x/attempt01"
+    olddata=b'{"event":"old"}\n';newdata=olddata+b'{"event":"new"}\n'
+    checks={output+"/trials.jsonl":hashlib.sha256(olddata).hexdigest(),output+"/closed_loop_report.json":"d"*64}
+    for name in ("config.json","panel.json"):
+        row=save(tmp_path,output+"/"+name,{"synthetic":True});checks[row["path"]]=row["sha256"]
+    save(tmp_path,output+"/trials.jsonl",newdata);save(tmp_path,output+"/closed_loop_report.json",{"new":True})
+    pull=save(tmp_path,"results/formal_main_v2/pulls/old/receipt.json",
+        {"files":[dict(relative=p,sha256=s,bytes=len(olddata) if p.endswith("jsonl") else 1) for p,s in checks.items()]})
+    prior=save(tmp_path,"results/formal_main_v2/downstream_reviews/1.json",dict(files=checks,pull_receipt=pull["path"]))
+    inv=dict(resume=True,stage="development",run_root=str(g.P/output),stage_key="key",
+        execution_manifest_sha256="a"*64,prior_job_ids=["1"],prior_review=prior["path"],root_evidence_sha256={prior["path"]:prior["sha256"]})
+    identity=dict(schema=g.SCHEMA,kind="formal_action_runtime_transition",status="root_reviewed",
+        from_version="formal-downstream-root-v1",to_version=g.VERSION,stage_key="key",run_root=inv["run_root"],
+        execution_manifest_sha256="a"*64,prior_job_ids=["1"],prior_review=prior["path"],
+        terminal_trials_repeated=False,prior_outcomes_replaced=False,new_trial_ids_only=True,files=checks)
+    independent=save(tmp_path,"results/formal_main_v2/preflight/ind.json",dict(kind="formal_action_runtime_transition_review",
+        status="passed",review_role="independent",stage_key="key",files=checks,prior_review=prior["path"],
+        from_version="formal-downstream-root-v1",to_version=g.VERSION))
+    identity["independent_review"]=independent
+    transition=save(tmp_path,"results/formal_main_v2/preflight/transition.json",identity)
+    adapter={"before_ledger_raw":{"bytes":len(olddata),"sha256":hashlib.sha256(olddata).hexdigest()}}
+    result=g.validate_transition_after(g.Evidence(tmp_path),inv,{"transition":transition},adapter)
+    assert result["preserved_prefix_bytes"]==len(olddata)
+    save(tmp_path,output+"/trials.jsonl",b"x"+newdata[1:])
+    with pytest.raises(ValueError):g.validate_transition_after(g.Evidence(tmp_path),inv,{"transition":transition},adapter)
+
+
+def envelope_fixture(root):
+    """Exact new converter/readiness parser; runtime source validation is a CPU stand-in."""
+    for path in (g.REVIEWER,g.CONSUMER):
+        save(root,path,(HERE/Path(path).name).read_bytes())
+    contract_source=ROOT/".local/action_downstream_integration_0809/contract.py"
+    save(root,g.CONTRACT,contract_source.read_bytes())
+    contract_module=module(root/g.CONTRACT,"g5_contract_fixture_"+root.name)
+    for name in contract_module.EXPECTED_NEW_FILES:
+        if not (root/name).exists():
+            content = b"# CPU-only synthetic implementation placeholder\n"
+            if name == g.RUNTIME:
+                content = b"def validate_contract(*args,**kwargs): return {}\n"
+            save(root,name,content)
+    save(root,contract_module.ACTION_ADAPTER,(ROOT/contract_module.ACTION_ADAPTER).read_bytes())
+    save(root,contract_module.INVENTORY,(ROOT/contract_module.INVENTORY).read_bytes())
+    for name in contract_module.GPU_REFS:save(root,name,(ROOT/name).read_bytes())
+    files={name:g.digest(root/name) for name in contract_module.EXPECTED_NEW_FILES|{contract_module.ACTION_ADAPTER}}
+    output="results/formal_main_v2/libero_10/downstream/development/x/attempt01"
+    inv=dict(schema=g.SCHEMA,kind="formal_downstream_invocation",version="formal-downstream-root-v1",
+        stage="development",suite="libero_10",source_root=str(contract_module.SOURCE),
+        source_sha256=contract_module.SOURCE_SHA,source_inventory_sha256=contract_module.INVENTORY_SHA,
+        source_inventory=str(g.P/contract_module.INVENTORY),scientific_settings_changed=False,final_values_read_locally=False,
+        resume=False,run_root=str(g.P/output),argv=["evaluate"],support_files={},watched_files={},root_evidence_sha256={},
+        entrypoint="scripts/ops/formal_evaluation_adapter.py",wrapper="scripts/server/run_formal_downstream.py",
+        wrapper_sha256=g.PINNED["scripts/server/run_formal_downstream.py"])
+    original=dict(schema=g.SCHEMA,kind="formal_downstream_plan",invocation=inv,publish_files={},
+        output_relative=output,invocation_relative="results/formal_main_v2/invocations/new.json")
+    original["plan_sha256"]=g.signature(original)
+    original_ref=save(root,"results/formal_main_v2/preflight/science.json",original)
+    contract=dict(schema=g.SCHEMA,kind="formal_action_execution_contract",version=g.VERSION,
+        status="candidate_pending_root_readiness",scientific_settings_changed=False,final_evaluation_enabled=False,
+        files=files,runtime_contract={k:inv[k] for k in ("suite","stage","source_root","source_sha256")},
+        GPU_acceptance=contract_module.GPU_REFS,source_inventory={"path":contract_module.INVENTORY,"sha256":contract_module.INVENTORY_SHA},
+        transition=None)
+    contract_ref=save(root,"results/formal_main_v2/preflight/contract.json",contract)
+    effective=contract_module.effective_plan(original,scientific_plan_ref=original_ref,
+        execution_contract_ref=contract_ref,execution_contract=contract)
+    effective_ref=save(root,"results/formal_main_v2/preflight/effective.json",effective)
+    ready=dict(schema=g.SCHEMA,kind="formal_action_runtime_readiness",status="passed",reviewed_by="root",
+        execution_version=g.VERSION,scientific_settings_changed=False,final_evaluation_enabled=False,
+        raw_consumer_ready=True,effective_plan=effective_ref,plan_sha256=effective["plan_sha256"],runtime_sources=files)
+    for role in ("root_review","independent_review"):
+        ready[role]=save(root,"results/formal_main_v2/preflight/"+role+".json",dict(status="passed",
+            execution_version=g.VERSION,runtime_sources=files,production_chain_complete=True))
+    readiness_ref=save(root,"results/formal_main_v2/preflight/readiness.json",ready)
+    prepared={**effective["invocation"],"registered_utc":"2026-10-19T00:00:00Z",
+        "plan_sha256":effective["plan_sha256"],"runtime_readiness":readiness_ref}
+    job=dict(execution_version=g.VERSION,mode="development",**{k:prepared[k] for k in
+        ("wrapper","wrapper_sha256","entrypoint","action_execution_contract","scientific_plan","runtime_readiness","plan_sha256")})
+    newg=module(root/g.REVIEWER,"g5_envelope_"+root.name)
+    return newg,job,prepared,contract_ref,ready
+
+
+def test_exact_envelope_gate_does_not_call_pre_run_wrapper(tmp_path):
+    newg,job,inv,contract_ref,_=envelope_fixture(tmp_path)
+    result=newg.validate_envelope(newg.Evidence(tmp_path),job,inv,contract_ref)
+    assert result[2]["files"][newg.REVIEWER] == newg.digest(tmp_path/newg.REVIEWER)
+
+
+@pytest.mark.parametrize("change",["version","contract","job_source","readiness","extra","argv","support"])
+def test_envelope_fails_closed_identity_changes(tmp_path,change):
+    newg,job,inv,contract_ref,ready=envelope_fixture(tmp_path)
+    if change=="version":job["execution_version"]="formal-downstream-root-v1"
+    elif change=="contract":contract_ref={**contract_ref,"sha256":"f"*64}
+    elif change=="job_source":job["wrapper_sha256"]="f"*64
+    elif change=="extra":inv["undisclosed_argument"]=True
+    elif change=="argv":inv["argv"]=["evaluate","--final-registry","no"]
+    elif change=="support":inv["support_files"][g.REVIEWER]="f"*64
+    elif change=="readiness":
+        ready["raw_consumer_ready"]=False
+        r=save(tmp_path,inv["runtime_readiness"]["path"],ready);inv["runtime_readiness"]=r;job["runtime_readiness"]=r
+    with pytest.raises(ValueError):newg.validate_envelope(newg.Evidence(tmp_path),job,inv,contract_ref)
+
+
+def layered_writer_fixture(tmp_path,monkeypatch):
+    """Real original trial/report/adapter writers; explicit source/GPU stand-ins.
+
+    This fixture does not install or execute new GPU scopes. It tests new raw
+    consumer boundaries around real scientific serialization/reconstruction.
+    """
+    import test_review_formal_downstream as writer
+    p=writer.project.__wrapped__(tmp_path,monkeypatch)
+    a=writer.rollout_fixture(p)
+    original=copy.deepcopy(a.plan)
+    for path in g.PINNED:
+        save(tmp_path,path,(ROOT/path).read_bytes())
+    save(tmp_path,g.REVIEWER,(HERE/"reviewer.py").read_bytes())
+    save(tmp_path,g.CONSUMER,(HERE/"consumer.py").read_bytes())
+    ng=module(tmp_path/g.REVIEWER,"g5_layered_review_"+tmp_path.name)
+    nc=module(tmp_path/g.CONSUMER,"g5_layered_consumer_"+tmp_path.name)
+    contract=dict(files={g.REVIEWER:g.digest(tmp_path/g.REVIEWER),g.CONSUMER:g.digest(tmp_path/g.CONSUMER)},
+        runtime_contract={"stage":"development","suite":"libero_10"},GPU_acceptance={},source_inventory={},transition=None)
+    contract_ref=save(tmp_path,"results/formal_main_v2/preflight/new-contract.json",contract)
+    science_ref=save(tmp_path,"results/formal_main_v2/preflight/original-science.json",original)
+    ready_ref=save(tmp_path,"results/formal_main_v2/preflight/synthetic-readiness.json",{"synthetic":True})
+    a.inv.update(version=g.VERSION,wrapper=g.PREFIX+"wrapper.py",wrapper_sha256="d"*64,entrypoint=g.PREFIX+"entry.py",
+        action_execution_contract=contract_ref,scientific_plan=science_ref,scientific_plan_sha256=science_ref["sha256"],
+        runtime_readiness=ready_ref,plan_sha256="e"*64,registered_utc="2026-10-19T00:00:00Z")
+    invref=save(tmp_path,a.plan["invocation_relative"],a.inv)
+    a.job.update(execution_version=g.VERSION,invocation_sha256=invref["sha256"],
+        **{k:a.inv[k] for k in ("wrapper","wrapper_sha256","entrypoint","action_execution_contract",
+                               "scientific_plan","runtime_readiness","plan_sha256")})
+    # Existing raw inner writer uses synthetic timestamp labels; this server-shape
+    # fixture provides ISO timestamps without changing its original scientific data.
+    innerpath=a.output+"/adapter_invocations/"+a.adapter["attempt_id"]+".jsonl"
+    innerrows=[json.loads(x) for x in (tmp_path/innerpath).read_bytes().splitlines()]
+    for row in innerrows:row["utc"]="2026-10-19T00:00:03+00:00"
+    save(tmp_path,innerpath,b"".join(json.dumps(x,sort_keys=True).encode()+b"\n" for x in innerrows))
+    a.adapter["events_sha256"]=g.digest(tmp_path/innerpath)
+    save(tmp_path,innerpath[:-1],a.adapter)
+    parentpath=f"results/formal_main_v2/job_receipts/{a.job['job_id']}.json"
+    parent=json.loads((tmp_path/parentpath).read_bytes())
+    parent.update(execution_version=g.VERSION,wrapper_sha256=a.inv["wrapper_sha256"],
+        invocation_sha256=invref["sha256"],action_execution_contract=contract_ref,scientific_plan=science_ref,
+        runtime_readiness=ready_ref,original_scientific_wrapper_executed=False)
+    for artifact in parent["adapter_artifacts"]:
+        n=g.remote_relative(artifact["path"]);artifact.update(sha256=g.digest(tmp_path/n),bytes=(tmp_path/n).stat().st_size)
+    shared=dict(schema=g.SCHEMA,version=g.VERSION,job_id=a.job["job_id"],invocation_sha256=invref["sha256"],
+        **{k:a.inv[k] for k in ("stage","stage_key","suite","source_root","source_sha256","execution_manifest_sha256",
+                               "action_execution_contract","scientific_plan","runtime_readiness")})
+    identity=dict(**shared,kind="formal_action_execution_identity",actual_entrypoint=a.inv["entrypoint"],
+        actual_wrapper=a.inv["wrapper"],runtime_sources=contract["files"],runtime_contract=contract["runtime_contract"],
+        expected_base_load_calls=1,original_evaluation_adapter=str(g.P/"scripts/ops/formal_evaluation_adapter.py"),
+        original_evaluation_adapter_sha256=g.PINNED["scripts/ops/formal_evaluation_adapter.py"],
+        original_run_code_sha256="6"*64,original_scientific_plan_sha256=science_ref["sha256"],
+        original_scientific_wrapper_executed=False,source_inventory_sha256=a.inv["source_inventory_sha256"],
+        scientific_settings_changed=False,scientific_completion_not_inferred=True)
+    folder=a.output+"/action_execution/"+a.job["job_id"]+"/"
+    idref=save(tmp_path,folder+"identity.json",identity)
+    ending=dict(status="returned",exit_code=0,runtime_restored=True,immutable_inputs_unchanged=True,errors=[],
+        scientific_completion_not_inferred=True,runner_status=a.adapter["runner_status"])
+    events=[]
+    def emit(event,sec,**extra):
+        events.append(dict(**shared,kind="formal_action_execution_event",seq=len(events),
+            utc=f"2026-10-19T00:00:{sec:02d}+00:00",event=event,**extra))
+    emit("action_execution_start",0)
+    emit("legacy_adapter_start",1,identity_sha256=idref["sha256"],original_run_code_sha256="6"*64)
+    emit("deployment_base_load_start",2);emit("deployment_base_load_complete",3)
+    emit("legacy_adapter_return",4,runner_status=a.adapter["runner_status"])
+    emit("action_execution_end",5,**ending)
+    evref=save(tmp_path,folder+"events.jsonl",b"".join(json.dumps(x,sort_keys=True).encode()+b"\n" for x in events))
+    complete=dict(**shared,kind="formal_action_execution_completion",**ending,events_sha256=evref["sha256"],
+        events_path=str(g.P/"results/formal_main_v2/action_execution_invocations"/a.job["job_id"]/"events.jsonl"),
+        identity_sha256=idref["sha256"],wall_seconds=5.)
+    save(tmp_path,folder+"completion.json",complete)
+    parent["action_execution_artifacts"]=[dict(path=str(g.P/(folder+n)),
+        source=str(g.P/"results/formal_main_v2/action_execution_invocations"/a.job["job_id"]/n),
+        sha256=g.digest(tmp_path/(folder+n)),bytes=(tmp_path/(folder+n)).stat().st_size)
+        for n in ("identity.json","events.jsonl","completion.json")]
+    save(tmp_path,parentpath,parent);writer.pull(p,a)
+    # Only declared upstream stand-ins. New transport/runtime outer/raw science,
+    # costs and root consumer are not stubbed.
+    fake_runtime=SimpleNamespace(derive_validator=runtime.derive_validator,
+        verify_runtime_events=lambda *args,**kw:dict(all_source_and_binding_contexts_restored=True,
+            original_base_loads=1,synthetic_input=False))
+    monkeypatch.setattr(ng,"validate_envelope",lambda *args:(original,a.plan,contract,fake_runtime))
+    real_load=ng.load
+    def load(e,path,checksum=None):
+        if path==ng.OLD_REVIEW:return writer.tool
+        if path==ng.OLD_SCHEDULER:return p.scheduler
+        if path==ng.OLD_HELPER:return p.helper
+        if path==ng.CONSUMER:return nc
+        return real_load(e,path,checksum)
+    monkeypatch.setattr(ng,"load",load)
+    monkeypatch.setattr(nc,"_reviewer",lambda evidence:ng)
+    return ng,nc,p,a,invref,contract_ref,parentpath,writer
+
+
+def test_layered_original_writer_new_review_and_consumer(tmp_path,monkeypatch):
+    ng,nc,p,a,invref,contract_ref,parentpath,writer=layered_writer_fixture(tmp_path,monkeypatch)
+    pullref={"path":a.pull_relative,"sha256":g.digest(tmp_path/a.pull_relative)}
+    out=ng.review(tmp_path,job=a.job,invocation_ref=invref,pull_ref=pullref,
+        registered_jobs=p.state["registered_jobs"],expected_contract_ref=contract_ref)
+    assert out["execution_version"]==g.VERSION and out["completed_trials"]==1 and out["scientific_complete"] is False
+    assert out["cost"]["all_attempt_gpu_seconds"]==3600 and out["old_report_or_invocation_fabricated"] is False
+    ref=save(tmp_path,a.review_relative,out)
+    again=nc.review_downstream_output(ng.Evidence(tmp_path),ref,expected_stage="development",suite="libero_10",require_complete=False)
+    assert again["files"]==out["files"] and again["cost"]==out["cost"]
+    with pytest.raises(ValueError):
+        nc.review_downstream_output(ng.Evidence(tmp_path),ref,expected_stage="development",suite="libero_10")
+    # A stored successful flag or altered cost cannot replace raw reconstruction.
+    changed=copy.deepcopy(out);changed["cost"]["all_attempt_gpu_seconds"]=1
+    bad=save(tmp_path,a.review_relative,changed)
+    with pytest.raises(ValueError):
+        nc.review_downstream_output(ng.Evidence(tmp_path),bad,expected_stage="development",suite="libero_10",require_complete=False)
+    # Wrong actual invocation binding rejects even if pull is legitimately rehashed.
+    rawpath=a.output+"/action_execution/"+a.job["job_id"]+"/identity.json"
+    identity=json.loads((tmp_path/rawpath).read_bytes());identity["invocation_sha256"]="f"*64
+    save(tmp_path,rawpath,identity);writer.pull(p,a)
+    with pytest.raises(ValueError):
+        ng.review(tmp_path,job=a.job,invocation_ref=invref,
+            pull_ref={"path":a.pull_relative,"sha256":g.digest(tmp_path/a.pull_relative)},
+            registered_jobs=p.state["registered_jobs"],expected_contract_ref=contract_ref)
+
+
+@pytest.mark.parametrize("suite", ["libero_10","libero_spatial","libero_object","libero_goal"])
+def test_exact_final_registry_metadata_only(suite):
+    name=f"configs/manifests/formal_main_v2/{suite}/initial_states/final_registry.json"
+    assert g.relative(name)==name
+    for bad in ("sealed_final.json","final_registry_copy.json","final_states.json","development2.json"):
+        with pytest.raises(ValueError):g.relative(name.rsplit("/",1)[0]+"/"+bad)
+    with pytest.raises(ValueError):g.relative(name.replace(suite,"unregistered_suite"))
