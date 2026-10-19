@@ -1,0 +1,106 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_scheduled_supervision_delivery",
+  "heartbeat_trigger_utc": "2026-10-19T05:47:18.381Z",
+  "created_utc": "2026-10-19T07:56:40.957807+00:00",
+  "status": "meaningful_training_completion_and_GPU_engineering_progress",
+  "completed_training_arms": 42,
+  "expected_training_arms": 72,
+  "completed_training_arms_by_suite": {
+    "libero_10": 18,
+    "libero_goal": 2,
+    "libero_object": 6,
+    "libero_spatial": 16
+  },
+  "root_and_independent_reviewed_arm_updates": 221000,
+  "machine_and_prior_verified_arm_updates_at_observation": 222000,
+  "new_independently_reviewed_pairs": 7,
+  "new_independently_reviewed_arms": 14,
+  "new_root_verified_incremental_updates": 51000,
+  "training_root_review": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T1347/completed_pairs_root_integration.json",
+    "sha256": "e1f62833cbad201a80e3a45639b8762dedef2388c20a65c6c190d91e232d2a76"
+  },
+  "controller_owner_lease_healthy": true,
+  "controller_job_id": "3034538",
+  "active_GPU_jobs": [
+    "3034570",
+    "3036313",
+    "3037054",
+    "3037535",
+    "3037543",
+    "3037821",
+    "3038735",
+    "3039258"
+  ],
+  "active_normal_continuous_training_jobs": 7,
+  "active_bounded_CUDA_recovery_jobs": 1,
+  "pending_submission": null,
+  "unknown_or_duplicate_pair_findings": [],
+  "observation": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T1347/post_cuda_submission_observation.json",
+    "sha256": "d09f7ba39da210d47839992f6bc156657abf56cc758eddde729a863b5ef16612"
+  },
+  "cost_observed_utc": "2026-10-19T07:50:05.840174+00:00",
+  "allocated_GPU_seconds_at_observation": 1134118,
+  "allocated_GPU_hours_at_observation": 315.03277777777777,
+  "cost_final": false,
+  "action_execution_v4": {
+    "job_id": "3039197",
+    "status": "passed_bounded_GPU_engineering_root_and_independent",
+    "cells": 16,
+    "control_actions": 128,
+    "GPU_seconds": 814,
+    "root_acceptance": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261019T1347/v4_GPU_root_acceptance.json",
+      "sha256": "3ee503429d703bb9d8da5970a9e183d371defbaf86884b24ae164d6cbc7bc1e9"
+    },
+    "scientific_rollouts_released": false,
+    "next": "Versioned production development/O2A integration with fixed action scope and identity checks"
+  },
+  "CUDA_recovery": {
+    "failed_job_id": "3028460",
+    "new_job_id": "3039258",
+    "status": "RUNNING_initial_A_updates_observed",
+    "original_target": 500,
+    "maximum_new_attempts": 1,
+    "history_failed_GPU_seconds_all_three": 226,
+    "first_startup_log_snapshot": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261019T1347/cuda_3039258_startup_log_snapshot.json",
+      "sha256": "a837d359596d049d5c4bb57a866728084d3b3521bc82828f391cbc9d9b405273"
+    },
+    "other_failed_job_ids_retained_blocked": [
+      "3028468",
+      "3028522"
+    ],
+    "continuous5000_admission": false
+  },
+  "nonweight_archive": {
+    "raw_files": 17,
+    "raw_bytes": 683712300,
+    "compressed_chunks": 53,
+    "compressed_bytes": 98950959,
+    "snapshot": "results/formal_main_v2/nonweight_archives/v1/snapshots/completed_training_20261019_0547_union17_v2.json",
+    "snapshot_sha256": "3f3d25952624f489f3182bc3111c1e070e7ecc52218d9ab6e4059a4941e8f6f3",
+    "isolated_restore_byte_equal": true,
+    "actual_index_verification_required_before_commit": true,
+    "raw_files_retained_server": true,
+    "initial_partial10_and_correction_retained": true
+  },
+  "completed_development_trials_retained": 1212,
+  "completed_final_trials": 0,
+  "expected_final_trials": 35200,
+  "test_opened": false,
+  "global_final_release": false,
+  "source_173_unchanged": true,
+  "scientific_efficacy_or_speedup_inferred": false,
+  "storage": "server_only_control_R_runtime_P_nonweight_GitHub_checkpoints_server_only",
+  "normal_training_monitoring": "controller handles continuous5000 and refill; no ongoing live polling in this turn",
+  "next_actions": [
+    "Continue healthy controller-owned training through5000 without manual500 waiting",
+    "Review bounded recovery3039258 terminal and original update500 before any versioned5000 admission",
+    "Integrate GPU-accepted action scope into versioned production development/O2A entrypoints and audit before new scientific rollout",
+    "Keep72-selector/16-reference/four-suite development/final manifest global release gate; no sealed state values read"
+  ],
+  "git_delivery": "actual index archive verification and non-force GitHub push before turn completion"
+}

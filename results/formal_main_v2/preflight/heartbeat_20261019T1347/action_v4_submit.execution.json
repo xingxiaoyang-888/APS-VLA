@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/server_control_transport_v1/run_server_control.py",
+    "--bundle-manifest-sha256",
+    "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+    "--entrypoint",
+    ".local/action_v4_autonomous_dispatch_1940/entry.py",
+    "--entrypoint-sha256",
+    "e259572effecf20f8769db47edfd1ac46799e8f50517fe3c98d6dfee919fef56",
+    "--audit-relative",
+    "results/formal_main_v2/control_transport/action_v4_root_submit_0547.jsonl",
+    "--",
+    "--entry-sha256",
+    "e259572effecf20f8769db47edfd1ac46799e8f50517fe3c98d6dfee919fef56",
+    "--submit",
+    "--root-reviewed-submit",
+    "--audit-relative",
+    "results/formal_main_v2/preflight/heartbeat_20261019T1347/v4_submit_scope"
+  ],
+  "started_utc": "2026-10-19T07:23:16.756356+00:00",
+  "finished_utc": "2026-10-19T07:23:33.648197+00:00",
+  "wall_seconds": 16.891879509203136,
+  "returncode": 0,
+  "stdout_sha256": "f3ab9afbdc1806b50d2012429f4be27ea858eeb42229d420815a11cfdef59cdd",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

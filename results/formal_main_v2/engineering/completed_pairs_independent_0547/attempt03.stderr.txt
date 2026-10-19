@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/completed_pairs_independent_0547/audit_completed.py", line 219, in <module>
+    if __name__=="__main__":main()
+                            ^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/completed_pairs_independent_0547/audit_completed.py", line 218, in main
+    evidence.clear();evidence.update(common);run_pair(key,snapshot,registration)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/completed_pairs_independent_0547/audit_completed.py", line 193, in run_pair
+    raw,req,out,selected,machine,pull=replay_original(key,entry)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/completed_pairs_independent_0547/audit_completed.py", line 63, in replay_original
+    require(len(pulls)==1,"exact final terminal pull")
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/completed_pairs_independent_0547/audit_completed.py", line 17, in require
+    if not b:raise ValueError(m)
+             ^^^^^^^^^^^^^^^^^^^
+ValueError: exact final terminal pull

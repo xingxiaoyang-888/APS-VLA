@@ -1,0 +1,36 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_cuda_original_target_live_preflight_review",
+  "utc": "2026-10-19T07:41:40.159718+00:00",
+  "status": "approved_for_exactly_one_gateway_submission",
+  "failed_job_id": "3028460",
+  "authorization": {
+    "path": "configs/experiments/formal_main_v2_cuda_single_recovery_3028460_v1.json",
+    "sha256": "2399d0f5b92b7ffe1d007d1df6fb1914b2c9765099bb8948bc9027873c6041ec"
+  },
+  "preflight_sha256": "7fa815c9697dd9e552c3131b1b72a9cb94eddb97c85786e34dcdd170e40e1c7f",
+  "occupied_GPU_jobs": [
+    "3034570",
+    "3036313",
+    "3037054",
+    "3037535",
+    "3037543",
+    "3037821",
+    "3038735"
+  ],
+  "target_update": 500,
+  "failed_before_checkpoint_creation_confirmed": true,
+  "actual_sbatch_argv_reviewed": [
+    "sbatch",
+    "--parsable",
+    "--no-requeue",
+    "--time=04:00:00",
+    "--exclude=gpu4020",
+    "--comment=cti-cuda-recovery-v1:2399d0f5b92b7ffe1d007d1df6fb1914b2c9765099bb8948bc9027873c6041ec",
+    "--export=ALL,SOURCE_ROOT=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e,INVOCATION=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_object_train_k256_seed23_attempt02.json,INVOCATION_SHA256=fc941866606a6567965f4792a781c13a3b6b4d7acb5e2dac4b9cab6d569edcea",
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/formal_asset_main.slurm"
+  ],
+  "automatic_retry": false,
+  "continuous5000_admission": false,
+  "final_release": false
+}

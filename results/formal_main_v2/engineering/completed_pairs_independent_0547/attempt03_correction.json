@@ -1,0 +1,12 @@
+{
+  "kind": "independent_audit_helper_extension",
+  "cause": "Object raw_input_evidence correctly includes historical acceptance pull as well as current terminal training pull. Private helper assumed one total pull and stopped before any Object pass. New immutable helper selects exactly one receipt containing current job with include_run_root and exact run_root. All historical pull SHA remain checked and original validator unchanged. Existing Spatial helper and receipts remain unchanged.",
+  "before_sha256": "a949c9749ef26a5835aa9b672ace0451f1b168ca166d5cd2c34ee7cafb84b857",
+  "after_sha256": "52c8153459ba29c7cdba562520729e6ed35bd90c6be6c944d6f741255e5f43ca",
+  "retained": [
+    "attempt03.stdout.log",
+    "attempt03.stderr.log",
+    "attempt03.execution.json",
+    "audit_completed.py"
+  ]
+}

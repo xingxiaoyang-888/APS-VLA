@@ -1,0 +1,12 @@
+{
+  "kind": "independent_audit_helper_correction",
+  "cause": "Audit helper used default JSON whitespace for sample-order digest. Actual generated sample array matches all 40000 entries; frozen teacher_diagnostics.json_signature uses compact separators. This changes only the private helper serializer, not any scientific artifact or validator.",
+  "before_sha256": "d8b12fb7dc518f1854a92a74c6423942cb4e83e06e85bcbc16249bff4f2edb5f",
+  "after_sha256": "a949c9749ef26a5835aa9b672ace0451f1b168ca166d5cd2c34ee7cafb84b857",
+  "original_failure_retained": [
+    "attempt01.stdout.log",
+    "attempt01.stderr.log",
+    "attempt01.execution.json",
+    "audit_completed_attempt01.py.txt"
+  ]
+}

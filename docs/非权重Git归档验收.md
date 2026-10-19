@@ -1,5 +1,9 @@
 # 非权重Git归档验收
 
+2026-10-19 15:56服务器交付：本批7对完成训练的17份cost/cache日志共683712300字节，原codec生成53个gzip块、98950959字节，最大单块2984321字节；在空隔离目录重建并逐字节一致。原文仅留服务器，Git保存完整可复原包及来源。初版遗漏7份cache日志的partial10与勘误保留，完整交付使用union17_v2。
+
+仅增加17条精确ignore，无通配放宽、原文未删；提交前运行实际index重建守卫，冻结173文件、权重及封存输入禁令保持。[完整映射](../results/formal_main_v2/nonweight_archives/v1/snapshots/completed_training_20261019_0547_union17_v2.json) · [精确名单](../results/formal_main_v2/nonweight_archives/completed_training_20261019_0547/union17_v2/raw_paths.json) · [隔离恢复收据](../results/formal_main_v2/nonweight_archives/completed_training_20261019_0547/union17_v2/preparation_receipt.json)。历史“本地”表述仅对应旧存储阶段，当前新增内容仅服务器。
+
 2026-10-18：Long首批600条开发账本为110,234,480字节，超过GitHub单文件上限。完整原件仍留在本地；Git改存7个无损gzip块、完整映射及来源收据。两个相同原件共用一个内容对象，压缩块合计26,095,303字节。历史提交和历史原始记录全部保留。
 
 仅下面两个路径新增精确ignore，未增加通配忽略规则：

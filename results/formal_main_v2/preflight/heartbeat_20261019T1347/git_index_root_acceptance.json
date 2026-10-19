@@ -1,0 +1,36 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "root_actual_Git_index_delivery_acceptance",
+  "utc": "2026-10-19T08:05:05.629850+00:00",
+  "status": "accepted",
+  "parent_HEAD": "69863f2cab42ddfee1a50350d12ff962de23188f",
+  "archive_actual_index_receipt": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T1347/archive_actual_index_v2.stdout",
+    "sha256": "349eae69158108e42a799e399ded12c2135ed89e1f3fde90f93dd82671c61369"
+  },
+  "guard_source_sha256": "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6",
+  "required_file_count": 476,
+  "frozen_source_verified": 173,
+  "raw_logs_restored_exactly": 17,
+  "raw_bytes": 683712300,
+  "source_bytes_unchanged": true,
+  "weights_included": false,
+  "sealed_values_read": false,
+  "first_guard_failure_and_correction_preserved": true,
+  "all_added_after_guard_are_only_verification_receipts": true,
+  "deferred_live_files": [
+    {
+      "path": "results/slurm/cti-formal_3039258.err",
+      "reason": "live job stdout/stderr retained server; bounded immutable startup snapshot delivered, full terminal archive later"
+    },
+    {
+      "path": "results/slurm/cti-formal_3039258.out",
+      "reason": "live job stdout/stderr retained server; bounded immutable startup snapshot delivered, full terminal archive later"
+    },
+    {
+      "path": "results/formal_main_v2/autonomous_training/run_v1/activation/controller_3034538.out",
+      "reason": "live controller log; immutable snapshot included"
+    }
+  ],
+  "Git_push_required_before_completion": true
+}
