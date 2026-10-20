@@ -1,0 +1,101 @@
+{
+  "blockers": [],
+  "corrected_audit_only_failure": "a2 inherited provenance reference accidentally changed title directory Goal256 to Goal128; a3 restores exact existing source path, no experiment artifact or scientific changes.",
+  "external_transport_logs": [
+    {
+      "bytes": 1139,
+      "path": "results/formal_main_v2/control_transport/independent_goal3039981_0428.jsonl",
+      "sha256": "edce427bb5dce8e1232fb11363259b7443b974e2fe47a78a5f48cdb9f2d06d3a",
+      "terminal": {
+        "event": "control_end",
+        "parent_pid": 762668,
+        "pid": 762669,
+        "returncode": 1,
+        "source173_and_entrypoint_unchanged": true,
+        "time_ns": 1792471102297628494,
+        "version": "cti-server-control-transport-v1"
+      }
+    },
+    {
+      "bytes": 1139,
+      "path": "results/formal_main_v2/control_transport/independent_goal3039981_0428_a3.jsonl",
+      "sha256": "d81fa316253d568785ed4cd5d9b3b4a551c61ec778af36333c0f857d96d742f6",
+      "terminal": {
+        "event": "control_end",
+        "parent_pid": 764909,
+        "pid": 764910,
+        "returncode": 0,
+        "source173_and_entrypoint_unchanged": true,
+        "time_ns": 1792471160579683985,
+        "version": "cti-server-control-transport-v1"
+      }
+    }
+  ],
+  "files": [
+    {
+      "bytes": 254232,
+      "path": ".local/independent_goal3039981_0428/3039981_independent_review.json",
+      "sha256": "6126c326b153586b2ce863e0f3d134d4d27c1274c4eb3a4d6712d4f58676cf75"
+    },
+    {
+      "bytes": 7813,
+      "path": ".local/independent_goal3039981_0428/a2_storage_adaptation.diff",
+      "sha256": "aed81d4dd5b82161464fde606f478e5dba38a48a886e579c13fd1af45c22b4b7"
+    },
+    {
+      "bytes": 607,
+      "path": ".local/independent_goal3039981_0428/a2_storage_adaptation.json",
+      "sha256": "c278951f160383c0687be10cf44d19bfce207329bfa5e6716c5aa27f5b2103ad"
+    },
+    {
+      "bytes": 1313,
+      "path": ".local/independent_goal3039981_0428/a3_provenance_path_fix.diff",
+      "sha256": "c2b6120dab00517737df77754527215a218f1a5c9c3ec3d1c85284469681ca24"
+    },
+    {
+      "bytes": 766,
+      "path": ".local/independent_goal3039981_0428/a3_provenance_path_fix.json",
+      "sha256": "532b371f718ec1b2c87eeb3c2ae169b149e8768526cec3ca519bfd5c6e653566"
+    },
+    {
+      "bytes": 4274,
+      "path": ".local/independent_goal3039981_0428/adaptation.json",
+      "sha256": "670520dc8595e1d9a43ec69560a59d8f3ad581affa0cb1537ea18f5f5a0d26e0"
+    },
+    {
+      "bytes": 37167,
+      "path": ".local/independent_goal3039981_0428/audit_3039981.py",
+      "sha256": "3e164b835977d1aef57f052c311cb71318b0f8c7bc0ac4c356cd15163f2b4199"
+    },
+    {
+      "bytes": 38540,
+      "path": ".local/independent_goal3039981_0428/audit_3039981_a2.py",
+      "sha256": "5623b7dc9672aab0cb02153c81b99d3de7c63037bcd5c077055adfdfa28f5a5d"
+    },
+    {
+      "bytes": 38540,
+      "path": ".local/independent_goal3039981_0428/audit_3039981_a3.py",
+      "sha256": "319c86a93dac34987436ee1cf3321cff706893922b9a252d8b46e77392c47e41"
+    },
+    {
+      "bytes": 485,
+      "path": ".local/independent_goal3039981_0428/bindings.json",
+      "sha256": "3e91ce70aa34b6c5d6f33e7c093c23de578f17b37c344d715880b6e00c342ace"
+    }
+  ],
+  "historical_raw_tracked_files": 6,
+  "job_id": "3039981",
+  "kind": "independent_terminal_delivery_manifest",
+  "limitations": [
+    "Optimizer/RNG restoration is supported by the frozen load_state_dict/restore_rng path, two real resumed attempts and exact boundary checkpoint hash chains; tensors were not independently deserialized. Historical500/1000 root and independent receipts are preserved; newly reviewed updates total8000.",
+    "Submitted 48h argv is bound as submission evidence, not re-labelled as a fresh scheduler TimeLimit observation.",
+    "Selected update/metric are independently reconstructed from raw validation plus deployment metadata; the machine byte probe does not assert these validation fields."
+  ],
+  "new_raw_lossless_archive_files": 3,
+  "new_reviewed_arm_updates": 8000,
+  "prior_root_independent_updates_per_arm": 1000,
+  "schema": "formal_main_v2",
+  "scientific_artifacts_modified": false,
+  "state_or_git_or_scheduler_written": false,
+  "status": "passed_complete_training_only"
+}

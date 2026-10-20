@@ -1,0 +1,20 @@
+{
+  "cause": "Deployment identity stores json_signature(receipt), whereas frozen watched_files stores actual raw bytes SHA. Attempt01 incorrectly compared these distinct hashes.",
+  "failed_report_sha256": "1713aeda5cd552ddce9d8e247c80b6be88bd7c057d088ddd47ab01b61bbf2e6c",
+  "scope": "auditor-only repair; no production artifacts changed",
+  "source_sha256": {
+    "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+    "src/cti_vla/evaluation/formal_runtime.py": "4029b0ddd1b6059f9f3586cd21aadd76fd15b516f79b201313a0291a2d64a8f8",
+    "src/cti_vla/evaluation/teacher_diagnostics.py": "0d27ee32f1ef8b1a409758416fd3177dfeb1624a2f6f9dd5b9955b53ab06bdfd"
+  },
+  "verified_pair": {
+    "A": {
+      "canonical_sha256": "00d1d1d552c5944feaae7540714d57aba61c5a06a4cf0f9409363859612d291c",
+      "raw_sha256": "fab6c0de1ed8eb7f8a331f642363d1242c189efd28535c81e461394a0c27504a"
+    },
+    "B": {
+      "canonical_sha256": "d07d2e358f62276182ddd82f890c83b75d7aadde26a21cb89e00eb948b714adc",
+      "raw_sha256": "dbe2718bbf614e87d7e482d9039b0172f1622a80271b02e6349069c2e677c19a"
+    }
+  }
+}
