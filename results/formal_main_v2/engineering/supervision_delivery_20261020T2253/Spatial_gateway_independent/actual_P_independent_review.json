@@ -1,0 +1,231 @@
+{
+  "Git_mutated": false,
+  "P_mutated": false,
+  "action_execution_contract": {
+    "path": "results/formal_main_v2/execution/spatial588_pre_dispatch_v1/execution_contract.json",
+    "sha256": "0ab1cc0063809c81a9cbb17bbd6503644e1c20d646cf4111f32472c08bbda0d5"
+  },
+  "actual_GPU_runtime_chain_verified": false,
+  "actual_P_new_outer_wrapper_verified": false,
+  "actual_P_original_scientific_wrapper_verified": true,
+  "actual_P_runtime_contract_verified": true,
+  "allocation_history_GPU_seconds": 395,
+  "blockers": [],
+  "canonical_mutated": false,
+  "check_count": 325,
+  "effective_plan": {
+    "path": "results/formal_main_v2/execution/spatial588_pre_dispatch_v1/effective_plan.json",
+    "sha256": "17bfd4d6f5b69ae6dc18fe9cc36256baeb60f0aa4586fbb4c6de5391c93123b5"
+  },
+  "evidence": {
+    "path": ".local/spatial_gateway_independent_20261020T2253/actual_P_evidence.json",
+    "sha256": "6ae2904d5a78ce0287dfdfe8150e066af6269704e104c48ee1e0805d00d831ee"
+  },
+  "execution_version": "formal-downstream-action-v1",
+  "explicit_source_control": {
+    "all_prior_job_ids": [
+      "3022743",
+      "3042529"
+    ],
+    "control_sources": {
+      "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+      "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+      "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+      "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+      "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33",
+      "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+      "scripts/ops/formal_spatial588_predispatch_v1/compatibility.py": "97773b017ae379dca050006bfbc255e68fe2d9e17924c90204a22bf0b102a5af",
+      "scripts/ops/formal_spatial588_predispatch_v1/compatibility_proof.json": "c2b46372be33cfe35c53643211b602102652d3662fb74a58553142a6e6a944f2",
+      "scripts/ops/formal_spatial588_predispatch_v1/control.py": "e2e7c3fe7f6dcf4f63b4550c3f5bc8ec50a05aaf462b38ed961ce356cc414683",
+      "scripts/ops/formal_spatial588_predispatch_v1/evidence.json": "32d5571969e4ed3e206e0757741e700d9f24975fd17b2217ba3c6f02b9393117",
+      "scripts/ops/formal_spatial588_predispatch_v1/historical_identity.json": "9980917fedc08fc39bb2b5eed1b2d522ef956eadf8e4e8ee8c55297332a4c9aa",
+      "scripts/ops/formal_spatial588_predispatch_v1/independent_diagnosis.json": "6260bb423a9c988cbddc2428c9ea996d89ae5c2ab449995509b6d3e09956d4f8",
+      "scripts/ops/formal_spatial588_predispatch_v1/installed_package_members.json": "a0512c95f29f406c211a2222ffdc2d7eb564d93f8ffbab75a6746d54ef560a39",
+      "scripts/ops/formal_spatial588_predispatch_v1/per_chunk_compatibility.jsonl": "6a4baaacfd9889f8c838265250e657c6e042e419f9fb19368501b16488a5a355",
+      "scripts/ops/formal_spatial588_predispatch_v1/per_trial_compatibility.jsonl": "178515bb60cdcd4ebce483b5e52dc2b4e74ea4a7ba83fa5ee08a552f1a58ab63",
+      "scripts/ops/formal_spatial588_predispatch_v1/phase1_manifest.json": "20d8ee977e9735592660025acd4769c74935963f419d582f5c32fe74000ae5d3",
+      "scripts/ops/formal_spatial588_predispatch_v1/policy.json": "7341ba48d9c1a70557f8a883af40ac13b34caabe407fac2b9947fefc08fc9e87",
+      "scripts/ops/formal_spatial588_predispatch_v1/raw_failure_snapshot.json": "c6edba01e9dc7706dfc978701b06baab91462eff0d8e6940a665d3656adf364c",
+      "scripts/ops/formal_spatial588_predispatch_v1/report.json": "508c0b52dc2bde07b8d7a5fdfa2e7e56c3b515cdc4688fe57eefc653db95cbd5",
+      "scripts/review_formal_downstream.py": "753edb55ce21fd43f85499e136a7e52093ecf9feaeafadf0f01cece8fa267202",
+      "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+    },
+    "executed_prior_job_ids": [
+      "3022743"
+    ],
+    "failed_ledger_invocation_fabricated": false,
+    "kind": "typed_predispatch_attempt_history",
+    "ordinary_failure_review_fabricated": false,
+    "predispatch_failed_job_ids": [
+      "3042529"
+    ],
+    "predispatch_failure_GPU_seconds": 2,
+    "prefix_ledger": {
+      "bytes": 592887,
+      "path": "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl",
+      "sha256": "3a175dbc5dd7a23cd2c3c8385cb6ff3c525f09d4e607ff32a69a10869672a2f9"
+    },
+    "prefix_review": {
+      "path": "results/formal_main_v2/downstream_reviews/3022743.json",
+      "sha256": "9e14b86a1e556c53ef1cbd8c7bdc1733c3d5eb744f62ffee8df9395645816650"
+    },
+    "prior_GPU_seconds": 395,
+    "raw_failure_snapshot": {
+      "path": "scripts/ops/formal_spatial588_predispatch_v1/raw_failure_snapshot.json",
+      "sha256": "c6edba01e9dc7706dfc978701b06baab91462eff0d8e6940a665d3656adf364c"
+    },
+    "schema": "formal_main_v2",
+    "scientific_settings_changed": false,
+    "scope": {
+      "expected_trials": 600,
+      "method_ids": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64",
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "remaining_trials": 588,
+      "retained_prefix_trials": 12,
+      "stage": "development",
+      "stage_key": "libero_spatial_development_8c843c1d4ee8383c",
+      "suite": "libero_spatial"
+    },
+    "version": "formal-spatial588-predispatch-history-v1"
+  },
+  "final_release": false,
+  "kind": "formal_action_plan_independent_CPU_review",
+  "legacy12_compatibility": {
+    "author_proof": {
+      "path": "scripts/ops/formal_spatial588_predispatch_v1/compatibility_proof.json",
+      "sha256": "c2b46372be33cfe35c53643211b602102652d3662fb74a58553142a6e6a944f2"
+    },
+    "automatic_submission": false,
+    "final_release": false,
+    "kind": "exact_Spatial12_compatibility_descriptor",
+    "legacy_job_id": "3022743",
+    "legacy_origin_preserved": true,
+    "legacy_trial_ids": [
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:dense",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:uniform256",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:uniform128",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:uniform64",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:A128_seed17",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0003:env-0:B128_seed17",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0005:env-0:dense",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0005:env-0:uniform256",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0005:env-0:uniform128",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0005:env-0:uniform64",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0005:env-0:A128_seed17",
+      "libero_spatial:pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate:state-0005:env-0:B128_seed17"
+    ],
+    "new_GPU_seconds": 0,
+    "new_scientific_trials": 0,
+    "original_prefix": {
+      "bytes": 592887,
+      "job_id": "3022743",
+      "path": "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl",
+      "root_review": {
+        "path": "results/formal_main_v2/downstream_reviews/3022743.json",
+        "sha256": "9e14b86a1e556c53ef1cbd8c7bdc1733c3d5eb744f62ffee8df9395645816650"
+      },
+      "run_signature": "11e73bfd7978504ba108058445f1e219f3b0810516a9f28564783df21f980096",
+      "sha256": "3a175dbc5dd7a23cd2c3c8385cb6ff3c525f09d4e607ff32a69a10869672a2f9"
+    },
+    "phase1_manifest": {
+      "path": "scripts/ops/formal_spatial588_predispatch_v1/phase1_manifest.json",
+      "sha256": "20d8ee977e9735592660025acd4769c74935963f419d582f5c32fe74000ae5d3"
+    },
+    "profiling_authorized": false,
+    "root_adoption": "results/formal_main_v2/execution/spatial588_pre_dispatch_v1/legacy12_root_adoption.json",
+    "schema": "formal_main_v2",
+    "scope": {
+      "legacy_trials": 12,
+      "methods": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64",
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "remaining_trials": 588,
+      "stage": "development",
+      "suite": "libero_spatial",
+      "total_panel_trials": 600
+    },
+    "target_action_semantics_sha256": "cbcee0a9ba3d6d81345cedf4c01bbca4f5be232f522e52903d9a887b7008db23",
+    "version": "formal-spatial12-compatibility-adoption-v1"
+  },
+  "model_loaded": false,
+  "new_GPU_jobs": 0,
+  "new_GPU_seconds": 0,
+  "new_scientific_trials": 0,
+  "original_runtime_transition": {
+    "path": "results/formal_main_v2/execution/spatial588_pre_dispatch_v1/runtime_transition.json",
+    "sha256": "d7d8144fab4daa169b60d67cf92a38bc5dcac6327b4e774240eaec3d0e80b81b"
+  },
+  "plan_sha256": "50804ab06b9b24815782cf43a189025210f2348210791af6a9b5e3a31768dc23",
+  "prior_failed_GPU_seconds": 2,
+  "production_chain_complete": true,
+  "production_chain_complete_meaning": "Exact real R/P metadata, original scientific validator, source/runtime contract and typed original-consumer closure; not a newly executed GPU or simulator chain. Outer invocation verification remains a subsequent explicit gate.",
+  "production_submission_authorized": false,
+  "profiling_authorized": false,
+  "raw_consumer_readiness_meaning": "Pinned original full reconstruction and narrowly scoped typed history/legacy proof audited; actual new terminal rows must still pass root and independent consumer.",
+  "raw_consumer_ready": true,
+  "remaining_gates": [
+    "Root runtime readiness and prepared invocation with exact distinct root/independent evidence",
+    "Actual new outer wrapper.verify plus NativeIO/FrozenPlan preflight",
+    "Fresh all-mode eight-slot capacity and one-attempt root authorization under writer lock/CAS",
+    "After execution: all600 original reconstruction with12legacy+588current and all393+2+new GPU seconds retained"
+  ],
+  "remaining_trials": 588,
+  "retained_legacy_trials": 12,
+  "review_role": "independent",
+  "reviewed_by": "independent",
+  "root_actual_P_metadata": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0653/Spatial_actual_P_metadata.json",
+    "sha256": "b047c66138dcf77ab2d54ebd57e0512de10169e71ab0f60f930ac75ca172052e"
+  },
+  "runtime_sources": {
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+    "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+    "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+    "scripts/ops/formal_action_deployment_v1/entry.py": "2cdb69923146cbffcaaec555b970d03efbce0c9b9f74e3b743a2ce67a21aae19",
+    "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_action_deployment_v1/runtime_scope.py": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53",
+    "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33"
+  },
+  "schema": "formal_main_v2",
+  "scientific_plan": {
+    "path": "results/formal_main_v2/execution/spatial588_pre_dispatch_v1/scientific_plan.json",
+    "sha256": "b9d7404387a6896c3d7bb9ae0c55d3e132f16d6036e3c49f34ce489522bd37c2"
+  },
+  "scientific_settings_changed": false,
+  "sealed_values_read": false,
+  "simulator_started": false,
+  "source_control_scope": "Only original Spatial600 attempt03: exact12 individually compatible legacy rows retained, remaining588 under current action wrapper",
+  "state_mutated": false,
+  "status": "passed",
+  "support_files": {
+    "configs/experiments/formal_main_v2_action_execution_compat_v1.json": "0917bff60e632a5be3c2db50b16daa0b904e4754a3ba31334802060f75d3eefe",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v4/source/probe.py": "91e12f29ad39591c29cfd63912394949d1cad932bb80c8a871ed852cea32cadc",
+    "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+    "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+    "scripts/ops/formal_action_deployment_v1/entry.py": "2cdb69923146cbffcaaec555b970d03efbce0c9b9f74e3b743a2ce67a21aae19",
+    "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_action_deployment_v1/runtime_scope.py": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53",
+    "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33",
+    "scripts/ops/formal_asset_evaluation_adapter.py": "5762e163a00845c3404dbee87b724289bd6cef40cbb644cbec668bc4f7dbd688",
+    "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+    "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+    "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+    "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+    "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+  },
+  "utc": "2026-10-20T23:15:19.184272+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "independent_audit_format_correction",
+  "previous_script_sha256": "409578d78f49d49188b98a9b347dbb9539aa815abe8dd3819885af2c696729b3",
+  "new_script_sha256": "73286279ef0650610ce374148e3a57db809c650c81d3817c8c81e18fde3104b7",
+  "changes": [
+    "Use the exact original pip freeze file URL plus pinned wheel SHA; historical freeze records are file URLs, not package==version. Wheel bytes and all installed timestamps had already passed.",
+    "Compare exact AST via the registered canonical JSON-string SHA signature, not raw AST text SHA. This encoding mismatch was identified during static cross-read before reaching the branch assertion.",
+    "Keep both prior failed audit scripts, logs and reconstructed original consumer records. No scientific evidence changed."
+  ],
+  "GPU_seconds": 0
+}

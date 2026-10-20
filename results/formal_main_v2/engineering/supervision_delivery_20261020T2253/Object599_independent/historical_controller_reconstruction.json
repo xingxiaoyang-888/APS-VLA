@@ -1,0 +1,484 @@
+{
+  "Git_anchor": {
+    "commit": "5c15d256796661cfd91375ac4721356d1e1888dc",
+    "commit_time": "2026-10-14T12:48:52+08:00",
+    "files": [
+      {
+        "commit": "5c15d256796661cfd91375ac4721356d1e1888dc",
+        "path": "results/setup/after_libero_freeze.txt",
+        "sha256": "8bac807b631bb9c9691df977eae1b26f202b6a2d8d4a440153a74bb96b7a9b06"
+      },
+      {
+        "commit": "5c15d256796661cfd91375ac4721356d1e1888dc",
+        "path": "configs/assets/libero_wheels_transfer.json",
+        "sha256": "bfd7901791c5858e405188cfc1e917fdd3db73a277a2468dd94b8d620ec0cb23"
+      },
+      {
+        "commit": "5c15d256796661cfd91375ac4721356d1e1888dc",
+        "path": "configs/requirements-libero.txt",
+        "sha256": "d255285a470c034692b493904ca8335847e58ffec6388775ddef7ccc8419987c"
+      }
+    ]
+  },
+  "actual_current_Object_cells": [
+    {
+      "bound_methods": {
+        "scale_action": {
+          "function": "Controller.scale_action",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/base_controller.py",
+          "sha256": "61f99a2daeb4eb6e39bfb996d94c5a5689ef3bc771d030d070193ea56d6a8332"
+        },
+        "set_goal": {
+          "function": "OperationalSpaceController.set_goal",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/osc.py",
+          "sha256": "cfa62a0e719bc53ef0c701efa66f7b3e2272d4fca2150ec73c05bb145eba85cb"
+        }
+      },
+      "limits": {
+        "input_max": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "input_min": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "output_max": [
+          0.05,
+          0.05,
+          0.05,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "output_min": [
+          -0.05,
+          -0.05,
+          -0.05,
+          -0.5,
+          -0.5,
+          -0.5
+        ]
+      },
+      "method": "dense",
+      "runtime_rng_sha256": "1d145f07f51b64daff9ad5ceba1a9610b5be21eb82f47d1fb0b699785b8adb53",
+      "state_identity": {
+        "initial_state_sha256": "3e9ac775da8d0f57f7ff00f10d479ac785d02a96d78579f4beb9cb590b2a1c30",
+        "row_canonical_sha256": "b6b3719ce168e4718105a296a3b056cd598efc9c534643feb33d5acd39fd9059",
+        "source_file": "pick_up_the_alphabet_soup_and_place_it_in_the_basket.pruned_init",
+        "source_state_index": 5,
+        "task_id": 0,
+        "task_name": "pick_up_the_alphabet_soup_and_place_it_in_the_basket",
+        "trial_id": "libero_object:pick_up_the_alphabet_soup_and_place_it_in_the_basket:state-0005:env-0",
+        "vector_length": 110
+      }
+    },
+    {
+      "bound_methods": {
+        "scale_action": {
+          "function": "Controller.scale_action",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/base_controller.py",
+          "sha256": "61f99a2daeb4eb6e39bfb996d94c5a5689ef3bc771d030d070193ea56d6a8332"
+        },
+        "set_goal": {
+          "function": "OperationalSpaceController.set_goal",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/osc.py",
+          "sha256": "cfa62a0e719bc53ef0c701efa66f7b3e2272d4fca2150ec73c05bb145eba85cb"
+        }
+      },
+      "limits": {
+        "input_max": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "input_min": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "output_max": [
+          0.05,
+          0.05,
+          0.05,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "output_min": [
+          -0.05,
+          -0.05,
+          -0.05,
+          -0.5,
+          -0.5,
+          -0.5
+        ]
+      },
+      "method": "uniform128",
+      "runtime_rng_sha256": "1d145f07f51b64daff9ad5ceba1a9610b5be21eb82f47d1fb0b699785b8adb53",
+      "state_identity": {
+        "initial_state_sha256": "3e9ac775da8d0f57f7ff00f10d479ac785d02a96d78579f4beb9cb590b2a1c30",
+        "row_canonical_sha256": "b6b3719ce168e4718105a296a3b056cd598efc9c534643feb33d5acd39fd9059",
+        "source_file": "pick_up_the_alphabet_soup_and_place_it_in_the_basket.pruned_init",
+        "source_state_index": 5,
+        "task_id": 0,
+        "task_name": "pick_up_the_alphabet_soup_and_place_it_in_the_basket",
+        "trial_id": "libero_object:pick_up_the_alphabet_soup_and_place_it_in_the_basket:state-0005:env-0",
+        "vector_length": 110
+      }
+    },
+    {
+      "bound_methods": {
+        "scale_action": {
+          "function": "Controller.scale_action",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/base_controller.py",
+          "sha256": "61f99a2daeb4eb6e39bfb996d94c5a5689ef3bc771d030d070193ea56d6a8332"
+        },
+        "set_goal": {
+          "function": "OperationalSpaceController.set_goal",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/osc.py",
+          "sha256": "cfa62a0e719bc53ef0c701efa66f7b3e2272d4fca2150ec73c05bb145eba85cb"
+        }
+      },
+      "limits": {
+        "input_max": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "input_min": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "output_max": [
+          0.05,
+          0.05,
+          0.05,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "output_min": [
+          -0.05,
+          -0.05,
+          -0.05,
+          -0.5,
+          -0.5,
+          -0.5
+        ]
+      },
+      "method": "A128_seed17",
+      "runtime_rng_sha256": "1d145f07f51b64daff9ad5ceba1a9610b5be21eb82f47d1fb0b699785b8adb53",
+      "state_identity": {
+        "initial_state_sha256": "3e9ac775da8d0f57f7ff00f10d479ac785d02a96d78579f4beb9cb590b2a1c30",
+        "row_canonical_sha256": "b6b3719ce168e4718105a296a3b056cd598efc9c534643feb33d5acd39fd9059",
+        "source_file": "pick_up_the_alphabet_soup_and_place_it_in_the_basket.pruned_init",
+        "source_state_index": 5,
+        "task_id": 0,
+        "task_name": "pick_up_the_alphabet_soup_and_place_it_in_the_basket",
+        "trial_id": "libero_object:pick_up_the_alphabet_soup_and_place_it_in_the_basket:state-0005:env-0",
+        "vector_length": 110
+      }
+    },
+    {
+      "bound_methods": {
+        "scale_action": {
+          "function": "Controller.scale_action",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/base_controller.py",
+          "sha256": "61f99a2daeb4eb6e39bfb996d94c5a5689ef3bc771d030d070193ea56d6a8332"
+        },
+        "set_goal": {
+          "function": "OperationalSpaceController.set_goal",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/osc.py",
+          "sha256": "cfa62a0e719bc53ef0c701efa66f7b3e2272d4fca2150ec73c05bb145eba85cb"
+        }
+      },
+      "limits": {
+        "input_max": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "input_min": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "output_max": [
+          0.05,
+          0.05,
+          0.05,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "output_min": [
+          -0.05,
+          -0.05,
+          -0.05,
+          -0.5,
+          -0.5,
+          -0.5
+        ]
+      },
+      "method": "B128_seed17",
+      "runtime_rng_sha256": "1d145f07f51b64daff9ad5ceba1a9610b5be21eb82f47d1fb0b699785b8adb53",
+      "state_identity": {
+        "initial_state_sha256": "3e9ac775da8d0f57f7ff00f10d479ac785d02a96d78579f4beb9cb590b2a1c30",
+        "row_canonical_sha256": "b6b3719ce168e4718105a296a3b056cd598efc9c534643feb33d5acd39fd9059",
+        "source_file": "pick_up_the_alphabet_soup_and_place_it_in_the_basket.pruned_init",
+        "source_state_index": 5,
+        "task_id": 0,
+        "task_name": "pick_up_the_alphabet_soup_and_place_it_in_the_basket",
+        "trial_id": "libero_object:pick_up_the_alphabet_soup_and_place_it_in_the_basket:state-0005:env-0",
+        "vector_length": 110
+      }
+    }
+  ],
+  "bounded_first_chunk_comparisons": [
+    {
+      "actual_current_controls": 8,
+      "method": "dense",
+      "not_whole_trajectory_capture": true,
+      "same_first_chunk": true,
+      "state_trial_id": "libero_object:pick_up_the_alphabet_soup_and_place_it_in_the_basket:state-0005:env-0"
+    },
+    {
+      "actual_current_controls": 8,
+      "method": "uniform128",
+      "not_whole_trajectory_capture": true,
+      "same_first_chunk": true,
+      "state_trial_id": "libero_object:pick_up_the_alphabet_soup_and_place_it_in_the_basket:state-0005:env-0"
+    },
+    {
+      "actual_current_controls": 8,
+      "method": "A128_seed17",
+      "not_whole_trajectory_capture": true,
+      "same_first_chunk": true,
+      "state_trial_id": "libero_object:pick_up_the_alphabet_soup_and_place_it_in_the_basket:state-0005:env-0"
+    },
+    {
+      "actual_current_controls": 8,
+      "method": "B128_seed17",
+      "not_whole_trajectory_capture": true,
+      "same_first_chunk": true,
+      "state_trial_id": "libero_object:pick_up_the_alphabet_soup_and_place_it_in_the_basket:state-0005:env-0"
+    }
+  ],
+  "factory_source": "def factory(state):\n        task = suite.get_task(state[\"task_id\"])\n        env = OffScreenRenderEnv(bddl_file_name=str(Path(get_libero_path(\"bddl_files\")) / task.problem_folder / task.bddl_file),\n            camera_heights=256, camera_widths=256)\n        env.seed(0)\n        return env, task.language",
+  "full_AST_proof": {
+    "code_marshal_version": 2,
+    "exact_removed_node_path": [
+      [
+        "body",
+        5
+      ],
+      [
+        "body",
+        5
+      ],
+      [
+        "body",
+        0
+      ],
+      [
+        "body",
+        7
+      ]
+    ],
+    "original_code_sha256": "a1c042be2f0e37890cb003ab3840bc22598d7887140c230cd77a8d0ef5217a60",
+    "original_function_ast_sha256": "43034be729b1b5441a1a775e019da55001cc1695911862c6119949cda2652193",
+    "other_AST_nodes_unchanged": true,
+    "removed_branch_ast_sha256": "402453319b026104e894baa4cf32add9433030e4f8759117d918f10ad12deac3",
+    "removed_if_count": 1,
+    "replacement_code_sha256": "59bf996c15054234aeff8ff34916234781fc2b89026faad1dc68aa3cd8bbae37",
+    "replacement_function_ast_sha256": "49be9e13ff5be39f74bd1ed9265ef0b5a3277c6f306e1cf77279567676ed150a"
+  },
+  "historical_basis": "Source-derived from Object own archive journals, pre-job Git installation evidence, exact current wheel bytes and earlier unchanged ctime/mtime. Not a retrospective capture of old controller instances.",
+  "installed_ctime_mtime_before_first_old_job": true,
+  "installed_members": {
+    "bytes": 483972,
+    "path": ".local/object599_independent_20261020T2253/installed_wheel_members.json",
+    "sha256": "46e19d5f47970c525f702411a7470e5de1c2fb4a731bfa1ae07c0661e9ffccb7"
+  },
+  "matched_members": 1058,
+  "old_Object_actual_journals": [
+    {
+      "adapter": {
+        "bytes": 5510,
+        "path": "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021394_cdc33b6d9157408d8a365d21fed2cb2d.json",
+        "sha256": "730c4802097cca57c2766239371dabab825cc5bec414f2913d4021ad1a7692bb"
+      },
+      "job_id": "3021394",
+      "journal": {
+        "bytes": 5631,
+        "path": "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021394_cdc33b6d9157408d8a365d21fed2cb2d.jsonl",
+        "sha256": "183a840d56d8ff8578acb7011d4f2a920653a2fd32989efcdad06f8c01bf96ac"
+      },
+      "official_events": [
+        {
+          "attempt_id": "3021394_cdc33b6d9157408d8a365d21fed2cb2d",
+          "event": "official_source_verified",
+          "expected_revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+          "job_id": "3021394",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/openvla-oft",
+          "utc": "2026-10-17T23:10:31.585734+00:00",
+          "verification": {
+            "archive_sha256": "b3c1d3ae654393c13e2eb8006bb68ea9854ec33a7306663455c94838858e5fd7",
+            "file_count": 112,
+            "inventory_sha256": "01b233e95f4ff1d6f839b690ba8aa96e4aa65366c78adc638e76907953762e68",
+            "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+            "verification": "archive_all_files_sha256"
+          }
+        },
+        {
+          "attempt_id": "3021394_cdc33b6d9157408d8a365d21fed2cb2d",
+          "event": "official_source_verified",
+          "expected_revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+          "job_id": "3021394",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/LIBERO",
+          "utc": "2026-10-17T23:10:32.243711+00:00",
+          "verification": {
+            "archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+            "file_count": 1116,
+            "inventory_sha256": "9e8bda25148b1258fb569ae81fbb2b2a858c570ad5b7e884082b7df24f8ab0d8",
+            "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+            "verification": "archive_all_files_sha256"
+          }
+        }
+      ]
+    },
+    {
+      "adapter": {
+        "bytes": 19562,
+        "path": "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.json",
+        "sha256": "0409f71f1017a2b2fac85af32e85a634ec76cfb964b73d318c34224b7a2475f6"
+      },
+      "job_id": "3021603",
+      "journal": {
+        "bytes": 7196,
+        "path": "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021603_a47f252ab6a44fe29113a21641eb15c8.jsonl",
+        "sha256": "47f42699b62dfc8e927e37a5504bbc5df96e22fb47c1f9bd77071a94ddb21d77"
+      },
+      "official_events": [
+        {
+          "attempt_id": "3021603_a47f252ab6a44fe29113a21641eb15c8",
+          "event": "official_source_verified",
+          "expected_revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+          "job_id": "3021603",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/openvla-oft",
+          "utc": "2026-10-18T00:32:47.789375+00:00",
+          "verification": {
+            "archive_sha256": "b3c1d3ae654393c13e2eb8006bb68ea9854ec33a7306663455c94838858e5fd7",
+            "file_count": 112,
+            "inventory_sha256": "01b233e95f4ff1d6f839b690ba8aa96e4aa65366c78adc638e76907953762e68",
+            "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+            "verification": "archive_all_files_sha256"
+          }
+        },
+        {
+          "attempt_id": "3021603_a47f252ab6a44fe29113a21641eb15c8",
+          "event": "official_source_verified",
+          "expected_revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+          "job_id": "3021603",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/LIBERO",
+          "utc": "2026-10-18T00:32:48.450136+00:00",
+          "verification": {
+            "archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+            "file_count": 1116,
+            "inventory_sha256": "9e8bda25148b1258fb569ae81fbb2b2a858c570ad5b7e884082b7df24f8ab0d8",
+            "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+            "verification": "archive_all_files_sha256"
+          }
+        }
+      ]
+    },
+    {
+      "adapter": {
+        "bytes": 78919,
+        "path": "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021844_f89ee113dc8c4d2db7c491436067f418.json",
+        "sha256": "f060a877343b357cc4c626887f6e23ceceb390a03483e656fe85b21996167f82"
+      },
+      "job_id": "3021844",
+      "journal": {
+        "bytes": 18840,
+        "path": "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3021844_f89ee113dc8c4d2db7c491436067f418.jsonl",
+        "sha256": "b30eaca05921dcb2a015f8b370c6d5ba69d396ae52aefab49c0dd0efaf432e77"
+      },
+      "official_events": [
+        {
+          "attempt_id": "3021844_f89ee113dc8c4d2db7c491436067f418",
+          "event": "official_source_verified",
+          "expected_revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+          "job_id": "3021844",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/openvla-oft",
+          "utc": "2026-10-18T02:24:00.605725+00:00",
+          "verification": {
+            "archive_sha256": "b3c1d3ae654393c13e2eb8006bb68ea9854ec33a7306663455c94838858e5fd7",
+            "file_count": 112,
+            "inventory_sha256": "01b233e95f4ff1d6f839b690ba8aa96e4aa65366c78adc638e76907953762e68",
+            "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+            "verification": "archive_all_files_sha256"
+          }
+        },
+        {
+          "attempt_id": "3021844_f89ee113dc8c4d2db7c491436067f418",
+          "event": "official_source_verified",
+          "expected_revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+          "job_id": "3021844",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/LIBERO",
+          "utc": "2026-10-18T02:24:01.263633+00:00",
+          "verification": {
+            "archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+            "file_count": 1116,
+            "inventory_sha256": "9e8bda25148b1258fb569ae81fbb2b2a858c570ad5b7e884082b7df24f8ab0d8",
+            "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+            "verification": "archive_all_files_sha256"
+          }
+        }
+      ]
+    }
+  ],
+  "old_RNG_dump_recorded": false,
+  "old_controller_instance_hash_recorded": false,
+  "reseed_source": "def reseed():\n        random.seed(17)\n        np.random.seed(17)\n        torch.manual_seed(17)",
+  "wheels": [
+    {
+      "matched_members": 1019,
+      "sha256": "62587cd5888d9d3d813f3ffcc7017f6f77efa618952527a0b9bb139ffd0a3741",
+      "wheel": "robosuite-1.4.1-py3-none-any.whl"
+    },
+    {
+      "matched_members": 39,
+      "sha256": "426af8965f8636d94a0f75740c3024a62b3e585020ee817ef5208ec844a1ad94",
+      "wheel": "mujoco-2.3.7-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+    }
+  ]
+}

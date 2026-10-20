@@ -1,0 +1,71 @@
+{
+  "fixed_cell": {
+    "initial_state_sha256": "85fbef5e8e439507095dea71a26e5af94291e1a451e2e698c1baded3cfebc062",
+    "method": "dense",
+    "source_state_index": 49,
+    "split": "development",
+    "suite": "libero_object",
+    "task_id": 8,
+    "trial_id": "libero_object:pick_up_the_chocolate_pudding_and_place_it_in_the_basket:state-0049:env-0:dense"
+  },
+  "kind": "Object_single_policy_error_linked_correction_CPU_design_requirements",
+  "legacy_failure": {
+    "bytes": 1155,
+    "path": ".local/object599_independent_20261020T2253/failed_trial_independent.json",
+    "sha256": "4fdfbc8b6acd4dae54d49e8af4f8ed06224424c3a66dd7b75845da1af2ed1b80"
+  },
+  "method_identity": {
+    "config_sha256": "dc602d0a78a76d2f99de71ab1cc43d9c92df9a4a00ab39755db7cb88d72f0e8a",
+    "frozen_model_sha256": "33285a7643de7073e41bd2062cbbc80b4df8fddff915c0a86a13d0bbae48edce",
+    "future_head_deployed": false,
+    "input_acceptance_sha256": "2690d538a64fc83925de7d6e807b70fc8fc4f2c65d43d582c14137d85560f47e",
+    "method": "dense",
+    "method_id": "dense",
+    "model_revision": "4c89574e1c538b6c102f43f0526d60a9d3650148",
+    "schema": "formal_main_v2",
+    "source_sha256": "36b4654ba1479a040c5415258f5e043abfff41fc4ed4200f81dd5bc4638d7662",
+    "stats_key": "libero_object_no_noops",
+    "suite": "libero_object",
+    "training_seed": null,
+    "visual_tokens": 512
+  },
+  "negative_tests_required": [
+    "ordinaryresume skips policyerror",
+    "wrongcell/suite/stage/method",
+    "changedstate/RNG/environment/model/source",
+    "missingfailure or fabricatedquery8",
+    "discarded/doublecountedcost",
+    "duplicateattempt/ACK/token",
+    "unknownactive/pending/lease/capacity",
+    "wrongactionsemantics",
+    "outcomeselection/autoretry",
+    "final/profile/sealedaccess"
+  ],
+  "new_GPU_seconds": 0,
+  "new_scientific_trials": 0,
+  "production_or_P_change": false,
+  "registration": {
+    "path": "configs/experiments/formal_main_v2_action_execution_compat_v1.json",
+    "sha256": "0917bff60e632a5be3c2db50b16daa0b904e4754a3ba31334802060f75d3eefe"
+  },
+  "requirements": [
+    "Explicit root adoption of independent599 proof with canonical source/controller receipts; no adoption by this design.",
+    "Separate exact one-cell invocation, fresh output and append-only ledger. Link immutable old failed start/result SHA, all3 old job IDs, current semantics and unique submission token/comment. Never edit old600 or inject invocation/result into old ledger.",
+    "Fresh reset of same original fixed initial vector: seed17/env0/wait10/chunk8/horizon280 unchanged. Old56 steps are provenance, not a simulator checkpoint. No fabricated query8 or guessed offending value.",
+    "At most one explicit new execution after exact gateway/runtime/reviewer/consumer CPU audit and real-P --verify. Enforce all-mode8slots, no duplicate logical-cell active job, terminal controller lease, writer.lock/CAS, exact pending/ACK reconciliation. Failed/timeout/preempted/unknown submits HOLD, no automatic retry.",
+    "Keep old policy_error and new outcome separately. Typed assembly may map599compatible legacy cells plus one accepted current correction to original600 logical cells only after root+independent terminal review. Preserve original600 summary and raw. New failures remain failures, never retry until successful.",
+    "Before/after recheck old raw-prefix hash, exact manifests and current source/officialObject base/controller identities. No checkpoint reselection/scientific changes. Diagnostics only prospective; old query8 remains unknown.",
+    "Count original386+1401+4926=6713seconds once at shared allocation level plus each new allocation once, including loading/failed jobs. Never attach6713 to each compatible row. No new independent initial state.",
+    "No final-state, final-release, profile or wider cell access. All72/16/four-suite freeze and fullO2A gates remain."
+  ],
+  "schema": "formal_main_v2",
+  "scientific_environment": {
+    "action_chunk": 8,
+    "environment_seed": 0,
+    "max_steps": 280,
+    "runtime_seed": 17,
+    "wait_steps": 10
+  },
+  "status": "design_only_HOLD_no_execution_authority",
+  "target_action_semantics_sha256": "9a5f5935100bb04bf8fb91f6405b94efc93de236b3a75896d0f08cdb2aa1ee02"
+}

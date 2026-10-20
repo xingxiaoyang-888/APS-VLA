@@ -1,0 +1,9 @@
+{
+  "kind": "independent_auditor_assumption_correction",
+  "old_script_sha256": "d78e0261a8be135c75377f8a4b7aafe463078f3d6c42f501ca4c329db0b6ddd0",
+  "new_script_sha256": "409578d78f49d49188b98a9b347dbb9539aa815abe8dd3819885af2c696729b3",
+  "reason": "The deployment best.pt is finalized from selected candidate with training_complete=True, so it is not byte-identical to candidate.pt. Frozen formal_future.py lines760+ explicitly writes this finalization. Validate unchanged minimum validation update/metric plus exact original deployment and training-report checkpoint SHA, rather than false candidate-byte-equality. Full original consumer already passed before this audit-only assumption failure.",
+  "original_failure_retained": true,
+  "scientific_source_or_config_changed": false,
+  "new_GPU_seconds": 0
+}

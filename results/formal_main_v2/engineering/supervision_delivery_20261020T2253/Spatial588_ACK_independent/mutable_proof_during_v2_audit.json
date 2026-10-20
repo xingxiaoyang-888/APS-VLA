@@ -1,0 +1,59 @@
+{
+  "current_observed_unreviewed_results": 45,
+  "last_start_without_result_allowed": true,
+  "legacy_results_counted_current": 0,
+  "new_invocation_count": 1,
+  "new_invocation_marker": {
+    "created_utc": "2026-10-20T23:30:47.348181+00:00",
+    "event": "invocation",
+    "run_signature": "11e73bfd7978504ba108058445f1e219f3b0810516a9f28564783df21f980096",
+    "slurm_job_id": "3054201"
+  },
+  "new_job_id": "3054201",
+  "new_submissions": 0,
+  "observed_P_snapshots": {
+    "closed_loop_report.json": {
+      "bytes": 31694,
+      "sha256": "cac26ae49e8f13ded07dd0d15909ff71011e2014ec0bdfd26d2ff0cb02c45b51"
+    },
+    "config.json": {
+      "bytes": 19373,
+      "sha256": "41458e92e1b4f8d6ef7ca3230c5154c9b87c83d107ca51c334ad8850018f699d"
+    },
+    "panel.json": {
+      "bytes": 222649,
+      "sha256": "07718b648bfb767472506c48b0ef1837a5e6af992c2460e7567c275064809c91"
+    },
+    "trials.jsonl": {
+      "bytes": 3125688,
+      "sha256": "6afda317084f0d9c98dfe12ef1fe77c04ceb7dfa5ce4dc7bbc4c235199da777a"
+    }
+  },
+  "old_job_id": "3022743",
+  "old_prefix_bytes": 592887,
+  "old_prefix_results": 12,
+  "original_R_proofs": {
+    "closed_loop_report.json": {
+      "bytes": 29737,
+      "sha256": "f21c2e9d60ff246e51dbd4a04f09c147d49b94f9db8b9264bd0cb288fa0a1c9d"
+    },
+    "config.json": {
+      "bytes": 19373,
+      "sha256": "41458e92e1b4f8d6ef7ca3230c5154c9b87c83d107ca51c334ad8850018f699d"
+    },
+    "panel.json": {
+      "bytes": 222649,
+      "sha256": "07718b648bfb767472506c48b0ef1837a5e6af992c2460e7567c275064809c91"
+    },
+    "trials.jsonl": {
+      "bytes": 592887,
+      "sha256": "3a175dbc5dd7a23cd2c3c8385cb6ff3c525f09d4e607ff32a69a10869672a2f9"
+    }
+  },
+  "reason": "Known submitted job may append its ledger and atomically refresh report between independent reads. Outcome/action/reduction validation is deferred to exact original terminal consumer.",
+  "report_count_observed": 57,
+  "report_current_ledger_SHA_equality_not_required": true,
+  "report_status": "incomplete",
+  "scientific_results_admitted": 0,
+  "status": "passed_identity_only_not_scientific_acceptance"
+}

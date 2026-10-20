@@ -1,0 +1,234 @@
+{
+  "author_files_verified": 17,
+  "canonical_archive_files_verified": 18,
+  "negative_cases": [
+    {
+      "case": "missing_trial",
+      "rejected": true
+    },
+    {
+      "case": "duplicate_trial",
+      "rejected": true
+    },
+    {
+      "case": "extra_failed_trial",
+      "rejected": true
+    },
+    {
+      "case": "changed_action_hash",
+      "rejected": true
+    },
+    {
+      "case": "changed_chunk_hash",
+      "rejected": true
+    },
+    {
+      "case": "changed_outcome",
+      "rejected": true
+    },
+    {
+      "case": "changed_source_job",
+      "rejected": true
+    },
+    {
+      "case": "wrong_task",
+      "rejected": true
+    },
+    {
+      "case": "wrong_initial_state",
+      "rejected": true
+    },
+    {
+      "case": "wrong_method",
+      "rejected": true
+    },
+    {
+      "case": "wrong_pair_checkpoint",
+      "rejected": true
+    },
+    {
+      "case": "wrong_model",
+      "rejected": true
+    },
+    {
+      "case": "wrong_source",
+      "rejected": true
+    },
+    {
+      "case": "wrong_config",
+      "rejected": true
+    },
+    {
+      "case": "wrong_target_semantics",
+      "rejected": true
+    },
+    {
+      "case": "wrong_stage",
+      "rejected": true
+    },
+    {
+      "case": "wrong_suite",
+      "rejected": true
+    },
+    {
+      "case": "fake_old_current_wrapper",
+      "rejected": true
+    },
+    {
+      "case": "fake_old_controller_capture",
+      "rejected": true
+    },
+    {
+      "case": "fake_old_RNG_capture",
+      "rejected": true
+    },
+    {
+      "case": "invent_failed_chunk",
+      "rejected": true
+    },
+    {
+      "case": "failed_as_success",
+      "rejected": true
+    },
+    {
+      "case": "drop_failed",
+      "rejected": true
+    },
+    {
+      "case": "cost_drop_job",
+      "rejected": true
+    },
+    {
+      "case": "cost_lower",
+      "rejected": true
+    },
+    {
+      "case": "production_admitted",
+      "rejected": true
+    },
+    {
+      "case": "final_release",
+      "rejected": true
+    },
+    {
+      "case": "extra_GPU",
+      "rejected": true
+    },
+    {
+      "case": "changed_raw_hash",
+      "rejected": true
+    }
+  ],
+  "negative_count": 29,
+  "positive_assertion_count": 275474,
+  "positive_assertions_by_category": {
+    "100dev_only": 1,
+    "10states_each10tasks": 1,
+    "599plus1exception": 1,
+    "CPU_Python_Numpy_RNG_unchanged": 1198,
+    "CPU_boundary_actions_original": 1198,
+    "CPU_complete_chunk_equivalence": 23440,
+    "CPU_complete_chunks": 1198,
+    "CPU_old_current_equivalence": 599,
+    "CPU_reset_initial_vector": 1198,
+    "CPU_terminal_original": 7188,
+    "CPU_waits_original": 1198,
+    "Object_environment": 1,
+    "actual_Object_current_firstchunk_equal": 4,
+    "actual_bound_source_exact_universal_newlines": 8,
+    "actual_chunk_checkpoint": 3539,
+    "actual_controller_limits": 4,
+    "actual_current_Object_target": 1,
+    "actual_delta_controller": 4,
+    "actual_same_Object_model_RNG": 4,
+    "all600_fixed_cells_order": 1,
+    "all6713seconds_once": 1,
+    "all_emitted_old_branch_false": 11727,
+    "all_old_invocations_closed": 1,
+    "author17files": 1,
+    "author_CPU_no_admission": 1,
+    "author_all600chunks_recomputed": 1,
+    "author_failure_exact": 1,
+    "author_private_scope": 17,
+    "author_trial_recomputed": 9584,
+    "author_trial_semantics": 599,
+    "author_unique599": 1,
+    "bounded_nonempty": 600,
+    "branch_no_RNG": 1,
+    "canonical_path": 1704,
+    "checkpoint_receipt": 2,
+    "chunk_method_metadata": 11727,
+    "chunk_preprocess_packing": 11727,
+    "clip7_clip6_bytes_unchanged": 11727,
+    "complete_raw_line": 1203,
+    "completed_chunks_count": 599,
+    "current_source_scope": 1,
+    "evidence_SHA": 1704,
+    "evidence_unchanged_end": 1662,
+    "exact_Python_Numpy_Torch_reseed": 1,
+    "exact_archive_bytes": 17,
+    "exact_archive_manifest": 1,
+    "exact_failed_identity": 1,
+    "exact_failed_semantics": 1,
+    "exact_per_trial_reseed_call_order": 1,
+    "exact_queue_to_executed": 600,
+    "exact_single_pure_branch": 1,
+    "factory_reseed_present": 1,
+    "finalized_checkpoint_training_report": 2,
+    "finite_action_shape": 127408,
+    "frozen_LIBERO_wrapper": 1,
+    "full8_contiguous_chunks": 11727,
+    "historical_git_blob": 3,
+    "historical_git_time": 1,
+    "immutable_candidate_semantics": 14,
+    "independent_full_AST_proof": 1,
+    "independent_totals": 1,
+    "installed_before_old_Object": 1058,
+    "invocation_unique": 3,
+    "known_start": 600,
+    "no_current_macros": 1,
+    "official_Object_base": 6,
+    "old_actual_archives": 3,
+    "old_archives_allfiles": 6,
+    "old_current_Object_source_projection": 1,
+    "old_source_prefix_verified": 3,
+    "old_venv_no_macro_override": 3,
+    "one_actual_Object_cell": 4,
+    "one_frozen_wheel": 2,
+    "one_old_adapter_per_job": 3,
+    "ordinaryresume_skips_policyerror": 1,
+    "original600history": 1,
+    "original_checkpoint": 2,
+    "original_consumer_whole600": 1,
+    "original_manifest": 1,
+    "paired_result": 600,
+    "panel_bytes": 1,
+    "prejob_install": 1,
+    "private_entrypoint": 1,
+    "private_write_only": 7,
+    "raw_environment": 600,
+    "raw_fixed_state": 600,
+    "run_signature": 1203,
+    "same_LIBERO_controller_factory": 1,
+    "same_environment_factory": 1,
+    "same_t0_across_methods100states": 1,
+    "semantic_digest": 1,
+    "six_method_identity_map": 1,
+    "source173": 1,
+    "stable_evidence": 1704,
+    "start_result_identity": 8400,
+    "state_vector_identity": 100,
+    "terminal_semantics": 599,
+    "token_indices": 11727,
+    "typed_complete_cost": 14,
+    "typed_exact_current_identity": 14,
+    "typed_exact_old_scope": 14,
+    "typed_exact_trial_trace": 2396,
+    "typed_failed_original_retained": 1,
+    "typed_full599_set": 11,
+    "typed_no_invented_execution": 14,
+    "unchanged11node_selection": 2,
+    "unique_terminal": 600,
+    "wheel_default_controller": 1
+  }
+}

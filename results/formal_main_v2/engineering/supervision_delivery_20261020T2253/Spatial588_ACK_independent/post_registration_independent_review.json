@@ -1,0 +1,130 @@
+{
+  "all_success_or_failure_outcomes_unreviewed": true,
+  "allocated_GPU_seconds_at_root_snapshot": 1986011,
+  "checks": [
+    "reconstructed_committed_state_exact_SHA",
+    "root_metadata_update_chain_exact",
+    "root_occupied_ids_exact",
+    "root_cost_scope_only_changed",
+    "only_new_root_metadata:Object599_compatibility_review_20261020T2253",
+    "only_new_root_metadata:Spatial588_recovery_registration_20261020T2253",
+    "only_new_root_metadata:downstream_followups_20261020T2253",
+    "only_new_root_metadata:latest_posttraining_CPU_evidence_20261020T2253",
+    "root_parallel_actual_running",
+    "root_last_snapshot_exact",
+    "all_current_registration_cost_reservation_and_other_state_unchanged",
+    "review_binds_exact_executed_helper",
+    "exact_job_row_matches_readonly_reconstruction",
+    "one_job_append_original_registry_unchanged",
+    "all_registry_ids_unique",
+    "pending_cleared_once",
+    "existing_slot_consumed",
+    "only_own_consumed_entry_added",
+    "prior_consumptions_unchanged",
+    "exact_consumption_record",
+    "committed_and_copy_exact",
+    "observed_original_pending_state",
+    "no_scientific_acceptance",
+    "exact_mutable_validator",
+    "original_ACK_retained",
+    "original_failure_retained",
+    "original_preflight_retained",
+    "all_formal_allocations_counted_once",
+    "cost_nonfinal",
+    "legacy393_plus_predispatch2_once",
+    "capacity_all_modes_at_most_8",
+    "dispatch_exact_reconciliation",
+    "entire_state_has_only_expected_delta",
+    "state_unchanged_during_audit"
+  ],
+  "committed": {
+    "path": "results/formal_main_v2/downstream_gateway/d0143bc88b855ad9f4d6b6008e8373272d55c953d36bba88fbd8840a1090f7d5/committed.json",
+    "sha256": "952759f9c8fb1daaf46359cbf046f097233eb94d127d4f22039651da57668fbb"
+  },
+  "evidence": {
+    ".local/spatial588_ack_independent_20261020T2253/independent_review.json": {
+      "bytes": 3881,
+      "sha256": "60eb3a6e0f79f9a4943a3e6904a65a2d9f94684ff932ab923064faddd8da8568"
+    },
+    ".local/spatial588_ack_independent_20261020T2253/original_state_snapshot.json": {
+      "bytes": 6820139,
+      "sha256": "5454670774515cd03619d5cb0a8385851666c247d062e49c5bfa95967b260d6e"
+    },
+    ".local/spatial588_ack_independent_20261020T2253/reconstructed_registered_job.json": {
+      "bytes": 12814,
+      "sha256": "e706db17d599d6336350543b7e6e8e61bbc02241173710e621ce119ca7072b48"
+    },
+    "results/experiment_supervisor/state.json": {
+      "bytes": 5043286,
+      "sha256": "a0d4d98f112adc082a04789c764d8c6006a2133cb61834f4b0e2097f5b64fb10"
+    },
+    "results/formal_main_v2/downstream_gateway/d0143bc88b855ad9f4d6b6008e8373272d55c953d36bba88fbd8840a1090f7d5/committed.json": {
+      "bytes": 11948,
+      "sha256": "952759f9c8fb1daaf46359cbf046f097233eb94d127d4f22039651da57668fbb"
+    },
+    "results/formal_main_v2/downstream_gateway/d0143bc88b855ad9f4d6b6008e8373272d55c953d36bba88fbd8840a1090f7d5/root_reconciled_submission_observation.json": {
+      "bytes": 108551,
+      "sha256": "d38314a320c4e31ab644b2f499ae09a4e78cc1b2256c2cece8e57d360ab51d6c"
+    },
+    "results/formal_main_v2/preflight/heartbeat_20261021T0653/Spatial588_pending_reconciliation.json": {
+      "bytes": 11948,
+      "sha256": "952759f9c8fb1daaf46359cbf046f097233eb94d127d4f22039651da57668fbb"
+    },
+    "results/formal_main_v2/preflight/heartbeat_20261021T0653/Spatial_dispatch.json": {
+      "bytes": 1672,
+      "sha256": "0083c1e883c0685b471715c988d4186843c15e9b9a0d98646777852eeda54425"
+    },
+    "results/formal_main_v2/preflight/heartbeat_20261021T0653/final_summary.json": {
+      "bytes": 7781,
+      "sha256": "f4d17e968396671b9e8072de1503133652b437e1dd9eee040f74c5d37a56b12d"
+    },
+    "results/formal_main_v2/preflight/heartbeat_20261021T0653/state_and_document_update.json": {
+      "bytes": 1915,
+      "sha256": "e20926b5a6fead9d6fa64f50012450e63392ba37ba6d30c16653a92e6f8993f4"
+    },
+    "results/formal_main_v2/submissions/3054201.json": {
+      "bytes": 11430,
+      "sha256": "a3207f9b5b7a31ea5eab8ed7d8cab07c77aaf4b62f5eada3e1a17b27cdb58b36"
+    }
+  },
+  "final_release": false,
+  "historical_GPU_seconds": 395,
+  "job_GPU_seconds_at_root_snapshot": 709,
+  "job_id": "3054201",
+  "kind": "Spatial588_known_ACK_post_registration_independent_review",
+  "new_GPU_submissions": 0,
+  "new_Slurm_queries": 0,
+  "original_ACK": {
+    "path": "results/formal_main_v2/downstream_gateway/d0143bc88b855ad9f4d6b6008e8373272d55c953d36bba88fbd8840a1090f7d5/sbatch_result.json",
+    "sha256": "cba65b7776348747bc6dfa62f4b336643fac38f880e1e6a375df0dfc3b25f52f"
+  },
+  "original_failure": {
+    "path": "results/formal_main_v2/downstream_gateway/d0143bc88b855ad9f4d6b6008e8373272d55c953d36bba88fbd8840a1090f7d5/failed_transaction.json",
+    "sha256": "18897d313b1460cf14bbef535171090ff3a72bd29adf03018a65bd02ec1525ff"
+  },
+  "pending_submission": null,
+  "preserved_prior_state_pin_refusal": {
+    "path": ".local/spatial588_ack_independent_20261020T2253/post_registration_audit_v1_failure.json",
+    "sha256": "dfce23bcf443fb7550187b01f369f9a7269267a14ee49ed4c22927cadcdf7438"
+  },
+  "reconstructed_committed_state_sha256": "b66d21f7305273a9ac79abc641ea61a0c77b0001f9c2fe40c8b1374addaab2ac",
+  "registered_once": true,
+  "request_token": "cti-downstream-gateway-v1:d0143bc88b855ad9f4d6b6008e8373272d55c953d36bba88fbd8840a1090f7d5",
+  "reserved_GPU_slots": 0,
+  "reviewed_by": "independent",
+  "root_metadata_update": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0653/state_and_document_update.json",
+    "sha256": "e20926b5a6fead9d6fa64f50012450e63392ba37ba6d30c16653a92e6f8993f4"
+  },
+  "root_scheduler_observation": {
+    "path": "results/formal_main_v2/downstream_gateway/d0143bc88b855ad9f4d6b6008e8373272d55c953d36bba88fbd8840a1090f7d5/root_reconciled_submission_observation.json",
+    "sha256": "d38314a320c4e31ab644b2f499ae09a4e78cc1b2256c2cece8e57d360ab51d6c"
+  },
+  "scheduler_status_from_root_snapshot": "RUNNING",
+  "schema": "formal_main_v2",
+  "scientific_results_admitted": 0,
+  "state_P_Git_mutations": 0,
+  "state_sha256": "a0d4d98f112adc082a04789c764d8c6006a2133cb61834f4b0e2097f5b64fb10",
+  "status": "passed",
+  "utc": "2026-10-20T23:41:57.387394+00:00"
+}

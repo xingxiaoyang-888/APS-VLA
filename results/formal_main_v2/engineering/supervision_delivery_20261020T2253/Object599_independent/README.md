@@ -1,0 +1,13 @@
+# Object599 independent audit
+
+The review passes the historical compatibility proof for exactly599 completed Object trajectories. All600 original records remain, including the single dense policy_error; no production reuse, current-wrapper relabeling, whole600 acceptance, new rollout, final release or GPU submission is authorized.
+
+Independent recomputation checked599 trajectories /11720 full chunks /91945 executed actions. The retained whole original history has600 trajectories /11727 chunks /92001 actions, three actual jobs and6713GPU seconds once. The same100 fixed initial states have identical initial observation hashes across six methods. All1058 robosuite/MuJoCo wheel package members match their archived bytes and predate the old Object jobs by ctime and mtime. The controller conclusion uses Object-specific historical source/installation evidence plus current real Object captures; no old instance/RNG dump was invented.
+
+The CPU boundary replays only consume already recorded policy chunks. They are not new model inference or simulator rollouts. All original success and task-horizon failure outcomes are retained. An independent root adoption and a narrowly typed consumer remain required before any reuse is counted.
+
+The failed trial has seven recorded chunks,56 actions and eight policy calls. Its rejected eighth chunk is unknown. See single_error_correction_design.json and single_error_scope_guard_addendum.json for the separate one-cell correction requirements. The original100-state guard must remain; plain resume and stop_after=1 cannot target the correction safely. No correction implementation or submission authority is supplied.
+
+Reproduction: use the audited server transport with entrypoint .local/object599_independent_20261020T2253/verify_saved_v5.py and SHA86b97bc1174ecc1db0f09468d173130590b838bdc9fe9c5e60f7cfa61779ae78. It executes exact audit_object599_v5.py SHAee452993cc981d6c6f04d9c1d72612310ef10a7eea88f3349a9e24650b7b8136, substitutes only an in-memory output comparator, and checks every saved result again. Only CPU/wall durations are excluded from receipt equality. Supply a fresh unique transport journal. The primary audit refuses overwriting results.
+
+Earlier auditor failures and versions are preserved. Their bounded corrections address candidate-vs-finalized checkpoint serialization, pip-freeze file URL format, canonical JSON AST hashing, and inspect-source indentation/CRLF representation. All source/controller/evidence bytes and scientific settings stayed fixed. The authoritative successful audit is v5; earlier versions and unused verify_saved.py are historical only.
