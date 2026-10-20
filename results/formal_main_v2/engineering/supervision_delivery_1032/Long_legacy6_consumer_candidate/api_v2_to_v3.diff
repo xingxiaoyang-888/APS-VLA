@@ -1,0 +1,24 @@
+--- legacy_proof_api_v2.py
++++ legacy_proof_api_v3.py
+@@ -7,7 +7,7 @@
+ from pathlib import Path
+ from collections import Counter
+ R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA');H=R.parent
+-OLD='formal-downstream-root-v1';NEW='formal-downstream-action-v1';VERSION='long-legacy6-proof-candidate-v2'
++OLD='formal-downstream-root-v1';NEW='formal-downstream-action-v1';VERSION='long-legacy6-proof-candidate-v3'
+ ROOT={'path':'results/formal_main_v2/downstream_reviews/3019954.json','sha256':'cde7e784bced622a6a30169af1f3c34ece8b710da8a6d65ab804454457c5d9ba'}
+ MAP={'path':'.local/legacy6_typed_bridge_0927/equivalence_map_candidate.json','sha256':'f3c7c2e3b3d4546748c4705bb8cba7f29c050470a22645215f7a894f899d3cc0'}
+ PRIOR={'path':'results/formal_main_v2/engineering/supervision_delivery_0830/Long_legacy6_provenance_independent/independent_readiness.json','sha256':'b786128f4f202c93da6a80f44c7c1fbeeacadef78724b76d9bef294615b7a3d5'}
+@@ -157,6 +157,12 @@
+  require(active is None and seen==set(bytrial) and totals==Counter(trials=600,chunks=23179,actions=183676),'complete raw600')
+  require(len(states)==100 and all(s['methods']==set(METHODS) for s in states.values()),'same100 complete6')
+  require(old['cost']['all_attempt_gpu_seconds']==10531 and [a['job_id'] for a in old['cost']['allocations']]==JOBS,'original costs')
++ # Close absolute source/package evidence against concurrent changes as well.
++ for filename,checksum in external.items():
++  ep=Path(filename);require(ep.resolve()==ep,'external path changed while auditing');eh=hashlib.sha256()
++  with ep.open('rb') as stream:
++   for block in iter(lambda:stream.read(8<<20),b''):eh.update(block)
++  require(eh.hexdigest()==checksum,'external evidence changed while auditing')
+  ev.unchanged()
+  return {'original_review':old,'map':mapping,'trial_records_ref':trialref,'unique_states':{k:v['sha256'] for k,v in states.items()},'method_identities':identities,'per_method':{k:dict(v) for k,v in summary.items()},'evidence_sha256':dict(ev.files),'external_provenance_sha256':external,'totals':dict(totals)}
+ 

@@ -1,0 +1,75 @@
+{
+  "CPU_wall_seconds": 5.109855777584016,
+  "all_method_rate_draws_independently_recomputed": 220000,
+  "bootstrap": {
+    "complete_three_seed_carry": true,
+    "draw_indices_little_endian_int64_sha256": "ec98318007372809d2cd918c1397009ba98e1c5a3d5e7a2ba2302d355c013191",
+    "quantile_method": "linear",
+    "repeats": 10000,
+    "same_draws_all_methods": true,
+    "seed": 20261016,
+    "seed_sd_ddof": 1,
+    "state_order": "source_state_index then state_trial_id",
+    "within_task_initial_state_cluster": true
+  },
+  "conclusion": "On the fixed Long development panel, B128 is worse than A128 in all three seeds; the task-stratified initial-state-cluster interval for B-A is entirely below zero. Supplemental256/64 improvements have intervals crossing zero; they are not proof of equivalence or a success-latency frontier.",
+  "counts": {
+    "actual_new_wrapper_trials": 1600,
+    "all_seeds": [
+      17,
+      23,
+      41
+    ],
+    "all_tasks": 10,
+    "legacy_compatible_trials": 600,
+    "methods": 22,
+    "trials": 2200,
+    "unique_initial_state_clusters": 100
+  },
+  "development_GPU_seconds_counted_once": 35408,
+  "final_release": false,
+  "independent_statistics_ref": {
+    "bytes": 125614,
+    "path": ".local/Long22_statistics_independent_1032/independent_statistics.json",
+    "sha256": "789ad0568194851fae39117fa7f5f93825a9343e52ed6b9656f4329c0132c9ea"
+  },
+  "kind": "independent_Long22_development_statistics_review",
+  "latency_claim": false,
+  "new_GPU_seconds": 0,
+  "new_scientific_trials": 0,
+  "no_repeated_package_or_CPU_action_audit": true,
+  "primary128": {
+    "A_mean": 0.9566666666666667,
+    "A_seed_sd": 0.011547005383792525,
+    "B_mean": 0.93,
+    "B_minus_A": -0.026666666666666616,
+    "B_minus_A_seed_sd": 0.005773502691896198,
+    "B_seed_sd": 0.017320508075688724,
+    "CI95_B_minus_A": [
+      -0.043333333333333446,
+      -0.01000000000000012
+    ]
+  },
+  "prior256_and64_statistics_consistent": true,
+  "real_legacy_proof_ref": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Long_legacy600_development_compatibility_proof.json",
+    "sha256": "8468cf4fe4f9cf80741cff7d6d659ab733472ef8d4c5e825e59c0cd8e02a002a"
+  },
+  "review_role": "independent",
+  "root_comparison_checks": 220182,
+  "root_proof_execution_ref": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Long_legacy600_root_proof_execution.json",
+    "sha256": "237aa5a79d612f66bf780af38bf0bcba843461be99e5f110f722479b69406bea"
+  },
+  "root_statistics_ref": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Long22_development_statistics.json",
+    "sha256": "35557e76c338ec0cb12f5dbb5b1871dc04d0ad3a8a807134b1ef320728c3abf1"
+  },
+  "same_initial_states_across_seeds_remain_one_cluster": true,
+  "schema": "formal_main_v2",
+  "sealed_values_read": false,
+  "shared_Dense_and_uniform_references_not_replicated_as_training_seeds": true,
+  "state_Git_or_production_changed": false,
+  "status": "passed",
+  "utc": "2026-10-20T11:01:28.686085+00:00"
+}

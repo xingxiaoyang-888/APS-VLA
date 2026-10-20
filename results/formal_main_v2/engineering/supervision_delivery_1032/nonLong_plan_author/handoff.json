@@ -1,0 +1,248 @@
+{
+  "CPU_cost": {
+    "GPU_seconds": 0,
+    "latest_preparation_process_seconds": 51.864739916999994,
+    "transport_calls": [
+      {
+        "bytes": 1383,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_spatial_manifest_v1.jsonl",
+        "returncode": 0,
+        "sha256": "6c1a6d402dd55d8cc1bac4966f542e02258004473ae74b03102d37d311e94c95",
+        "wall_seconds": 6.198866497
+      },
+      {
+        "bytes": 1381,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_object_manifest_v1.jsonl",
+        "returncode": 0,
+        "sha256": "21d35d0d0e3636c1553a3a4e1c9e88097ab84a1fdb302fca7a3ddbd53c80bf4f",
+        "wall_seconds": 7.473802184
+      },
+      {
+        "bytes": 1438,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_goal_manifest_v1.jsonl",
+        "returncode": 0,
+        "sha256": "bd59e85bd880fd2aca90f71f0fe347fb5e03d913e93d4d4a741475988487169f",
+        "wall_seconds": 13.659167849
+      },
+      {
+        "bytes": 1091,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_prepare_v1.jsonl",
+        "returncode": 1,
+        "sha256": "b42eec6471c79a603ab60ebe452a7a8791e86be7a4d1ede783994e093723a440",
+        "wall_seconds": 6.75989404
+      },
+      {
+        "bytes": 1089,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_dependency_preview_v1.jsonl",
+        "returncode": 0,
+        "sha256": "e326b3ff8cb7a7e8be9aa461c13e691589ad019112e973c6ac5fe72037c7c9ed",
+        "wall_seconds": 27.960505738
+      },
+      {
+        "bytes": 1091,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_prepare_v2.jsonl",
+        "returncode": 0,
+        "sha256": "542a90e208c5f6fd0962d4bfe11b0eb11af7e39edb5b942db4adce4197e1c5b3",
+        "wall_seconds": 79.705909258
+      }
+    ],
+    "transport_wall_seconds": 141.758145566,
+    "unmeasured_process_seconds": "Other CPU-only CLI/failed attempts process CPU unavailable; transport wall retained, not GPU allocation"
+  },
+  "all_draft_gate_values_unapproved": true,
+  "boundaries": [
+    "No new scientific outputs, no reuse/rerun of historical groups",
+    "No publication, actual root readiness, state mutation, reservation or submit authority",
+    "No complete18/suite prerequisite for development; requested pairs themselves fully accepted",
+    "Global72+16/four-suite/final/root-release and full O2A gates preserved"
+  ],
+  "bounded_correction": "Only exact R/P missing training-config publication by root plus private output attempt02 and fixed state snapshot; unchanged original validator then rerun.",
+  "candidate_review": {
+    "bytes": 8687,
+    "path": ".local/nonLong_development_plans_1032/attempt02/candidate_review.json",
+    "sha256": "994e302eb84bfd1765bedf7379e0eb4a6d92a3c89d55d5d599fc3490362ba60d"
+  },
+  "exact_original_entrypoints": {
+    "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+    "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+    "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+    "scripts/ops/formal_action_deployment_v1/entry.py": "2cdb69923146cbffcaaec555b970d03efbce0c9b9f74e3b743a2ce67a21aae19",
+    "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_action_deployment_v1/runtime_scope.py": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53",
+    "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33",
+    "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+    "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+  },
+  "failures_retained": [
+    "prepare_three_plans_v1.py",
+    "preparation_failure_v1.json",
+    "libero_spatial_k128_seed23/scientific_plan.json",
+    "prepare_v1_to_v2.diff"
+  ],
+  "immutable_state_snapshot": {
+    "bytes": 4164057,
+    "path": ".local/nonLong_development_plans_1032/attempt02/state_at_planning.json",
+    "sha256": "feb1895145404f7f49ab4179dc1e5e3be2a81ef64b5943d12d4cc218da925254"
+  },
+  "input_publication": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/nonLong_execution_manifest_publication.json",
+    "sha256": "3957c46e1aeec3abf578d3630a4a4998c672986419a969fddfe69d1de6a4d52d"
+  },
+  "kind": "nonLong_three_development_author_CPU_handoff",
+  "minimum_root_work": [
+    "Publish publication_map exact static files R/P with original paths and hashes under shared writer lock; preserve all failures.",
+    "Independent audit repeats unmodified pure planner from immutable state and per-group args; checks exact scientific/effective/contract closure and suite-specific metadata/components.",
+    "Root creates real per-plan root_review; independent creates real independent_review. Both bind exact sources, effective plan, scientific plan, suite, methods, and 100 initial states, and describe actual evidence. No draft/author result can stand in for passed readiness.",
+    "Using unchanged sign_Long_readiness_1827 schema create new exact per-plan runtime_readiness only after actual reviews. It requires passed/root/science_changed=False/final_enabled=False/raw_consumer_ready=True, exact plan SHA, runtime_sources/support_files, action_execution_contract, genuine distinct root/independent refs, existing three component refs and exact runtime_publication_files. Copy actual dependencies R/P before new P wrapper.verify; retain its actual verification receipt.",
+    "Parent alone rechecks controller owner/lease,pending,current GPU allocations and exact one-use reserved slot; build current authorization intent and prepared invocation registered_utc/plan_sha256/runtime_readiness via existing gateway contract. Use original gateway read-only preflight then one authorized submit; never retry unknown submission.",
+    "Development terminal results require unchanged whole-chain raw consumer and independent terminal review; final/full/components global gates unchanged."
+  ],
+  "missing_runtime_config_publication": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/nonLong_training_config_runtime_publication.json",
+    "sha256": "293cf1d50cce56f4096cb69fd25eae6d0a12ffd0c0fadb278bcb0fbe9abd1782"
+  },
+  "no_global_gate_bypass": true,
+  "normal_training_unchanged": true,
+  "per_plan_inputs": [
+    {
+      "args": {
+        "bytes": 445,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_spatial_k128_seed23/plan_arguments.json",
+        "sha256": "c60a1d7ef3213b8fd0ab136474fda292e4498774d8b3d435652988518f5f6160"
+      },
+      "draft_authorization": {
+        "bytes": 2644,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_spatial_k128_seed23/submission_authorization_draft.json",
+        "sha256": "8d01322dc41df7554108427a98e7b8fe2be7c49cc5dcda2d20632ddb92414f8e"
+      },
+      "draft_readiness": {
+        "bytes": 6609,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_spatial_k128_seed23/runtime_readiness_draft.json",
+        "sha256": "ea5e4e9325786c585e45b0fd1bead3bd6f43b5b35985062de2d25155320f61a7"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_spatial_k128_seed23/effective_plan.json",
+        "sha256": "c8989a9d9950757f23a2ca2a7c4249a81f7cf6708a2cd23b848a6a550aacbeaa"
+      },
+      "execution_contract": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_spatial_k128_seed23/execution_contract.json",
+        "sha256": "ff7691dda74fddd1d7a22f913334dc70b1c6476e6f212a35e39bfd26da972fbb"
+      },
+      "methods": [
+        "A128_seed23",
+        "B128_seed23"
+      ],
+      "planned_trials": 200,
+      "prepared_template": {
+        "bytes": 146852,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_spatial_k128_seed23/prepared_invocation_template.json",
+        "sha256": "d7121602f8e6a830866a793ae10cfe02ef0e6b20b83eb1d3f5cf630e0c7d5b3b"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_spatial_k128_seed23/scientific_plan.json",
+        "sha256": "96c2b0bf480ccfd7df0c9a143827f0c9f0d96bbaaca2f80eedbcf3550021a2eb"
+      },
+      "suite": "libero_spatial"
+    },
+    {
+      "args": {
+        "bytes": 444,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_object_k128_seed23/plan_arguments.json",
+        "sha256": "54661517005558be9a761f9af5c2645598c6c6e2e0783f76d00c2f2ebf802c01"
+      },
+      "draft_authorization": {
+        "bytes": 2641,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_object_k128_seed23/submission_authorization_draft.json",
+        "sha256": "f553b6c748b9b75d3357db2b0d644fb5a9609ce0ac9c75437a7c6f6fd27a9fec"
+      },
+      "draft_readiness": {
+        "bytes": 7234,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_object_k128_seed23/runtime_readiness_draft.json",
+        "sha256": "111718cf42359ca24525196615862293042fb01c11f8df2dc103f73f7737a76d"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_object_k128_seed23/effective_plan.json",
+        "sha256": "c7bba798bc469278bece0c2cb61d0f585445e48b241c79d684379617945d236f"
+      },
+      "execution_contract": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_object_k128_seed23/execution_contract.json",
+        "sha256": "a718a294e62ca29bf227481d73a10e774ce412a7c7322011be2947dda55a8af4"
+      },
+      "methods": [
+        "A128_seed23",
+        "B128_seed23"
+      ],
+      "planned_trials": 200,
+      "prepared_template": {
+        "bytes": 148640,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_object_k128_seed23/prepared_invocation_template.json",
+        "sha256": "ffa3201894ab9485d2c380a49b4506b5c8e3d56c47b9142415153e04181718be"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_object_k128_seed23/scientific_plan.json",
+        "sha256": "e12535879b998f72ae89698fc31f721a9a7f24bad6bb5b323e5729b48d5cda18"
+      },
+      "suite": "libero_object"
+    },
+    {
+      "args": {
+        "bytes": 453,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_goal_k128_seed17/plan_arguments.json",
+        "sha256": "d2eb420589c0278a452c966e6a62a7f5b553ce81f4b6874c4e5930ba2bcc513d"
+      },
+      "draft_authorization": {
+        "bytes": 2646,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_goal_k128_seed17/submission_authorization_draft.json",
+        "sha256": "93b82556c7c3ef200e20dbe084ea6015efd6cc049c96dde72c5a12a291fcc242"
+      },
+      "draft_readiness": {
+        "bytes": 7670,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_goal_k128_seed17/runtime_readiness_draft.json",
+        "sha256": "2d430287e5fd72d1d7ad5b513ea93fa2ba936449c8e35bb3d986670fb5198c21"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17/effective_plan.json",
+        "sha256": "99af63717702cb5585361a7bb5b365dc629b66a29581578d0b075e3e2d88a030"
+      },
+      "execution_contract": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17/execution_contract.json",
+        "sha256": "863fb23cbefab9c9788349bbf7a03623dde8c026839648563ec1dd35e2bde4c5"
+      },
+      "methods": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64",
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "planned_trials": 600,
+      "prepared_template": {
+        "bytes": 211786,
+        "path": ".local/nonLong_development_plans_1032/attempt02/libero_goal_k128_seed17/prepared_invocation_template.json",
+        "sha256": "27ed0043f38b449a62b9cd7ae9df87b60ec19694cbe4330dff18cf7312be223d"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17/scientific_plan.json",
+        "sha256": "cbe8b43b2ef38b24b0373d12cf180c539aa47684019e28c2d582f2941e5f9ebe"
+      },
+      "suite": "libero_goal"
+    }
+  ],
+  "planned_future_trials": 1000,
+  "production_files_modified_by_author": false,
+  "publication_map": {
+    "bytes": 3741,
+    "path": ".local/nonLong_development_plans_1032/attempt02/publication_map.json",
+    "sha256": "f4d043149bb888b325f627a391ae1a778ef147ca4ec8a7ca1d3e9790c0f20720"
+  },
+  "real_new_wrapper_preflight_done": false,
+  "runtime_ready_existing_component_refs_location": "Each runtime_readiness_draft.json component_reviews (runtime,wrapper,raw_consumer) and submission_authorization_draft.json independent_review (gateway) refer to unchanged genuine published component reviews. These are source-level reusable evidence, not a per-plan approval.",
+  "schema": "formal_main_v2",
+  "scientific_trials_added": 0,
+  "state_Git_Slurm_modified": false,
+  "status": "exact_author_plans_ready_for_root_publication_and_independent_review_not_submission",
+  "unique_initial_states_per_suite": 100,
+  "weights_or_sealed_values_read": false
+}

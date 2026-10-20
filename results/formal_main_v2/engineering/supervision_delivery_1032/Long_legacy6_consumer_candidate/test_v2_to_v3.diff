@@ -1,0 +1,20 @@
+--- test_candidate_v2.py
++++ test_candidate_v3.py
+@@ -14,7 +14,7 @@
+  with (D/name).open('x') as f:json.dump(v,f,sort_keys=True,indent=2);f.write('\n')
+ sys.dont_write_bytecode=True;sys.addaudithook(guard)
+ try:
+- p=D/'legacy_proof_api_v2.py';source=p.read_bytes();assert hashlib.sha256(source).hexdigest()=='97ff050f53bb4cb6c461ad4f631d127df0c32a79f3d82d8d64aff24bd262be07'
++ p=D/'legacy_proof_api_v3.py';source=p.read_bytes();assert hashlib.sha256(source).hexdigest()=='7bf7fe93e9eb219273799aed7c2dfe35e23dad91e063db145ac80f1f7b60342d'
+  m=types.ModuleType('_legacy600_candidate_test');m.__file__=str(p);sys.modules[m.__name__]=m;exec(compile(source,str(p),'exec',dont_inherit=True),m.__dict__)
+  def ref(tag):return {'path':'results/formal_main_v2/engineering/SYNTHETIC_IN_MEMORY_ONLY/'+tag,'sha256':hashlib.sha256(tag.encode()).hexdigest()}
+  ar,rr,ir=ref('identity.json'),ref('root.json'),ref('independent.json')
+@@ -53,6 +53,6 @@
+  assert evidence['status']=='evidence_reconstructed_without_adoption' and evidence['production_reuse_authorized'] is False and evidence['totals']=={'trials':600,'chunks':23179,'actions':183676}
+  checks.append({'case':'real_old_consumer_and_complete_raw_map_reconstruction','passed':True,'kind':'real_evidence_inspection_no_adoption'})
+  report={'schema':'formal_main_v2','kind':'author_legacy600_consumer_candidate_CPU_review','status':'focused_CPU_checks_passed_no_real_adoption','source_sha256':hashlib.sha256(source).hexdigest(),'tests':checks,'actual_evidence':evidence,'synthetic_fixture_status':'in-memory only; not written as real adoptions and cannot enter public real API','real_adoption_receipts_created':0,'production_api_real_positive_executed':False,'original600_reused':False,'original600_rerun':False,'production_state_Git_source_changed':False,'new_GPU_seconds':0,'new_scientific_trials':0,'historical_GPU_seconds_preserved':10531,'CPU_wall_seconds':time.perf_counter()-START,'CPU_process_seconds':time.process_time()-CPU,'Long22_assembly_implemented':False,'final_release':False}
+- write('CPU_review_v2.json',report);print(json.dumps({k:v for k,v in report.items() if k not in ['tests','actual_evidence']}))
++ write('CPU_review_v3.json',report);print(json.dumps({k:v for k,v in report.items() if k not in ['tests','actual_evidence']}))
+ except BaseException as e:
+- write('CPU_failure_v2.json',{'error':str(e),'traceback':traceback.format_exc(),'completed_checks':checks,'CPU_wall_seconds':time.perf_counter()-START,'CPU_process_seconds':time.process_time()-CPU,'new_GPU_seconds':0,'real_adoption_receipts_created':0});raise
++ write('CPU_failure_v3.json',{'error':str(e),'traceback':traceback.format_exc(),'completed_checks':checks,'CPU_wall_seconds':time.perf_counter()-START,'CPU_process_seconds':time.process_time()-CPU,'new_GPU_seconds':0,'real_adoption_receipts_created':0});raise

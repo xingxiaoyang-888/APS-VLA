@@ -1,0 +1,843 @@
+{
+  "CPU_process_seconds": 0.04920101500000001,
+  "CPU_wall_seconds": 0.2562719052657485,
+  "Slurm_submissions": 0,
+  "action_GPU_independent": {
+    "path": "results/formal_main_v2/engineering/action_v4_actual_independent_0547/terminal_review.json",
+    "sha256": "613489f84224eaafac36523244ac98e3b81d50624d9da7102b3d5cd1062edbbe"
+  },
+  "action_GPU_root": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261019T1347/v4_GPU_root_acceptance.json",
+    "sha256": "3ee503429d703bb9d8da5970a9e183d371defbaf86884b24ae164d6cbc7bc1e9"
+  },
+  "action_GPU_scope": "16cells:four suites eachdense/uniform128/A128s17/B128s17 first8controls; engineeringonly, notfullscience. Otherbudgets use ownF01 plusunchanged deployment.",
+  "completed_arms": 62,
+  "exact_existing_entrypoints": {
+    "development_manifest": {
+      "CLI_arguments": [
+        "--project-root",
+        "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+        "development",
+        "--suite",
+        "<suite>",
+        "--methods",
+        "<exactmethodids>",
+        "--source-inventory",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "--output",
+        "<privatecandidateorrootapprovednewresultsJSON>"
+      ],
+      "lines": [
+        795,
+        845
+      ],
+      "note": "Unchanged original CLI natively accepts explicitserverprojectroot; noFassert modification or weightpayload read.",
+      "source": {
+        "path": "scripts/formal_execution_manifests.py",
+        "sha256": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89"
+      }
+    },
+    "effective_plan": {
+      "function": "effective_plan(original,scientific_plan_ref=<exactpublishedref>,execution_contract_ref=<exactpublishedref>,execution_contract=<exactcontract>)",
+      "lines": [
+        153,
+        198
+      ],
+      "source": {
+        "path": "scripts/ops/formal_action_deployment_v1/contract.py",
+        "sha256": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19"
+      },
+      "transition": null
+    },
+    "gateway": {
+      "CLI_arguments": [
+        "--authorization",
+        "<newrootapprovedrefpath>",
+        "--authorization-sha256",
+        "<exactSHA>",
+        "--gateway-sha256",
+        "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a"
+      ],
+      "cwd": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+      "lines": [
+        324,
+        399
+      ],
+      "read_only_default": true,
+      "reservation": "oneGPU bound tothisrequest undercommonwriterlock/CAS; max8allGPUjobs; nohistoricalauthorizationreuse",
+      "root_only_submit_additions": [
+        "--submit",
+        "--root-reviewed-submit"
+      ],
+      "source": {
+        "path": "scripts/ops/formal_action_deployment_v1/gateway.py",
+        "sha256": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a"
+      }
+    },
+    "remaining_preparation_gap": "No existingperplan receipts for these3groups. Scientificmanifest originalCLI canprepare privateoutputs now; originalplanner requires fixedresults/ inputpaths, so root mustpublish exact3manifestbytes beforeprivate scientific/effective planning. No productionhelperchanges needed; fresh root/indreadiness stillmustbe genuinely reviewed.",
+    "root_readiness": {
+      "accepted_preexecution_process": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0227/Long_development_runtime_root_acceptance.json",
+        "sha256": "c8d3ea33012b23a810bda6cf1b9f9aded2a7cc9632ecaf2bc7df28226ddf02fc"
+      },
+      "existing_reviewed_contract_enforcement": {
+        "path": "scripts/ops/formal_action_deployment_v1/gateway.py",
+        "sha256": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a"
+      },
+      "lines": [
+        81,
+        119
+      ],
+      "must_bind": [
+        "exactscientific/effective plan",
+        "runtime_sources",
+        "root_review != independent_review with statuspassed,executionversion andproduction_chain_complete",
+        "support_files",
+        "action_execution_contract",
+        "runtime/wrapper/rawconsumer independent componentreceipts",
+        "runtimepublicationmap",
+        "allowed_stages development only",
+        "final_evaluation_enabled false"
+      ],
+      "no_generic_approval_minter_claimed": true,
+      "prior_exact_Long_example_not_reusable_for_other_suites": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k128_seed23/runtime_readiness.json",
+        "sha256": "126201029d1ab33930cec995ab35a8b7d9b891303aec7098cebd8a83a4181ca2"
+      },
+      "schema": "formal_action_runtime_readiness"
+    },
+    "runtime_CPU_preflight": {
+      "function": "verify(prepared_invocation,project=P)",
+      "lines": [
+        46,
+        92
+      ],
+      "note": "Import exactactualP wrapper and callverify only; neverwrapper.main outsideSlurm. Requires genuine newperplan root+indready, nofakepassed drafts.",
+      "source": {
+        "path": "scripts/ops/formal_action_deployment_v1/wrapper.py",
+        "sha256": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33"
+      }
+    },
+    "runtime_contract": {
+      "function": "make_contract(project_root=R,source_root=P/snapshots/formal_main_v2_run_564be0995e,suite=<suite>,stage=development)",
+      "source": {
+        "path": "scripts/ops/formal_action_deployment_v1/runtime_scope.py",
+        "sha256": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53"
+      },
+      "validation": "validate_contract on bothR/P; existing metadata/ObjectGoal andGoal50000 scopes are mandatory"
+    },
+    "scientific_plan": {
+      "args": {
+        "collection_review": null,
+        "execution_manifest": "<rootpublished exactresults input path>",
+        "freeze_directory": null,
+        "output_relative": null,
+        "prior_review": null,
+        "profile_panel": null,
+        "repair_record": null,
+        "resume": false,
+        "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+        "stage": "development",
+        "stop_after": null
+      },
+      "audited_server_migration": "Existing gateway.FrozenPlan.prepare lines143-146 calls this exact purefunction with explicitR. Do notcall old refresh/submit CLI or old Fassert integration helper; no assertion patched.",
+      "function": "plan(args,state,project=R,helper=original_manifest_module)",
+      "source": {
+        "path": "scripts/ops/formal_downstream_supervisor.py",
+        "sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571"
+      }
+    },
+    "transport": {
+      "arguments": "--entrypoint <exactRrelativeentry> --entrypoint-sha256 <sourceSHA> --audit-relative <newuniquejsonl> -- <originalentryarguments>",
+      "bundle_sha256": "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+      "path": "scripts/ops/server_control_transport_v1/run_server_control.py",
+      "sha256": "302a3e6d16143d5a54eb542916278a7ab2eb3c6478a55593a61584d4a7cf0af5"
+    }
+  },
+  "existing_reference_constraints": {
+    "Goal": {
+      "four_references_can_be_prepared": true,
+      "prior_development_jobs": 0
+    },
+    "Long": {
+      "rule": "Existing reference600 are in their own equivalenceadmission; do notduplicate as partof nonLongfill."
+    },
+    "Object": {
+      "GPU_seconds": 6713,
+      "manifest": {
+        "path": "results/formal_main_v2/execution/libero_object_development_first_pair_v1.json",
+        "sha256": "34062573869c7b947fbd3c37b09da476bec673e8e16fc4ea49c6ce8c5932db5a"
+      },
+      "old_review": {
+        "path": "results/formal_main_v2/downstream_reviews/3021844.json",
+        "sha256": "004a810edd7f097bbeec755315beed11bbfa86640a78ffd75ef0ff78a769ee37"
+      },
+      "policy_errors": 1,
+      "rule": "Preserve Dense policy_error. Noautomatic reuse/rerun. Long600adoption is not transferable toObject; own registered compatibility/repair decision needed.",
+      "trials": 600
+    },
+    "Spatial": {
+      "GPU_seconds_including_zerochild_failure": 395,
+      "failed_wrapper_job": "3042529",
+      "failed_wrapper_new_trials": 0,
+      "manifest": {
+        "path": "results/formal_main_v2/execution/libero_spatial_development_first_pair_v1.json",
+        "sha256": "efc2fc4435442ba6458a033876c813a33de2afd69e952fae8ef86afd8727be03"
+      },
+      "old_review": {
+        "path": "results/formal_main_v2/downstream_reviews/3022743.json",
+        "sha256": "9e14b86a1e556c53ef1cbd8c7bdc1733c3d5eb744f62ffee8df9395645816650"
+      },
+      "rule": "Do notsplit first6 or rerun. Existing588 continuation needs separately closed new-version no-child/cost review/planning integration and newexactauthorization.",
+      "trials": 12
+    }
+  },
+  "first_three_parallel_candidates": [
+    {
+      "exact_runtime_readiness_or_authorization_created": false,
+      "independent_training_review": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3022808_independent.json",
+        "sha256": "5b392a1780f029c0c57817b847ce26dafd79aaeef58e93ab029dce33ee86b31c"
+      },
+      "methods": [
+        "A128_seed23",
+        "B128_seed23"
+      ],
+      "overlap_with_registered_methods": false,
+      "ready_to_prepare": true,
+      "ready_to_submit": false,
+      "root_training_review": {
+        "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/segment_reviews/3022808.json",
+        "sha256": "43cd094fd04f3fba3e2cfa2b1d60cf4238776ac727d06db362f735b04457cd88"
+      },
+      "selected": {
+        "A": {
+          "checkpoint_sha256": "a3df18270143226b6c234162bf791b1bb301e15f5dbb447dabe5cab7518002cb",
+          "receipt": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/A/deployment_receipt.json",
+            "sha256": "215457038bbbbc1cbb5460f3a98684fe40ae595d10af905560c9716e7064d4b7"
+          },
+          "selected_update": 3500
+        },
+        "B": {
+          "checkpoint_sha256": "93c14fdb040d10ca2ca1b94d08dfccbd41f4d7ee6756baa8d76559b2aed205f4",
+          "receipt": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/B/deployment_receipt.json",
+            "sha256": "a09844117e0bb9c86937cd9afde7e237cca58586538b9ec3a1caab3e8cd8cf70"
+          },
+          "selected_update": 3000
+        }
+      },
+      "stage": "development",
+      "suite": "libero_spatial",
+      "trials": 200
+    },
+    {
+      "exact_runtime_readiness_or_authorization_created": false,
+      "independent_training_review": {
+        "path": "results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_object_k128_seed23_independent.json",
+        "sha256": "e2f81dc694cca5c5a7e038ec545dbb47939e35ae2227738be907f2fcff7e9733"
+      },
+      "methods": [
+        "A128_seed23",
+        "B128_seed23"
+      ],
+      "overlap_with_registered_methods": false,
+      "ready_to_prepare": true,
+      "ready_to_submit": false,
+      "root_training_review": {
+        "path": "results/formal_main_v2/libero_object/k128/seed23/training/segment_reviews/3034580.json",
+        "sha256": "e37fcd8016cc72168581e38c2121ad2a9cc86de56e5ec59164829b54ece320b1"
+      },
+      "selected": {
+        "A": {
+          "checkpoint_sha256": "91ae1d2ae9589ad3e99fa693958af1cb14f2ec03615bfee028328433370ffa09",
+          "receipt": {
+            "path": "results/formal_main_v2/libero_object/k128/seed23/training/A/deployment_receipt.json",
+            "sha256": "1c8d11be99b8ac102a994ff6813f2a9ea1ed1ca778eb2eb5f6c98cef5e98b02d"
+          },
+          "selected_update": 4500
+        },
+        "B": {
+          "checkpoint_sha256": "f2552cde8823f789a944d6bded36795afb361909bf7079011d81907e3fe848df",
+          "receipt": {
+            "path": "results/formal_main_v2/libero_object/k128/seed23/training/B/deployment_receipt.json",
+            "sha256": "5099cf639576e1076d618d45e769b94fd8d58fb9ddef70118cae50ff272c2d22"
+          },
+          "selected_update": 4000
+        }
+      },
+      "stage": "development",
+      "suite": "libero_object",
+      "trials": 200
+    },
+    {
+      "exact_runtime_readiness_or_authorization_created": false,
+      "independent_training_review": {
+        "path": "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3022615_independent.json",
+        "sha256": "a25dc70d221ef952c729142c62a89607dfc6893ede1421a4a242825250b2ccf9"
+      },
+      "methods": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64",
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "overlap_with_registered_methods": false,
+      "ready_to_prepare": true,
+      "ready_to_submit": false,
+      "root_training_review": {
+        "path": "results/formal_main_v2/libero_goal/k128/seed17/training/segment_reviews/3022615.json",
+        "sha256": "c04bb8376f52a44fca147ec86ab1645fac21e5e7e049a7fa63a91409556c87af"
+      },
+      "selected": {
+        "A": {
+          "checkpoint_sha256": "0277eb54e65c396f3dd5c35eb5d691c53c164e772eb7595b246729eee5327885",
+          "receipt": {
+            "path": "results/formal_main_v2/libero_goal/k128/seed17/training/A/deployment_receipt.json",
+            "sha256": "4ab6ab0716e4335e631f72457f46b795909953b394060ed5703770bb5c5ac766"
+          },
+          "selected_update": 2000
+        },
+        "B": {
+          "checkpoint_sha256": "b58397931cd72c21c7144f3cc8ab8082210cc71cb2ef929090ae20acafc7b3ff",
+          "receipt": {
+            "path": "results/formal_main_v2/libero_goal/k128/seed17/training/B/deployment_receipt.json",
+            "sha256": "4dcf58665320c621321dc0bb2c5c704c695c514fce48815425184c5ad5b17085"
+          },
+          "selected_update": 4500
+        }
+      },
+      "stage": "development",
+      "suite": "libero_goal",
+      "trials": 600
+    }
+  ],
+  "inspection_failures_retained_as_description": [
+    "One in-memory display assumed suite field in allprogressentries and raised KeyError; correctedto pairkeyprefix.",
+    "One report-source transmission had unbalanced nestedliteral and PythonSyntaxError beforeanyserverwrite; correctedliteral inthis boundedreportentry."
+  ],
+  "kind": "narrow_existing_development_readiness",
+  "new_GPU_seconds": 0,
+  "new_helper_or_production_logic_implemented": false,
+  "new_runtime_preflight_or_full_original_consumer_run": false,
+  "new_scientific_trials": 0,
+  "observed_active_jobs": [
+    {
+      "budget": 64,
+      "elapsed_seconds": 45475,
+      "job_id": "3043762",
+      "mode": "train",
+      "node": "gpu4002",
+      "seed": 17,
+      "status": "RUNNING",
+      "suite": "libero_goal"
+    },
+    {
+      "budget": 64,
+      "elapsed_seconds": 43554,
+      "job_id": "3043813",
+      "mode": "train",
+      "node": "gpu4001",
+      "seed": 23,
+      "status": "RUNNING",
+      "suite": "libero_goal"
+    },
+    {
+      "budget": 64,
+      "elapsed_seconds": 41174,
+      "job_id": "3043877",
+      "mode": "train",
+      "node": "gpu4002",
+      "seed": 41,
+      "status": "RUNNING",
+      "suite": "libero_goal"
+    },
+    {
+      "budget": 64,
+      "elapsed_seconds": 28358,
+      "job_id": "3044479",
+      "mode": "train",
+      "node": "gpu4017",
+      "seed": 23,
+      "status": "RUNNING",
+      "suite": "libero_spatial"
+    },
+    {
+      "budget": 64,
+      "elapsed_seconds": 24930,
+      "job_id": "3044844",
+      "mode": "train",
+      "node": "gpu4017",
+      "seed": 23,
+      "status": "RUNNING",
+      "suite": "libero_object"
+    }
+  ],
+  "original_gates": [
+    {
+      "finding": "suite_rows only selects requested A/B pairs; no complete18 prerequisite.",
+      "lines": [
+        513,
+        531
+      ],
+      "source": {
+        "path": "scripts/formal_execution_manifests.py",
+        "sha256": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89"
+      }
+    },
+    {
+      "finding": "Only requested selector pairs need final5000 root review.",
+      "lines": [
+        128,
+        151
+      ],
+      "source": {
+        "path": "scripts/ops/formal_downstream_supervisor.py",
+        "sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571"
+      }
+    },
+    {
+      "finding": "Own suite acceptance/source/dev panel are required; globalfreeze only final/full/components at286-299; development rejects unrelatedfreeze.",
+      "lines": [
+        250,
+        336
+      ],
+      "source": {
+        "path": "scripts/ops/formal_downstream_supervisor.py",
+        "sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571"
+      }
+    },
+    {
+      "finding": "Same methods overlapping prior group or completed run cannot be resubmitted; failed priorcost/root repair and exactlatestreview remain gates.",
+      "lines": [
+        438,
+        532
+      ],
+      "source": {
+        "path": "scripts/ops/formal_downstream_supervisor.py",
+        "sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571"
+      }
+    },
+    {
+      "finding": "Four registered suites supported; original16cell engineering reused, perplan exactcontract required.",
+      "lines": [
+        104,
+        145
+      ],
+      "source": {
+        "path": "scripts/ops/formal_action_deployment_v1/runtime_scope.py",
+        "sha256": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53"
+      }
+    },
+    {
+      "finding": "Original Object/Goal metadata scope and Goal component scope remain mandatory.",
+      "lines": [
+        385,
+        429
+      ],
+      "source": {
+        "path": "scripts/ops/formal_action_deployment_v1/runtime_scope.py",
+        "sha256": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53"
+      }
+    },
+    {
+      "finding": "Eachplan requires genuine root/independent readiness, exactprepared invocation and singleuse bound reservation.",
+      "lines": [
+        81,
+        119
+      ],
+      "source": {
+        "path": "scripts/ops/formal_action_deployment_v1/gateway.py",
+        "sha256": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a"
+      }
+    }
+  ],
+  "reads_are_metadata_not_weight_deserialization": true,
+  "root_next_steps": [
+    "Generate each exactmethodgroup using unchanged formal_execution_manifests.suite_rows/make_execution; immutable results manifest and exact R/P copies, own acceptance/panel/checkpoint receipts.",
+    "Original formal_downstream_supervisor.plan pure CPU: stage=development, resume=False, sourceinventory exact173, newexecutionmanifest; output/defaultnew, freeze/profile/prior/collection/repair=None; nooldCLI submission.",
+    "Existing runtime_scope.make_contract and contract.effective_plan produce exactactionouter plan/preparedinvocation; retain Object/Goal metadata and Goalcomponent scopes.",
+    "Root and independent each verify actualunchanged Pwrapper CPUpreflight and allimmutabledeps; exact perplan readiness binds scientific/effectiveplan/source/base/checkpoint/panel.",
+    "With commonwriterlock/CAS recheck currentregisteredjobs/pending/owner/lease and8slotcapacity; oneuse reservation+authorization perGPU via exactgateway. Bookkeeping sequential, GPUparallel. AmbiguousACK reconciled, neverblindretry.",
+    "Terminalnonweight pull and original root+independent rawreviews; fullcost+allfailures retained. Latercompletedpairs mayjoin withoutwaiting suite18 orglobal72.",
+    "FullO2A/components keep original88identity+foursuite-developmentglobalfreeze; finalalso rootrelease. No gatechanged."
+  ],
+  "root_observation": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/initial_observation.json",
+    "sha256": "81fd1dde11633154b2b3d913f3d5d33b31c9ce4a3008b280f32110ef96424c28"
+  },
+  "root_observation_utc": "2026-10-20T10:33:22.366620+00:00",
+  "schema": "formal_main_v2",
+  "sealed_values_read": false,
+  "slots_not_reserved_by_this_report": true,
+  "snapshot_free_slots": 3,
+  "snapshot_training_GPU_count": 5,
+  "state_Git_source_modified": false,
+  "state_snapshot_sha256": "4bf1a25d81368f5534b13fa33c43cef2751b62d9110ff31ffd5302d846bb7f61",
+  "status": "prepare_existing_gateway_not_authorized_to_submit",
+  "suites": {
+    "libero_goal": {
+      "F01_all_budgets": {
+        "128": {
+          "path": "results/formal_main_v2/libero_goal/acceptance/attempt03/f01_k128.json",
+          "sha256": "c082dd79f948f6d24dac6ad39cb8e5b2ca441d327e159643c54a1aabc20c4aad"
+        },
+        "256": {
+          "path": "results/formal_main_v2/libero_goal/acceptance/attempt03/f01_k256.json",
+          "sha256": "f0f9b679daab195cf83c850597702b4049368604bd82f68f05f14de9815ba25c"
+        },
+        "64": {
+          "path": "results/formal_main_v2/libero_goal/acceptance/attempt03/f01_k64.json",
+          "sha256": "2fcd9b524a850d6135ad7b71696e5439321ee27341a15e32156d726b44b29782"
+        }
+      },
+      "GPU_acceptance": {
+        "path": "results/formal_main_v2/libero_goal/acceptance/root_review.json",
+        "sha256": "d994d25717d59f3b709944f3e8b2582c173ebd14febb853f49e5eec61ce8dddc"
+      },
+      "Goal_official50000_component_scope": true,
+      "acceptance_job": "3012579",
+      "action_GPU_cells": [
+        {
+          "control_actions": 8,
+          "method": "dense",
+          "suite": "libero_goal",
+          "token_count": 512,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "uniform128",
+          "suite": "libero_goal",
+          "token_count": 128,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "A128_seed17",
+          "suite": "libero_goal",
+          "token_count": 128,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "B128_seed17",
+          "suite": "libero_goal",
+          "token_count": 128,
+          "wait_actions": 10
+        }
+      ],
+      "complete_arms": 12,
+      "complete_pairs": [
+        "libero_goal_k128_seed17",
+        "libero_goal_k128_seed23",
+        "libero_goal_k128_seed41",
+        "libero_goal_k256_seed17",
+        "libero_goal_k256_seed23",
+        "libero_goal_k256_seed41"
+      ],
+      "environment": {
+        "action_chunk": 8,
+        "env_seed": 0,
+        "max_control_steps": 300,
+        "runtime_seed": 17,
+        "wait_steps": 10
+      },
+      "frozen_model_sha256": "85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2",
+      "input_acceptance": {
+        "path": "results/formal_main_v2/libero_goal/acceptance/attempt03/input_acceptance.json",
+        "sha256": "a25927ec8a25e1bc72cb87fb963216223ea8307a830699f0bee87c583fe92cb0"
+      },
+      "metadata_scope": true,
+      "model_manifest": {
+        "path": "configs/assets/openvla_oft_libero_goal.json",
+        "sha256": "6aaef6cd88a3968a13591fc196a3498c1780c7aab7a5e782a53c1967911a0ed5"
+      },
+      "model_revision": "c2d0f9fbbd82674683b397ff923168a12f6a307b",
+      "model_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-goal-c2d0f9f",
+      "panel": {
+        "path": "configs/manifests/formal_main_v2/libero_goal/initial_states/development.json",
+        "sha256": "ce8e3d31ab8f7616c87dd4d4031af41825713907ac184c6ea5b01d9040985aa9"
+      },
+      "prior_development_jobs": [],
+      "states": 100
+    },
+    "libero_object": {
+      "F01_all_budgets": {
+        "128": {
+          "path": "results/formal_main_v2/libero_object/acceptance/attempt02/f01_k128.json",
+          "sha256": "2c58d8c27b9a4c1ce2b5a2b790b23b5837f9c25cca9448223fbb1a12c5d0f562"
+        },
+        "256": {
+          "path": "results/formal_main_v2/libero_object/acceptance/attempt02/f01_k256.json",
+          "sha256": "30dfed1bd3b3fc3fe369348c4855c73434022e1d20cf60da56e7fe47f2c1af55"
+        },
+        "64": {
+          "path": "results/formal_main_v2/libero_object/acceptance/attempt02/f01_k64.json",
+          "sha256": "ea9649625f19b6f7a3f7d763fd39e67142f3c4a8d36b11c6d5726b48e1c76719"
+        }
+      },
+      "GPU_acceptance": {
+        "path": "results/formal_main_v2/libero_object/acceptance/root_review.json",
+        "sha256": "2fd415c47d8852678b4d83296ffcff4709d97765debe7f4e41a17a7ae02daaa2"
+      },
+      "Goal_official50000_component_scope": false,
+      "acceptance_job": "3012482",
+      "action_GPU_cells": [
+        {
+          "control_actions": 8,
+          "method": "dense",
+          "suite": "libero_object",
+          "token_count": 512,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "uniform128",
+          "suite": "libero_object",
+          "token_count": 128,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "A128_seed17",
+          "suite": "libero_object",
+          "token_count": 128,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "B128_seed17",
+          "suite": "libero_object",
+          "token_count": 128,
+          "wait_actions": 10
+        }
+      ],
+      "complete_arms": 16,
+      "complete_pairs": [
+        "libero_object_k128_seed17",
+        "libero_object_k128_seed23",
+        "libero_object_k128_seed41",
+        "libero_object_k256_seed17",
+        "libero_object_k256_seed23",
+        "libero_object_k256_seed41",
+        "libero_object_k64_seed17",
+        "libero_object_k64_seed41"
+      ],
+      "environment": {
+        "action_chunk": 8,
+        "env_seed": 0,
+        "max_control_steps": 280,
+        "runtime_seed": 17,
+        "wait_steps": 10
+      },
+      "frozen_model_sha256": "33285a7643de7073e41bd2062cbbc80b4df8fddff915c0a86a13d0bbae48edce",
+      "input_acceptance": {
+        "path": "results/formal_main_v2/libero_object/acceptance/attempt02/input_acceptance.json",
+        "sha256": "2690d538a64fc83925de7d6e807b70fc8fc4f2c65d43d582c14137d85560f47e"
+      },
+      "metadata_scope": true,
+      "model_manifest": {
+        "path": "configs/assets/openvla_oft_libero_object.json",
+        "sha256": "3c3e3b614fa0bf4134825d95d22b69173d79bfb4a594f9c113c832156d0f6a24"
+      },
+      "model_revision": "4c89574e1c538b6c102f43f0526d60a9d3650148",
+      "model_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-object-4c89574",
+      "panel": {
+        "path": "configs/manifests/formal_main_v2/libero_object/initial_states/development.json",
+        "sha256": "6b7e6dd9fb5b6351ee47c7bb30eab911e7c144d700cd88f7e5162641738b2d6a"
+      },
+      "prior_development_jobs": [
+        {
+          "elapsed_seconds": 386,
+          "execution_version": null,
+          "exit_code": "0:0",
+          "invocation": "results/formal_main_v2/invocations/libero_object_development_8c843c1d4ee8383c_attempt01.json",
+          "invocation_sha256": "6c5aaa313e11c67042eec51946886e1f34cdf4e0d7ed899e3dd27e429f3cfdb8",
+          "job_id": "3021394",
+          "method_ids": [
+            "dense",
+            "uniform256",
+            "uniform128",
+            "uniform64",
+            "A128_seed17",
+            "B128_seed17"
+          ],
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01",
+          "stage_key": "libero_object_development_8c843c1d4ee8383c",
+          "status": "COMPLETED"
+        },
+        {
+          "elapsed_seconds": 1401,
+          "execution_version": null,
+          "exit_code": "0:0",
+          "invocation": "results/formal_main_v2/invocations/libero_object_development_8c843c1d4ee8383c_attempt02.json",
+          "invocation_sha256": "21b10a350c3372753f2225bf8503c952a3b48981451b27cbd48fcf528057f544",
+          "job_id": "3021603",
+          "method_ids": [
+            "dense",
+            "uniform256",
+            "uniform128",
+            "uniform64",
+            "A128_seed17",
+            "B128_seed17"
+          ],
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01",
+          "stage_key": "libero_object_development_8c843c1d4ee8383c",
+          "status": "COMPLETED"
+        },
+        {
+          "elapsed_seconds": 4926,
+          "execution_version": null,
+          "exit_code": "0:0",
+          "invocation": "results/formal_main_v2/invocations/libero_object_development_8c843c1d4ee8383c_attempt03.json",
+          "invocation_sha256": "1f4f0abc0d9dceedd051966a049c075605998102fbfd9baf7ad5a54b97c5df4e",
+          "job_id": "3021844",
+          "method_ids": [
+            "dense",
+            "uniform256",
+            "uniform128",
+            "uniform64",
+            "A128_seed17",
+            "B128_seed17"
+          ],
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01",
+          "stage_key": "libero_object_development_8c843c1d4ee8383c",
+          "status": "COMPLETED"
+        }
+      ],
+      "states": 100
+    },
+    "libero_spatial": {
+      "F01_all_budgets": {
+        "128": {
+          "path": "results/formal_main_v2/libero_spatial/acceptance/attempt01/f01_k128.json",
+          "sha256": "dd10324e898817d1b674d47163176d3d4eb9498643b6667da6d016aaa918d721"
+        },
+        "256": {
+          "path": "results/formal_main_v2/libero_spatial/acceptance/attempt01/f01_k256.json",
+          "sha256": "492ee393781138e0ee39c3ed59acd96d0f3e13e2b09a326374aed38eb06e3f5e"
+        },
+        "64": {
+          "path": "results/formal_main_v2/libero_spatial/acceptance/attempt01/f01_k64.json",
+          "sha256": "98ca9bcfd92851c65acb17b7d3311363018811110973d03fbd1b5881c859bcb6"
+        }
+      },
+      "GPU_acceptance": {
+        "path": "results/formal_main_v2/libero_spatial/acceptance/root_review.json",
+        "sha256": "fee55c4f78f0f4953b96bf9364eb1051a591b91b3a9f092efc52bfdee99b8f68"
+      },
+      "Goal_official50000_component_scope": false,
+      "acceptance_job": "3012294",
+      "action_GPU_cells": [
+        {
+          "control_actions": 8,
+          "method": "dense",
+          "suite": "libero_spatial",
+          "token_count": 512,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "uniform128",
+          "suite": "libero_spatial",
+          "token_count": 128,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "A128_seed17",
+          "suite": "libero_spatial",
+          "token_count": 128,
+          "wait_actions": 10
+        },
+        {
+          "control_actions": 8,
+          "method": "B128_seed17",
+          "suite": "libero_spatial",
+          "token_count": 128,
+          "wait_actions": 10
+        }
+      ],
+      "complete_arms": 16,
+      "complete_pairs": [
+        "libero_spatial_k128_seed17",
+        "libero_spatial_k128_seed23",
+        "libero_spatial_k128_seed41",
+        "libero_spatial_k256_seed17",
+        "libero_spatial_k256_seed23",
+        "libero_spatial_k256_seed41",
+        "libero_spatial_k64_seed17",
+        "libero_spatial_k64_seed41"
+      ],
+      "environment": {
+        "action_chunk": 8,
+        "env_seed": 0,
+        "max_control_steps": 220,
+        "runtime_seed": 17,
+        "wait_steps": 10
+      },
+      "frozen_model_sha256": "6a34ed9b4790fa889eb36406a1182d3d89ee539f7a65cb2f72d67e8326d557e7",
+      "input_acceptance": {
+        "path": "results/formal_main_v2/libero_spatial/acceptance/attempt01/input_acceptance.json",
+        "sha256": "4305be270cecf7c8b6a5ffea289b98f0d4640880d3b45db7f49248b96c9d6815"
+      },
+      "metadata_scope": false,
+      "model_manifest": {
+        "path": "configs/assets/openvla_oft_libero_spatial.json",
+        "sha256": "8df1d2af695dff20f8e554f2f11353a35ef9acd7c32f5d73cd94bc170b7b6350"
+      },
+      "model_revision": "6d0231af0e48c5985f1ff86908f4674b84bc049b",
+      "model_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/models/openvla-7b-oft-finetuned-libero-spatial-6d0231a",
+      "panel": {
+        "path": "configs/manifests/formal_main_v2/libero_spatial/initial_states/development.json",
+        "sha256": "07718b648bfb767472506c48b0ef1837a5e6af992c2460e7567c275064809c91"
+      },
+      "prior_development_jobs": [
+        {
+          "elapsed_seconds": 393,
+          "execution_version": null,
+          "exit_code": "0:0",
+          "invocation": "results/formal_main_v2/invocations/libero_spatial_development_8c843c1d4ee8383c_attempt01.json",
+          "invocation_sha256": "13151a4e2f3f3e807ad32dd080e566921a3a2c5c8ada75195a10b7d070327adf",
+          "job_id": "3022743",
+          "method_ids": [
+            "dense",
+            "uniform256",
+            "uniform128",
+            "uniform64",
+            "A128_seed17",
+            "B128_seed17"
+          ],
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01",
+          "stage_key": "libero_spatial_development_8c843c1d4ee8383c",
+          "status": "COMPLETED"
+        },
+        {
+          "elapsed_seconds": 2,
+          "execution_version": "formal-downstream-action-v1",
+          "exit_code": "1:0",
+          "invocation": "results/formal_main_v2/invocations/libero_spatial_development_8c843c1d4ee8383c_attempt02.json",
+          "invocation_sha256": "6984d4dceeac9a88cb424fd986daef31595cae3e107581e9acfc4b7c96468261",
+          "job_id": "3042529",
+          "method_ids": [
+            "dense",
+            "uniform256",
+            "uniform128",
+            "uniform64",
+            "A128_seed17",
+            "B128_seed17"
+          ],
+          "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01",
+          "stage_key": "libero_spatial_development_8c843c1d4ee8383c",
+          "status": "FAILED"
+        }
+      ],
+      "states": 100
+    }
+  },
+  "utc": "2026-10-20T11:02:47.520402+00:00"
+}

@@ -1,0 +1,169 @@
+{
+  "GPU_submissions": [],
+  "files": {
+    "configs/assets/formal_main_v2_strict/libero_goal.json": {
+      "already_present": true,
+      "bytes": 3914,
+      "sha256": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+    },
+    "configs/assets/formal_main_v2_strict/libero_object.json": {
+      "already_present": true,
+      "bytes": 3918,
+      "sha256": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3"
+    },
+    "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": {
+      "already_present": true,
+      "bytes": 11693,
+      "sha256": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44"
+    },
+    "configs/experiments/formal_main_v2_goal_component_compat_v1.json": {
+      "already_present": true,
+      "bytes": 1718,
+      "sha256": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84"
+    },
+    "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17_references_development.json": {
+      "already_present": true,
+      "bytes": 7462,
+      "sha256": "8cdd32e2d85b4f030dcadb7a05338a124ae6b395aed546c6c7a7ed1d9019bbaa"
+    },
+    "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_object_k128_seed23_development.json": {
+      "already_present": true,
+      "bytes": 4399,
+      "sha256": "13fa7f0330208b9f5cca78602cc759c032698ec229e7cfa07b0c4e6bd900f3ad"
+    },
+    "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_spatial_k128_seed23_development.json": {
+      "already_present": true,
+      "bytes": 4413,
+      "sha256": "e7af973a3375e4c27c98a3b6a90cac920577241b2676fdabd2c3e9001286c667"
+    },
+    "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": {
+      "already_present": true,
+      "bytes": 20818,
+      "sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926"
+    },
+    "scripts/ops/formal_asset_evaluation_adapter.py": {
+      "already_present": true,
+      "bytes": 29370,
+      "sha256": "5762e163a00845c3404dbee87b724289bd6cef40cbb644cbec668bc4f7dbd688"
+    },
+    "scripts/ops/formal_asset_metadata_adapter.py": {
+      "already_present": true,
+      "bytes": 16526,
+      "sha256": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0"
+    },
+    "scripts/ops/formal_downstream_supervisor.py": {
+      "already_present": true,
+      "bytes": 51279,
+      "sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571"
+    },
+    "scripts/ops/formal_evaluation_adapter.py": {
+      "already_present": true,
+      "bytes": 28214,
+      "sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd"
+    },
+    "scripts/ops/formal_goal_component_adapter.py": {
+      "already_present": true,
+      "bytes": 14711,
+      "sha256": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea"
+    },
+    "scripts/server/formal_asset_main.slurm": {
+      "already_present": true,
+      "bytes": 1502,
+      "sha256": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a"
+    },
+    "scripts/server/formal_goal_asset_main.slurm": {
+      "already_present": true,
+      "bytes": 1510,
+      "sha256": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a"
+    },
+    "scripts/server/run_formal_asset_stage.py": {
+      "already_present": true,
+      "bytes": 21795,
+      "sha256": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996"
+    },
+    "scripts/server/run_formal_downstream.py": {
+      "already_present": true,
+      "bytes": 18674,
+      "sha256": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+    },
+    "scripts/server/run_formal_goal_asset_stage.py": {
+      "already_present": true,
+      "bytes": 13243,
+      "sha256": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039"
+    }
+  },
+  "final_release": false,
+  "new_trials": 0,
+  "plans": [
+    {
+      "methods": [
+        "A128_seed23",
+        "B128_seed23"
+      ],
+      "plan_sha256": "3be654d069f76bb0a266ca099e898f02715a16472ef88b64b1a081cd8cc76970",
+      "publish_files": {
+        "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_spatial_k128_seed23_development.json": "e7af973a3375e4c27c98a3b6a90cac920577241b2676fdabd2c3e9001286c667",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+        "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+        "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+        "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+      },
+      "suite": "libero_spatial"
+    },
+    {
+      "methods": [
+        "A128_seed23",
+        "B128_seed23"
+      ],
+      "plan_sha256": "eb10c8285772ddf9b49630695ef7189f976c455747da4f4f010a1e5429019523",
+      "publish_files": {
+        "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+        "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+        "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+        "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_object_k128_seed23_development.json": "13fa7f0330208b9f5cca78602cc759c032698ec229e7cfa07b0c4e6bd900f3ad",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+        "scripts/ops/formal_asset_evaluation_adapter.py": "5762e163a00845c3404dbee87b724289bd6cef40cbb644cbec668bc4f7dbd688",
+        "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+        "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+        "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+        "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+        "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+        "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+      },
+      "suite": "libero_object"
+    },
+    {
+      "methods": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64",
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "plan_sha256": "2fd9af0ca3fedd5afad94a904c3c2ee6524207915eb02f36fcc46184b8be3e88",
+      "publish_files": {
+        "configs/assets/formal_main_v2_strict/libero_goal.json": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c",
+        "configs/assets/formal_main_v2_strict/libero_object.json": "d8f1f9a5c1c8c040aa499fd9df35ebe4a039fd6c756b565cf6055046be0cf8b3",
+        "configs/experiments/formal_main_v2_asset_metadata_compat_v1.json": "25c90cbfe2db6fdb130a16e6b98ab7ccfc8373a2853578bf73ef0d38283cfb44",
+        "configs/experiments/formal_main_v2_goal_component_compat_v1.json": "c8c56d17ab2425226ad7964f966e523fbbb518e147679b9504c66dafc654cb84",
+        "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17_references_development.json": "8cdd32e2d85b4f030dcadb7a05338a124ae6b395aed546c6c7a7ed1d9019bbaa",
+        "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926",
+        "scripts/ops/formal_asset_evaluation_adapter.py": "5762e163a00845c3404dbee87b724289bd6cef40cbb644cbec668bc4f7dbd688",
+        "scripts/ops/formal_asset_metadata_adapter.py": "d1ca08465ffcf2682569b1224e2018f17fdba61feac1896f864cc981759397d0",
+        "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+        "scripts/ops/formal_evaluation_adapter.py": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+        "scripts/ops/formal_goal_component_adapter.py": "60db92e78f62e3dc54c7a791debee9085a2651cfbcd99d4ce725c68428f1c6ea",
+        "scripts/server/formal_asset_main.slurm": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a",
+        "scripts/server/formal_goal_asset_main.slurm": "ad29920d056b95be82d0257907d2010ba1a97be9166664a65029bdfd001d896a",
+        "scripts/server/run_formal_asset_stage.py": "9c49bbd536646c8b677c611328e79e7ff3a16a6bca7c5309c8e69cdce3250996",
+        "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24",
+        "scripts/server/run_formal_goal_asset_stage.py": "fc7d8756ef2124b15c4709a84d83df929b92fb77dd5230ddfaf210b6274fa039"
+      },
+      "suite": "libero_goal"
+    }
+  ],
+  "scientific_changes": false,
+  "state_unchanged": true,
+  "status": "original_pure_planner_static_dependencies_published_exactly"
+}

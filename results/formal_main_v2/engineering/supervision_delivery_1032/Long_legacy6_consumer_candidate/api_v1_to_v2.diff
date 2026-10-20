@@ -1,0 +1,42 @@
+--- legacy_proof_api_v1.py
++++ legacy_proof_api_v2.py
+@@ -7,10 +7,11 @@
+ from pathlib import Path
+ from collections import Counter
+ R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA');H=R.parent
+-OLD='formal-downstream-root-v1';NEW='formal-downstream-action-v1';VERSION='long-legacy6-proof-candidate-v1'
++OLD='formal-downstream-root-v1';NEW='formal-downstream-action-v1';VERSION='long-legacy6-proof-candidate-v2'
+ ROOT={'path':'results/formal_main_v2/downstream_reviews/3019954.json','sha256':'cde7e784bced622a6a30169af1f3c34ece8b710da8a6d65ab804454457c5d9ba'}
+ MAP={'path':'.local/legacy6_typed_bridge_0927/equivalence_map_candidate.json','sha256':'f3c7c2e3b3d4546748c4705bb8cba7f29c050470a22645215f7a894f899d3cc0'}
+ PRIOR={'path':'results/formal_main_v2/engineering/supervision_delivery_0830/Long_legacy6_provenance_independent/independent_readiness.json','sha256':'b786128f4f202c93da6a80f44c7c1fbeeacadef78724b76d9bef294615b7a3d5'}
++IDENTITY_SUPPORT={'path':'results/formal_main_v2/preflight/heartbeat_20261020T1832/root_runtime_inode_evidence.json','sha256':'3f196ea78201de88c90d252c2d46deb18b0270560494361e457563e84d9bff21'}
+ SEM='4ef98a5beb21bfa790a8a0f484334d6d9020a481a517d8f89534562524025d7d'
+ METHODS=['dense','uniform256','uniform128','uniform64','A128_seed17','B128_seed17'];JOBS=['3016981','3017161','3017959','3018505','3019176','3019954']
+ HELPER='scripts/formal_execution_manifests.py';CONSUMER='scripts/ops/formal_action_deployment_v1/consumer.py'
+@@ -54,7 +55,7 @@
+  valid_ref(ref,receipt=receipt);require(ev.watch(ref['path'])==ref['sha256'],'reference bytes changed')
+  return decode(ev.path(ref['path']).read_bytes())
+ 
+-ASSESS_FIELDS={'schema','kind','version','status','review_role','synthetic','map_ref','legacy_root_ref','target_action_semantics_sha256','original_condition','decision','same_controller_environment','old_instance_hash_claimed','old_full_RNG_dump_required','historical_provenance_ref','reviewer_source_ref','final_release'}
++ASSESS_FIELDS={'schema','kind','version','status','review_role','synthetic','map_ref','legacy_root_ref','target_action_semantics_sha256','original_condition','decision','same_controller_environment','old_instance_hash_claimed','old_full_RNG_dump_required','historical_provenance_ref','supporting_evidence_refs','reviewer_source_ref','final_release'}
+ ADOPT_FIELDS={'schema','kind','version','status','review_role','synthetic','map_ref','legacy_root_ref','target_action_semantics_sha256','identity_assessment_ref','same_controller_environment','old_instance_hash_claimed','old_full_RNG_dump_required','independent_adoption_ref','reviewer_source_ref','final_release'}
+ def _documents(assessment,root,independent,*,assessment_ref,root_ref,independent_ref,synthetic):
+  # This pure structure gate grants no authorization. Real IO API below always
+@@ -66,6 +67,9 @@
+  require(assessment['schema']=='formal_main_v2' and assessment['kind']=='formal_legacy_controller_environment_identity_assessment' and assessment['version']=='long-legacy6-identity-v1' and assessment['status']=='passed' and assessment['review_role']=='independent','positive independent identity assessment required')
+  require(assessment['original_condition']=='controller and environment were identical' and assessment['decision']=='sufficient_historical_source_chain','original identity judgment required')
+  require(assessment['historical_provenance_ref']==PRIOR,'exact historical source-chain basis')
++ require(type(assessment['supporting_evidence_refs']) is list and IDENTITY_SUPPORT in assessment['supporting_evidence_refs'],'exact additional runtime inode/source evidence required')
++ require(len({x['path'] for x in assessment['supporting_evidence_refs']})==len(assessment['supporting_evidence_refs']),'duplicate identity support refs')
++ for item in assessment['supporting_evidence_refs']:valid_ref(item,receipt=True)
+  for role,doc in [('root',root),('independent',independent)]:
+   require(type(doc) is dict and set(doc)==ADOPT_FIELDS,'typed adoption fields')
+   require(doc['schema']=='formal_main_v2' and doc['kind']=='formal_legacy_development_equivalence_adoption' and doc['version']=='long-legacy6-adoption-v1' and doc['status']=='passed' and doc['review_role']==role,'positive matching-role adoption required')
+@@ -171,5 +175,6 @@
+  _documents(assessment,root,ind,assessment_ref=identity_assessment_ref,root_ref=root_adoption_ref,independent_ref=independent_adoption_ref,synthetic=False)
+  for doc in [root,ind,assessment]:_read_ref_source=doc['reviewer_source_ref'];valid_ref(_read_ref_source,receipt=True);require(ev.watch(_read_ref_source['path'])==_read_ref_source['sha256'],'real review implementation reference changed')
+  require(ev.watch(PRIOR['path'])==PRIOR['sha256'],'historical identity evidence changed')
++ for item in assessment['supporting_evidence_refs']:_read_ref(ev,item,receipt=True)
+  x=_raw_rebuild(ev,legacy_root_ref=legacy_root_ref,equivalence_map_ref=equivalence_map_ref);ev.unchanged()
+- return {'schema':'formal_main_v2','kind':'explicit_legacy_development_compatibility_envelope','version':VERSION,'status':'real_bound_adoptions_and_legacy_evidence_verified','suite':suite,'stage':stage,'legacy_execution_version':OLD,'original_root_ref':legacy_root_ref,'original_root_review':x['original_review'],'original_invocations_ran_new_wrapper':False,'target_execution_version':NEW,'target_action_semantics_sha256':SEM,'map_ref':equivalence_map_ref,'trial_records_ref':x['trial_records_ref'],'adoptions':{'root':root_adoption_ref,'independent':independent_adoption_ref,'identity_assessment':identity_assessment_ref},'method_identities':x['method_identities'],'unique_state_identities':x['unique_states'],'per_method':x['per_method'],'original_allocations':x['original_review']['cost']['allocations'],'historical_GPU_seconds':10531,'new_GPU_seconds':0,'new_scientific_trials':0,'additional_independent_initial_states':0,'all600_included':True,'evidence_sha256':x['evidence_sha256'],'external_provenance_sha256':x['external_provenance_sha256'],'scope':'compatible development proof only; caller must still apply unchanged all88/four-suite/global freeze and full timing gates','final_release':False,'GPU_submission_authorized':False,'old_latency_reused':False,'production_activation_inferred':False}
++ return {'schema':'formal_main_v2','kind':'explicit_legacy_development_compatibility_envelope','version':VERSION,'status':'real_bound_adoptions_and_legacy_evidence_verified','suite':suite,'stage':stage,'legacy_execution_version':OLD,'original_root_ref':legacy_root_ref,'original_root_review':x['original_review'],'original_invocations_ran_new_wrapper':False,'target_execution_version':NEW,'target_action_semantics_sha256':SEM,'map_ref':equivalence_map_ref,'trial_records_ref':x['trial_records_ref'],'adoptions':{'root':root_adoption_ref,'independent':independent_adoption_ref,'identity_assessment':identity_assessment_ref},'method_identities':x['method_identities'],'unique_state_identities':x['unique_states'],'per_method':x['per_method'],'original_allocations':x['original_review']['cost']['allocations'],'historical_GPU_seconds':10531,'new_GPU_seconds':0,'new_scientific_trials':0,'additional_independent_initial_states':0,'all600_included':True,'compatibility_class':'legacy_equivalent_not_new_wrapper_execution','legacy_equivalent_trials':600,'actual_new_wrapper_trials_added':0,'raw_trial_ledger_unchanged':True,'evidence_sha256':x['evidence_sha256'],'external_provenance_sha256':x['external_provenance_sha256'],'scope':'compatible development proof only; caller must still apply unchanged all88/four-suite/global freeze and full timing gates','final_release':False,'GPU_submission_authorized':False,'old_latency_reused':False,'production_activation_inferred':False}

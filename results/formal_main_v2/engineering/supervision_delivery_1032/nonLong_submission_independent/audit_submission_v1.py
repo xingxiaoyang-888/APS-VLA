@@ -1,0 +1,92 @@
+"""One read-only submission identity/capacity observation; no scientific result audit."""
+import copy,fcntl,hashlib,importlib.util,json,os,re,subprocess,sys,time,traceback
+from pathlib import Path
+from types import SimpleNamespace
+from datetime import datetime,timezone
+R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+D=R/'.local/nonLong_submission_independent_1032';B='results/formal_main_v2/preflight/heartbeat_20261020T1832/';PR='scripts/ops/formal_action_deployment_v1/'
+READS={};CHECKS=[];sys.dont_write_bytecode=True;os.chdir(R)
+def need(v,msg):
+ if not v:raise ValueError(msg)
+def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def read(name,pin=None):
+ p=Path(name);p=p if p.is_absolute() else R/p
+ need(p.resolve()==p and (R in p.parents or P in p.parents),'canonical server evidence required')
+ b=p.read_bytes();h=hashlib.sha256(b).hexdigest();need(pin is None or h==pin,'SHA mismatch '+str(p));need(str(p) not in READS or READS[str(p)]==h,'evidence drift');READS[str(p)]=h;return b
+def js(name,pin=None):return json.loads(read(name,pin))
+def getref(r):return js(r['path'],r['sha256'])
+def ref(p):p=Path(p);return {'path':p.relative_to(R).as_posix(),'sha256':digest(p),'bytes':p.stat().st_size}
+def write(name,value):
+ p=D/name;b=value if isinstance(value,bytes) else (json.dumps(value,sort_keys=True,ensure_ascii=False,allow_nan=False,indent=2)+'\n').encode()
+ with p.open('xb') as f:f.write(b)
+ return ref(p)
+def load(name,pin):
+ p=R/name;b=read(p,pin);spec=importlib.util.spec_from_file_location('submit_audit_'+p.stem,p);m=importlib.util.module_from_spec(spec);sys.modules[spec.name]=m;exec(compile(b,str(p),'exec'),m.__dict__);return m
+def guard(event,args):
+ if event in ('os.system','socket.connect'):raise RuntimeError('No shell/network')
+ if event=='subprocess.Popen':
+  executable,argv,cwd,env=args;need(isinstance(argv,list) and argv[0] in ('sacct','squeue','scontrol'),'Only registered read-only Slurm calls')
+ if event=='open':
+  name,mode,flags=args
+  if isinstance(name,(str,bytes,os.PathLike)):
+   p=Path(os.fsdecode(name));p=p if p.is_absolute() else Path.cwd()/p
+   need(not any('sealed' in x.lower() or x.lower() in ('weights','checkpoints') for x in p.parts) and p.suffix.lower() not in ('.pt','.pth','.bin','.safetensors','.ckpt','.pkl','.pickle','.init','.pruned_init'),'no weight/final reads')
+   writing=isinstance(mode,str) and any(c in mode for c in 'wax+') or isinstance(flags,int) and bool(flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_APPEND|os.O_TRUNC))
+   if writing:need(D in p.parents,'private outputs only')
+sys.addaudithook(guard)
+def fields(answer):
+ need(answer['returncode']==0,'scontrol failed');out={}
+ for key in ('JobId','JobName','JobState','Comment','NodeList','WorkDir','Requeue','Restarts','Account','Partition'):
+  found=re.findall(r'(?:^|\s)'+key+r'=([^\s]+)',answer['stdout']);need(len(found)==1,'scontrol identity '+key);out[key]=found[0]
+ return out
+def main():
+ start=time.perf_counter();ctl=load('scripts/ops/formal_autonomous_training_v1/controller.py','acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363');g=load(PR+'gateway.py','8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a')
+ # The only mutable-state read is under the shared lock, released before Slurm.
+ with (R/'results/experiment_supervisor/.writer.lock').open('rb') as lock:
+  fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+  try:raw=(R/'results/experiment_supervisor/state.json').read_bytes();state_ref=write('state_snapshot.json',raw)
+  finally:fcntl.flock(lock,fcntl.LOCK_UN)
+ state=json.loads(raw);need(state['pending_submission'] is None,'pending submission unresolved');auto=state['autonomous_training_v1'];need(auto['reserved_GPU_slots']==0,'reservation remains');jobs=state['registered_jobs'];ids=[str(x['job_id']) for x in jobs];need(len(ids)==len(set(ids)),'duplicate registry IDs')
+ scheduler=ctl.Slurm(timeout=45);snap=scheduler.observe(jobs);write('scheduler_snapshot.json',snap)
+ controls={}
+ for jid in ('3048572','3048581','3048609'):
+  argv=['scontrol','show','job','-o',jid];ans=scheduler.run(argv);controls[jid]={'argv':argv,'returncode':ans.returncode,'stdout':ans.stdout,'stderr':ans.stderr}
+ write('scontrol_exact_three.json',controls)
+ need(set(snap['rows'])==set(ids) and set(snap['queue'])<=set(ids),'incomplete registered scheduler observation')
+ capacity=ctl.capacity(jobs,snap,auto['controller_job_id']);need(not capacity['unknown'] and not capacity['findings'] and len(capacity['occupied'])<=8,'unknown or overcapacity');write('capacity.json',capacity)
+ controller=snap['rows'][auto['controller_job_id']];need(controller['status']=='RUNNING' and controller['gpus']==0,'CPU controller not running')
+ accepted=js('.local/nonLong_development_plans_audit_1032/post_readiness/post_readiness_independent_review.json','6655d7050fbd07ff476eaaacae1bf41ea394b402363f33dc41ddf751f42dd8fb');need(accepted['status']=='passed' and accepted['actual_full_P_wrapper_verifications']==3,'prior deployment audit missing')
+ specs=[('3048572','libero_spatial',200,'Spatial3048572_pending_reconciliation.json','3eef99485e848781407c4028550673c79118fa3621bbdda64612c2f53d479a4a'),('3048581','libero_object',200,'Object3048581_pending_reconciliation.json','de0c25ef2af8907726ff8f10c87748086636b1e0d4f8851b37602f0b66f7da8b'),('3048609','libero_goal',600,'Goal3048609_pending_reconciliation.json','08b01b120aee60c012123e8c0573c5e76054b2c276ca13b2dc98fafbd26288ba')]
+ results=[];tokens=[]
+ for jid,suite,count,name,pin in specs:
+  rec=js(B+name,pin);job=next(j for j in jobs if str(j['job_id'])==jid);p=rec['pending_before'];token=p['request_token'];tokens.append(token);proof=next(x for x in accepted['plans'] if x['suite']==suite);auth=getref(proof['authorization']);plan=getref(proof['effective_plan']);prepared=getref(proof['prepared_invocation']);ack=getref(rec['original_ACK']);failure=getref(rec['original_failure']);pre=getref(rec['original_preflight'])
+  need(g.parse_ack(SimpleNamespace(**{k:ack[k] for k in ('returncode','stdout','stderr')}),{str(x['job_id']) for x in pre['registered_jobs']})==jid,'original ACK ID differs')
+  need(rec['status']=='exact_original_ACK_job_reconciled' and rec['new_submissions']==0 and rec['automatic_retry'] is False and rec['lifecycle_lease_held'] is True,'root reconciliation did more than exact adoption')
+  need(failure['status']=='stopped_requires_root_reconciliation_no_retry' and failure['error']=='post-submit accounting incomplete' and failure['automatic_retry'] is False,'lag failure not retained')
+  need(p['known_job_id']==jid and p['authorization']==proof['authorization'] and token=='cti-downstream-gateway-v1:'+proof['authorization']['sha256'] and p['requested_gpus']==1 and p['automatic_retry'] is False,'pending/authorization/token differs')
+  need(pre['authorization']==proof['authorization'] and pre['plan']==proof['effective_plan'] and pre['prepared_invocation']==proof['prepared_invocation'] and pre['request_token']==token and pre['scientific_settings_changed'] is False,'preflight proof binding')
+  invbytes=read(proof['prepared_invocation']['path'],proof['prepared_invocation']['sha256']);need(read(job['invocation'],job['invocation_sha256'])==invbytes==read(P/job['invocation'],job['invocation_sha256']),'R/P invocation bytes differ')
+  argv=g.submission_argv({'plan':plan,'invocation':prepared,'invocation_bytes':invbytes},token)
+  need(ack['actual_sbatch_argv']==pre['actual_sbatch_argv']==p['actual_sbatch_argv']==job['downstream_gateway']['actual_sbatch_argv']==argv,'sbatch source/prepared mismatch')
+  need(job['downstream_gateway']['authorization']==proof['authorization'] and job['runtime_readiness']==proof['readiness'] and job['scientific_plan']==proof['scientific_plan'] and job['action_execution_contract']==proof['action_execution_contract'] and job['plan_sha256']==proof['plan_sha256'],'registered deployment binding')
+  need(job['suite']==suite and job['mode']=='development' and job['gpus']==1 and job['method_ids']==proof['methods'] and count==proof['expected_trials'],'registered stage methods/trials differ')
+  for rr in [proof['readiness'],proof['root_pre_execution'],proof['root_review'],proof['independent_review']]:getref(rr)
+  need(sum(g.registered_comment(j)==token for j in jobs)==1,'duplicate registered token')
+  need(sum(j.get('invocation')==job['invocation'] for j in jobs)==1,'duplicate invocation')
+  related=[j for j in jobs if j.get('suite')==suite and j.get('mode')=='development' and set(j.get('method_ids',[]))&set(job['method_ids'])];need([str(j['job_id']) for j in related]==[jid],'overlapping methods submitted twice')
+  cap_before=ctl.capacity(pre['registered_jobs'],pre['scheduler_observation'],auto['controller_job_id']);need(cap_before==pre['capacity'] and not cap_before['unknown'] and not cap_before['findings'] and len(cap_before['occupied'])<8,'pre-submit capacity invalid')
+  root_jobs=copy.deepcopy(pre['registered_jobs'])+[rec['job']];cap_root=ctl.capacity(root_jobs,rec['scheduler'],auto['controller_job_id']);need(cap_root==rec['capacity'] and not cap_root['unknown'] and not cap_root['findings'] and len(cap_root['occupied'])<=8,'root reconcile capacity invalid')
+  g.check_observed_identity(rec['job'],rec['scheduler']['rows'][jid],rec['scheduler']['queue'].get(jid),ctl.TERMINAL,required_token=token)
+  old=fields(rec['actual_scontrol_detail']);now=fields(controls[jid]);r=snap['rows'][jid]
+  for f in (old,now):need(f['JobId']==jid and f['JobName']=='cti-formal-downstream' and f['Comment']==token and f['WorkDir']==str(P) and f['Requeue']=='0' and f['Restarts']=='0' and f['Account']=='p_p15016' and f['Partition']=='L40','actual scontrol identity differs')
+  need(now['JobState']==r['status'] and now['NodeList']==r['node'] and r['gpus']==1,'live accounting/scontrol differs')
+  corroboration=dict(job_id=jid,name=now['JobName'],status=now['JobState'],comment=now['Comment']);g.check_observed_identity(job,r,snap['queue'].get(jid),ctl.TERMINAL,required_token=token,corroboration=corroboration)
+  results.append({'job_id':jid,'suite':suite,'methods':job['method_ids'],'planned_trials':count,'unique_development_initial_states':100,'status_at_observation':r['status'],'node':r['node'],'gpus':r['gpus'],'allocated_GPU_seconds_so_far':r['elapsed_seconds'],'request_token':token,'invocation':{'path':job['invocation'],'sha256':job['invocation_sha256']},'original_ACK':rec['original_ACK'],'retained_post_submit_accounting_lag_failure':rec['original_failure'],'original_preflight':rec['original_preflight'],'root_reconciliation':{'path':B+name,'sha256':pin},'authorization':proof['authorization'],'readiness':proof['readiness'],'root_and_independent_preexecution_proof':proof,'one_registered_submission':True,'root_reconciliation_new_submissions':0})
+ need(len(set(tokens))==3,'tokens not unique')
+ for path,sha in READS.items():need(digest(path)==sha,'immutable submission evidence changed')
+ write('read_evidence_sha256.json',READS)
+ report=write('independent_review.json',{'schema':'formal_main_v2','kind':'three_nonLong_actual_submissions_independent_review','status':'passed','reviewer':'/root/long128s41_terminal_0530','utc':datetime.now(timezone.utc).isoformat(),'source':ref(Path(__file__)),'state_snapshot':state_ref,'only_short_state_lock_held':True,'Slurm_observations':{'registered_observe_calls':1,'exact_scontrol_calls':3,'result_logs_read':0},'pending_submission':None,'reserved_GPU_slots':0,'registered_job_count':len(jobs),'capacity':capacity,'running_CPU_controller':auto['controller_job_id'],'jobs':results,'retained_accounting_lag_failures':3,'new_submissions_by_reviewer':0,'GPU_runs_started_by_reviewer':0,'scientific_results_reviewed':False,'new_scientific_trials_claimed':0,'final_release':False,'state_Git_Slurm_modified':False,'CPU_wall_seconds':time.perf_counter()-start,'blockers':[]})
+ files=[ref(p) for p in sorted(D.iterdir()) if p.is_file() and p.name!='manifest.json'];manifest=write('manifest.json',{'schema':'formal_main_v2','kind':'actual_submission_audit_delivery','files':files});print(json.dumps({'status':'passed','report':report,'manifest':manifest,'capacity':capacity,'job_statuses':[(x['job_id'],x['status_at_observation']) for x in results]}))
+if __name__=='__main__':
+ try:main()
+ except BaseException as e:write('failure_v1.json',{'error_type':type(e).__name__,'error':str(e),'traceback':traceback.format_exc(),'state_Git_Slurm_modified':False});raise

@@ -1,0 +1,62 @@
+{
+  "automatic_retry": false,
+  "control_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+  "controller": {
+    "path": "scripts/ops/formal_autonomous_training_v1/controller.py",
+    "sha256": "acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363"
+  },
+  "controller_activation": {
+    "path": "configs/experiments/formal_main_v2_autonomous_execution_activation_v2.json",
+    "sha256": "7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef"
+  },
+  "controller_job_id": "3034538",
+  "excluded_nodes": [
+    "gpu4020"
+  ],
+  "final_release_authorized_by_gateway": false,
+  "gap_review": {
+    "path": ".local/action_v4_deployment_gap_0547/gap_review.json",
+    "sha256": "ae297e4007315f9e7f3cca939547f748273eb9d7e5db1e132c48e8ede42b593c"
+  },
+  "gateway_files": {
+    "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a"
+  },
+  "independent_review": {
+    "path": "results/formal_main_v2/engineering/action_deployment_candidates_0809/action_gateway_consumers_independent_0809/gateway_independent_review.json",
+    "sha256": "c232149639a1e6335189610aebba19830e1a3c8bfe9b932d1398566f10cd2b4f"
+  },
+  "kind": "formal_downstream_single_submission_authorization",
+  "maximum_attempts": 1,
+  "plan": {
+    "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17/effective_plan.json",
+    "sha256": "99af63717702cb5585361a7bb5b365dc629b66a29581578d0b075e3e2d88a030"
+  },
+  "plan_arguments": {
+    "collection_review": null,
+    "execution_manifest": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17_references_development.json",
+    "freeze_directory": null,
+    "output_relative": null,
+    "prior_review": null,
+    "profile_panel": null,
+    "repair_record": null,
+    "resume": false,
+    "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "stage": "development",
+    "stop_after": null
+  },
+  "planner": {
+    "path": "scripts/ops/formal_downstream_supervisor.py",
+    "sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571"
+  },
+  "prepared_invocation": null,
+  "root_reservation": null,
+  "runtime_readiness": null,
+  "runtime_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+  "schema": "formal_main_v2",
+  "scientific_plan": {
+    "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17/scientific_plan.json",
+    "sha256": "cbe8b43b2ef38b24b0373d12cf180c539aa47684019e28c2d582f2941e5f9ebe"
+  },
+  "status": "draft_not_approved",
+  "version": "formal-downstream-server-gateway-v1"
+}

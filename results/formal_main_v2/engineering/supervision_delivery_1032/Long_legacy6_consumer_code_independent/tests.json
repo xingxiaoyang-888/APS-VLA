@@ -1,0 +1,304 @@
+{
+  "all_fixtures_in_memory_only": true,
+  "count": 49,
+  "new_GPU_seconds": 0,
+  "real_positive_API_called": false,
+  "real_receipts_created": 0,
+  "status": "passed",
+  "tests": [
+    {
+      "case": "valid_in_memory_synthetic_is_structure_only",
+      "passed": true,
+      "real_proof_returned": false
+    },
+    {
+      "before_IO_verified": true,
+      "case": "synthetic_documents_block_real_gate",
+      "reason": "synthetic documents cannot enter real proof path",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "root_null",
+      "reason": "typed adoption fields",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "independent_null",
+      "reason": "typed adoption fields",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "assessment_null",
+      "reason": "typed identity assessment required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "draft_root",
+      "reason": "positive matching-role adoption required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "negative_independent",
+      "reason": "positive matching-role adoption required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "pending_identity",
+      "reason": "positive independent identity assessment required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "wrong_root_role",
+      "reason": "positive matching-role adoption required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "wrong_independent_role",
+      "reason": "positive matching-role adoption required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "negative_same_environment",
+      "reason": "identity/measurement/final claim mismatch",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "truthy_string_environment",
+      "reason": "identity/measurement/final claim mismatch",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "missing_exact_inode_evidence",
+      "reason": "exact additional runtime inode/source evidence required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "duplicate_inode_evidence",
+      "reason": "duplicate identity support refs",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "wrong_historical_chain",
+      "reason": "exact historical source-chain basis",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "changed_map",
+      "reason": "same exact map/root/target required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "changed_legacy_root",
+      "reason": "same exact map/root/target required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "changed_target_semantics",
+      "reason": "same exact map/root/target required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "different_assessment_ref",
+      "reason": "both adoptions must bind same exact identity assessment",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "root_unbound_independent",
+      "reason": "root must bind this independent adoption; independent must not self-bind",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "independent_self_bind",
+      "reason": "root must bind this independent adoption; independent must not self-bind",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "same_review_source_refs",
+      "reason": "root and independent must not be the same review source",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "invented_instance_hash",
+      "reason": "identity/measurement/final claim mismatch",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "invented_RNG_requirement",
+      "reason": "identity/measurement/final claim mismatch",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "final_claim",
+      "reason": "identity/measurement/final claim mismatch",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "private_reviewer_source",
+      "reason": "real adoption must be an immutable results receipt, not a private fixture",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "wrong_identity_decision",
+      "reason": "original identity judgment required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "wrong_identity_condition",
+      "reason": "original identity judgment required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "unexpected_field",
+      "reason": "typed adoption fields",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "nonsynthetic_in_synthetic_gate",
+      "reason": "synthetic documents cannot enter real proof path",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "missing_typed_field",
+      "reason": "typed adoption fields",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "aliased_document_paths",
+      "reason": "three distinct actual documents required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "public_missing_adoptions",
+      "reason": "exact path/SHA reference required",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "public_final",
+      "reason": "final/other suite or semantics rejected before IO",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "public_other_suite",
+      "reason": "final/other suite or semantics rejected before IO",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "public_wrong_semantics",
+      "reason": "final/other suite or semantics rejected before IO",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "public_changed_map",
+      "reason": "exact bounded source/map only",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "public_private_receipt",
+      "reason": "real adoption must be an immutable results receipt, not a private fixture",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "public_no_synthetic_override",
+      "reason": "consume_legacy_development_proof() got an unexpected keyword argument 'synthetic'",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "public_no_forged_evidence_provider",
+      "reason": "consume_legacy_development_proof() got an unexpected keyword argument 'evidence'",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "path_traversal",
+      "reason": "canonical relative reference",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "absolute",
+      "reason": "canonical relative reference",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "windows_absolute",
+      "reason": "canonical relative reference",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "backslash",
+      "reason": "canonical relative reference",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "duplicate_JSON_keys",
+      "reason": "duplicate JSON key",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "nonfinite_JSON_constant",
+      "reason": "nonfinite JSON NaN",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "f64_wrong_width",
+      "reason": "7 action columns",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "f64_boolean_action",
+      "reason": "finite numeric action",
+      "rejected": true
+    },
+    {
+      "before_IO_verified": true,
+      "case": "f64_nan_action",
+      "reason": "finite numeric action",
+      "rejected": true
+    }
+  ],
+  "whole_chain_reconstruction_rerun_here": false
+}

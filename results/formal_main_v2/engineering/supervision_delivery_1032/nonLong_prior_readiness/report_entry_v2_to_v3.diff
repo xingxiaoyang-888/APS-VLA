@@ -1,0 +1,11 @@
+--- write_report_v2.py
++++ write_report_v3.py
+@@ -29,7 +29,7 @@
+  suites[suite]={'model_manifest':ref(spec['model_manifest'],spec['model_manifest_sha256']),'model_revision':spec['model_revision'],'model_root_server':spec['model_root_server'],'GPU_acceptance':ar,'acceptance_job':a['job_id'],'input_acceptance':ref(base+'/input_acceptance.json'),'F01_all_budgets':{str(k):ref(base+f'/f01_k{k}.json') for k in (256,128,64)},'frozen_model_sha256':f00['frozen_model_sha256'],'environment':spec['environment'],'panel':panelref,'states':100,'complete_pairs':complete,'complete_arms':len(complete)*2,'prior_development_jobs':prior,'action_GPU_cells':cells,'metadata_scope':suite in ['libero_object','libero_goal'],'Goal_official50000_component_scope':suite=='libero_goal'}
+ for suite,seed,job in [('libero_spatial',23,'3022808'),('libero_object',23,'3034580'),('libero_goal',17,'3022615')]:
+  train=f'results/formal_main_v2/{suite}/k128/seed{seed}/training';rr=ref(train+f'/segment_reviews/{job}.json');rv=json.loads((R/rr['path']).read_text());assert rv['kind']=='root_segment_review' and rv['status']=='passed' and rv['completed_by_arm']=={'A':5000,'B':5000} and rv['continuation']=='formal_training_complete_no_extension'
+- ir=ref(train+f'/segment_reviews/{job}_independent.json');methods=[f'A128_seed{seed}',f'B128_seed{seed}']
++ ir=(ref('results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_object_k128_seed23_independent.json','e2f81dc694cca5c5a7e038ec545dbb47939e35ae2227738be907f2fcff7e9733') if suite=='libero_object' else ref(train+f'/segment_reviews/{job}_independent.json'));methods=[f'A128_seed{seed}',f'B128_seed{seed}']
+  if suite=='libero_goal':methods=['dense','uniform256','uniform128','uniform64']+methods
+  assert not [j for j in suites[suite]['prior_development_jobs'] if not j['method_ids'] or set(j['method_ids'])&set(methods)]
+  receipts={}
