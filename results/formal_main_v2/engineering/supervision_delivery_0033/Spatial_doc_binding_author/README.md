@@ -1,0 +1,29 @@
+# Spatial continuous v2：唯一历史文档引用绑定
+
+本候选修复20261020T0833真实只读检查失败，不是GPU失败。没有发布invocation、submission audit或sbatch；原失败stdout（空）、stderr和execution原字节保留。v1源码、原授权、历史root/ind收据、当前文档均未改。
+
+实际差异只来自3043399_independent.json（SHA6cfde8e029ab7b31f748175dfd052f75b1b5b3f457229a6abf689f8936afea5e）的read_evidence_sha256。root3043399本身没有该文档键。483项历史非state引用逐一核验后只有docs/服务器工作区与GitHub同步.md不同；该文档不在173冻结清单内。
+
+document_binding.json完整保存旧4377B/new5094B UTF8字节、SHA256及Gitcommit/blob。旧来自e936420ad3014a47c4a27a8b75ef1a6bdb7c78ed，当前来自e032fbde99a84d9b947142b3f6839bba661d3db1。当前新增说明是源镜像恢复与Git交付说明；运行时仍要求当前d7f0455e...精确字节，绝不把工作树文档恢复成旧版。
+
+## 最小实现
+
+新version spatial-cuda-continuous-admission-v2-doc-binding，新canonical源目录scripts/ops/formal_spatial_cuda_continuous_admission_v2/。
+只有已签ind精确path/SHA + doc精确path + old SHA同时匹配才调用专用绑定。绑定文件本身的SHA写死在新admission源码，内容同时核旧/新完整字节；当前doc必须是新SHA。其它map项仍调用原Evidence.watch。新读集记录current doc和binding，旧signed receipt的历史map不改。
+Evidence、history、compare_reconstruction、retained_finalizations、NativeIO及controller_owner/capacity/sbatch/ACK/Gateway事务AST均与v1完全相同；原reviewer/173科学源码不动。新增invocation合同只多historical_document_binding ref，科学argv与原修复前相同。
+
+## 实际验证
+
+25项CPU定向检查通过：精确桥接、错误ind/path/hash、其它raw篡改、旧doc复原/未知新版本、binding内容或Git出处篡改、旧授权不能授权v2，以及10项原primitive AST不变。
+actual_prepare_a1在最新完整registry下，用原ee0ef审核器真实重建原始训练证据，213 P/S文件和两个resume SHA通过；11958 GPU秒与FAILED73秒保留。不调用Slurm查询/提交，不改变state。完整旧事务45项本轮未重跑，不冒称新执行。
+一处未持久化测试草稿的换行转义导致AST生成错误已记录test_generation_failure.json，修正只在新测试源码，生产两源未改。
+
+## root发布与授权
+
+候选两源原字节发布到新v2目录，不能覆盖v1；binding可发布到results/formal_main_v2/engineering/spatial_continuous_doc_binding_v2/document_binding.json。binding内容不含自身保存路径，所以canonical复制保持同SHA；新授权historical_document_binding.path改为实际发布路径，sha必须37123f887b53931016d6a5ef85984b5c76d9b055b632d4b171298ffe2faea019。
+authorization_a1_draft.json保持draft_not_authorized、reviewed_by=null、independent_review=null；不是可执行授权。root要另签v2授权，精确两源gateway_files、新独审ref和binding ref必须一致。独审kind沿spatial_cuda_continuous_admission_independent_CPU_review，status=passed_CPU_review，files必须覆盖新v2两source，因此旧独审不能授权新bytes。旧授权206bb080...和失败原件仍保留。
+新gateway CLI不变：--authorization <新v2授权相对路径> --authorization-sha256 <真实SHA> --gateway-sha256 <本版SHA>，默认只读。真正提交仍root执行双旗标--submit --root-reviewed-submit；此处没有调用。根须用实际空槽、全registry/ownerlease/预约/UNKNOWN/pending/检查点原门槛再次检查；本候选不消耗任何预约、不清blocked、不自动重试。
+
+## 交付边界
+
+archive_manifest只含新源、测试/原日志/XML、绑定旧新doc、Git出处、v1基线、原生产失败、实际prepare、draft和作者收据；已有原始依赖只列准确refs，不复制权重或大raw。transport按root明确授权使用两份新的spatial_doc_binding_author_0033_*.jsonl。所有其它写入仅此私有目录。未获得root新授权，未运行新GPU，final仍封存。

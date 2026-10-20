@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_spatial_cuda_continuous_admission_v1/gateway.py", line 180, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_spatial_cuda_continuous_admission_v1/gateway.py", line 179, in main
+    print(json.dumps(Gateway(a.R,c,d,c.Slurm(),a.Science(a.R),a.NativeIO(),auth,ref,e).run(submit=args.submit),sort_keys=True))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_spatial_cuda_continuous_admission_v1/gateway.py", line 121, in run
+    plan=self.science.prepare(state,self.auth,self.ref);argv,raw,invsha,token=sbatch_argv(plan,self.ref)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_spatial_cuda_continuous_admission_v1/admission.py", line 172, in prepare
+    if rel!=STATE:e.watch(rel,h) # Historical STATE hash remains historical; full current history is matched above.
+                  ^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_spatial_cuda_continuous_admission_v1/admission.py", line 76, in watch
+    h=stable(self.root/rel)['sha256'];require(pin is None or h==pin,'SHA differs: '+rel)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_spatial_cuda_continuous_admission_v1/admission.py", line 47, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: SHA differs: docs/服务器工作区与GitHub同步.md

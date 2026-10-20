@@ -1,0 +1,7 @@
+# Spatial64 seed23 连续恢复 v2
+
+仅修正原独审收据引用的运维文档历史版本。绑定完整新旧字节、Git身份和确切旧收据；当前文档继续哈希校验。173个科学文件、损失、数据、优化器/RNG/游标、5000步调度、11次验证及原提交事务均不变。
+
+新授权：configs/experiments/formal_main_v2_spatial_cuda_continuous_3043399_v2.json，SHA 1cdb14995f275d03557d86be1b565f615a005d911b994ce8c17a3d229e989411。root实际原始复核：results/formal_main_v2/preflight/heartbeat_20261020T0833/Spatial_v2_root_publication_and_prepare.json。独审与失败记录保存在 results/formal_main_v2/engineering/supervision_delivery_0033 及本轮preflight。
+
+执行必须先核控制器所有权/lease、全部登记Slurm身份、pending与容量。使用 gateway.py 的只读检查后才能带双提交标志执行一次。不能消耗其他保留槽或自动重试；无空槽时留待下次监督。本验收未运行GPU或恢复张量。
