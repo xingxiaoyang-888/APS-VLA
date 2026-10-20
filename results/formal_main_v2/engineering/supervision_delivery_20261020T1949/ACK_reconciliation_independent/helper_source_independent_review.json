@@ -1,0 +1,75 @@
+{
+  "GPU_results_read": false,
+  "actual_readonly_prefix_lock": "rb LOCK_SH replaces production EX lock only for independent dry-run",
+  "actual_readonly_prefix_reconstructed": true,
+  "all_registered_plus_exact_known_job_observed": true,
+  "authorization_sha256": "79d22ee8370f95551c259894ad7deccffa7bebc4a1ffecab1c9d567d393cf855",
+  "blockers": [],
+  "checks": [
+    "helper_source_pin",
+    "no_submit_or_run_calls",
+    "one_writer_transaction",
+    "original_shared_writer_lock",
+    "exact_two_immutable_precommit_record_intents",
+    "one_state_CAS",
+    "CAS_explicit_expected_before",
+    "single_known_job_no_arguments",
+    "actual_lock_exists",
+    "full_registered_plus_known_job_observation",
+    "unique_known_job_append",
+    "exact_original_gateway_job_scope",
+    "matching_pending_cleared_only_in_memory",
+    "reservation_consumed_once_in_memory",
+    "zero_submission_prefix",
+    "known_allocation_exact_one_GPU",
+    "full_cost_recomputed_not_added",
+    "all_unrelated_top_state_unchanged",
+    "unchanged:autonomous_training_v1",
+    "unchanged:current_round_cost",
+    "unchanged:formal_main_progress",
+    "parallel_only_active_count_changed",
+    "root72_and_final_seal_unchanged",
+    "actual_state_still_original_pending",
+    "all_modes_capacity_at_most8",
+    "exact_post_readiness_bound",
+    "actual_root_readiness_bound",
+    "no_state_CAS_called"
+  ],
+  "checks_passed": 28,
+  "created_utc": "2026-10-20T20:34:13.555728+00:00",
+  "entrypoint_sha256": "ffe310f91a936291ac766c190956cb048feeea7fc4d034726a73618861728368",
+  "expected_state_sha256": "13ceb3c9789d93a42c63e7fdc10757744438b7cd51301e47f4527718da531c9a",
+  "job_id": "3053875",
+  "kind": "Spatial3053875_exact_pending_reconciliation_independent_CPU_review",
+  "negative_cases": 10,
+  "original_source_AST_statement_prefix_retained": true,
+  "production_state_writes": 0,
+  "production_write_intents_intercepted_in_memory": true,
+  "proofs": [
+    {
+      "path": ".local/k64_spatial_reconcile_independent_20261020T1949/expected_rejections.json",
+      "sha256": "d0420b25afdc7626f3cd8c0f3032b77a37ecb030160ec7999218190e70d33df0"
+    },
+    {
+      "path": ".local/k64_spatial_reconcile_independent_20261020T1949/helper_readonly_prefix_full_observation.json",
+      "sha256": "b9f3b3b616e02389c8e1360d39d8537fc029a7dfe50718e00eae27e4ed231091"
+    },
+    {
+      "path": ".local/k64_spatial_reconcile_independent_20261020T1949/helper_proposed_state.json",
+      "sha256": "65a8bb5e5e3eefe9a1f10440691fcfea1f4725e45c06e646ba63eb95c02d626b"
+    },
+    {
+      "path": ".local/k64_spatial_reconcile_independent_20261020T1949/helper_record_intents_CPU_ONLY.json",
+      "sha256": "4a255b66557dbe4691d33f770fd4e1003ccaa7f7d020c8c40159485f76d77027"
+    }
+  ],
+  "real_apply_performed": false,
+  "required_root_apply": "Execute only reviewed helper SHA with original writer EX lock and expected SHA. Original failure/pending evidence retained. Any changed pending/state or unknown/inconsistent allocation identity fails closed and requires fresh bounded review; a true terminal status only records cost and does not accept scientific results; never resend.",
+  "schema": "formal_main_v2",
+  "source": {
+    "path": ".local/reconcile_k64_spatial_3053875_20261020T1949.py",
+    "sha256": "ffe310f91a936291ac766c190956cb048feeea7fc4d034726a73618861728368"
+  },
+  "status": "passed",
+  "submission_calls": 0
+}

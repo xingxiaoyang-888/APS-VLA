@@ -1,0 +1,138 @@
+{
+  "all_job_ids": [
+    "3024716",
+    "3025205",
+    "3028522",
+    "3043399",
+    "3044479"
+  ],
+  "allocation_seconds": {
+    "3024716": 3281,
+    "3025205": 5203,
+    "3028522": 73,
+    "3043399": 3401,
+    "3044479": 30522
+  },
+  "base": "results/formal_main_v2/libero_spatial/k64/seed23/training",
+  "failed_GPU_seconds": 73,
+  "failed_completed_before": 1000,
+  "failure_job_id": "3028522",
+  "final_job_id": "3044479",
+  "final_release_authorized": false,
+  "independent_failed_cost_key": "retained_FAILED_GPU_seconds",
+  "independent_source_flag": "source173_R_S_mirror_match",
+  "kind": "bounded_spatial64_seed23_source_bridge_policy",
+  "method_ids": [
+    "A64_seed23",
+    "B64_seed23"
+  ],
+  "pair": {
+    "checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23",
+    "path": "configs/experiments/formal_main_v2/libero_spatial_k64_seed23.json",
+    "run_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/k64/seed23",
+    "seed": 23,
+    "sha256": "d21812392d4193c35ddb53fa02c91abcece0ac261d98141a97ab247090472645",
+    "suite": "libero_spatial",
+    "visual_tokens": 64
+  },
+  "pre_continuous_GPU_seconds": 11958,
+  "recovery_job_id": "3043399",
+  "recovery_target": 1500,
+  "references": {
+    "continuous_authorization": {
+      "path": "configs/experiments/formal_main_v2_spatial_cuda_continuous_3043399_v2.json",
+      "sha256": "1cdb14995f275d03557d86be1b565f615a005d911b994ce8c17a3d229e989411"
+    },
+    "continuous_document_binding": {
+      "path": "results/formal_main_v2/engineering/spatial_continuous_doc_binding_v2/document_binding.json",
+      "sha256": "37123f887b53931016d6a5ef85984b5c76d9b055b632d4b171298ffe2faea019"
+    },
+    "earlier_independent_3024716": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3024716_independent.json",
+      "sha256": "41f1dc3528489973d13eda327d24c915b01568e6a416899d6f5f9bb22701eba4"
+    },
+    "earlier_independent_3025205": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3025205_independent.json",
+      "sha256": "5b5ee7efcd20b96937fc9b4e3120e9d397c7503c6bedfbd4ddb280cfdc505f8b"
+    },
+    "earlier_root_3024716": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3024716.json",
+      "sha256": "5ce4684febf5fb0827b134b52cde859f7e8e7de56297b7855e2eb55434d8eded"
+    },
+    "earlier_root_3025205": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3025205.json",
+      "sha256": "2416c7802db8ab947971ddaaedbb771c8ab9c2edacc8fd52e2f778ba66802876"
+    },
+    "failure": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/startup_failure_reviews/3028522.json",
+      "sha256": "e3e00f34b1cbc5e8cb83f3aad7b470373d532239efe2057d95956004cebafae5"
+    },
+    "failure_verifier": {
+      "path": "scripts/formal_cuda_terminal_review_v1/startup_failure_evidence.py",
+      "sha256": "c07c5b686d103aaabfe8a7280c62ff2a8b61fcb3ab5d07ff7592011fabbfa480"
+    },
+    "final_independent": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3044479_independent.json",
+      "sha256": "cc04fd98fd39a2159ca32775167f262efcdd528ad3bb4945c4998d025fe7f554"
+    },
+    "final_root": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3044479.json",
+      "sha256": "12ab9843ba7bd1982d4bbc1004b733db4a4d97ee2deb9863e3cfb9767add510c"
+    },
+    "original_consumer": {
+      "path": "scripts/ops/formal_asset_downstream_review.py",
+      "sha256": "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699"
+    },
+    "original_factory": {
+      "path": "scripts/formal_execution_manifests.py",
+      "sha256": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89"
+    },
+    "ownership_verifier": {
+      "path": "scripts/formal_cuda_terminal_review_v1/review_formal_segment_startup.py",
+      "sha256": "ee0efc4b762e879e91e5e184fbc33dc236741cf71d51a6f5b4711710812f47b4"
+    },
+    "recovery_authorization": {
+      "path": "configs/experiments/formal_main_v2_cuda_single_recovery_3028522_v1.json",
+      "sha256": "7411a2e5e0d7e2123eea8bfea4c2bbaccb037d54b09697180340a597e3cfb18a"
+    },
+    "recovery_independent": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3043399_independent.json",
+      "sha256": "6cfde8e029ab7b31f748175dfd052f75b1b5b3f457229a6abf689f8936afea5e"
+    },
+    "recovery_root": {
+      "path": "results/formal_main_v2/libero_spatial/k64/seed23/training/segment_reviews/3043399.json",
+      "sha256": "065917e14e91cd28a37677e95563df96598fd7c343f439dab901a36e65d1bea5"
+    },
+    "selected_server": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/3044479_selected_server.json",
+      "sha256": "c20da6354cec2198dc12399b88ddf85d88d63525e2dbd3d7477e691fa8a8fbe6"
+    }
+  },
+  "schema": "formal_main_v2",
+  "scientific_settings_changed": false,
+  "seed": 23,
+  "selected_checkpoints": {
+    "A": {
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/A/best.pt",
+      "sha256": "3e32488a1a351222caf0ef019eab7dced35e4b4b007668426dee91ecd0f32fe9",
+      "update": 2500
+    },
+    "B": {
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/B/best.pt",
+      "sha256": "730c43cd25dd654011f84ea89dac19272dd28ab57d6e437a59538dbabda90357",
+      "update": 3500
+    }
+  },
+  "status": "private_candidate_not_root_admitted",
+  "successful_job_ids": [
+    "3024716",
+    "3025205",
+    "3043399",
+    "3044479"
+  ],
+  "suite": "libero_spatial",
+  "total_GPU_seconds": 42480,
+  "training_or_development_rerun_authorized_by_bridge": false,
+  "version": "spatial64-seed23-startup-source-bridge-v1",
+  "visual_tokens": 64
+}

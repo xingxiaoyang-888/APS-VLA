@@ -1,0 +1,116 @@
+{
+  "CPU_seconds": 1.6610267890000001,
+  "negative_cases": [
+    {
+      "label": "job mode",
+      "message": "exact suite/stage",
+      "type": "ValueError"
+    },
+    {
+      "label": "job suite",
+      "message": "exact suite/stage",
+      "type": "ValueError"
+    },
+    {
+      "label": "job job_id",
+      "message": "unregistered collect job",
+      "type": "ValueError"
+    },
+    {
+      "label": "job status",
+      "message": "successful final allocation identity",
+      "type": "ValueError"
+    },
+    {
+      "label": "job exit_code",
+      "message": "successful final allocation identity",
+      "type": "ValueError"
+    },
+    {
+      "label": "job elapsed_seconds",
+      "message": "successful final allocation identity",
+      "type": "ValueError"
+    },
+    {
+      "label": "job gpus",
+      "message": "successful final allocation identity",
+      "type": "ValueError"
+    },
+    {
+      "label": "job method_ids",
+      "message": "one dense collect allocation only",
+      "type": "ValueError"
+    },
+    {
+      "label": "job prior_job_ids",
+      "message": "one dense collect allocation only",
+      "type": "ValueError"
+    },
+    {
+      "label": "job resume",
+      "message": "one dense collect allocation only",
+      "type": "ValueError"
+    },
+    {
+      "label": "job run_root",
+      "message": "exact output root",
+      "type": "ValueError"
+    },
+    {
+      "label": "original job binding",
+      "message": "registered job changed from author input snapshot",
+      "type": "ValueError"
+    },
+    {
+      "label": "observation phase",
+      "message": "fixed first/middle/last indices",
+      "type": "ValueError"
+    },
+    {
+      "label": "observation control_step",
+      "message": "fixed first/middle/last indices",
+      "type": "ValueError"
+    },
+    {
+      "label": "observation observation_id",
+      "message": "fixed observation ID",
+      "type": "ValueError"
+    },
+    {
+      "label": "NPZ path escape",
+      "message": "exact raw NPZ basename",
+      "type": "ValueError"
+    },
+    {
+      "label": "extra array",
+      "message": "only five current observation arrays",
+      "type": "ValueError"
+    },
+    {
+      "label": "float dtype change",
+      "message": "native finite array shape/type: robot0_eef_pos",
+      "type": "ValueError"
+    },
+    {
+      "label": "nonfinite input",
+      "message": "native finite array shape/type: robot0_eef_pos",
+      "type": "ValueError"
+    },
+    {
+      "label": "proprio shape change",
+      "message": "native finite array shape/type: robot0_eef_pos",
+      "type": "ValueError"
+    }
+  ],
+  "negative_count": 20,
+  "new_gpu_submissions": 0,
+  "new_scientific_trials": 0,
+  "original_root_review_or_consumer_executed": false,
+  "private_writes_only": true,
+  "real_P_NPZ_bytes": 23678640,
+  "real_P_observations": 60,
+  "real_P_output_files": 106,
+  "root_helper_executed": false,
+  "status": "passed",
+  "wall_seconds": 1.7625181134790182
+}

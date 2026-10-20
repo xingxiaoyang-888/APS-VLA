@@ -1,0 +1,12 @@
+{
+  "schema": "formal_main_v2",
+  "read_only_inspection_failure_preserved": {
+    "attempt": "Search previous reconciliation source using rg --files --hidden .local",
+    "error_type": "FileNotFoundError",
+    "reason": "rg is absent on this SSH host",
+    "fallback": "Bounded Path.glob for known reconcile helper filenames; no production mutation"
+  },
+  "source_audit_no_production_apply": true,
+  "pending_known_job": "3053875",
+  "post_apply_review_pending_root_receipt": true
+}

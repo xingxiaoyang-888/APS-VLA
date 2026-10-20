@@ -1,0 +1,93 @@
+--- revision01/bridge_v2.py
++++ revision02/bridge_v2.py
+@@ -23,7 +23,7 @@
+ def load(evidence,ref):
+     require(evidence.watch(ref['path'])==ref['sha256'],'pinned source changed: '+ref['path'])
+     path=evidence.path(ref['path'])
+-    spec=importlib.util.spec_from_file_location('object23_bridge_'+path.stem,path)
++    spec=importlib.util.spec_from_file_location('object64s23_bridge_'+path.stem,path)
+     mod=importlib.util.module_from_spec(spec)
+     exec(compile(path.read_bytes(),str(path),'exec'),mod.__dict__)
+     return mod
+@@ -34,7 +34,7 @@
+ 
+ def scope_guard(p,*,suite,pair,method_rows,relevant):
+     require(suite==p['suite'] and pair==p['pair'],'only exact registered Object64 seed23 pair')
+-    require([r['identity']['method_id'] for r in method_rows]==p['method_ids'],'only exact paired A256/B256 seed23; no baseline/other method')
++    require([r['identity']['method_id'] for r in method_rows]==p['method_ids'],'only exact paired A64/B64 seed23; no baseline/other method')
+     require(len(relevant)==len(p['all_job_ids']) and {j['job_id'] for j in relevant}==set(p['all_job_ids']),'full exact-allocation history required')
+     for j in relevant:
+         jid=j['job_id']; failed=jid==p['failure_job_id']
+@@ -133,7 +133,7 @@
+ def auditor(evidence):
+     p=policy();ref=p['references']['original_consumer'];orig=load(evidence,ref)
+     path=evidence.path(ref['path']);raw=path.read_text(encoding='utf-8');changed=derived_source(raw)
+-    spec=importlib.util.spec_from_file_location('object23_bounded_source_derivation',path)
++    spec=importlib.util.spec_from_file_location('object64s23_bounded_source_derivation',path)
+     derived=importlib.util.module_from_spec(spec)
+     exec(compile(changed,str(path)+'::<object64s23_source_bridge_v1>','exec'),derived.__dict__)
+     derived._bridge_history=audit_exact_history
+--- revision01/control.py
++++ revision02/control.py
+@@ -7,13 +7,13 @@
+ P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+ VERSION='formal-object64s23-source-control-v1'
+ CANONICAL='scripts/ops/formal_object64s23_source_bridge_v1'
+-PRIVATE='.local/k64_seed23_bridges_20261020T1949/object/package'
++PRIVATE='.local/k64_seed23_bridges_20261020T1949/object/revision02/package'
+ BASE=Path(__file__).resolve().parent
+-BRIDGE_SHA='0ab5aa2ae0610071ae2ec81255d22d6b7761291db4dfd3b10b76a102751bea75'
++BRIDGE_SHA='04c596f8b86569d7476f504fcf5519c205b0fc7eb2e0bd6de953fa47f5bc6735'
+ POLICY_SHA='2740fdd578a24d6c74a39d76b34223af46e6457932d797b9e0096124e479edcd'
+ CANONICAL_MANIFEST='results/formal_main_v2/execution/object64seed23_source_control_v1_20261020T1949/development.json'
+ CPU_MANIFEST='.local/k64_seed23_bridges_20261020T1949/object/development.json'
+-MANIFEST=CANONICAL_MANIFEST if BASE.relative_to(R).as_posix()==CANONICAL else CPU_MANIFEST
++MANIFEST=CANONICAL_MANIFEST  # Original formal-result path guard stays mandatory even for CPU candidates.
+ MANIFEST_SHA='dab808367fb5c584db272fb9467a953d5e29ad39b00da80db3452ecceb1e8657'
+ METHODS=['A64_seed23','B64_seed23']
+ ORIGINAL={
+@@ -63,10 +63,10 @@
+  if replacement:
+   for old,new in replacement:
+    require(text.count(old)==1,'private derivation target not unique');text=text.replace(old,new,1)
+- m=ModuleType('_object23_explicit_'+path.stem+'_'+sha(text.encode())[:16]);m.__file__=str(path);m.__package__=''
+- exec(compile(text,str(path)+'::<explicit_object23_control>','exec'),m.__dict__)
++ m=ModuleType('_object64s23_explicit_'+path.stem+'_'+sha(text.encode())[:16]);m.__file__=str(path);m.__package__=''
++ exec(compile(text,str(path)+'::<explicit_object64s23_control>','exec'),m.__dict__)
+  for name,value in (injections or {}).items():m.__dict__[name]=value
+- m._object23_derivation={'original':{'path':rel,'sha256':pin},'derived_sha256':sha(text.encode()),'private_namespace':True,'replacements':len(replacement or []),'original_files_changed':False}
++ m._object64s23_derivation={'original':{'path':rel,'sha256':pin},'derived_sha256':sha(text.encode()),'private_namespace':True,'replacements':len(replacement or []),'original_files_changed':False}
+  return m
+ 
+ def bridge(ev):
+@@ -119,9 +119,9 @@
+  # Original RUNNING-controller capacity gate intentionally unchanged; no post-training submission authority here.
+  # Sole FrozenPlan operational substitution: a private source-bound planner.
+  changes=[('def source_files(root):return {Path(__file__).resolve().relative_to(root).as_posix():sha(Path(__file__).read_bytes())}',
+-           'def source_files(root):\n require(Path(root).resolve()==R,"exact source closure root required");return _object23_closure()'),
+-          ("  planner=load(self.root/PLANNER,PLANNER_SHA,'_downstream0809_original_pure_planner')",'  _,planner=_object23_control(self.e)')]
+- g=private_module(GATEWAY,ORIGINAL[GATEWAY],replacement=changes,injections={'_object23_closure':closure,'_object23_control':control_modules})
++           'def source_files(root):\n require(Path(root).resolve()==R,"exact source closure root required");return _object64s23_closure()'),
++          ("  planner=load(self.root/PLANNER,PLANNER_SHA,'_downstream0809_original_pure_planner')",'  _,planner=_object64s23_control(self.e)')]
++ g=private_module(GATEWAY,ORIGINAL[GATEWAY],replacement=changes,injections={'_object64s23_closure':closure,'_object64s23_control':control_modules})
+  original_validate=g.validate_authorization
+  def validate(root,ref):
+   require(Path(root).resolve()==R,'exact control root');raw=g.Evidence(root).ref(ref)
+@@ -139,7 +139,7 @@
+ def reviewer_module(ev):
+  watch_closure(ev)
+  old='    scheduler = load(evidence, OLD_SCHEDULER, PINNED[OLD_SCHEDULER])\n    helper = load(evidence, OLD_HELPER, PINNED[OLD_HELPER])'
+- m=private_module(REVIEWER,ORIGINAL[REVIEWER],replacement=[(old,'    helper, scheduler = _object23_control(evidence)')],injections={'_object23_control':control_modules})
++ m=private_module(REVIEWER,ORIGINAL[REVIEWER],replacement=[(old,'    helper, scheduler = _object64s23_control(evidence)')],injections={'_object64s23_control':control_modules})
+  baseline=m.review
+  def review(project,**kw):
+   require(Path(project).resolve()==R,'exact terminal root')
+@@ -172,7 +172,7 @@
+  require(BASE.relative_to(R).as_posix()==CANONICAL and Path.cwd().resolve()==R,'private candidate cannot operate production gateway')
+  require(sha(Path(__file__).read_bytes())==a.control_sha256,'control entry SHA differs');require(a.submit==a.root_reviewed_submit,'explicit dual root submit flags')
+  g=gateway_module();ref={'path':a.authorization,'sha256':a.authorization_sha256};auth,e,plan,scientific,prepared=g.validate_authorization(R,ref)
+- c=g.load(R/g.CONTROLLER,g.CONTROLLER_SHA,'_object23_original_controller')
++ c=g.load(R/g.CONTROLLER,g.CONTROLLER_SHA,'_object64s23_original_controller')
+  runner=g.Gateway(R,c,c.Slurm(),g.FrozenPlan(R,auth,e,plan,scientific,prepared),g.NativeIO(R),auth,ref,e)
+  print(json.dumps(runner.run(submit=a.submit),sort_keys=True,ensure_ascii=False))
+ if __name__=='__main__':main()

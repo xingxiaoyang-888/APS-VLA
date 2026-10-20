@@ -1,0 +1,201 @@
+{
+  "O2A_measurements_produced": false,
+  "Slurm_queries": false,
+  "action_execution_contract": {
+    "path": "results/formal_main_v2/execution/spatial_collect_action_v1_20261020T1825/execution_contract.json",
+    "sha256": "747b4b3a9f0be6814d7451d88ffb9593b2320c3da6a8c98ade8a8ac087ca1486"
+  },
+  "collection_control_steps": 1007,
+  "collection_policy_calls": 131,
+  "collection_trajectories": 10,
+  "cost": {
+    "all_attempt_gpu_seconds": 363,
+    "allocations": [
+      {
+        "elapsed_seconds": 363,
+        "exit_code": "0:0",
+        "gpus": 1,
+        "job_id": "3053503",
+        "raw_status": null,
+        "status": "COMPLETED"
+      }
+    ],
+    "current_gpu_seconds": 363,
+    "scope": "Every registered allocation counted once, including model loading, warmup, failures and idle/setup time; not only timed calls"
+  },
+  "final_release": false,
+  "invocation": {
+    "path": "results/formal_main_v2/invocations/libero_spatial_collect_648ce4233e78353e_attempt01.json",
+    "sha256": "b1bb8e736cb886f3c0e948ca0b4586ec5ec71ac9fc9dfb7199e25cbe32dce7d9"
+  },
+  "job_id": "3053503",
+  "kind": "independent_collect_terminal_review",
+  "latency_samples_added": 0,
+  "models_loaded": false,
+  "new_success_trials": 0,
+  "observations": 30,
+  "original_reviewer_and_consumer_both_executed": true,
+  "panel": {
+    "path": "results/formal_main_v2/libero_spatial/downstream/collect/648ce4233e78353e/attempt01/panel.json",
+    "sha256": "7307b64cf285c23249f35096725c97227cc3f49e280bd1d54b0799f7812db662"
+  },
+  "prior_independent_raw_review": {
+    "path": ".local/collect_terminal_independent_20261020T1949/raw_observation_review.json",
+    "sha256": "944740a98a1e92ffa5bb2816b48550bf36059160804339b183696295587d5ccf"
+  },
+  "production_or_state_or_Git_writes": false,
+  "pull_receipt": {
+    "path": "results/formal_main_v2/pulls/20261020T200130Z_a457b5c1ae58/receipt.json",
+    "sha256": "0cc121f7eb4615c90137631a86197dd76744c8d6f627bd1bbfb3562ea25536d4"
+  },
+  "reconstruction_proof": {
+    "path": ".local/collect_terminal_independent_20261020T1949/3053503_reconstruction_proof.json",
+    "sha256": "51e03f36017aa7bda2d45a23c501c0f8aa828705c6d4d5af499e461d7bd371d1"
+  },
+  "reviewed_by": "independent",
+  "root_review": {
+    "path": "results/formal_main_v2/downstream_reviews/3053503.json",
+    "sha256": "c34ce2552715450d8f30f1a711fc2205027f0066b7e076bd762f8d9cba573cb9"
+  },
+  "schema": "formal_main_v2",
+  "scientific_complete": true,
+  "scientific_success_trials_added": 0,
+  "scope": "Fixed dense collect panel only; no scientific success-trial addition and no O2A or component timing result",
+  "sealed_values_read": false,
+  "stage": "collect",
+  "status": "passed",
+  "suite": "libero_spatial",
+  "tasks": [
+    {
+      "control_steps": 75,
+      "policy_calls": 10,
+      "selected_control_steps": [
+        0,
+        37,
+        74
+      ],
+      "source_state_index": 3,
+      "success_collection_diagnostic_only": true,
+      "task_id": 0,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 109,
+      "policy_calls": 14,
+      "selected_control_steps": [
+        0,
+        54,
+        108
+      ],
+      "source_state_index": 7,
+      "success_collection_diagnostic_only": true,
+      "task_id": 1,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 100,
+      "policy_calls": 13,
+      "selected_control_steps": [
+        0,
+        49,
+        99
+      ],
+      "source_state_index": 5,
+      "success_collection_diagnostic_only": true,
+      "task_id": 2,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 83,
+      "policy_calls": 11,
+      "selected_control_steps": [
+        0,
+        41,
+        82
+      ],
+      "source_state_index": 1,
+      "success_collection_diagnostic_only": true,
+      "task_id": 3,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 120,
+      "policy_calls": 15,
+      "selected_control_steps": [
+        0,
+        59,
+        119
+      ],
+      "source_state_index": 7,
+      "success_collection_diagnostic_only": true,
+      "task_id": 4,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 87,
+      "policy_calls": 11,
+      "selected_control_steps": [
+        0,
+        43,
+        86
+      ],
+      "source_state_index": 3,
+      "success_collection_diagnostic_only": true,
+      "task_id": 5,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 98,
+      "policy_calls": 13,
+      "selected_control_steps": [
+        0,
+        48,
+        97
+      ],
+      "source_state_index": 13,
+      "success_collection_diagnostic_only": true,
+      "task_id": 6,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 121,
+      "policy_calls": 16,
+      "selected_control_steps": [
+        0,
+        60,
+        120
+      ],
+      "source_state_index": 3,
+      "success_collection_diagnostic_only": true,
+      "task_id": 7,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 98,
+      "policy_calls": 13,
+      "selected_control_steps": [
+        0,
+        48,
+        97
+      ],
+      "source_state_index": 1,
+      "success_collection_diagnostic_only": true,
+      "task_id": 8,
+      "termination": "environment_success"
+    },
+    {
+      "control_steps": 116,
+      "policy_calls": 15,
+      "selected_control_steps": [
+        0,
+        57,
+        115
+      ],
+      "source_state_index": 6,
+      "success_collection_diagnostic_only": true,
+      "task_id": 9,
+      "termination": "environment_success"
+    }
+  ],
+  "weight_bytes_read": false
+}

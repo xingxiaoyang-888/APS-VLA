@@ -1,0 +1,17 @@
+{
+  "CPU_SYNTHETIC_ONLY": true,
+  "commands": [],
+  "events": [
+    "ref:.local/CPU_ONLY_POST.json",
+    "ref:results/formal_main_v2/preflight/heartbeat_20261021T0349/Spatial64s23_runtime_readiness_root.json",
+    "lock_enter",
+    "lock_exit"
+  ],
+  "exception": {
+    "message": "prior pending/reservation/hold unresolved",
+    "type": "ValueError"
+  },
+  "production_state_writes": false,
+  "real_Slurm_calls": 0,
+  "scenario": "pending"
+}

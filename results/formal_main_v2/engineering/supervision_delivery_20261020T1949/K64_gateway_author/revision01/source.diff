@@ -1,0 +1,156 @@
+--- scripts/ops/formal_action_deployment_posttraining_v1/gateway.py
++++ scripts/ops/formal_action_deployment_posttraining_k64s23_v1/gateway.py
+@@ -10,7 +10,7 @@
+ P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+ H=Path('/share/home/u15016/XXY_CVPR/CTI-VLA')
+ S=P/'snapshots/formal_main_v2_run_564be0995e'
+-ROUND='formal_main_v2';VERSION='formal-downstream-server-gateway-v2-completed-training-collect'
++ROUND='formal_main_v2';VERSION='formal-downstream-server-gateway-v3-completed-training-k64s23-development'
+ OUTER_VERSION='formal-downstream-action-v1'
+ STATE='results/experiment_supervisor/state.json'
+ CONTROLLER='scripts/ops/formal_autonomous_training_v1/controller.py'
+@@ -75,11 +75,20 @@
+   return self.read(ref['path'],ref['sha256'])
+  def unchanged(self):
+   for rel,h in list(self.hashes.items()):self.watch(rel,h)
+-def source_files(root):return {Path(__file__).resolve().relative_to(root).as_posix():sha(Path(__file__).read_bytes())}
++def source_files(root):
++ require(Path(root).resolve()==R,'exact scoped development control root required')
++ files={Path(__file__).resolve().relative_to(root).as_posix():sha(Path(__file__).read_bytes()),COMPLETED_COLLECT_BASE['path']:COMPLETED_COLLECT_BASE['sha256']}
++ for suite,allowed in SCOPED_DEVELOPMENT_PLANS.items():
++  control=load(R/allowed['control']['path'],allowed['control']['sha256'],'_completed64_source_closure_'+suite)
++  for rel,pin in control.closure().items():
++   require(rel not in files or files[rel]==pin,'source bridge closure conflict');files[rel]=pin
++ for rel,pin in files.items():require(stable(no_links(R/rel))['sha256']==pin,'scoped gateway source closure changed')
++ return files
+ def intent_sha(auth):
+  a=copy.deepcopy(auth);a.pop('root_reservation',None);return sha(canonical(a))
+ def validate_authorization(root,ref):
+  e=Evidence(root);a=e.ref(ref)
++ _exact_development_authorization(a)
+  require(a.get('schema')==ROUND and a.get('kind')=='formal_downstream_single_submission_authorization' and a.get('version')==VERSION and a.get('status')=='approved_for_exactly_one_registered_downstream_submission','typed root authorization absent')
+  require(a.get('control_root')==str(R) and a.get('runtime_root')==str(P) and a.get('controller_activation')==ACTIVATION,'root/activation differs')
+  require(a.get('maximum_attempts')==1 and type(a['maximum_attempts']) is int and a.get('automatic_retry') is False and a.get('excluded_nodes')==['gpu4020'],'single request/node contract differs')
+@@ -116,6 +125,10 @@
+  reservation=e.ref(a['root_reservation'])
+  require(reservation.get('schema')==ROUND and reservation.get('kind')=='root_downstream_GPU_slot_reservation' and reservation.get('status')=='approved_for_exact_downstream_request' and type(reservation.get('reserved_slots')) is int and reservation['reserved_slots']==1,'root reservation required')
+  require(reservation.get('controller_job_id')==a['controller_job_id'] and reservation.get('capacity_limit_all_GPU_modes')==8 and reservation.get('automatic_retry') is False and reservation.get('stage_key')==plan['invocation']['stage_key'] and reservation.get('plan')==a['plan'] and reservation.get('authorization_path')==ref['path'] and reservation.get('authorization_intent_sha256')==intent_sha(a),'reservation ownership differs')
++ control=_exact_development_plan(root,a,plan,scientific)
++ require(a.get('explicit_source_control')==control.descriptor(),'authorization omits exact pair source bridge')
++ for field in ('root_review','independent_review'):
++  require(e.ref(ready[field]).get('explicit_source_control')==control.descriptor(),'true runtime readiness omits exact pair source bridge: '+field)
+  return a,e,plan,scientific,prepared
+ 
+ CONTRACT='scripts/ops/formal_action_deployment_v1/contract.py'
+@@ -125,6 +138,7 @@
+   self.root=Path(root);self.a=a;self.e=e;self.plan=plan;self.scientific=scientific;self.prepared=prepared
+  def prepare(self,state):
+   plan=self.plan;inv=plan['invocation'];e=self.e
++  _exact_development_plan(self.root,self.a,plan,self.scientific)
+   require(plan.get('schema')==ROUND and plan.get('kind')=='formal_downstream_plan' and plan.get('resources')==RESOURCES,'registered downstream resources differ')
+   require(plan['plan_sha256']==sha(canonical({k:v for k,v in plan.items() if k!='plan_sha256'})),'plan content signature differs')
+   require(inv.get('version')==OUTER_VERSION and inv.get('source_root')==str(S) and inv.get('source_sha256')==SOURCE_SHA and inv.get('stage') in STAGES,'explicit outer source/version/stage required')
+@@ -141,7 +155,7 @@
+   for rel,h in inventory['files'].items():
+    e.watch(rel,h);require(inv['watched_files'].get(str(S/rel))==h,'frozen source omitted from watch')
+   # This calls only the existing pure planner with an explicit R project root.
+-  planner=load(self.root/PLANNER,PLANNER_SHA,'_downstream0809_original_pure_planner')
++  _,planner=_exact_development_control(self.root,inv).control_modules(e)
+   rebuilt=planner.plan(SimpleNamespace(**self.a['plan_arguments']),copy.deepcopy(state),project=self.root)
+   require(rebuilt==self.scientific,'original scientific plan no longer reconstructs exactly')
+   contract_sha=inv['support_files'][CONTRACT];e.watch(CONTRACT,contract_sha)
+@@ -201,21 +215,19 @@
+  return dict(job_id=jid,name=fields['JobName'],status=fields['JobState'],comment=fields['Comment'],argv=argv,returncode=answer.returncode,stdout=answer.stdout,stderr=answer.stderr)
+ # This additional controller phase is deliberately limited to these two exact
+ # fixed-observation collection plans. It does not reopen science/final release.
+-COMPLETED_COLLECTION_PLANS = {
+- 'libero_spatial': {'path':'results/formal_main_v2/execution/spatial_collect_action_v1_20261020T1825/effective_plan.json','sha256':'0ed890e69b47155eb83dd388e05c68a84b635e79b596b2b0e39cd4f903a2f5b7','plan_sha256':'85933050e7ae256974c98658a835b7f1cab17fddb53e0d2b0cdd369295862787'},
+- 'libero_object': {'path':'results/formal_main_v2/execution/object_collect_action_v1_20261020T1825/effective_plan.json','sha256':'7002d950c23e3dcb76862089f428f3305d78a87e6c84ab01389fc32bfd1c6ee5','plan_sha256':'95915e8535e6b056733dabd97968ffde517ea447d3b2e28e7dd95f7ca5cad279'},
+-}
++SCOPED_DEVELOPMENT_PLANS = {'libero_spatial': {'path': 'results/formal_main_v2/execution/spatial64seed23_source_control_v1_20261020T1949/effective_plan.json', 'sha256': 'e8ac4d1145b309a4de021fc76d4d731c36f741d4701a4662c4ae03b6d3e874fa', 'plan_sha256': '7040cb2a21202e41ccdfa0b8a9c453faa90af9a7fbe93d8e6b42700e9ac5502c', 'scientific_plan': {'path': 'results/formal_main_v2/execution/spatial64seed23_source_control_v1_20261020T1949/scientific_plan.json', 'sha256': '82e938fae91f66d3fe60d1230e87e84f2a3e1e36bca5028ea81aade61c358699'}, 'method_ids': ['A64_seed23', 'B64_seed23'], 'control': {'path': 'scripts/ops/formal_spatial64s23_source_bridge_v1/control.py', 'sha256': 'edab3f3917b57daf1867134bc8179a73673bfc4a1e61bfda5118d76fd64458f3'}}, 'libero_object': {'path': 'results/formal_main_v2/execution/object64seed23_source_control_v1_20261020T1949/effective_plan.json', 'sha256': 'ed241ac600bf66dbaf60f1ba5ab76bf975a6adec27fb99fbf6040fcb56fc9504', 'plan_sha256': '692107a52be12b051a70db076078c75b154abe2f3246a5f21f9bac41d7179a0f', 'scientific_plan': {'path': 'results/formal_main_v2/execution/object64seed23_source_control_v1_20261020T1949/scientific_plan.json', 'sha256': '3d64db51b9f6e97e5fca16ae90736caa3fcb655ee78f7acb5b1eea643dc14cf1'}, 'method_ids': ['A64_seed23', 'B64_seed23'], 'control': {'path': 'scripts/ops/formal_object64s23_source_bridge_v1/control.py', 'sha256': 'cf1058afd83073e0ef30c977e88c34f124f56adcfe9487b837ecaedaf6578767'}}}
+ COMPLETED_EXIT_OBSERVATION={'path':'results/formal_main_v2/preflight/heartbeat_20261021T0225/initial_observation.json','sha256':'95f0af6dec82f26d3b9cd15b3b51154289c2d99c22cd08f5e412f1a1342d9573'}
+ COMPLETED_ROOT_INTEGRATION={'path':'results/formal_main_v2/preflight/heartbeat_20261021T0225/Object3052166_integration.json','sha256':'dbe7bf425bfe25d926e839813ac4effe28dbeb664e87ed240de7219bcb16a704'}
+ COMPLETED_WORK=R/'results/formal_main_v2/autonomous_training/run_v1'
+ COMPLETED_OWNER_SHA='2ba2100d6f20e8a00f7853e193d1546b3d7c4195f174c75d54605ec504e33bc2'
+ COMPLETED_OWNER_ID='6b3beba5cdeb41df9d749b0b2054d485'
+ COMPLETED_CONTROLLER_ID='3034538'
+-def completed_training_collect_gate(c,state,snap,a,plan,cpus):
+- inv=plan.get('invocation',{});suite=inv.get('suite');allowed=COMPLETED_COLLECTION_PLANS.get(suite)
+- require(inv.get('stage')=='collect' and allowed is not None,'completed controller only permits two exact Spatial/Object collect plans')
++def completed_training_development_gate(c,state,snap,a,plan,cpus):
++ inv=plan.get('invocation',{});suite=inv.get('suite');allowed=SCOPED_DEVELOPMENT_PLANS.get(suite)
++ require(inv.get('stage')=='development' and allowed is not None and inv.get('method_ids')==allowed['method_ids'],'completed controller only permits two exact Spatial/Object64s23 development plans')
++ _exact_development_authorization(a);_exact_development_control(R,inv)
+  plan_ref={k:allowed[k] for k in ('path','sha256')}
+- require(a.get('plan')==plan_ref and plan.get('plan_sha256')==allowed['plan_sha256'],'completed-controller exact collect plan reference differs')
++ require(a.get('plan')==plan_ref and plan.get('plan_sha256')==allowed['plan_sha256'],'completed-controller exact development plan reference differs')
+  jid=a['controller_job_id'];ctl=state['autonomous_training_v1'];row=snap['rows'].get(jid,{})
+  require(jid==COMPLETED_CONTROLLER_ID and jid in cpus and row.get('status')=='COMPLETED' and row.get('exit_code')=='0:0' and row.get('gpus')==0 and jid not in snap['queue'],'controller is neither confirmed RUNNING CPU0 nor original successful COMPLETED CPU0')
+  require(ctl.get('owner_id')==COMPLETED_OWNER_ID and ctl.get('activation')==ACTIVATION and ctl.get('activation_sha256')==ACTIVATION['sha256'],'original completed owner/activation differs')
+@@ -228,11 +240,11 @@
+  require(ctl.get('last_result')=={'status':'training_matrix_complete','completed_pairs':36,'completed_selectors':72},'controller normal completion result absent')
+  expected_exit={'controller_job_id':jid,'exit_code':'0:0','lease_released':True,'observation':COMPLETED_EXIT_OBSERVATION,'restart_needed':False,'status':'COMPLETED','training_arms':72,'training_pairs':36}
+  require(ctl.get('root_confirmed_normal_training_exit')==expected_exit,'root-confirmed normal exit identity differs')
+- require(progress.get('test_opened') is False and progress.get('global_release_created') is False and progress.get('completed_final_trials')==0,'completed-training collect bridge cannot authorize final evaluation')
++ require(progress.get('test_opened') is False and progress.get('global_release_created') is False and progress.get('completed_final_trials')==0,'completed-training development bridge cannot authorize final evaluation')
+  for job in state['registered_jobs']:
+   if job.get('experiment')==ROUND and job.get('mode')=='train':require(snap['rows'][str(job['job_id'])]['status'] in c.TERMINAL and str(job['job_id']) not in snap['queue'],'training allocation still active')
+  e=Evidence(R);observation=e.ref(COMPLETED_EXIT_OBSERVATION);integration=e.ref(COMPLETED_ROOT_INTEGRATION)
+- require(e.ref(plan_ref)==plan,'published exact collect plan differs')
++ require(e.ref(plan_ref)==plan,'published exact development plan differs')
+  require(observation.get('controller_training_complete_normal') is True and observation.get('lifecycle_lease_held') is False and observation.get('root_independent_complete')==72 and observation.get('root_independent_updates')==360000 and set(observation.get('root_independent_pair_keys',[]))==expected and observation.get('blocked_pairs')=={} and observation.get('pending') is None,'immutable root normal-exit observation is incomplete')
+  require(integration.get('schema')==ROUND and integration.get('status')=='Object3052166_root_and_independent_accepted' and integration.get('controller_normal_exit') is True and integration.get('training_arms')==72 and integration.get('reviewed_arm_updates')==360000 and integration.get('observation')==COMPLETED_EXIT_OBSERVATION and integration.get('global_release') is False and integration.get('final_trials')==0,'root integration does not establish normal completed training')
+  oldrow=observation['observation']['rows'][jid]
+@@ -249,7 +261,7 @@
+    require(stable(owner_path)['sha256']==COMPLETED_OWNER_SHA,'owner changed during lease probe')
+    e.unchanged()
+   finally:fcntl.flock(f,fcntl.LOCK_UN)
+- return dict(kind='completed_training_exact_collect_capacity_gate',controller_job_id=jid,controller_status='COMPLETED',controller_exit_code='0:0',root_arms=72,root_pairs=36,root_reviewed_updates=360000,owner_sha256=COMPLETED_OWNER_SHA,lifecycle_lease_available_measured=True,original_lock_inode_preserved=True,normal_exit_observation=COMPLETED_EXIT_OBSERVATION,root_integration=COMPLETED_ROOT_INTEGRATION,exact_collection_plan=plan_ref,read_evidence_sha256=e.hashes,controller_restarted=False,new_scientific_release=False,final_release=False)
++ return dict(kind='completed_training_exact_k64s23_development_capacity_gate',controller_job_id=jid,controller_status='COMPLETED',controller_exit_code='0:0',root_arms=72,root_pairs=36,root_reviewed_updates=360000,owner_sha256=COMPLETED_OWNER_SHA,lifecycle_lease_available_measured=True,original_lock_inode_preserved=True,normal_exit_observation=COMPLETED_EXIT_OBSERVATION,root_integration=COMPLETED_ROOT_INTEGRATION,exact_development_plan=plan_ref,read_evidence_sha256=e.hashes,controller_restarted=False,new_scientific_release=False,final_release=False)
+ 
+ def capacity_gate(c,state,snap,a,plan):
+  require('pending_submission' in state and state['pending_submission'] is None,'unresolved pending submission')
+@@ -265,7 +277,7 @@
+  require(len(caps['occupied'])<8,'eight GPU slots occupied')
+  cpus=[str(j['job_id']) for j in jobs if type(j.get('gpus')) is int and j['gpus']==0 and snap['rows'][str(j['job_id'])]['gpus']==0]
+  if not (a['controller_job_id'] in cpus and snap['rows'][a['controller_job_id']]['status']=='RUNNING'):
+-  caps['completed_training_collect_gate']=completed_training_collect_gate(c,state,snap,a,plan,cpus)
++  caps['completed_training_development_gate']=completed_training_development_gate(c,state,snap,a,plan,cpus)
+  for j in jobs:
+   r=snap['rows'][str(j['job_id'])]
+   check_observed_identity(j,r,snap['queue'].get(str(j['job_id'])),c.TERMINAL)
+@@ -450,4 +462,34 @@
+  c=load(R/CONTROLLER,CONTROLLER_SHA,'_downstream0809_pinned_controller')
+  run=Gateway(R,c,c.Slurm(),FrozenPlan(R,auth,e,plan,scientific,prepared),NativeIO(R),auth,ref,e)
+  print(json.dumps(run.run(submit=a.submit),sort_keys=True,ensure_ascii=False))
++
++# Explicit control-only dependency injection for these two already authorized pairs.
++COMPLETED_COLLECT_BASE={'path':'scripts/ops/formal_action_deployment_posttraining_v1/gateway.py','sha256':'4a11a62e817cd96523cd8f06aa0c3c71e12208f1b3a6b487799160915e59ec83'}
++def _exact_development_authorization(a):
++ matches=[v for v in SCOPED_DEVELOPMENT_PLANS.values() if a.get('plan')=={k:v[k] for k in ('path','sha256')}]
++ require(len(matches)==1,'only two exact development plan references; no target-plan I/O before this check')
++ allowed=matches[0]
++ require(a.get('scientific_plan')==allowed['scientific_plan'],'exact scientific plan reference differs')
++ args=a.get('plan_arguments',{})
++ require(args.get('stage')=='development' and args.get('resume') is False and args.get('prior_review') is None and args.get('repair_record') is None and args.get('stop_after') is None,'only first complete fixed development request')
++ return allowed
++
++def _exact_development_control(root,inv):
++ require(Path(root).resolve()==R,'exact server root')
++ allowed=SCOPED_DEVELOPMENT_PLANS.get(inv.get('suite'))
++ require(allowed is not None and inv.get('stage')=='development' and inv.get('method_ids')==allowed['method_ids'],'only paired Spatial/Object64s23 development')
++ require(inv.get('resume') is False and inv.get('prior_job_ids')==[] and inv.get('prior_review') is None and inv.get('stop_after') is None,'no partial/retry/resume scope')
++ control=load(R/allowed['control']['path'],allowed['control']['sha256'],'_completed64_source_control_'+inv['suite'])
++ control.scope_invocation(inv)
++ return control
++
++def _exact_development_plan(root,a,plan,scientific):
++ allowed=_exact_development_authorization(a)
++ require(plan.get('plan_sha256')==allowed['plan_sha256'],'exact effective plan content differs')
++ control=_exact_development_control(root,plan.get('invocation',{}))
++ control.scope_args(SimpleNamespace(**a['plan_arguments']))
++ control.scope_invocation(scientific.get('invocation',{}))
++ require(scientific.get('invocation',{}).get('suite')==plan['invocation']['suite'],'scientific/effective source bridge suite differs')
++ return control
++
+ if __name__=='__main__':main()

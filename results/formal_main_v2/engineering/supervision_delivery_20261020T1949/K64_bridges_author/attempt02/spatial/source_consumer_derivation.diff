@@ -1,0 +1,31 @@
+--- scripts/ops/formal_asset_downstream_review.py
++++ private-derived-memory-consumer-v1
+@@ -172,7 +172,7 @@
+                     for r in pull.get("selected_jobs", [])):
+                 candidates.append(path)
+     require(len(candidates) == 1, "source root audit must bind exactly one terminal pull for its job")
+-    shared.require_pulled(evidence, candidates[0], job, required)
++    _bridge_pull(evidence, saved=saved, job=job, shared=shared, required=required, receipt=candidates[0])
+     return candidates[0]
+ 
+ 
+@@ -270,8 +270,9 @@
+         and {j["job_id"]:job_identity(j) for j in relevant} == {j["job_id"]:job_identity(j) for j in snapshots}
+         and len(snapshots) == len(relevant), "final segment omitted or changed registered training allocations")
+     ids = {j["job_id"] for j in relevant}
++    successful_ids = _bridge_history(evidence, suite=suite, pair=pair, method_rows=method_rows, relevant=relevant, saved=saved)
+     if suite in SUITES:
+-        require(set(saved.get("runtime_compatibility_history", {})) == ids, "metadata history does not cover every allocation")
++        require(set(saved.get("runtime_compatibility_history", {})) == successful_ids, "successful metadata history does not cover every successful allocation")
+     else:
+         require(not any(k in saved for k in ("runtime_compatibility", "runtime_compatibility_review", "runtime_compatibility_history")),
+             "legacy training cannot carry metadata compatibility fields")
+@@ -286,6 +287,8 @@
+     last_job = registered_job(jobs,summary["job_id"],suite=suite,mode="train",output=base)
+     _root_pull(evidence,saved=saved,job=last_job,shared=accepted["shared"],required=list(files))
+     for job in relevant:
++        if job["job_id"] == "3028522":
++            continue  # Rebuilt and fully billed by _bridge_history; no ordinary metadata exists.
+         registered_job(jobs, job["job_id"], suite=suite, mode="train", output=base)
+         require(job.get("training_seed") == pair["seed"] and job.get("visual_tokens") == pair["visual_tokens"],
+             "training history changes pair")

@@ -1,0 +1,59 @@
+{
+  "GPU_results_read": false,
+  "Slurm_queries": 0,
+  "blockers": [],
+  "checks": [
+    "root_helper_exact_pin",
+    "root_committed_identical_receipt",
+    "known_job_identical_registry",
+    "single_original_ACK",
+    "no_automatic_retry",
+    "original_failure_retained",
+    "original_preflight_retained",
+    "root_observed_exact_registry",
+    "known_token",
+    "original_full_capacity_clean",
+    "known_requested_single_gpu",
+    "reconstructed_exact_entire_committed_state",
+    "reconstruction_cleared_only_original_pending",
+    "reservation_consumed_once",
+    "current_registry_has_same_job_once",
+    "current_pending_not_spatial",
+    "root72_final_still_sealed",
+    "independent_post_ref",
+    "root_readiness_ref",
+    "state_readonly"
+  ],
+  "checks_passed": 20,
+  "committed": {
+    "path": "results/formal_main_v2/downstream_gateway/79d22ee8370f95551c259894ad7deccffa7bebc4a1ffecab1c9d567d393cf855/committed.json",
+    "sha256": "0ab5d187e7bf6503b702ab00d1687ba21805d56ab8ac236b0d96bcdd66dda25b"
+  },
+  "completion": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0349/Spatial64s23_dispatch/completion.json",
+    "sha256": "fb0a414c0dc8fc2845067974b2401913d358fff87716c445996a59674ff6b6df"
+  },
+  "current_state_may_include_following_Object_transaction": true,
+  "entrypoint_sha256": "ffe310f91a936291ac766c190956cb048feeea7fc4d034726a73618861728368",
+  "job_id": "3053875",
+  "kind": "exact_3053875_pending_reconciliation_post_review",
+  "original_failure": {
+    "path": "results/formal_main_v2/downstream_gateway/79d22ee8370f95551c259894ad7deccffa7bebc4a1ffecab1c9d567d393cf855/failed_transaction.json",
+    "sha256": "9eb789f1739945a2e67d5ccf047d43b1e5622ce4366a4d4b550a1613bd9a8960"
+  },
+  "reconstructed_entire_committed_state": {
+    "path": ".local/k64_spatial_reconcile_independent_20261020T1949/actual_reconstructed_committed_state.json",
+    "sha256": "b433c5fa48684b445a2930a4d8ee7f7d9cfbedd1e365db92714773ef9f59fb06"
+  },
+  "reviewed_by": "independent",
+  "root_observation": {
+    "path": "results/formal_main_v2/downstream_gateway/79d22ee8370f95551c259894ad7deccffa7bebc4a1ffecab1c9d567d393cf855/root_reconciled_submission_observation.json",
+    "sha256": "48cdb7b929b28366b16c5c2348ad72f8344691d0793e21c9131c0f6169eaaea6"
+  },
+  "schema": "formal_main_v2",
+  "scientific_trials_added": 0,
+  "state_at_read_sha256": "692d9d53a9707671526eab64546e41c87fa12d6716c0762212e04e448079fcf9",
+  "state_writes": 0,
+  "status": "passed",
+  "submission_calls": 0
+}

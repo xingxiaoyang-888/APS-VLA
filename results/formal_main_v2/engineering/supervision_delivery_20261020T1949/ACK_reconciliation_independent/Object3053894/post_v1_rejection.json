@@ -1,0 +1,31 @@
+{
+  "status": "retained_independent_harness_rejection",
+  "script_sha256": "8c7d8ec88642c24d0c9326520040a4966b39ca5e1b1087a8f551f27bb6210333",
+  "error": "AssertionError: current_registry_has_same_job_once",
+  "exact_committed_state_reconstruction_before_rejection": "passed",
+  "reason": "Root finalizer ran after exact ACK reconciliation and legitimately updated only five scheduler observation fields. v2 binds both immutable job identity and those five fields to exact root summary and CAS receipt. Original committed state full SHA check remains unchanged.",
+  "actual_changes": {
+    "status": [
+      "SUBMITTED",
+      "RUNNING"
+    ],
+    "exit_code": [
+      null,
+      "0:0"
+    ],
+    "node": [
+      null,
+      "gpu4022"
+    ],
+    "elapsed_seconds": [
+      null,
+      183
+    ],
+    "allocation": [
+      null,
+      "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1"
+    ]
+  },
+  "production_mutation": false,
+  "Slurm_queries": 0
+}

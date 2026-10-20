@@ -1,0 +1,19 @@
+--- 
++++ 
+@@ -67,13 +67,14 @@
+   for row in pair['files']:
+    raw=read(row['path'],row['sha256']);check(raw==read(row['source'],row['sha256']) and len(raw)==row['bytes'],'static exact published file '+row['path'])
+    if row['publish_P']:read(P/row['path'],row['sha256'])
+- gpath=GATEWAY_CAN if (R/GATEWAY_CAN).exists() else GATEWAY_CAND
++ rd('results/formal_main_v2/preflight/heartbeat_20261021T0349/k64_gateway_source_publication.json','f89ca24e826f7a21ab4d5bb7e50cd6617fbefcb3ecb6d98cc344ee212408fa12')
++ gpath=GATEWAY_CAN
+  g=load(gpath,GW_SHA);src=read(gpath,GW_SHA).decode();old=read(BASE,BASE_SHA).decode()
+  defs=lambda s:{n.name:n for n in ast.parse(s).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))};aa=defs(old);bb=defs(src)
+  for name in ['Gateway','NativeIO','submission_argv','parse_ack','registered_comment','check_observed_identity','corroborate_new_job','reconcile_submission','error_capture','Evidence','main','intent_sha']:
+   check(ast.dump(aa[name],include_attributes=False)==ast.dump(bb[name],include_attributes=False),'inherited AST exact '+name)
+  mapped=ast.parse(ast.unparse(bb['capacity_gate']).replace('completed_training_development_gate','completed_training_collect_gate')).body[0];check(ast.dump(mapped)==ast.dump(aa['capacity_gate']),'full common capacity exact except completed helper name')
+- closure=g.source_files(R);check(len(closure)==15,'full union source closure15');write('source_closure.json',closure)
++ closure=g.source_files(R);check(len(closure)==14,'full union source closure14');write('source_closure.json',closure)
+  for n,pin in closure.items():read(n,pin)
+  with (R/'results/experiment_supervisor/.writer.lock').open('rb') as lock:
+   fcntl.flock(lock,fcntl.LOCK_SH);raw=(R/g.STATE).read_bytes();fcntl.flock(lock,fcntl.LOCK_UN)

@@ -1,0 +1,15 @@
+{
+  "retained_author_inspection_issues": [
+    {
+      "effect": "no writes or experiment changes; subsequent extraction selected list records by job_id",
+      "message": "registered_jobs is a list; first read-only inspection incorrectly used .items()",
+      "type": "AttributeError"
+    },
+    {
+      "effect": "no state or scientific changes",
+      "message": "An initial diagnostic printed full old root review including its full historical terminal snapshot; subsequent reads selected keys and bounded source fragments.",
+      "type": "output_truncation"
+    }
+  ],
+  "root_execution_pending": true
+}

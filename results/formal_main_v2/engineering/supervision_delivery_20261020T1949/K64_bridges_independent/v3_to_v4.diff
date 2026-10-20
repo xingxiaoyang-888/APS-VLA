@@ -1,0 +1,39 @@
+--- 
++++ 
+@@ -3,7 +3,7 @@
+ from types import SimpleNamespace
+ import sys,os,json,hashlib,copy,ast,importlib.util,contextlib,io,traceback,time,fcntl
+ R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA');S=P/'snapshots/formal_main_v2_run_564be0995e'
+-D=R/'.local/k64_seed23_bridges_independent_20261020T1949/attempt03';A=R/'.local/k64_seed23_bridges_20261020T1949'
++D=R/'.local/k64_seed23_bridges_independent_20261020T1949/attempt04';A=R/'.local/k64_seed23_bridges_20261020T1949'
+ INV='results/formal_main_v2/source/formal_main_v2_run_564be0995e.json';INV_SHA='5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926'
+ PUBLICATION='results/formal_main_v2/preflight/heartbeat_20261021T0349/k64_candidate_publication.json';PUB_SHA='1656f5c931545c0b0b2ae987202dbf1ae3281ccf2c71b900a30bf2f8a55f3949'
+ MAP_SHA='ec56fca197dcbb6de668761081852be973aba6ab61673edf4c961d29390973aa'
+@@ -97,10 +97,17 @@
+   x=copy.deepcopy(inv);x.update(delta);neg(short+' invocation '+label,lambda x=x:c.scope_invocation(x))
+  own=load(P/'scripts/server/run_formal_downstream.py','f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24');checked=own.verify(inv);check(checked.mode=='evaluate','actual P scientific wrapper verifies metadata '+short)
+  # Runtime lifecycle code is inherited unchanged; no Slurm object is instantiated.
+- g=c.gateway_module();og=load(c.GATEWAY,c.ORIGINAL[c.GATEWAY]);check(g.Gateway.run.__code__.co_code==og.Gateway.run.__code__.co_code and g.Gateway.run.__code__.co_consts==og.Gateway.run.__code__.co_consts,'gateway run/pending/ACK lifecycle bytecode unchanged '+short)
+- for name in ['capacity_gate','duplicate_gate']:
+-  if hasattr(g.Gateway,name):
+-   x=getattr(g.Gateway,name);y=getattr(og.Gateway,name);check(x.__code__.co_code==y.__code__.co_code and x.__code__.co_consts==y.__code__.co_consts,'original '+name+' bytecode unchanged '+short)
++ g=c.gateway_module();og=load(c.GATEWAY,c.ORIGINAL[c.GATEWAY])
++ def code_semantics(x):
++  if not hasattr(x,'co_code'):return x
++  return (x.co_argcount,x.co_posonlyargcount,x.co_kwonlyargcount,x.co_nlocals,x.co_stacksize,x.co_flags,x.co_code,x.co_names,x.co_varnames,x.co_freevars,x.co_cellvars,tuple(code_semantics(t) for t in x.co_consts),x.co_exceptiontable)
++ diagnostic={'top_level_opcode_bytes_equal':g.Gateway.run.__code__.co_code==og.Gateway.run.__code__.co_code,'raw_nested_constant_objects_equal':g.Gateway.run.__code__.co_consts==og.Gateway.run.__code__.co_consts,'derived_firstlineno':g.Gateway.run.__code__.co_firstlineno,'original_firstlineno':og.Gateway.run.__code__.co_firstlineno,'comparison_excludes_only_filename_and_line_position_metadata':True}
++ write(out+'gateway_code_position_diagnostic.json',diagnostic)
++ for name,x in vars(g.Gateway).items():
++  if hasattr(x,'__code__'):
++   y=getattr(og.Gateway,name);check(code_semantics(x.__code__)==code_semantics(y.__code__),'complete original Gateway method semantic bytecode '+short+'/'+name)
++ source=(R/c.GATEWAY).read_text();derived_gateway=source.replace('def source_files(root):return {Path(__file__).resolve().relative_to(root).as_posix():sha(Path(__file__).read_bytes())}', 'def source_files(root):\n require(Path(root).resolve()==R,"exact source closure root required");return _'+short+'64s23_closure()').replace("  planner=load(self.root/PLANNER,PLANNER_SHA,'_downstream0809_original_pure_planner')",'  _,planner=_'+short+'64s23_control(self.e)')
++ aclass=next(n for n in ast.parse(source).body if isinstance(n,ast.ClassDef) and n.name=='Gateway');bclass=next(n for n in ast.parse(derived_gateway).body if isinstance(n,ast.ClassDef) and n.name=='Gateway');check(ast.dump(aclass,include_attributes=False)==ast.dump(bclass,include_attributes=False),'entire original Gateway AST preserved '+short)
+  cconsumer=c.consumer_module(Evidence())
+  for ref in [None,{}, {'path':'results/formal_main_v2/downstream_reviews/fake.json'}, {'path':'../outside.json','sha256':'0'*64},{'path':'results/experiment_supervisor/state.json','sha256':'0'*64}]:
+   class NoTarget(Evidence):
+@@ -135,4 +142,4 @@
+  print(json.dumps(write('independent_index.json',report),sort_keys=True))
+ try:main()
+ except BaseException as e:
+- write('failure_v3.json',{'type':type(e).__name__,'message':str(e),'traceback':traceback.format_exc(),'checks':CHECKS,'expected_rejections':NEG,'read_inputs':READS});raise
++ write('failure_v4.json',{'type':type(e).__name__,'message':str(e),'traceback':traceback.format_exc(),'checks':CHECKS,'expected_rejections':NEG,'read_inputs':READS});raise

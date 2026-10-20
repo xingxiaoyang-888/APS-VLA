@@ -1,0 +1,162 @@
+{
+  "Slurm_calls": 0,
+  "created_utc": "2026-10-20T20:09:48.911974+00:00",
+  "new_GPU_runs": 0,
+  "new_root_or_independent_training_acceptance_claimed": false,
+  "no_checkpoint_deserialization": true,
+  "no_weights_copied": true,
+  "pairs": [
+    {
+      "all_pair_GPU_seconds": 42480,
+      "checkpoints": [
+        {
+          "actual_sha256": "3e32488a1a351222caf0ef019eab7dced35e4b4b007668426dee91ecd0f32fe9",
+          "arm": "A",
+          "bytes": 10688651,
+          "deserialized": false,
+          "kind": "best",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/A/best.pt",
+          "sha256": "3e32488a1a351222caf0ef019eab7dced35e4b4b007668426dee91ecd0f32fe9",
+          "update": 2500,
+          "weights_copied": false
+        },
+        {
+          "actual_sha256": "730c43cd25dd654011f84ea89dac19272dd28ab57d6e437a59538dbabda90357",
+          "arm": "B",
+          "bytes": 10688651,
+          "deserialized": false,
+          "kind": "best",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/B/best.pt",
+          "sha256": "730c43cd25dd654011f84ea89dac19272dd28ab57d6e437a59538dbabda90357",
+          "update": 3500,
+          "weights_copied": false
+        },
+        {
+          "actual_sha256": "d9a80c901bd051b12c1eb1726f960550ad8fd971d3fcf80f28d7c16b7aa547b0",
+          "arm": "A",
+          "bytes": 32075430,
+          "deserialized": false,
+          "exists": true,
+          "kind": "resume",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/A/resume.pt",
+          "sha256": "d9a80c901bd051b12c1eb1726f960550ad8fd971d3fcf80f28d7c16b7aa547b0",
+          "weights_copied": false
+        },
+        {
+          "actual_sha256": "3bd2c8d10abacc67638807734ae5334f9e721fb67b115bde7710a4ced288f1fc",
+          "arm": "B",
+          "bytes": 36455812,
+          "deserialized": false,
+          "exists": true,
+          "kind": "resume",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_spatial/k64/seed23/B/resume.pt",
+          "sha256": "3bd2c8d10abacc67638807734ae5334f9e721fb67b115bde7710a4ced288f1fc",
+          "weights_copied": false
+        }
+      ],
+      "config": [
+        {
+          "actual_sha256": "d21812392d4193c35ddb53fa02c91abcece0ac261d98141a97ab247090472645",
+          "exists": true,
+          "expected": "d21812392d4193c35ddb53fa02c91abcece0ac261d98141a97ab247090472645",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/configs/experiments/formal_main_v2/libero_spatial_k64_seed23.json"
+        },
+        {
+          "actual_sha256": null,
+          "exists": false,
+          "expected": "d21812392d4193c35ddb53fa02c91abcece0ac261d98141a97ab247090472645",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/experiments/formal_main_v2/libero_spatial_k64_seed23.json"
+        },
+        {
+          "actual_sha256": "d21812392d4193c35ddb53fa02c91abcece0ac261d98141a97ab247090472645",
+          "exists": true,
+          "expected": "d21812392d4193c35ddb53fa02c91abcece0ac261d98141a97ab247090472645",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2/libero_spatial_k64_seed23.json"
+        }
+      ],
+      "failed_GPU_seconds_retained": 73,
+      "policy": {
+        "path": ".local/k64_seed23_bridges_20261020T1949/spatial/revision02/package/policy_v1.json",
+        "sha256": "b4d18e84600de25dc193149903492cdda16df11d76e35a9d702c14ca0054b557"
+      },
+      "suite": "libero_spatial"
+    },
+    {
+      "all_pair_GPU_seconds": 52868,
+      "checkpoints": [
+        {
+          "actual_sha256": "83747442ed0e1bb71be553529d486c24c9e668f72df78c3901d17cbb216c923a",
+          "arm": "A",
+          "bytes": 10688651,
+          "deserialized": false,
+          "kind": "best",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k64/seed23/A/best.pt",
+          "sha256": "83747442ed0e1bb71be553529d486c24c9e668f72df78c3901d17cbb216c923a",
+          "update": 2500,
+          "weights_copied": false
+        },
+        {
+          "actual_sha256": "70017d8cb12d3a71a4f53006e7115a2aa5af76341ff32bf16cf412f1d1e26231",
+          "arm": "B",
+          "bytes": 10688651,
+          "deserialized": false,
+          "kind": "best",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k64/seed23/B/best.pt",
+          "sha256": "70017d8cb12d3a71a4f53006e7115a2aa5af76341ff32bf16cf412f1d1e26231",
+          "update": 4500,
+          "weights_copied": false
+        },
+        {
+          "actual_sha256": "8b45c9719ce8434989115f97e8dc532197f7cbd73082c644a27414531c894916",
+          "arm": "A",
+          "bytes": 32075174,
+          "deserialized": false,
+          "exists": true,
+          "kind": "resume",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k64/seed23/A/resume.pt",
+          "sha256": "8b45c9719ce8434989115f97e8dc532197f7cbd73082c644a27414531c894916",
+          "weights_copied": false
+        },
+        {
+          "actual_sha256": "4b03d8a5e4fdda31a09023f35837457d53e7be7eea83348cdd6b5a1386655e20",
+          "arm": "B",
+          "bytes": 36455620,
+          "deserialized": false,
+          "exists": true,
+          "kind": "resume",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k64/seed23/B/resume.pt",
+          "sha256": "4b03d8a5e4fdda31a09023f35837457d53e7be7eea83348cdd6b5a1386655e20",
+          "weights_copied": false
+        }
+      ],
+      "config": [
+        {
+          "actual_sha256": "ee134516837433a66b40907d18c3867b80137159b2c768945e810adbe8ad993d",
+          "exists": true,
+          "expected": "ee134516837433a66b40907d18c3867b80137159b2c768945e810adbe8ad993d",
+          "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/configs/experiments/formal_main_v2/libero_object_k64_seed23.json"
+        },
+        {
+          "actual_sha256": null,
+          "exists": false,
+          "expected": "ee134516837433a66b40907d18c3867b80137159b2c768945e810adbe8ad993d",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/experiments/formal_main_v2/libero_object_k64_seed23.json"
+        },
+        {
+          "actual_sha256": "ee134516837433a66b40907d18c3867b80137159b2c768945e810adbe8ad993d",
+          "exists": true,
+          "expected": "ee134516837433a66b40907d18c3867b80137159b2c768945e810adbe8ad993d",
+          "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/configs/experiments/formal_main_v2/libero_object_k64_seed23.json"
+        }
+      ],
+      "failed_GPU_seconds_retained": 69,
+      "policy": {
+        "path": ".local/k64_seed23_bridges_20261020T1949/object/revision02/package/policy_v1.json",
+        "sha256": "2740fdd578a24d6c74a39d76b34223af46e6457932d797b9e0096124e479edcd"
+      },
+      "suite": "libero_object"
+    }
+  ],
+  "scientific_trials": 0,
+  "status": "passed_actual_server_checkpoint_bytes_only"
+}

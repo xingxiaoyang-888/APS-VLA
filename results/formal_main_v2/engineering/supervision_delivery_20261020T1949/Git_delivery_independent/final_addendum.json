@@ -1,0 +1,81 @@
+{
+  "Git_index_and_HEAD_unchanged": true,
+  "NPZ_scope": "Exact original development collect five-array observations only; no model or final initial-state values",
+  "author137_package_unchanged": true,
+  "blockers": [],
+  "conditions": [
+    "Use exact files and SHA/bytes from maps; copy source bytes unchanged.",
+    "Force-add only the 60 exact NPZ allowlist entries, never wildcard NPZ/state payloads.",
+    "Retain the 9+48+13 original files server-side and reuse previous immutable archives.",
+    "Do not stage still-open transports; rehash metadata added after this snapshot.",
+    "Original pinned stage guard must pass against root final exact index. This file audit does not replace it."
+  ],
+  "created_utc": "2026-10-20T20:32:08.876051+00:00",
+  "current_status": {
+    "bytes": 116475,
+    "path": ".local/git_delivery_audit_20261020T1949/final_status_candidates.json",
+    "sha256": "765e3b3c283527bff4fe3134194f8601388b8382ef942d849ab38950ba320789"
+  },
+  "exact_NPZ_audit": {
+    "bytes": 160688,
+    "path": ".local/git_delivery_audit_20261020T1949/observation_delivery_audit.json",
+    "sha256": "050189c594a8aa395d37fea79328fb3c59d7b3a57d32634587b113ddeefad86b"
+  },
+  "existing_archived_files_do_not_restage": {
+    "CPU_bin": 48,
+    "operational_metadata": 13,
+    "proof": {
+      "bytes": 21880,
+      "path": ".local/git_delivery_audit_20261020T1949/previous_archives_exact_exclusions.json",
+      "sha256": "cfe5dec9d14b1630de2a01505f1476db989f00a13806b779b6f2485648e2b9fe"
+    },
+    "raw": 9
+  },
+  "final_or_GPU_validation_executed": false,
+  "independent_package": {
+    "bytes": 26483502,
+    "file_count_including_manifest": 136,
+    "needs_additional_lossless_archive": false,
+    "source_manifest": {
+      "bytes": 35408,
+      "path": ".local/k64_seed23_bridges_independent_20261020T1949/delivery_manifest.json",
+      "sha256": "f0f17195cf8186c8ae5599e3b7a1e52a3a7b61fc19312d76ccec85a994365771"
+    }
+  },
+  "kind": "final_Git_nonweight_file_delivery_addendum",
+  "new_NPZ_bytes": 23678640,
+  "new_NPZ_files_approved": 60,
+  "new_lossless_archive_required": false,
+  "new_prohibited_suffix_or_name_files": [],
+  "open_transports_excluded_until_closed": [
+    {
+      "bytes": 956,
+      "path": "results/formal_main_v2/control_transport/git_delivery_audit_final_20261020T1949.jsonl",
+      "status": "??"
+    }
+  ],
+  "package_copy_maps": [
+    {
+      "bytes": 68731,
+      "path": ".local/git_delivery_audit_20261020T1949/candidate_package_copy_map.json",
+      "sha256": "cb4f549c20c304b84d3edd25cce190f44954ba5ece0e21a09e0bef8be96830a5"
+    },
+    {
+      "bytes": 19917,
+      "path": ".local/git_delivery_audit_20261020T1949/author_package_addendum.json",
+      "sha256": "cb1c098746182b12e330306869ed4a037ca6b1741b7e2d5bbe39cf07d7a454a5"
+    },
+    {
+      "bytes": 59961,
+      "path": ".local/git_delivery_audit_20261020T1949/independent_package_copy_map.json",
+      "sha256": "76666d83e5e2b77339a95c428a5ae11814d64cab0c6ef86856690bc45c6c87a6"
+    }
+  ],
+  "production_or_state_or_Git_writes": false,
+  "stageguard": {
+    "bytes": 20083,
+    "path": "scripts/ops/check_nonweight_archive_stage.py",
+    "sha256": "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6"
+  },
+  "status": "passed_final_delivery_addendum"
+}
