@@ -1,0 +1,256 @@
+{
+  "Slurm_submitted": false,
+  "kind": "independent_0727_current_terminal_jobs_snapshot",
+  "read_lock": "LOCK_SH|LOCK_NB on existing writer lock, released before consumer",
+  "registered_jobs": [
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed41/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "downstream_gateway": {
+        "actual_sbatch_argv": [
+          "sbatch",
+          "--parsable",
+          "--no-requeue",
+          "--exclude=gpu4020",
+          "--comment=cti-downstream-gateway-v1:9b5f2280f9e1f3b5c78aeb98292fa23c788f73a1de5f8dfe3077ed5b664367d2",
+          "--job-name=cti-formal-downstream",
+          "--account=p_p15016",
+          "--qos=cpu-500_core-l40-8_card-a800-8_card",
+          "--partition=L40",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=7",
+          "--gres=gpu:l40:1",
+          "--mem=64G",
+          "--time=04:00:00",
+          "--chdir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+          "--output=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/%x_%j.out",
+          "--error=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/%x_%j.err",
+          "--wrap",
+          "bash -lc 'set -euo pipefail\ncd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\nexport PYTHONPATH=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/src PYTHONDONTWRITEBYTECODE=1\nexport OMP_NUM_THREADS=7 OPENBLAS_NUM_THREADS=7 MKL_NUM_THREADS=7 TF_NUM_INTRAOP_THREADS=7 TF_NUM_INTEROP_THREADS=1\nexport TOKENIZERS_PARALLELISM=false MUJOCO_GL=egl LIBERO_CONFIG_PATH=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/libero_runtime\nexec srun /share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python -B /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_action_deployment_v1/wrapper.py --invocation /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_10_development_460db0e9701de590_attempt01.json --invocation-sha256 2551eb5fb98e4e060316ff4c2bdfe4065f31431f3f6800edad23276c9a5ef80b'"
+        ],
+        "authorization": {
+          "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed41/submission_authorization.json",
+          "sha256": "9b5f2280f9e1f3b5c78aeb98292fa23c788f73a1de5f8dfe3077ed5b664367d2"
+        },
+        "automatic_retry": false,
+        "plan": {
+          "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed41/effective_plan.json",
+          "sha256": "896834c8ffcf75c7fb87d0737a29f2da99afc657b7617cef28458f51039aa9b9"
+        },
+        "request_token": "cti-downstream-gateway-v1:9b5f2280f9e1f3b5c78aeb98292fa23c788f73a1de5f8dfe3077ed5b664367d2",
+        "version": "formal-downstream-server-gateway-v1"
+      },
+      "elapsed_seconds": 3130,
+      "entrypoint": "scripts/ops/formal_action_deployment_v1/entry.py",
+      "execution_manifest_sha256": "c09394e543fae2a6d184937af34ce33d3b9f22c89fa6bc097a4eeb73cc6f5c53",
+      "execution_version": "formal-downstream-action-v1",
+      "exit_code": "0:0",
+      "experiment": "formal_main_v2",
+      "gpus": 1,
+      "invocation": "results/formal_main_v2/invocations/libero_10_development_460db0e9701de590_attempt01.json",
+      "invocation_sha256": "2551eb5fb98e4e060316ff4c2bdfe4065f31431f3f6800edad23276c9a5ef80b",
+      "job_id": "3047152",
+      "method_ids": [
+        "A256_seed41",
+        "B256_seed41"
+      ],
+      "mode": "development",
+      "name": "cti-formal-downstream",
+      "node": "gpu4017",
+      "plan_sha256": "45e3bd1278bbb4c57b761eec8c235958b6079f20df21ba6cbad5b969949438a7",
+      "prior_job_ids": [],
+      "purpose": "Root-authorized exact action-version formal downstream stage; all prior attempts/costs retained",
+      "resume": false,
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/460db0e9701de590/attempt01",
+      "runtime_readiness": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed41/runtime_readiness.json",
+        "sha256": "d409fe9a183db072711a93fcb8293df6ac44706460956c6aac8ca575d283d152"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k256_seed41/scientific_plan.json",
+        "sha256": "dc91317a9d32b2269d269eea5593ea4a2793ed5642d492a729e439f88c00a6dc"
+      },
+      "source_provenance_sha256": "8f70e1d6d60c190a99ad41ef9d1029f53db53536dcc3eebb77a48fdc6036aeb8",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "stage_key": "libero_10_development_460db0e9701de590",
+      "status": "COMPLETED",
+      "submitted_utc": "2026-10-19T18:44:14.026904+00:00",
+      "suite": "libero_10",
+      "wrapper": "scripts/ops/formal_action_deployment_v1/wrapper.py",
+      "wrapper_sha256": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed17/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "downstream_gateway": {
+        "actual_sbatch_argv": [
+          "sbatch",
+          "--parsable",
+          "--no-requeue",
+          "--exclude=gpu4020",
+          "--comment=cti-downstream-gateway-v1:bb5d77b7934a552b59914c7dbb1bca9911380e8a9465e24c51c77050f9383ebb",
+          "--job-name=cti-formal-downstream",
+          "--account=p_p15016",
+          "--qos=cpu-500_core-l40-8_card-a800-8_card",
+          "--partition=L40",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=7",
+          "--gres=gpu:l40:1",
+          "--mem=64G",
+          "--time=04:00:00",
+          "--chdir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+          "--output=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/%x_%j.out",
+          "--error=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/%x_%j.err",
+          "--wrap",
+          "bash -lc 'set -euo pipefail\ncd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\nexport PYTHONPATH=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/src PYTHONDONTWRITEBYTECODE=1\nexport OMP_NUM_THREADS=7 OPENBLAS_NUM_THREADS=7 MKL_NUM_THREADS=7 TF_NUM_INTRAOP_THREADS=7 TF_NUM_INTEROP_THREADS=1\nexport TOKENIZERS_PARALLELISM=false MUJOCO_GL=egl LIBERO_CONFIG_PATH=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/libero_runtime\nexec srun /share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python -B /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_action_deployment_v1/wrapper.py --invocation /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_10_development_421cbed0b5a0fa49_attempt01.json --invocation-sha256 97957ae4fdbc161fb863f94521026867c1496857d29c0b593fd31bcd88c2a280'"
+        ],
+        "authorization": {
+          "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed17/submission_authorization.json",
+          "sha256": "bb5d77b7934a552b59914c7dbb1bca9911380e8a9465e24c51c77050f9383ebb"
+        },
+        "automatic_retry": false,
+        "plan": {
+          "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed17/effective_plan.json",
+          "sha256": "a66658a3724c687990973a1f04c6c21a4ccfd50f1cb9082b127cd66fe211bd41"
+        },
+        "request_token": "cti-downstream-gateway-v1:bb5d77b7934a552b59914c7dbb1bca9911380e8a9465e24c51c77050f9383ebb",
+        "version": "formal-downstream-server-gateway-v1"
+      },
+      "elapsed_seconds": 3025,
+      "entrypoint": "scripts/ops/formal_action_deployment_v1/entry.py",
+      "execution_manifest_sha256": "244d173a4ecc39bb455633339bb7171a2153fa62945c6420d2e5f5efeb1db8c7",
+      "execution_version": "formal-downstream-action-v1",
+      "exit_code": "0:0",
+      "experiment": "formal_main_v2",
+      "gpus": 1,
+      "invocation": "results/formal_main_v2/invocations/libero_10_development_421cbed0b5a0fa49_attempt01.json",
+      "invocation_sha256": "97957ae4fdbc161fb863f94521026867c1496857d29c0b593fd31bcd88c2a280",
+      "job_id": "3047156",
+      "method_ids": [
+        "A64_seed17",
+        "B64_seed17"
+      ],
+      "mode": "development",
+      "name": "cti-formal-downstream",
+      "node": "gpu4014",
+      "plan_sha256": "af4ffdf9569e022d8dd9f74156365c0586c2ef7a52f60879bd11b71ad32593e1",
+      "prior_job_ids": [],
+      "purpose": "Root-authorized exact action-version formal downstream stage; all prior attempts/costs retained",
+      "resume": false,
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/421cbed0b5a0fa49/attempt01",
+      "runtime_readiness": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed17/runtime_readiness.json",
+        "sha256": "6e875f63745facdf3f0faf50e3e0d97e38f8570f618143cad1a00bbad98a21f5"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed17/scientific_plan.json",
+        "sha256": "da01df74bc33a3dc6a6619bcd9840e17a3d10efd4def3afac8c835b1d2735cde"
+      },
+      "source_provenance_sha256": "bfa961c426856120c89d839b058e786f6a356e07abd85413738f825068c4e265",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "stage_key": "libero_10_development_421cbed0b5a0fa49",
+      "status": "COMPLETED",
+      "submitted_utc": "2026-10-19T18:44:18.786995+00:00",
+      "suite": "libero_10",
+      "wrapper": "scripts/ops/formal_action_deployment_v1/wrapper.py",
+      "wrapper_sha256": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33"
+    },
+    {
+      "action_execution_contract": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed23/execution_contract.json",
+        "sha256": "ecab6b824d17f52e26b788e47a021d767c79b8606a6ab342388962e1de0d9db6"
+      },
+      "adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "downstream_gateway": {
+        "actual_sbatch_argv": [
+          "sbatch",
+          "--parsable",
+          "--no-requeue",
+          "--exclude=gpu4020",
+          "--comment=cti-downstream-gateway-v1:775b318f5534c67f41c828aed5592d3bc1c0403e4989cdcfc95aaa7d3b207573",
+          "--job-name=cti-formal-downstream",
+          "--account=p_p15016",
+          "--qos=cpu-500_core-l40-8_card-a800-8_card",
+          "--partition=L40",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=7",
+          "--gres=gpu:l40:1",
+          "--mem=64G",
+          "--time=04:00:00",
+          "--chdir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+          "--output=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/%x_%j.out",
+          "--error=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/%x_%j.err",
+          "--wrap",
+          "bash -lc 'set -euo pipefail\ncd /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e\nexport PYTHONPATH=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e/src PYTHONDONTWRITEBYTECODE=1\nexport OMP_NUM_THREADS=7 OPENBLAS_NUM_THREADS=7 MKL_NUM_THREADS=7 TF_NUM_INTRAOP_THREADS=7 TF_NUM_INTEROP_THREADS=1\nexport TOKENIZERS_PARALLELISM=false MUJOCO_GL=egl LIBERO_CONFIG_PATH=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/configs/libero_runtime\nexec srun /share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python -B /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_action_deployment_v1/wrapper.py --invocation /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_10_development_2eea5a76505a0f3c_attempt01.json --invocation-sha256 657469914d10e9462ec3cbc789167eea2ac5434582456a9a24ffe2364d40ca5d'"
+        ],
+        "authorization": {
+          "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed23/submission_authorization.json",
+          "sha256": "775b318f5534c67f41c828aed5592d3bc1c0403e4989cdcfc95aaa7d3b207573"
+        },
+        "automatic_retry": false,
+        "plan": {
+          "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed23/effective_plan.json",
+          "sha256": "dc78b592690d628b03c625cc883fcda1c1cd901a35b57397703ad3527940e004"
+        },
+        "request_token": "cti-downstream-gateway-v1:775b318f5534c67f41c828aed5592d3bc1c0403e4989cdcfc95aaa7d3b207573",
+        "version": "formal-downstream-server-gateway-v1"
+      },
+      "elapsed_seconds": 3038,
+      "entrypoint": "scripts/ops/formal_action_deployment_v1/entry.py",
+      "execution_manifest_sha256": "73fbfab511d6f7fde8b530b2a9dc231f404e0185b9c88b03bb59a05c867d25f3",
+      "execution_version": "formal-downstream-action-v1",
+      "exit_code": "0:0",
+      "experiment": "formal_main_v2",
+      "gpus": 1,
+      "invocation": "results/formal_main_v2/invocations/libero_10_development_2eea5a76505a0f3c_attempt01.json",
+      "invocation_sha256": "657469914d10e9462ec3cbc789167eea2ac5434582456a9a24ffe2364d40ca5d",
+      "job_id": "3047163",
+      "method_ids": [
+        "A64_seed23",
+        "B64_seed23"
+      ],
+      "mode": "development",
+      "name": "cti-formal-downstream",
+      "node": "gpu4014",
+      "plan_sha256": "84737cbbe8b9006dab432aeca7c590390ef057796b6cd490b791c265f9f469a9",
+      "prior_job_ids": [],
+      "purpose": "Root-authorized exact action-version formal downstream stage; all prior attempts/costs retained",
+      "resume": false,
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/2eea5a76505a0f3c/attempt01",
+      "runtime_readiness": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed23/runtime_readiness.json",
+        "sha256": "2be14444fd9d75c01eb9ae306c5064b77e52c6cfdd3129a796c940ea11b87d9f"
+      },
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/long_remaining16_action_v1_1827/k64_seed23/scientific_plan.json",
+        "sha256": "1fc257dac0219100b8e3b61d571f7d7a803baa3fa8fe151700f9f3554b0fd4e5"
+      },
+      "source_provenance_sha256": "9393b13647a20ac74f0926acf8f94580950393633899f86c8d3d8e8c155c8ef9",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "stage_key": "libero_10_development_2eea5a76505a0f3c",
+      "status": "COMPLETED",
+      "submitted_utc": "2026-10-19T18:44:23.234464+00:00",
+      "suite": "libero_10",
+      "wrapper": "scripts/ops/formal_action_deployment_v1/wrapper.py",
+      "wrapper_sha256": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33"
+    }
+  ],
+  "source_state_sha256": "fb0aab07ca41817ab47163714aa2fbf33ca436064b6dba7527cfa82a0e26ed38",
+  "state_changed": false,
+  "utc": "2026-10-20T07:38:27.839429+00:00"
+}

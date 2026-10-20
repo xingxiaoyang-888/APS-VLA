@@ -1,0 +1,127 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,subprocess,sys,importlib.util,re
+R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+B='results/formal_main_v2/preflight/heartbeat_20261020T1527'
+E='results/formal_main_v2/engineering/supervision_delivery_0727'
+HEAD='4b5e393247baa850a2fe74cd432cfe5a7651e58e'
+TRANSPORT_PINS={"results/formal_main_v2/control_transport/heartbeat_0626_delivery_resume.jsonl":"343671d3bb87f76fd84928e2b5fafeebbfe8d5f172adf455d576695a2e9ff27c","results/formal_main_v2/control_transport/heartbeat_0727_dispatch_long64s41.jsonl":"4d3ac35c4fd3769457fbfcee38334eb68cea211c63e430606e30ca915e79e7b6","results/formal_main_v2/control_transport/heartbeat_0727_initial_observation.jsonl":"7cc857202fcf5137d91973d20f451c09988239534b741bb6968cbaf7030fc9a8","results/formal_main_v2/control_transport/heartbeat_0727_integration.jsonl":"76ba4ddb52d88728070ae2c7816d1482d34b1fdf1a61a62d1fe040b435c680a2","results/formal_main_v2/control_transport/heartbeat_0727_long256_root_statistics.jsonl":"5d9aa190d7eb5ddb53f9cd855980a01a2eb4b210837f9be47977d1c2c6b059ef","results/formal_main_v2/control_transport/heartbeat_0727_long256s41_root_review.jsonl":"b8b78ce602f9c543c43a7bb2e5da5353a5b4a2ae85801dc98db0b318ceae686a","results/formal_main_v2/control_transport/heartbeat_0727_long64s17_root_review.jsonl":"5619947d64a8065b8b06d2500af8c13582af28274e043fa4a2130beb073acc1d","results/formal_main_v2/control_transport/heartbeat_0727_long64s23_root_review.jsonl":"97d21c6c7306fabcb38c6740de2d249a375a9c0afd78972f9e332255f059b37c","results/formal_main_v2/control_transport/heartbeat_0727_reconcile_long64s41_pending.jsonl":"a0fe8989010ae21c4c9a69310f6d19f4161a9b670c5214eaeeb529cfdc0bf4f8","results/formal_main_v2/control_transport/heartbeat_0727_reserve_long64s41.jsonl":"17020a32b78ffcef7dde3ca162256a169f847f99fd5edda3832532b61b4c83a5","results/formal_main_v2/control_transport/heartbeat_0727_terminal_pull.jsonl":"da00f2d92b0e5c817bb8261c1fd35a9c93bac861482b9e5f58e07c31e6b96f10","results/formal_main_v2/control_transport/independent_long64s41_submission_0727.jsonl":"2fb1d51370562929a25ccb709af386e6bfaed1c2615c143e21c5b62ede492ccd","results/formal_main_v2/control_transport/independent_long_development_0727_Long256_statistics.jsonl":"d8ad26bee2265f245e7102ec7f792ec61bb43ba287bf8df79e9a4c8d57487b19","results/formal_main_v2/control_transport/independent_long_development_0727_close_manifest.jsonl":"bb9fe298978dc269a8c35c24abe51f972108106b9c366eb8512772bc2e5adac7","results/formal_main_v2/control_transport/independent_long_development_0727_job3047152.jsonl":"4f0fabad69fc07b3ab18aa07923a4423d56e3daa62f068aa69bb1135ce13ea4e","results/formal_main_v2/control_transport/independent_long_development_0727_job3047152_attempt02.jsonl":"46ad5ffda1390abafb97b5f9bac1aa12e980d57272c0f8c328af18cbb4af1404","results/formal_main_v2/control_transport/independent_long_development_0727_job3047156.jsonl":"f414e103a2827e410c7112c3079ac8af66cddad6e4a4e3eba9cd2f876a4c6b15","results/formal_main_v2/control_transport/independent_long_development_0727_job3047156_attempt02.jsonl":"1ca1ace9840496d2b93b68585e81b476151a21dc5b5853c6734b205cb854faa9","results/formal_main_v2/control_transport/independent_long_development_0727_job3047163.jsonl":"a5b86ea47e297fe642442f8e402e425f95a94a053276514b2dca92f0b518f00a","results/formal_main_v2/control_transport/independent_long_development_0727_job3047163_attempt02.jsonl":"fb771e7ce762e96da7251f6c9d59cbf7aa4d4f0c8268bf31b4a4629d3e0b86e0","results/formal_main_v2/control_transport/independent_long_development_0727_state_capture.jsonl":"95c1d9f5075d16b80f714298b362c693fb2f25c78804b7eac475f9d91af921c9","results/formal_main_v2/control_transport/long_legacy6_followup_0727_a1.jsonl":"2c6c45791b943920b1cb2a5f8da9c8a45ea311b121f60c0a9f9e2e91363820e9","results/formal_main_v2/control_transport/long_legacy6_followup_0727_a2.jsonl":"8365bb61feef3834e80347ca124205d8149842caa3a4113b275ff25e0cac57ee","results/formal_main_v2/control_transport/long_legacy6_followup_0727_finalize_a1.jsonl":"49fe36b12ae8b249bab3d070768d9d967382cc714b8c1bc622e1611063dada46"}
+def h(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def rd(rel):return json.loads((R/rel).read_bytes())
+def ref(rel):return dict(path=rel,sha256=h(R/rel),bytes=(R/rel).stat().st_size)
+def save(rel,x):
+ p=R/rel;p.parent.mkdir(parents=True,exist_ok=True)
+ with p.open('x') as stream:json.dump(x,stream,sort_keys=True,ensure_ascii=False,indent=2);stream.write('\n')
+def git(*args,check=True):return subprocess.run(['git','-c','core.quotepath=false',*args],cwd=R,capture_output=True,check=check)
+def module(name,rel,pin):
+ p=R/rel;assert h(p)==pin
+ sp=importlib.util.spec_from_file_location(name,p);m=importlib.util.module_from_spec(sp);sys.modules[sp.name]=m;sp.loader.exec_module(m);return m
+c=module('delivery0727ctl','scripts/ops/formal_autonomous_training_v1/controller.py','acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363')
+with c.exclusive_lock(R/'results/experiment_supervisor/.writer.lock'):
+ assert git('rev-parse','HEAD').stdout.decode().strip()==HEAD and not git('diff','--cached','--name-only').stdout
+ state=rd('results/experiment_supervisor/state.json');f=state['formal_main_progress']
+ assert state['pending_submission'] is None and f['root_and_independent_completed_arms']==62 and f['root_and_independent_reviewed_arm_updates']==314000
+ assert f['completed_development_trials']==2612 and f['current_action_development_trial_count']==1400 and f['current_action_development_unique_initial_states']==100
+ assert f['completed_final_trials']==0 and not f['test_opened'] and not f['global_release_created'] and state['autonomous_training_v1']['reserved_GPU_slots']==0
+ for job in ['3047152','3047156','3047163']:assert len([x for x in f['Long_remaining16_development_submissions'] if x['job_id']==job and x['completed_trials_accepted']==200])==1
+ assert len([x for x in f['Long_remaining16_development_submissions'] if x['job_id']=='3047443' and x['completed_trials_accepted']==0])==1
+ assert h(R/B/'summary.json')=='8a781eec1b076e12f82e39ede1df04d19839027ac5a75afb9f450146abd21143'
+ ignore=R/'.gitignore';prior=ignore.read_text();adds=[]
+ for p in sorted((R/E).rglob('*.log')):
+  assert p.is_file() and not p.is_symlink();line='!/'+p.relative_to(R).as_posix()
+  if line not in prior.splitlines():adds.append(line)
+ if adds:ignore.write_text(prior+'\n# Exact immutable audit logs,20261020T1527.\n'+'\n'.join(adds)+'\n')
+ source=B+'/root_operations/deliver_0727_v2.py'
+ with (R/source).open('xb') as stream:stream.write(Path(__file__).read_bytes())
+ original=R/'.local/deliver_0727.py';assert h(original)=='504c65920e1a4093750cd3165029d2ccdfd2802ad770968accec4307e4af1a87'
+ with (R/B/'root_operations/deliver_0727.py').open('xb') as stream:stream.write(original.read_bytes())
+ for path,pin in TRANSPORT_PINS.items():
+  assert h(R/path)==pin and json.loads((R/path).read_bytes().splitlines()[-1])['event']=='control_end'
+ save(B+'/delivery_source_revision.json',dict(kind='root_record_of_preexecution_independent_review_fix',original_source_sha256=h(original),revised_source_sha256=h(Path(__file__)),original_script_executed=False,independent_review_source='/root/object64_pending_0333_audit',finding='Replace broad completed control_transport prefix admission with exact observed paths and immutable SHA pins.',fix='24 exact closed transport log paths pinned; all unknown transport logs rejected; only current live delivery log excluded.',transport_pins=TRANSPORT_PINS,scientific_source_changed=False))
+ exact={'.gitignore','results/experiment_supervisor/state.json'}
+ event_dir='results/formal_main_v2/autonomous_training/run_v1/events';idx=rd(event_dir+'/index.json')
+ assert idx['version']==1 and idx['active']=='events.000001.jsonl' and len(idx['sealed'])==1
+ sealed=idx['sealed'][0];assert sealed['path']=='events.000000.jsonl' and sealed['first_sequence']==1 and sealed['last_sequence']==4213
+ assert h(R/event_dir/sealed['path'])==sealed['sha256'] and (R/event_dir/sealed['path']).stat().st_size==sealed['bytes']
+ with (R/event_dir/idx['active']).open() as stream:first=json.loads(next(stream))
+ assert first['sequence']==sealed['last_sequence']+1 and first['previous_event_sha256']==sealed['last_event_sha256']
+ exact.update([event_dir+'/index.json',event_dir+'/'+idx['active'],event_dir+'/'+sealed['path']])
+ exact.update('docs/'+n+'.md' for n in ['实验进度','完整实验计划','正式主实验阶段结论','正式主实验规划','正式自动连续训练执行登记','正式Long其余16选择器开发登记','正式Long256三种子与64预算开发进展'])
+ exact.add('results/formal_main_v2/invocations/libero_10_development_b426228fe9d2fd0a_attempt01.json');exact.add('results/formal_main_v2/submissions/3047443.json')
+ raw_long={}
+ for job in ['3047152','3047156','3047163']:
+  exact.update(['results/formal_main_v2/job_receipts/'+job+'.json','results/formal_main_v2/downstream_reviews/'+job+'.json','results/formal_main_v2/downstream_reviews/'+job+'_independent.json'])
+  exact.update('results/slurm/cti-formal-downstream_'+job+suffix for suffix in ['.out','.err'])
+  files=rd('results/formal_main_v2/downstream_reviews/'+job+'.json')['files']
+  for name,pin in files.items():
+   assert h(R/name)==pin,name
+   if name in raw_long:assert raw_long[name]==pin
+   raw_long[name]=pin
+ exact.update(raw_long)
+ prefixes=[B+'/',E+'/','results/formal_main_v2/pulls/20261020T072944Z_a9f44da5ac69/','results/formal_main_v2/downstream_gateway/a45db8af1bee86142cf80df416c5bf27b734f493448eb5ee429c92947b48c244/']
+ archived={}
+ for name in ['Long_terminal_independent_delivery.json','Long64s41_submission_independent_delivery.json','Long_legacy6_CPU_candidate_delivery.json']:
+  for row in rd(B+'/'+name)['copies']:
+   path=row['archive']['path'];assert h(R/path)==row['archive']['sha256']==row['source']['sha256'];assert (R/path).stat().st_size==row['source']['bytes'];archived[path]=ref(path)
+ selected=[];excluded=[]
+ for row in git('status','--porcelain=v1','--untracked-files=all','-z').stdout.decode().split('\0'):
+  if not row:continue
+  status,name=row[:2],row[3:];assert status in (' M','??'),row
+  accept=name in exact or any(name.startswith(p) for p in prefixes)
+  if name.startswith('results/formal_main_v2/control_transport/'):
+   accept=name in TRANSPORT_PINS
+   if accept:assert h(R/name)==TRANSPORT_PINS[name]
+  if accept:
+   p=R/name;assert p.is_file() and not p.is_symlink() and p.stat().st_size<100*(1<<20),name
+   assert p.suffix not in ('.pt','.pth','.ckpt','.bin','.safetensors','.pyc','.init','.npz','.npy','.h5','.hdf5'),name
+   selected.append(name)
+  else:excluded.append(name)
+ assert set(excluded)<={'results/formal_main_v2/autonomous_training/run_v1/activation/controller_3034538.out','results/formal_main_v2/control_transport/heartbeat_0727_delivery_v2.jsonl'},excluded
+ assert set(archived)<=set(selected) and all(p.relative_to(R).as_posix() in selected for p in (R/E).rglob('*') if p.is_file()),'exact audit files ignored or unlisted'
+ assert set(raw_long)<=set(selected)
+ for i in range(0,len(selected),60):git('add','--',*selected[i:i+60])
+ required=dict(schema='cti_nonweight_archive_stage_v1',kind='required_files',files=[ref(n) for n in sorted(selected)])
+ save(B+'/git_required_files.json',required);git('add','--',B+'/git_required_files.json')
+ # New raw files fit ordinary Git limits. Reuse the pinned read-only index verifier,
+ # without invoking unrelated prior lossless archive restoration or fabricating a snapshot.
+ g=module('ordinary_delivery0727','scripts/ops/check_nonweight_archive_stage.py','ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6')
+ codec=g.load_codec();required_rows=g.required_value(required,codec)
+ with g.index_reader(R) as index:
+  inv_data,iv=g.same_local_index(index,g.INVENTORY,codec);assert iv['sha256']==g.INVENTORY_SHA256
+  inventory=json.loads(inv_data);assert len(inventory['files'])==173
+  for name,pin in inventory['files'].items():
+   assert name not in index.changed
+   _,q=g.same_local_index(index,name,codec);assert q['sha256']==pin
+  assert set(index.changed)==set(selected)|{B+'/git_required_files.json'}
+  assert all(v in ['A','M'] for v in index.changed.values())
+  for row in required_rows:g.same_local_index(index,row['path'],codec,expected=row)
+  g.same_local_index(index,B+'/git_required_files.json',codec,expected=ref(B+'/git_required_files.json'))
+  for name,pin in raw_long.items():
+   _,q=g.same_local_index(index,name,codec);assert q['sha256']==pin
+  for name,row in archived.items():g.same_local_index(index,name,codec,expected=row)
+  index.unchanged()
+ guard=dict(status='verified_ordinary_nonweight_Git_index',verifier_source_sha256=h(R/'scripts/ops/check_nonweight_archive_stage.py'),verifier_apis=['required_value','index_reader','same_local_index','Index.unchanged'],required_files_verified=len(required_rows),new_raw_files_verified=len(raw_long),all_index_objects_within_100MiB=True,frozen_files_verified_in_worktree_and_index=173,prior_archives_modified=False,new_archive_snapshot_claimed=False,weights_or_binary_state_payloads_added=False,exact_independent_archive_files=len(archived))
+ save(B+'/git_index_guard.json',guard)
+ diag=git('diff','--cached','--check',check=False)
+ save(B+'/git_whitespace_diagnostic.json',dict(returncode=diag.returncode,stdout=diag.stdout.decode(),stderr=diag.stderr.decode()))
+ exceptions=[]
+ if diag.returncode:
+  headers=[line for line in diag.stdout.decode().splitlines() if re.match(r'^.*?:[0-9]+: ',line)]
+  assert headers and not diag.stderr
+  for header in headers:
+   m=re.fullmatch(r'(.*?):[0-9]+: (trailing whitespace|new blank line at EOF)\.',header);assert m,header
+   name=m.group(1)
+   assert name in archived or name in raw_long and name.endswith(('.out','.err','.log')),name
+   exceptions.append(name)
+  exceptions=sorted(set(exceptions))
+ git('diff','--cached','--check','--','.',*[':(exclude)'+n for n in exceptions])
+ additions=[B+'/git_index_guard.json',B+'/git_whitespace_diagnostic.json']
+ save(B+'/git_delivery.json',dict(schema='formal_main_v2',utc=datetime.now(timezone.utc).isoformat(),status='exact_ordinary_index_and_173frozen_verified',baseline=HEAD,required_files=ref(B+'/git_required_files.json'),index_guard=ref(B+'/git_index_guard.json'),new_raw_files=len(raw_long),immutable_audit_files=len(archived),weights_added=False,sealed_final_values_added=False,excluded_live_files=excluded,raw_original_whitespace_preserved=[ref(n) for n in exceptions],root_independent_complete=62,root_accepted_updates=314000,new_root_GPU_submissions=['3047443'],exact_pending_reconciled_without_resubmission=True,new_development_trials=600,all_development_trials=2612,current_action_trials=1400,unique_initial_states_across_seven_pairs=100,Long256_paired_mean_difference_pp=2.3333333333333,Long256_development_CI95_pp=[-1,6],legacy600_not_reused=True,final_sealed=True,no_normal_GPU_realtime_polling=True,additions=[ref(n) for n in additions]))
+ for n in additions+[B+'/git_delivery.json']:
+  git('add','--',n);assert git('show',':'+n).stdout==(R/n).read_bytes()
+ git('diff','--cached','--check','--','.',*[':(exclude)'+n for n in exceptions])
+ count=len(git('diff','--cached','--name-only').stdout.decode().splitlines())
+ answer=git('commit','-m','Accept 600 Long development trials and three-seed statistics')
+ commit=git('rev-parse','HEAD').stdout.decode().strip()
+ save('.local/git_commit_0727.json',dict(commit=commit,baseline=HEAD,files=count,index_guard='passed',root_complete=62,new_development_trials=600))
+ print(json.dumps(dict(status='committed_not_yet_pushed',commit=commit,files=count,raw_whitespace_exceptions=len(exceptions),summary=answer.stdout.decode().splitlines()[:2])),flush=True)

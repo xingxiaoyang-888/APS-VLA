@@ -1,0 +1,35 @@
+{
+  "GPU_seconds": 3025,
+  "authorization_sha256": "bb5d77b7934a552b59914c7dbb1bca9911380e8a9465e24c51c77050f9383ebb",
+  "budget": 64,
+  "exact_replacements": {
+    "'per_camera_budgets':[128,128]": "'per_camera_budgets':[32,32]",
+    "'visual_tokens':256": "'visual_tokens':64",
+    ")])/256 for sid": ")])/64 for sid",
+    "2937": "3025",
+    "3046779": "3047156",
+    "5185766bb353c8e6": "421cbed0b5a0fa49",
+    "94f108d569f8b35e5f14abe9c84dc03da38b5f0d1ad311f0fb293fcbf0e4dd4f": "97957ae4fdbc161fb863f94521026867c1496857d29c0b593fd31bcd88c2a280",
+    "A256_": "A64_",
+    "B256_": "B64_",
+    "['visual_tokens']==256": "['visual_tokens']==64",
+    "k256_": "k64_",
+    "len(kept)==256": "len(kept)==64",
+    "sum(x<256 for x in kept)==128": "sum(x<256 for x in kept)==32"
+  },
+  "invocation": {
+    "path": "results/formal_main_v2/invocations/libero_10_development_421cbed0b5a0fa49_attempt01.json",
+    "sha256": "97957ae4fdbc161fb863f94521026867c1496857d29c0b593fd31bcd88c2a280"
+  },
+  "job_id": "3047156",
+  "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_10/downstream/development/421cbed0b5a0fa49/attempt01",
+  "seed": 17,
+  "source_template": {
+    "path": ".local/independent_long256_development_0626/job3046779/direct_raw_audit.py",
+    "sha256": "f75ea57aef19e93d4a3649677f46e67f9966af8b6e662ba9e4b8aa0962a2e780"
+  },
+  "submission": {
+    "path": "results/formal_main_v2/submissions/3047156.json",
+    "sha256": "f884ef77ac91142637be8c240518d13d2cb355081d5692e7016d2b65560322ce"
+  }
+}
