@@ -1,0 +1,42 @@
+def evaluate_formal_trials(panel, policies, ledger, environment_factory, *, reseed, policy_watchdog_seconds=60.0, stop_after=None, on_result=None):
+    methods = tuple(policies)
+    validate_trial_identities(panel, methods, ledger)
+    if stop_after is not None and (type(stop_after) is not int or stop_after <= 0):
+        raise ValueError('stop_after must be a positive count')
+    ran = 0
+    for state in panel['states']:
+        for identifier in methods:
+            identity = _identity(panel, state, identifier)
+            if identity['trial_id'] in ledger.completed():
+                continue
+            if stop_after is not None and ran >= stop_after:
+                return ran
+            ledger.append({**identity, 'event': 'start', 'created_utc': datetime.now(timezone.utc).isoformat()})
+            _cti_prefix_observer.trial_begin(identity, state)
+            started = time.perf_counter()
+            env = None
+            try:
+                reseed()
+                _cti_prefix_observer.capture('reseed_after')
+                _cti_prefix_observer.capture('factory_before')
+                env, instruction = environment_factory(state)
+                _cti_prefix_observer.capture('factory_after', env)
+                result = run_episode(env, policies[identifier], instruction, state['initial_state'], wait_steps=10, max_steps=FORMAL_SUITES[panel['suite']]['max_steps'], policy_watchdog_seconds=policy_watchdog_seconds)
+            except Exception as exc:
+                result = {'status': 'infrastructure_error', 'success': False, 'termination': type(exc).__name__, 'error': str(exc), 'error_phase': 'environment_creation', 'chunks': [], 'executed_actions': [], 'policy_calls': 0, 'control_steps': 0, 'wait_steps': 0}
+            finally:
+                if env is not None:
+                    try:
+                        env.close()
+                    except Exception as exc:
+                        ledger.append({**identity, 'event': 'cleanup_error', 'error': str(exc)})
+            row = {**identity, **result, 'event': 'result', 'created_utc': datetime.now(timezone.utc).isoformat()}
+            row['attempt_wall_seconds'] = time.perf_counter() - started
+            ledger.append(row)
+            ran += 1
+            if on_result:
+                on_result(row)
+            _cti_prefix_observer.trial_end(row, ledger)
+            if result['status'] == 'infrastructure_error':
+                raise RuntimeError('formal infrastructure attempt retained; repair and resume same trial')
+    return ran

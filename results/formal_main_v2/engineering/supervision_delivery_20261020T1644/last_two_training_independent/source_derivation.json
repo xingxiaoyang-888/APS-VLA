@@ -1,0 +1,250 @@
+{
+  "templates": [
+    {
+      "path": ".local/Goal64s41_independent_20261020T1644/audit_3043877_v2.py",
+      "sha256": "6a158d05bad33edda60260afb7375916892303a3b60fda51b85bb3496bb01e46"
+    },
+    {
+      "path": ".local/independent_object3042627_0626/audit_3042627_a4.py",
+      "sha256": "c3cd34abcab95324e962bf54099d4aed223c53f3b980d3ea91c5f38fc66e7792"
+    }
+  ],
+  "changes": [
+    {
+      "before": ".local/Goal64s41_independent_20261020T1644",
+      "after": ".local/last_two_training_independent_20261020T1644/goal",
+      "occurrences": 1
+    },
+    {
+      "before": "Goal64 seed41",
+      "after": "Goal64 seed23",
+      "occurrences": 1
+    },
+    {
+      "before": "seed41",
+      "after": "seed23",
+      "occurrences": 8
+    },
+    {
+      "before": "seed\"]==41",
+      "after": "seed\"]==23",
+      "occurrences": 4
+    },
+    {
+      "before": "seed=41",
+      "after": "seed=23",
+      "occurrences": 1
+    },
+    {
+      "before": "random.Random(41)",
+      "after": "random.Random(23)",
+      "occurrences": 1
+    },
+    {
+      "before": "3043877",
+      "after": "3043813",
+      "occurrences": 17
+    },
+    {
+      "before": "59575",
+      "after": "66792",
+      "occurrences": 5
+    },
+    {
+      "before": "52f6f42a36e14f90b7e9bdd1e7ec0f0e",
+      "after": "2f71f57773be4dc38b46df6b6b9f4462",
+      "occurrences": 1
+    },
+    {
+      "before": "0d005f0dd0f61a637fb3e5b4b579d910777fb864b7f3bd12e0960d0d3592cc20",
+      "after": "59ff64687a3bf18e78f1c8abe08b19876b97266b6609b2731c283e749b02869c",
+      "occurrences": 1
+    },
+    {
+      "before": "ba5a413defe4164a6078d59c82f9173b0b1fdee6bebc57a4fddd6c4994ebfbc0",
+      "after": "114b689809bc9350e70058e7060d51e62ac6d3f62d4274e34913a2b4b6ef1f04",
+      "occurrences": 1
+    },
+    {
+      "before": "20261020T154007Z_c117dc57f32d",
+      "after": "20261020T170126Z_1fd1cd88b439",
+      "occurrences": 1
+    },
+    {
+      "before": "3100cca98ad41b65f10ed707455462bcf845ae0aba513d96160ad44d777a9750",
+      "after": "f0633ec7db1a6f09aa92afb332d452e91f81c9d69c6c356bf27df45bdb338036",
+      "occurrences": 1
+    },
+    {
+      "before": "b6f947a447216acff534e30cbc3d958fe86707000da4ce086e2479e0b1502ce9",
+      "after": "3a1e7d25d11edc7098e2af832aca9a6edbf1defc4241c0311e529768932d34f7",
+      "occurrences": 1
+    },
+    {
+      "before": "c08fb4bcfcab748885f45216b9d800350849854aba39cad76f5d254c634bd587",
+      "after": "20a6cdb948eece17adb847941526f933b93b1ed59ed02a24a77b15ce3ca0ddc1",
+      "occurrences": 1
+    },
+    {
+      "before": "3043813_8493c542000b",
+      "after": "3043813_2789ee1aca97",
+      "occurrences": 1
+    },
+    {
+      "before": "def main():\n",
+      "after": "def main():\n need(len(sys.argv)==2,\"one exact bindings SHA\")\n bindings=read(\".local/last_two_training_independent_20261020T1644/goal/bindings.json\",sys.argv[1])\n",
+      "occurrences": 1
+    },
+    {
+      "before": "canonical_sha=\"121ea7c85950ee7b162b642e2e14880f2ec1eb4a1ffcfe3cf34a9ab2b19f6c60\"",
+      "after": "canonical_sha=bindings[\"root\"][\"sha256\"]\n need(bindings[\"root\"][\"path\"]==canonical_ref,\"exact root scope\")",
+      "occurrences": 1
+    },
+    {
+      "before": "root_best_ref=\"results/formal_main_v2/preflight/heartbeat_20261021T0044/3043813_selected_server.json\"",
+      "after": "root_best_ref=bindings[\"selected\"][\"path\"]",
+      "occurrences": 1
+    },
+    {
+      "before": "root_best_sha=\"2731875fc1c0b0a9ef9c57e433fa682969ebf2f172c903dbde89aafb02a73e8c\"",
+      "after": "root_best_sha=bindings[\"selected\"][\"sha256\"]",
+      "occurrences": 1
+    },
+    {
+      "before": "root_terminal_ref=\"results/formal_main_v2/preflight/heartbeat_20261021T0044/3043813_root_terminal.json\"",
+      "after": "root_terminal_ref=bindings[\"root_terminal\"][\"path\"]",
+      "occurrences": 1
+    },
+    {
+      "before": "read(root_terminal_ref,\"1fc9190ec8ea26c2a655cb9a5c90913f0410ec05b23487475f895871fdede835\")",
+      "after": "read(root_terminal_ref,bindings[\"root_terminal\"][\"sha256\"])",
+      "occurrences": 1
+    },
+    {
+      "before": ".local/independent_object3042627_0626",
+      "after": ".local/last_two_training_independent_20261020T1644/object",
+      "occurrences": 2
+    },
+    {
+      "before": "3042627",
+      "after": "3044844",
+      "occurrences": 14
+    },
+    {
+      "before": "3039258",
+      "after": "3044017",
+      "occurrences": 16
+    },
+    {
+      "before": "3028460",
+      "after": "3028468",
+      "occurrences": 11
+    },
+    {
+      "before": "k256",
+      "after": "k64",
+      "occurrences": 6
+    },
+    {
+      "before": "visual_tokens\"]==256",
+      "after": "visual_tokens\"]==64",
+      "occurrences": 3
+    },
+    {
+      "before": "visual_tokens=256",
+      "after": "visual_tokens=64",
+      "occurrences": 1
+    },
+    {
+      "before": "tokens_per_camera\"]==128",
+      "after": "tokens_per_camera\"]==32",
+      "occurrences": 1
+    },
+    {
+      "before": "per_camera_budgets\"]==[128,128]",
+      "after": "per_camera_budgets\"]==[32,32]",
+      "occurrences": 1
+    },
+    {
+      "before": "len(ids)==256",
+      "after": "len(ids)==64",
+      "occurrences": 1
+    },
+    {
+      "before": "sum(i<256 for i in ids)==128",
+      "after": "sum(i<256 for i in ids)==32",
+      "occurrences": 1
+    },
+    {
+      "before": "hard256 original packing",
+      "after": "hard64 original packing",
+      "occurrences": 1
+    },
+    {
+      "before": "COSTS=[84,6512,52321]",
+      "after": "COSTS=[69,5141,47658]",
+      "occurrences": 1
+    },
+    {
+      "before": "58917",
+      "after": "52868",
+      "occurrences": 2
+    },
+    {
+      "before": "6596",
+      "after": "5210",
+      "occurrences": 2
+    },
+    {
+      "before": "52321",
+      "after": "47658",
+      "occurrences": 1
+    },
+    {
+      "before": "6512",
+      "after": "5141",
+      "occurrences": 1
+    },
+    {
+      "before": "retained_failed_GPU_seconds\":84",
+      "after": "retained_failed_GPU_seconds\":69",
+      "occurrences": 1
+    },
+    {
+      "before": "its84GPU",
+      "after": "its69GPU",
+      "occurrences": 1
+    },
+    {
+      "before": "engineering/terminal_delivery_0943/independent/audit_3044017.py",
+      "after": "engineering/terminal_delivery_0943/independent/audit_3039258.py",
+      "occurrences": 1
+    },
+    {
+      "before": "5f86034d43017d3f89b0d3a73cd90dd8bd22b0b8a54461d0b0a51e5f8df6220e",
+      "after": "6619bd4e9a8e75b76200bca401a861bc5c6c1180a54c37cf739da18f55ea019c",
+      "occurrences": 1
+    },
+    {
+      "before": "3044844_7500f0544661",
+      "after": "3044844_83189d165da2",
+      "occurrences": 1
+    },
+    {
+      "before": "def refread(ref):return read(ref[\"path\"],ref[\"sha256\"])\n",
+      "after": "def refread(ref):return read(ref[\"path\"],ref[\"sha256\"])\ndef validate_hard64_observation(x,ref):\n need(x[\"episode_id\"]==ref[\"episode_id\"] and x[\"task_id\"]==ref[\"task_id\"],\"val source\")\n ids=x[\"retained_indices\"]\n need(len(ids)==64 and all(type(i)==int and 0<=i<512 for i in ids) and ids==sorted(set(ids)) and sum(i<256 for i in ids)==32,\"hard64 original packing\")\n actions=x[\"normalized_actions\"]\n need(len(actions)==8 and all(len(y)==7 for y in actions) and all(type(z) in (int,float) and math.isfinite(z) for y in actions for z in y),\"finite8x7\")\n for name in (\"teacher_l1\",\"demonstration_l1\"):\n  need(type(x[name]) in (int,float) and math.isfinite(x[name]) and x[name]>=0,\"finite nonnegative validation metric\")\n\ndef select_validation(vals):\n need(sorted(vals)==list(range(0,5001,500)),\"all eleven selection nodes required\")\n for key,v in vals.items():\n  need(v[\"update\"]==key,\"selection node identity\")\n  need(type(v[\"teacher_l1\"]) in (int,float) and math.isfinite(v[\"teacher_l1\"]) and v[\"teacher_l1\"]>=0,\"finite nonnegative selection metric\")\n return min(vals.values(),key=lambda v:(v[\"teacher_l1\"],v[\"update\"]))\n\n",
+      "occurrences": 1
+    },
+    {
+      "before": "best=min(vals.values(),key=lambda v:(v[\"teacher_l1\"],v[\"update\"]))",
+      "after": "best=select_validation(vals)",
+      "occurrences": 1
+    },
+    {
+      "before": "replayed_or_uncommitted_samples=0)",
+      "after": "replayed_or_uncommitted_samples=0,committed_sampling_by_task=sampling,window_pool_coverage=len(set(sampleids))/44068,window_pool_equivalent_traversals=40000/44068)",
+      "occurrences": 1
+    }
+  ],
+  "scope": "CPU independent training evidence audit only; no state, Git, scheduler, GPU or scientific release writes"
+}

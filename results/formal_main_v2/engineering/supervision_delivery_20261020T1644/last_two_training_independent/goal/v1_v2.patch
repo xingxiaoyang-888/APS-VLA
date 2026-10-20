@@ -1,0 +1,11 @@
+--- audit_3043813_v1.py
++++ audit_3043813_v2.py
+@@ -322,7 +322,7 @@
+  need(root_terminal["root_review"]=={"path":canonical_ref,"sha256":canonical_sha} and root_terminal["selected_server"]=={"path":root_best_ref,"sha256":root_best_sha} and root_terminal["completed_by_arm"]=={"A":5000,"B":5000} and root_terminal["pair_allocated_GPU_seconds"]==66792 and root_terminal["independent_review_integrated"] is False,"root terminal exact independent pending binding")
+  parallel_root={"path":canonical_ref,"sha256":canonical_sha,"kind":extra["kind"],"status":extra["status"],"selected_server_proof":{"path":root_best_ref,"sha256":root_best_sha},"prior_reviewed_updates_per_arm":0,"new_reviewed_arm_updates":10000,"fresh_pair":True}
+  raw("results/formal_main_v2/engineering/terminal_delivery_1518/independent/audit_3036313.py","41a4990834803841865431c553f0f89df681e7b1ee551d4e98c98ddd993898d0")
+- raw("results/formal_main_v2/engineering/supervision_delivery_2232/Object64seed23_independent/audit_3037535.py","8915925e39aebb194d9b25368025db293ada03e6baf1bf3e6f48ba7ee98e5514")
++ raw("results/formal_main_v2/engineering/supervision_delivery_2232/Object64seed41_independent/audit_3037535.py","8915925e39aebb194d9b25368025db293ada03e6baf1bf3e6f48ba7ee98e5514")
+  raw("AGENTS.md","f32733b595a747a9f82f5ac5949ee62cfa5a9fc750c97f5e4fb97d0f6a9e4510")
+  archive_review={"status":"not_claimed_here","reason":"All original raw logs independently parsed and R/P SHA verified. Archive/Git publication is a separate root delivery transaction."}
+  raw(Path(__file__).relative_to(R).as_posix())

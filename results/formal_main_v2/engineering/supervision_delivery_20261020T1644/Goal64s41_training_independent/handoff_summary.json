@@ -1,0 +1,78 @@
+{
+  "CPU_tests": {
+    "bytes": 5052,
+    "path": ".local/Goal64s41_independent_20261020T1644/cpu_selfcheck.json",
+    "sha256": "0ddb7a3f85d31ca0cd1f7c83e44239bf825768611bdc597c1668754734a580a9"
+  },
+  "all_nonweight_log_archives_reconstructed_byte_equal": true,
+  "audit_GPU_seconds": 0,
+  "canonical_state_docs_Git_mutated": false,
+  "complete_validation_nodes_per_arm": 11,
+  "completed_arms": 2,
+  "cost_already_in_existing_global_ledger_do_not_add_again": true,
+  "final_release_authorized": false,
+  "fresh_actual_best_and_resume_hashes_verified": true,
+  "inherited_F03_scope": "Goal original GPU job3012579 seed17 total128 qualification of same frozen implementation; actual continuous/resumed engineering checkpoint bytes rehashed. Current seed41 total64 job was fresh and did not exercise a cross-job restore.",
+  "job_id": "3043877",
+  "new_jobs_submitted": 0,
+  "new_reviewed_arm_updates_if_not_previously_integrated": 10000,
+  "no_scientific_closed_loop_result_or_speed_claim": true,
+  "original_root_review_entrypoint": {
+    "function": "review",
+    "kwargs": {
+      "job_id": "3043877",
+      "pull_receipt": "results/formal_main_v2/pulls/20261020T154007Z_c117dc57f32d/receipt.json",
+      "root": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+      "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+      "verify_server_resume": true
+    },
+    "root_already_executed": {
+      "fresh_pair": true,
+      "kind": "root_segment_review",
+      "new_reviewed_arm_updates": 10000,
+      "path": "results/formal_main_v2/libero_goal/k64/seed41/training/segment_reviews/3043877.json",
+      "prior_reviewed_updates_per_arm": 0,
+      "selected_server_proof": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261021T0044/3043877_selected_server.json",
+        "sha256": "2731875fc1c0b0a9ef9c57e433fa682969ebf2f172c903dbde89aafb02a73e8c"
+      },
+      "sha256": "121ea7c85950ee7b162b642e2e14880f2ec1eb4a1ffcfe3cf34a9ab2b19f6c60",
+      "status": "passed"
+    },
+    "source": {
+      "bytes": 49678,
+      "path": "scripts/review_formal_segment.py",
+      "sha256": "566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790"
+    }
+  },
+  "original_source173_R_S_match": true,
+  "pair": "libero_goal_k64_seed41",
+  "pair_allocated_GPU_seconds": 59575,
+  "preserved_failure": "Initial CPU-only adapter cardinality typo173-to413 aborted before raw training audit; original source and failed transport preserved; v2 restored173 and passed. No scientific rule changed.",
+  "repeated_legal_window_uses_per_arm": 6141,
+  "review": {
+    "bytes": 183286,
+    "path": ".local/Goal64s41_independent_20261020T1644/3043877_independent_review.json",
+    "sha256": "1b1dd348efcc5b0857bcefde44d4f9b97243952d4bc15ee5383f46b1aea3d064"
+  },
+  "same_AB_initialization_and_full40000_order": true,
+  "sample_uses_per_arm": 40000,
+  "selected": {
+    "A": {
+      "best_sha256": "0058d0ce70d2af9aad41079d6a8f604431974cf4f39c2a287d913e4666599128",
+      "earliest_selected_update": 3500,
+      "selected_expert_l1": 0.04231414373106663,
+      "selected_teacher_l1": 0.034046002801300754
+    },
+    "B": {
+      "best_sha256": "e312a9365e342c037dc6c9471cac8fb354f0e802dfd49bcfb0d670ff520ff61b",
+      "earliest_selected_update": 3000,
+      "selected_expert_l1": 0.04306986348260017,
+      "selected_teacher_l1": 0.0350329968275591
+    }
+  },
+  "status": "independent_training_passed_ready_for_root_integration",
+  "unique_legal_train_windows_per_arm": 33859,
+  "updates_per_arm": 5000,
+  "validation_windows_per_node": 186
+}

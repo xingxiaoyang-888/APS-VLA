@@ -1,0 +1,44 @@
+--- audit_control_v4.py
++++ audit_canonical_v1.py
+@@ -1,8 +1,8 @@
+ from pathlib import Path
+ from types import SimpleNamespace,ModuleType,CodeType
+ import ast,argparse,copy,hashlib,json,os,sys,time,traceback,difflib
+-R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA');S=P/'snapshots/formal_main_v2_run_564be0995e';D=Path(__file__).parent;OUT=D/'attempt05';sys.dont_write_bytecode=True;sys.path[:0]=[str(R/'src'),str(R/'scripts')]
+-CANDIDATE=R/'.local/object_bridge_production_20261020T1644/revision03/package/control.py';PIN='09ae3486565e17bd2c41b09adbfaa7a6d99f38754d3e77071f77851c9ac54f6f';CHECKS=[];READS={};NEG=[]
++R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA');S=P/'snapshots/formal_main_v2_run_564be0995e';D=Path(__file__).parent;OUT=D/'canonical';sys.dont_write_bytecode=True;sys.path[:0]=[str(R/'src'),str(R/'scripts')]
++CANDIDATE=R/'scripts/ops/formal_object256s23_source_bridge_v1/control.py';PIN='09ae3486565e17bd2c41b09adbfaa7a6d99f38754d3e77071f77851c9ac54f6f';CHECKS=[];READS={};NEG=[]
+ def guard(event,args):
+  if event in ('subprocess.Popen','os.system','socket.connect'):raise RuntimeError('Independent CPU only; no process/network/Slurm')
+  if event=='open':
+@@ -57,7 +57,7 @@
+  for rel,pin in closure.items():check('exact original or explicit dependency:'+rel,sha(R/rel)==pin)
+  check('descriptor exact scope',c.descriptor()['scope']==dict(suite='libero_object',tokens=256,seed=23,method_ids=['A256_seed23','B256_seed23'],stage='development',trials=200))
+  check('retained cost',c.descriptor()['all_pair_GPU_seconds']==58917 and c.descriptor()['retained_failed_GPU_seconds']==84)
+- reject('private entry cannot operate production',lambda:c.main(['--control-sha256',PIN,'--authorization','fake.json','--authorization-sha256','0'*64,'--submit','--root-reviewed-submit']),contains='private candidate')
++ check('canonical actual location',c.BASE.relative_to(R).as_posix()==c.CANONICAL)
+  reject('outside evidence root',lambda:c.EvidenceAdapter(SimpleNamespace(project=R.parent)))
+  for rel in ['../x','/tmp/x','a/../x','./x','a//x']:
+   reject('noncanonical path:'+rel,lambda rel=rel:c.safe_path(rel))
+@@ -65,7 +65,7 @@
+  try:
+   c.BASE=D;reject('unregistered relocation',c.closure)
+  finally:c.BASE=oldbase
+- snapshot=R/'.local/object256s23_consumer_candidate_20261020T1530/runtime_check01/author_state_snapshot.json';check('immutable state snapshot pin',sha(snapshot)=='303d0e953ef966fa53787f46b19152f697c2d211640a7f3f8813754776d05430');state=json.loads(snapshot.read_bytes());base=copy.deepcopy(state)
++ snapshot=R/'results/formal_main_v2/preflight/heartbeat_20261021T0044/Object_source_root_state_snapshot.json';check('immutable state snapshot pin',sha(snapshot)=='081007870f26a4dd8cca9ef17bcbee0c7c35e2e1788a325df66009a4ac8f7efa');state=json.loads(snapshot.read_bytes());base=copy.deepcopy(state)
+  args=json.loads((R/'.local/object256s23_consumer_candidate_20261020T1530/runtime_check01/plan_arguments.json').read_bytes());write('input_snapshot_reference.json',{'path':snapshot.relative_to(R).as_posix(),'sha256':sha(snapshot),'fresh_capacity_authorization':False});write('plan_arguments.json',args)
+  factory,planner=c.control_modules(ev)
+  for key,values in {'stage':['final','collect','full','components'], 'resume':[True], 'stop_after':[1], 'execution_manifest':['other.json'], 'source_inventory':['other.json'],'output_relative':['results/other'],'prior_review':['results/prior.json']}.items():
+@@ -132,9 +132,9 @@
+ 
+  for root in [R,S]:
+   for rel,pin in inventory['files'].items():check('173 after:'+str(root)+':'+rel,sha(root/rel)==pin)
+- ev.unchanged();se.unchanged();check('state input remains same',sha(snapshot)=='303d0e953ef966fa53787f46b19152f697c2d211640a7f3f8813754776d05430');write('negative_tests.json',NEG);write('read_evidence.json',{'independent':ev.files,'terminal_source':se.files,'loaded':READS})
+- report=dict(status='passed_CPU_candidate_pending_root_canonical_publication_and_real_readiness',candidate={'path':CANDIDATE.relative_to(R).as_posix(),'sha256':PIN},files=closure,checks=len(CHECKS),negative_cases=len(NEG),results=CHECKS,blockers=[],deployment_prerequisites=['Root publishes exact three package files at canonical path; rebuild all source proofs/plans under canonical paths','Root performs actual P wrapper/readiness/selected checkpoint verification and independent postpublication review','Original complete typed root authorization, dedicated reservation, live capacity/lease/CAS/pending/duplicate guards still required'],actual_FrozenPlan_rebuilt=True,actual_terminal_source_chain_rebuilt=True,terminal_raw_trial_reviewed=False,actual_GPU=False,production_published=False,science_trials_accepted=0,Slurm_calls=0,weights_or_sealed_values_read=False,root_state_or_Git_writes=False,all_pair_GPU_seconds=58917,failed_GPU_seconds_retained=84,CPU_wall_seconds=time.monotonic()-t)
+- write('independent_review.json',report);print(json.dumps({k:report[k] for k in ['status','checks','negative_cases','candidate','blockers','CPU_wall_seconds']},sort_keys=True))
++ ev.unchanged();se.unchanged();check('state input remains same',sha(snapshot)=='081007870f26a4dd8cca9ef17bcbee0c7c35e2e1788a325df66009a4ac8f7efa');write('negative_tests.json',NEG);write('read_evidence.json',{'independent':ev.files,'terminal_source':se.files,'loaded':READS})
++ report=dict(status='passed_CPU_canonical_source_pending_true_P_readiness',candidate={'path':CANDIDATE.relative_to(R).as_posix(),'sha256':PIN},files=closure,checks=len(CHECKS),negative_cases=len(NEG),results=CHECKS,blockers=[],deployment_prerequisites=['Root publishes exact three package files at canonical path; rebuild all source proofs/plans under canonical paths','Root performs actual P wrapper/readiness/selected checkpoint verification and independent postpublication review','Original complete typed root authorization, dedicated reservation, live capacity/lease/CAS/pending/duplicate guards still required'],actual_FrozenPlan_rebuilt=True,actual_terminal_source_chain_rebuilt=True,terminal_raw_trial_reviewed=False,actual_GPU=False,production_published=True,science_trials_accepted=0,Slurm_calls=0,weights_or_sealed_values_read=False,root_state_or_Git_writes=False,all_pair_GPU_seconds=58917,failed_GPU_seconds_retained=84,CPU_wall_seconds=time.monotonic()-t)
++ write('independent_review.json',report);write('gateway_independent_CPU_review.json',dict(schema='formal_main_v2',kind='formal_downstream_server_gateway_independent_CPU_review',status='passed_CPU_review',blockers=[],files=closure,entrypoint_sha256=PIN,explicit_source_control=c.descriptor(),execution_version='formal-downstream-action-v1',runtime_sources=files,source_publication={'path':'results/formal_main_v2/preflight/heartbeat_20261021T0044/Object_source_publication.json','sha256':'104aba5206c8d8c917dab63f2491161460e38dce7eef97c3729ee4aeda67201a'},evidence={'path':(OUT/'independent_review.json').relative_to(R).as_posix(),'sha256':sha(OUT/'independent_review.json')},lifecycle_review={'path':(D/'lifecycle/report.json').relative_to(R).as_posix(),'sha256':'f998d27e2249235c2b64936dfe60b9dba44937e3d6e9a256c9002eb3ceb82a74'},production_GPU_proven=False,real_P_readiness_verified=False,automatic_authorization=False));print(json.dumps({k:report[k] for k in ['status','checks','negative_cases','candidate','blockers','CPU_wall_seconds']},sort_keys=True))
+ if __name__=='__main__':
+  try:main()
+  except BaseException as e:

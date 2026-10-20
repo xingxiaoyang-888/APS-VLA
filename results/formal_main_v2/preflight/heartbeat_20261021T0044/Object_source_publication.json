@@ -1,0 +1,109 @@
+{
+  "author_CPU_review": {
+    "path": ".local/object_bridge_production_20261020T1644/attempt03/cpu_report.json",
+    "sha256": "e9ab6afe555231c300809288a1d3daf3f31a9996b3523ba049f264bb4800a822"
+  },
+  "copies": [
+    {
+      "published": {
+        "bytes": 12688,
+        "path": "scripts/ops/formal_object256s23_source_bridge_v1/control.py",
+        "sha256": "09ae3486565e17bd2c41b09adbfaa7a6d99f38754d3e77071f77851c9ac54f6f"
+      },
+      "source": {
+        "bytes": 12688,
+        "path": ".local/object_bridge_production_20261020T1644/revision03/package/control.py",
+        "sha256": "09ae3486565e17bd2c41b09adbfaa7a6d99f38754d3e77071f77851c9ac54f6f"
+      }
+    },
+    {
+      "published": {
+        "bytes": 14109,
+        "path": "scripts/ops/formal_object256s23_source_bridge_v1/bridge_v2.py",
+        "sha256": "8785b42fe62dd513f796871875547c894de972516ac9762ad60a89d3df9a7c8e"
+      },
+      "source": {
+        "bytes": 14109,
+        "path": ".local/object_bridge_production_20261020T1644/revision03/package/bridge_v2.py",
+        "sha256": "8785b42fe62dd513f796871875547c894de972516ac9762ad60a89d3df9a7c8e"
+      }
+    },
+    {
+      "published": {
+        "bytes": 4614,
+        "path": "scripts/ops/formal_object256s23_source_bridge_v1/policy_v1.json",
+        "sha256": "9f4e753fbe9602593c33b6f5031e88006a3d07dacc0ace21ed1a204d8caab999"
+      },
+      "source": {
+        "bytes": 4614,
+        "path": ".local/object_bridge_production_20261020T1644/revision03/package/policy_v1.json",
+        "sha256": "9f4e753fbe9602593c33b6f5031e88006a3d07dacc0ace21ed1a204d8caab999"
+      }
+    },
+    {
+      "published": {
+        "bytes": 4924,
+        "path": "scripts/ops/formal_object256s23_source_bridge_v1/README.md",
+        "sha256": "80df96c74529ea0cb13287a12ee5a3219ed66b4b6525958b2e3f0cc154dfa105"
+      },
+      "source": {
+        "bytes": 4924,
+        "path": ".local/object_bridge_production_20261020T1644/revision03/package/README.md",
+        "sha256": "80df96c74529ea0cb13287a12ee5a3219ed66b4b6525958b2e3f0cc154dfa105"
+      }
+    }
+  ],
+  "final_sealed": true,
+  "full173_unchanged_in_R_and_S": true,
+  "manifest": {
+    "path": ".local/object_bridge_production_20261020T1644/revision03/source_publication_manifest.json",
+    "sha256": "bedb0c936461dad237dfca1683db2a0dcd5875eeb81a4de5300ebb1e59eb3831"
+  },
+  "new_GPU_jobs": 0,
+  "root_and_independent_readiness_passed": false,
+  "root_state_snapshot": {
+    "bytes": 4729315,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0044/Object_source_root_state_snapshot.json",
+    "sha256": "081007870f26a4dd8cca9ef17bcbee0c7c35e2e1788a325df66009a4ac8f7efa"
+  },
+  "schema": "formal_main_v2",
+  "scientific_admission": false,
+  "source_descriptor": {
+    "all_pair_GPU_seconds": 58917,
+    "bridge_sha256": "8785b42fe62dd513f796871875547c894de972516ac9762ad60a89d3df9a7c8e",
+    "failed_job_id": "3028460",
+    "files": {
+      "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+      "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+      "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+      "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+      "scripts/ops/formal_asset_downstream_review.py": "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699",
+      "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+      "scripts/ops/formal_object256s23_source_bridge_v1/bridge_v2.py": "8785b42fe62dd513f796871875547c894de972516ac9762ad60a89d3df9a7c8e",
+      "scripts/ops/formal_object256s23_source_bridge_v1/control.py": "09ae3486565e17bd2c41b09adbfaa7a6d99f38754d3e77071f77851c9ac54f6f",
+      "scripts/ops/formal_object256s23_source_bridge_v1/policy_v1.json": "9f4e753fbe9602593c33b6f5031e88006a3d07dacc0ace21ed1a204d8caab999"
+    },
+    "new_scientific_authority": false,
+    "policy_sha256": "9f4e753fbe9602593c33b6f5031e88006a3d07dacc0ace21ed1a204d8caab999",
+    "retained_failed_GPU_seconds": 84,
+    "scope": {
+      "method_ids": [
+        "A256_seed23",
+        "B256_seed23"
+      ],
+      "seed": 23,
+      "stage": "development",
+      "suite": "libero_object",
+      "tokens": 256,
+      "trials": 200
+    },
+    "successful_job_ids": [
+      "3039258",
+      "3042627"
+    ],
+    "version": "formal-object256s23-source-control-v1"
+  },
+  "state_unchanged": true,
+  "status": "source_only_published_pending_canonical_root_independent_readiness",
+  "utc": "2026-10-20T17:21:09.498838+00:00"
+}

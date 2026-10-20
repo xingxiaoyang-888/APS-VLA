@@ -1,0 +1,2229 @@
+{
+  "CPU_seconds": 9.649878985,
+  "Goal_original_200_HOLD_unchanged": true,
+  "artifacts": {
+    "ast_proof": {
+      "bytes": 26943,
+      "path": "attempt02/ast_proof.json",
+      "sha256": "c1cf044bf670b570e8bfc0615e666b2f359505a7b3a3d817fdeaa1add9e8b830",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/ast_proof.json"
+    },
+    "candidate_inventory": {
+      "bytes": 40966,
+      "path": "attempt02/candidate_inventory.json",
+      "sha256": "f3f5237c32ebe478b4e711baec7c320755874956101c9f560a88401e17637865",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/candidate_inventory.json"
+    },
+    "episode_comparison": {
+      "bytes": 33063,
+      "path": "attempt02/episode_comparison.json",
+      "sha256": "23295bad693b6f6faebc214233a80060da03afd5a3a61592aa81a49702383075",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/episode_comparison.json"
+    },
+    "final_write_counterexample": {
+      "bytes": 409,
+      "path": "attempt02/final_write_counterexample.json",
+      "sha256": "5bd29e2d9ad15419681a141a255209c6dc8824a8cd4cdf778181fd086c3d620e",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/final_write_counterexample.json"
+    },
+    "frozen_identity": {
+      "bytes": 83176,
+      "path": "attempt02/frozen_identity.json",
+      "sha256": "c17dc68cafd93e8d2941c7d9e41d6587591083fc0561e68cfbc9488ae4f84daa",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/frozen_identity.json"
+    },
+    "identity_evidence": {
+      "bytes": 36112,
+      "path": "attempt02/identity_evidence.json",
+      "sha256": "0d196c8e91c1d42ff44d6ddf571253eabe5f29521788711c4103b0decdadc824",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/identity_evidence.json"
+    },
+    "initial_guard_counterexample": {
+      "bytes": 270,
+      "path": "attempt02/initial_guard_counterexample.json",
+      "sha256": "f8bfb90f55a452c2bbe7d3ae906ec285ca3ce8d3ac6649c8d928edc153d260b6",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/initial_guard_counterexample.json"
+    },
+    "prefix_loop": {
+      "bytes": 115946,
+      "path": "attempt02/prefix_loop.json",
+      "sha256": "de8060da27005550092c35d5bc78e8af6f937314966ca426f16744a569e80de6",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/prefix_loop.json"
+    },
+    "projection_counterexample": {
+      "bytes": 574,
+      "path": "attempt02/projection_counterexample.json",
+      "sha256": "7519cd29b9dde042fe41578522e1049e8a72fac060b624d01eebca29304f62ed",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/projection_counterexample.json"
+    },
+    "scope_events": {
+      "bytes": 119980,
+      "path": "attempt02/scope_events.json",
+      "sha256": "0693de9d683fe26441572d93ab62c9e3ae36308fa44972fa326fc671233768d6",
+      "source": ".local/goal_prefix58_independent_20261020T1644/attempt02/scope_events.json"
+    }
+  },
+  "candidate_manifest": {
+    "sha256": "9a2f425a7d6e715c6a108a400bd1a92fe713e2b368bdc3a2ab2e0e3a4da76595",
+    "source": ".local/goal_prefix58_candidate_20261020T1644/delivery_manifest.json"
+  },
+  "checked_exact_sources": {
+    "ast_observer.py": "defb33269acd7e464095ff622723a0168b324f19f68f7ed317475a83895cb89e",
+    "observer_v2.py": "9fc6b3eb8e54c624edafcb67e98385a974b8dbcb850a12cf8a540583660da85f",
+    "prepare_candidate_v1.py": "1ea7f134bf20a59983bc2930b7d14d598e6be3e5823326b58af84f13ac5a4fe5"
+  },
+  "checks": [
+    {
+      "detail": null,
+      "name": "candidate delivery manifest pin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "manifest unique paths",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member README.md",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member ast_observer.py",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member ast_proof.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_additional_v1.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_additional_v1.py",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/03c7393062d8eea5b22704871289c413c2a7a43263051aeb60f9db29752e6b81.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/149f4a947cfaa5256c48586593b7f9637e53678408f5bebee2abe0c3d4bc4d32.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/15d49616eec2a72fcda75235c943acc8a27cb15fdb75d661307ee8c389a227be.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/16e0b9cd16f1f86fdfed686202aff02b4f1c7c6910e09087ab48ae644313c39c.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/190968de5469a09c6f60b9e511ba7fe38720cd6037f69a250f79884322d78494.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/1db27bd8ce831566bb87d528411a5154b017bebbea386a9181e55c89a57acf1a.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/1e4688b4c02d4afe52e599f481126a6263755dccb7f857cd522e1a2800def34c.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/2dea890f4c01f84c9793aa8974886e4e061349ecf23b337789be89b38761f221.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/2f8d6b9407245a977a1e2be0d3d1e1ec9d1e8476b5df8beee9a895499d512839.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/37418419cb1f8b74b17c321c44b9e33800ea88ba30a1fb669b1d39e557e18827.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/580ef4adb9278b8cbcf6b6d4bf25264876bf54b8936c58581a09e0a599d58524.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/5a8fc52c56c4166862038ce7f657b942b33cad84ccfb4fa390a73db1f2b18120.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/6291ef87d6ed04daafc3f09bc4e18e775c799559f1789d5784627f5d807f307f.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/64483a43cbce6f6b0e1788f8543df72ebfd16a0b51b0c4b05cae79a6967801fc.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/666fd673a707432edb84e1686890cd4bd2bd0a5c78fa59b978e6b531dc08c432.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/6acbc0f31dede863e577035c262da7d7bbbda2e3d6f3cac02a293d86b9f0530b.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/72dfb6acb0cc4e9f5206f666e71f8ef093bde621233035f620cd71c3f11523b2.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/97bd07d017408ba2c83f4d583669225443d595dfb0dcb3f3eabbf0bbd7ceb568.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/9c1a31b806efd2b14ce3849fbfe36db9f34babf400efcb72f959ee8fea0eb646.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/a85fa86e0a8a361d4db5ada0369785bf2e37c6c8da9edc64e11185d9a0e35534.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/ae2cc60d29de85c7ed46adf5bb27e89a62bdafc75e3f8822473568055af8b86e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/b0c45303f7f11848cb5e6e5b2af2fb2aecd0b72c28748b88b583ab6bb76df174.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/b41c0225c3e96e18e870c81c42a8e9af6d4a01a6be55dc780639fc5a92ee069f.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/c1c2d0f7cf8eccd75fcc9542cf7b358adeced92878ee46b640692c350ce225a0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/c4ec2f61fefff71a530a024e2b1f53834360d945e69dbe0e405b2a7b763b42f3.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/cc143326a2646c605ea66139d7b440df7cbde18c050f1f8cf4dd30f42cfe7123.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/cfdcb6fb5563790fd7fc3e75459dfdc59d4dec9f2e244af703687440b1d5580e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/d8d6f3145190a40bff6084cb196745737fb492eefe5b6d4c7e9b8eb6728eb2d0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/dc32e90e92ad3bddac9aea65156306a90ef8a2fb30fa0f63e33150bd18b52cc3.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/e49aa13685f5f62862087d480ac50aec3aa078d3a75f73f2bbb315a975d047e5.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/e50df3fa7254cf9a47147df65c8be001d23f4c7d1d860aacc43e9ae7ab4270ca.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/ed9bc2d864ab2788fd7fdb0a2755f82698f9934b7ea75876c0d0b79e7cac6678.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/ee9d2eb19875fe96caa42ab3b95a42ba5e1d640298687ae19f132d8af5d86ba7.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/ef4df1d86bf4650888d8490b2eaa8c1939359eb38044985c582b39711e4ca13b.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/fa709b9da5aa074166e916c5078e0e9f61f6a26a2abee49caa6bd5ec0b0f490f.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/blobs/fed4af3b331ca9cf2d4e4d239c4337226a2ac6165668b2220ae4eae300bf4f79.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_episode/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_evidence.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_extra_mutated_CPU/blobs/79e60f43734366cb8011b9ea046f80b0fca2aa5c4ee17bad2130b705fa6f35bb.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_extra_mutated_CPU/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_extra_mutated_CUDA/blobs/c8bc502365539e2e803ebd10478ad796f91f4b28bffa58071a40631155091ba1.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_extra_mutated_CUDA/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_extra_rng/blobs/79e60f43734366cb8011b9ea046f80b0fca2aa5c4ee17bad2130b705fa6f35bb.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_extra_rng/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/03c7393062d8eea5b22704871289c413c2a7a43263051aeb60f9db29752e6b81.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/149f4a947cfaa5256c48586593b7f9637e53678408f5bebee2abe0c3d4bc4d32.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/15d49616eec2a72fcda75235c943acc8a27cb15fdb75d661307ee8c389a227be.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/190968de5469a09c6f60b9e511ba7fe38720cd6037f69a250f79884322d78494.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/1db27bd8ce831566bb87d528411a5154b017bebbea386a9181e55c89a57acf1a.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/1e4688b4c02d4afe52e599f481126a6263755dccb7f857cd522e1a2800def34c.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/2dea890f4c01f84c9793aa8974886e4e061349ecf23b337789be89b38761f221.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/2f1dccffbe2f2e80c60dd522a1fccdbab135cc1c6579403cf667614885ffa1f3.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/2f8d6b9407245a977a1e2be0d3d1e1ec9d1e8476b5df8beee9a895499d512839.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/37418419cb1f8b74b17c321c44b9e33800ea88ba30a1fb669b1d39e557e18827.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/580ef4adb9278b8cbcf6b6d4bf25264876bf54b8936c58581a09e0a599d58524.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/5a8fc52c56c4166862038ce7f657b942b33cad84ccfb4fa390a73db1f2b18120.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/64483a43cbce6f6b0e1788f8543df72ebfd16a0b51b0c4b05cae79a6967801fc.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/666fd673a707432edb84e1686890cd4bd2bd0a5c78fa59b978e6b531dc08c432.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/6acbc0f31dede863e577035c262da7d7bbbda2e3d6f3cac02a293d86b9f0530b.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/727676e679b53061a7ac1d90944acc1f0402aea7a53fbf70860cc979ce778361.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/72dfb6acb0cc4e9f5206f666e71f8ef093bde621233035f620cd71c3f11523b2.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/97bd07d017408ba2c83f4d583669225443d595dfb0dcb3f3eabbf0bbd7ceb568.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/9c1a31b806efd2b14ce3849fbfe36db9f34babf400efcb72f959ee8fea0eb646.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/a85fa86e0a8a361d4db5ada0369785bf2e37c6c8da9edc64e11185d9a0e35534.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/ae2cc60d29de85c7ed46adf5bb27e89a62bdafc75e3f8822473568055af8b86e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/b0c45303f7f11848cb5e6e5b2af2fb2aecd0b72c28748b88b583ab6bb76df174.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/b41c0225c3e96e18e870c81c42a8e9af6d4a01a6be55dc780639fc5a92ee069f.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/c1c2d0f7cf8eccd75fcc9542cf7b358adeced92878ee46b640692c350ce225a0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/c4ec2f61fefff71a530a024e2b1f53834360d945e69dbe0e405b2a7b763b42f3.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/cc143326a2646c605ea66139d7b440df7cbde18c050f1f8cf4dd30f42cfe7123.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/cfdcb6fb5563790fd7fc3e75459dfdc59d4dec9f2e244af703687440b1d5580e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/d8d6f3145190a40bff6084cb196745737fb492eefe5b6d4c7e9b8eb6728eb2d0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/dc32e90e92ad3bddac9aea65156306a90ef8a2fb30fa0f63e33150bd18b52cc3.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/e49aa13685f5f62862087d480ac50aec3aa078d3a75f73f2bbb315a975d047e5.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/e50df3fa7254cf9a47147df65c8be001d23f4c7d1d860aacc43e9ae7ab4270ca.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/ed9bc2d864ab2788fd7fdb0a2755f82698f9934b7ea75876c0d0b79e7cac6678.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/ee9d2eb19875fe96caa42ab3b95a42ba5e1d640298687ae19f132d8af5d86ba7.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/ef4df1d86bf4650888d8490b2eaa8c1939359eb38044985c582b39711e4ca13b.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/fa709b9da5aa074166e916c5078e0e9f61f6a26a2abee49caa6bd5ec0b0f490f.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/blobs/fed4af3b331ca9cf2d4e4d239c4337226a2ac6165668b2220ae4eae300bf4f79.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_observer/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_failure_trials.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_numpy_rng/blobs/15d49616eec2a72fcda75235c943acc8a27cb15fdb75d661307ee8c389a227be.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_numpy_rng/blobs/28281e216d339a5050f4662f294f892421d9900e76cb09612405fbd0f0448f97.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_numpy_rng/blobs/37418419cb1f8b74b17c321c44b9e33800ea88ba30a1fb669b1d39e557e18827.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_numpy_rng/blobs/6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_numpy_rng/blobs/9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_numpy_rng/blobs/ae2cc60d29de85c7ed46adf5bb27e89a62bdafc75e3f8822473568055af8b86e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_numpy_rng/blobs/b0c45303f7f11848cb5e6e5b2af2fb2aecd0b72c28748b88b583ab6bb76df174.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_numpy_rng/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_bytes/blobs/15d49616eec2a72fcda75235c943acc8a27cb15fdb75d661307ee8c389a227be.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_bytes/blobs/2f1dccffbe2f2e80c60dd522a1fccdbab135cc1c6579403cf667614885ffa1f3.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_bytes/blobs/37418419cb1f8b74b17c321c44b9e33800ea88ba30a1fb669b1d39e557e18827.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_bytes/blobs/6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_bytes/blobs/9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_bytes/blobs/ae2cc60d29de85c7ed46adf5bb27e89a62bdafc75e3f8822473568055af8b86e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_bytes/blobs/b0c45303f7f11848cb5e6e5b2af2fb2aecd0b72c28748b88b583ab6bb76df174.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_bytes/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_identity/blobs/15d49616eec2a72fcda75235c943acc8a27cb15fdb75d661307ee8c389a227be.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_identity/blobs/2f1dccffbe2f2e80c60dd522a1fccdbab135cc1c6579403cf667614885ffa1f3.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_identity/blobs/37418419cb1f8b74b17c321c44b9e33800ea88ba30a1fb669b1d39e557e18827.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_identity/blobs/6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_identity/blobs/9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_identity/blobs/ae2cc60d29de85c7ed46adf5bb27e89a62bdafc75e3f8822473568055af8b86e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_identity/blobs/b0c45303f7f11848cb5e6e5b2af2fb2aecd0b72c28748b88b583ab6bb76df174.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_observation_identity/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_python_rng/blobs/15d49616eec2a72fcda75235c943acc8a27cb15fdb75d661307ee8c389a227be.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_python_rng/blobs/1ea935f744ab37634ce226b2ca9ab85d8fdf456acdb3e8cc0c4d13fc9da584da.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_python_rng/blobs/37418419cb1f8b74b17c321c44b9e33800ea88ba30a1fb669b1d39e557e18827.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_python_rng/blobs/6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_python_rng/blobs/9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_python_rng/blobs/ae2cc60d29de85c7ed46adf5bb27e89a62bdafc75e3f8822473568055af8b86e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_python_rng/blobs/b0c45303f7f11848cb5e6e5b2af2fb2aecd0b72c28748b88b583ab6bb76df174.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_python_rng/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_sim/blobs/15d49616eec2a72fcda75235c943acc8a27cb15fdb75d661307ee8c389a227be.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_sim/blobs/2f1dccffbe2f2e80c60dd522a1fccdbab135cc1c6579403cf667614885ffa1f3.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_sim/blobs/37418419cb1f8b74b17c321c44b9e33800ea88ba30a1fb669b1d39e557e18827.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_sim/blobs/6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_sim/blobs/9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_sim/blobs/ae2cc60d29de85c7ed46adf5bb27e89a62bdafc75e3f8822473568055af8b86e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_sim/blobs/b0c45303f7f11848cb5e6e5b2af2fb2aecd0b72c28748b88b583ab6bb76df174.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_mutation_sim/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/03c7393062d8eea5b22704871289c413c2a7a43263051aeb60f9db29752e6b81.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/149f4a947cfaa5256c48586593b7f9637e53678408f5bebee2abe0c3d4bc4d32.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/15d49616eec2a72fcda75235c943acc8a27cb15fdb75d661307ee8c389a227be.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/1618d6aaf2329d9e06a14f77ef944304c1985d30dc55b4d9a07e72c9a9c0380f.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/190968de5469a09c6f60b9e511ba7fe38720cd6037f69a250f79884322d78494.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/1db27bd8ce831566bb87d528411a5154b017bebbea386a9181e55c89a57acf1a.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/1e4688b4c02d4afe52e599f481126a6263755dccb7f857cd522e1a2800def34c.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/28281e216d339a5050f4662f294f892421d9900e76cb09612405fbd0f0448f97.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/2dea890f4c01f84c9793aa8974886e4e061349ecf23b337789be89b38761f221.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/2f8d6b9407245a977a1e2be0d3d1e1ec9d1e8476b5df8beee9a895499d512839.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/37418419cb1f8b74b17c321c44b9e33800ea88ba30a1fb669b1d39e557e18827.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/580ef4adb9278b8cbcf6b6d4bf25264876bf54b8936c58581a09e0a599d58524.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/5a8fc52c56c4166862038ce7f657b942b33cad84ccfb4fa390a73db1f2b18120.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/64483a43cbce6f6b0e1788f8543df72ebfd16a0b51b0c4b05cae79a6967801fc.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/666fd673a707432edb84e1686890cd4bd2bd0a5c78fa59b978e6b531dc08c432.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/6acbc0f31dede863e577035c262da7d7bbbda2e3d6f3cac02a293d86b9f0530b.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/727676e679b53061a7ac1d90944acc1f0402aea7a53fbf70860cc979ce778361.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/72dfb6acb0cc4e9f5206f666e71f8ef093bde621233035f620cd71c3f11523b2.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/97bd07d017408ba2c83f4d583669225443d595dfb0dcb3f3eabbf0bbd7ceb568.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/9c1a31b806efd2b14ce3849fbfe36db9f34babf400efcb72f959ee8fea0eb646.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/a85fa86e0a8a361d4db5ada0369785bf2e37c6c8da9edc64e11185d9a0e35534.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/ae2cc60d29de85c7ed46adf5bb27e89a62bdafc75e3f8822473568055af8b86e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/b0c45303f7f11848cb5e6e5b2af2fb2aecd0b72c28748b88b583ab6bb76df174.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/b41c0225c3e96e18e870c81c42a8e9af6d4a01a6be55dc780639fc5a92ee069f.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/c1c2d0f7cf8eccd75fcc9542cf7b358adeced92878ee46b640692c350ce225a0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/c4ec2f61fefff71a530a024e2b1f53834360d945e69dbe0e405b2a7b763b42f3.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/cc143326a2646c605ea66139d7b440df7cbde18c050f1f8cf4dd30f42cfe7123.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/cfdcb6fb5563790fd7fc3e75459dfdc59d4dec9f2e244af703687440b1d5580e.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/d8d6f3145190a40bff6084cb196745737fb492eefe5b6d4c7e9b8eb6728eb2d0.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/dc32e90e92ad3bddac9aea65156306a90ef8a2fb30fa0f63e33150bd18b52cc3.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/e49aa13685f5f62862087d480ac50aec3aa078d3a75f73f2bbb315a975d047e5.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/e50df3fa7254cf9a47147df65c8be001d23f4c7d1d860aacc43e9ae7ab4270ca.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/ed9bc2d864ab2788fd7fdb0a2755f82698f9934b7ea75876c0d0b79e7cac6678.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/ee9d2eb19875fe96caa42ab3b95a42ba5e1d640298687ae19f132d8af5d86ba7.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/ef4df1d86bf4650888d8490b2eaa8c1939359eb38044985c582b39711e4ca13b.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/f0e17b83d929cbf0d11d8333197679c6b14904e062067c39db2e29162d77c7e6.rng.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/fa709b9da5aa074166e916c5078e0e9f61f6a26a2abee49caa6bd5ec0b0f490f.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/blobs/fed4af3b331ca9cf2d4e4d239c4337226a2ac6165668b2220ae4eae300bf4f79.bin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_prefix58/events.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_report_v1.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_selfcheck_v1.py",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member cpu_trials.jsonl",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member handoff_summary.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member input_identity.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member inputs/delivery_manifest.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member inputs/original_prefix58.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member inputs/pinned_inputs.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member inputs/proposed_single_attempt_registration.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member inputs/report.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member inputs/source_reading.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member instrumented_evaluate_formal_trials.py.txt",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member instrumented_run_episode.py.txt",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member observer.py",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member observer_v2.py",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member prepare_candidate_v1.py",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member prepare_v1.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member source_bundle.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member transport_audits.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "member version_history.json",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "manifest full inventory",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "frozen inventory pin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "173 frozen files",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "173 exact before /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "173 exact before /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "source pin ind_prefix_observer",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "source pin ind_prefix_ast",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "prefix identity pin",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "prefix 58 records and 29 states",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "prefix original 56 actions/query counters",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "57/58 anomaly task and source",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "source pin ind_prefix_accepted",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "real pinned source bodies",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "accepted AST projection",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "original call expressions after projection",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('reset_before', env)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('reset_before', env)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('reset_after', env, _cti_prefix_reset_return)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('reset_after', env, _cti_prefix_reset_return)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('reset_after', env, _cti_prefix_reset_return)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('set_init_before', env, _cti_prefix_reset_return)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('set_init_before', env, _cti_prefix_reset_return)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('set_init_before', env, _cti_prefix_reset_return)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('set_init_after', env, observation)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('set_init_after', env, observation)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('set_init_after', env, observation)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('wait_before', env, observation, wait_steps=result['wait_steps'])",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('wait_before', env, observation, wait_steps=result['wait_steps'])",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('wait_before', env, observation, wait_steps=result['wait_steps'])",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('wait_before', env, observation, wait_steps=result['wait_steps'])",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('wait_after', env, observation, wait_steps=result['wait_steps'])",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('wait_after', env, observation, wait_steps=result['wait_steps'])",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('wait_after', env, observation, wait_steps=result['wait_steps'])",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('wait_after', env, observation, wait_steps=result['wait_steps'])",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_before', env, observation, control_step=control_step)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_before', env, observation, control_step=control_step)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_before', env, observation, control_step=control_step)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_before', env, observation, control_step=control_step)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_after', env, observation, control_step=control_step, chunk=chunk)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_after', env, observation, control_step=control_step, chunk=chunk)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_after', env, observation, control_step=control_step, chunk=chunk)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_after', env, observation, control_step=control_step, chunk=chunk)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('t0_query_after', env, observation, control_step=control_step, chunk=chunk)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.trial_begin(identity, state)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.trial_begin(identity, state)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.trial_end(row, ledger)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.trial_end(row, ledger)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('reseed_after')",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('factory_before')",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('factory_after', env)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact installed hook has no nested call _cti_prefix_observer.capture('factory_after', env)",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "projection counterexample observed",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "development panel only",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "all original first58 identities",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "independent exact original reset/step/query order",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "independent exact original actions/results excluding timers",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "independent final global RNG identical",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "independent no clipping and exact counts",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "accepted aliases restored",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "independent exact capture phase order",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "observer exact original aggregate hash",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "noncontiguous array branch exercised",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 1 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 1 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 1 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 1 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 1 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 2 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 2 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 2 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 2 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 2 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 3 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 3 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 3 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 3 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 3 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 4 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 4 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 4 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 4 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 4 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 5 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 5 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 5 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 5 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 5 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 6 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 6 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 6 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 6 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 6 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 7 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 7 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 7 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 7 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 7 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 8 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 8 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 8 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 8 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 8 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 9 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 9 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 9 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 9 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 9 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 10 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 10 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 10 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 10 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 10 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 11 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 11 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 11 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 11 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 11 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 12 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 12 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 12 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 12 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 12 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 13 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 13 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 13 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 13 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 13 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 14 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 14 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 14 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 14 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 14 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 15 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 15 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 15 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 15 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 15 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 16 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 16 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 16 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 16 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 16 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 17 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 17 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 17 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 17 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 17 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 18 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 18 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 18 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 18 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 18 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 19 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 19 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 19 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 19 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 19 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 20 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 20 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 20 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 20 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 20 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 21 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 21 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 21 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 21 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 21 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 22 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 22 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 22 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 22 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 22 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 23 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 23 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 23 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 23 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 23 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 24 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 24 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 24 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 24 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 24 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 25 agentview_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 25 robot0_eef_pos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 25 robot0_eef_quat",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 25 robot0_eye_in_hand_image",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact raw array 25 robot0_gripper_qpos",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "independent original 58 iteration order",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "one fresh env/reseed/close per original identity",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "independent original dummy steps",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "no history actions forced",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "engineering only finish",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "only first failed A retained",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "scope rollback under failure",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "original callable bindings restored after both scopes",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fail-stop numpy_rng",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fail-stop python_rng",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fail-stop env_rng",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fail-stop sim_array",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fail-stop object_bytes",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "fail-stop object_id",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "final-write simulator guard counterexample observed",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "initial-guard failure latch counterexample observed",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "source pin ind_prefix_prepare",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "execute rejected before reading sources or creating output",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "no CUDA initialization",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "no native simulator imported",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "no candidate directory alteration",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "all173 unchanged after",
+      "passed": true
+    }
+  ],
+  "findings": [
+    {
+      "category": "proof coverage",
+      "current_candidate_limit": "Exact current derived hooks were independently inspected and contain no nested calls. No extra environment step or RNG draw was observed from those exact hooks.",
+      "id": "G58-AST-01",
+      "minimal_fix": "Validate exact inserted hook AST against a versioned whitelist, including argument expressions and count/order, before inverse projection; reject these two negative cases.",
+      "observed": "Projection removes observer call expressions without validating their arguments; extra env.step/RNG in such arguments is accepted by the projection.",
+      "severity": "medium",
+      "source": "ast_observer.py:68-88"
+    },
+    {
+      "category": "invariant coverage",
+      "current_candidate_limit": "Ordinary filesystem writing was not shown to mutate real simulator state. The original anomaly cause is not inferred.",
+      "id": "G58-GUARD-02",
+      "minimal_fix": "Recheck passive_environment after final write alongside the existing object/global-RNG checks; fail-stop on mismatch and retain the failed event. Add this negative case.",
+      "observed": "Simulator/environment RNG equality is checked before the final journal write only; a synthetic journal-write callback can change the fake simulator while the record still declares passive_sim_and_environment_rng_unchanged=true and the observer continues.",
+      "severity": "medium",
+      "source": "observer_v2.py:243-255"
+    },
+    {
+      "category": "failure containment",
+      "current_candidate_limit": "No automatic GPU retry exists in this package and none was run. A future outer runner still must stop on any observer exception; the current internal dead/no-retry guarantee is incomplete.",
+      "id": "G58-FAILSTOP-03",
+      "minimal_fix": "Include initial guard collection inside the same fail-stop boundary and retain an abort record when possible; add reader-failure/no-retry negatives for all three initial guard calls.",
+      "observed": "Errors in initial global_rng/object_guard/passive_environment occur outside the fail-stop try block. A synthetic RNG reader error was not journaled or latched; the same object accepted an explicit later CPU capture.",
+      "severity": "medium",
+      "source": "observer_v2.py:214-217"
+    }
+  ],
+  "kind": "independent_goal_prefix58_CPU_audit",
+  "known_remaining_before_GPU": [
+    "actual reviewed single-attempt original-chain outer runner missing",
+    "tighten observer proof/fail-stop coverage and independent negative tests",
+    "root slot/authorization/source-checkpoint binding and real bounded engineering acceptance"
+  ],
+  "limits": [
+    "All new observations/actions/outcomes are CPU synthetic. Original development panel identities were read, no sealed state values or model weights.",
+    "Existing exact hooks preserved baseline trace/actions/RNG in CPU fixtures. This is not real MuJoCo/CUDA determinism or evidence of the original t0 anomaly cause.",
+    "Projection/current hooks and fault-injected guard coverage are distinguished. Original historical actions are not forced."
+  ],
+  "negative_case_count": 17,
+  "negative_cases": [
+    {
+      "error": "AST changes exceed observer hooks/reset-return retention",
+      "rejected": true,
+      "test": "ordinary_extra_step"
+    },
+    {
+      "error": "AST changes exceed observer hooks/reset-return retention",
+      "rejected": true,
+      "test": "ordinary_extra_render"
+    },
+    {
+      "error": "AST changes exceed observer hooks/reset-return retention",
+      "rejected": true,
+      "test": "ordinary_extra_rng"
+    },
+    {
+      "error": "policy/environment exception: stop once without retry",
+      "rejected": true,
+      "test": "policy error stops prefix"
+    },
+    {
+      "error": "observer changed global RNG state",
+      "rejected": true,
+      "test": "numpy_rng"
+    },
+    {
+      "error": "observer is failed; no retry",
+      "rejected": true,
+      "test": "numpy_rng retry"
+    },
+    {
+      "error": "observer changed global RNG state",
+      "rejected": true,
+      "test": "python_rng"
+    },
+    {
+      "error": "observer is failed; no retry",
+      "rejected": true,
+      "test": "python_rng retry"
+    },
+    {
+      "error": "observer changed passive simulator or environment RNG state",
+      "rejected": true,
+      "test": "env_rng"
+    },
+    {
+      "error": "observer is failed; no retry",
+      "rejected": true,
+      "test": "env_rng retry"
+    },
+    {
+      "error": "observer changed passive simulator or environment RNG state",
+      "rejected": true,
+      "test": "sim_array"
+    },
+    {
+      "error": "observer is failed; no retry",
+      "rejected": true,
+      "test": "sim_array retry"
+    },
+    {
+      "error": "observer changed input/returned object identity or bytes",
+      "rejected": true,
+      "test": "object_bytes"
+    },
+    {
+      "error": "observer is failed; no retry",
+      "rejected": true,
+      "test": "object_bytes retry"
+    },
+    {
+      "error": "observer changed input/returned object identity or bytes",
+      "rejected": true,
+      "test": "object_id"
+    },
+    {
+      "error": "observer is failed; no retry",
+      "rejected": true,
+      "test": "object_id retry"
+    },
+    {
+      "error": "GPU execution is not implemented or authorized by this CPU-only candidate",
+      "rejected": true,
+      "test": "prepare execute rejected before read"
+    }
+  ],
+  "new_GPU_jobs": 0,
+  "new_GPU_seconds": 0,
+  "new_Goal_science_HOLD_unchanged": true,
+  "passed_check_count": 403,
+  "real_GPU_acceptance": false,
+  "schema": "formal_main_v2",
+  "scientific_trials_added": 0,
+  "status": "completed_with_findings_not_GPU_ready",
+  "wall_seconds": 10.396224073134363
+}

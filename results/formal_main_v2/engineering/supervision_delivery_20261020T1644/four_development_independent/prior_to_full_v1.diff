@@ -1,0 +1,108 @@
+--- prior_audit_terminal_a1.py
++++ audit_full_v1.py
+@@ -1,4 +1,4 @@
+-"""Independent CPU-only terminal audit of three completed development jobs; no final results."""
++"""Independent full original consumer and raw action audit of four actual 64-token development jobs."""
+ from pathlib import Path
+ from datetime import datetime,timezone
+ from collections import Counter
+@@ -7,17 +7,22 @@
+ R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+ P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+ S=P/'snapshots/formal_main_v2_run_564be0995e'
+-D=R/'.local/devterminal_independent_20261020T1530'
+-B='results/formal_main_v2/preflight/heartbeat_20261020T2330'
++D=R/'.local/four_development_independent_20261020T1644'
++B='.local/four_development_independent_20261020T1644'
+ REVIEWER='scripts/ops/formal_action_deployment_v1/reviewer.py'
+ CONSUMER='scripts/ops/formal_action_deployment_v1/consumer.py'
+ RPIN='9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd'
+ CPIN='16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034'
+ INV='results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+ IPIN='5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926'
+-PULL='results/formal_main_v2/pulls/20261020T153411Z_ee5de4901f52/receipt.json'
+-PINNED={PULL:'d2e3853021dc69de491ac500b88492c1f062ee84dd910bc39ebae51b39599d0f',B+'/terminal_jobs_snapshot.json':'fbec27e002492f85b7922644826aad25d141977417b0257eb4aa7ac9c46093af'}
+-JOBS={'3050192': {'suite': 'libero_spatial', 'seed': 23, 'budget': 256, 'trials': 200, 'allocated': 2276, 'methods': {'A256_seed23', 'B256_seed23'}, 'root_sha': 'a911fc07e5a11ae892c87bc0439b27d2dd5e904f1cb7a1b894833a7ab45ac1bf'}, '3050205': {'suite': 'libero_spatial', 'seed': 41, 'budget': 256, 'trials': 200, 'allocated': 2353, 'methods': {'B256_seed41', 'A256_seed41'}, 'root_sha': '0de38a659371c54b5ebfe02aa13227eebacf7ae07bbedbbe22845dbe7f0459b5'}, '3050224': {'suite': 'libero_object', 'seed': 41, 'budget': 256, 'trials': 200, 'allocated': 2049, 'methods': {'B256_seed41', 'A256_seed41'}, 'root_sha': '38ca22f9dcda9f328f388af0292196ef54e2349843cb59d0596dba2bc7dc32b5'}}
++PULL='results/formal_main_v2/pulls/20261020T174830Z_45bc1fa22551/receipt.json'
++PINNED={PULL:'f92b3cbe59584160b698c32b192b395284238dd8e0249151d1029f9d13c038cd',B+'/terminal_jobs_snapshot.json':'a4b3fee06df29386476d63d2d7864f3082eda1f412848b341a9a8bda3294231a'}
++JOBS={
++ '3050870':dict(suite='libero_spatial',seed=17,budget=64,trials=200,allocated=2276,methods={'A64_seed17','B64_seed17'}),
++ '3050890':dict(suite='libero_spatial',seed=41,budget=64,trials=200,allocated=2185,methods={'A64_seed41','B64_seed41'}),
++ '3050901':dict(suite='libero_object',seed=17,budget=64,trials=200,allocated=2253,methods={'A64_seed17','B64_seed17'}),
++ '3050916':dict(suite='libero_object',seed=41,budget=64,trials=200,allocated=1994,methods={'A64_seed41','B64_seed41'})}
++
+ MODEL_PINS={'libero_spatial': ('6a34ed9b4790fa889eb36406a1182d3d89ee539f7a65cb2f72d67e8326d557e7', '6d0231af0e48c5985f1ff86908f4674b84bc049b'), 'libero_object': ('33285a7643de7073e41bd2062cbbc80b4df8fddff915c0a86a13d0bbae48edce', '4c89574e1c538b6c102f43f0526d60a9d3650148'), 'libero_goal': ('85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2', 'c2d0f9fbbd82674683b397ff923168a12f6a307b')}
+ inputs={}
+ def sha(b):return hashlib.sha256(b).hexdigest()
+@@ -48,16 +53,18 @@
+ try:
+  for rel,pin in PINNED.items():read(R/rel,pin)
+  pull=jread(R/PULL);snap=jread(R/B/'terminal_jobs_snapshot.json')
+- assert set(pull['requested_job_ids'])==set(JOBS)
++ assert set(JOBS)<=set(pull['requested_job_ids'])
++ rootrefs=jread(D/'root_reviews_pin.json');assert set(rootrefs)==set(JOBS)
+  assert pull['weights_copied'] is False and pull['sealed_initial_states_copied'] is False
+- assert pull['status']=='verified_nonweight_snapshot' and len(pull['files'])==36
++ assert pull['status']=='verified_nonweight_snapshot' and len(pull['files'])==99
+  for row in pull['files']:
++  if not set(row['job_ids'])&set(JOBS):continue
+   assert row['local_path']==str(R/row['relative']) and row['path']==str(P/row['relative'])
+   a=read(R/row['relative'],row['sha256']);b=read(P/row['relative'],row['sha256'])
+   assert a==b and len(a)==row['bytes']
+  inv=jread(R/INV,IPIN);assert len(inv['files'])==173
+  for rel,pin in inv['files'].items():read(R/rel,pin);read(S/rel,pin)
+- rv=module(REVIEWER,RPIN,'_Goal_terminal_independent_1317')
++ rv=module(REVIEWER,RPIN,'_four64_terminal_independent_1644')
+  evidence=rv.Evidence(R);consumer=rv.load(evidence,CONSUMER,CPIN)
+  combined={};paired_table=[];method_results={};common_states_by_suite={};common_panels={};common_t0_by_suite={};global_ids=set()
+  totals={'trials':0,'chunks':0,'executed_actions':0,'allocated_gpu_seconds':0}
+@@ -66,7 +73,7 @@
+   assert len(matches)==1;job=matches[0]
+   assert job['suite']==suite and job['status']=='COMPLETED' and job['exit_code']=='0:0'
+   assert job['gpus']==1 and job['elapsed_seconds']==exp['allocated'] and set(job['method_ids'])==methods
+-  rootref={'path':'results/formal_main_v2/downstream_reviews/'+jid+'.json','sha256':exp['root_sha']}
++  rootref=rootrefs[jid];assert rootref['path']=='results/formal_main_v2/downstream_reviews/'+jid+'.json'
+   root=jread(R/rootref['path'],rootref['sha256']);assert root['pull_ref']['path']==PULL
+   rebuilt=consumer.review_downstream_output(evidence,rootref,expected_stage='development',suite=suite,run_root=job['run_root'],require_complete=True)
+   assert rebuilt['scientific_complete'] and rebuilt['completed_trials']==rebuilt['expected_trials']==count
+@@ -195,8 +202,8 @@
+   completion=jread(jp/'completion.json');assert completion['events_sha256']==inputs[str(jp/'events.jsonl')]['sha256']
+   assert completion['immutable_inputs_unchanged'] and completion['runtime_restored'] and completion['errors']==[]
+   aref=job['downstream_gateway']['authorization'];auth=jread(R/aref['path'],aref['sha256']);gateway=R/'results/formal_main_v2/downstream_gateway'/aref['sha256']
+-  failure=jread(gateway/'failed_transaction.json');ack=jread(gateway/'sbatch_result.json')
+-  assert failure['error']=='post-submit accounting incomplete' and failure['automatic_retry'] is False
++  failure=jread(gateway/'failed_transaction.json') if (gateway/'failed_transaction.json').is_file() else None;ack=jread(gateway/'sbatch_result.json')
++  if failure is not None:assert failure['error']=='post-submit accounting incomplete' and failure['automatic_retry'] is False
+   assert ack['returncode']==0 and ack['stdout'].strip()==jid and auth['maximum_attempts']==1
+   combined[jid]={'status':'passed','job_id':jid,'suite':suite,'root_receipt':rootref,'source_version':'formal-downstream-action-v1',
+    'training_seed':seed,'seed':seed,'A_B_visual_tokens':budget,'methods':identities,'trials':count,'reference_trials':0,'AB_trials':200,'unique_initial_states':100,'tasks':10,'per_task':pertask,
+@@ -208,21 +215,21 @@
+      'mean_Jaccard':sum(x['Jaccard'] for x in tokenpairs)/100,'rows':tokenpairs,'scope':'AB within seed on identical pre-action t0 only; later divergent trajectories not compared.'},
+    'offline_validation_diagnostics':diagnostics,'raw_start_result_pairs_exact':True,
+    'checkpoint_hash_scope':'Actual runtime watches/chunk metadata match frozen selected receipts. No checkpoint bytes independently read.',
+-   'original_ACK_accounting_delay_preserved':True,'submission_failure_added_new_GPU_allocation':False,'new_GPU_seconds_by_this_audit':0,'scientific_final_release':False}
++   'original_ACK_accounting_delay_preserved':failure is not None,'submission_failure_added_new_GPU_allocation':False,'new_GPU_seconds_by_this_audit':0,'scientific_final_release':False}
+   totals['trials']+=count;totals['chunks']+=chunks;totals['executed_actions']+=steps;totals['allocated_gpu_seconds']+=exp['allocated']
+   del rows,finished,raw
+  evidence.unchanged()
+- assert totals['trials']==600 and totals['allocated_gpu_seconds']==6678 and len(global_ids)==600
+- assert sum(len(x) for x in common_states_by_suite.values())==200 and len(paired_table)==300
++ assert totals['trials']==800 and totals['allocated_gpu_seconds']==8708 and len(global_ids)==800
++ assert sum(len(x) for x in common_states_by_suite.values())==200 and len(paired_table)==400
+  for rel,hh in evidence.files.items():read(R/rel,hh)
+- paired=put('paired_development_states.json',{'schema':'formal_main_v2','scope':'Three jobs, 300 paired records, 200 unique states in two suites; no final results.','states':paired_table})
+- reportref=put('independent_review.json',{'schema':'formal_main_v2','kind':'independent_nonLong_action_v1_development_terminal_review','status':'passed','review_role':'independent','synthetic':False,'reviewed_utc':datetime.now(timezone.utc).isoformat(),'jobs':combined,'totals':totals,'unique_initial_states':200,'unique_initial_states_per_suite':{k:len(v) for k,v in common_states_by_suite.items()},'method_successes_out_of100':method_results,'shared_initial_panels_sha256':{k:sha(v) for k,v in common_panels.items()},'scope':'Three separately reviewed development jobs. Existing unrelated Goal256 seed17 hold and Object256 seed23 consumer blocker are not cleared here. No final evaluation, equivalence or O2A speed claim.','new_held_job_ids':[],'source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':36,'paired_states':paired,'all_inputs':dict(sorted(inputs.items())),'checkpoint_bytes_read':False,'sealed_final_values_read':False,'live_scheduler_queries':0,'new_GPU_jobs':0,'state_registry_Git_Slurm_mutations':False,'CPU_process_seconds':time.process_time()-cpu,'CPU_wall_seconds':time.monotonic()-started})
++ paired=put('paired_development_states.json',{'schema':'formal_main_v2','scope':'Four 64-token jobs, 400 paired records, 200 unique initial states across Spatial/Object. Seeds17/41 share the same 100 initial states per suite. No final results; seed23 not inferred.','states':paired_table})
++ reportref=put('independent_review.json',{'schema':'formal_main_v2','kind':'independent_nonLong_action_v1_development_terminal_review','status':'passed','review_role':'independent','synthetic':False,'reviewed_utc':datetime.now(timezone.utc).isoformat(),'jobs':combined,'totals':totals,'unique_initial_states':200,'unique_initial_states_per_suite':{k:len(v) for k,v in common_states_by_suite.items()},'method_successes_out_of100':method_results,'shared_initial_panels_sha256':{k:sha(v) for k,v in common_panels.items()},'scope':'Four separately reviewed Spatial/Object64 seed17/41 development jobs. Existing Goal256 seed17 hold remains; Object256 seed23 explicit source bridge and its new trial are outside this audit. No final evaluation, equivalence, three-seed aggregate, or O2A speed claim.','new_held_job_ids':[],'source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':48,'paired_states':paired,'all_inputs':dict(sorted(inputs.items())),'checkpoint_bytes_read':False,'sealed_final_values_read':False,'live_scheduler_queries':0,'new_GPU_jobs':0,'state_registry_Git_Slurm_mutations':False,'CPU_process_seconds':time.process_time()-cpu,'CPU_wall_seconds':time.monotonic()-started})
+  files=[]
+  for p in sorted(D.iterdir()):
+-  if p.is_file() and p.name!='terminal_manifest.json':
++  if p.is_file() and p.name!='full_raw_audit_manifest.json':
+    b=p.read_bytes();files.append({'path':p.relative_to(R).as_posix(),'sha256':sha(b),'bytes':len(b)})
+- manifestref=put('terminal_manifest.json',{'schema':'formal_main_v2','kind':'independent_review_manifest','status':'passed','files':files})
++ manifestref=put('full_raw_audit_manifest.json',{'schema':'formal_main_v2','kind':'independent_review_manifest','status':'passed','files':files})
+  print(json.dumps({'status':'passed','report':reportref,'manifest':manifestref,'totals':totals,'successes':method_results}))
+ except Exception as exc:
+- failure=put('failure_a1.json',{'status':'failed','error_type':type(exc).__name__,'error':str(exc),'traceback':traceback.format_exc(),'inputs_read':inputs})
++ failure=put('failure_full_v1.json',{'status':'failed','error_type':type(exc).__name__,'error':str(exc),'traceback':traceback.format_exc(),'inputs_read':inputs})
+  print(json.dumps({'status':'failed','failure':failure}));raise

@@ -1,0 +1,140 @@
+{
+  "CPU": {
+    "GPU_seconds": 0,
+    "failed": 0,
+    "passed": 62
+  },
+  "Goal_development_HOLD_lifted": false,
+  "Object_deployment_consumer_admission_granted": false,
+  "canonical_state_Git_Slurm_mutated": false,
+  "cost_accounting": "Existing unique Slurm allocations only; no audit GPU allocation and no second addition to the global ledger.",
+  "created_utc": "2026-10-20T17:58:50.991566+00:00",
+  "evidence": {
+    "Goal_CPU": {
+      "path": ".local/last_two_training_independent_20261020T1644/goal/cpu_selfcheck_v1.json",
+      "sha256": "b668da411c331d699b439d3a2cabbf0fcb00c1aa5e89e80fa35507a1f00d1685"
+    },
+    "Goal_review": {
+      "path": ".local/last_two_training_independent_20261020T1644/goal/3043813_independent_review.json",
+      "sha256": "d23ddb4a0636c3da92293ea766a099bbf62dabff6b8379c17d07af73dfb1d670"
+    },
+    "Object_CPU": {
+      "path": ".local/last_two_training_independent_20261020T1644/object/cpu_selfcheck_v2.json",
+      "sha256": "35ffcdb2fc3727e89590fa3e1d4553a47ae36505e8a73015d74f61c94478ecab"
+    },
+    "Object_review": {
+      "path": ".local/last_two_training_independent_20261020T1644/object/independent_review.json",
+      "sha256": "9d357b032ae9c8c3d1aa4f901875eec4ef4fca7c2912805c52e114813e3b2150"
+    }
+  },
+  "final_states_opened": false,
+  "kind": "last_two_training_independent_handoff",
+  "limitations": [
+    "Goal23 has one fresh attempt per arm; original actual Goal F03, unchanged source and rehashed probe checkpoints supply shared restoration qualification.",
+    "Object23 exact observed500-step checkpoint and original optimizer/RNG restore code bind its real continuation; no checkpoint tensors independently deserialized.",
+    "Lossless Git raw-log archive publication is separate root work.",
+    "All selected metrics are offline teacher L1 diagnostics, not closed-loop success or latency claims."
+  ],
+  "nonweight_archive_publication_claimed": false,
+  "pairs": {
+    "3043813": {
+      "all_pair_allocated_GPU_seconds": 66792,
+      "arms": {
+        "A": {
+          "best_sha256": "399c27383f92e945619fff2ab19ac8acd15cfc1e9194d496c828c9c7204f7e6a",
+          "completed_updates": 5000,
+          "earliest_selected_update": 4000,
+          "gradient_range": [
+            0.0039039442781358957,
+            0.8338233232498169
+          ],
+          "sample_uses": 40000,
+          "selected_expert_l1": 0.04376210736140372,
+          "selected_teacher_l1": 0.03562269030937126,
+          "unique_windows": 33859,
+          "window_pool_coverage": 1.0,
+          "window_pool_equivalent_traversals": 1.1813697982811069
+        },
+        "B": {
+          "best_sha256": "453ba51815d051e178f2cd537e6ddfde4a2ba23d5471fb667a07c7863d3d167f",
+          "completed_updates": 5000,
+          "earliest_selected_update": 4500,
+          "gradient_range": [
+            0.030565863475203514,
+            0.5752459764480591
+          ],
+          "sample_uses": 40000,
+          "selected_expert_l1": 0.04223917308840013,
+          "selected_teacher_l1": 0.03378967015530973,
+          "unique_windows": 33859,
+          "window_pool_coverage": 1.0,
+          "window_pool_equivalent_traversals": 1.1813697982811069
+        }
+      },
+      "completed_by_arm": {
+        "A": 5000,
+        "B": 5000
+      },
+      "new_reviewed_arm_updates": 10000,
+      "seed": 23,
+      "suite": "libero_goal",
+      "visual_tokens": 64
+    },
+    "3044844": {
+      "all_pair_allocated_GPU_seconds": 52868,
+      "arms": {
+        "A": {
+          "best_sha256": "83747442ed0e1bb71be553529d486c24c9e668f72df78c3901d17cbb216c923a",
+          "completed_updates": 5000,
+          "earliest_selected_update": 2500,
+          "gradient_range": [
+            0.003690152894705534,
+            0.5168812870979309
+          ],
+          "sample_uses": 40000,
+          "selected_expert_l1": 0.05208932260598337,
+          "selected_teacher_l1": 0.051305846124887464,
+          "unique_windows": 40000,
+          "window_pool_coverage": 0.9076881183625306,
+          "window_pool_equivalent_traversals": 0.9076881183625306
+        },
+        "B": {
+          "best_sha256": "70017d8cb12d3a71a4f53006e7115a2aa5af76341ff32bf16cf412f1d1e26231",
+          "completed_updates": 5000,
+          "earliest_selected_update": 4500,
+          "gradient_range": [
+            0.031448863446712494,
+            0.9544061422348022
+          ],
+          "sample_uses": 40000,
+          "selected_expert_l1": 0.05269028738155843,
+          "selected_teacher_l1": 0.05188971327262974,
+          "unique_windows": 40000,
+          "window_pool_coverage": 0.9076881183625306,
+          "window_pool_equivalent_traversals": 0.9076881183625306
+        }
+      },
+      "completed_by_arm": {
+        "A": 5000,
+        "B": 5000
+      },
+      "new_reviewed_arm_updates": 9000,
+      "seed": 23,
+      "suite": "libero_object",
+      "visual_tokens": 64
+    }
+  },
+  "root_integration_candidate_delta": {
+    "after_if_root_integrates_all_completed_arms": 72,
+    "after_if_root_integrates_reviewed_arm_updates": 360000,
+    "canonical_state_written_by_this_agent": false,
+    "completed_arms": 4,
+    "prior_root_completed_arms_expected": 68,
+    "prior_root_reviewed_arm_updates_expected": 341000,
+    "reviewed_arm_updates": 19000
+  },
+  "schema": "formal_main_v2",
+  "scientific_release_authorized": false,
+  "status": "two_pairs_passed_training_only",
+  "weights_copied_or_tensor_deserialized": false
+}

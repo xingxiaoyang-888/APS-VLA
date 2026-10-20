@@ -1,0 +1,111 @@
+{
+  "all_job_ids": [
+    "3028460",
+    "3039258",
+    "3042627"
+  ],
+  "allocation_seconds": {
+    "3028460": 84,
+    "3039258": 6512,
+    "3042627": 52321
+  },
+  "base": "results/formal_main_v2/libero_object/k256/seed23/training",
+  "failed_GPU_seconds": 84,
+  "failure_job_id": "3028460",
+  "final_release_authorized": false,
+  "kind": "bounded_object256_seed23_source_bridge_policy",
+  "method_ids": [
+    "A256_seed23",
+    "B256_seed23"
+  ],
+  "pair": {
+    "checkpoint_root_server": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed23",
+    "path": "configs/experiments/formal_main_v2/libero_object_k256_seed23.json",
+    "run_root_server": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed23",
+    "seed": 23,
+    "sha256": "1ca418462bc31685a5fcca7a346054f983e3f97157dfc6ff19fdb998efc13cb9",
+    "suite": "libero_object",
+    "visual_tokens": 256
+  },
+  "references": {
+    "continuous_authorization": {
+      "path": "configs/experiments/formal_main_v2_cuda_continuous_3039258_v1.json",
+      "sha256": "5f86034d43017d3f89b0d3a73cd90dd8bd22b0b8a54461d0b0a51e5f8df6220e"
+    },
+    "failure": {
+      "path": "results/formal_main_v2/libero_object/k256/seed23/training/startup_failure_reviews/3028460.json",
+      "sha256": "d77e2a9b4dd9a23da41fea7611ffef20fa00c1bfdef627a456ad65902e05031f"
+    },
+    "failure_verifier": {
+      "path": "scripts/formal_cuda_terminal_review_v1/startup_failure_evidence.py",
+      "sha256": "c07c5b686d103aaabfe8a7280c62ff2a8b61fcb3ab5d07ff7592011fabbfa480"
+    },
+    "final_independent": {
+      "path": "results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3042627_independent.json",
+      "sha256": "e87a594516432526e718b80bd284146c164eac1c42f864c5bc349a3c42a83c98"
+    },
+    "final_root": {
+      "path": "results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3042627.json",
+      "sha256": "ef4fa5c45dd73db1fef8f68a18d563959b408337cd3a1992613d673e15540e0a"
+    },
+    "original_block": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1418/plan_author/Object256seed23_original_factory_block.json",
+      "sha256": "6176cc4caf5266bd76a743e5e6bdfa79b208d7cb86f14e2d4b5092a2c54037fd"
+    },
+    "original_consumer": {
+      "path": "scripts/ops/formal_asset_downstream_review.py",
+      "sha256": "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699"
+    },
+    "original_factory": {
+      "path": "scripts/formal_execution_manifests.py",
+      "sha256": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89"
+    },
+    "ownership_verifier": {
+      "path": "scripts/formal_cuda_terminal_review_v1/review_formal_segment_startup.py",
+      "sha256": "ee0efc4b762e879e91e5e184fbc33dc236741cf71d51a6f5b4711710812f47b4"
+    },
+    "prior_candidate": {
+      "path": ".local/cuda_startup_recovery_0840/formal_asset_downstream_review_startup.py",
+      "sha256": "0e334fee9299905c9fd60768241705548c1c8df2f1100077907e6cb0236a5ca0"
+    },
+    "recovery_authorization": {
+      "path": "configs/experiments/formal_main_v2_cuda_single_recovery_3028460_v1.json",
+      "sha256": "2399d0f5b92b7ffe1d007d1df6fb1914b2c9765099bb8948bc9027873c6041ec"
+    },
+    "recovery_independent": {
+      "path": "results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3039258_independent.json",
+      "sha256": "d94d20c293a556836ffd8b09c7cca80627ceefb13d1a22da0f9f28ed47105f1a"
+    },
+    "recovery_root": {
+      "path": "results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3039258.json",
+      "sha256": "57192346c2b8e7010538a9798d6215c5605468b0e2c68c2873a7d2ea92f48d71"
+    },
+    "selected_server": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261020T1426/3042627_selected_server.json",
+      "sha256": "6414e159c56fa60376e61fbe9ee5e0d035bbdd7f287d556948ce36214573a468"
+    }
+  },
+  "schema": "formal_main_v2",
+  "scientific_settings_changed": false,
+  "seed": 23,
+  "selected_checkpoints": {
+    "A": {
+      "sha256": "e69a9e9aad54256b9bdcab89471b24b64e1da244e5a1df5c9351c9edfd89eca4",
+      "update": 5000
+    },
+    "B": {
+      "sha256": "034a5b4ad4b92ed775c4da929fff08689a851f8cdc182d79b5cebabd64c01987",
+      "update": 5000
+    }
+  },
+  "status": "private_candidate_not_root_admitted",
+  "successful_job_ids": [
+    "3039258",
+    "3042627"
+  ],
+  "suite": "libero_object",
+  "total_GPU_seconds": 58917,
+  "training_or_development_rerun_authorized_by_bridge": false,
+  "version": "object256-seed23-startup-source-bridge-v1",
+  "visual_tokens": 256
+}

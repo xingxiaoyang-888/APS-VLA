@@ -1,0 +1,15 @@
+--- audit_3044844_v1.py
++++ audit_3044844_v2.py
+@@ -71,10 +71,10 @@
+  failedinv=read(jobs["3028468"]["invocation"],jobs["3028468"]["invocation_sha256"])
+  oldinv=read(jobs["3044017"]["invocation"],jobs["3044017"]["invocation_sha256"])
+  newinv=read(jobs["3044844"]["invocation"],jobs["3044844"]["invocation_sha256"])
+- auth=read("configs/experiments/formal_main_v2_cuda_continuous_3044017_v1.json","6619bd4e9a8e75b76200bca401a861bc5c6c1180a54c37cf739da18f55ea019c")
++ auth=read("configs/experiments/formal_main_v2_object64_cuda_continuous_3044017_v1.json","6619bd4e9a8e75b76200bca401a861bc5c6c1180a54c37cf739da18f55ea019c")
+  contract=newinv["continuous_admission"];registered_contract=jobs["3044844"]["continuous_admission"]
+  need({k:v for k,v in registered_contract.items() if k not in ["actual_sbatch_argv","request_token"]}==contract,"exact registered execution contract")
+- need(contract["authorization"]=={"path":"configs/experiments/formal_main_v2_cuda_continuous_3044017_v1.json","sha256":io.readmap["configs/experiments/formal_main_v2_cuda_continuous_3044017_v1.json"]},"exact authorization")
++ need(contract["authorization"]=={"path":"configs/experiments/formal_main_v2_object64_cuda_continuous_3044017_v1.json","sha256":io.readmap["configs/experiments/formal_main_v2_object64_cuda_continuous_3044017_v1.json"]},"exact authorization")
+  for obj in [auth,contract]:
+   need(obj["scientific_settings_changed"] is False and obj["single_new_attempt"] is True and obj["automatic_retry"] is False and obj["controller_admission_changed"] is False,"bounded admission")
+   need(obj["target_updates_per_arm"]==5000 and obj["soft_wall_seconds"]==169200 and obj["allocation_time"]=="48:00:00" and obj["completed_before"]=={"A":500,"B":500} and obj["historical_GPU_seconds"]==5210,"actual admitted boundary")

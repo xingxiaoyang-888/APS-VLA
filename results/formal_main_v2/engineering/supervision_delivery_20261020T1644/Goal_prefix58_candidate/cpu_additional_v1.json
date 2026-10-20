@@ -1,0 +1,42 @@
+{
+  "CUDA_branch_fixture_only": true,
+  "GPU_calls": 0,
+  "checks": [
+    {
+      "name": "already_initialized_CPU_CUDA_readonly_generators",
+      "passed": true
+    },
+    {
+      "name": "getstate_copied_without_mutation",
+      "passed": true
+    },
+    {
+      "name": "detect_CPU_RNG_state_mutation",
+      "passed": true
+    },
+    {
+      "name": "detect_CUDA_RNG_state_mutation",
+      "passed": true
+    },
+    {
+      "name": "uninitialized_CUDA_is_missing_never_initialized",
+      "passed": true
+    },
+    {
+      "name": "GPU_entry_rejects_before_any_work",
+      "passed": true
+    },
+    {
+      "name": "rejected_GPU_entry_created_no_files",
+      "passed": true
+    },
+    {
+      "name": "opaque_sim_getter_not_called",
+      "passed": true
+    }
+  ],
+  "passed": 8,
+  "real_CUDA_generator_tested": false,
+  "scientific_trials_added": 0,
+  "status": "passed_additional_CPU_sentinels_only"
+}

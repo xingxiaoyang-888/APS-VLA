@@ -1,0 +1,53 @@
+{
+  "GPU_runs": 0,
+  "Slurm_calls": 0,
+  "candidate_bridge_sha256": "8785b42fe62dd513f796871875547c894de972516ac9762ad60a89d3df9a7c8e",
+  "candidate_manifest_sha256": "06319a5f4fb7dc7b1d26741436ee6b4997f23e5d2016de23890f630cb6183d3f",
+  "canonical_scientific_manifest_sha256": "5f2bdcac8752c0cd06ad8dcb67114920b642db1415f6a88e1335d6c9f10fb028",
+  "closed_transports": [
+    {
+      "bytes": 1095,
+      "path": "results/formal_main_v2/control_transport/object_bridge_independent_20261020T1644_v1.jsonl",
+      "sha256": "bc48aaec1239f7073792ada383ae708a2b9eab0d6c627ca6cfca3d301d54a21e"
+    },
+    {
+      "bytes": 1095,
+      "path": "results/formal_main_v2/control_transport/object_bridge_independent_20261020T1644_v2.jsonl",
+      "sha256": "5d5ae0e7b221525cedaa1265d8522477aaab020faa49777fa2635ea72db9d05b"
+    },
+    {
+      "bytes": 1101,
+      "path": "results/formal_main_v2/control_transport/object_bridge_ownership_independent_20261020T1644_v1.jsonl",
+      "sha256": "9525a4bbddc06c3f42374815721f4261dffde3a76d4e8637a32b1f19ac66971d"
+    }
+  ],
+  "failed_first_harness_retained": {
+    "bytes": 1208431,
+    "path": ".local/object_bridge_independent_20261020T1644/failure.json",
+    "sha256": "090b4d0b7d679916c3e1657fd1d05c6961bbb6408ad68cc9de51d3daf85cacd0"
+  },
+  "final_values_read": false,
+  "kind": "independent_Object256_seed23_source_bridge_handoff",
+  "main_review": {
+    "bytes": 4111,
+    "path": ".local/object_bridge_independent_20261020T1644/attempt02/independent_review.json",
+    "sha256": "5af9969323f0b2af76bc4f396be740bfa89d8211f792d91d2e457bd805559347"
+  },
+  "new_GPU_seconds": 0,
+  "ownership_review": {
+    "bytes": 1164,
+    "path": ".local/object_bridge_independent_20261020T1644/attempt02/ownership_supplement/independent_review.json",
+    "sha256": "7a4fe4a1d96c7ffc0c57627d5954526899a02052e31e4c73171a8ff70533e8e6"
+  },
+  "planned200_not_admitted": true,
+  "production_admission_blockers": [
+    "Current production gateway still uses original planner; it correctly rejects this source history. Versioned exact bridge integration and independent gateway re-plan review are required.",
+    "Production terminal source consumer must reconstruct the same explicit bridge proof, path, SHA and policy; original invocation/trial/adapter validators must remain active.",
+    "Canonical full plan and true root/independent readiness, checkpoint byte checks at original runtime, and fresh locked/CAS duplicate/capacity authorization are still required."
+  ],
+  "production_state_or_Git_writes": false,
+  "schema": "formal_main_v2",
+  "source173_unchanged": true,
+  "source_bridge_code_blockers": [],
+  "status": "CPU_source_compatibility_passed_pending_explicit_root_control_integration"
+}

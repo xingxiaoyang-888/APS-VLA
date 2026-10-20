@@ -1,0 +1,98 @@
+{
+  "GPU_calls": 0,
+  "Git_or_Slurm_calls": 0,
+  "Goal_original200_HOLD_preserved": true,
+  "actual_summary": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0044/last_terminals_integration.json",
+    "sha256": "90c214ae6a1e28356823ed26585dd869c8edca1568c54452679ae9a251229422"
+  },
+  "actual_transaction_after_sha256": "c7443d217fac94a6f9044864aa5199ed64114552da3100151279a1b4b321ea84",
+  "all_audit_CPU_seconds": 5.258879399,
+  "all_original_canonical_receipts_reverified_postapply": true,
+  "bounded_negative_cases": 7,
+  "controller_completion_observed": {
+    "completed_pairs": 36,
+    "completed_selectors": 72,
+    "status": "training_matrix_complete"
+  },
+  "harness_failure": {
+    "postcondition": "Subsequent observed GPU cost increase exactly62 seconds from the existing3052166 allocation, separate from zero-cost integration.",
+    "reason": "Auditor v1 included unchanged old registry records without elapsed_seconds in a subsequent live accounting sum. All per-job comparisons had already proved only3034538 and3052166 changed, only elapsed_seconds. v2 restricts that sum to records actually changed. Original failure/code/transport retained; no production correction.",
+    "report": {
+      "bytes": 59038,
+      "path": "post/failure_v1.json",
+      "sha256": "b84284d900194ca8902c6bfc69b1391f25885b393613c9a6931d443b3e9378d7",
+      "source": ".local/last_terminal_integration_independent_20261020T1644/post/failure_v1.json"
+    }
+  },
+  "kind": "final_independent_last_terminals_integration_handoff",
+  "limitations": "Actual root transaction independently reconstructed and matched both intended pretty and persisted compact JSON hashes. Controller training_matrix_complete is normal; no independent Slurm exit claim. Final release remains closed and Goal scientific holds remain.",
+  "new_Goal_science_HOLD_preserved": true,
+  "no_controller_restart": true,
+  "postapply_checks": 593,
+  "postapply_review": {
+    "bytes": 61902,
+    "path": "post_attempt02/postapply_review.json",
+    "sha256": "add872755d8e925dc82cd60cbd02eea1e15c25ea49fe8cfcc81fb859ca5123aa",
+    "source": ".local/last_terminal_integration_independent_20261020T1644/post_attempt02/postapply_review.json"
+  },
+  "preapply_checks": 1359,
+  "preapply_review": {
+    "bytes": 182217,
+    "path": "preapply_review.json",
+    "sha256": "df89bc8aabb9ec3805276d7dd0a361fcf2ea7e62c158df6a3187ea3c8ce8697f",
+    "source": ".local/last_terminal_integration_independent_20261020T1644/preapply_review.json"
+  },
+  "production_source_issue_found": false,
+  "production_state_written": false,
+  "results": {
+    "compatible_development": 5800,
+    "current_development": 5200,
+    "final_trials": 0,
+    "historical_development": 6412,
+    "reviewed_updates": 360000,
+    "training_arms": 72,
+    "unique_initial_states": 400
+  },
+  "schema": "formal_main_v2",
+  "selected72_actual_hashes_preapply_verified": true,
+  "status": "passed_preapply_and_actual_postapply",
+  "transport": [
+    {
+      "copy": {
+        "bytes": 1121,
+        "path": "transport/last_terminal_integration_independent_v1_20261020T1644.jsonl",
+        "sha256": "4a97da96f379f24d82ad15164c34175ff69c355755633b58bdd33db3fdc8ac6d",
+        "source": ".local/last_terminal_integration_independent_20261020T1644/transport/last_terminal_integration_independent_v1_20261020T1644.jsonl"
+      },
+      "original": "results/formal_main_v2/control_transport/last_terminal_integration_independent_v1_20261020T1644.jsonl"
+    },
+    {
+      "copy": {
+        "bytes": 1147,
+        "path": "transport/last_terminal_preapply_snapshot_20261020T1644.jsonl",
+        "sha256": "d3579f927fbe87914ff64703024c88abb659775857575e1bca9570ff64cab410",
+        "source": ".local/last_terminal_integration_independent_20261020T1644/transport/last_terminal_preapply_snapshot_20261020T1644.jsonl"
+      },
+      "original": "results/formal_main_v2/control_transport/last_terminal_preapply_snapshot_20261020T1644.jsonl"
+    },
+    {
+      "copy": {
+        "bytes": 1125,
+        "path": "transport/last_terminal_postapply_independent_v1_20261020T1644.jsonl",
+        "sha256": "d358062f3ef6e65a2de3cd85dd08fd11e7f078ca2412bd0a4fefcaa015719cf1",
+        "source": ".local/last_terminal_integration_independent_20261020T1644/transport/last_terminal_postapply_independent_v1_20261020T1644.jsonl"
+      },
+      "original": "results/formal_main_v2/control_transport/last_terminal_postapply_independent_v1_20261020T1644.jsonl"
+    },
+    {
+      "copy": {
+        "bytes": 1125,
+        "path": "transport/last_terminal_postapply_independent_v2_20261020T1644.jsonl",
+        "sha256": "898d1a7467afdcaa3b9a0de6cf5923b4ced37601f2a31c4da54a00144dd955d6",
+        "source": ".local/last_terminal_integration_independent_20261020T1644/transport/last_terminal_postapply_independent_v2_20261020T1644.jsonl"
+      },
+      "original": "results/formal_main_v2/control_transport/last_terminal_postapply_independent_v2_20261020T1644.jsonl"
+    }
+  ]
+}
