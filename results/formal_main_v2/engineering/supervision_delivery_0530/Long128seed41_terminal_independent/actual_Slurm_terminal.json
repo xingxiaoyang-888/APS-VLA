@@ -1,0 +1,33 @@
+{
+  "initial_root_observation": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T1330/initial_observation.json",
+    "sha256": "96b6affc5b4fd95c65d6d049a85993a9f6b0c7c610bee314fdf8f7161fc47ba9"
+  },
+  "observation": {
+    "queue": {},
+    "raw_sacct": "3045322|COMPLETED|0:0|3466|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4001|cti-formal-downstream|\n",
+    "raw_squeue": "",
+    "rows": {
+      "3045322": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 3466,
+        "exit_code": "0:0",
+        "gpus": 1,
+        "job_id": "3045322",
+        "node": "gpu4001",
+        "scheduler_comment": "",
+        "scheduler_name": "cti-formal-downstream",
+        "status": "COMPLETED"
+      }
+    }
+  },
+  "queried_only_registered_job": "3045322",
+  "status": "verified",
+  "submitted_jobs": 0,
+  "terminal_comment_empty_matches_original_snapshot": true,
+  "token_identity_source": {
+    "path": "results/formal_main_v2/downstream_gateway/a2104c3cb1d96dd0d8ddd5bf9c0a9b2a19dc04d5cbf8e6fae8d69d9dea6b0730/submitted_job_observation.json",
+    "sha256": "988839d6ccaaac58365d139c33046f1eea1f28aad02b9cbdcd17de45d2cda8a2"
+  },
+  "utc": "2026-10-20T05:43:26.763062+00:00"
+}

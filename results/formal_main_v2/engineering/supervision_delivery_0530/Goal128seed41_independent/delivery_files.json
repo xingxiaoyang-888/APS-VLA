@@ -1,0 +1,60 @@
+{
+  "blockers": [],
+  "external_transport_log": {
+    "bytes": 1133,
+    "path": "results/formal_main_v2/control_transport/independent_goal3039988_0530.jsonl",
+    "sha256": "ba63226e343995af4ea4fbc113dbe4912ba6c57ae8b571ce9df6d039d8efcbcc",
+    "terminal": {
+      "event": "control_end",
+      "parent_pid": 919681,
+      "pid": 919682,
+      "returncode": 0,
+      "source173_and_entrypoint_unchanged": true,
+      "time_ns": 1792474722644299632,
+      "version": "cti-server-control-transport-v1"
+    }
+  },
+  "failed_attempts_this_audit": 0,
+  "files": [
+    {
+      "bytes": 212997,
+      "path": ".local/independent_goal3039988_0530/3039988_independent_review.json",
+      "sha256": "a078a33979e88a2114d60551139d014898ae79875abbf4b8f5caa62f09d3a9f1"
+    },
+    {
+      "bytes": 32539,
+      "path": ".local/independent_goal3039988_0530/adaptation.diff",
+      "sha256": "da6e2ef4386b5535249c5fea43d4ada2083168e40f47f42564b77115156ecce3"
+    },
+    {
+      "bytes": 5118,
+      "path": ".local/independent_goal3039988_0530/adaptation.json",
+      "sha256": "ee08984fcc65b146d88df648bae9265a29a6c8e82bf6e35c8f0cc3f7a96c885b"
+    },
+    {
+      "bytes": 38381,
+      "path": ".local/independent_goal3039988_0530/audit_3039988.py",
+      "sha256": "c5cf0c3c937da2abd107d341ca45a4f0a913979b99974daab362cb493ccfaf1a"
+    },
+    {
+      "bytes": 485,
+      "path": ".local/independent_goal3039988_0530/bindings.json",
+      "sha256": "ac24a5dfe953b2420047beace3d391cd882f82049b86a0d51661bdd2a4df7df9"
+    }
+  ],
+  "historical_raw_tracked_files": 3,
+  "job_id": "3039988",
+  "kind": "independent_terminal_delivery_manifest",
+  "limitations": [
+    "Optimizer/RNG restoration is supported by the frozen load_state_dict/restore_rng path, one real resumed attempt and exact boundary checkpoint hash chains; tensors were not independently deserialized. Historical500 root and independent receipts are preserved; newly reviewed updates total9000.",
+    "Submitted 48h argv is bound as submission evidence, not re-labelled as a fresh scheduler TimeLimit observation.",
+    "Selected update/metric are independently reconstructed from raw validation plus deployment metadata; the machine byte probe does not assert these validation fields."
+  ],
+  "new_raw_lossless_archive_files": 3,
+  "new_reviewed_arm_updates": 9000,
+  "prior_root_independent_updates_per_arm": 500,
+  "schema": "formal_main_v2",
+  "scientific_artifacts_modified": false,
+  "state_or_git_or_scheduler_written": false,
+  "status": "passed_complete_training_only"
+}

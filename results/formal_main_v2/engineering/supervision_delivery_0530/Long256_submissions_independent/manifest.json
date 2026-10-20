@@ -1,0 +1,58 @@
+{
+  "audit": "Long256_seed17_seed23_development_submissions",
+  "checks_passed": 10470,
+  "directory": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/independent_long256_submissions_0530",
+  "execution_audits": [
+    {
+      "bytes": 1065,
+      "path": "results/formal_main_v2/control_transport/independent_long256_submissions_0530.jsonl",
+      "returncode": 1,
+      "sha256": "957bc4f54af83aab703789e33dc3bb82192aa818b5d02c241decadb0c69e6739"
+    },
+    {
+      "bytes": 1065,
+      "path": "results/formal_main_v2/control_transport/independent_long256_submissions_0530_attempt02.jsonl",
+      "returncode": 0,
+      "sha256": "831ea1e0436d8402783b16ef81a4385514e2bb1515499dccc741c256a56e45c4"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 30037,
+      "path": "audit.py",
+      "sha256": "df72b19d5f0a545c52df4d24a9650766fe7c524f5a6c5ac6d2e8521474d87609"
+    },
+    {
+      "bytes": 523456,
+      "path": "failed_attempt01.json",
+      "sha256": "7b7542af94ad914ce7031fcb991aaa0c28de9dff4a00060faa2bb85a5c247834"
+    },
+    {
+      "bytes": 529007,
+      "path": "independent_review.json",
+      "sha256": "fb494eecbb9946cd210a5fee8a75be598f8226c84aca8ebb8a84cc1603889f5f"
+    }
+  ],
+  "first_attempt": {
+    "failure_report": "failed_attempt01.json",
+    "production_failure": false,
+    "source_modified": false,
+    "status": "failed_closed_shared_writer_lock_contention"
+  },
+  "independent_new_scheduler_queries": 0,
+  "job_ids": [
+    "3046779",
+    "3046798"
+  ],
+  "kind": "independent_audit_delivery_manifest",
+  "production_state_git_slurm_mutations": false,
+  "schema": "formal_main_v2",
+  "scope": "Read-only audit of exact registered admission and pending reconciliation; no trial outcome acceptance",
+  "second_attempt": {
+    "bounded_single_reexecution_after_root_lock_release": true,
+    "same_exact_source": true,
+    "status": "passed"
+  },
+  "status": "passed",
+  "utc": "2026-10-20T05:41:40.395290+00:00"
+}
