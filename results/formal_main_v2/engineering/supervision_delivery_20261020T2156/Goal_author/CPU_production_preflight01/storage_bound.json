@@ -1,0 +1,69 @@
+{
+  "P_free_bytes_at_check": 8628740096,
+  "all58_maximum_policy_queries": 2204,
+  "capture_count_bound": 6122,
+  "estimate_is_not_guaranteed_cross_process_disk_reservation": true,
+  "no_dedup_blob_bytes_bound": 2548962042,
+  "nonquery_captures_per_trial_conservative": 29,
+  "output_mapping_changed": false,
+  "query_captures": 4408,
+  "required_free_including_1GiB_margin": 4363621114,
+  "sample": {
+    "max_event_bytes": 6531,
+    "max_observation_bytes": 393288,
+    "max_rng_bytes": 22081,
+    "max_sim_bytes": 992,
+    "observation_shapes": [
+      [
+        "agentview_image",
+        [
+          256,
+          256,
+          3
+        ],
+        "uint8",
+        196608
+      ],
+      [
+        "robot0_eef_pos",
+        [
+          3
+        ],
+        "float64",
+        24
+      ],
+      [
+        "robot0_eef_quat",
+        [
+          4
+        ],
+        "float64",
+        32
+      ],
+      [
+        "robot0_eye_in_hand_image",
+        [
+          256,
+          256,
+          3
+        ],
+        "uint8",
+        196608
+      ],
+      [
+        "robot0_gripper_qpos",
+        [
+          2
+        ],
+        "float64",
+        16
+      ]
+    ],
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_prefix58_20261020T1825/attempt01/observer/events.jsonl",
+    "rows": 1807,
+    "sha256": "6586699a2247e86729f4a43f93a2d63c9d9254362b5de99c74976336e11ba42b"
+  },
+  "sufficient_at_check": true,
+  "text_and_original_ledger_budget_bytes": 740917248,
+  "total_estimated_upper_bytes": 3289879290
+}

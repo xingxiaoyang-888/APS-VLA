@@ -1,0 +1,33 @@
+{
+  "GPU_or_scheduler_called_by_review": false,
+  "actual_P_readiness": {
+    "path": ".local/goal_paired_independent_20261020T2156/independent_readiness.json",
+    "sha256": "39ff29dcc084099d5a3cdfbb5576136b5795719cbd497906ccb70cc1c14eb31e"
+  },
+  "blockers": [],
+  "conditions_enforced_at_execution": [
+    "Fresh separate root authorization and distinct readiness SHA",
+    "Actual P source/checkpoint/prefix recheck",
+    "writer.lock/CAS, no pending/reservation, completed controller lease free",
+    "all-mode<=8, no active Goal job, known scheduler identities only",
+    "One held job, exact ACK/comment/token before registration then release",
+    "Unknown submission/release leaves pending for reconciliation, no retry",
+    "P free>=4363621114 bytes immediately before reservation; all query records retained",
+    "Old Goal200 and all new Goal science remainHOLD; single58 engineering only"
+  ],
+  "detailed_review": {
+    "path": ".local/goal_paired_independent_20261020T2156/detailed_review.json",
+    "sha256": "147f539919c2864ec2b8786c653442eb68c8bc04d94a8af7ce6c2f3190fb0710"
+  },
+  "entrypoint": ".local/goal_paired_dispatch_20261020T2156_v3.py",
+  "entrypoint_sha256": "d3a8a445f5d0d13dfd93440256a8567fabfbb82a598bec6deb363bfd8b09ca17",
+  "findings_fixed": [
+    {
+      "old_v2_missing_all_mode_same_goal_collision": "fixed by exact v3; four nontraining collision fixtures reject even when train active_pairs empty"
+    }
+  ],
+  "kind": "independent_exact_Goal_dispatch_review",
+  "new_scientific_trials": 0,
+  "schema": "formal_main_v2",
+  "status": "passed"
+}

@@ -1,0 +1,136 @@
+{
+  "AST_engine_replacements": [
+    {
+      "new": "R=Path(__file__).resolve().parent",
+      "occurrences": 1,
+      "old": "R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')"
+    },
+    {
+      "new": "BASE='ast_observer_v2.py'",
+      "occurrences": 1,
+      "old": "BASE='scripts/ops/formal_goal_prefix58_observer_v2/ast_observer_v2.py'"
+    }
+  ],
+  "GPU_jobs": 0,
+  "copied_exact_files": [
+    "observer_v3.py",
+    "ast_observer_v2.py",
+    "prefix58.json"
+  ],
+  "entry_replacements": [
+    {
+      "new": "formal_goal_paired_input_gate_v1",
+      "occurrences": 1,
+      "old": "formal_goal_prefix58_observer_v2"
+    },
+    {
+      "new": "goal_paired_input_gate_20261020T2156",
+      "occurrences": 1,
+      "old": "goal_prefix58_20261020T1825"
+    },
+    {
+      "new": "VERSION='goal-paired-input-gate-single-attempt-v1'",
+      "occurrences": 1,
+      "old": "VERSION='goal-prefix58-single-attempt-v2'"
+    },
+    {
+      "new": "'observer_v3.py','ast_observer_v2.py','paired_input_gate_v1.py','ast_gate_v2.py','config.json'",
+      "occurrences": 1,
+      "old": "'observer_v3.py','ast_observer_v2.py','config.json'"
+    },
+    {
+      "new": "'cti-goal-paired-input-v1:'",
+      "occurrences": 1,
+      "old": "'cti-goal-prefix58-v2:'"
+    },
+    {
+      "new": "'observer_gaps_fixed':True,'paired_input_gate_CPU_passed':True,'pre_policy_pair_equality_gate':True,'all_query_input_integrity_gate':True,'original_policy_error_retained_then_halt':True",
+      "occurrences": 1,
+      "old": "'observer_gaps_fixed':True"
+    },
+    {
+      "new": "ob=load(P/PKG/'paired_input_gate_v1.py','g58_paired_input_gate',package['files'][PKG+'/paired_input_gate_v1.py']);ad=load(P/PKG/'ast_gate_v2.py','g58_paired_input_ast',package['files'][PKG+'/ast_gate_v2.py']);observer=ob.PairedInputGate(OUTPUT/'observer',allow_cpu_fixture=False);require(observer.allow_cpu_fixture is False and observer.sink is None,'production observer cannot use CPU fixtures or injected sinks')",
+      "occurrences": 1,
+      "old": "ob=load(P/PKG/'observer_v3.py','g58_passive_observer',package['files'][PKG+'/observer_v3.py']);ad=load(P/PKG/'ast_observer_v2.py','g58_ast_observer',package['files'][PKG+'/ast_observer_v2.py']);observer=ob.PassiveObserver(OUTPUT/'observer',prefix)"
+    },
+    {
+      "new": "finish['original_prefix_trials']==58 and finish['scientific_trials_added']==0 and finish['exact_paired_t0_checks']==29 and finish['runtime_context']=='real_environment_engineering'",
+      "occurrences": 1,
+      "old": "finish['original_prefix_trials']==58 and finish['scientific_trials_added']==0"
+    },
+    {
+      "new": "observer_failed=getattr(observer,'dead',None),runtime_context='real_environment_engineering',last_paired_input_abort=getattr(observer,'last_gate_abort',None),accepted_queries_retained=sum(getattr(observer,'query_counts',{}).values()),executed_policy_steps_retained=getattr(observer,'executed_policy_steps',0),paired_t0_checks_retained=len(getattr(observer,'paired_keys',set())),",
+      "occurrences": 1,
+      "old": "observer_failed=getattr(observer,'dead',None),"
+    },
+    {
+      "new": "One explicitly authorized Goal paired-input58 engineering attempt; no submission API.",
+      "occurrences": 1,
+      "old": "One explicitly authorized Goal prefix58 engineering attempt; no submission API."
+    }
+  ],
+  "gate_algorithm_AST_and_paired_input_decisions_unchanged": true,
+  "gate_replacements": [
+    {
+      "new": "R=Path(__file__).resolve().parent",
+      "occurrences": 1,
+      "old": "R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')"
+    },
+    {
+      "new": "OBSERVER='observer_v3.py'",
+      "occurrences": 1,
+      "old": "OBSERVER='scripts/ops/formal_goal_prefix58_observer_v2/observer_v3.py'"
+    },
+    {
+      "new": "PREFIX='prefix58.json'",
+      "occurrences": 1,
+      "old": "PREFIX='scripts/ops/formal_goal_prefix58_observer_v2/prefix58.json'"
+    },
+    {
+      "new": "VERSION='goal-before-policy-paired-input-gate-engineering-v1'",
+      "occurrences": 1,
+      "old": "VERSION='goal-before-policy-paired-input-gate-cpu-candidate-v1'"
+    },
+    {
+      "new": "  self.runtime_context='synthetic_CPU_fixture' if allow_cpu_fixture else 'real_environment_engineering'\n  self.query_pending=None;self.query_counts={};self.state_baselines={};self.paired_keys=set()",
+      "occurrences": 1,
+      "old": "  self.query_pending=None;self.query_counts={};self.state_baselines={};self.paired_keys=set()"
+    },
+    {
+      "new": "'paired_input_gate_open'",
+      "occurrences": 1,
+      "old": "'candidate_gate_open'"
+    },
+    {
+      "new": "'runtime_context':self.runtime_context,'CPU_fixture_enabled':self.allow_cpu_fixture,'GPU_authorization_owned_by_outer':True",
+      "occurrences": 1,
+      "old": "'GPU_authorized':False"
+    },
+    {
+      "new": "'status':'prefix_inputs_checked_engineering_only','runtime_context':self.runtime_context",
+      "occurrences": 1,
+      "old": "'status':'CPU_candidate_prefix_checked_not_GPU_admitted'"
+    },
+    {
+      "new": "'paired_input_gate_finished'",
+      "occurrences": 1,
+      "old": "'candidate_gate_finished'"
+    },
+    {
+      "new": "Exact before-query pairing and input-integrity engineering gate.",
+      "occurrences": 1,
+      "old": "Candidate only: exact before-query pairing and input-integrity engineering gate."
+    }
+  ],
+  "old_entry_sha256": "da3e094a98104d08735d6da6a180b326f79ae077e710880aa9117b39b911e31f",
+  "production_writes": 0,
+  "status": "private_candidate_not_published",
+  "unchanged_protected_entry_functions": [
+    "prepare_original",
+    "validate_config",
+    "validate_authorization",
+    "validate_review_ref",
+    "validate_dispatch",
+    "validate_prefix"
+  ]
+}

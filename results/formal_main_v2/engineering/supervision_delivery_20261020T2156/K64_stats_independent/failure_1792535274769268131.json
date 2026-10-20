@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "name": "sha:/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/configs/experiments/formal_main_v2.json",
+      "passed": true
+    },
+    {
+      "name": "frozen_statistics",
+      "passed": true
+    },
+    {
+      "name": "sha:/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/k64_stats_20261020T2156.py",
+      "passed": true
+    },
+    {
+      "name": "sha:/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/configs/manifests/formal_main_v2/libero_spatial/initial_states/development.json",
+      "passed": true
+    },
+    {
+      "name": "development_panel_libero_spatial",
+      "passed": true
+    },
+    {
+      "name": "100_unique_10_per_task_libero_spatial",
+      "passed": true
+    },
+    {
+      "name": "sha:/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/downstream_reviews/3050870.json",
+      "passed": true
+    },
+    {
+      "name": "original_root_terminal_3050870",
+      "passed": true
+    },
+    {
+      "name": "sha:/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/downstream_reviews/four64_20261020T1644_independent.json",
+      "passed": true
+    },
+    {
+      "name": "original_independent_terminal_3050870",
+      "passed": true
+    },
+    {
+      "name": "one_original_allocation_3050870",
+      "passed": true
+    },
+    {
+      "name": "complete_GPU_identity_3050870",
+      "passed": true
+    },
+    {
+      "name": "original_allocation_cost_3050870",
+      "passed": true
+    },
+    {
+      "name": "sha:/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/libero_spatial/downstream/development/421cbed0b5a0fa49/attempt01/trials.jsonl",
+      "passed": true
+    },
+    {
+      "name": "sha:/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/downstream/development/421cbed0b5a0fa49/attempt01/trials.jsonl",
+      "passed": true
+    },
+    {
+      "name": "root_links_actual_raw_3050870",
+      "passed": true
+    }
+  ],
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/k64_stats_independent_20261020T2156/verify_statistics.py\", line 124, in <module>\n    try:main()\n        ^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/k64_stats_independent_20261020T2156/verify_statistics.py\", line 76, in main\n    insert_result(outcomes,row,lookup,suite,[f'A64_seed{seed}',f'B64_seed{seed}']);last=row;rowcount+=1\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/k64_stats_independent_20261020T2156/verify_statistics.py\", line 50, in insert_result\n    assert row['termination'] in ['environment_success','max_steps','environment_done']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+}

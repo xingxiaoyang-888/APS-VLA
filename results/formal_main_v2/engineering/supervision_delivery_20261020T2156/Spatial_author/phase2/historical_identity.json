@@ -1,0 +1,159 @@
+{
+  "LIBERO_env_wrapper": {
+    "bytes": 9059,
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/LIBERO/libero/libero/envs/env_wrapper.py",
+    "sha256": "2880cad5b3fe46ea105816f42798faf4c22e16839098b679ebcad7b51acfdbd0"
+  },
+  "RNG": {
+    "CPU_python_numpy_unchanged": true,
+    "environment_seed": 0,
+    "historical_full_snapshot_required": false,
+    "no_new_rng_calls_or_action_changes": true,
+    "old_full_snapshot_recorded": false,
+    "only_removed_branch_is_pure_numpy_range_predicate": true,
+    "per_trial_reseed": [
+      "random.seed(17)",
+      "np.random.seed(17)",
+      "torch.manual_seed(17)"
+    ],
+    "proof": {
+      "code_marshal_version": 2,
+      "exact_removed_node_path": [
+        [
+          "body",
+          5
+        ],
+        [
+          "body",
+          5
+        ],
+        [
+          "body",
+          0
+        ],
+        [
+          "body",
+          7
+        ]
+      ],
+      "original_code_sha256": "a1c042be2f0e37890cb003ab3840bc22598d7887140c230cd77a8d0ef5217a60",
+      "original_function_ast_sha256": "43034be729b1b5441a1a775e019da55001cc1695911862c6119949cda2652193",
+      "other_AST_nodes_unchanged": true,
+      "removed_branch_ast_sha256": "402453319b026104e894baa4cf32add9433030e4f8759117d918f10ad12deac3",
+      "removed_if_count": 1,
+      "replacement_code_sha256": "59bf996c15054234aeff8ff34916234781fc2b89026faad1dc68aa3cd8bbae37",
+      "replacement_function_ast_sha256": "49be9e13ff5be39f74bd1ed9265ef0b5a3277c6f306e1cf77279567676ed150a"
+    },
+    "same_frozen_factory_and_trial_loop": true
+  },
+  "actual_historical_controller_instance_capture": false,
+  "installation_freeze": "8bac807b631bb9c9691df977eae1b26f202b6a2d8d4a440153a74bb96b7a9b06",
+  "installation_success": {
+    "bytes": 32145,
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/setup/install_libero_local_attempt4.log",
+    "sha256": "2f89cb36baf0e7e6695090a6b858c8dc17db27f703cbf74a72736a8214bd7822"
+  },
+  "job_id": "3022743",
+  "kind": "source_derived_historical_Spatial_controller_identity",
+  "limits": {
+    "control_delta": true,
+    "damping_ratio": 1,
+    "damping_ratio_limits": [
+      0,
+      10
+    ],
+    "impedance_mode": "fixed",
+    "input_max": 1,
+    "input_min": -1,
+    "interpolation": null,
+    "kp": 150,
+    "kp_limits": [
+      0,
+      300
+    ],
+    "orientation_limits": null,
+    "output_max": [
+      0.05,
+      0.05,
+      0.05,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "output_min": [
+      -0.05,
+      -0.05,
+      -0.05,
+      -0.5,
+      -0.5,
+      -0.5
+    ],
+    "position_limits": null,
+    "ramp_ratio": 0.2,
+    "type": "OSC_POSE",
+    "uncouple_pos_ori": true
+  },
+  "member_evidence": {
+    "bytes": 478084,
+    "path": ".local/spatial588_integration_20261020T2156/installed_package_members.json",
+    "sha256": "a0512c95f29f406c211a2222ffdc2d7eb564d93f8ffbab75a6746d54ef560a39"
+  },
+  "official_source_events": [
+    {
+      "attempt_id": "3022743_4b29c36de3ef40c78ef20e0b7a425811",
+      "event": "official_source_verified",
+      "expected_revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+      "job_id": "3022743",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/openvla-oft",
+      "utc": "2026-10-18T03:40:03.568288+00:00",
+      "verification": {
+        "archive_sha256": "b3c1d3ae654393c13e2eb8006bb68ea9854ec33a7306663455c94838858e5fd7",
+        "file_count": 112,
+        "inventory_sha256": "01b233e95f4ff1d6f839b690ba8aa96e4aa65366c78adc638e76907953762e68",
+        "revision": "e4287e94541f459edc4feabc4e181f537cd569a8",
+        "verification": "archive_all_files_sha256"
+      }
+    },
+    {
+      "attempt_id": "3022743_4b29c36de3ef40c78ef20e0b7a425811",
+      "event": "official_source_verified",
+      "expected_revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+      "job_id": "3022743",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/LIBERO",
+      "utc": "2026-10-18T03:40:04.957158+00:00",
+      "verification": {
+        "archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+        "file_count": 1116,
+        "inventory_sha256": "9e8bda25148b1258fb569ae81fbb2b2a858c570ad5b7e884082b7df24f8ab0d8",
+        "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+        "verification": "archive_all_files_sha256"
+      }
+    }
+  ],
+  "old_import_log": {
+    "bytes": 1798,
+    "path": "results/slurm/cti-formal-downstream_3022743.err",
+    "sha256": "472124b2227d7edbd0d17a1ca390676b3335b17f4f7edbba057b331ffe04f7db"
+  },
+  "packages": [
+    {
+      "max_ctime_utc": "2026-10-14T04:44:37+00:00",
+      "members": 1019,
+      "sha256": "62587cd5888d9d3d813f3ffcc7017f6f77efa618952527a0b9bb139ffd0a3741",
+      "wheel": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/wheels-libero/robosuite-1.4.1-py3-none-any.whl"
+    },
+    {
+      "max_ctime_utc": "2026-10-14T04:44:25+00:00",
+      "members": 39,
+      "sha256": "426af8965f8636d94a0f75740c3024a62b3e585020ee817ef5208ec844a1ad94",
+      "wheel": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/wheels-libero/mujoco-2.3.7-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+    }
+  ],
+  "source_continuity_inference": "Exact historical wheel/install plus old actual venv import and archive verifier; all1058 installed bytes match wheels with stable ctime/mtime before old job. This is source-derived identity, not a retrospectively captured controller instance.",
+  "target_actual_Spatial_controller_methods": [
+    "dense",
+    "uniform128",
+    "A128_seed17",
+    "B128_seed17"
+  ]
+}
