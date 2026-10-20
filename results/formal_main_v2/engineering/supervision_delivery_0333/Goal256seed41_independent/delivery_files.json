@@ -1,0 +1,35 @@
+{
+  "blockers": [],
+  "external_transport_log": {
+    "bytes": 1065,
+    "path": "results/formal_main_v2/control_transport/independent_goal3038735_0333.jsonl",
+    "sha256": "65cb280d7f08320e84dfa0515ae44ff271c6d80d1ee2c4d71d4d2de4f31d20f2"
+  },
+  "files": [
+    {
+      "bytes": 34709,
+      "path": ".local/independent_goal3038735_0333/audit_3038735.py",
+      "sha256": "caae2bb530f55c559b9d1daaf3ce8c96467b44ba2ab928a5be9abad4e848535e"
+    },
+    {
+      "bytes": 2376,
+      "path": ".local/independent_goal3038735_0333/adaptation.json",
+      "sha256": "2ef41ab8e28df2ad3b80788fe459973c43ce60abe62aca326c9019b3a6fc8af8"
+    },
+    {
+      "bytes": 170238,
+      "path": ".local/independent_goal3038735_0333/3038735_independent_review.json",
+      "sha256": "3180f2b14f40724f868e049449faf3fe5343f3145febf26168018b4a957800df"
+    }
+  ],
+  "job_id": "3038735",
+  "kind": "independent_terminal_delivery_manifest",
+  "limitations": [
+    "This was a single fresh attempt per arm, with no cross-job restore. All 50-update commits and final resume hashes were checked; inherited Goal F03/source supplies restoration qualification. Optimizer/RNG tensors were not independently deserialized.",
+    "Submitted 48h argv is bound as submission evidence, not re-labelled as a fresh scheduler TimeLimit observation.",
+    "Selected update/metric are independently reconstructed from raw validation plus deployment metadata; the machine byte probe does not assert these validation fields."
+  ],
+  "schema": "formal_main_v2",
+  "scope": "Independent reconstruction of raw complete training only. No supervisor state, canonical root review, Git, Slurm, final-state or weight writes.",
+  "status": "passed_complete_training_only"
+}
