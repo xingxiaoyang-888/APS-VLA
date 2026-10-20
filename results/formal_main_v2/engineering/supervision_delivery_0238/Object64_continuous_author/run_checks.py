@@ -1,0 +1,63 @@
+"""Bounded Object64 candidate CPU tests or real nonweight reconstruction; no submission."""
+from pathlib import Path
+import argparse,copy,fcntl,hashlib,importlib.util,json,os,subprocess,sys,time
+sys.dont_write_bytecode=True
+R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');C=Path(__file__).resolve().parent
+TEST_SHA='f3ae211f426c3fd473425b0b9098440480cbf81f48033545fd5faa606e9d1e68'
+def digest(raw):return hashlib.sha256(raw).hexdigest()
+def put(name,raw):
+ p=C/name
+ with p.open('xb') as f:f.write(raw)
+def save(name,value):put(name,(json.dumps(value,sort_keys=True,ensure_ascii=False,indent=2)+'\n').encode())
+def load():
+ receipt=json.loads((C/'generation_receipt.json').read_bytes())
+ for path,pin in receipt['files'].items():
+  assert digest((C/Path(path).name).read_bytes())==pin
+ spec=importlib.util.spec_from_file_location('object64_candidate_gateway',C/'gateway.py')
+ g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g);return g
+def prepare(g,label):
+ a=g.a;statepath=R/a.STATE;lock=statepath.parent/'.writer.lock'
+ assert lock.is_file()
+ with lock.open('rb') as f:
+  fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)
+  before=statepath.read_bytes();state=json.loads(before)
+  auth=json.loads((C/'authorization_draft.json').read_bytes())
+  ref={'path':(C/'authorization_draft.json').relative_to(R).as_posix(),'sha256':digest((C/'authorization_draft.json').read_bytes())}
+  science=a.Science(R)
+  start=time.monotonic();plan=science.prepare(state,auth,ref)
+  assert statepath.read_bytes()==before
+  # No NativeIO call here: author has no permission to read real checkpoint bytes.
+  checked={}
+  watched={str(a.S/rel):h for rel,h in plan['inventory']['files'].items()}
+  watched.update(plan['invocation']['watched_files'])
+  watched.update({str(a.P/rel):h for rel,h in plan['invocation']['runtime_compatibility']['files'].items()})
+  watched.update({str(a.P/rel):h for rel,h in plan['root_review']['files'].items()})
+  for name,pin in watched.items():
+   path=Path(name);base=a.S if path.is_relative_to(a.S) else a.P
+   a.relative(path.relative_to(base).as_posix())
+   info=a.stable(path);a.require(info['sha256']==pin,'actual nonweight metadata differs: '+name);checked[name]=info
+  science.e.unchanged();assert statepath.read_bytes()==before
+  value=dict(schema='formal_main_v2',kind='Object64_candidate_readonly_nonweight_prepare',
+   status='passed_nonweight_prepare_only_not_authorized',version=a.VERSION,plan=plan,
+   full_registered_job_count=len(state['registered_jobs']),state_observation_sha256=digest(before),
+   state_not_written=True,authorization_validated=False,live_scheduler_queried=False,
+   actual_checkpoint_bytes_read=False,actual_native_io_preflight_performed=False,
+   resume_proofs_consumed_from_root_and_independent_only=True,metadata_checked=checked,
+   elapsed_seconds=time.monotonic()-start,read_evidence_sha256=science.e.hashes)
+  save('actual_prepare_'+label+'.json',value)
+  print(json.dumps({'status':value['status'],'metadata_files':len(checked),'registered_jobs':len(state['registered_jobs']),'elapsed_seconds':value['elapsed_seconds']}))
+def tests(g,label):
+ assert digest((C/'test_continuation.py').read_bytes())==TEST_SHA
+ cmd=[sys.executable,'-B','-m','pytest',str(C/'test_continuation.py'),'-p','no:cacheprovider',
+ '--basetemp='+str(C/('pytest_'+label)),'--junitxml='+str(C/('tests_'+label+'.xml')),'-q']
+ save('tests_'+label+'_command.json',{'argv':cmd,'cwd':str(R),'scope':'CPU synthetic transactions, real immutable controller/source modules; no actual Slurm or checkpoint access'})
+ p=subprocess.run(cmd,cwd=R,text=True,capture_output=True)
+ put('tests_'+label+'.log',(p.stdout+p.stderr).encode())
+ print(p.stdout);print(p.stderr,file=sys.stderr);return p.returncode
+def main():
+ ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--mode',choices=['tests','prepare'],required=True);ap.add_argument('--label',required=True)
+ args=ap.parse_args();assert args.label.isalnum() and C==R/'.local/object64_continuous_admission_0238'
+ g=load()
+ if args.mode=='tests':return tests(g,args.label)
+ prepare(g,args.label);return 0
+if __name__=='__main__':raise SystemExit(main())

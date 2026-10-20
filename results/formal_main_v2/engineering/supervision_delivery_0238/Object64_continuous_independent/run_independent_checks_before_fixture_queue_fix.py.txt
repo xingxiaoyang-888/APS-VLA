@@ -1,0 +1,168 @@
+"""Bounded independent CPU checks and genuine read-only Object64 prepare."""
+from pathlib import Path
+from contextlib import contextmanager
+from datetime import datetime,timezone
+import ast,copy,hashlib,importlib.util,json,sys,traceback
+sys.dont_write_bytecode=True
+R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');C=R/'.local/object64_continuous_admission_0238';D=Path(__file__).resolve().parent;BASE=R/'scripts/ops/formal_cuda_continuous_admission_v1'
+PINS={'admission.py':'6598fa7311b076bdff079e0f09ed58216650eb35b7b6f532a7960c3673c5616f','gateway.py':'2aaed25efd1d8783ace9ace93a5212f67b52f1d1a6fde1072349d8d8a830f54a','test_continuation.py':'f3ae211f426c3fd473425b0b9098440480cbf81f48033545fd5faa606e9d1e68','authorization_draft.json':'1f7d8dee653e71299f6d91d57c87554f0af0dd98f0ab40d2f6c16e0bb9fbcca4','synthetic_transaction_plan.json':'74c4213ac696f9933f71101cc44e5b0f7decf460066c263c8cd049bbc0920241'}
+BASEPINS={'admission.py':'65a6a6c22710ba74f43c86589b7acdac7bd3c1b10fd86028d339eb98e3f71dcb','gateway.py':'a0f81f18ccdb6f9b0cd5f5f3f871b3f6ab451809a1c6386e347ea3602abd9792'}
+READS={};TESTS=[]
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def read(p,pin=None):
+ p=Path(p);b=p.read_bytes();h=sha(b)
+ if pin is not None and h!=pin:raise ValueError('source SHA differs '+str(p))
+ if str(p) in READS and READS[str(p)]!=h:raise ValueError('read identity drift '+str(p))
+ READS[str(p)]=h;return b
+def must(ok,msg):
+ if not ok:raise AssertionError(msg)
+def save(name,value):
+ raw=(json.dumps(value,ensure_ascii=False,sort_keys=True,allow_nan=False,indent=2)+'\n').encode()
+ with (D/name).open('xb') as f:f.write(raw)
+ return {'path':(D/name).relative_to(R).as_posix(),'sha256':sha(raw),'bytes':len(raw)}
+def load(p,pin,name):
+ raw=read(p,pin);s=importlib.util.spec_from_file_location(name,p);m=importlib.util.module_from_spec(s);exec(compile(raw,str(p),'exec'),m.__dict__);return m
+def check(name,fn):
+ detail=fn();TESTS.append({'name':name,'status':'passed','detail':detail});return detail
+def reject(fn):
+ try:fn()
+ except (ValueError,OSError) as exc:return {'error_type':type(exc).__name__,'error':str(exc)}
+ raise AssertionError('required refusal missing')
+for name,pin in PINS.items():read(C/name,pin)
+for name,pin in BASEPINS.items():read(BASE/name,pin)
+t=load(C/'test_continuation.py',PINS['test_continuation.py'],'ind_object64_fixture');g=t.g;a=g.a;c=t.c
+must(sha(Path(g.__file__).read_bytes())==PINS['gateway.py'] and sha(Path(a.__file__).read_bytes())==PINS['admission.py'],'fixture imports wrong candidate')
+EXPECTED={
+ 'root_recovery_review':{'path':'results/formal_main_v2/libero_object/k64/seed23/training/segment_reviews/3044017.json','sha256':'2bffb9a9194b4c1b434b0c79491d165ce6f14d12305f3ebe9b6f4843af288d84'},
+ 'independent_recovery_review':{'path':'results/formal_main_v2/libero_object/k64/seed23/training/segment_reviews/3044017_independent.json','sha256':'25c78029fa2b5456ea07cf596e518356f96f5acba252b6fe4ef6bc1a5e7b97b0'},
+ 'canonical_failure_review':{'path':'results/formal_main_v2/libero_object/k64/seed23/training/startup_failure_reviews/3028468.json','sha256':'2555c99a68778af2659d49e8ce337d84473484d66c43dfc140073e0fbdb5ccbd'},
+ 'terminal_pull':{'path':'results/formal_main_v2/pulls/20261020T024610Z_89cee566247b/receipt.json','sha256':'aa509e9edbe2bb52ae1832501b7a4785c43fa579215e67a17f47d80e284ec53b'}}
+realproof={k:json.loads(read(R/v['path'],v['sha256'])) for k,v in EXPECTED.items()}
+
+def source_boundary():
+ must(a.PROOFS==EXPECTED,'wrong exact real terminal proof')
+ must(a.VERSION=='object64-cuda-continuous-admission-v1' and a.PAIR=='libero_object_k64_seed23' and a.INVREL=='results/formal_main_v2/invocations/libero_object_train_k64_seed23_attempt03.json','wrong scope')
+ must(a.OLD_REVIEWER==a.REVIEWER and a.OLD_FAILURE==a.FAILURE,'expected actual canonical original reviewer source')
+ replacements=[('Object256','Object64'),('k256','k64'),('visual_tokens=256','visual_tokens=64'),("('libero_object',256,23)","('libero_object',64,23)"),('3028460','3028468'),('3039258','3044017'),('6596','5210'),('6512','5141'),('[84,5141]','[69,5141]'),('retained_FAILED_GPU_seconds=84','retained_FAILED_GPU_seconds=69'),('root_cuda_recovered_continuous_admission_authorization','root_object64_cuda_recovered_continuous_admission_authorization'),('cuda_continuous_admission_independent_CPU_review','object64_cuda_continuous_admission_independent_CPU_review'),('cti-cuda-continuous-v1:','cti-object64-continuous-v1:')]
+ report={}
+ for name in ['admission.py','gateway.py']:
+  old=read(BASE/name).decode();new=read(C/name).decode()
+  for before,after in replacements:old=old.replace(before,after)
+  if name=='admission.py':
+   old=old.replace("and ind.get('root_review')==ROOT_REVIEW and ind.get('historical_failure_preserved') is True","and ind.get('schema')=='formal_main_v2' and ind.get('version')=='cuda-recovery-independent-0238-v1'\n   and ind.get('root_review')==ROOT_REVIEW and ind.get('historical_failure_preserved') is True")
+   old=old.replace("{'completed_updates':500,'cursor':4000,'actual_samples':4000,'replayed_or_uncommitted_samples':0}","{'completed_updates':500,'cursor':4000,'actual_samples':4000,'unique_samples':4000,'resumed_from_existing_checkpoint':False,'replayed_or_uncommitted_samples':0}")
+  defs=lambda text:{n.name:ast.dump(n,include_attributes=False) for n in ast.parse(text).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
+  must(defs(old)==defs(new),'unexpected executable function/class change '+name);report[name]={'all_function_and_class_AST_exact_after_declared_identity_changes':True,'definitions':len(defs(new))}
+ olda=load(BASE/'admission.py',BASEPINS['admission.py'],'old_object256_boundary')
+ for key in ['REVIEWER','FAILURE','REVIEWER_SHA','FAILURE_SHA','SOURCE_SHA','INVENTORY','INV_SHA','EXECUTION','EXEC_SHA','AUTHORIZATION','ACTIVATION','NODE','DEPENDENCIES']:
+  must(getattr(a,key)==getattr(olda,key),'shared scientific/control dependency differs '+key)
+ return report
+check('bounded_identity_and_stricter_schema_derivation',source_boundary)
+
+prior=json.loads(read(R/'results/formal_main_v2/invocations/libero_object_train_k64_seed23_attempt02.json','312d66e1932e92111ea6d324709454f6c2e987ebf9a59e7f9cb6933dcf645895'))
+
+def execution_identity():
+ new=a.continuation(prior,{}, {'path':'synthetic_only.json','sha256':'a'*64},'2026-10-20T02:38:00Z',realproof['root_recovery_review']['server_resume_checks'],g.source_files())
+ revert=copy.deepcopy(new);revert.pop('continuous_admission');revert['registered_utc']=prior['registered_utc'];revert['segment_end']=500
+ for flag in ['--stop-after-updates','--max-wall-seconds']:revert['argv'][revert['argv'].index(flag)+1]=prior['argv'][prior['argv'].index(flag)+1]
+ must(revert==prior,'scientific invocation changed beyond two schedule execution args')
+ must(new['runtime_compatibility']==prior['runtime_compatibility'] and new['watched_files']==prior['watched_files'],'metadata or source lost')
+ for flag,value in [('--stop-after-updates','5000'),('--max-wall-seconds','169200')]:must(new['argv'][new['argv'].index(flag)+1]==value,'wrong execution limit')
+ argv,_,_,token=g.sbatch_argv({'invocation':new,'invocation_relative':a.INVREL,'wrapper':str(a.P/'scripts/server/formal_asset_main.slurm')},{'path':'synthetic_only.json','sha256':'a'*64})
+ must(argv[-1]==str(a.P/'scripts/server/formal_asset_main.slurm') and '--time=48:00:00' in argv and '--exclude=gpu4020' in argv and '--no-requeue' in argv,'wrong Object scheduler interface')
+ must(new['continuous_admission']['validation_updates']==list(range(0,5001,500)),'validation schedule changed')
+ return {'only_target_and_softwall_argv_changed':True,'Object_metadata_adapter_wrapper_and_repair_record_preserved':True,'target':5000,'softwall':169200,'total_validation_points':11,'argv_synthetic_not_executed':argv,'token':token}
+check('real_prior_invocation_science_preservation',execution_identity)
+
+for field,val in [('elapsed_seconds',0),('status','COMPLETED'),('visual_tokens',256)]:
+ def one(field=field,val=val):
+  rows=copy.deepcopy(realproof['root_recovery_review']['registered_pair_jobs_at_review']);rows[0][field]=val
+  return reject(lambda:a.history({'registered_jobs':rows}))
+ check('reject_failed_history_change_'+field,one)
+
+for field,val in [('replayed_or_uncommitted_samples',1),('unique_samples',3999),('cursor',0)]:
+ def one(field=field,val=val):
+  proofs=copy.deepcopy(realproof);proofs['independent_recovery_review']['arms']['A'][field]=val
+  class TinyEvidence:
+   def ref(self,ref):
+    return proofs[next(k for k,v in EXPECTED.items() if v==ref)]
+  x=a.Science(D);x.e=TinyEvidence()
+  return reject(lambda:x.prepare({'registered_jobs':proofs['root_recovery_review']['registered_pair_jobs_at_review']},{},{'path':'synthetic_only.json','sha256':'a'*64}))
+ check('reject_original_target_independent_arm_change_'+field,one)
+
+@contextmanager
+def fixture(name):
+ p=D/'isolated'/name;p.mkdir(parents=True)
+ gen=t.box.__wrapped__(p);b=next(gen)
+ try:yield b
+ finally:
+  try:next(gen)
+  except StopIteration:pass
+
+def accounting_lag():
+ with fixture('accounting_lag') as b:
+  observe=b.slurm.observe
+  def delayed(jobs):
+   snap=observe(jobs)
+   if any(j['job_id']=='777777' for j in jobs):snap['rows'].pop('777777');snap['queue'].pop('777777',None)
+   return snap
+  b.slurm.observe=delayed
+  first=reject(lambda:b.gate.run(submit=True));s=b.read()
+  must(s['pending_submission']['known_job_id']=='777777' and s['pending_submission']['status']=='submitted_identifier_observed','known ACK not durable')
+  must(len(b.slurm.calls)==1 and len(s['registered_jobs'])==len(b.state['registered_jobs']),'bad post-ACK state')
+  second=reject(lambda:b.gate.run(submit=True));must(len(b.slurm.calls)==1,'would reissue submitted job')
+  return {'synthetic_only':True,'first':first,'second':second,'known_ACK_pending_preserved':True,'fake_submit_count':1,'real_submit_count':0}
+check('post_ACK_accounting_lag_preserves_known_pending_and_rejects_reissue',accounting_lag)
+
+def reservation():
+ with fixture('reservation') as b:
+  s=b.read();s['registered_jobs'].append({'job_id':'999','name':'cti-engineering','gpus':1,'status':'RUNNING','exit_code':'0:0','experiment':'formal_main_v2','mode':'engineering'});b.write(s)
+  ans=reject(lambda:b.gate.run(submit=True));must(not b.slurm.calls and b.read()['autonomous_training_v1']==s['autonomous_training_v1'],'reserved capacity consumed')
+  return {'synthetic_only':True,'failure':ans,'fake_submit_count':0}
+check('registered_reservations_not_consumed',reservation)
+
+def cas_drift():
+ with fixture('cas_drift') as b:
+  original=b.gate.cas
+  def drift(s):
+   current=b.read();current['foreign_write']='preserve';b.write(current);original(s)
+  b.gate.cas=drift;ans=reject(lambda:b.gate.run(submit=True));must(b.read()['foreign_write']=='preserve' and not b.slurm.calls,'CAS overwrote competitor or submitted')
+  return {'synthetic_only':True,'failure':ans,'fake_submit_count':0}
+check('CAS_drift_preserves_competing_writer_and_prevents_submit',cas_drift)
+
+def missing_lock():
+ with fixture('missing_lock') as b:
+  lock=(b.root/a.STATE).parent/'.writer.lock';lock.unlink();ans=reject(lambda:b.gate.run());must(not lock.exists() and not b.slurm.calls,'missing lock recreated')
+  return {'synthetic_only':True,'failure':ans}
+check('missing_shared_writer_lock_rejected',missing_lock)
+
+for name,ref in [('Object256',{'path':'configs/experiments/formal_main_v2_cuda_continuous_3039258_v1.json','sha256':'5f86034d43017d3f89b0d3a73cd90dd8bd22b0b8a54461d0b0a51e5f8df6220e'}),('draft',{'path':str((C/'authorization_draft.json').relative_to(R)),'sha256':PINS['authorization_draft.json']})]:
+ check('reject_wrong_or_unsigned_authorization_'+name,lambda ref=ref:reject(lambda:g.validate_authorization(R,ref)))
+
+def actual_prepare():
+ auth=json.loads(read(C/'authorization_draft.json',PINS['authorization_draft.json']));must(auth['status']=='draft_not_authorized' and auth['reviewed_by'] is None and auth['independent_review'] is None,'draft cannot sign itself')
+ must(auth['gateway_files']==g.source_files(),'draft source map wrong')
+ ref={'path':str((C/'authorization_draft.json').relative_to(R)),'sha256':PINS['authorization_draft.json']}
+ lock=R/'results/experiment_supervisor/.writer.lock';must(lock.is_file(),'missing actual lock')
+ with c.exclusive_lock(lock):
+  before=c.file_sha(R/a.STATE);state=c.read_json(R/a.STATE);must(c.file_sha(R/a.STATE)==before,'read drift');must(state['pending_submission'] is None,'global pending remains')
+  ctl=copy.deepcopy(state['autonomous_training_v1']);must(a.PAIR in ctl['blocked_pairs'],'retained blocked history missing')
+  x=a.Science(R);plan=x.prepare(state,auth,ref);native=a.NativeIO().preflight(plan);x.e.unchanged();must(c.file_sha(R/a.STATE)==before,'actual state modified');must(c.read_json(R/a.STATE)['autonomous_training_v1']==ctl,'actual controller mutated')
+  must(not (R/a.INVREL).exists() and not (a.P/a.INVREL).exists(),'new invocation already published')
+  for rel,h in x.e.hashes.items():read(R/rel,h)
+  for path,row in native['server_files'].items():READS[path]=row['sha256']
+  for row in native['server_resume_checks']:READS[row['path']]=row['sha256']
+  must(plan['root_review']['pair_allocated_gpu_seconds']==5210 and plan['prior_jobs'][0]['elapsed_seconds']==69,'failed bill omitted')
+  must(len(native['server_resume_checks'])==2,'wrong resumes')
+  inv=plan['invocation'];must(inv['runtime_compatibility']==prior['runtime_compatibility'],'Object runtime compat changed')
+  originalind=json.loads(read(R/a.INDEPENDENT['path'],a.INDEPENDENT['sha256']))
+  for arm in ['A','B']:
+   row=originalind['arms'][arm];must([x['update'] for x in row['validation']]==[0,500] and all(x['windows']==204 for x in row['validation']),'incomplete validation panel')
+  result={'schema':'formal_main_v2','kind':'Object64_continuation_independent_actual_prepare','status':'passed_raw_and_server_metadata_only','utc':datetime.now(timezone.utc).isoformat(),'authorization_draft':ref,'authorization_validated':False,'state_sha256':before,'state_unchanged':True,'controller_unchanged':True,'blocked_pair_preserved':ctl['blocked_pairs'][a.PAIR],'plan':plan,'actual_server_metadata':native,'completed_before':{'A':500,'B':500},'cursor_before':{'A':4000,'B':4000},'historical_GPU_seconds':5210,'failed_GPU_seconds_preserved':69,'target_updates':5000,'models_loaded':False,'optimizer_rng_deserialized':False,'Slurm_queried':False,'GPU_submitted':False,'new_invocation_published':False,'read_evidence_sha256':x.e.hashes}
+  return save('actual_prepare_independent_a1.json',result)
+check('genuine_original_reviewer_and_NativeIO_actual_prepare',actual_prepare)
+for p,h in list(READS.items()):
+ if '/checkpoints/' not in p:read(p,h)
+report={'schema':'formal_main_v2','kind':'Object64_continuation_independent_CPU_checks','status':'passed','files':g.source_files(),'test_count':len(TESTS),'checks':TESTS,'read_evidence_sha256':READS,'actual_Slurm_called':False,'actual_state_modified':False,'actual_GPU_submitted':False,'synthetic_transactions_separate_from_genuine_prepare':True}
+ref=save('checks_a1.json',report)
+print(json.dumps({'status':'passed','tests':len(TESTS),'receipt':ref,'refs':len(READS)}),flush=True)

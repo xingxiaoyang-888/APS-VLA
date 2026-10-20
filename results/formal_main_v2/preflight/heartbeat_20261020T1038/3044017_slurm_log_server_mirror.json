@@ -1,0 +1,38 @@
+{
+  "actual_sacct_argv": [
+    "sacct",
+    "-n",
+    "-X",
+    "-P",
+    "-j",
+    "3044017",
+    "--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES,JobName,WorkDir%256"
+  ],
+  "actual_sacct_stdout": "3044017|COMPLETED|0:0|5141|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|cti-formal|/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo\n",
+  "job_id": "3044017",
+  "mirrored": [
+    {
+      "bytes": 186092,
+      "destination": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti-formal_3044017.out",
+      "sha256": "6d967fef673fbbcf0e0fa7e895d41123ca68b0c27ab43c5e5ce7d3ea8f546811",
+      "source": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-formal_3044017.out",
+      "source_retained": true
+    },
+    {
+      "bytes": 1129,
+      "destination": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti-formal_3044017.err",
+      "sha256": "a4d98acafea7a5a30e2a5c27d8d26e881e38c3416e31398eb645cb9bfbcdf138",
+      "source": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-formal_3044017.err",
+      "source_retained": true
+    }
+  ],
+  "raw_bytes_changed": false,
+  "slurm_wrapper": {
+    "path": "scripts/server/formal_asset_main.slurm",
+    "sha256": "9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a"
+  },
+  "source_derivation": "Actual sacct WorkDir R plus immutable submitted SBATCH relative output/error directives and exact job name/id.",
+  "terminal": true,
+  "utc": "2026-10-20T02:46:09.585486+00:00",
+  "windows_files_written": false
+}

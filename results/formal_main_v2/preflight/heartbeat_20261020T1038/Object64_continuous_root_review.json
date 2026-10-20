@@ -1,0 +1,38 @@
+{
+  "GPU_submitted": false,
+  "author_review": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_0238/Object64_continuous_author/candidate_review.json",
+    "sha256": "a2957441142f668fbea785d89abcaaecb8f4e47dc0f60ea8f8e05cc2a6f97249"
+  },
+  "author_tests": 55,
+  "canonical_real_preflight_in_following_receipt": true,
+  "checks": [
+    "exact Object64 seed23 only, old Object256 authorization rejected",
+    "retain original failed3028468 69s and recovered3044017 5141s; all5210s billed",
+    "original500/cursor4000,4000 unique samples,zero replay and correct cold-start recovery proven",
+    "same original Object metadata wrapper/runtime compatibility and173 frozen scientific files",
+    "same full optimizer/RNG/cursor restore with5000 schedule and11 validation nodes",
+    "same one-shot pending/ACK/lease/CAS/capacity transaction, no implicit retry",
+    "default readonly and no GPU submission at full8"
+  ],
+  "independent_checks": 15,
+  "independent_review": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_0238/Object64_continuous_independent/independent_review.json",
+    "sha256": "13c3508eca7aa7dfd2381626e4727d7a7d232d0dd10c146d0ba7729b1fb6f2c4"
+  },
+  "kind": "root_Object64_continuous_admission_source_review",
+  "reviewed_by": "root",
+  "schema": "formal_main_v2",
+  "source_files": [
+    {
+      "path": "scripts/ops/formal_object64_cuda_continuous_admission_v1/admission.py",
+      "sha256": "6598fa7311b076bdff079e0f09ed58216650eb35b7b6f532a7960c3673c5616f"
+    },
+    {
+      "path": "scripts/ops/formal_object64_cuda_continuous_admission_v1/gateway.py",
+      "sha256": "2aaed25efd1d8783ace9ace93a5212f67b52f1d1a6fde1072349d8d8a830f54a"
+    }
+  ],
+  "status": "passed_CPU_source_and_original_recovery_review",
+  "utc": "2026-10-20T03:07:25.031251+00:00"
+}

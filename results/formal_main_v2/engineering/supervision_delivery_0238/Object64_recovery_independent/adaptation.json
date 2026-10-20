@@ -1,0 +1,180 @@
+{
+  "changes": [
+    {
+      "from": "D=R/'.local/cuda_recovery_independent_0943'",
+      "occurrences": 1,
+      "to": "D=R/'.local/object64_recovery_independent_0238'"
+    },
+    {
+      "from": "3039258",
+      "occurrences": 17,
+      "to": "3044017"
+    },
+    {
+      "from": "3028460",
+      "occurrences": 11,
+      "to": "3028468"
+    },
+    {
+      "from": "/k256/seed23",
+      "occurrences": 2,
+      "to": "/k64/seed23"
+    },
+    {
+      "from": "_k256_seed23",
+      "occurrences": 1,
+      "to": "_k64_seed23"
+    },
+    {
+      "from": "root['visual_tokens']==256",
+      "occurrences": 1,
+      "to": "root['visual_tokens']==64"
+    },
+    {
+      "from": "'visual_tokens':256",
+      "occurrences": 1,
+      "to": "'visual_tokens':64"
+    },
+    {
+      "from": "config['tokens_per_camera']==128",
+      "occurrences": 1,
+      "to": "config['tokens_per_camera']==32"
+    },
+    {
+      "from": "f01_k256.json",
+      "occurrences": 1,
+      "to": "f01_k64.json"
+    },
+    {
+      "from": "len(ix)==256",
+      "occurrences": 1,
+      "to": "len(ix)==64"
+    },
+    {
+      "from": "sum(i<256 for i in ix)==128",
+      "occurrences": 1,
+      "to": "sum(i<256 for i in ix)==32"
+    },
+    {
+      "from": "hard256 sorted packing",
+      "occurrences": 1,
+      "to": "hard64 sorted packing"
+    },
+    {
+      "from": "6596",
+      "occurrences": 2,
+      "to": "5210"
+    },
+    {
+      "from": "6512",
+      "occurrences": 3,
+      "to": "5141"
+    },
+    {
+      "from": "('FAILED','1:0',84,1)",
+      "occurrences": 1,
+      "to": "('FAILED','1:0',69,1)"
+    },
+    {
+      "from": "('FAILED','1:0',84)",
+      "occurrences": 1,
+      "to": "('FAILED','1:0',69)"
+    },
+    {
+      "from": "'retained_FAILED_GPU_seconds':84",
+      "occurrences": 1,
+      "to": "'retained_FAILED_GPU_seconds':69"
+    },
+    {
+      "from": "'gpu4010'",
+      "occurrences": 1,
+      "to": "'gpu4017'"
+    },
+    {
+      "from": "2399d0f5b92b7ffe1d007d1df6fb1914b2c9765099bb8948bc9027873c6041ec",
+      "occurrences": 1,
+      "to": "0f8c1eab2e196c544bbf1302d440085abf052bc0bbc32a6dc3d9377bcdb0aec0"
+    },
+    {
+      "from": "failuremod=load('.local/cuda_startup_recovery_0840/startup_failure_evidence.py')",
+      "occurrences": 1,
+      "to": "failuremod=load('scripts/formal_cuda_terminal_review_v1/startup_failure_evidence.py')"
+    },
+    {
+      "from": "'cuda-recovery-independent-0943-v1'",
+      "occurrences": 1,
+      "to": "'cuda-recovery-independent-0238-v1'"
+    },
+    {
+      "from": "and cur in [0,500] and r['windows']==204",
+      "occurrences": 1,
+      "to": "and cur in [0,500] and cur not in seenval and r['windows']==204"
+    },
+    {
+      "from": " rootrel=REL+'/segment_reviews/3044017.json'",
+      "occurrences": 1,
+      "to": " raw('SERVER_WORKSPACE.md','fe43ae998a45bc749b3de1acbb8841d5b413962b59b05f62284e3f503a9baf62')\n raw('docs/\u670d\u52a1\u5668\u5de5\u4f5c\u533a\u4e0eGitHub\u540c\u6b65.md','d7f0455ef4febb536df199653fd323a1cef98ad66732e5b2ea8edfdf06b75343')\n raw('scripts/formal_cuda_terminal_review_v1/startup_failure_evidence.py','c07c5b686d103aaabfe8a7280c62ff2a8b61fcb3ab5d07ff7592011fabbfa480')\n raw('scripts/formal_cuda_terminal_review_v1/review_formal_segment_startup.py','ee0efc4b762e879e91e5e184fbc33dc236741cf71d51a6f5b4711710812f47b4')\n raw('results/formal_main_v2/engineering/terminal_delivery_0943/independent/audit_3039258_v2.py','029dac536286154f200a6dbd2543241eb7d95fb0e8c81ae36210e2c00ad5eab7')\n need(args.root_review_sha256=='2bffb9a9194b4c1b434b0c79491d165ce6f14d12305f3ebe9b6f4843af288d84','exact canonical root')\n need(args.pull=='results/formal_main_v2/pulls/20261020T024610Z_89cee566247b/receipt.json' and args.pull_sha256=='aa509e9edbe2bb52ae1832501b7a4785c43fa579215e67a17f47d80e284ec53b','exact terminal pull')\n rootrel=REL+'/segment_reviews/3044017.json'"
+    },
+    {
+      "from": " need(root['source_sha256']==SOURCE and root['pair_allocated_gpu_seconds']==5210,'root source/cost')",
+      "occurrences": 1,
+      "to": " need(root['source_sha256']==SOURCE and root['pair_allocated_gpu_seconds']==5210,'root source/cost')\n need(root['allowed_next_segment_end']==1000 and root['resume_required'] is True,'only next registered boundary, no continuous admission')"
+    },
+    {
+      "from": " need(auth['original_target']==500 and auth['maximum_new_attempts']==1 and auth['resume'] is True,'target scope')",
+      "occurrences": 1,
+      "to": " need(auth['kind']=='cuda_startup_single_recovery_authorization' and auth['status']=='approved_for_exactly_one_original_target_recovery' and auth['original_target']==500 and auth['maximum_new_attempts']==1 and auth['resume'] is True,'target scope')"
+    },
+    {
+      "from": " for item in ['--no-requeue','--time=04:00:00','--exclude=gpu4020']:",
+      "occurrences": 1,
+      "to": " for item in ['--no-requeue','--time=04:00:00','--exclude=gpu4020','--comment=cti-cuda-recovery-v1:'+PIN]:"
+    },
+    {
+      "from": "for key in ['canonical_publication','root_reservation'",
+      "occurrences": 1,
+      "to": "for key in ['canonical_failure_review','canonical_publication','root_reservation'"
+    },
+    {
+      "from": " for name,sha in gate['files'].items():raw(gate['output_relative']+'/'+name,sha)",
+      "occurrences": 1,
+      "to": " need(gate['job_id']=='3012482' and gate['runtime_compatibility']==job['runtime_compatibility'],'own Object accepted metadata runtime')\n need(all('component_compatibility' not in v for v in [original,current,job,oldj]),'Object uses metadata only, no Goal component adapter')\n registration=read('configs/experiments/formal_main_v2.json',inv['files']['configs/experiments/formal_main_v2.json'])\n suite=registration['suites']['libero_object'];pair=next(x for x in registration['pairs'] if x['suite']=='libero_object' and x['visual_tokens']==64 and x['seed']==23)\n model=read(suite['model_manifest'],suite['model_manifest_sha256'])\n need(model['repository']=='moojink/openvla-7b-oft-finetuned-libero-object' and model['revision']==config['model_revision']==suite['model_revision'],'own official Object base')\n expected=['--config',str(S/pair['path']),'--protocol',str(P/suite['protocol']),'--windows',str(P/suite['windows']),'--checkpoint',suite['model_root_server'],'--asset-manifest',str(S/suite['model_manifest']),'--data-directory',suite['data_root_server'],'--cache-directory',str(P/'.local/formal-hf-libero_object'),'--feature-cache',suite['cache_root_server'],'--training-checkpoints',pair['checkpoint_root_server'],'--input-acceptance-report',str(P/gate['output_relative']/'input_acceptance.json'),'--acceptance-report',str(P/gate['output_relative']/'f01_k64.json'),'--output',str(P/REL),'--arm','both','--stop-after-updates','500','--max-wall-seconds','12600','--resume']\n need(current['argv']==expected,'complete original scientific argv retained')\n official_components=[]\n for name in ['action_head--150000_checkpoint.pt','proprio_projector--150000_checkpoint.pt']:\n  spec=next(x for x in model['files'] if x['path']==name)\n  actual=shafile(Path(suite['model_root_server'])/name)\n  need(actual['sha256']==spec['sha256'] and actual['bytes']==spec['size'],'official Object component actual bytes')\n  official_components.append(actual)\n for name,sha in gate['files'].items():raw(gate['output_relative']+'/'+name,sha)"
+    },
+    {
+      "from": " reports={};initial_rows={};summaries={};resumechecks=[]",
+      "occurrences": 1,
+      "to": " reports={};initial_rows={};summaries={};resumechecks=[];candidatechecks=[]\n trainer=raw('src/cti_vla/training/formal_future.py').decode()\n need('optimizer.load_state_dict(saved[\"optimizer\"])' in trainer and 'restore_rng(saved[\"rng\"])' in trainer,'unchanged optimizer/RNG restore path')"
+    },
+    {
+      "from": "  initial_rows[arm]=",
+      "occurrences": 1,
+      "to": "  need([e['update'] for e in evaluations]==[0,500],'exact raw validation nodes once')\n  for ev in report['evaluations']:\n   candidate=H/'checkpoints/formal_main_v2/libero_object/k64/seed23'/arm/'candidates'/(attempt+'_update'+str(ev['update']).zfill(5)+'.pt')\n   need(ev['candidate_path']==str(candidate),'exact candidate path')\n   actual=shafile(candidate);need(actual['sha256']==ev['candidate_sha256'],'candidate raw byte identity')\n   candidatechecks.append(dict(arm=arm,update=ev['update'],**actual))\n  initial_rows[arm]="
+    },
+    {
+      "from": " for rel,sha in root['files'].items():raw(rel,sha)",
+      "occurrences": 1,
+      "to": " mirror_ref='results/formal_main_v2/preflight/heartbeat_20261020T1038/3044017_slurm_log_server_mirror.json'\n mirror=read(mirror_ref,'28bdb6e7469097b97c0da658cd230bd5a39de6eaad93bb7991fefc9db0b9df33')\n need(mirror['job_id']=='3044017' and mirror['terminal'] is True and mirror['raw_bytes_changed'] is False and mirror['slurm_wrapper']=={'path':'scripts/server/formal_asset_main.slurm','sha256':'9d54e0486a078a8358c8443bb92db8c8096d9ac3988eff693fa69b250d97c36a'},'exact raw stdout/stderr origin correction')\n need(len(mirror['mirrored'])==2,'two logs only')\n for row in mirror['mirrored']:\n  rel=Path(row['source']).relative_to(R).as_posix()\n  need(rel in ['results/slurm/cti-formal_3044017.out','results/slurm/cti-formal_3044017.err'] and row['destination']==str(P/rel) and row['source_retained'] is True,'log mirror exact scope')\n  data=raw(rel,row['sha256']);need(len(data)==row['bytes'] and shafile(P/rel)['sha256']==row['sha256'],'same original logs R/P')\n for rel,sha in root['files'].items():raw(rel,sha)"
+    },
+    {
+      "from": " for rel,sha in list(readmap.items()):",
+      "occurrences": 1,
+      "to": " gatejob=gate['job_at_review'];gateinv=read(gatejob['invocation'],gatejob['invocation_sha256'])\n gatereceipt=read('results/formal_main_v2/job_receipts/'+gatejob['job_id']+'.json')\n gatepull=gate['runtime_compatibility_review']['pull_receipt'];raw(gatepull['path'],gatepull['sha256'])\n ge=shared.Evidence(R)\n gm=shared.review_runtime_compatibility(ge,job=gatejob,invocation=gateinv,receipt=gatereceipt,inventory=inv,pull_receipt=gatepull['path'])\n need(gm==gate['runtime_compatibility_review'],'own original Object acceptance metadata proof reconstructed')\n ge.unchanged()\n for rel,sha in ge.hashes.items():raw(rel,sha)\n for rel,sha in list(readmap.items()):"
+    },
+    {
+      "from": "'actual_server_resume_checks':resumechecks,",
+      "occurrences": 1,
+      "to": "'actual_server_resume_checks':resumechecks,'actual_server_candidate_checks':candidatechecks,'official_Object_components':official_components,'acceptance_metadata_reconstruction':gm,'recovery_metadata_reconstruction':rebuilt,'log_mirror':{'path':mirror_ref,'sha256':readmap[mirror_ref]},'completed_by_arm':{'A':500,'B':500},'allowed_next_segment_end':1000,'reviewed_arm_updates_added':1000,"
+    }
+  ],
+  "kind": "exact_original_target_recovery_audit_adaptation",
+  "schema": "formal_main_v2",
+  "scope": "Exact Object64 seed23 original0->500 recovery. Original predicates retained with actual identities; explicit own Object component/acceptance and candidate-byte checks; no optimizer deserialization, production review publication or submission.",
+  "script": {
+    "path": ".local/object64_recovery_independent_0238/audit_3044017.py",
+    "sha256": "2da1dfc6594aa52c9014b112dfb92aa89631f5e85acee8f40ab0cfde8c6b8c36"
+  },
+  "template": {
+    "path": "results/formal_main_v2/engineering/terminal_delivery_0943/independent/audit_3039258_v2.py",
+    "sha256": "029dac536286154f200a6dbd2543241eb7d95fb0e8c81ae36210e2c00ad5eab7"
+  }
+}

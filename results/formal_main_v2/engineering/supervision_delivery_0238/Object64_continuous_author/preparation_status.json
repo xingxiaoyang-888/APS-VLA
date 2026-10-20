@@ -1,0 +1,27 @@
+{
+  "candidate_authorized": false,
+  "checkpoint_data_read": false,
+  "kind": "object64_continuous_candidate_preparation",
+  "known_allocations_GPU_seconds": {
+    "3028468": 69,
+    "3044017": 5141
+  },
+  "known_total_GPU_seconds": 5210,
+  "pair_key": "libero_object_k64_seed23",
+  "recovery_job_id": "3044017",
+  "required_receipt_refs": [
+    "root_recovery_review",
+    "independent_recovery_review",
+    "terminal_pull"
+  ],
+  "retained_failed_job_id": "3028468",
+  "schema": "formal_main_v2",
+  "source_inputs": {
+    ".local/cuda_continuous_admission_1111/test_continuation.py": "408e154a2a7558d8d14cd631408e438c5514e1e0b5f0c9c9ff1077793f62dc55",
+    "results/formal_main_v2/invocations/libero_object_train_k64_seed23_attempt02.json": "312d66e1932e92111ea6d324709454f6c2e987ebf9a59e7f9cb6933dcf645895",
+    "scripts/ops/formal_cuda_continuous_admission_v1/admission.py": "65a6a6c22710ba74f43c86589b7acdac7bd3c1b10fd86028d339eb98e3f71dcb",
+    "scripts/ops/formal_cuda_continuous_admission_v1/gateway.py": "a0f81f18ccdb6f9b0cd5f5f3f871b3f6ab451809a1c6386e347ea3602abd9792"
+  },
+  "status": "waiting_exact_original_target_root_and_independent_receipts",
+  "submission_performed": false
+}
