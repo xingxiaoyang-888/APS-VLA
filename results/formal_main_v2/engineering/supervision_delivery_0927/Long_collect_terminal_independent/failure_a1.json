@@ -1,0 +1,7 @@
+{
+  "checks_passed": 518,
+  "error": "'per_camera'",
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/Long_collect_terminal_independent_0927/audit_a1.py\", line 202, in <module>\n    try:main()\n        ^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/Long_collect_terminal_independent_0927/audit_a1.py\", line 165, in main\n    check(meta[\"method\"]==\"dense\" and meta[\"future_head_calls\"]==0 and meta[\"visual_tokens\"]==512 and meta[\"per_camera\"]==[256,256] and meta[\"policy_calls\"]==1 and meta[\"vision_calls\"]==1 and meta[\"scorer_calls\"]==0 and meta[\"packing_calls\"]==1,f\"actual Dense deployment counters {task}:{step}\")\n                                                                                                      ~~~~^^^^^^^^^^^^^^\nKeyError: 'per_camera'\n",
+  "type": "KeyError"
+}

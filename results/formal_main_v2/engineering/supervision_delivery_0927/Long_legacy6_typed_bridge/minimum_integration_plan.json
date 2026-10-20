@@ -1,0 +1,53 @@
+{
+  "candidate": {
+    "bytes": 12738,
+    "path": ".local/legacy6_typed_bridge_0927/equivalence_map_candidate.json",
+    "sha256": "f3c7c2e3b3d4546748c4705bb8cba7f29c050470a22645215f7a894f899d3cc0"
+  },
+  "integration_points": [
+    {
+      "function": "require_matching_o2a",
+      "minimum_change": "Separate new version consumes legacy compatibility envelope explicitly, plus genuine current receipts. Compare target action semantics without changing old execution_version; full/components stay current,30observations/22methods/14300forwards and same checkpoint identities.",
+      "path": "scripts/ops/formal_action_deployment_v1/consumer.py",
+      "sha256": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034"
+    },
+    {
+      "function": "_require_current_ancestry / _no_exception_claims",
+      "minimum_change": "Existing current-only guard remains intact. New explicit dispatcher handles a whole approved legacy root through the map API; no positive equivalence field injected into original roots or concealed mixed prefix.",
+      "path": "scripts/ops/formal_action_consumption_guard_v1/reviewer.py",
+      "sha256": "843f0336fd4161eb23d512b34935c7fca7d75032aceefe86084a16a7939a642c"
+    },
+    {
+      "function": "audit_freeze / guarded_consumer",
+      "minimum_change": "New assembly unions600legacy and1600current by trial/method/state identity and rejects overlap/conflicts. Preserve100unique states and22methods, all4suite/global freeze.",
+      "path": "scripts/ops/formal_action_consumption_guard_v1/consumer.py",
+      "sha256": "b3f754557646c8e5fa6172fd8a1bcded7e246bbfb4c490502bdc1e3f73e21b31"
+    },
+    {
+      "minimum_change": "No old600 resubmission or dedup bypass. Proof API is only for future freeze/O2A consumption.",
+      "path": "scripts/ops/formal_downstream_supervisor.py",
+      "sha256": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571"
+    },
+    {
+      "minimum_change": "Existing collected30 panel and original50warmup/20repeat/full+components protocol remain; this map grants no latency or final-state reuse.",
+      "path": "scripts/profile_formal.py",
+      "sha256": "4b8a7ac0b8be904f8f6b66d9fe7f6c3f7425056e013db903ac6b480191e2ebf6"
+    }
+  ],
+  "kind": "minimal_legacy600_bridge_integration_proposal",
+  "next": "Root independent review of candidate and original identity condition, then separately version exact minimal consumer extension. If identity condition remains unresolved, retain stop without automatic600 rerun.",
+  "no_new_GPU_or_scientific_trial": true,
+  "no_production_code_changed": true,
+  "original_condition_pending": "Root and independent must explicitly accept or reject whether the pinned historical distribution/installation/factory chain establishes same controller/environment. No rule requires full historical RNG dumps; lack of an instance capture must not be rewritten into a captured hash.",
+  "proposed_interface": "consume_explicit_legacy_equivalence(evidence, old_root_ref, map_ref, root_adoption_ref, independent_adoption_ref, *, suite, stage, target_action_semantics_sha256)",
+  "required_gates": [
+    "Unchanged original whole-chain consumer passes before the bridge.",
+    "Exact immutable per-trial map/root/evidence/target hashes, all600 coverage and original method/checkpoint/state identities.",
+    "Genuine root and independent bridge adoption receipts bind exact map SHA and explicit controller/environment identity assessment; missing or negative assessment rejects.",
+    "Original costs10531GPU seconds counted once; no added independent states, relabelled invocations, overwritten outcomes or old latency.",
+    "Full72selector/16reference/four-suite development and global root release remain unchanged."
+  ],
+  "returned_type": "separate compatibility envelope containing genuine old root unchanged, old execution_version, adopted target semantics and all600 receipts; never a fabricated new root_downstream_review",
+  "schema": "formal_main_v2",
+  "status": "not_implemented_or_activated"
+}

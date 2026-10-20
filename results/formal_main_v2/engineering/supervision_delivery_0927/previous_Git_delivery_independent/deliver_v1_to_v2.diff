@@ -1,0 +1,21 @@
+--- .local/deliver_0830.py
++++ .local/deliver_0830_v2.py
+@@ -31,8 +31,17 @@
+   assert p.is_file() and not p.is_symlink();line='!/'+p.relative_to(R).as_posix()
+   if line not in prior.splitlines():adds.append(line)
+  if adds:ignore.write_text(prior+'\n# Exact immutable audit logs,20261020T1630.\n'+'\n'.join(adds)+'\n')
+- source=B+'/root_operations/deliver_0830.py'
++ source=B+'/root_operations/deliver_0830_v2.py'
+  with (R/source).open('xb') as stream:stream.write(Path(__file__).read_bytes())
++ review_path='.local/git_delivery_review_0830/final_review.json'
++ review=rd(review_path)
++ assert review['status']=='passed' and review['script']==dict(path='.local/deliver_0830_v2.py',sha256=h(Path(__file__)))
++ assert review['transport_pins']==TRANSPORT_PINS and review['summary']==dict(path=B+'/summary.json',sha256=h(R/B/'summary.json'))
++ assert review['reviewer']=='/root/long128s41_terminal_0530' and not review['blockers']
++ with (R/B/'independent_Git_delivery_review.json').open('xb') as stream:stream.write((R/review_path).read_bytes())
++ for oldname,oldpin in [('deliver_0830_candidate.py','ac923bbff4727d441cf2b4105b3a597c34142d8e05a376f9104f912b9a2ce566'),('deliver_0830.py','c746eb19e184752a10b0c79d0544562f8bfff22a4b6cd936509716735de2aa88')]:
++  p=R/'.local'/oldname;assert h(p)==oldpin
++  with (R/B/'root_operations'/oldname).open('xb') as stream:stream.write(p.read_bytes())
+  for path,pin in TRANSPORT_PINS.items():
+   assert h(R/path)==pin and json.loads((R/path).read_bytes().splitlines()[-1])['event']=='control_end'
+  exact={'.gitignore','results/experiment_supervisor/state.json'}
