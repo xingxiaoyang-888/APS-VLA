@@ -1,0 +1,128 @@
+{
+  "Goal_CI95_pp": {
+    "A": [
+      94.66666666666667,
+      99.66666666666667
+    ],
+    "B": [
+      92.66666666666666,
+      98.66666666666667
+    ],
+    "B_minus_A": [
+      -3.6666666666666665,
+      0.6666666666666667
+    ]
+  },
+  "Goal_paired_matrix": {
+    "bytes": 35874,
+    "path": ".local/devterminal_independent_20261020T1418/Goal128_paired_matrix.json",
+    "sha256": "35104178cba959a5650b0e5fb7a5b06d6cdf27704e7a0602d3d649b8bfecf362"
+  },
+  "accepted_jobs": {
+    "3049132": {
+      "A_success": 95,
+      "B_minus_A_pp": 1,
+      "B_success": 96,
+      "GPU_seconds": 2315,
+      "budget": 128,
+      "seed": 41,
+      "suite": "libero_spatial",
+      "t0_Jaccard": 0.8148632398535036,
+      "t0_token_overlap": 0.89765625,
+      "trials": 200
+    },
+    "3049172": {
+      "A_success": 97,
+      "B_minus_A_pp": 1,
+      "B_success": 98,
+      "GPU_seconds": 2213,
+      "budget": 128,
+      "seed": 41,
+      "suite": "libero_object",
+      "t0_Jaccard": 0.7183555236697723,
+      "t0_token_overlap": 0.835546875,
+      "trials": 200
+    },
+    "3049622": {
+      "A_success": 98,
+      "B_minus_A_pp": -4,
+      "B_success": 94,
+      "GPU_seconds": 2039,
+      "budget": 128,
+      "seed": 41,
+      "suite": "libero_goal",
+      "t0_Jaccard": 0.623126136294221,
+      "t0_token_overlap": 0.767265625,
+      "trials": 200
+    },
+    "3049632": {
+      "A_success": 98,
+      "B_minus_A_pp": 1,
+      "B_success": 99,
+      "GPU_seconds": 2351,
+      "budget": 256,
+      "seed": 17,
+      "suite": "libero_spatial",
+      "t0_Jaccard": 0.7934947464977152,
+      "t0_token_overlap": 0.884609375,
+      "trials": 200
+    },
+    "3049657": {
+      "A_success": 98,
+      "B_minus_A_pp": 1,
+      "B_success": 99,
+      "GPU_seconds": 2198,
+      "budget": 256,
+      "seed": 17,
+      "suite": "libero_object",
+      "t0_Jaccard": 0.7546188325370972,
+      "t0_token_overlap": 0.8599609375,
+      "trials": 200
+    }
+  },
+  "accepted_jobs_GPU_seconds": 11116,
+  "accepted_trials": 1000,
+  "bootstrap_draws": {
+    "bytes": 624227,
+    "path": ".local/devterminal_independent_20261020T1418/bootstrap_draws.json.gz",
+    "sha256": "3585b1d6fa7567d739a52d1424f5c1a93502928e63a88e3e6af98a85e77b8e81",
+    "uncompressed_bytes": 2220106,
+    "uncompressed_sha256": "c4fca742bc0ce6e86037941321e78495935bcb9fcc4da429ed225a15654c84f6"
+  },
+  "diagnosis": {
+    "bytes": 10369,
+    "path": ".local/devterminal_independent_20261020T1418/Goal256_seed17_failure_diagnosis.json",
+    "sha256": "40ba1fb5d72cb85ce9298f8263174f5d46a5e730ba4b8da98fc690c3c1e39abc"
+  },
+  "held_GPU_seconds": 2034,
+  "held_job_id": "3049679",
+  "held_trials": 200,
+  "means_percent": {
+    "libero_goal": {
+      "A": 97.33333333333333,
+      "B": 96.0,
+      "B_minus_A_pp": -1.3333333333333344
+    },
+    "libero_object": {
+      "A": 97.5,
+      "B": 98.5,
+      "B_minus_A_pp": 1.0000000000000009
+    },
+    "libero_spatial": {
+      "A": 96.0,
+      "B": 96.0,
+      "B_minus_A_pp": 0.0
+    }
+  },
+  "partial_suites_missing_seed17": [
+    "libero_spatial",
+    "libero_object"
+  ],
+  "schema": "formal_main_v2",
+  "sealed_final_unchanged": true,
+  "statistics": {
+    "bytes": 53734,
+    "path": ".local/devterminal_independent_20261020T1418/development_statistics.json",
+    "sha256": "26db7c37f100857e7e789dc7fbea74e0c2c2728e864a8b35f8fdde7ddc97c1cd"
+  }
+}

@@ -1,0 +1,20 @@
+--- audit_inputs_v1.py
++++ audit_inputs_v2.py
+@@ -18,7 +18,7 @@
+ s=read(statepath,state_sha)
+ reg=read('configs/experiments/formal_main_v2.json','a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9')
+ rows=[]
+-for suite,budget,seed,nwin,steps in [('libero_spatial',256,23,189,220),('libero_object',256,23,204,280),('libero_goal',256,23,186,300),('libero_spatial',256,41,189,220)]:
++for suite,budget,seed,nwin,steps in [('libero_spatial',256,23,189,220),('libero_spatial',256,41,189,220),('libero_object',256,41,204,280)]:
+  key=f'{suite}_k{budget}_seed{seed}';pair=s['formal_main_progress']['completed_training_pairs'][key];sp=reg['suites'][suite]
+  check(pair['trained_arms']==2 and pair['allowed_next_segment_end'] is None and pair['completed_by_arm']=={'A':5000,'B':5000},key+'_completed_registered')
+  evidence={}
+@@ -72,7 +72,7 @@
+   selected.append(dict(method_id=arm+str(budget)+'_seed'+str(seed),deployment_receipt=ref(path),checkpoint=sel['path'],checkpoint_sha256=d['checkpoint_sha256'],selected_update=m['update'],validation_metric=m['validation_metric'],training_seed=seed,runtime_seed=17,env_seed=0,validation=validation))
+  rows.append(dict(suite=suite,visual_tokens=budget,training_seed=seed,method_ids=methods,planned_trials=200,unique_development_states=100,environment=env,development_panel=ref(dp),windows=ref(wp),training_reviews=evidence,selected=selected,existing_other_development_jobs=[{k:j.get(k) for k in ('job_id','status','method_ids')} for j in development_jobs]))
+ for rel,rr in READS.items():assert hashlib.sha256((R/rel).read_bytes()).hexdigest()==rr['sha256']
+-out=dict(schema='formal_main_v2',kind='independent_next_development_training_panel_precheck',status='passed_inputs_only',reviewer='/root/devplans_audit_20261020_1418',state_snapshot=ref(statepath),registration=ref('configs/experiments/formal_main_v2.json'),plans=rows,total_planned_trials=800,checks=len(CHECKS),check_names=CHECKS,read_evidence=list(READS.values()),no_active_or_finished_target_duplicates_in_snapshot=True,current_queue_submission_authority=False,new_development_completed_trials=0,new_GPU_seconds=0,weights_or_final_values_read=False,optimizer_RNG_audit_repeated=False,CPU_wall_seconds=time.perf_counter()-t0,CPU_process_seconds=time.process_time()-cpu,production_state_Git_Slurm_modified=False,final_release=False)
++out=dict(schema='formal_main_v2',kind='independent_next_development_training_panel_precheck',status='passed_inputs_only',reviewer='/root/devplans_audit_20261020_1418',state_snapshot=ref(statepath),registration=ref('configs/experiments/formal_main_v2.json'),plans=rows,total_planned_trials=600,checks=len(CHECKS),check_names=CHECKS,read_evidence=list(READS.values()),no_active_or_finished_target_duplicates_in_snapshot=True,current_queue_submission_authority=False,new_development_completed_trials=0,new_GPU_seconds=0,weights_or_final_values_read=False,optimizer_RNG_audit_repeated=False,CPU_wall_seconds=time.perf_counter()-t0,CPU_process_seconds=time.process_time()-cpu,production_state_Git_Slurm_modified=False,final_release=False)
+ p=D/'input_training_precheck.json'
+ with p.open('x') as f:json.dump(out,f,sort_keys=True,ensure_ascii=False,indent=2);f.write('\n')
+ print(json.dumps(dict(report=str(p.relative_to(R)),sha256=hashlib.sha256(p.read_bytes()).hexdigest(),bytes=p.stat().st_size,checks=len(CHECKS),CPU_wall_seconds=out['CPU_wall_seconds'])))

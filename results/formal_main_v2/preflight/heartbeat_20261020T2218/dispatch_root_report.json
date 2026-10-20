@@ -1,0 +1,170 @@
+{
+  "duplicate_stage_keys": false,
+  "exact_ACK_reconciliation_no_resubmissions": true,
+  "excluded_other_projects": true,
+  "final_release": false,
+  "new_GPU_jobs": 3,
+  "new_completed_trials": 0,
+  "new_planned_trials": 600,
+  "pending": null,
+  "pre_registered_candidate_order": [
+    "libero_spatial_k256_seed23",
+    "libero_spatial_k256_seed41",
+    "libero_object_k256_seed41"
+  ],
+  "reserved_GPU_slots": 0,
+  "schema": "formal_main_v2",
+  "scientific_settings_changed": false,
+  "state_sha256": "3040976e44990c55c357f4c5907d176fffe140aa3872652e4a78e5d7257799d6",
+  "status": "all_selected_requests_registered_once",
+  "submissions": [
+    {
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed23/submission_authorization.json",
+        "sha256": "076d8a1dee5416d3d1b3cb175f08bd7a148893202526a5d583862b7e084985bd"
+      },
+      "automatic_retry": false,
+      "budget": 256,
+      "completed_trials_accepted": 0,
+      "exact_original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/076d8a1dee5416d3d1b3cb175f08bd7a148893202526a5d583862b7e084985bd/sbatch_result.json",
+        "sha256": "6664454e4c79c069c5b2afb8eae1b8f07701c426347fbceaad0dfd04a00530b5"
+      },
+      "group_key": "libero_spatial_k256_seed23",
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_spatial_development_b0a59115666b5afa_attempt01.json",
+        "sha256": "ffc1c4e22dc8c780a9172d0d51f6858430fba2f44e2ee8989d9a75e2726a1d5c"
+      },
+      "job_id": "3050192",
+      "method_ids": [
+        "A256_seed23",
+        "B256_seed23"
+      ],
+      "observed_status_at_reconciliation": "RUNNING",
+      "original_accounting_delay": {
+        "path": "results/formal_main_v2/downstream_gateway/076d8a1dee5416d3d1b3cb175f08bd7a148893202526a5d583862b7e084985bd/failed_transaction.json",
+        "sha256": "976f82b8cac40e1a64241ed3e52ad688ee8caf5c995e788d575e92e491c4d8a2"
+      },
+      "planned_trials": 200,
+      "pre_execution_independent": {
+        "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1418/plan_independent/post_readiness/post_readiness_independent_review.json",
+        "sha256": "9e360d5a1c28348056a4ff8334584384cc3a19545229f28898dc6afa51475eb3"
+      },
+      "root_acceptance": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed23/root_pre_execution_check.json",
+        "sha256": "09ca87c27d7e15fe9b1803fdb4edbad52bec97e4a7b49445d87122c786679498"
+      },
+      "root_reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2218/libero_spatial_k256_seed23_3050192_pending_reconciliation.json",
+        "sha256": "9481485f3c7c5a8a569e800eef53aec074ac9b4ea60ee15490d81f379447433a"
+      },
+      "scientific_terminal_acceptance_pending": true,
+      "seed": 23,
+      "submission": {
+        "path": "results/formal_main_v2/submissions/3050192.json",
+        "sha256": "58f848295add14816e4bd3e7a3efc6a2c7999c34df25ca107a5fa978589b9814"
+      },
+      "suite": "libero_spatial",
+      "unique_initial_states_per_suite": 100
+    },
+    {
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed41/submission_authorization.json",
+        "sha256": "36190dc88b1c9c871b271197689e0f599293690fdbb0a386eb5478ea34cef553"
+      },
+      "automatic_retry": false,
+      "budget": 256,
+      "completed_trials_accepted": 0,
+      "exact_original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/36190dc88b1c9c871b271197689e0f599293690fdbb0a386eb5478ea34cef553/sbatch_result.json",
+        "sha256": "35ea93dd0272c136e5f35d597040a07c3b3a52020cd78167f0360d7de5c0f7af"
+      },
+      "group_key": "libero_spatial_k256_seed41",
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_spatial_development_460db0e9701de590_attempt01.json",
+        "sha256": "42ad708c34905405380aff051cd735ca9d0e9a806d74987209425175dd3010b4"
+      },
+      "job_id": "3050205",
+      "method_ids": [
+        "A256_seed41",
+        "B256_seed41"
+      ],
+      "observed_status_at_reconciliation": "RUNNING",
+      "original_accounting_delay": {
+        "path": "results/formal_main_v2/downstream_gateway/36190dc88b1c9c871b271197689e0f599293690fdbb0a386eb5478ea34cef553/failed_transaction.json",
+        "sha256": "339e708cea469a26c6cf7ff1cbc0bce120658a33f52353f7fb2baf737fc5351c"
+      },
+      "planned_trials": 200,
+      "pre_execution_independent": {
+        "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1418/plan_independent/post_readiness/post_readiness_independent_review.json",
+        "sha256": "9e360d5a1c28348056a4ff8334584384cc3a19545229f28898dc6afa51475eb3"
+      },
+      "root_acceptance": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed41/root_pre_execution_check.json",
+        "sha256": "c39107177c3266d83e9784350b1cf532e77ef5df669eb7decf2b78c56c086586"
+      },
+      "root_reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2218/libero_spatial_k256_seed41_3050205_pending_reconciliation.json",
+        "sha256": "dd33b012d2430911525f86213d58a3d4155547f1e808e79f2f40c565f5e3944a"
+      },
+      "scientific_terminal_acceptance_pending": true,
+      "seed": 41,
+      "submission": {
+        "path": "results/formal_main_v2/submissions/3050205.json",
+        "sha256": "a966f59b28a613f9986b6af713d5eb6a11f5a79a65b9f55365ec40aeff9f7e64"
+      },
+      "suite": "libero_spatial",
+      "unique_initial_states_per_suite": 100
+    },
+    {
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_object_k256_seed41/submission_authorization.json",
+        "sha256": "30303110cf3a7c6517d031ec5f4f28742862bbf64f6605faf12078b70be6a16a"
+      },
+      "automatic_retry": false,
+      "budget": 256,
+      "completed_trials_accepted": 0,
+      "exact_original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/30303110cf3a7c6517d031ec5f4f28742862bbf64f6605faf12078b70be6a16a/sbatch_result.json",
+        "sha256": "0c5f0575932be99cb3972a56f567afe575b0153ef0dae5f84315b199b43667b1"
+      },
+      "group_key": "libero_object_k256_seed41",
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_object_development_460db0e9701de590_attempt01.json",
+        "sha256": "db5a8c2b13d27684e64aac8668ddab964904bb55177dcea3a67f6ead2850eb6c"
+      },
+      "job_id": "3050224",
+      "method_ids": [
+        "A256_seed41",
+        "B256_seed41"
+      ],
+      "observed_status_at_reconciliation": "RUNNING",
+      "original_accounting_delay": {
+        "path": "results/formal_main_v2/downstream_gateway/30303110cf3a7c6517d031ec5f4f28742862bbf64f6605faf12078b70be6a16a/failed_transaction.json",
+        "sha256": "483e47ff891d165ed00640609e76d161c50a2b9375f5fb5c986808e682ad4af5"
+      },
+      "planned_trials": 200,
+      "pre_execution_independent": {
+        "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1418/plan_independent/post_readiness/post_readiness_independent_review.json",
+        "sha256": "9e360d5a1c28348056a4ff8334584384cc3a19545229f28898dc6afa51475eb3"
+      },
+      "root_acceptance": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_object_k256_seed41/root_pre_execution_check.json",
+        "sha256": "01650109d7e4920e7dbd9a4a4028ae04738d2a0cf6b5b17928a274b279ab2b40"
+      },
+      "root_reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2218/libero_object_k256_seed41_3050224_pending_reconciliation.json",
+        "sha256": "776a2926418db841cbeb8725e7c544c1e43b84230cd1394928e4a0bf3beb5fee"
+      },
+      "scientific_terminal_acceptance_pending": true,
+      "seed": 41,
+      "submission": {
+        "path": "results/formal_main_v2/submissions/3050224.json",
+        "sha256": "ff0a21b1ada12a01349982c8aeb0e163bc7de6e0ffb36b9ddc630676ce5ff21c"
+      },
+      "suite": "libero_object",
+      "unique_initial_states_per_suite": 100
+    }
+  ],
+  "utc": "2026-10-20T14:54:36.613187+00:00"
+}

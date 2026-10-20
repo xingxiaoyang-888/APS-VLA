@@ -1,0 +1,17 @@
+--- audit_plans_v1.py
++++ audit_plans_v2.py
+@@ -55,7 +55,7 @@
+  need(len(mpin)==64 and all(c in '0123456789abcdef' for c in mpin),'Exact candidate manifest SHA required')
+  delivery=js(BASE/'delivery_manifest.json',dpin)
+  for item in delivery['files']:
+-  q=R/item['path'];need(BASE in q.parents,'author archive path');data=read(q,item['sha256']);need(len(data)==item['bytes'],'author archive bytes')
++  q=R/item['path'];need(BASE.parent in q.parents,'author archive path');data=read(q,item['sha256']);need(len(data)==item['bytes'],'author archive bytes')
+  manifest=js(A/'manifest.json',mpin)
+  entries={r['path']:r for r in manifest['files']};need(len(entries)==len(manifest['files']),'duplicate archive entries')
+  for path,row in entries.items():
+@@ -145,4 +145,4 @@
+ if __name__=='__main__':
+  try:main()
+  except BaseException as e:
+-  dump('failure_plans_a1.json',{'error_type':type(e).__name__,'error':str(e),'traceback':traceback.format_exc(),'checks':CHECKS,'new_GPU_seconds':0,'production_modified':False});raise
++  dump('failure_plans_a2.json',{'error_type':type(e).__name__,'error':str(e),'traceback':traceback.format_exc(),'checks':CHECKS,'new_GPU_seconds':0,'production_modified':False});raise

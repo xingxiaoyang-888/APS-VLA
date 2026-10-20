@@ -1,0 +1,460 @@
+{
+  "CPU_cost": {
+    "new_GPU_seconds": 0,
+    "other_CPU_seconds": "Not independently measured; not GPU allocation.",
+    "preparation_CPU_seconds": 27.385441632,
+    "transport_calls": [
+      {
+        "bytes": 1123,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_20261020T1418_manifests_a2.jsonl",
+        "returncode": 0,
+        "sha256": "704b50235c1259950bfbc63b6ba6adfad6785745bdbeb3e242fd47d4e0bc207c",
+        "wall_seconds": 38.63803364
+      },
+      {
+        "bytes": 1129,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_20261020T1418_preview_a2.jsonl",
+        "returncode": 0,
+        "sha256": "54dd3150f0f5a0b79321e58e2b379e70d23df42d61c0a56c26aee91fac97592c",
+        "wall_seconds": 46.750965568
+      },
+      {
+        "bytes": 1131,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_20261020T1418_prepare_a2.jsonl",
+        "returncode": 0,
+        "sha256": "5fb815440e73ad852615ddb37f5a545887baf49df342bdfd3855489b704cc4f1",
+        "wall_seconds": 79.89934177
+      }
+    ],
+    "transport_wall_seconds": 165.288340978
+  },
+  "Goal256_deployment_gate_blocked_by_root": true,
+  "actual_GPU_runtime_chain_verified": false,
+  "actual_new_P_wrapper_verify_done": false,
+  "all_draft_gate_values_unapproved": true,
+  "all_transport_records": [
+    {
+      "exact_private_archive": {
+        "bytes": 1101,
+        "path": ".local/nonLong_development_plans_20261020T1418/transport_logs/nonLong_development_plans_20261020T1418_manifests_a1.jsonl",
+        "sha256": "1423d151fe7ec2ed17967cbc03549ddac3e26c37bd34f76bef06462381933d51"
+      },
+      "returncode": 1,
+      "source": {
+        "bytes": 1101,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_20261020T1418_manifests_a1.jsonl",
+        "sha256": "1423d151fe7ec2ed17967cbc03549ddac3e26c37bd34f76bef06462381933d51"
+      },
+      "wall_seconds": 31.181938411
+    },
+    {
+      "exact_private_archive": {
+        "bytes": 1123,
+        "path": ".local/nonLong_development_plans_20261020T1418/transport_logs/nonLong_development_plans_20261020T1418_manifests_a2.jsonl",
+        "sha256": "704b50235c1259950bfbc63b6ba6adfad6785745bdbeb3e242fd47d4e0bc207c"
+      },
+      "returncode": 0,
+      "source": {
+        "bytes": 1123,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_20261020T1418_manifests_a2.jsonl",
+        "sha256": "704b50235c1259950bfbc63b6ba6adfad6785745bdbeb3e242fd47d4e0bc207c"
+      },
+      "wall_seconds": 38.63803364
+    },
+    {
+      "exact_private_archive": {
+        "bytes": 1129,
+        "path": ".local/nonLong_development_plans_20261020T1418/transport_logs/nonLong_development_plans_20261020T1418_preview_a2.jsonl",
+        "sha256": "54dd3150f0f5a0b79321e58e2b379e70d23df42d61c0a56c26aee91fac97592c"
+      },
+      "returncode": 0,
+      "source": {
+        "bytes": 1129,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_20261020T1418_preview_a2.jsonl",
+        "sha256": "54dd3150f0f5a0b79321e58e2b379e70d23df42d61c0a56c26aee91fac97592c"
+      },
+      "wall_seconds": 46.750965568
+    },
+    {
+      "exact_private_archive": {
+        "bytes": 1131,
+        "path": ".local/nonLong_development_plans_20261020T1418/transport_logs/nonLong_development_plans_20261020T1418_prepare_a2.jsonl",
+        "sha256": "5fb815440e73ad852615ddb37f5a545887baf49df342bdfd3855489b704cc4f1"
+      },
+      "returncode": 0,
+      "source": {
+        "bytes": 1131,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_20261020T1418_prepare_a2.jsonl",
+        "sha256": "5fb815440e73ad852615ddb37f5a545887baf49df342bdfd3855489b704cc4f1"
+      },
+      "wall_seconds": 79.89934177
+    },
+    {
+      "exact_private_archive": {
+        "bytes": 1105,
+        "path": ".local/nonLong_development_plans_20261020T1418/transport_logs/nonLong_development_plans_20261020T1418_object23_diagnosis.jsonl",
+        "sha256": "6bcbf2a78189ebe781e3daa5579019b7c0d806dcc6804016102857bc7ab4569c"
+      },
+      "returncode": 0,
+      "source": {
+        "bytes": 1105,
+        "path": "results/formal_main_v2/control_transport/nonLong_development_plans_20261020T1418_object23_diagnosis.jsonl",
+        "sha256": "6bcbf2a78189ebe781e3daa5579019b7c0d806dcc6804016102857bc7ab4569c"
+      },
+      "wall_seconds": 0.363761917
+    }
+  ],
+  "blocked_Object23_diagnosis": {
+    "bytes": 72351,
+    "path": ".local/nonLong_development_plans_20261020T1418/Object256seed23_original_factory_block.json",
+    "sha256": "6176cc4caf5266bd76a743e5e6bdfa79b208d7cb86f14e2d4b5092a2c54037fd"
+  },
+  "boundaries": [
+    "Two Spatial groups use the same 100 Spatial development initial states; budget/seed repetitions do not add unique states.",
+    "No additional reference methods; exactly A/B for each requested suite/budget/seed.",
+    "No complete18/suite requirement added; only original per-pair/suite gates.",
+    "No action semantics, trained source, fixed panel, horizons, method or hyperparameter changes.",
+    "No API draft or inherited component receipt substitutes for genuine new per-plan root/independent review."
+  ],
+  "candidate_review": {
+    "bytes": 8928,
+    "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/candidate_review.json",
+    "sha256": "9ff986667610aac9d0bdbc2aabd4c080d6ad1c400639d070b1b992b1e7157b9e"
+  },
+  "earlier_candidate_scope_inactive": true,
+  "exact_original_entrypoints": {
+    "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+    "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+    "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+    "scripts/ops/formal_action_deployment_v1/entry.py": "2cdb69923146cbffcaaec555b970d03efbce0c9b9f74e3b743a2ce67a21aae19",
+    "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_action_deployment_v1/runtime_scope.py": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53",
+    "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33",
+    "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+    "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+  },
+  "immutable_state_snapshot": {
+    "bytes": 4292448,
+    "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/state_at_planning.json",
+    "sha256": "0e3de8ff0795473adc5168a2ce5f421035cc1a4a5f2e18dfa3a70ac06d76eab3"
+  },
+  "input_publication": {
+    "bytes": 1272,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T2218/nonLong_execution_manifest_publication.json",
+    "sha256": "fc3c12948e6d5db81869143e46eb2219068a73e3883416c6eca54b9a675b428a"
+  },
+  "kind": "nonLong_three_development_author_CPU_handoff",
+  "minimum_root_work": [
+    "Publish exact nine static scientific/effective/action-contract candidates to R/P under root writer discipline.",
+    "Independent actual plan/source/consumer audit; author drafts do not grant readiness.",
+    "Root genuine reviews and readiness; then actual full P wrapper/NativeIO verification on exact prepared invocation, followed by independent post-readiness review.",
+    "Root only one-use authorization, current controller/lease/pending/capacity reconciliation and single gateway submission.",
+    "Development raw terminal whole-chain consumer and independent acceptance; global final/O2A gates unchanged."
+  ],
+  "missing_original_P_dependencies": {
+    "bytes": 1388,
+    "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/dependency_preview_v1/required_P_copies.json",
+    "sha256": "a547b2e15d50ddd47caedb99c6fba85141ad5a256175c58740eb5430229ac0af"
+  },
+  "object256_seed23_deployment_gate_blocked": true,
+  "original_failure_attempts_retained": true,
+  "per_plan_inputs": [
+    {
+      "actual_GPU_calls": 0,
+      "budget": 256,
+      "candidate_action_execution_contract": {
+        "bytes": 5111,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed23/execution_contract.json",
+        "sha256": "ff7691dda74fddd1d7a22f913334dc70b1c6476e6f212a35e39bfd26da972fbb"
+      },
+      "candidate_effective_plan": {
+        "bytes": 138683,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed23/effective_plan.json",
+        "sha256": "432ba22e6c5d251391a90435e65597dfa91917d028f4b049bbcbdf19509d0b50"
+      },
+      "candidate_scientific_plan": {
+        "bytes": 128191,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed23/scientific_plan.json",
+        "sha256": "c439c20de23111313e7357fbbab655368d5ab31119ef6b240ee510c7ec2b26c6"
+      },
+      "dependency_closure": {
+        "bytes": 55432,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed23/runtime_dependency_closure.json",
+        "sha256": "aa71835d01bc884f273fb746c87ce3895c3e49891940c040192f53d710444884"
+      },
+      "draft_authorization": {
+        "bytes": 2671,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed23/submission_authorization_draft.json",
+        "sha256": "48717b4f37ed1ff7a0a0d6269e4f7c54aff74d837bda8430ed06e1a3239f8b71"
+      },
+      "draft_readiness": {
+        "bytes": 6645,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed23/runtime_readiness_draft.json",
+        "sha256": "d62613e9e379dc0096d0a78d93700ef1d428d4000eaf9e53c2c4da4d6f579d84"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed23/effective_plan.json",
+        "sha256": "432ba22e6c5d251391a90435e65597dfa91917d028f4b049bbcbdf19509d0b50"
+      },
+      "exact_runtime_readiness_created": false,
+      "execution_contract": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed23/execution_contract.json",
+        "sha256": "ff7691dda74fddd1d7a22f913334dc70b1c6476e6f212a35e39bfd26da972fbb"
+      },
+      "group_key": "libero_spatial_k256_seed23",
+      "invocation_relative": "results/formal_main_v2/invocations/libero_spatial_development_b0a59115666b5afa_attempt01.json",
+      "manifest": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed23_development.json",
+        "sha256": "af318258b35ac8af110663deb9838a7a723a36378a7dce93e9635513fb140be0"
+      },
+      "methods": [
+        "A256_seed23",
+        "B256_seed23"
+      ],
+      "new_P_wrapper_verify_passed": false,
+      "original_P_scientific_wrapper_verify_passed": true,
+      "plan_arguments": {
+        "bytes": 454,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed23/plan_arguments.json",
+        "sha256": "9842d38fa12b2441a3fa2546e5c956c090a178a8e4f39cb406dee41affec46d8"
+      },
+      "prepared_template": {
+        "bytes": 132778,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed23/prepared_invocation_template.json",
+        "sha256": "d0837322f09c3ecaa300c7c72aa439a2ecdce1b1088b0976ed646f45c93c1956"
+      },
+      "resources": {
+        "account": "p_p15016",
+        "cpus_per_task": 7,
+        "gres": "gpu:l40:1",
+        "job_name": "cti-formal-downstream",
+        "mem": "64G",
+        "nodes": 1,
+        "ntasks": 1,
+        "partition": "L40",
+        "qos": "cpu-500_core-l40-8_card-a800-8_card",
+        "time": "04:00:00"
+      },
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/downstream/development/b0a59115666b5afa/attempt01",
+      "runtime_metadata_identity_verified": true,
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed23/scientific_plan.json",
+        "sha256": "c439c20de23111313e7357fbbab655368d5ab31119ef6b240ee510c7ec2b26c6"
+      },
+      "seed": 23,
+      "stage_key": "libero_spatial_development_b0a59115666b5afa",
+      "suite": "libero_spatial",
+      "trials": 200
+    },
+    {
+      "actual_GPU_calls": 0,
+      "budget": 256,
+      "candidate_action_execution_contract": {
+        "bytes": 5111,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed41/execution_contract.json",
+        "sha256": "ff7691dda74fddd1d7a22f913334dc70b1c6476e6f212a35e39bfd26da972fbb"
+      },
+      "candidate_effective_plan": {
+        "bytes": 135786,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed41/effective_plan.json",
+        "sha256": "b958ba5846a680f5036a8e1cf07edb5ebce965852a7f419859712097e03027ad"
+      },
+      "candidate_scientific_plan": {
+        "bytes": 125294,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed41/scientific_plan.json",
+        "sha256": "0e38872c939f098c7463fee19a8d1383448a8f5a0fb3bd11271cd5de5c00167a"
+      },
+      "dependency_closure": {
+        "bytes": 55432,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed41/runtime_dependency_closure.json",
+        "sha256": "44a41fe6b94888c6bb4aedd58a18293324e73280fa7c8461fd234a58d5f4adf0"
+      },
+      "draft_authorization": {
+        "bytes": 2671,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed41/submission_authorization_draft.json",
+        "sha256": "2ae82e99c8eb0b09e81fc12208c1a5ea2e44b0a7e675f983ed7f95c3d3c1555e"
+      },
+      "draft_readiness": {
+        "bytes": 6645,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed41/runtime_readiness_draft.json",
+        "sha256": "9d863027db71b139f5a7ba489e96010386fff1dc2167b0bc2e18e2a593eb28b3"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed41/effective_plan.json",
+        "sha256": "b958ba5846a680f5036a8e1cf07edb5ebce965852a7f419859712097e03027ad"
+      },
+      "exact_runtime_readiness_created": false,
+      "execution_contract": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed41/execution_contract.json",
+        "sha256": "ff7691dda74fddd1d7a22f913334dc70b1c6476e6f212a35e39bfd26da972fbb"
+      },
+      "group_key": "libero_spatial_k256_seed41",
+      "invocation_relative": "results/formal_main_v2/invocations/libero_spatial_development_460db0e9701de590_attempt01.json",
+      "manifest": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed41_development.json",
+        "sha256": "4bfdc63f4a3adf8661a0d25b5ab81a8262921bb1bbf8395140c0286afb80c3c9"
+      },
+      "methods": [
+        "A256_seed41",
+        "B256_seed41"
+      ],
+      "new_P_wrapper_verify_passed": false,
+      "original_P_scientific_wrapper_verify_passed": true,
+      "plan_arguments": {
+        "bytes": 454,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed41/plan_arguments.json",
+        "sha256": "e9252dcc48022fbd9b2508efc613dcc9deee9e9e5f3708fccc2bad517cf210e3"
+      },
+      "prepared_template": {
+        "bytes": 129945,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_spatial_k256_seed41/prepared_invocation_template.json",
+        "sha256": "9b8dc4a9e43d907eb66a2a0c09380bf21ddf9ff3029f38f8cacd291ca5217b93"
+      },
+      "resources": {
+        "account": "p_p15016",
+        "cpus_per_task": 7,
+        "gres": "gpu:l40:1",
+        "job_name": "cti-formal-downstream",
+        "mem": "64G",
+        "nodes": 1,
+        "ntasks": 1,
+        "partition": "L40",
+        "qos": "cpu-500_core-l40-8_card-a800-8_card",
+        "time": "04:00:00"
+      },
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_spatial/downstream/development/460db0e9701de590/attempt01",
+      "runtime_metadata_identity_verified": true,
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_spatial_k256_seed41/scientific_plan.json",
+        "sha256": "0e38872c939f098c7463fee19a8d1383448a8f5a0fb3bd11271cd5de5c00167a"
+      },
+      "seed": 41,
+      "stage_key": "libero_spatial_development_460db0e9701de590",
+      "suite": "libero_spatial",
+      "trials": 200
+    },
+    {
+      "actual_GPU_calls": 0,
+      "budget": 256,
+      "candidate_action_execution_contract": {
+        "bytes": 5109,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_object_k256_seed41/execution_contract.json",
+        "sha256": "a718a294e62ca29bf227481d73a10e774ce412a7c7322011be2947dda55a8af4"
+      },
+      "candidate_effective_plan": {
+        "bytes": 145726,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_object_k256_seed41/effective_plan.json",
+        "sha256": "07ea2d68a05ec146e3db2a2d7b46abcea74aafe8d0533c2e5487147aeda35e3f"
+      },
+      "candidate_scientific_plan": {
+        "bytes": 136308,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_object_k256_seed41/scientific_plan.json",
+        "sha256": "ebebd9ff07ea20184ab3a634f46dbd7824b5bc9cde4609dda60bad300dcadaf2"
+      },
+      "dependency_closure": {
+        "bytes": 57101,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_object_k256_seed41/runtime_dependency_closure.json",
+        "sha256": "3398df3bc3e6a853e650aa480392e1c4202c96224f2043e3044e0e5d303354ac"
+      },
+      "draft_authorization": {
+        "bytes": 2668,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_object_k256_seed41/submission_authorization_draft.json",
+        "sha256": "7fe89ad3836e3c7f3cbb7231faac64a635ec45cd3167e058ea24796756a38104"
+      },
+      "draft_readiness": {
+        "bytes": 7270,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_object_k256_seed41/runtime_readiness_draft.json",
+        "sha256": "9f43e409ac48ba09a320ab94ed5d1b1c2fd661cf1ca0f1101b8054451e574e0f"
+      },
+      "effective_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_object_k256_seed41/effective_plan.json",
+        "sha256": "07ea2d68a05ec146e3db2a2d7b46abcea74aafe8d0533c2e5487147aeda35e3f"
+      },
+      "exact_runtime_readiness_created": false,
+      "execution_contract": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_object_k256_seed41/execution_contract.json",
+        "sha256": "a718a294e62ca29bf227481d73a10e774ce412a7c7322011be2947dda55a8af4"
+      },
+      "group_key": "libero_object_k256_seed41",
+      "invocation_relative": "results/formal_main_v2/invocations/libero_object_development_460db0e9701de590_attempt01.json",
+      "manifest": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_object_k256_seed41_development.json",
+        "sha256": "544502f003520760b3203ba67fe135da84b1d5c63b4351ac4ed34e705d3780a5"
+      },
+      "methods": [
+        "A256_seed41",
+        "B256_seed41"
+      ],
+      "new_P_wrapper_verify_passed": false,
+      "original_P_scientific_wrapper_verify_passed": true,
+      "plan_arguments": {
+        "bytes": 453,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_object_k256_seed41/plan_arguments.json",
+        "sha256": "17af0fbfee7541f67cdf87e6baf611ab668f8847e9cbab9ecdea270a0d1220bc"
+      },
+      "prepared_template": {
+        "bytes": 139060,
+        "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/libero_object_k256_seed41/prepared_invocation_template.json",
+        "sha256": "6c84dcdfa7709df5410d169576aca97473a93d8cf91b43dbc0a66fc6ecc87efb"
+      },
+      "resources": {
+        "account": "p_p15016",
+        "cpus_per_task": 7,
+        "gres": "gpu:l40:1",
+        "job_name": "cti-formal-downstream",
+        "mem": "64G",
+        "nodes": 1,
+        "ntasks": 1,
+        "partition": "L40",
+        "qos": "cpu-500_core-l40-8_card-a800-8_card",
+        "time": "04:00:00"
+      },
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/development/460db0e9701de590/attempt01",
+      "runtime_metadata_identity_verified": true,
+      "scientific_plan": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/libero_object_k256_seed41/scientific_plan.json",
+        "sha256": "ebebd9ff07ea20184ab3a634f46dbd7824b5bc9cde4609dda60bad300dcadaf2"
+      },
+      "seed": 41,
+      "stage_key": "libero_object_development_460db0e9701de590",
+      "suite": "libero_object",
+      "trials": 200
+    }
+  ],
+  "planned_future_trials": 600,
+  "preparation_failed_attempts": [
+    {
+      "bytes": 629,
+      "path": ".local/nonLong_development_plans_20261020T1418/factory_failure_v1.json",
+      "sha256": "3aa62089792ba89f8b7f4da71f170202d35c95d7694993c0dea9dd107ad75670"
+    }
+  ],
+  "production_files_modified_by_author": false,
+  "publication_map": {
+    "bytes": 4818,
+    "path": ".local/nonLong_development_plans_20261020T1418/revision02/attempt01/publication_map.json",
+    "sha256": "470fe266c36dbda1b5932c35d94e92a0022f40d3b6a2affc334a576de1a6987d"
+  },
+  "schema": "formal_main_v2",
+  "scientific_trials_added": 0,
+  "state_Git_Slurm_modified": false,
+  "state_origin": {
+    "bytes": 4292448,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T2218/state_before.json",
+    "sha256": "0e3de8ff0795473adc5168a2ce5f421035cc1a4a5f2e18dfa3a70ac06d76eab3"
+  },
+  "status": "exact_author_plans_ready_for_root_publication_and_independent_review_not_submission",
+  "training_and_duplicate_checks": {
+    "bytes": 6489,
+    "path": ".local/nonLong_development_plans_20261020T1418/revision02/training_and_duplicate_checks.json",
+    "sha256": "90389a2b0a669c818a57ce0ba3951721e9dcc26db6e0d3a95ad3f4945a33f8fd"
+  },
+  "training_config_publication": {
+    "bytes": 1091,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T2218/nonLong_training_config_publication.json",
+    "sha256": "e7268bb164548cb7358465f13217191a843216e15ca0e1d828cb6a2aff1434f9"
+  },
+  "unique_initial_states_per_suite": 100,
+  "weights_or_sealed_values_read": false
+}

@@ -1,0 +1,88 @@
+{
+  "Goal256_seed17": {
+    "accepted_trials": 0,
+    "actual_GPU_seconds": 2034,
+    "cause_status": "Undetermined: whole-observation hash alone cannot distinguish camera/render differences, proprio/state divergence or input mutation. Original code hashes observation after predict_chunk returns.",
+    "independent_diagnosis": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1418/terminal_independent/Goal256_seed17_failure_diagnosis.json",
+      "sha256": "40ba1fb5d72cb85ce9298f8263174f5d46a5e730ba4b8da98fc690c3c1e39abc"
+    },
+    "job_id": "3049679",
+    "mismatching_initials": [
+      {
+        "A_t0_observation_sha256": "97bfd36f45edd0e11cfa4595638347815487a897fe42218488e75f7594f2760d",
+        "B_t0_observation_sha256": "5967f63ad305137d44d4cdfe2a6c77aeee725cbab63c4b8ebe5edaa5a1867294",
+        "environment_seed": 0,
+        "initial_state_identity_equal": true,
+        "initial_state_sha256": "5d0e63172c7ef5d2be8e9451bfca1200b0af32b8a31d6f2b82ea23aef37a2172",
+        "runtime_seed": 17,
+        "source_state_index": 42,
+        "state_trial_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0042:env-0",
+        "success_outcomes_not_used_for_acceptance": true,
+        "task_id": 2,
+        "task_name": "put_the_wine_bottle_on_top_of_the_cabinet",
+        "wait_steps": 10
+      }
+    ],
+    "next_bounded_engineering_proposal": {
+      "matrix": "3fixed repetitions of A->B and B->A reset/query order (12reset t0 queries total), same selected256seed17 checkpoints and pinned environment. No policy action executes beyond the10unchangedwait actions.",
+      "maximum_GPU_jobs": 1,
+      "maximum_GPU_wall_minutes": 30,
+      "maximum_resets": 12,
+      "only_development_state": {
+        "initial_state_sha256": "5d0e63172c7ef5d2be8e9451bfca1200b0af32b8a31d6f2b82ea23aef37a2172",
+        "source_state_index": 42,
+        "state_trial_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0042:env-0",
+        "task_id": 2,
+        "task_name": "put_the_wine_bottle_on_top_of_the_cabinet"
+      },
+      "record": [
+        "Five raw observation arrays and each shape/dtype/SHA plus aggregate at reset, after each of10wait steps, immediately before predict and immediately after predict",
+        "Exact init checksum and full development init vector; task/BDDL/camera/simulator/controller/library/GPU/node identities",
+        "Python/NumPy/TorchCPU/CUDA RNG states at reset/preload/postload/prequery/postquery; environment seed and runtime seed",
+        "Model load/reset/query order and timing; actual retainedindices/checkpoint SHA; pre/post array equality and maximum absolute differences",
+        "State qpos/qvel and available simulator state snapshots before/after waiting to separate physics from rendering"
+      ],
+      "root_preregistration_required": true,
+      "status": "proposed_not_run_not_scientific_trial",
+      "stop_rule": "Any mismatch or evidence gap remainsHOLD. Do not relax hash equality, alter losses/tasks/initialstates, selectsuccessfuloutcomes, or replace original200. Reproduction or diagnosis alone does notauthorize science retry; root boundedrepair+independent acceptance mustfollow."
+    },
+    "proposal_run": false,
+    "retained_trials": 200,
+    "root_failure": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261020T2218/3049679_root_review_failure_20261020T1418.json",
+      "sha256": "49b226c91f99cd9fd3584ab645992244794f4d720e0128d9ab693e82bcca6793"
+    },
+    "scientific_retry_authorized": false,
+    "scope": "Pause new Goal scientific development until cause and bounded engineering repair independently accepted; retain validGoal128.",
+    "status": "HOLD"
+  },
+  "Object256_seed23": {
+    "evidence": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1418/plan_author/Object256seed23_original_factory_block.json",
+      "sha256": "6176cc4caf5266bd76a743e5e6bdfa79b208d7cb86f14e2d4b5092a2c54037fd"
+    },
+    "fake_metadata_repair_allowed": false,
+    "new_GPU_seconds": 0,
+    "new_scientific_trials": 0,
+    "normal_history_job_ids": [
+      "3039258",
+      "3042627"
+    ],
+    "pair": "libero_object_k256_seed23",
+    "reason": "Original asset downstream gate requires normal runtime metadata coverage of every allocation, including a separately validated failed CUDA startup. Original failure is not a successful training allocation and cannot be relabelled. No missing exact file copy alone resolves the schema gate.",
+    "required_future_work": "Separately audited versioned startup-failure consumer compatibility if root elects to admit this deployment; preserve all original allocations, failures, costs and selected checkpoint identities. This diagnostic does not authorize execution.",
+    "root_training_completion_unchanged": true,
+    "startup_failure_review": {
+      "path": "results/formal_main_v2/libero_object/k256/seed23/training/startup_failure_reviews/3028460.json",
+      "sha256": "d77e2a9b4dd9a23da41fea7611ffef20fa00c1bfdef627a456ad65902e05031f"
+    },
+    "status": "HOLD_original_downstream_metadata_consumer"
+  },
+  "existing_failure_costs_retained": true,
+  "no_gate_waiver": true,
+  "no_new_jobs_by_integration": true,
+  "schema": "formal_main_v2",
+  "sealed_final_values_read": false,
+  "status": "two_scoped_blockers"
+}

@@ -1,0 +1,97 @@
+{
+  "status": "candidate_CPU_prepared_NOT_GPU_run_NOT_submitted",
+  "kind": "root_handoff",
+  "scope": "Goal task2/index42 original A256/B256seed17; fixed12reset/query;10waits;0policyactions;1GPU<=30min;counts against8slots",
+  "GPU_jobs_submitted": 0,
+  "real_GPU_acceptance": false,
+  "scientific_gate": "HOLD",
+  "original_failed200_retained": true,
+  "private_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418",
+  "entrypoint": {
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/probe.py",
+    "sha256": "4d0eec76dddf7574521231911c29e0df8dbbeb372910d615c00914451a1cb92c",
+    "bytes": 25212
+  },
+  "configuration": {
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/config.json",
+    "sha256": "773594fc7ccaeb51d44b348283634dcb6461945d503893fcdb33ce3b12e118ff",
+    "bytes": 8574
+  },
+  "CPU_checks": {
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/cpu_tests.json",
+    "sha256": "f9473ba6ad6fbf7ba15477e03aedb27ad97b684e68b74ca48372549fb849ee50",
+    "bytes": 1578
+  },
+  "actual_P_metadata_prepare": {
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/actual_metadata_prepare.stdout.log",
+    "sha256": "432e9cabf541e0133043aba7d8401c240ab48cc2b0cae1b4243410d58febeb6c",
+    "bytes": 260
+  },
+  "static_validation": {
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/static_validation.json",
+    "sha256": "1af85e5b171eb9e264edc43fb4b2bdcc256227604104d8d6e6b8ee2fcdc0a36d",
+    "bytes": 167
+  },
+  "original_AST_prefix_statements": 72,
+  "proposed_publication": [
+    {
+      "source": {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/probe.py",
+        "sha256": "4d0eec76dddf7574521231911c29e0df8dbbeb372910d615c00914451a1cb92c",
+        "bytes": 25212
+      },
+      "destination": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_t0_probe_20261020T1418/source/probe.py"
+    },
+    {
+      "source": {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/original_loading_prefix.py",
+        "sha256": "bf579f705c07c5ec8a13ef1feced7d2cc13d799b2f61e86a48d73e3b6507c709",
+        "bytes": 11147
+      },
+      "destination": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_t0_probe_20261020T1418/source/original_loading_prefix.py"
+    },
+    {
+      "source": {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/config.json",
+        "sha256": "773594fc7ccaeb51d44b348283634dcb6461945d503893fcdb33ce3b12e118ff",
+        "bytes": 8574
+      },
+      "destination": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_t0_probe_20261020T1418/source/config.json"
+    },
+    {
+      "source": {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/candidate.slurm",
+        "sha256": "6fae7f5ccc9c79d4c3a93b9807c55be7603aa947184d9d6c3dd579d11deda89b",
+        "bytes": 2177
+      },
+      "destination": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_t0_probe_20261020T1418/source/candidate.slurm"
+    }
+  ],
+  "transport": [
+    {
+      "original": {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/control_transport/goal_t0_probe_cpu_20261020T1418_a1.jsonl",
+        "sha256": "3c9f832edb7efebe90bcdae2b79b6fa933b1621d00961b7d6162ba334ddff7da",
+        "bytes": 1097
+      },
+      "archived": {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/transport/goal_t0_probe_cpu_20261020T1418_a1.jsonl",
+        "sha256": "3c9f832edb7efebe90bcdae2b79b6fa933b1621d00961b7d6162ba334ddff7da",
+        "bytes": 1097
+      }
+    },
+    {
+      "original": {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/control_transport/goal_t0_probe_static_20261020T1418_a1.jsonl",
+        "sha256": "22505a99ce0dd7e868b5c61eee4bf6c741d8c61568e7821afa2eda4da5eebdfe",
+        "bytes": 1087
+      },
+      "archived": {
+        "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_candidate_20261020T1418/transport/goal_t0_probe_static_20261020T1418_a1.jsonl",
+        "sha256": "22505a99ce0dd7e868b5c61eee4bf6c741d8c61568e7821afa2eda4da5eebdfe",
+        "bytes": 1087
+      }
+    }
+  ],
+  "next_step": "Next heartbeat: root and independent audit candidate, preserve original failure, reserve one registered GPU slot and bind actual engineering authorization; only then root submit. No Goal scientific retry automatically follows this probe."
+}

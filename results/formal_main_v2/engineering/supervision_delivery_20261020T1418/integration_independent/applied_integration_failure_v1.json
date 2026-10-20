@@ -1,0 +1,13 @@
+{
+  "checks_completed": [
+    "only_recorded_training_terminal_guard_and_archive_name_changes",
+    "source_explicit_apply_default_private_and_writer_CAS",
+    "source_controller_registry_and_training_preservation",
+    "source_intent_before_mutation_and_documents_CAS",
+    "prior_true_submission_and_full_1000_terminal_review",
+    "intent_exact_entrypoint_dispatch_and_before_snapshot"
+  ],
+  "error": "AssertionError('exact_pure_reconstruction_matches_committed_state_and_summary')",
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/integration_independent_20261020T1418/audit_integration_v1.py\", line 114, in <module>\n    try:main(args.mode)\n        ^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/integration_independent_20261020T1418/audit_integration_v1.py\", line 56, in main\n    ck('exact_pure_reconstruction_matches_committed_state_and_summary',m.rawjson(re_summary)==raw(B+'/summary_after_dispatch.json') and sha(m.rawjson(state))==intent['state_candidate_sha256']==receipt['state_after_sha256'])\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/integration_independent_20261020T1418/audit_integration_v1.py\", line 25, in ck\n    def ck(name,v):assert v,name;checks.append(name)\n                   ^^^^^^^^^^^^^\nAssertionError: exact_pure_reconstruction_matches_committed_state_and_summary\n"
+}
