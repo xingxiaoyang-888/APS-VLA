@@ -1,0 +1,252 @@
+{
+  "active_GPU_jobs": 8,
+  "all_development_trials": 1412,
+  "allocated_GPU_hours_at_initial_snapshot": 454.0183333333333,
+  "completed_final_trials": 0,
+  "controller_lease_confirmed": true,
+  "cost_is_final": false,
+  "final_sealed": true,
+  "followup": "No spare slot; preserve admitted Spatial v2 for next scheduled heartbeat. Object3044017 remains original-target500 A/B recovery. Normal jobs left to controller without continuous polling.",
+  "initial_observation": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/initial_observation.json",
+    "sha256": "1ae8409d6a9fe2b90e26aea56ee0bffffd293575bb280ac1882cca2f9023743c"
+  },
+  "kind": "healthy_scheduled_no_terminal_change",
+  "live_training_evidence": [
+    {
+      "arm": "B",
+      "budget": 256,
+      "captured_bytes": 65536,
+      "event_age_seconds": 42.844652,
+      "job_id": "3038735",
+      "latest_committed_update_seen": 4178,
+      "latest_event": {
+        "attempt_elapsed_seconds": 36094.69500441104,
+        "attempt_id": "20261019T153819_46a3b9acccd0",
+        "event": "sample_start",
+        "job_id": "3038735",
+        "micro_batch_index": 3,
+        "update": 4179,
+        "utc": "2026-10-20T01:39:54.108667+00:00",
+        "window_id": "sha256:8ef65271513133089551394fb7bb3d1fe6ff4243b525984d6503ae276bdd9545"
+      },
+      "offset": 26545227,
+      "partial_tail_only_not_terminal_review": true,
+      "seed": 41,
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k256/seed41/training/B/attempts/20261019T153819_46a3b9acccd0/cost_events.jsonl",
+      "source_bytes_at_read": 26610763,
+      "suite": "libero_goal",
+      "tail": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/live_nonweight_tails/3038735.txt",
+        "sha256": "9c396c063fb725f6811ac577a9d3cea2e76d3c841d5036da1c698b0d462e4ac8"
+      }
+    },
+    {
+      "arm": "B",
+      "budget": 128,
+      "captured_bytes": 65536,
+      "event_age_seconds": 0.357212,
+      "job_id": "3039981",
+      "latest_committed_update_seen": 4143,
+      "latest_event": {
+        "attempt_elapsed_seconds": 26925.32072689524,
+        "attempt_id": "20261019T181151_cf0ae88daf0e",
+        "event": "sample_start",
+        "job_id": "3039981",
+        "micro_batch_index": 6,
+        "update": 4144,
+        "utc": "2026-10-20T01:40:36.596107+00:00",
+        "window_id": "sha256:151151cf283f8545afeeedfc80e720f3a50f6523d0ffe66e977a49ed83fa656f"
+      },
+      "offset": 19970768,
+      "partial_tail_only_not_terminal_review": true,
+      "seed": 23,
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed23/training/B/attempts/20261019T181151_cf0ae88daf0e/cost_events.jsonl",
+      "source_bytes_at_read": 20036304,
+      "suite": "libero_goal",
+      "tail": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/live_nonweight_tails/3039981.txt",
+        "sha256": "6603ec2dead38496e6cde8a0bc2892b9a27aa141ee37547af3df4c40ef6a7f8e"
+      }
+    },
+    {
+      "arm": "B",
+      "budget": 128,
+      "captured_bytes": 65536,
+      "event_age_seconds": 0.3545,
+      "job_id": "3039988",
+      "latest_committed_update_seen": 3143,
+      "latest_event": {
+        "attempt_elapsed_seconds": 21767.921794593334,
+        "attempt_id": "20261019T193748_7c0ca871ce07",
+        "event": "sample_start",
+        "job_id": "3039988",
+        "micro_batch_index": 3,
+        "update": 3144,
+        "utc": "2026-10-20T01:40:36.598819+00:00",
+        "window_id": "sha256:170cf6927864dea0d95487c6d93a11c758a01d5db61414f1dda29085637967a5"
+      },
+      "offset": 16773436,
+      "partial_tail_only_not_terminal_review": true,
+      "seed": 41,
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k128/seed41/training/B/attempts/20261019T193748_7c0ca871ce07/cost_events.jsonl",
+      "source_bytes_at_read": 16838972,
+      "suite": "libero_goal",
+      "tail": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/live_nonweight_tails/3039988.txt",
+        "sha256": "f54c2e811809afc06c9815f06829a93f0b7bdc129a4264dd5a3b79703c505e73"
+      }
+    },
+    {
+      "arm": "B",
+      "budget": 256,
+      "captured_bytes": 65536,
+      "event_age_seconds": -0.025056,
+      "job_id": "3042627",
+      "latest_committed_update_seen": 2233,
+      "latest_event": {
+        "attempt_elapsed_seconds": 9390.857691993937,
+        "attempt_id": "20261019T230406_2ee272376f05",
+        "event": "sample_start",
+        "job_id": "3042627",
+        "micro_batch_index": 4,
+        "update": 2234,
+        "utc": "2026-10-20T01:40:36.978375+00:00",
+        "window_id": "sha256:d959c9c09840edcac66b5fee7c1f0b509fd43348f9418c1b3d392374e75d64e5"
+      },
+      "offset": 10975922,
+      "partial_tail_only_not_terminal_review": true,
+      "seed": 23,
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k256/seed23/training/B/attempts/20261019T230406_2ee272376f05/cost_events.jsonl",
+      "source_bytes_at_read": 11041458,
+      "suite": "libero_object",
+      "tail": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/live_nonweight_tails/3042627.txt",
+        "sha256": "c55e2de7338652dd7c4031b9f929d5721da6cf93847b3763ad4da1b3cf65954a"
+      }
+    },
+    {
+      "arm": "A",
+      "budget": 64,
+      "captured_bytes": 65536,
+      "event_age_seconds": 0.289007,
+      "job_id": "3043762",
+      "latest_committed_update_seen": 1646,
+      "latest_event": {
+        "attempt_elapsed_seconds": 13293.16585307289,
+        "attempt_id": "20261019T215903_a4d9d3b13b80",
+        "event": "sample_start",
+        "job_id": "3043762",
+        "micro_batch_index": 3,
+        "update": 1647,
+        "utc": "2026-10-20T01:40:36.664312+00:00",
+        "window_id": "sha256:dec6dfee085218a3dd49b101755a122856ddd24425a7dee447c7e3e2ec072605"
+      },
+      "offset": 10354110,
+      "partial_tail_only_not_terminal_review": true,
+      "seed": 17,
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k64/seed17/training/A/attempts/20261019T215903_a4d9d3b13b80/cost_events.jsonl",
+      "source_bytes_at_read": 10419646,
+      "suite": "libero_goal",
+      "tail": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/live_nonweight_tails/3043762.txt",
+        "sha256": "adabce31444e4c0bd66355f5a20572ffb279c0e2ee18ca3af7a5dd1bb77d93f0"
+      }
+    },
+    {
+      "arm": "A",
+      "budget": 64,
+      "captured_bytes": 65536,
+      "event_age_seconds": 1.92459,
+      "job_id": "3043813",
+      "latest_committed_update_seen": 1255,
+      "latest_event": {
+        "attempt_elapsed_seconds": 11361.282455759123,
+        "attempt_id": "20261019T223113_3c684c6e881b",
+        "event": "sample_start",
+        "job_id": "3043813",
+        "micro_batch_index": 5,
+        "update": 1256,
+        "utc": "2026-10-20T01:40:35.028729+00:00",
+        "window_id": "sha256:7a8bbf33c894fb27eeb7c9511c06310d12dba0c26df400128da2e8e66e73c513"
+      },
+      "offset": 7878828,
+      "partial_tail_only_not_terminal_review": true,
+      "seed": 23,
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k64/seed23/training/A/attempts/20261019T223113_3c684c6e881b/cost_events.jsonl",
+      "source_bytes_at_read": 7944364,
+      "suite": "libero_goal",
+      "tail": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/live_nonweight_tails/3043813.txt",
+        "sha256": "9a8096467590da0eff42a35f62128522a03e835bea43ece6782f191b64d09a43"
+      }
+    },
+    {
+      "arm": "A",
+      "budget": 64,
+      "captured_bytes": 65536,
+      "event_age_seconds": 1.427814,
+      "job_id": "3043877",
+      "latest_committed_update_seen": 1017,
+      "latest_event": {
+        "attempt_elapsed_seconds": 8992.974319055676,
+        "attempt_id": "20261019T231042_1a4b297e14da",
+        "event": "sample_start",
+        "job_id": "3043877",
+        "micro_batch_index": 5,
+        "update": 1018,
+        "utc": "2026-10-20T01:40:35.525505+00:00",
+        "window_id": "sha256:066a26251d5184a3992bc2dc553e9573a881c53a0ab3f4675e4c27451bbb0aa7"
+      },
+      "offset": 6372046,
+      "partial_tail_only_not_terminal_review": true,
+      "seed": 41,
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/k64/seed41/training/A/attempts/20261019T231042_1a4b297e14da/cost_events.jsonl",
+      "source_bytes_at_read": 6437582,
+      "suite": "libero_goal",
+      "tail": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/live_nonweight_tails/3043877.txt",
+        "sha256": "2d0d886ff1c0984a171c3cb592fa9fcef1dcae0e1c7f30e5c565f51821b06f3a"
+      }
+    },
+    {
+      "arm": "B",
+      "budget": 64,
+      "captured_bytes": 16969,
+      "event_age_seconds": -7.688815,
+      "job_id": "3044017",
+      "latest_committed_update_seen": null,
+      "latest_event": {
+        "attempt_elapsed_seconds": 0.16015936993062496,
+        "attempt_id": "20261020T014044_8aceb8de313d",
+        "event": "validation_start",
+        "job_id": "3044017",
+        "update": 0,
+        "utc": "2026-10-20T01:40:44.642134+00:00",
+        "windows": 204
+      },
+      "offset": 0,
+      "partial_tail_only_not_terminal_review": true,
+      "seed": 23,
+      "source": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/k64/seed23/training/B/attempts/20261020T014044_8aceb8de313d/cost_events.jsonl",
+      "source_bytes_at_read": 16969,
+      "suite": "libero_object",
+      "tail": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T0937/live_nonweight_tails/3044017.txt",
+        "sha256": "5ffb64f55073f9ed169f7b28f37b46dc90d3004733c299d08275a395fd33b3d5"
+      }
+    }
+  ],
+  "machine_complete": 54,
+  "new_GPU_submissions": [],
+  "new_completed_training_groups": 0,
+  "new_development_trials": 0,
+  "reserved_GPU_slots": 0,
+  "root_independent_complete": 54,
+  "root_independent_updates": 277000,
+  "schema": "formal_main_v2",
+  "scientific_files_unchanged": 173,
+  "total_arms": 72,
+  "user_notification_required": false,
+  "utc": "2026-10-20T01:40:36.953319+00:00"
+}
