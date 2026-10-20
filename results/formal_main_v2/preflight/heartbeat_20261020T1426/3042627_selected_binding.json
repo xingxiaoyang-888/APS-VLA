@@ -1,0 +1,40 @@
+{
+  "actual_server_bytes": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T1426/3042627_selected_server.json",
+    "sha256": "6414e159c56fa60376e61fbe9ee5e0d035bbdd7f287d556948ce36214573a468"
+  },
+  "independent_review": {
+    "path": "results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3042627_independent.json",
+    "sha256": "e87a594516432526e718b80bd284146c164eac1c42f864c5bc349a3c42a83c98"
+  },
+  "root_review": {
+    "path": "results/formal_main_v2/libero_object/k256/seed23/training/segment_reviews/3042627.json",
+    "sha256": "ef4fa5c45dd73db1fef8f68a18d563959b408337cd3a1992613d673e15540e0a"
+  },
+  "selected_checkpoints": [
+    {
+      "arm": "A",
+      "expected_sha256": "e69a9e9aad54256b9bdcab89471b24b64e1da244e5a1df5c9351c9edfd89eca4",
+      "metadata_source": {
+        "path": "results/formal_main_v2/libero_object/k256/seed23/training/A/deployment_receipt.json",
+        "sha256": "f6016a8465dcea6e987b416c68c83aa08a14980fa6962074cfed6992f4f3c1ec"
+      },
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed23/A/best.pt",
+      "selected_update": 5000,
+      "validation_metric": 0.008624542721118483
+    },
+    {
+      "arm": "B",
+      "expected_sha256": "034a5b4ad4b92ed775c4da929fff08689a851f8cdc182d79b5cebabd64c01987",
+      "metadata_source": {
+        "path": "results/formal_main_v2/libero_object/k256/seed23/training/B/deployment_receipt.json",
+        "sha256": "e26a8b4b1db8e554d509fc323024ec03ca18641f9cc9a5596cbd6b9a10e911b6"
+      },
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_object/k256/seed23/B/best.pt",
+      "selected_update": 5000,
+      "validation_metric": 0.00880728676390376
+    }
+  ],
+  "status": "root_and_independent_selected_identity_verified",
+  "weights_copied": false
+}

@@ -1,0 +1,64 @@
+{
+  "combined_budget_effect_estimate": false,
+  "current_jobs": [
+    "3046779",
+    "3046798"
+  ],
+  "current_trials": 400,
+  "final_release": false,
+  "not_independent_across_budget_or_seed": true,
+  "old1212_action_trials_merged": false,
+  "prior_matched_runtime_jobs": [
+    {
+      "B_minus_A_success_rate": -0.03,
+      "budget": 128,
+      "prior_acceptance_inherited_not_repeated": true,
+      "root_review": {
+        "bytes": 603741,
+        "path": "results/formal_main_v2/downstream_reviews/3043709.json",
+        "sha256": "3868af9c4d8c5a1c2a896047f3b9d170b7fa2f1eaeb10fcc51689686a8589325"
+      },
+      "seed": 23,
+      "shared_development_panel": {
+        "bytes": 188619,
+        "path": "configs/manifests/formal_main_v2/libero_10/initial_states/development.json",
+        "sha256": "46a06087483151e36198167e7d4e5313c50b63172e09128d65a3650112f0a268"
+      },
+      "successes_retained": {
+        "A128_seed23": 95,
+        "B128_seed23": 92
+      }
+    },
+    {
+      "B_minus_A_success_rate": -0.03,
+      "budget": 128,
+      "prior_acceptance_inherited_not_repeated": true,
+      "root_review": {
+        "bytes": 650358,
+        "path": "results/formal_main_v2/downstream_reviews/3045322.json",
+        "sha256": "d27e9bbf12e435ba3fd1341757b451e666b77528cd5fede6cb07ab19eb790699"
+      },
+      "seed": 41,
+      "shared_development_panel": {
+        "bytes": 188619,
+        "path": "configs/manifests/formal_main_v2/libero_10/initial_states/development.json",
+        "sha256": "46a06087483151e36198167e7d4e5313c50b63172e09128d65a3650112f0a268"
+      },
+      "successes_retained": {
+        "A128_seed41": 95,
+        "B128_seed41": 92
+      }
+    }
+  ],
+  "prior_trials": 400,
+  "same_action_semantics_sha256": "4ef98a5beb21bfa790a8a0f484334d6d9020a481a517d8f89534562524025d7d",
+  "same_environment": {
+    "action_chunk": 8,
+    "environment_seed": 0,
+    "max_steps": 520,
+    "runtime_seed": 17,
+    "wait_steps": 10
+  },
+  "status": "passed",
+  "unique_initial_states_across_all_four_jobs": 100
+}

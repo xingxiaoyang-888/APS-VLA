@@ -1,0 +1,25 @@
+{
+  "first_active_previous_sha256": "07c0383a41d4e76df688c5f357d1964a948b0fde86ac515956bf7822b848fbfe",
+  "first_active_sequence": 4214,
+  "index": {
+    "bytes": 307,
+    "path": "results/formal_main_v2/autonomous_training/run_v1/events/index.json",
+    "sha256": "ffa55f0f9d93f8c3681e9bde6569369403d0bbb1a6b53f6d427186aced856efe"
+  },
+  "original_failure": {
+    "bytes": 1009,
+    "path": "results/formal_main_v2/control_transport/heartbeat_0626_delivery.jsonl",
+    "sha256": "232241d3c4778332f7734f5df4d280165a41535304219aefe3768a24d9c43711"
+  },
+  "reason": "Controller event log rotated normally; prior delivery allowlist only included events.000000.jsonl. Preserve index and new segment after checking sealed SHA and exact sequence/hash continuity.",
+  "scientific_files_changed": 0,
+  "sealed": {
+    "bytes": 67108485,
+    "first_sequence": 1,
+    "last_event_sha256": "07c0383a41d4e76df688c5f357d1964a948b0fde86ac515956bf7822b848fbfe",
+    "last_sequence": 4213,
+    "path": "events.000000.jsonl",
+    "sha256": "f5416cad7c4a0ff567ccae8468cc69e3a89e8dad74d6a219c409c8b8286c1854"
+  },
+  "status": "bounded_delivery_allowlist_extension"
+}

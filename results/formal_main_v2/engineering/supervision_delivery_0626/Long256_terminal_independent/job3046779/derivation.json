@@ -1,0 +1,22 @@
+{
+  "exact_replacements": {
+    "'per_camera_budgets':[64,64]": "'per_camera_budgets':[128,128]",
+    "'training_seed':41": "'training_seed':17",
+    "'visual_tokens':128": "'visual_tokens':256",
+    ")])/128 for sid": ")])/256 for sid",
+    "2a7e9f4fbaf9947eec17807ca21c351a2e0c12fb512e5bd3f9619502e1db0afc": "94f108d569f8b35e5f14abe9c84dc03da38b5f0d1ad311f0fb293fcbf0e4dd4f",
+    "3045322": "3046779",
+    "3466": "2937",
+    "428eafaeb10a5ce3": "5185766bb353c8e6",
+    "A128_": "A256_",
+    "B128_": "B256_",
+    "['training_seed']==41": "['training_seed']==17",
+    "['visual_tokens']==128": "['visual_tokens']==256",
+    "k128_": "k256_",
+    "len(kept)==128": "len(kept)==256",
+    "seed41": "seed17",
+    "sum(x<256 for x in kept)==64": "sum(x<256 for x in kept)==128"
+  },
+  "source": ".local/independent_long3045322_0530/direct_raw_audit.py",
+  "source_sha256": "19d035e7fd6428036f9784e6dabd9b3bf35178ddec4c4d39af95f411c23c7ec0"
+}
