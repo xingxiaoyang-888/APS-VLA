@@ -1,0 +1,495 @@
+{
+  "GPU_cost_already_in_Slurm_total": true,
+  "O2A_measured": false,
+  "all_job_GPU_seconds": 4551,
+  "bootstrap_three_seed_claimed": false,
+  "final_results": false,
+  "inference": "One seed each, Spatial B-A -1pp and Object +1pp. Does not establish stable gain, equivalence, final success or latency tradeoff.",
+  "jobs": [
+    {
+      "B_minus_A_percentage_points": -1,
+      "GPU_cost_scope": "Existing allocation counted once in global Slurm total; not added a second time on acceptance.",
+      "GPU_seconds": 2365,
+      "O2A_complete": false,
+      "action_semantics_sha256": "cbcee0a9ba3d6d81345cedf4c01bbca4f5be232f522e52903d9a887b7008db23",
+      "completed_trials": 200,
+      "independent_review": {
+        "path": "results/formal_main_v2/downstream_reviews/nonLong_seed23_1220_independent.json",
+        "sha256": "67c2e32b61a1aa2ec02202d03ff2e28112e971f3968c2f8a88e3ad5100e1f120"
+      },
+      "independent_review_scope": "Exact original joint independent report, jobs member selected by job_id; no new independent review invented.",
+      "initial_observation_token_Jaccard_mean": 0.7946663552755087,
+      "initial_observation_token_overlap_mean": 0.885234375,
+      "job_id": "3048572",
+      "no_legacy_semantics_equivalence_claimed": true,
+      "offline_validation_diagnostics": {
+        "A": {
+          "checkpoint_sha256": "a3df18270143226b6c234162bf791b1bb301e15f5dbb447dabe5cab7518002cb",
+          "deployment_receipt_canonical_JSON_sha256": "0f51a2a376f929b6bc02d4ba45ae89c97bed4f14368b3076f9c46e7cd30e5b64",
+          "deployment_receipt_raw_sha256": "215457038bbbbc1cbb5460f3a98684fe40ae595d10af905560c9716e7064d4b7",
+          "hard_validation_demonstration_L1_task_equal": 0.02283512673488567,
+          "hard_validation_teacher_L1_task_equal": 0.02208963549629386,
+          "scope": "Selected-checkpoint offline hard-pruning validation diagnostic; not closed-loop action error.",
+          "selected_update": 3500,
+          "validation_ref": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/A/attempts/20261017T212135_f56b43950865/validation_03500.json",
+            "sha256": "9d978b4fb21a789fd69f5b2888ce03502b6223a6aa8ab324d83d557359acc803"
+          },
+          "validation_tasks": 10,
+          "validation_windows": 189
+        },
+        "B": {
+          "checkpoint_sha256": "93c14fdb040d10ca2ca1b94d08dfccbd41f4d7ee6756baa8d76559b2aed205f4",
+          "deployment_receipt_canonical_JSON_sha256": "efc5cb4c2dc1e6f4c75002e81958c8fe1da1c7cda7ab1902ba9706ed6aacc5ee",
+          "deployment_receipt_raw_sha256": "a09844117e0bb9c86937cd9afde7e237cca58586538b9ec3a1caab3e8cd8cf70",
+          "hard_validation_demonstration_L1_task_equal": 0.02359371632914103,
+          "hard_validation_teacher_L1_task_equal": 0.02283509833235589,
+          "scope": "Selected-checkpoint offline hard-pruning validation diagnostic; not closed-loop action error.",
+          "selected_update": 3000,
+          "validation_ref": {
+            "path": "results/formal_main_v2/libero_spatial/k128/seed23/training/B/attempts/20261017T182427_231ebc8d3042/validation_03000.json",
+            "sha256": "d9a73854f5fd4ca2aa7564b2b4d6cbfe8ad39aa589e2dd950cbc24edb4de679c"
+          },
+          "validation_tasks": 10,
+          "validation_windows": 189
+        }
+      },
+      "paired_outcomes": {
+        "A_only": 1,
+        "B_only": 0,
+        "both_failure": 3,
+        "both_success": 96
+      },
+      "per_task": [
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7923156548502517,
+          "t0_intersection_over_128_mean": 0.88359375,
+          "task_id": 0,
+          "task_name": "pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7995914387103779,
+          "t0_intersection_over_128_mean": 0.88828125,
+          "task_id": 1,
+          "task_name": "pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7646402017731586,
+          "t0_intersection_over_128_mean": 0.86640625,
+          "task_id": 2,
+          "task_name": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7767754075813057,
+          "t0_intersection_over_128_mean": 0.87421875,
+          "task_id": 3,
+          "task_name": "pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.8021650001182996,
+          "t0_intersection_over_128_mean": 0.88984375,
+          "task_id": 4,
+          "task_name": "pick_up_the_black_bowl_in_the_top_drawer_of_the_wooden_cabinet_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 8,
+          "B_minus_A_pp": -10,
+          "B_success": 7,
+          "discordance": {
+            "A_only": 1,
+            "B_only": 0,
+            "both_failure": 2,
+            "both_success": 7
+          },
+          "t0_Jaccard_mean": 0.815877654163371,
+          "t0_intersection_over_128_mean": 0.8984375,
+          "task_id": 5,
+          "task_name": "pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.803439449421823,
+          "t0_intersection_over_128_mean": 0.890625,
+          "task_id": 6,
+          "task_name": "pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 9,
+          "B_minus_A_pp": 0,
+          "B_success": 9,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 1,
+            "both_success": 9
+          },
+          "t0_Jaccard_mean": 0.7978981371894684,
+          "t0_intersection_over_128_mean": 0.8875,
+          "task_id": 7,
+          "task_name": "pick_up_the_black_bowl_on_the_stove_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7994828404480208,
+          "t0_intersection_over_128_mean": 0.88828125,
+          "task_id": 8,
+          "task_name": "pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7944777684990075,
+          "t0_intersection_over_128_mean": 0.88515625,
+          "task_id": 9,
+          "task_name": "pick_up_the_black_bowl_on_the_wooden_cabinet_and_place_it_on_the_plate",
+          "unique_initial_states": 10
+        }
+      ],
+      "raw_ledger": {
+        "bytes": 12498299,
+        "path": "results/formal_main_v2/libero_spatial/downstream/development/ea4e52de3babd049/attempt01/trials.jsonl",
+        "sha256": "c83c4e908902ce6443b15973bb9f463064cd377bb8c31854c1522b944a9499fb"
+      },
+      "root_review": {
+        "path": "results/formal_main_v2/downstream_reviews/3048572.json",
+        "sha256": "2de761a00124078123e759d83aca0a4025215ccff566cb651a32c7243a3bfffc"
+      },
+      "seed": 23,
+      "successes": {
+        "A128_seed23": 97,
+        "B128_seed23": 96
+      },
+      "suite": "libero_spatial",
+      "token_overlap_scope": "Only100 equal-hash paired initial observations; later divergent observations not paired.",
+      "unique_initial_states": 100,
+      "visual_tokens": 128,
+      "whole_suite_development_complete": false
+    },
+    {
+      "B_minus_A_percentage_points": 1,
+      "GPU_cost_scope": "Existing allocation counted once in global Slurm total; not added a second time on acceptance.",
+      "GPU_seconds": 2186,
+      "O2A_complete": false,
+      "action_semantics_sha256": "9a5f5935100bb04bf8fb91f6405b94efc93de236b3a75896d0f08cdb2aa1ee02",
+      "completed_trials": 200,
+      "independent_review": {
+        "path": "results/formal_main_v2/downstream_reviews/nonLong_seed23_1220_independent.json",
+        "sha256": "67c2e32b61a1aa2ec02202d03ff2e28112e971f3968c2f8a88e3ad5100e1f120"
+      },
+      "independent_review_scope": "Exact original joint independent report, jobs member selected by job_id; no new independent review invented.",
+      "initial_observation_token_Jaccard_mean": 0.7377851327191807,
+      "initial_observation_token_overlap_mean": 0.848515625,
+      "job_id": "3048581",
+      "no_legacy_semantics_equivalence_claimed": true,
+      "offline_validation_diagnostics": {
+        "A": {
+          "checkpoint_sha256": "91ae1d2ae9589ad3e99fa693958af1cb14f2ec03615bfee028328433370ffa09",
+          "deployment_receipt_canonical_JSON_sha256": "6bf99a63c431296b590eba8a1440b95d3ff7dd375615d231d9fce324de1545ac",
+          "deployment_receipt_raw_sha256": "1c8d11be99b8ac102a994ff6813f2a9ea1ed1ca778eb2eb5f6c98cef5e98b02d",
+          "hard_validation_demonstration_L1_task_equal": 0.025510526815104108,
+          "hard_validation_teacher_L1_task_equal": 0.024086046425832643,
+          "scope": "Selected-checkpoint offline hard-pruning validation diagnostic; not closed-loop action error.",
+          "selected_update": 4500,
+          "validation_ref": {
+            "path": "results/formal_main_v2/libero_object/k128/seed23/training/A/attempts/20261018T180205_4e9f119abdc2/validation_04500.json",
+            "sha256": "e8d065125112c209c54914b4164fe510ba190be1c4d59f362883b81cc090a3af"
+          },
+          "validation_tasks": 10,
+          "validation_windows": 204
+        },
+        "B": {
+          "checkpoint_sha256": "f2552cde8823f789a944d6bded36795afb361909bf7079011d81907e3fe848df",
+          "deployment_receipt_canonical_JSON_sha256": "6ecf148fdc79da0b55babf350b980892b841d9ee9c338662f9792e57f05524f8",
+          "deployment_receipt_raw_sha256": "5099cf639576e1076d618d45e769b94fd8d58fb9ddef70118cae50ff272c2d22",
+          "hard_validation_demonstration_L1_task_equal": 0.02600229331883528,
+          "hard_validation_teacher_L1_task_equal": 0.024592101931690223,
+          "scope": "Selected-checkpoint offline hard-pruning validation diagnostic; not closed-loop action error.",
+          "selected_update": 4000,
+          "validation_ref": {
+            "path": "results/formal_main_v2/libero_object/k128/seed23/training/B/attempts/20261018T232426_d6b7e8d8a1dc/validation_04000.json",
+            "sha256": "3607a6e7fb7e68bb565d8dddb9228363b3519757e3cddd16b7fca30b9f039e92"
+          },
+          "validation_tasks": 10,
+          "validation_windows": 204
+        }
+      },
+      "paired_outcomes": {
+        "A_only": 0,
+        "B_only": 1,
+        "both_failure": 1,
+        "both_success": 98
+      },
+      "per_task": [
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7790899317077074,
+          "t0_intersection_over_128_mean": 0.87578125,
+          "task_id": 0,
+          "task_name": "pick_up_the_alphabet_soup_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7212653343772759,
+          "t0_intersection_over_128_mean": 0.8375,
+          "task_id": 1,
+          "task_name": "pick_up_the_cream_cheese_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 9,
+          "B_minus_A_pp": 0,
+          "B_success": 9,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 1,
+            "both_success": 9
+          },
+          "t0_Jaccard_mean": 0.751811757104976,
+          "t0_intersection_over_128_mean": 0.8578125,
+          "task_id": 2,
+          "task_name": "pick_up_the_salad_dressing_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7706587426275417,
+          "t0_intersection_over_128_mean": 0.8703125,
+          "task_id": 3,
+          "task_name": "pick_up_the_bbq_sauce_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7337731859209211,
+          "t0_intersection_over_128_mean": 0.84609375,
+          "task_id": 4,
+          "task_name": "pick_up_the_ketchup_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7162007245542228,
+          "t0_intersection_over_128_mean": 0.834375,
+          "task_id": 5,
+          "task_name": "pick_up_the_tomato_sauce_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.703670887457179,
+          "t0_intersection_over_128_mean": 0.82578125,
+          "task_id": 6,
+          "task_name": "pick_up_the_butter_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 9,
+          "B_minus_A_pp": 10,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 1,
+            "both_failure": 0,
+            "both_success": 9
+          },
+          "t0_Jaccard_mean": 0.7302273884208066,
+          "t0_intersection_over_128_mean": 0.84375,
+          "task_id": 7,
+          "task_name": "pick_up_the_milk_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.6967310077253022,
+          "t0_intersection_over_128_mean": 0.82109375,
+          "task_id": 8,
+          "task_name": "pick_up_the_chocolate_pudding_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "t0_Jaccard_mean": 0.7744223672958813,
+          "t0_intersection_over_128_mean": 0.87265625,
+          "task_id": 9,
+          "task_name": "pick_up_the_orange_juice_and_place_it_in_the_basket",
+          "unique_initial_states": 10
+        }
+      ],
+      "raw_ledger": {
+        "bytes": 16154452,
+        "path": "results/formal_main_v2/libero_object/downstream/development/ea4e52de3babd049/attempt01/trials.jsonl",
+        "sha256": "f4dbdfa3c2461bd70b44dfa14edb98091f9017a048904cba84c5299171abac94"
+      },
+      "root_review": {
+        "path": "results/formal_main_v2/downstream_reviews/3048581.json",
+        "sha256": "f6ad23ece984823aaf4272e5acde5e1071d413282ddd6df561876b293c43957f"
+      },
+      "seed": 23,
+      "successes": {
+        "A128_seed23": 98,
+        "B128_seed23": 99
+      },
+      "suite": "libero_object",
+      "token_overlap_scope": "Only100 equal-hash paired initial observations; later divergent observations not paired.",
+      "unique_initial_states": 100,
+      "visual_tokens": 128,
+      "whole_suite_development_complete": false
+    }
+  ],
+  "kind": "accepted_single_seed_nonLong_development_diagnostics",
+  "observation_scope": "Initial paired observations only for token overlap; validation hard-pruning L1 only for action error.",
+  "per_task_and_full_paired_trials": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_1220/nonLong_terminal_independent/paired_development_states.json",
+    "sha256": "8b767f80a3154778c8b0d3e31119f095eabaaf542b80e0b091564150e3a44346"
+  },
+  "schema": "formal_main_v2",
+  "source_independent": {
+    "path": "results/formal_main_v2/downstream_reviews/nonLong_seed23_1220_independent.json",
+    "sha256": "67c2e32b61a1aa2ec02202d03ff2e28112e971f3968c2f8a88e3ad5100e1f120"
+  },
+  "total_trials": 400,
+  "unique_initial_states": 200
+}

@@ -1,0 +1,17 @@
+--- audit_plans_v1.py
++++ audit_plans_v2.py
+@@ -95,7 +95,7 @@
+   made.update(development_panel=panelpath,development_panel_sha256=digest(R/panelpath))
+   check(sub+'_original_manifest_reconstruction',made==published)
+   check(sub+'_training_vs_runtime_seed',all(x['identity']['training_seed']==seed for x in methodrows) and spec['environment']['runtime_seed']==17 and spec['environment']['env_seed']==0 and '--seed' not in inv['argv'] and '--runtime-seed' not in inv['argv'])
+-  check(sub+'_exact_environment',published['environment']=={**h.ENVIRONMENT,'max_steps':spec['environment']['max_control_steps']} and spec['environment']['action_chunk']==8 and spec['environment']['wait_steps']==10)
++  check(sub+'_exact_environment',published['environment']==dict(environment_seed=0,runtime_seed=17,wait_steps=10,action_chunk=8,max_steps=spec['environment']['max_control_steps']) and spec['environment']['action_chunk']==8 and spec['environment']['wait_steps']==10)
+   check(sub+'_common100devstates',panel['suite']==suite and panel['split']=='development' and len(panel['states'])==100 and Counter(x['task_id'] for x in panel['states'])==Counter({i:10 for i in range(10)}) and len({x['trial_id'] for x in panel['states']})==100)
+   check(sub+'_fresh_scope',args['stage']=='development' and not args['resume'] and not args['prior_review'] and not args['freeze_directory'] and not inv['prior_job_ids'] and inv['method_ids']==methods and len(methods)==len(set(methods)) and not inv['prior_allocation_cost'])
+   check(sub+'_no_old_method_overlap',all(not(set(j.get('method_ids',[]))&set(methods)) for j in planner.formal_jobs(snapshot) if j.get('suite')==suite and j.get('mode')=='development'))
+@@ -145,4 +145,4 @@
+ if __name__=='__main__':
+  try:main()
+  except BaseException as e:
+-  dump('failure_plans_a1.json',{'error_type':type(e).__name__,'error':str(e),'traceback':traceback.format_exc(),'checks':CHECKS,'new_GPU_seconds':0,'production_modified':False});raise
++  dump('failure_plans_a2.json',{'error_type':type(e).__name__,'error':str(e),'traceback':traceback.format_exc(),'checks':CHECKS,'new_GPU_seconds':0,'production_modified':False});raise

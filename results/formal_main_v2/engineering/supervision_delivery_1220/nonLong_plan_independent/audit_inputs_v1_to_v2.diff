@@ -1,0 +1,21 @@
+--- audit_inputs_v1.py
++++ audit_inputs_v2.py
+@@ -22,7 +22,17 @@
+  check(pair['suite']==suite and pair['seed']==seed and pair['visual_tokens']==128 and pair['trained_arms']==2 and pair['allowed_next_segment_end'] is None,key+'_completed_registered')
+  evidence={}
+  for role in ('root_review','independent_review','selected_server_review'):
+-  rr=read(pair[role],pair[role+'_sha256']);evidence[role]=ref(pair[role]);check(str(rr['status']).startswith(('passed','root_and_independent')),key+'_'+role)
++  rr=read(pair[role],pair[role+'_sha256']);evidence[role]=ref(pair[role])
++  if role=='selected_server_review':
++   if suite=='libero_spatial':
++    check(rr['status']=='passed' and rr['kind']=='root_selected_pair_server_SHA_review',key+'_selected_probe_schema')
++    probes=rr['server_selected_checks']
++   else:
++    expected_status={'libero_object':'actual_server_hashes_and_raw_validation_selection_agree','libero_goal':'root_and_independent_selected_identity_verified'}[suite]
++    check(rr['status']==expected_status and rr['selected_checkpoints']==pair['selected_checkpoints'] and rr['root_review']==dict(path=pair['root_review'],sha256=pair['root_review_sha256']) and rr['independent_review']==dict(path=pair['independent_review'],sha256=pair['independent_review_sha256']),key+'_selected_binding_schema')
++    probe_ref=rr['actual_server_probe' if suite=='libero_object' else 'actual_server_bytes'];probe=read(probe_ref['path'],probe_ref['sha256']);evidence['actual_selected_bytes']=ref(probe_ref['path']);probes=probe['checks']
++   check(len(probes)==2 and {p['arm'] for p in probes}=={'A','B'} and all(any(p['arm']==sel['arm'] and p['path']==sel['path'] and p['sha256']==sel['expected_sha256'] and p['bytes']>0 for p in probes) for sel in pair['selected_checkpoints']),key+'_selected_server_actual_hashes')
++  else:check(str(rr['status']).startswith('passed'),key+'_'+role)
+   if role=='root_review':check(rr['completed_by_arm']=={'A':5000,'B':5000},key+'_root5000')
+  methods=[f'A128_seed{seed}',f'B128_seed{seed}'];development_jobs=[j for j in s['registered_jobs'] if j.get('suite')==suite and j.get('mode')=='development']
+  check(all(not(set(j.get('method_ids',[]))&set(methods)) for j in development_jobs),key+'_no_registered_active_or_finished_duplicate')

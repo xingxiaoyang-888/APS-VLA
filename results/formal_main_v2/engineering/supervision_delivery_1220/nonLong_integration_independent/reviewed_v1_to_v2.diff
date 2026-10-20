@@ -1,0 +1,28 @@
+--- .local/integrate_1220.py
++++ .local/integrate_1220_v2.py
+@@ -24,6 +24,7 @@
+  assert f['completed_development_trials']==2812 and f['current_action_development_trial_count']==1600
+  assert f['completed_final_trials']==0 and not f['test_opened'] and not f['global_release_created']
+  joint=rd(IND,IND_SHA);assert joint['status']=='passed' and joint['totals']['trials']==400 and joint['totals']['allocated_gpu_seconds']==4551
++ assert h(R/E/'nonLong_terminal_independent/paired_development_states.json')==joint['paired_states']['sha256']=='8b767f80a3154778c8b0d3e31119f095eabaaf542b80e0b091564150e3a44346'
+  assert joint['source173_R_and_S_unchanged'] and not joint['checkpoint_bytes_read'] and joint['new_GPU_jobs']==0 and not joint['sealed_final_values_read']
+  indref=put('results/formal_main_v2/downstream_reviews/nonLong_seed23_1220_independent.json',(R/IND).read_bytes())
+  sub=rd(SUB_REVIEW['path'],SUB_REVIEW['sha256']);assert sub['status']=='passed'
+@@ -68,7 +69,7 @@
+  assert f['historical_other_action_semantics_development_trials']==1212 and f['Long22_development_statistics']['explicit_legacy_equivalent_trials']==600
+  stats=save(B+'/nonLong_seed23_development_diagnostics.json',dict(schema='formal_main_v2',kind='accepted_single_seed_nonLong_development_diagnostics',jobs=newly,
+   total_trials=400,unique_initial_states=200,all_job_GPU_seconds=4551,GPU_cost_already_in_Slurm_total=True,
+-  per_task_and_full_paired_trials=joint['paired_states'],source_independent=indref,
++  per_task_and_full_paired_trials=ref(E+'/nonLong_terminal_independent/paired_development_states.json'),source_independent=indref,
+   observation_scope='Initial paired observations only for token overlap; validation hard-pruning L1 only for action error.',
+   inference='One seed each, Spatial B-A -1pp and Object +1pp. Does not establish stable gain, equivalence, final success or latency tradeoff.',
+   bootstrap_three_seed_claimed=False,O2A_measured=False,final_results=False))
+@@ -127,7 +128,7 @@
+  s['next_allowed_action']=s['next_actions'][0]
+  assert ctl==old['autonomous_training_v1'] and s['registered_jobs']==old['registered_jobs']
+  assert f['completed_training_pairs']==old['formal_main_progress']['completed_training_pairs'] and f['automatic_machine_verified_pairs']==old['formal_main_progress']['automatic_machine_verified_pairs']
+- put(B+'/root_operations/integrate_1220.py',Path(__file__).read_bytes())
++ put(B+'/root_operations/integrate_1220_v2.py',Path(__file__).read_bytes())
+  c.atomic_json(sp,s,before)
+  brief=f"{stamp}：训练仍为64/72组双审完成；新增400条开发验收，Spatial128 seed23 A97%/B96%，Object128 seed23 A98%/B99%，均为100个唯一配对开发初态的单seed结果。另3批600条已按原配置一次提交（3049132/3049172/3049191）；当前{len(cap['occupied'])}GPU占槽，累计{seconds/3600:.3f}GPU小时（非最终）。最终0/35200继续封存。见[本轮汇总](../{B}/summary_after_dispatch.json)及[非Long开发结果](正式非Long开发结果.md)。"
+  for name in ['实验进度','完整实验计划','正式主实验阶段结论','正式主实验规划','正式自动连续训练执行登记']:

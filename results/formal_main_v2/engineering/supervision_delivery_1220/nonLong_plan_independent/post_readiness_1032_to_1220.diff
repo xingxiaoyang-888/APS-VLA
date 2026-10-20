@@ -1,0 +1,39 @@
+--- original1032/audit_post_readiness_v2.py
++++ audit_post_readiness_v1.py
+@@ -2,16 +2,16 @@
+ import importlib.util,hashlib,json,sys,time
+ from pathlib import Path
+ R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+-SRC=R/'.local/nonLong_development_plans_audit_1032/audit_plans_v2.py'
+-assert hashlib.sha256(SRC.read_bytes()).hexdigest()=='2a7b8d7eb5e4e774dcdc0db65762be91e6e6d1731c719e666ed1e8cc200758f6'
++SRC=R/'.local/nonLong_development_plans_independent_1220/audit_plans_v2.py'
++assert hashlib.sha256(SRC.read_bytes()).hexdigest()=='b98cb117ab945159f00dc3af02048b28aa14816f2942454673e1408af4cb3277'
+ sp=importlib.util.spec_from_file_location('post_audit_shared',SRC);u=importlib.util.module_from_spec(sp);sys.modules[sp.name]=u;sp.loader.exec_module(u)
+ def main():
+- start=time.perf_counter();cpu=time.process_time();root_path,root_sha=sys.argv[1:3]
+- u.need(root_path.startswith('results/formal_main_v2/preflight/heartbeat_20261020T1832/'),'Wrong root index scope')
++ start=time.perf_counter();cpu=time.process_time();root_path,root_sha,prior_sha,author_sha=sys.argv[1:5]
++ u.need(root_path.startswith('results/formal_main_v2/preflight/heartbeat_20261020T2020/'),'Wrong root index scope')
+  index=u.js(root_path,root_sha)
+  u.need(str(index['status']).startswith('passed') and index['actual_full_P_wrapper_verifications']==3 and index['actual_GPU_runtime_chain_verified'] is False,'Root actual P verification required')
+- prior=u.js(u.D/'independent_index.json','7224a1e04b75d8b6dd7435afdbca89b7b0be66268302fe3c8ca6cf7ad0d15cc7')
+- author=u.js(u.A/'candidate_review.json','994e302eb84bfd1765bedf7379e0eb4a6d92a3c89d55d5d599fc3490362ba60d');pins=author['source_files']
++ prior=u.js(u.D/'independent_index.json',prior_sha)
++ author=u.js(u.A/'candidate_review.json',author_sha);pins=author['source_files']
+  wrapper=u.load(u.PREFIX+'wrapper.py',pins[u.PREFIX+'wrapper.py'],u.P)
+  gateway=u.load(u.PREFIX+'gateway.py',pins[u.PREFIX+'gateway.py'])
+  shards=index.get('shards',index.get('plans'));u.need(isinstance(shards,list) and len(shards)==3,'Exact three root shard refs required')
+@@ -45,11 +45,11 @@
+   results.append({'suite':p['suite'],'seed':p['seed'],'methods':p['methods'],'expected_trials':p['expected_trials'],'unique_initial_states':100,'authorization':shard['authorization'],'root_pre_execution':root_check_ref,'readiness':shard['readiness'],'prepared_invocation':shard['prepared_invocation'],'root_review':ready['root_review'],'independent_review':indref,'reservation':a['root_reservation'],'scientific_plan':p['scientific_plan'],'effective_plan':p['effective_plan'],'action_execution_contract':p['action_execution_contract'],'plan_sha256':p['plan_sha256'],'actual_full_P_wrapper_verified':True,'original_gateway_static_authorization_verified':True,'actual_GPU_runtime_chain_verified':False})
+  for path,sha in u.READS.items():u.need(u.digest(path)==sha,'Evidence changed during post-readiness audit')
+  u.dump('post_readiness/read_evidence_sha256.json',u.READS)
+- report=u.dump('post_readiness/post_readiness_independent_review.json',{'schema':'formal_main_v2','kind':'nonLong_exact_post_readiness_independent_review','status':'passed','reviewer':u.REVIEWER,'source':u.ref(Path(__file__)),'root_index':{'path':root_path,'sha256':root_sha},'independent_plan_index':u.ref(u.D/'independent_index.json'),'actual_full_P_wrapper_verifications':3,'actual_GPU_runtime_chain_verified':False,'new_GPU_seconds':0,'new_trials':0,'Slurm_submissions':0,'scientific_settings_changed':False,'state_Git_Slurm_modified':False,'final_release':False,'O2A_enabled':False,'plans':results,'remaining_submission_gate':'Root exact gateway must freshly check current controller owner/lease, pending token, registered jobs and <=8 GPU total, then consume one-use reservation. This audit itself submits nothing.','CPU_wall_seconds':time.perf_counter()-start,'CPU_process_seconds':time.process_time()-cpu,'bounded_audit_correction':'The first post audit wrongly required the preparation JSON under P/execution. Original gateway NativeIO.publish line288 instead publishes its bytes at plan.invocation_relative during submission; pure wrapper.verify consumes the exact prepared object. No production gate was relaxed and the failed source/receipt are retained.','inspection_note':'One earlier read-only historical index display assumed nonempty list and raised IndexError; corrected without any file/state write.','blockers':[]})
++ report=u.dump('post_readiness/post_readiness_independent_review.json',{'schema':'formal_main_v2','kind':'nonLong_exact_post_readiness_independent_review','status':'passed','reviewer':u.REVIEWER,'source':u.ref(Path(__file__)),'root_index':{'path':root_path,'sha256':root_sha},'independent_plan_index':u.ref(u.D/'independent_index.json'),'actual_full_P_wrapper_verifications':3,'actual_GPU_runtime_chain_verified':False,'new_GPU_seconds':0,'new_trials':0,'Slurm_submissions':0,'scientific_settings_changed':False,'state_Git_Slurm_modified':False,'final_release':False,'O2A_enabled':False,'plans':results,'remaining_submission_gate':'Root exact gateway must freshly check current controller owner/lease, pending token, registered jobs and <=8 GPU total, then consume one-use reservation. This audit itself submits nothing.','CPU_wall_seconds':time.perf_counter()-start,'CPU_process_seconds':time.process_time()-cpu,'prepared_invocation_delivery_boundary':'Original gateway publishes prepared bytes at plan.invocation_relative only during submission. This CPU verifier consumes exact root prepared bytes and validates all actual P prerequisites without fabricating a submitted invocation.','blockers':[]})
+  files=[{'path':p.relative_to(u.R).as_posix(),'bytes':p.stat().st_size,'sha256':u.digest(p)} for p in sorted(u.D.rglob('*')) if p.is_file() and p.name!='final_manifest.json']
+  manifest=u.dump('final_manifest.json',{'schema':'formal_main_v2','kind':'nonLong_development_plan_and_actual_P_verification_delivery','reviewer':u.REVIEWER,'files':files,'production_modified':False})
+  print(json.dumps({'status':'passed','post_review':report,'manifest':manifest}))
+ if __name__=='__main__':
+  try:main()
+  except BaseException as err:
+-  u.dump('post_readiness/failure_v2.json',{'error_type':type(err).__name__,'error':str(err),'traceback':u.traceback.format_exc(),'production_modified':False,'new_GPU_seconds':0});raise
++  u.dump('post_readiness/failure_v1.json',{'error_type':type(err).__name__,'error':str(err),'traceback':u.traceback.format_exc(),'production_modified':False,'new_GPU_seconds':0});raise

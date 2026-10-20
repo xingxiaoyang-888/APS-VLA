@@ -1,0 +1,483 @@
+{
+  "CPU_wall_seconds": 0.8085930282250047,
+  "Long_development_trials": 2200,
+  "Long_unique_initial_states": 100,
+  "O2A_or_final_result_claimed": false,
+  "all_immutable_agent_deliveries_verified": true,
+  "all_three_seeds_and_primary_negative_preserved": true,
+  "allocated_GPU_hours_at_snapshot": 522.7447222222222,
+  "archive_copy_files_verified": 156,
+  "archive_delivery": {
+    "compressed_chunks": 11,
+    "decompression_repeated_by_this_audit": false,
+    "exact_committed_archive_refs_match_prior_restore_receipt": true,
+    "independent_archive_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_1032/Spatial64seed23_terminal_independent/archive_delivery_independent.json",
+      "sha256": "ec63f0943664bbccbed865d40d440b0c72da3c2e33cbfdd3d704c847193de082"
+    },
+    "original_bytes": 156929174,
+    "original_files": 3,
+    "prior_restore_status": "restored_verified",
+    "raw_logs_absent_from_commit": true,
+    "snapshot": {
+      "path": "results/formal_main_v2/nonweight_archives/v1/snapshots/Spatial64seed23_20261020_1032.json",
+      "sha256": "46d99a0368858d1301310a890380873331a65f3f21ac4011605b00b41c06d9c4"
+    }
+  },
+  "audit_assumption_correction": "a1 expected a generic passed string; a2 checks the precise published archive receipt status. The original failure and source are retained; no production evidence was changed.",
+  "base_commit": "908ecc34488bc02d112d60490ff7f6d5770bd584",
+  "changed_paths": 381,
+  "closed_transport": [
+    {
+      "path": "results/formal_main_v2/control_transport/Long_legacy6_consumer_1032_CPU_v2.jsonl",
+      "returncode": 0,
+      "sha256": "34a99614f35694c5bc8d3ce3d9b26be59bd3e4485bb2515e09d53b8a1535ea94"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/Long_legacy6_consumer_1032_CPU_v3.jsonl",
+      "returncode": 0,
+      "sha256": "9e089447e3045e78658493f979c9744d6b047dd89359fbabf7f9711428f4c144"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/Long_legacy6_consumer_1032_seal_v1.jsonl",
+      "returncode": 0,
+      "sha256": "c0c1d917e414bc25afaf19c5d6c301776b42ef3e43351c3a9e36b62758a3f7e8"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/Spatial64seed23_terminal_1032_a1.jsonl",
+      "returncode": 0,
+      "sha256": "b042a8d1a9422a7cad2d4f325c7ab9aafc3dddca8582dc4515c6abeab64cc2bc"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/Spatial64seed23_terminal_1032_archive_a1.jsonl",
+      "returncode": 0,
+      "sha256": "986bdfedf8eaf43dc9b321d6d3d945e24248a4c0cca3d4b62d1e0869169dca61"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/Spatial64seed23_terminal_1032_seal_v2.jsonl",
+      "returncode": 0,
+      "sha256": "80a2983138ba081876f170e7763991ba3c3e80d19b0b2b9a507074e9edf5da93"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_0927_delivery.jsonl",
+      "returncode": 0,
+      "sha256": "06a3104095f1d67d5dec624d8b254bca091d2bac2c88f32b499110cd20fe2e87"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_Long22_statistics.jsonl",
+      "returncode": 0,
+      "sha256": "27745ba2cda8058033d077eb9cd10a6a3537153a179cb89b0faa77fee181b98a"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_archive_Spatial3044479.jsonl",
+      "returncode": 0,
+      "sha256": "384a280361ab7d1a2aeb6771260c9de836b07ece852b547813a1575a13f7a17d"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_archive_evidence.jsonl",
+      "returncode": 0,
+      "sha256": "6bcdb1e62eaac1f82777c534409a55ed4dfed6e34a17605582e6597a191dcdbc"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_gateway_check_Spatial128seed23.jsonl",
+      "returncode": 0,
+      "sha256": "4fb2d665758db3778ce326d394c0258af146f28d37d54f7c2e3e6827814d7d76"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_gateway_submit_Goal128seed17refs.jsonl",
+      "returncode": 1,
+      "sha256": "81890b15bd1f61a3f08f91cece617b3f46e9e121b0a2e421839368a209f4cf90"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_gateway_submit_Object128seed23.jsonl",
+      "returncode": 1,
+      "sha256": "5dd99a15367477441b56d3d460fad3a6bbefddc39d897f8328a3ae4f161803a9"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_gateway_submit_Spatial128seed23.jsonl",
+      "returncode": 1,
+      "sha256": "4b6ad9b49be54c3ffbe60d312fd93fa10d542bd9c84a6853db8c92faabce7cb2"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_initial_observation.jsonl",
+      "returncode": 0,
+      "sha256": "5c1e982a47ed632a67cd51e53c3e82f028e0cff92010286c9b342dbcfbbf36c5"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_integration.jsonl",
+      "returncode": 0,
+      "sha256": "c8d04d52ffcde6eca612a5f5281d17ec3c3301fe3a22a1cf533871fb253a032e"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_legacy600_adoption.jsonl",
+      "returncode": 0,
+      "sha256": "3e93232c57a886a866483426e0b32a74476b4c9a3ed9f2e64df9fdf3b4167284"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_nonLong_audit_archives.jsonl",
+      "returncode": 0,
+      "sha256": "b292f8c1e35a9e8faec7dc8a1edcf82a4ad2fc1e76b41adbcf1c8907973c0c1a"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_nonLong_existing_runtime_dependencies.jsonl",
+      "returncode": 0,
+      "sha256": "a8f06547fbc61715b520896e9b51b7e08386b2b74f7f86f35f647b4a4626fa54"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_nonLong_manifest_publication.jsonl",
+      "returncode": 0,
+      "sha256": "c3e297ff418064d4c48ff3a1eeda4132995ab4884472221e3a7052148ecbc71e"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_nonLong_root_readiness.jsonl",
+      "returncode": 0,
+      "sha256": "9fea2a84dd9659749a579ad48d03b1814334eaca0a605039756156c2b8ff722a"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_nonLong_static_plans.jsonl",
+      "returncode": 0,
+      "sha256": "6c31458b480004ac5334386788f3b797ed447cc59454eb92b0dacd4d7b3cc46e"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_nonLong_training_configs.jsonl",
+      "returncode": 0,
+      "sha256": "68b6dd2c902c34324667311a31f2f324b885d000a2e099ecb85df87a41f833d3"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_post_dispatch.jsonl",
+      "returncode": 0,
+      "sha256": "fe80030223c09b1bb4619ba4c21f661a66d9576b227d45dfccc071025716a300"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_pull_Spatial3044479.jsonl",
+      "returncode": 0,
+      "sha256": "11aa25297ebd68ff8b50936de6eed786d08dddab06c5f22fa6d7813b6d86d382"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_reconcile_Goal3048609.jsonl",
+      "returncode": 0,
+      "sha256": "7e2923f1ba8ac2b5e0faafd54eb17f809fa1b6f0bb012206d66780cf865b11bf"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_reconcile_Object3048581.jsonl",
+      "returncode": 0,
+      "sha256": "05c4a5e5ff1f5a2d17a7725711811c31cd9bea2ed721c09736c4d2bea4d28603"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_reconcile_Spatial3048572.jsonl",
+      "returncode": 0,
+      "sha256": "4a2096173137126f7bff1d4bc7d03b20fec647d289c3cf2c8a62cc6fbe240485"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_reserve_Goal128seed17refs.jsonl",
+      "returncode": 0,
+      "sha256": "9b5da2ccebda39a77cf9fc3a9afdf18084c8608425432ed812a762df21829de5"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_reserve_Object128seed23.jsonl",
+      "returncode": 0,
+      "sha256": "04f90076a28f7f6ebf81a7590025ce73124051bebd83fade63efd40ff4738f17"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_reserve_Spatial128seed23.jsonl",
+      "returncode": 0,
+      "sha256": "82429770d2f08562e8db3aea963c2141dc58e192826f14657620425d45117840"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_review_Spatial3044479.jsonl",
+      "returncode": 0,
+      "sha256": "85f4edeac01764b7a26524db07a88da4ce8702159699452eea9421165c3689ed"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/heartbeat_1032_runtime_inode_evidence.jsonl",
+      "returncode": 0,
+      "sha256": "44d91d81d4238733d2c802c246d27c705e98199bdd4a36150158f1c00b1d88ec"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/independent_Long22_statistics_1032_a1.jsonl",
+      "returncode": 0,
+      "sha256": "519c2e6101be81dfcd5b5499450b6fe7c712cee7f1e2b90a8c572b5ae52b1472"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/independent_Long_legacy6_admission_1032_a1.jsonl",
+      "returncode": 0,
+      "sha256": "a6d49adcc92766b16e2a4f4950e488d5861d75b793b81f683cb83db23f2262a5"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/independent_Long_legacy6_admission_1032_typed_a1.jsonl",
+      "returncode": 0,
+      "sha256": "6e0b2a2597f4533405b8dca72d2272f85979f88a7db874425f6f37aab0680f2f"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/independent_Long_legacy6_consumer_1032_a1.jsonl",
+      "returncode": 0,
+      "sha256": "ac2fe55b20256124862882ece38330e532658ee11ad8cf756782f4e1693548e4"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/independent_nonLong_development_plans_1032_a1.jsonl",
+      "returncode": 0,
+      "sha256": "51a2328978502fb76e5c10272de80f2509b6f9eed1820a42a36efbeea5c9f2f7"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/independent_nonLong_development_plans_1032_post_a1.jsonl",
+      "returncode": 1,
+      "sha256": "12dc99767996d3f44b6980110cd0c446f9ae36cdc7fc01c45c0aecf7a53a4260"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/independent_nonLong_development_plans_1032_post_a2.jsonl",
+      "returncode": 0,
+      "sha256": "5bdf58f24842465094c418e67c3571376c1bfd5bb11332439b1189d4241a15d0"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/independent_nonLong_submission_1032_a1.jsonl",
+      "returncode": 0,
+      "sha256": "3248568cc2bd747f7f4c4a95fb210063d1463eec945524d2f1e73044d99f476f"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_dependency_preview_v1.jsonl",
+      "returncode": 0,
+      "sha256": "e326b3ff8cb7a7e8be9aa461c13e691589ad019112e973c6ac5fe72037c7c9ed"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_goal_manifest_v1.jsonl",
+      "returncode": 0,
+      "sha256": "bd59e85bd880fd2aca90f71f0fe347fb5e03d913e93d4d4a741475988487169f"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_object_manifest_v1.jsonl",
+      "returncode": 0,
+      "sha256": "21d35d0d0e3636c1553a3a4e1c9e88097ab84a1fdb302fca7a3ddbd53c80bf4f"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_prepare_v1.jsonl",
+      "returncode": 1,
+      "sha256": "b42eec6471c79a603ab60ebe452a7a8791e86be7a4d1ede783994e093723a440"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_prepare_v2.jsonl",
+      "returncode": 0,
+      "sha256": "542a90e208c5f6fd0962d4bfe11b0eb11af7e39edb5b942db4adce4197e1c5b3"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_seal_v1.jsonl",
+      "returncode": 0,
+      "sha256": "1485ca9afa56ba3b1198369bd4e8eae394ffeead81e6029430895559d0bf62fc"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_plans_1032_spatial_manifest_v1.jsonl",
+      "returncode": 0,
+      "sha256": "6c1a6d402dd55d8cc1bac4966f542e02258004473ae74b03102d37d311e94c95"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_readiness_1032_v2.jsonl",
+      "returncode": 1,
+      "sha256": "c13fab24c4af21dfbcc12b224c204fec5aa5b4c78d3f4b93bb4a2f50e1657c05"
+    },
+    {
+      "path": "results/formal_main_v2/control_transport/nonLong_development_readiness_1032_v3.jsonl",
+      "returncode": 0,
+      "sha256": "23d0fb3f4b35a5c6674eea1f491cd132eb9f497cd6121c8f7a35199bcfde32fe"
+    }
+  ],
+  "commit": "f14596305af9b875fb97d87183cd1e747d90f027",
+  "commit_receipt": {
+    "path": ".local/git_commit_1032.json",
+    "sha256": "7f72e12fc999fd66f593906539fd0fe978d80d57ddf5728414d22d29a62660b1"
+  },
+  "credentials_accessed": false,
+  "documents": {
+    "docs/完整实验计划.md": {
+      "bytes": 105424,
+      "sha256": "b074913e122c0ae1438c349ceb564fbc16fa26ecc3a10e06a6c0ac11b631503c"
+    },
+    "docs/实验进度.md": {
+      "bytes": 89293,
+      "sha256": "a554ec7b4064f5d9e5f6e1bbfcb59ce3595381db901997ed9cbb25df9702de2e"
+    },
+    "docs/正式Long完整开发结果.md": {
+      "bytes": 3697,
+      "sha256": "b84b9e6985c8ae69cc7843c550e612959372cde69c533e23190febe1b7b58439"
+    },
+    "docs/正式主实验规划.md": {
+      "bytes": 64122,
+      "sha256": "6cebe837f9cc9aeb741cc55f9cee30113329c8fa18753d8d5cc8e95474b9a831"
+    },
+    "docs/正式主实验阶段结论.md": {
+      "bytes": 21373,
+      "sha256": "ba56786fa5849b2c6718577be2537918afb6027e4a8e03ace3420295037d773f"
+    },
+    "docs/正式自动连续训练执行登记.md": {
+      "bytes": 19844,
+      "sha256": "84a9ea5535f7ace7e0a298f23bd8ce62eb3f0a4fbad7bd91db0fcafba7b18e06"
+    }
+  },
+  "entrypoint": {
+    "path": ".local/final_delivery_independent_1032/review_final_commit_a2.py",
+    "sha256": "af6b4bf18fb4ecd51cb2faf36dd3ed9d98eba2aadab99f732da63f701d56177b"
+  },
+  "final_trials": 0,
+  "findings": [],
+  "frozen_final_trials": 0,
+  "frozen_source_files_in_commit_and_current_R": 173,
+  "job_delivery_lineage": [
+    {
+      "accepted_trials": 0,
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_spatial_k128_seed23/submission_authorization.json",
+        "sha256": "4a47032c83c03e81ac1297aa4c3f4ff31fc780a700990e7cb335c89cf65dbab4"
+      },
+      "committed_registry_matches": [
+        "$.registered_jobs[275]"
+      ],
+      "failure_retained": {
+        "path": "results/formal_main_v2/downstream_gateway/4a47032c83c03e81ac1297aa4c3f4ff31fc780a700990e7cb335c89cf65dbab4/failed_transaction.json",
+        "sha256": "a6d1d97c5fa91328409555ae63d0f9422ea7ce591a54e9d4bbbfb9adc153f1cd"
+      },
+      "job_id": "3048572",
+      "original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/4a47032c83c03e81ac1297aa4c3f4ff31fc780a700990e7cb335c89cf65dbab4/sbatch_result.json",
+        "sha256": "be68ec88e204cab305c9ecb8c96e1ca69543787bacd13fe3a05624bddf881c6b"
+      },
+      "original_single_submission_evidence_retained": true,
+      "planned_trials": 200,
+      "reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Spatial3048572_pending_reconciliation.json",
+        "sha256": "3eef99485e848781407c4028550673c79118fa3621bbdda64612c2f53d479a4a"
+      }
+    },
+    {
+      "accepted_trials": 0,
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_object_k128_seed23/submission_authorization.json",
+        "sha256": "9ee17e773f283ff81ca70e25ed0ab8afac7abf5ce5de73ef81625db768b0509b"
+      },
+      "committed_registry_matches": [
+        "$.registered_jobs[276]"
+      ],
+      "failure_retained": {
+        "path": "results/formal_main_v2/downstream_gateway/9ee17e773f283ff81ca70e25ed0ab8afac7abf5ce5de73ef81625db768b0509b/failed_transaction.json",
+        "sha256": "fc3066c3de9279d808aab8dee9916521cfd37b61e353b253db19385a415ca484"
+      },
+      "job_id": "3048581",
+      "original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/9ee17e773f283ff81ca70e25ed0ab8afac7abf5ce5de73ef81625db768b0509b/sbatch_result.json",
+        "sha256": "49865693b6d0c05be6d491f50ffeba51aef109c4e4847398c7adfcc7ead7be73"
+      },
+      "original_single_submission_evidence_retained": true,
+      "planned_trials": 200,
+      "reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Object3048581_pending_reconciliation.json",
+        "sha256": "de0c25ef2af8907726ff8f10c87748086636b1e0d4f8851b37602f0b66f7da8b"
+      }
+    },
+    {
+      "accepted_trials": 0,
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17/submission_authorization.json",
+        "sha256": "a686142e3af91491d83444270b51b2fbac1f95e7a0f95fd7a0f64f4fa374e89f"
+      },
+      "committed_registry_matches": [
+        "$.registered_jobs[277]"
+      ],
+      "failure_retained": {
+        "path": "results/formal_main_v2/downstream_gateway/a686142e3af91491d83444270b51b2fbac1f95e7a0f95fd7a0f64f4fa374e89f/failed_transaction.json",
+        "sha256": "73db53014c4f95dcd2808b8ba8cdc78d20e694240ffe4117a5d72fe34d0b31b1"
+      },
+      "job_id": "3048609",
+      "original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/a686142e3af91491d83444270b51b2fbac1f95e7a0f95fd7a0f64f4fa374e89f/sbatch_result.json",
+        "sha256": "c692fbdef5ce12749d0c6ad9663955ffa2ffc428bcb8a7a87d93ed34f6927982"
+      },
+      "original_single_submission_evidence_retained": true,
+      "planned_trials": 600,
+      "reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Goal3048609_pending_reconciliation.json",
+        "sha256": "08b01b120aee60c012123e8c0573c5e76054b2c276ca13b2dc98fafbd26288ba"
+      }
+    }
+  ],
+  "job_delivery_refs": [
+    {
+      "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_spatial_k128_seed23/submission_authorization.json",
+      "sha256": "4a47032c83c03e81ac1297aa4c3f4ff31fc780a700990e7cb335c89cf65dbab4"
+    },
+    {
+      "path": "results/formal_main_v2/downstream_gateway/4a47032c83c03e81ac1297aa4c3f4ff31fc780a700990e7cb335c89cf65dbab4/sbatch_result.json",
+      "sha256": "be68ec88e204cab305c9ecb8c96e1ca69543787bacd13fe3a05624bddf881c6b"
+    },
+    {
+      "path": "results/formal_main_v2/downstream_gateway/4a47032c83c03e81ac1297aa4c3f4ff31fc780a700990e7cb335c89cf65dbab4/failed_transaction.json",
+      "sha256": "a6d1d97c5fa91328409555ae63d0f9422ea7ce591a54e9d4bbbfb9adc153f1cd"
+    },
+    {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Spatial3048572_pending_reconciliation.json",
+      "sha256": "3eef99485e848781407c4028550673c79118fa3621bbdda64612c2f53d479a4a"
+    },
+    {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_1032/nonLong_submission_independent/independent_review.json",
+      "sha256": "c95c89c24e9825fe28ac8eae4470ae8f3c9d45dbc15efe19d2a9646b35af39fc"
+    },
+    {
+      "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_object_k128_seed23/submission_authorization.json",
+      "sha256": "9ee17e773f283ff81ca70e25ed0ab8afac7abf5ce5de73ef81625db768b0509b"
+    },
+    {
+      "path": "results/formal_main_v2/downstream_gateway/9ee17e773f283ff81ca70e25ed0ab8afac7abf5ce5de73ef81625db768b0509b/sbatch_result.json",
+      "sha256": "49865693b6d0c05be6d491f50ffeba51aef109c4e4847398c7adfcc7ead7be73"
+    },
+    {
+      "path": "results/formal_main_v2/downstream_gateway/9ee17e773f283ff81ca70e25ed0ab8afac7abf5ce5de73ef81625db768b0509b/failed_transaction.json",
+      "sha256": "fc3066c3de9279d808aab8dee9916521cfd37b61e353b253db19385a415ca484"
+    },
+    {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Object3048581_pending_reconciliation.json",
+      "sha256": "de0c25ef2af8907726ff8f10c87748086636b1e0d4f8851b37602f0b66f7da8b"
+    },
+    {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_1032/nonLong_submission_independent/independent_review.json",
+      "sha256": "c95c89c24e9825fe28ac8eae4470ae8f3c9d45dbc15efe19d2a9646b35af39fc"
+    },
+    {
+      "path": "results/formal_main_v2/execution/nonLong_action_v1_1032/libero_goal_k128_seed17/submission_authorization.json",
+      "sha256": "a686142e3af91491d83444270b51b2fbac1f95e7a0f95fd7a0f64f4fa374e89f"
+    },
+    {
+      "path": "results/formal_main_v2/downstream_gateway/a686142e3af91491d83444270b51b2fbac1f95e7a0f95fd7a0f64f4fa374e89f/sbatch_result.json",
+      "sha256": "c692fbdef5ce12749d0c6ad9663955ffa2ffc428bcb8a7a87d93ed34f6927982"
+    },
+    {
+      "path": "results/formal_main_v2/downstream_gateway/a686142e3af91491d83444270b51b2fbac1f95e7a0f95fd7a0f64f4fa374e89f/failed_transaction.json",
+      "sha256": "73db53014c4f95dcd2808b8ba8cdc78d20e694240ffe4117a5d72fe34d0b31b1"
+    },
+    {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261020T1832/Goal3048609_pending_reconciliation.json",
+      "sha256": "08b01b120aee60c012123e8c0573c5e76054b2c276ca13b2dc98fafbd26288ba"
+    },
+    {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_1032/nonLong_submission_independent/independent_review.json",
+      "sha256": "c95c89c24e9825fe28ac8eae4470ae8f3c9d45dbc15efe19d2a9646b35af39fc"
+    }
+  ],
+  "kind": "independent_exact_commit_delivery_review",
+  "legacy_execution_version_preserved": true,
+  "live_scheduler_queried": false,
+  "new_GPU_seconds": 0,
+  "new_nonLong_jobs": [
+    "3048572",
+    "3048581",
+    "3048609"
+  ],
+  "remote_SHA_scope": "Pinned successful authenticated root push receipt; independent reviewer did not obtain credentials or issue authenticated remote commands.",
+  "required_files": 377,
+  "reviewed_arm_updates": 321000,
+  "root_complete": 64,
+  "schema": "formal_main_v2",
+  "scope_note": "Committed snapshot only. Ongoing controller state/log appends are allowed and were not required to equal this commit. Prior byte-exact restoration evidence was checked; no redundant decompression or science rerun.",
+  "state_Git_Slurm_mutations": false,
+  "status": "passed",
+  "total_audit_wall_seconds": 1.300634236074984,
+  "verified_push_receipt": {
+    "path": ".local/github_push_1032_verified.json",
+    "sha256": "e6d468d78c23f7a5bec89b14027e665de1ac51613a76a9fa93142abf0f0d09aa"
+  }
+}

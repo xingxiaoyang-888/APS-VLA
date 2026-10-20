@@ -1,0 +1,102 @@
+--- audit_terminal_a1.py
++++ audit_terminal_a2.py
+@@ -51,7 +51,7 @@
+  a=np.asarray(x,dtype=np.float64);assert np.isfinite(a).all();return a
+ started=time.monotonic();cpu=time.process_time()
+ try:
+- bindings=jread(D/'root_bindings.json')
++ bindings=jread(D/'root_bindings.json','03ca8766082edeb4cf6b3254053d96ec0161802b45c1192e623eb0a4d36e5646')
+  assert set(bindings)=={'3048572','3048581'}
+  for path,pin in PINNED_INPUTS.items():read(R/path,pin)
+  pull=jread(R/next(iter(PINNED_INPUTS)))
+@@ -96,12 +96,33 @@
+   assert Counter(s['task_id'] for s in states.values())=={t:10 for t in range(10)}
+   identities={m['identity']['method_id']:m['identity'] for m in manifest['methods']}
+   assert set(identities)=={'A128_seed23','B128_seed23'}
++  validation_diagnostics={};token_pairs=[]
+   for method in manifest['methods']:
+    identity=method['identity']
+    assert identity['suite']==suite and identity['training_seed']==23 and identity['visual_tokens']==128
+    assert identity['future_head_deployed'] is False and identity['training_complete'] is True
+    assert cfg['watched_files'][method['checkpoint']]==identity['checkpoint_sha256']
+-   read(R/method['receipt'],identity['deployment_receipt_sha256'])
++   receipt=jread(R/method['receipt'])
++   assert rv.signature(receipt)==identity['deployment_receipt_sha256']
++   assert receipt['checkpoint_sha256']==identity['checkpoint_sha256']
++   selection=min(receipt['evaluations'],key=lambda r:(r['validation_metric'],r['update']))
++   assert selection['update']==receipt['metadata']['update']
++   validation_relative=str(Path(selection['artifact_path']).relative_to(P))
++   validation=jread(R/validation_relative,selection['artifact_sha256'])
++   assert validation['metric']=='task_macro_hard_validation_teacher_l1'
++   assert validation['update']==selection['update'] and validation['arm']==identity['method']
++   assert validation['validation_metric']==selection['validation_metric']==receipt['metadata']['validation_metric']
++   teacher=sum(r['teacher_l1'] for r in validation['per_task'].values())/len(validation['per_task'])
++   demo=sum(r['demonstration_l1'] for r in validation['per_task'].values())/len(validation['per_task'])
++   assert teacher==validation['validation_metric'] and demo==validation['demonstration_l1']
++   validation_diagnostics[identity['method']]={'selected_update':selection['update'],
++      'hard_validation_teacher_L1_task_equal':teacher,'hard_validation_demonstration_L1_task_equal':demo,
++      'validation_windows':validation['windows'],'validation_tasks':validation['tasks'],
++      'validation_ref':{'path':validation_relative,'sha256':selection['artifact_sha256']},
++      'deployment_receipt_raw_sha256':inputs[str(R/method['receipt'])]['sha256'],
++      'deployment_receipt_canonical_JSON_sha256':identity['deployment_receipt_sha256'],
++      'checkpoint_sha256':identity['checkpoint_sha256'],
++      'scope':'Selected-checkpoint offline hard-pruning validation diagnostic; not closed-loop action error.'}
+   raw=read(R/output/'trials.jsonl')
+   assert raw.endswith(b'\n') and sha(raw)==report['trials_jsonl_sha256']
+   rows=[rv.json_bytes(x) for x in raw.splitlines()]
+@@ -157,6 +178,13 @@
+    local=Counter();tot=Counter()
+    for state in selected:
+     sid=state['trial_id'];a=finished[sid+':A128_seed23']['success'];b=finished[sid+':B128_seed23']['success']
++    achunk=finished[sid+':A128_seed23']['chunks'][0];bchunk=finished[sid+':B128_seed23']['chunks'][0]
++    assert achunk['control_step']==bchunk['control_step']==0
++    assert achunk['observation_sha256']==bchunk['observation_sha256']
++    aset=set(achunk['metadata']['retained_indices']);bset=set(bchunk['metadata']['retained_indices'])
++    inter=len(aset&bset);union=len(aset|bset);assert len(aset)==len(bset)==128
++    token_pairs.append({'task_id':task,'state_trial_id':sid,'observation_sha256':achunk['observation_sha256'],
++      'intersection_tokens':inter,'union_tokens':union,'intersection_over_128':inter/128,'Jaccard':inter/union})
+     label='both_success' if a and b else 'A_only' if a else 'B_only' if b else 'both_failure'
+     discord[label]+=1;local[label]+=1;method_totals['A']+=int(a);method_totals['B']+=int(b)
+     tot['A']+=int(a);tot['B']+=int(b)
+@@ -165,6 +193,12 @@
+    per_task.append({'task_id':task,'task_name':selected[0]['task_name'],'unique_initial_states':10,
+       'A_success':tot['A'],'B_success':tot['B'],'B_minus_A_pp':(tot['B']-tot['A'])*10,
+       'discordance':{k:local[k] for k in ['both_success','A_only','B_only','both_failure']}})
++  for row in per_task:
++   tp=[x for x in token_pairs if x['task_id']==row['task_id']]
++   assert len(tp)==10
++   row['t0_intersection_over_128_mean']=sum(x['intersection_over_128'] for x in tp)/10
++   row['t0_Jaccard_mean']=sum(x['Jaccard'] for x in tp)/10
++  assert len(token_pairs)==100
+   for method,identity in identities.items():
+    assert sum(r['success'] for r in finished.values() if r['method']==method)==method_totals[identity['method']]
+   assert report['completed_trials']==report['expected_trials']==200 and report['unique_initial_states']==100
+@@ -190,7 +224,12 @@
+    'full_action_chunks':chunks,'executed_control_actions':steps,'environment':environment,
+    'raw_ledger':{'path':str(output/'trials.jsonl'),'sha256':sha(raw),'bytes':len(raw)},
+    'allocated_GPU_seconds':expected['allocated'],'all_attempt_cost':rebuilt['cost'],
+-   'full_original_consumer_reconstruction_passed':True,'raw_start_result_pairs_exact':True,
++   'full_original_consumer_reconstruction_passed':True,
++   't0_token_diagnostics':{'paired_observations':100,'all_t0_observation_hashes_equal':True,
++    'mean_intersection_over_128':sum(x['intersection_over_128'] for x in token_pairs)/100,
++    'mean_Jaccard':sum(x['Jaccard'] for x in token_pairs)/100,'rows':token_pairs,
++    'scope':'Only identical pre-action t0 observation pairs; no comparison after trajectories diverge.'},
++   'offline_validation_diagnostics':validation_diagnostics,'raw_start_result_pairs_exact':True,
+    'checkpoint_hash_scope':'Recorded actual runtime watches/chunk metadata equal frozen selected deployment receipts; no checkpoint bytes independently opened.',
+    'original_ACK_accounting_delay_preserved':True,'submission_failure_added_new_GPU_allocation':False,
+    'new_GPU_seconds_by_this_audit':0,'scientific_final_release':False}
+@@ -206,6 +245,7 @@
+   'source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':24,'paired_states':paired,
+   'all_inputs':dict(sorted(inputs.items())),'checkpoint_bytes_read':False,'sealed_final_values_read':False,
+   'Goal3048609_intermediate_results_read':False,'live_scheduler_queries':0,'new_GPU_jobs':0,
++  'audit_correction':'a1 treated canonical deployment receipt signature as raw-file hash. a2 retains both SHA types and verifies the original JSON-signature contract; all original a1 evidence retained.',
+   'state_registry_Git_Slurm_mutations':False,'CPU_process_seconds':time.process_time()-cpu,'CPU_wall_seconds':time.monotonic()-started})
+  manifest=[]
+  for p in sorted(D.iterdir()):
+@@ -215,5 +255,5 @@
+  print(json.dumps({'status':'passed','report':report,'manifest':mref,'totals':full_counts,
+   'success':{s:[v['A_success'],v['B_success']] for s,v in combined.items()}}))
+ except Exception as exc:
+- fail=put('failure_a1.json',{'status':'failed','error_type':type(exc).__name__,'error':str(exc),'traceback':traceback.format_exc(),'inputs_read':inputs})
++ fail=put('failure_a2.json',{'status':'failed','error_type':type(exc).__name__,'error':str(exc),'traceback':traceback.format_exc(),'inputs_read':inputs})
+  print(json.dumps({'status':'failed','failure':fail}));raise
