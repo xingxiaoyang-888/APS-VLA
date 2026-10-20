@@ -1,0 +1,124 @@
+{
+  "CPU_only": true,
+  "action_chunk": 8,
+  "action_execution_contract": {
+    "path": "results/formal_main_v2/execution/long_collect_action_v1_0830/execution_contract.json",
+    "sha256": "06ca8c538a323e14ad8197a80e9cc5c39d303976adbd8959630e535b11b1acc0"
+  },
+  "actual_P_original_collector_prepare_only_passed": true,
+  "actual_P_original_wrapper_passed": true,
+  "actual_collect_GPU_completed": false,
+  "audit_source": {
+    "path": ".local/long_collect_independent_0830/audit_plan.py",
+    "sha256": "31fcad49d82e6c35f414fb4f692d009a5cee9ba481a0aae9af322b1bcce1c133"
+  },
+  "checks": {
+    "bytes": 633770,
+    "path": ".local/long_collect_independent_0830/plan_checks.json",
+    "sha256": "19ace8fa586c5b9738c19c7e9e5ca5db550e383080394bca63c255d1a2e4852e"
+  },
+  "component_reviews": {
+    "raw_consumer": {
+      "path": "results/formal_main_v2/engineering/action_deployment_candidates_0809/action_gateway_consumers_independent_0809/raw_consumer_independent_review.json",
+      "sha256": "3f815f3a48755e16e01219eb7f24c2b3fcb84e65d769d1e0a1d141a84d769479"
+    },
+    "runtime": {
+      "path": "results/formal_main_v2/engineering/action_deployment_candidates_0809/action_deployment_chain_independent_0809/runtime_component_independent_projection.json",
+      "sha256": "927cb53f1b06d01c0d49ea86449d0aeb62aa6ec6285045e6d9d6d3c4ea77abc4"
+    },
+    "wrapper": {
+      "path": "results/formal_main_v2/engineering/action_deployment_candidates_0809/action_deployment_chain_independent_0809/wrapper_component_independent_projection.json",
+      "sha256": "14bfa92531e1e895ffe0da595b508810e1454333d74db5fbcc12acb1cf1ae146"
+    }
+  },
+  "created_utc": "2026-10-20T08:56:30.304412+00:00",
+  "effective_plan": {
+    "path": "results/formal_main_v2/execution/long_collect_action_v1_0830/effective_plan.json",
+    "sha256": "1ce34d9ecf18e36d2c0043e2fdfd42ca327344d286fb35704fdfe70e8b5ed8ac"
+  },
+  "environment_seed": 0,
+  "evidence": {
+    "bytes": 119790,
+    "path": ".local/long_collect_independent_0830/plan_evidence_sha256.json",
+    "sha256": "a0ca9934d936242e0eb4e5f45bc1f3b33fc517da93a38653f7722ebae9389556"
+  },
+  "execution_version": "formal-downstream-action-v1",
+  "expected_observations": 30,
+  "failed_or_short_trajectory_replacement": false,
+  "final_evaluation_enabled": false,
+  "final_values_read": false,
+  "fixed_source_indices": [
+    0,
+    4,
+    7,
+    3,
+    6,
+    2,
+    3,
+    6,
+    8,
+    2
+  ],
+  "fresh_preparation": {
+    "path": ".local/long_collect_independent_0830/fresh_prepare_only.json",
+    "sha256": "a5089c9ef28878cffc11f159dbb221a71f830a2b5fb340e0ffde67fe55baf410"
+  },
+  "full_components_authorized": false,
+  "input_review": {
+    "path": ".local/long_collect_independent_0830/input_independent_review.json",
+    "sha256": "fa878235152fe2930653812c6d2ddf7aabdac02f65aa49bdef478d8a06bb6e47"
+  },
+  "kind": "formal_action_runtime_plan_review",
+  "limitations": [
+    "Root must sign genuine readiness with separate root and independent receipts, then pass exact P outer wrapper.verify.",
+    "Root must check current controller lease, registry, exact exclusive reservation and global eight-GPU capacity; saved planning snapshot is not live capacity evidence.",
+    "This receipt does not authorize another stage, final unsealing or any duplicate collection.",
+    "Actual collected observations require subsequent original plus action raw consumer reconstruction and independent review before timing use.",
+    "Previously accepted component and v4 GPU evidence is inherited by exact hashes, not rerun or counted as new independent GPU tests."
+  ],
+  "max_control_steps": 520,
+  "meaning_of_production_chain_complete": "Exact canonical inputs, unmodified production planner/wrapper/runtime contract and previously independently audited producer/reviewer/consumer closure are ready for this collect plan. This is CPU pre-execution readiness only, not actual GPU collection completion.",
+  "method_ids": [
+    "dense"
+  ],
+  "negative_checks": 8,
+  "new_GPU_calls": 0,
+  "new_scheduler_queries": 0,
+  "new_scientific_success_trials": 0,
+  "old600_reuse_or_rerun_authorized": false,
+  "original_planner_rebuilt_exactly": true,
+  "plan_sha256": "97201437512d09f286bd90024510adeccb9746ceba3de16c41587c4371bc6973",
+  "positive_checks": 4679,
+  "production_chain_complete": true,
+  "raw_and_canonical_SHA_separately_verified": true,
+  "review_role": "independent",
+  "reviewed_by": "/root/object64_pending_0333_audit",
+  "runtime_seed": 17,
+  "runtime_sources": {
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+    "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+    "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+    "scripts/ops/formal_action_deployment_v1/entry.py": "2cdb69923146cbffcaaec555b970d03efbce0c9b9f74e3b743a2ce67a21aae19",
+    "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_action_deployment_v1/runtime_scope.py": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53",
+    "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33"
+  },
+  "schema": "formal_main_v2",
+  "scientific_plan": {
+    "path": "results/formal_main_v2/execution/long_collect_action_v1_0830/scientific_plan.json",
+    "sha256": "1c50e85dfea3042cb7cee74cf5482e2325e4036e0bc7a74187d0061983790ee0"
+  },
+  "scientific_settings_changed": false,
+  "selected_development_states": 10,
+  "source173_unchanged": true,
+  "source_development_states": 100,
+  "stage": "collect",
+  "stage_key": "libero_10_collect_648ce4233e78353e",
+  "state_registry_Git_modified": false,
+  "status": "passed",
+  "suite": "libero_10",
+  "temporal_rule": "first, floor((N-1)/2), last real pre-action observations; N>=3; no success filtering or replacement",
+  "wait_steps": 10,
+  "weights_deserialized": false
+}

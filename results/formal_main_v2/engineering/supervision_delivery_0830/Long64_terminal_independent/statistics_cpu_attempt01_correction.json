@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-20T08:41:41.647545+00:00",
+  "status": "bounded_CPU_script_budget_key_correction",
+  "original_source": {
+    "path": ".local/independent_long64_development_0830/Long64_three_seed_statistics.py",
+    "sha256": "10f54bbaea34cfd65e7b0c9eed7e01f024b342d1fd093ae52c7efc4d80add228"
+  },
+  "corrected_source": {
+    "path": ".local/independent_long64_development_0830/Long64_three_seed_statistics_v2.py",
+    "sha256": "16d014a2e0f3dce1ce102ac69f3a5a5f073116460a27584da902094dbb5085be"
+  },
+  "observed_failure": "KeyError: 'A256_seed17' before statistic outputs were saved",
+  "failed_transport": "results/formal_main_v2/control_transport/independent_long64_development_0830_Long64_statistics.jsonl",
+  "changes": [
+    "dynamic lookup {a}256_seed -> {a}64_seed",
+    "stdout cost-label all256 -> all64"
+  ],
+  "bootstrap_rules_changed": false,
+  "scientific_source_changed": false,
+  "independent_acceptance_changed": false,
+  "state_modified": false,
+  "GPU_jobs_submitted": 0
+}

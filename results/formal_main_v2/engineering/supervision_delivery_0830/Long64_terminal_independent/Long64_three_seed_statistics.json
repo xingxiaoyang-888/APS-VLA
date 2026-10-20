@@ -1,0 +1,719 @@
+{
+  "O2A_latency_verified": false,
+  "bootstrap_draws": {
+    "bytes": 680711,
+    "path": ".local/independent_long64_development_0830/Long64_three_seed_bootstrap_draws.json",
+    "sha256": "69afce2ead0538c986868e4a4c83faae2cb6fb13d2d3d66b70e49be45c5b98fb"
+  },
+  "budget": 64,
+  "cost": {
+    "actual_development_GPU_seconds": 9102,
+    "actual_new_job_GPU_seconds": 3039,
+    "nested_phases_added": false,
+    "training_or_timing_cost_included": false
+  },
+  "cross_budget_aggregate": false,
+  "dense_reference_included": false,
+  "evidence": [
+    {
+      "bytes": 26636,
+      "path": "configs/experiments/formal_main_v2.json",
+      "sha256": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9"
+    },
+    {
+      "bytes": 684185,
+      "path": "results/formal_main_v2/downstream_reviews/3047156.json",
+      "sha256": "9bd3713f5260d9b6da1397c6507330503ce429c59a4ea4a15986ac9a5d50e190"
+    },
+    {
+      "bytes": 82927,
+      "path": ".local/independent_long_development_0727/job3047156/independent_review.json",
+      "sha256": "9cb561881876e7a40cc850bae9f38e12d1612960b16c6c5b27f0ec34ba2cb3d5"
+    },
+    {
+      "bytes": 188619,
+      "path": "configs/manifests/formal_main_v2/libero_10/initial_states/development.json",
+      "sha256": "46a06087483151e36198167e7d4e5313c50b63172e09128d65a3650112f0a268"
+    },
+    {
+      "bytes": 31746066,
+      "path": "results/formal_main_v2/libero_10/downstream/development/421cbed0b5a0fa49/attempt01/trials.jsonl",
+      "sha256": "7685487dec6b9d37219cd927a60722d7ff2dbd263049805fb80cdab9afeaa7d4"
+    },
+    {
+      "bytes": 684189,
+      "path": "results/formal_main_v2/downstream_reviews/3047163.json",
+      "sha256": "5a1cc6e631a421f0891da6f6810fb0824717a37cd6d18fa26800e930acdac0bc"
+    },
+    {
+      "bytes": 82932,
+      "path": ".local/independent_long_development_0727/job3047163/independent_review.json",
+      "sha256": "f507905b5a1ff214674ed39e2847fcda67224f62ec183915b2d5b5cd57dd9d57"
+    },
+    {
+      "bytes": 31683400,
+      "path": "results/formal_main_v2/libero_10/downstream/development/2eea5a76505a0f3c/attempt01/trials.jsonl",
+      "sha256": "55fddb26c231b2fdecb3794905fea5aff88fcdca080b8493d58c7d2532793bbf"
+    },
+    {
+      "bytes": 689323,
+      "path": "results/formal_main_v2/downstream_reviews/3047443.json",
+      "sha256": "20f91c0060f086bcf402cc0b9b4e9863397c27876f4809dd9bef211aa0c87c25"
+    },
+    {
+      "bytes": 83095,
+      "path": ".local/independent_long64_development_0830/job3047443/independent_review.json",
+      "sha256": "0a04480cfae7c48beb8b4a81b99c5611d2273bd6f7c685a522beb096a7fd71d1"
+    },
+    {
+      "bytes": 31000123,
+      "path": "results/formal_main_v2/libero_10/downstream/development/b426228fe9d2fd0a/attempt01/trials.jsonl",
+      "sha256": "b829b61a0c1b8e13cb58a766e2c79336e6f804198506159976ce3b4759b1bda8"
+    }
+  ],
+  "final_release": false,
+  "initial_states_per_task": 10,
+  "kind": "independent_Long64_three_seed_development_statistics",
+  "limitations": [
+    "Only Long64 development results; not the final main table.",
+    "All600 trials reuse100 unique initial states; three training seeds do not increase the initial-state sample size.",
+    "No O2A timing or dense comparison is included; no success-speed frontier conclusion.",
+    "128-token negative outcomes and all256-token results remain separately preserved; no cross-budget pooling.",
+    "The interval conditions on these tasks and registered training seeds; final sealed results remain unopened."
+  ],
+  "mean_over_seeds": {
+    "A_success_rate": 0.8733333333333334,
+    "B_minus_A_success_rate": 0.02999999999999999,
+    "B_success_rate": 0.9033333333333333
+  },
+  "other_budget_statistics_recomputed": false,
+  "paired_bootstrap": {
+    "CI95_A": [
+      0.8300000000000001,
+      0.9133333333333332
+    ],
+    "CI95_B": [
+      0.8633333333333333,
+      0.9433333333333332
+    ],
+    "CI95_B_minus_A": [
+      -0.0033333333333332993,
+      0.06333333333333324
+    ],
+    "cluster_has_all3_seeds_and_both_methods": true,
+    "conditional_on_registered_tasks_and_three_seeds": true,
+    "configuration": {
+      "bootstrap_repeats": 10000,
+      "bootstrap_seed": 20261016,
+      "cluster": "initial state carrying all3 training seeds",
+      "interval": "95% percentile",
+      "practical_acceptance": "difference interval lower bound strictly greater than -0.02",
+      "practical_dense_loss_margin": 0.02,
+      "primary_budget": 128,
+      "seed_sd_ddof": 1,
+      "stratify": [
+        "suite",
+        "task"
+      ],
+      "suite_weight": "equal",
+      "task_weight": "equal"
+    },
+    "equivalent_state_mean_resampling_check": true,
+    "p_value_reported": false,
+    "quantile_method": "linear",
+    "resample_within_each_task": true
+  },
+  "paired_states": {
+    "bytes": 60373,
+    "path": ".local/independent_long64_development_0830/Long64_three_seed_paired_states.json",
+    "sha256": "978da466a1a96132ca7697b679d1255cd5e906dc4cec9b934431a454045768ec"
+  },
+  "per_seed": {
+    "17": {
+      "A_rate": 0.87,
+      "A_successes": 87,
+      "B_minus_A": 0.010000000000000009,
+      "B_rate": 0.88,
+      "B_successes": 88,
+      "development_GPU_seconds": 3025,
+      "job_id": "3047156",
+      "paired_outcomes": {
+        "(0, 0)": 7,
+        "(0, 1)": 6,
+        "(1, 0)": 5,
+        "(1, 1)": 82
+      },
+      "per_task": {
+        "A64_seed17": {
+          "0": {
+            "successes": 10,
+            "trials": 10
+          },
+          "1": {
+            "successes": 10,
+            "trials": 10
+          },
+          "2": {
+            "successes": 9,
+            "trials": 10
+          },
+          "3": {
+            "successes": 6,
+            "trials": 10
+          },
+          "4": {
+            "successes": 6,
+            "trials": 10
+          },
+          "5": {
+            "successes": 10,
+            "trials": 10
+          },
+          "6": {
+            "successes": 8,
+            "trials": 10
+          },
+          "7": {
+            "successes": 10,
+            "trials": 10
+          },
+          "8": {
+            "successes": 9,
+            "trials": 10
+          },
+          "9": {
+            "successes": 9,
+            "trials": 10
+          }
+        },
+        "B64_seed17": {
+          "0": {
+            "successes": 10,
+            "trials": 10
+          },
+          "1": {
+            "successes": 10,
+            "trials": 10
+          },
+          "2": {
+            "successes": 9,
+            "trials": 10
+          },
+          "3": {
+            "successes": 6,
+            "trials": 10
+          },
+          "4": {
+            "successes": 8,
+            "trials": 10
+          },
+          "5": {
+            "successes": 10,
+            "trials": 10
+          },
+          "6": {
+            "successes": 7,
+            "trials": 10
+          },
+          "7": {
+            "successes": 10,
+            "trials": 10
+          },
+          "8": {
+            "successes": 9,
+            "trials": 10
+          },
+          "9": {
+            "successes": 9,
+            "trials": 10
+          }
+        }
+      },
+      "token_overlap_initial_observation_mean": 0.8765625
+    },
+    "23": {
+      "A_rate": 0.85,
+      "A_successes": 85,
+      "B_minus_A": 0.040000000000000036,
+      "B_rate": 0.89,
+      "B_successes": 89,
+      "development_GPU_seconds": 3038,
+      "job_id": "3047163",
+      "paired_outcomes": {
+        "(0, 0)": 7,
+        "(0, 1)": 8,
+        "(1, 0)": 4,
+        "(1, 1)": 81
+      },
+      "per_task": {
+        "A64_seed23": {
+          "0": {
+            "successes": 10,
+            "trials": 10
+          },
+          "1": {
+            "successes": 10,
+            "trials": 10
+          },
+          "2": {
+            "successes": 10,
+            "trials": 10
+          },
+          "3": {
+            "successes": 6,
+            "trials": 10
+          },
+          "4": {
+            "successes": 5,
+            "trials": 10
+          },
+          "5": {
+            "successes": 10,
+            "trials": 10
+          },
+          "6": {
+            "successes": 6,
+            "trials": 10
+          },
+          "7": {
+            "successes": 10,
+            "trials": 10
+          },
+          "8": {
+            "successes": 9,
+            "trials": 10
+          },
+          "9": {
+            "successes": 9,
+            "trials": 10
+          }
+        },
+        "B64_seed23": {
+          "0": {
+            "successes": 9,
+            "trials": 10
+          },
+          "1": {
+            "successes": 10,
+            "trials": 10
+          },
+          "2": {
+            "successes": 9,
+            "trials": 10
+          },
+          "3": {
+            "successes": 9,
+            "trials": 10
+          },
+          "4": {
+            "successes": 6,
+            "trials": 10
+          },
+          "5": {
+            "successes": 10,
+            "trials": 10
+          },
+          "6": {
+            "successes": 8,
+            "trials": 10
+          },
+          "7": {
+            "successes": 10,
+            "trials": 10
+          },
+          "8": {
+            "successes": 10,
+            "trials": 10
+          },
+          "9": {
+            "successes": 8,
+            "trials": 10
+          }
+        }
+      },
+      "token_overlap_initial_observation_mean": 0.81453125
+    },
+    "41": {
+      "A_rate": 0.9,
+      "A_successes": 90,
+      "B_minus_A": 0.039999999999999925,
+      "B_rate": 0.94,
+      "B_successes": 94,
+      "development_GPU_seconds": 3039,
+      "job_id": "3047443",
+      "paired_outcomes": {
+        "(0, 0)": 3,
+        "(0, 1)": 7,
+        "(1, 0)": 3,
+        "(1, 1)": 87
+      },
+      "per_task": {
+        "A64_seed41": {
+          "0": {
+            "successes": 10,
+            "trials": 10
+          },
+          "1": {
+            "successes": 10,
+            "trials": 10
+          },
+          "2": {
+            "successes": 9,
+            "trials": 10
+          },
+          "3": {
+            "successes": 8,
+            "trials": 10
+          },
+          "4": {
+            "successes": 7,
+            "trials": 10
+          },
+          "5": {
+            "successes": 10,
+            "trials": 10
+          },
+          "6": {
+            "successes": 7,
+            "trials": 10
+          },
+          "7": {
+            "successes": 10,
+            "trials": 10
+          },
+          "8": {
+            "successes": 9,
+            "trials": 10
+          },
+          "9": {
+            "successes": 10,
+            "trials": 10
+          }
+        },
+        "B64_seed41": {
+          "0": {
+            "successes": 10,
+            "trials": 10
+          },
+          "1": {
+            "successes": 10,
+            "trials": 10
+          },
+          "2": {
+            "successes": 9,
+            "trials": 10
+          },
+          "3": {
+            "successes": 10,
+            "trials": 10
+          },
+          "4": {
+            "successes": 8,
+            "trials": 10
+          },
+          "5": {
+            "successes": 10,
+            "trials": 10
+          },
+          "6": {
+            "successes": 8,
+            "trials": 10
+          },
+          "7": {
+            "successes": 10,
+            "trials": 10
+          },
+          "8": {
+            "successes": 9,
+            "trials": 10
+          },
+          "9": {
+            "successes": 10,
+            "trials": 10
+          }
+        }
+      },
+      "token_overlap_initial_observation_mean": 0.8196875
+    }
+  },
+  "per_task": {
+    "0": {
+      "A_mean": 1.0,
+      "A_seed_sd": 0.0,
+      "B_mean": 0.9666666666666667,
+      "B_minus_A_mean": -0.033333333333333326,
+      "B_minus_A_seed_sd": 0.05773502691896256,
+      "B_seed_sd": 0.05773502691896256,
+      "seed_A_rates": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "seed_B_minus_A": [
+        0.0,
+        -0.09999999999999998,
+        0.0
+      ],
+      "seed_B_rates": [
+        1.0,
+        0.9,
+        1.0
+      ],
+      "task_name": "LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket",
+      "unique_initial_states": 10
+    },
+    "1": {
+      "A_mean": 1.0,
+      "A_seed_sd": 0.0,
+      "B_mean": 1.0,
+      "B_minus_A_mean": 0.0,
+      "B_minus_A_seed_sd": 0.0,
+      "B_seed_sd": 0.0,
+      "seed_A_rates": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "seed_B_minus_A": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_B_rates": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "task_name": "LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket",
+      "unique_initial_states": 10
+    },
+    "2": {
+      "A_mean": 0.9333333333333332,
+      "A_seed_sd": 0.05773502691896257,
+      "B_mean": 0.9,
+      "B_minus_A_mean": -0.033333333333333326,
+      "B_minus_A_seed_sd": 0.05773502691896256,
+      "B_seed_sd": 0.0,
+      "seed_A_rates": [
+        0.9,
+        1.0,
+        0.9
+      ],
+      "seed_B_minus_A": [
+        0.0,
+        -0.09999999999999998,
+        0.0
+      ],
+      "seed_B_rates": [
+        0.9,
+        0.9,
+        0.9
+      ],
+      "task_name": "KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it",
+      "unique_initial_states": 10
+    },
+    "3": {
+      "A_mean": 0.6666666666666666,
+      "A_seed_sd": 0.11547005383792519,
+      "B_mean": 0.8333333333333334,
+      "B_minus_A_mean": 0.16666666666666666,
+      "B_minus_A_seed_sd": 0.1527525231651947,
+      "B_seed_sd": 0.2081665999466133,
+      "seed_A_rates": [
+        0.6,
+        0.6,
+        0.8
+      ],
+      "seed_B_minus_A": [
+        0.0,
+        0.30000000000000004,
+        0.19999999999999996
+      ],
+      "seed_B_rates": [
+        0.6,
+        0.9,
+        1.0
+      ],
+      "task_name": "KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it",
+      "unique_initial_states": 10
+    },
+    "4": {
+      "A_mean": 0.6,
+      "A_seed_sd": 0.09999999999999998,
+      "B_mean": 0.7333333333333334,
+      "B_minus_A_mean": 0.1333333333333334,
+      "B_minus_A_seed_sd": 0.057735026918962595,
+      "B_seed_sd": 0.11547005383792519,
+      "seed_A_rates": [
+        0.6,
+        0.5,
+        0.7
+      ],
+      "seed_B_minus_A": [
+        0.20000000000000007,
+        0.09999999999999998,
+        0.10000000000000009
+      ],
+      "seed_B_rates": [
+        0.8,
+        0.6,
+        0.8
+      ],
+      "task_name": "LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate",
+      "unique_initial_states": 10
+    },
+    "5": {
+      "A_mean": 1.0,
+      "A_seed_sd": 0.0,
+      "B_mean": 1.0,
+      "B_minus_A_mean": 0.0,
+      "B_minus_A_seed_sd": 0.0,
+      "B_seed_sd": 0.0,
+      "seed_A_rates": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "seed_B_minus_A": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_B_rates": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "task_name": "STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy",
+      "unique_initial_states": 10
+    },
+    "6": {
+      "A_mean": 0.6999999999999998,
+      "A_seed_sd": 0.10000000000000003,
+      "B_mean": 0.7666666666666666,
+      "B_minus_A_mean": 0.0666666666666667,
+      "B_minus_A_seed_sd": 0.15275252316519475,
+      "B_seed_sd": 0.05773502691896263,
+      "seed_A_rates": [
+        0.8,
+        0.6,
+        0.7
+      ],
+      "seed_B_minus_A": [
+        -0.10000000000000009,
+        0.20000000000000007,
+        0.10000000000000009
+      ],
+      "seed_B_rates": [
+        0.7,
+        0.8,
+        0.8
+      ],
+      "task_name": "LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate",
+      "unique_initial_states": 10
+    },
+    "7": {
+      "A_mean": 1.0,
+      "A_seed_sd": 0.0,
+      "B_mean": 1.0,
+      "B_minus_A_mean": 0.0,
+      "B_minus_A_seed_sd": 0.0,
+      "B_seed_sd": 0.0,
+      "seed_A_rates": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "seed_B_minus_A": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "seed_B_rates": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "task_name": "LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket",
+      "unique_initial_states": 10
+    },
+    "8": {
+      "A_mean": 0.9,
+      "A_seed_sd": 0.0,
+      "B_mean": 0.9333333333333332,
+      "B_minus_A_mean": 0.033333333333333326,
+      "B_minus_A_seed_sd": 0.05773502691896256,
+      "B_seed_sd": 0.05773502691896257,
+      "seed_A_rates": [
+        0.9,
+        0.9,
+        0.9
+      ],
+      "seed_B_minus_A": [
+        0.0,
+        0.09999999999999998,
+        0.0
+      ],
+      "seed_B_rates": [
+        0.9,
+        1.0,
+        0.9
+      ],
+      "task_name": "KITCHEN_SCENE8_put_both_moka_pots_on_the_stove",
+      "unique_initial_states": 10
+    },
+    "9": {
+      "A_mean": 0.9333333333333332,
+      "A_seed_sd": 0.05773502691896257,
+      "B_mean": 0.9,
+      "B_minus_A_mean": -0.033333333333333326,
+      "B_minus_A_seed_sd": 0.05773502691896256,
+      "B_seed_sd": 0.09999999999999998,
+      "seed_A_rates": [
+        0.9,
+        0.9,
+        1.0
+      ],
+      "seed_B_minus_A": [
+        0.0,
+        -0.09999999999999998,
+        0.0
+      ],
+      "seed_B_rates": [
+        0.9,
+        0.8,
+        1.0
+      ],
+      "task_name": "KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it",
+      "unique_initial_states": 10
+    }
+  },
+  "practical_dense_margin_evaluated": false,
+  "same_action_semantics_sha256": "4ef98a5beb21bfa790a8a0f484334d6d9020a481a517d8f89534562524025d7d",
+  "same_development_panel_sha256": "46a06087483151e36198167e7d4e5313c50b63172e09128d65a3650112f0a268",
+  "same_environment": {
+    "action_chunk": 8,
+    "environment_seed": 0,
+    "max_steps": 520,
+    "runtime_seed": 17,
+    "wait_steps": 10
+  },
+  "schema": "formal_main_v2",
+  "seed_std_ddof1": {
+    "A_success_rate": 0.025166114784235857,
+    "B_minus_A_success_rate": 0.017320508075688756,
+    "B_success_rate": 0.032145502536643146
+  },
+  "seeds": [
+    17,
+    23,
+    41
+  ],
+  "status": "passed",
+  "suite": "libero_10",
+  "tasks": 10,
+  "test_opened": false,
+  "total_trials": 600,
+  "unique_initial_states": 100,
+  "utc": "2026-10-20T08:41:55.593791+00:00"
+}

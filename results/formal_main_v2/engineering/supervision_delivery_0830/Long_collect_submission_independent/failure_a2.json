@@ -1,0 +1,6 @@
+{
+  "error": "actual live registry has unique exact submitted job",
+  "error_type": "ValueError",
+  "passed_checks": 1252,
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/long_collect_submission_independent_0830/audit_v2.py\", line 152, in <module>\n    try:main()\n        ^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/long_collect_submission_independent_0830/audit_v2.py\", line 123, in main\n    chk(len(state_job)==1 and state_job[0]==job,'actual live registry has unique exact submitted job')\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/long_collect_submission_independent_0830/audit_v2.py\", line 24, in chk\n    if not ok:raise ValueError(name)\n              ^^^^^^^^^^^^^^^^^^^^^^\nValueError: actual live registry has unique exact submitted job\n"
+}

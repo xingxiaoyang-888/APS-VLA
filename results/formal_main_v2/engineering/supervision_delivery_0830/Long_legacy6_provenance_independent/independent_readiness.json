@@ -1,0 +1,390 @@
+{
+  "RNG_requirement_interpretation": {
+    "absence_of_old_RNG_dump_alone_is_not_a_new_stop_condition": true,
+    "candidate_AST_and_fake_CPU_replay_are_supporting_evidence_not_simulator_regeneration": true,
+    "candidate_action_trace_result_inherited_not_newly_certified": "action_trace_checks_passed_full_reuse_unresolved_controller_provenance",
+    "no_new_RNG_draw_and_control_flow_identity_required": true,
+    "old_full_RNG_dump_required_by_0917": false
+  },
+  "audit_source_sha256": "d3ac954e53dd01ea85bed8eecd35ce869de5ae968d272365c90210a9d05e0fd7",
+  "document_corrections": [
+    "Replace any assertion that no historical controller source provenance exists with: old per-invocation capture missing, but pre-run exact wheel/install/factory provenance recovered.",
+    "Do not present missing historical full RNG snapshots as a registered independent blocker; assess adapter RNG noninterference under the original requirement.",
+    "Do not claim wheel/current equality or four first-chunk matches prove whole600 environment execution equivalence."
+  ],
+  "established": [
+    "Exact robosuite/MuJoCo distribution provenance was committed 2026-10-14, before old600 jobs.",
+    "Recorded installer targets the same project venv and successful attempt4 installs transferred wheels and imports the runtime.",
+    "All six old invocations bound the frozen evaluation factory and verified the exact LIBERO archive; their original stderr warnings also identify the same venv robosuite import path and absence of private macro.",
+    "The wheel reproduces controller defaults and current v4 source bytes; this is corroboration, not a retrospective instance measurement."
+  ],
+  "evidence": {
+    ".local/long_legacy6_followup_0727/delivery_final.json": {
+      "bytes": 2830,
+      "sha256": "c1309c1066274cdf5bbd876117aa185795c7ae6d3444d0e0dac18b8d22ecd001"
+    },
+    ".local/long_legacy6_followup_0727/minimum_followup_plan.json": {
+      "bytes": 10076,
+      "sha256": "2e8f7a13557b69041a4eba4b0f6963b1f9911a6114912b1e01fc2b6472464826"
+    },
+    ".local/long_legacy6_followup_0727/report.json": {
+      "bytes": 31093,
+      "sha256": "22a47a847ed81d7a18360354dd6a53b8e1153c716df78a87264bcbca25c49f18"
+    },
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/__init__.py": {
+      "bytes": 739,
+      "sha256": "9f4ffe94647599699878b94bc9cf7cae3cff075b5c54529d9840a1c13e6aad3e"
+    },
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/base_controller.py": {
+      "bytes": 10496,
+      "sha256": "61f99a2daeb4eb6e39bfb996d94c5a5689ef3bc771d030d070193ea56d6a8332"
+    },
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/config/osc_pose.json": {
+      "bytes": 466,
+      "sha256": "07f3a8b41d3eecc8a36700a85bd8207ee3fbc36eb73f6a2248340c96770d1e45"
+    },
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/controllers/osc.py": {
+      "bytes": 20265,
+      "sha256": "cfa62a0e719bc53ef0c701efa66f7b3e2272d4fca2150ec73c05bb145eba85cb"
+    },
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/robots/single_arm.py": {
+      "bytes": 19730,
+      "sha256": "38237d7b68c876b413f0df811b135ca3b2fb91061c011696baab07db5e87fa14"
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/LIBERO/libero/libero/envs/env_wrapper.py": {
+      "bytes": 9059,
+      "sha256": "2880cad5b3fe46ea105816f42798faf4c22e16839098b679ebcad7b51acfdbd0"
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/libero-8f1084e.tar": {
+      "bytes": 447600640,
+      "sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c"
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/external/wheels-libero/robosuite-1.4.1-py3-none-any.whl": {
+      "bytes": 193518002,
+      "sha256": "62587cd5888d9d3d813f3ffcc7017f6f77efa618952527a0b9bb139ffd0a3741"
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/setup/after_libero_freeze.txt": {
+      "bytes": 4750,
+      "sha256": "8bac807b631bb9c9691df977eae1b26f202b6a2d8d4a440153a74bb96b7a9b06"
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/setup/install_libero_local.log": {
+      "bytes": 961,
+      "sha256": "82e539d0d8746cffccc7df45006c2a445f9dad6c33f40f791a913f548618ebb0"
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/setup/install_libero_local_attempt4.log": {
+      "bytes": 32145,
+      "sha256": "2f89cb36baf0e7e6695090a6b858c8dc17db27f703cbf74a72736a8214bd7822"
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/setup/install_runtime_local.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/setup/install_runtime_local_attempt3.exit": {
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    "configs/assets/libero_wheels_transfer.json": {
+      "bytes": 2246,
+      "sha256": "bfd7901791c5858e405188cfc1e917fdd3db73a277a2468dd94b8d620ec0cb23"
+    },
+    "configs/experiments/formal_main_v2_action_execution_compat_v1.json": {
+      "bytes": 6356,
+      "sha256": "0917bff60e632a5be3c2db50b16daa0b904e4754a3ba31334802060f75d3eefe"
+    },
+    "configs/requirements-libero.txt": {
+      "bytes": 339,
+      "sha256": "d255285a470c034692b493904ca8335847e58ffec6388775ddef7ccc8419987c"
+    },
+    "results/formal_main_v2/engineering/supervision_delivery_2130/terminal_independent/dependencies/6d88db46acaf_install_libero_runtime.sh.txt": {
+      "bytes": 1556,
+      "sha256": "6d88db46acaf6a69feba8590af801ae5ea6576de059899ef05d7fec9cca922c5"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3016981_7578d107537c41059c11805b44c9e37c.json": {
+      "bytes": 5794,
+      "sha256": "c7830430a3ebf3c9154f7fd6d93944d70232f9bef71656bc64af5cdf529aa9c8"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3016981_7578d107537c41059c11805b44c9e37c.jsonl": {
+      "bytes": 5627,
+      "sha256": "865c81ebff537de4545b6bc9028d1b1d3e96683444c78e00d8200c4f8780c219"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017161_166c498ed55e4453bb0c52e50196fb61.json": {
+      "bytes": 22630,
+      "sha256": "7e247e43ff302613b3621693715a52c82c81f2426e0e5a8cf1b9e5035bb4faf0"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017161_166c498ed55e4453bb0c52e50196fb61.jsonl": {
+      "bytes": 7480,
+      "sha256": "096fa4b2f2c10a7b18a96834b798ffde9ea04d99806de6c5dfbf78dd401ed945"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017959_47833812f6db4847aeec831026555007.json": {
+      "bytes": 52219,
+      "sha256": "7ac4779ede5d18aa076bd2a8e55db24c3367953cb22b7b852e18f314d336c292"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017959_47833812f6db4847aeec831026555007.jsonl": {
+      "bytes": 21621,
+      "sha256": "97f9a37ae4fe6a26fd103088ea0a0031ff940e1c7647ce306d24b26fadc7f79e"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3018505_aa1c9dd29d4a465b91c3a6613ce857bf.json": {
+      "bytes": 83725,
+      "sha256": "b7d99e583b72f6ecbf57ea2823c98b6fb8daf02a17893baaa1aba264c4a4ffda"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3018505_aa1c9dd29d4a465b91c3a6613ce857bf.jsonl": {
+      "bytes": 35616,
+      "sha256": "aaa39f72e11f24bf25dcb7ad17636539ffafc170a58c0795021881993b195acd"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019176_f3c8f0d3eef64ab2ad9e2f3dd820ae89.json": {
+      "bytes": 116839,
+      "sha256": "e2f8ff4297d47e5235a7c81fda495c0b11755dcab605a63d341223824c4b4a8e"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019176_f3c8f0d3eef64ab2ad9e2f3dd820ae89.jsonl": {
+      "bytes": 51675,
+      "sha256": "685a4abe4dfd6dd5aee822d5c43595a59e526779af1a32da9773d46a54642825"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019954_78d083646a3e4b40ab0e7a5f53359020.json": {
+      "bytes": 144886,
+      "sha256": "1c8acc701d4c36b499d9e93deff731ee9e67e41012b384b7e684d7db32cceaff"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019954_78d083646a3e4b40ab0e7a5f53359020.jsonl": {
+      "bytes": 67277,
+      "sha256": "e9384c59afe343c756ee022c67c5a616c5569992c4e4fe281224727ef68dc131"
+    },
+    "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/config.json": {
+      "bytes": 19185,
+      "sha256": "35724e624de06166c78e11c9e4bcd56b199cce73e5d5df284b3cc4365e0b7e14"
+    },
+    "results/setup/after_libero_freeze.txt": {
+      "bytes": 4750,
+      "sha256": "8bac807b631bb9c9691df977eae1b26f202b6a2d8d4a440153a74bb96b7a9b06"
+    },
+    "results/setup/runtime_sources.json": {
+      "bytes": 891,
+      "sha256": "2a34306de02495b145620038aeb4a79fbbd9574de518183aa56088b5a4a09b16"
+    },
+    "results/slurm/cti-formal-downstream_3016981.err": {
+      "bytes": 1798,
+      "sha256": "bebeaa6a16ae2046f15cd5a003b1525a614d57f0f642d63e0e63c2965a3a6f86"
+    },
+    "results/slurm/cti-formal-downstream_3017161.err": {
+      "bytes": 1798,
+      "sha256": "2942cb1269cc8e63fb5c16a50a318231fc238135041ca864c5aa943f39a24125"
+    },
+    "results/slurm/cti-formal-downstream_3017959.err": {
+      "bytes": 1798,
+      "sha256": "94b293ae626db838248125d4cdbdd78bd54b260f29b5d8e6874af0cefcceb961"
+    },
+    "results/slurm/cti-formal-downstream_3018505.err": {
+      "bytes": 1798,
+      "sha256": "3053c7ddb964a47643b15f5368da66b712ca1804d69e7d2a0be80ac9341d48be"
+    },
+    "results/slurm/cti-formal-downstream_3019176.err": {
+      "bytes": 1798,
+      "sha256": "5e0880b821375804dedef91a363b05919770c175980c0092246775ac3ed6669d"
+    },
+    "results/slurm/cti-formal-downstream_3019954.err": {
+      "bytes": 1798,
+      "sha256": "68f0e359b7901b3a1ac2fbc0c0a8eb6e0d3ad37cd2fbabc6024a896804aecd9e"
+    },
+    "scripts/eval_formal_selector_libero.py": {
+      "bytes": 18291,
+      "sha256": "de5a2b0a20f8121b57da8a1f766e4f5b48f3c86e214eae7aa3d08d642753f887"
+    }
+  },
+  "factory_chain": {
+    "constructor": "OffScreenRenderEnv -> ControlEnv(controller=OSC_POSE) -> suite.load_controller_config -> pinned robosuite OSC_POSE -> OperationalSpaceController.use_delta",
+    "env_wrapper_member_sha256": "2880cad5b3fe46ea105816f42798faf4c22e16839098b679ebcad7b51acfdbd0",
+    "historically_verified_LIBERO_archive_sha256": "e0a261753ce056649da67f4c71938391a8d7c55a3eae53e4c17a5d79649da55c",
+    "old_attempts": [
+      {
+        "LIBERO_archive_bound": true,
+        "actual_robosuite_load_SHA_bound_in_old_watched_files": false,
+        "finished_utc": "2026-10-17T10:12:24.563281+00:00",
+        "frozen_factory_bound": true,
+        "historical_import_warning_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py",
+        "historical_stderr": "results/slurm/cti-formal-downstream_3016981.err",
+        "historical_stderr_sha256": "bebeaa6a16ae2046f15cd5a003b1525a614d57f0f642d63e0e63c2965a3a6f86",
+        "job_id": "3016981",
+        "journal": "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3016981_7578d107537c41059c11805b44c9e37c.jsonl",
+        "journal_sha256": "865c81ebff537de4545b6bc9028d1b1d3e96683444c78e00d8200c4f8780c219"
+      },
+      {
+        "LIBERO_archive_bound": true,
+        "actual_robosuite_load_SHA_bound_in_old_watched_files": false,
+        "finished_utc": "2026-10-17T11:07:53.034299+00:00",
+        "frozen_factory_bound": true,
+        "historical_import_warning_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py",
+        "historical_stderr": "results/slurm/cti-formal-downstream_3017161.err",
+        "historical_stderr_sha256": "2942cb1269cc8e63fb5c16a50a318231fc238135041ca864c5aa943f39a24125",
+        "job_id": "3017161",
+        "journal": "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017161_166c498ed55e4453bb0c52e50196fb61.jsonl",
+        "journal_sha256": "096fa4b2f2c10a7b18a96834b798ffde9ea04d99806de6c5dfbf78dd401ed945"
+      },
+      {
+        "LIBERO_archive_bound": true,
+        "actual_robosuite_load_SHA_bound_in_old_watched_files": false,
+        "finished_utc": "2026-10-17T13:05:55.752552+00:00",
+        "frozen_factory_bound": true,
+        "historical_import_warning_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py",
+        "historical_stderr": "results/slurm/cti-formal-downstream_3017959.err",
+        "historical_stderr_sha256": "94b293ae626db838248125d4cdbdd78bd54b260f29b5d8e6874af0cefcceb961",
+        "job_id": "3017959",
+        "journal": "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3017959_47833812f6db4847aeec831026555007.jsonl",
+        "journal_sha256": "97f9a37ae4fe6a26fd103088ea0a0031ff940e1c7647ce306d24b26fadc7f79e"
+      },
+      {
+        "LIBERO_archive_bound": true,
+        "actual_robosuite_load_SHA_bound_in_old_watched_files": false,
+        "finished_utc": "2026-10-17T14:37:43.739336+00:00",
+        "frozen_factory_bound": true,
+        "historical_import_warning_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py",
+        "historical_stderr": "results/slurm/cti-formal-downstream_3018505.err",
+        "historical_stderr_sha256": "3053c7ddb964a47643b15f5368da66b712ca1804d69e7d2a0be80ac9341d48be",
+        "job_id": "3018505",
+        "journal": "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3018505_aa1c9dd29d4a465b91c3a6613ce857bf.jsonl",
+        "journal_sha256": "aaa39f72e11f24bf25dcb7ad17636539ffafc170a58c0795021881993b195acd"
+      },
+      {
+        "LIBERO_archive_bound": true,
+        "actual_robosuite_load_SHA_bound_in_old_watched_files": false,
+        "finished_utc": "2026-10-17T16:05:16.093545+00:00",
+        "frozen_factory_bound": true,
+        "historical_import_warning_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py",
+        "historical_stderr": "results/slurm/cti-formal-downstream_3019176.err",
+        "historical_stderr_sha256": "5e0880b821375804dedef91a363b05919770c175980c0092246775ac3ed6669d",
+        "job_id": "3019176",
+        "journal": "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019176_f3c8f0d3eef64ab2ad9e2f3dd820ae89.jsonl",
+        "journal_sha256": "685a4abe4dfd6dd5aee822d5c43595a59e526779af1a32da9773d46a54642825"
+      },
+      {
+        "LIBERO_archive_bound": true,
+        "actual_robosuite_load_SHA_bound_in_old_watched_files": false,
+        "finished_utc": "2026-10-17T17:35:40.398914+00:00",
+        "frozen_factory_bound": true,
+        "historical_import_warning_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py",
+        "historical_stderr": "results/slurm/cti-formal-downstream_3019954.err",
+        "historical_stderr_sha256": "68f0e359b7901b3a1ac2fbc0c0a8eb6e0d3ad37cd2fbabc6024a896804aecd9e",
+        "job_id": "3019954",
+        "journal": "results/formal_main_v2/libero_10/downstream/development/8c843c1d4ee8383c/attempt01/adapter_invocations/3019954_78d083646a3e4b40ab0e7a5f53359020.jsonl",
+        "journal_sha256": "e9384c59afe343c756ee022c67c5a616c5569992c4e4fe281224727ef68dc131"
+      }
+    ],
+    "old_frozen_factory_sha256": "de5a2b0a20f8121b57da8a1f766e4f5b48f3c86e214eae7aa3d08d642753f887",
+    "pinned_distribution_limits": {
+      "control_delta": true,
+      "damping_ratio": 1,
+      "damping_ratio_limits": [
+        0,
+        10
+      ],
+      "impedance_mode": "fixed",
+      "input_max": 1,
+      "input_min": -1,
+      "interpolation": null,
+      "kp": 150,
+      "kp_limits": [
+        0,
+        300
+      ],
+      "orientation_limits": null,
+      "output_max": [
+        0.05,
+        0.05,
+        0.05,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "output_min": [
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.5,
+        -0.5,
+        -0.5
+      ],
+      "position_limits": null,
+      "ramp_ratio": 0.2,
+      "type": "OSC_POSE",
+      "uncouple_pos_ori": true
+    }
+  },
+  "historical_installation_evidence": {
+    "installation_attempt4_exit_zero_and_import_success": true,
+    "pre_old600_Git_anchors": [
+      {
+        "commit": "5c15d256796661cfd91375ac4721356d1e1888dc",
+        "history": "5c15d256796661cfd91375ac4721356d1e1888dc 2026-10-14T12:48:52+08:00 2026-10-14T12:48:52+08:00 Freeze experiment protocols and add gated G0/G1 execution",
+        "path": "results/setup/after_libero_freeze.txt",
+        "sha256": "8bac807b631bb9c9691df977eae1b26f202b6a2d8d4a440153a74bb96b7a9b06"
+      },
+      {
+        "commit": "5c15d256796661cfd91375ac4721356d1e1888dc",
+        "history": "5c15d256796661cfd91375ac4721356d1e1888dc 2026-10-14T12:48:52+08:00 2026-10-14T12:48:52+08:00 Freeze experiment protocols and add gated G0/G1 execution",
+        "path": "configs/assets/libero_wheels_transfer.json",
+        "sha256": "bfd7901791c5858e405188cfc1e917fdd3db73a277a2468dd94b8d620ec0cb23"
+      },
+      {
+        "commit": "5c15d256796661cfd91375ac4721356d1e1888dc",
+        "history": "5c15d256796661cfd91375ac4721356d1e1888dc 2026-10-14T12:48:52+08:00 2026-10-14T12:48:52+08:00 Freeze experiment protocols and add gated G0/G1 execution",
+        "path": "configs/requirements-libero.txt",
+        "sha256": "d255285a470c034692b493904ca8335847e58ffec6388775ddef7ccc8419987c"
+      }
+    ],
+    "previous_installation_failures_retained": true,
+    "robosuite_wheel_sha256": "62587cd5888d9d3d813f3ffcc7017f6f77efa618952527a0b9bb139ffd0a3741",
+    "same_registered_venv_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/venv",
+    "wheel_members_compared": {
+      "robosuite/controllers/__init__.py": {
+        "current_file_sha256": "9f4ffe94647599699878b94bc9cf7cae3cff075b5c54529d9840a1c13e6aad3e",
+        "current_matches_pinned_distribution": true,
+        "is_historical_instance_capture": false,
+        "wheel_member_sha256": "9f4ffe94647599699878b94bc9cf7cae3cff075b5c54529d9840a1c13e6aad3e"
+      },
+      "robosuite/controllers/base_controller.py": {
+        "current_file_sha256": "61f99a2daeb4eb6e39bfb996d94c5a5689ef3bc771d030d070193ea56d6a8332",
+        "current_matches_pinned_distribution": true,
+        "is_historical_instance_capture": false,
+        "wheel_member_sha256": "61f99a2daeb4eb6e39bfb996d94c5a5689ef3bc771d030d070193ea56d6a8332"
+      },
+      "robosuite/controllers/config/osc_pose.json": {
+        "current_file_sha256": "07f3a8b41d3eecc8a36700a85bd8207ee3fbc36eb73f6a2248340c96770d1e45",
+        "current_matches_pinned_distribution": true,
+        "is_historical_instance_capture": false,
+        "wheel_member_sha256": "07f3a8b41d3eecc8a36700a85bd8207ee3fbc36eb73f6a2248340c96770d1e45"
+      },
+      "robosuite/controllers/osc.py": {
+        "current_file_sha256": "cfa62a0e719bc53ef0c701efa66f7b3e2272d4fca2150ec73c05bb145eba85cb",
+        "current_matches_pinned_distribution": true,
+        "is_historical_instance_capture": false,
+        "wheel_member_sha256": "cfa62a0e719bc53ef0c701efa66f7b3e2272d4fca2150ec73c05bb145eba85cb"
+      },
+      "robosuite/robots/single_arm.py": {
+        "current_file_sha256": "38237d7b68c876b413f0df811b135ca3b2fb91061c011696baab07db5e87fa14",
+        "current_matches_pinned_distribution": true,
+        "is_historical_instance_capture": false,
+        "wheel_member_sha256": "38237d7b68c876b413f0df811b135ca3b2fb91061c011696baab07db5e87fa14"
+      }
+    }
+  },
+  "kind": "bounded_independent_legacy600_historical_readiness_review",
+  "new_GPU_jobs": 0,
+  "new_scheduler_queries": 0,
+  "new_scientific_trials": 0,
+  "production_reuse_authorized": false,
+  "registered_requirements": [
+    "Exact old/new identity and action trace; removed branch never taken and all full emitted chunks finite/within former threshold.",
+    "Controller/environment identity established for old and target execution.",
+    "Adapter adds no numerical or RNG change; explicit per-trial equivalence receipts."
+  ],
+  "registration_rule": "Reuse only after exact identity/action-trace audit proves the removed branch was never taken, all emitted chunks were finite and within the former threshold, controller and environment were identical, and the adapter adds no numerical or RNG change. Each reused trial gets an explicit equivalence receipt linking old and new execution identities.",
+  "remaining_unproven": [
+    "The old600 receipts did not hash the actual imported robosuite modules or record bound controller attributes. The recovered installation provenance alone does not demonstrate absence of intervening in-place changes between install and all six old jobs.",
+    "Whether the recovered historical installation/factory chain is accepted as sufficient identity evidence requires explicit root/independent bridge review; no production consumer is changed here.",
+    "The complete per-trial equivalence bridge and its consumer interface are not independently accepted by this bounded readiness review."
+  ],
+  "schema": "formal_main_v2",
+  "scope": "Read-only provenance and interpretation of 0917 registration; not an independent replay of 600 traces or a bridge-consumer acceptance.",
+  "sealed_values_read": false,
+  "state_git_or_production_mutations": false,
+  "status": "historical_installation_and_factory_evidence_recovered_runtime_identity_adoption_unresolved",
+  "utc": "2026-10-20T08:39:37.553264+00:00",
+  "weights_read": false
+}
