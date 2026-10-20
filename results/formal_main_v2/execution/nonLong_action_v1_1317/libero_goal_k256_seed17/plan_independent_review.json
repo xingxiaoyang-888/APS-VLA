@@ -1,0 +1,184 @@
+{
+  "O2A_enabled": false,
+  "action_execution_contract": {
+    "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k256_seed17/execution_contract.json",
+    "sha256": "863fb23cbefab9c9788349bbf7a03623dde8c026839648563ec1dd35e2bde4c5"
+  },
+  "actual_GPU_runtime_chain_verified": false,
+  "actual_inner_wrapper_P_verified": true,
+  "actual_outer_source_and_plan_P_closure_verified": true,
+  "allowed_stages": [
+    "development"
+  ],
+  "author_full_delivery": {
+    "path": ".local/nonLong_development_plans_1317/delivery_manifest.json",
+    "sha256": "e00a93a9dc63d6e4c2b72f1776c50164795dbc9e7de5e7621be692500e52df46"
+  },
+  "author_manifest": {
+    "path": ".local/nonLong_development_plans_1317/attempt01/manifest.json",
+    "sha256": "7a9dab6ab4096cbe0c54ed4dc93574b39628e8e78799efa5614aeb5ee8bc173f"
+  },
+  "blockers": [],
+  "budget": 256,
+  "canonical_review_path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k256_seed17/plan_independent_review.json",
+  "checkpoint_identities": [
+    {
+      "checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k256/seed17/A/best.pt",
+      "checkpoint_sha256": "756e7033ed467d50c748ff2a6290a3c9f84928c4a5a30c3304669c9e5f28d928",
+      "method_id": "A256_seed17",
+      "original_identity": {
+        "checkpoint_sha256": "756e7033ed467d50c748ff2a6290a3c9f84928c4a5a30c3304669c9e5f28d928",
+        "config_sha256": "8f57111b504ce8980b8678202088e7c3202c8d66bd4a388346d18cc196761dd2",
+        "data_protocol_sha256": "5879e56b566ed2bdc45f02053a42be9a1ba009d0d6d4e3d23751b4db821400a3",
+        "deployment_receipt_sha256": "ed46363ad21cd4a5c3af8e45c643564f4056a2007af52e0e74e807ba84fcf123",
+        "f01_report_sha256": "f0f9b679daab195cf83c850597702b4049368604bd82f68f05f14de9815ba25c",
+        "frozen_model_sha256": "85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2",
+        "future_head_deployed": false,
+        "input_acceptance_sha256": "a25927ec8a25e1bc72cb87fb963216223ea8307a830699f0bee87c583fe92cb0",
+        "method": "A",
+        "method_id": "A256_seed17",
+        "model_revision": "c2d0f9fbbd82674683b397ff923168a12f6a307b",
+        "pair_id": "5b1bc1ab99e1bfa1545ef8270ca3fbe8364349ab462f8a64fb4858eb15576e1e",
+        "schema": "formal_main_v2",
+        "selection_protocol_sha256": "893e208ba12f74cb5759f914425d40497c5f62a94d3a4b3346f9eaf0b438fbd3",
+        "source_sha256": "36b4654ba1479a040c5415258f5e043abfff41fc4ed4200f81dd5bc4638d7662",
+        "stats_key": "libero_goal_no_noops",
+        "suite": "libero_goal",
+        "training_complete": true,
+        "training_seed": 17,
+        "visual_tokens": 256,
+        "window_manifest_sha256": "4a9ab2252e6bb32f33bc4de46957b41f2be1c755920a87f0d5c8fa26108fbec8"
+      },
+      "receipt": {
+        "path": "results/formal_main_v2/libero_goal/k256/seed17/training/A/deployment_receipt.json",
+        "sha256": "f69be1d5cde96dc18d467364a433cb00e239a63df89bec1da32d1dd96067c80c"
+      },
+      "selected_update": 4000
+    },
+    {
+      "checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k256/seed17/B/best.pt",
+      "checkpoint_sha256": "48cadc7b53914b87f4a7e8ef232bdcfe87bf94a1e28d8758e2db44d31e4ab2c3",
+      "method_id": "B256_seed17",
+      "original_identity": {
+        "checkpoint_sha256": "48cadc7b53914b87f4a7e8ef232bdcfe87bf94a1e28d8758e2db44d31e4ab2c3",
+        "config_sha256": "75b2302f4e449130ce063b755b015a36a86c26109a951eb75124292ff6a25c16",
+        "data_protocol_sha256": "5879e56b566ed2bdc45f02053a42be9a1ba009d0d6d4e3d23751b4db821400a3",
+        "deployment_receipt_sha256": "052a35b9084e15533f86e426da300dc1f2dee8055e672de563c734be232c4aa7",
+        "f01_report_sha256": "f0f9b679daab195cf83c850597702b4049368604bd82f68f05f14de9815ba25c",
+        "frozen_model_sha256": "85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2",
+        "future_head_deployed": false,
+        "input_acceptance_sha256": "a25927ec8a25e1bc72cb87fb963216223ea8307a830699f0bee87c583fe92cb0",
+        "method": "B",
+        "method_id": "B256_seed17",
+        "model_revision": "c2d0f9fbbd82674683b397ff923168a12f6a307b",
+        "pair_id": "5b1bc1ab99e1bfa1545ef8270ca3fbe8364349ab462f8a64fb4858eb15576e1e",
+        "schema": "formal_main_v2",
+        "selection_protocol_sha256": "893e208ba12f74cb5759f914425d40497c5f62a94d3a4b3346f9eaf0b438fbd3",
+        "source_sha256": "36b4654ba1479a040c5415258f5e043abfff41fc4ed4200f81dd5bc4638d7662",
+        "stats_key": "libero_goal_no_noops",
+        "suite": "libero_goal",
+        "training_complete": true,
+        "training_seed": 17,
+        "visual_tokens": 256,
+        "window_manifest_sha256": "4a9ab2252e6bb32f33bc4de46957b41f2be1c755920a87f0d5c8fa26108fbec8"
+      },
+      "receipt": {
+        "path": "results/formal_main_v2/libero_goal/k256/seed17/training/B/deployment_receipt.json",
+        "sha256": "9857085154c8c1c85102d3e8a4c45a9e461dd7cf5379ba9e2bec15773ba521a0"
+      },
+      "selected_update": 5000
+    }
+  ],
+  "effective_plan": {
+    "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k256_seed17/effective_plan.json",
+    "sha256": "b23c341ccb4303a713d567dace2876a3fad63d88a691f85a21666a715c454178"
+  },
+  "execution_version": "formal-downstream-action-v1",
+  "expected_trials": 200,
+  "final_evaluation_enabled": false,
+  "global_freeze_enabled": false,
+  "group_key": "libero_goal_k256_seed17",
+  "historical_results_retained": [
+    {
+      "job_id": "3048609",
+      "method_ids": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64",
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "job_id": "3049191",
+      "method_ids": [
+        "A128_seed23",
+        "B128_seed23"
+      ],
+      "status": "COMPLETED"
+    }
+  ],
+  "inherited_engineering_GPU_evidence": {
+    "results/formal_main_v2/engineering/action_v4_actual_independent_0547/terminal_review.json": "613489f84224eaafac36523244ac98e3b81d50624d9da7102b3d5cd1062edbbe",
+    "results/formal_main_v2/preflight/heartbeat_20261019T1347/v4_GPU_root_acceptance.json": "3ee503429d703bb9d8da5970a9e183d371defbaf86884b24ae164d6cbc7bc1e9"
+  },
+  "kind": "formal_action_development_plan_independent_review",
+  "method_ids": [
+    "A256_seed17",
+    "B256_seed17"
+  ],
+  "new_GPU_seconds": 0,
+  "new_P_wrapper_verify_passed": false,
+  "old_success_failure_results_relabelled": false,
+  "plan_sha256": "3f3326a46fb1349216384ae1460e5e81a69afa03b6354ce2d989f338f2a4e2ba",
+  "positive_full_outer_wrapper_verification_pending_root_readiness": true,
+  "prior_allocation_cost": [],
+  "prior_job_ids": [],
+  "production_chain_complete": true,
+  "production_chain_complete_meaning": "Exact pre-execution metadata/source/scientific/consumer chain is audited. This does not attest a new GPU run or full outer wrapper.verify; root publication, genuine readiness, both actual P verifies and fresh single-use gateway admission remain mandatory.",
+  "required_before_submission": [
+    "Root publish exact static dependency closure and genuine root/independent readiness to R and P.",
+    "Root and independent each call exact new P wrapper.verify on the genuine prepared invocation.",
+    "Root unchanged gateway rechecks current registry/pending/controller owner/lease, <=8 GPU capacity and exact one-use reservation; no blind retry."
+  ],
+  "resume": false,
+  "review_role": "independent",
+  "reviewed_by": "/root/goal256_s41_terminal_0333",
+  "reviewer_source": {
+    "path": ".local/nonLong_development_plans_independent_1317/audit_plans_v2.py",
+    "sha256": "64196f22bc5633176f1858e8a0f9b51790b8e1491bd9564b1ff699dffd6355c7"
+  },
+  "runtime_publication_pending": [],
+  "runtime_sources": {
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+    "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+    "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+    "scripts/ops/formal_action_deployment_v1/entry.py": "2cdb69923146cbffcaaec555b970d03efbce0c9b9f74e3b743a2ce67a21aae19",
+    "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_action_deployment_v1/runtime_scope.py": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53",
+    "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33"
+  },
+  "schema": "formal_main_v2",
+  "scientific_plan": {
+    "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k256_seed17/scientific_plan.json",
+    "sha256": "56fd2ba86fc6d2f0be6316895576d44115c7c1dac7eabef28f7d63c6717a5d65"
+  },
+  "scientific_plan_sha256": "97323c527bcd14efd1c01f71e2ac8ece5d3ced137634e60cafd5c47d6cc97b8e",
+  "scientific_settings_changed": false,
+  "scientific_trials_completed_by_new_runtime": 0,
+  "seed": 17,
+  "source173_R_S_unchanged": true,
+  "stage": "development",
+  "state_snapshot": {
+    "path": ".local/nonLong_development_plans_1317/attempt01/state_at_planning.json",
+    "sha256": "54f7e30dc48af1d0c4dbf9af605633ff4a337d61aee4b98c715dffa5d1a6831f"
+  },
+  "status": "passed",
+  "submission_authorized": false,
+  "suite": "libero_goal",
+  "transition": null,
+  "unique_development_initial_states": 100
+}

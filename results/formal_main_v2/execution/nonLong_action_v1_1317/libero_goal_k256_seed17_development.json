@@ -1,0 +1,76 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "evaluation_execution",
+  "registration_sha256": "2e4362b81ec5b7265871a8a8321f4fd8cfdffd42aa33af68c842c4caad57c6ac",
+  "suite": "libero_goal",
+  "split": "development",
+  "environment": {
+    "environment_seed": 0,
+    "runtime_seed": 17,
+    "wait_steps": 10,
+    "action_chunk": 8,
+    "max_steps": 300
+  },
+  "methods": [
+    {
+      "identity": {
+        "schema": "formal_main_v2",
+        "suite": "libero_goal",
+        "method": "A",
+        "visual_tokens": 256,
+        "training_seed": 17,
+        "method_id": "A256_seed17",
+        "config_sha256": "8f57111b504ce8980b8678202088e7c3202c8d66bd4a388346d18cc196761dd2",
+        "frozen_model_sha256": "85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2",
+        "input_acceptance_sha256": "a25927ec8a25e1bc72cb87fb963216223ea8307a830699f0bee87c583fe92cb0",
+        "model_revision": "c2d0f9fbbd82674683b397ff923168a12f6a307b",
+        "stats_key": "libero_goal_no_noops",
+        "pair_id": "5b1bc1ab99e1bfa1545ef8270ca3fbe8364349ab462f8a64fb4858eb15576e1e",
+        "selection_protocol_sha256": "893e208ba12f74cb5759f914425d40497c5f62a94d3a4b3346f9eaf0b438fbd3",
+        "window_manifest_sha256": "4a9ab2252e6bb32f33bc4de46957b41f2be1c755920a87f0d5c8fa26108fbec8",
+        "data_protocol_sha256": "5879e56b566ed2bdc45f02053a42be9a1ba009d0d6d4e3d23751b4db821400a3",
+        "source_sha256": "36b4654ba1479a040c5415258f5e043abfff41fc4ed4200f81dd5bc4638d7662",
+        "checkpoint_sha256": "756e7033ed467d50c748ff2a6290a3c9f84928c4a5a30c3304669c9e5f28d928",
+        "deployment_receipt_sha256": "ed46363ad21cd4a5c3af8e45c643564f4056a2007af52e0e74e807ba84fcf123",
+        "f01_report_sha256": "f0f9b679daab195cf83c850597702b4049368604bd82f68f05f14de9815ba25c",
+        "training_complete": true,
+        "future_head_deployed": false
+      },
+      "checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k256/seed17/A/best.pt",
+      "receipt": "results/formal_main_v2/libero_goal/k256/seed17/training/A/deployment_receipt.json",
+      "pair_config": "configs/experiments/formal_main_v2/libero_goal_k256_seed17.json",
+      "f01_report": "results/formal_main_v2/libero_goal/acceptance/attempt03/f01_k256.json"
+    },
+    {
+      "identity": {
+        "schema": "formal_main_v2",
+        "suite": "libero_goal",
+        "method": "B",
+        "visual_tokens": 256,
+        "training_seed": 17,
+        "method_id": "B256_seed17",
+        "config_sha256": "75b2302f4e449130ce063b755b015a36a86c26109a951eb75124292ff6a25c16",
+        "frozen_model_sha256": "85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2",
+        "input_acceptance_sha256": "a25927ec8a25e1bc72cb87fb963216223ea8307a830699f0bee87c583fe92cb0",
+        "model_revision": "c2d0f9fbbd82674683b397ff923168a12f6a307b",
+        "stats_key": "libero_goal_no_noops",
+        "pair_id": "5b1bc1ab99e1bfa1545ef8270ca3fbe8364349ab462f8a64fb4858eb15576e1e",
+        "selection_protocol_sha256": "893e208ba12f74cb5759f914425d40497c5f62a94d3a4b3346f9eaf0b438fbd3",
+        "window_manifest_sha256": "4a9ab2252e6bb32f33bc4de46957b41f2be1c755920a87f0d5c8fa26108fbec8",
+        "data_protocol_sha256": "5879e56b566ed2bdc45f02053a42be9a1ba009d0d6d4e3d23751b4db821400a3",
+        "source_sha256": "36b4654ba1479a040c5415258f5e043abfff41fc4ed4200f81dd5bc4638d7662",
+        "checkpoint_sha256": "48cadc7b53914b87f4a7e8ef232bdcfe87bf94a1e28d8758e2db44d31e4ab2c3",
+        "deployment_receipt_sha256": "052a35b9084e15533f86e426da300dc1f2dee8055e672de563c734be232c4aa7",
+        "f01_report_sha256": "f0f9b679daab195cf83c850597702b4049368604bd82f68f05f14de9815ba25c",
+        "training_complete": true,
+        "future_head_deployed": false
+      },
+      "checkpoint": "/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k256/seed17/B/best.pt",
+      "receipt": "results/formal_main_v2/libero_goal/k256/seed17/training/B/deployment_receipt.json",
+      "pair_config": "configs/experiments/formal_main_v2/libero_goal_k256_seed17.json",
+      "f01_report": "results/formal_main_v2/libero_goal/acceptance/attempt03/f01_k256.json"
+    }
+  ],
+  "development_panel": "configs/manifests/formal_main_v2/libero_goal/initial_states/development.json",
+  "development_panel_sha256": "ce8e3d31ab8f7616c87dd4d4031af41825713907ac184c6ea5b01d9040985aa9"
+}

@@ -1,0 +1,37 @@
+--- unexecuted_a1
++++ a2
+@@ -218,7 +218,7 @@
+   assert failure['error']=='post-submit accounting incomplete' and failure['automatic_retry'] is False
+   assert ack['returncode']==0 and ack['stdout'].strip()==jid and auth['maximum_attempts']==1
+   combined[jid]={'status':'passed','job_id':jid,'suite':'libero_goal','root_receipt':rootref,'source_version':'formal-downstream-action-v1',
+-   'training_seed':seed,'A_B_visual_tokens':128,'methods':identities,'trials':count,'unique_initial_states':100,'tasks':10,'per_task':pertask,
++   'training_seed':seed,'seed':seed,'A_B_visual_tokens':128,'methods':identities,'trials':count,'reference_trials':400 if jid=='3048609' else 0,'AB_trials':200,'unique_initial_states':100,'tasks':10,'per_task':pertask,
+    'successes':totals_by_method,'A_success':totals_by_method[A],'B_success':totals_by_method[Bm],'B_minus_A_pp':totals_by_method[Bm]-totals_by_method[A],
+    'discordance':{k:discord[k] for k in ['both_success','A_only','B_only','both_failure']},'full_action_chunks':chunks,'executed_control_actions':steps,
+    'environment':env,'raw_ledger':{'path':(output/'trials.jsonl').as_posix(),'sha256':sha(raw),'bytes':len(raw)},
+@@ -231,7 +231,8 @@
+   totals['trials']+=count;totals['chunks']+=chunks;totals['executed_actions']+=steps;totals['allocated_gpu_seconds']+=exp['allocated']
+   if jid=='3048609':
+    references={m:{'successes':totals_by_method[m],'trials':100,'training_seed':None,
+-    'per_task':[x['successes'][m] for x in pertask]} for m in ('dense','uniform256','uniform128','uniform64')}
++    'per_task':[{'task_id':x['task_id'],'successes':x['successes'][m],'trials':10} for x in pertask]} for m in ('dense','uniform256','uniform128','uniform64')}
++   combined[jid]['references']=references
+   del rows,finished,raw
+  evidence.unchanged()
+  assert totals['trials']==800 and totals['allocated_gpu_seconds']==7799 and len(global_ids)==800
+@@ -248,7 +249,7 @@
+    'available_two_seed_mean_percent':{'A128':meanA,'B128':meanB,'B_minus_A_pp':meanB-meanA},
+    'shared_initial_panel_sha256':sha(common_panel_bytes),'all_eight_methods_same_t0_observation_for_each_state':True,
+    'scope':'Two training seeds only; descriptive paired development results. 800 method-state trials are100unique initial-state clusters. Dense/uniform each evaluated once, not replicated per seed. No bootstrap CI, final evaluation, equivalence or O2A speed claim.',
+-   'bootstrap_computed':False,'CI_claimed':False,'source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':24,'paired_states':paired,
++   'bootstrap_computed':False,'CI_claimed':False,'source_preexecution_revision':'a1 was an unexecuted authoring draft; a2 adds explicit per-job reference/AB trial counts, seed alias and reference per-task results without changing scientific checks.','source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':24,'paired_states':paired,
+    'all_inputs':dict(sorted(inputs.items())),'checkpoint_bytes_read':False,'sealed_final_values_read':False,'live_scheduler_queries':0,'new_GPU_jobs':0,
+    'state_registry_Git_Slurm_mutations':False,'CPU_process_seconds':time.process_time()-cpu,'CPU_wall_seconds':time.monotonic()-started})
+  files=[]
+@@ -259,5 +260,5 @@
+  print(json.dumps({'status':'passed','report':reportref,'manifest':manifestref,'totals':totals,'successes':method_results,
+   'seed_AB':{str(v['training_seed']):[v['A_success'],v['B_success']] for v in combined.values()}}))
+ except Exception as exc:
+- failure=put('failure_a1.json',{'status':'failed','error_type':type(exc).__name__,'error':str(exc),'traceback':traceback.format_exc(),'inputs_read':inputs})
++ failure=put('failure_a2.json',{'status':'failed','error_type':type(exc).__name__,'error':str(exc),'traceback':traceback.format_exc(),'inputs_read':inputs})
+  print(json.dumps({'status':'failed','failure':failure}));raise

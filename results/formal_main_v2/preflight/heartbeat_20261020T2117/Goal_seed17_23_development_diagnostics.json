@@ -1,0 +1,866 @@
+{
+  "GPU_cost_already_in_Slurm_total": true,
+  "O2A_measured": false,
+  "all_job_GPU_seconds": 7799,
+  "available_training_seeds": [
+    17,
+    23
+  ],
+  "available_two_seed_mean_percent": {
+    "A128": 97.0,
+    "B128": 97.0,
+    "B_minus_A_pp": 0.0
+  },
+  "bootstrap_three_seed_claimed": false,
+  "final_results": false,
+  "inference": "Goal128 seed17 B-A +1pp and seed23 -1pp. Two-seed descriptive means both97%; no equivalence, final or measured latency tradeoff conclusion.",
+  "jobs": [
+    {
+      "AB_trials": 200,
+      "B_minus_A_percentage_points": 1,
+      "GPU_cost_scope": "Existing allocation counted once in global Slurm total; acceptance adds no new GPU allocation.",
+      "GPU_seconds": 5780,
+      "O2A_complete": false,
+      "action_semantics_sha256": "58de9bad3ea5bb55378fe0f47cca4bf06f093970751a8860f6297e6a6217737a",
+      "completed_trials": 600,
+      "independent_review": {
+        "path": "results/formal_main_v2/downstream_reviews/Goal_seed17_23_1317_independent.json",
+        "sha256": "7cda4fb3d421242efcc9255c732a08952d4e0288d3866f0088220cd6c3e3cea9"
+      },
+      "independent_review_scope": "Exact joint independent report member selected by job_id.",
+      "initial_observation_token_Jaccard_mean": 0.6687814915047718,
+      "initial_observation_token_overlap_mean": 0.80109375,
+      "job_id": "3048609",
+      "no_legacy_semantics_equivalence_claimed": true,
+      "offline_validation_diagnostics": {
+        "A": {
+          "checkpoint_sha256": "0277eb54e65c396f3dd5c35eb5d691c53c164e772eb7595b246729eee5327885",
+          "deployment_receipt_canonical_JSON_sha256": "642f986b578bf1edbb60bf2bc68d1bb110a2997464fec692cea7a564bea6248f",
+          "deployment_receipt_raw_sha256": "4ab6ab0716e4335e631f72457f46b795909953b394060ed5703770bb5c5ac766",
+          "hard_validation_demonstration_L1_task_equal": 0.02990277906805868,
+          "hard_validation_teacher_L1_task_equal": 0.017892327704097304,
+          "scope": "Selected checkpoint offline hard-pruning validation diagnostic, not closed-loop action error.",
+          "selected_update": 2000,
+          "validation_ref": {
+            "path": "results/formal_main_v2/libero_goal/k128/seed17/training/A/attempts/20261017T151905_dc5c6290f8f1/validation_02000.json",
+            "sha256": "7d38f428a52ebf04ca3c90a8a4d4bc54821b91a4bc056d1fb0c774bbef1b0588"
+          },
+          "validation_tasks": 10,
+          "validation_windows": 186
+        },
+        "B": {
+          "checkpoint_sha256": "b58397931cd72c21c7144f3cc8ab8082210cc71cb2ef929090ae20acafc7b3ff",
+          "deployment_receipt_canonical_JSON_sha256": "f0ef235f5239c98264757cf1af2eeaddcdf896c07fe54b41b0bcfb32eac8cb0e",
+          "deployment_receipt_raw_sha256": "4dcf58665320c621321dc0bb2c5c704c695c514fce48815425184c5ad5b17085",
+          "hard_validation_demonstration_L1_task_equal": 0.029859075901202025,
+          "hard_validation_teacher_L1_task_equal": 0.01747839414351989,
+          "scope": "Selected checkpoint offline hard-pruning validation diagnostic, not closed-loop action error.",
+          "selected_update": 4500,
+          "validation_ref": {
+            "path": "results/formal_main_v2/libero_goal/k128/seed17/training/B/attempts/20261018T022925_ff358d6f6d6f/validation_04500.json",
+            "sha256": "d27b0ecdacc62e834322eab3a9942a127fa465e3dd359f28ca9259fbba468b24"
+          },
+          "validation_tasks": 10,
+          "validation_windows": 186
+        }
+      },
+      "paired_outcomes": {
+        "A_only": 0,
+        "B_only": 1,
+        "both_failure": 2,
+        "both_success": 97
+      },
+      "per_task": [
+        {
+          "A_success": 8,
+          "B_minus_A_pp": 0,
+          "B_success": 8,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 2,
+            "both_success": 8
+          },
+          "successes": {
+            "A128_seed17": 8,
+            "B128_seed17": 8,
+            "dense": 9,
+            "uniform128": 7,
+            "uniform256": 7,
+            "uniform64": 10
+          },
+          "t0_Jaccard_mean": 0.6508383104585621,
+          "t0_intersection_over_128_mean": 0.78828125,
+          "task_id": 0,
+          "task_name": "open_the_middle_drawer_of_the_cabinet",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed17": 10,
+            "B128_seed17": 10,
+            "dense": 9,
+            "uniform128": 10,
+            "uniform256": 9,
+            "uniform64": 9
+          },
+          "t0_Jaccard_mean": 0.6555223225690804,
+          "t0_intersection_over_128_mean": 0.79140625,
+          "task_id": 1,
+          "task_name": "put_the_bowl_on_the_stove",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed17": 10,
+            "B128_seed17": 10,
+            "dense": 10,
+            "uniform128": 10,
+            "uniform256": 10,
+            "uniform64": 8
+          },
+          "t0_Jaccard_mean": 0.6681101382442776,
+          "t0_intersection_over_128_mean": 0.80078125,
+          "task_id": 2,
+          "task_name": "put_the_wine_bottle_on_top_of_the_cabinet",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 9,
+          "B_minus_A_pp": 10,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 1,
+            "both_failure": 0,
+            "both_success": 9
+          },
+          "successes": {
+            "A128_seed17": 9,
+            "B128_seed17": 10,
+            "dense": 9,
+            "uniform128": 10,
+            "uniform256": 10,
+            "uniform64": 0
+          },
+          "t0_Jaccard_mean": 0.6715949525086502,
+          "t0_intersection_over_128_mean": 0.803125,
+          "task_id": 3,
+          "task_name": "open_the_top_drawer_and_put_the_bowl_inside",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed17": 10,
+            "B128_seed17": 10,
+            "dense": 10,
+            "uniform128": 9,
+            "uniform256": 10,
+            "uniform64": 7
+          },
+          "t0_Jaccard_mean": 0.6846581620828804,
+          "t0_intersection_over_128_mean": 0.8125,
+          "task_id": 4,
+          "task_name": "put_the_bowl_on_top_of_the_cabinet",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed17": 10,
+            "B128_seed17": 10,
+            "dense": 10,
+            "uniform128": 7,
+            "uniform256": 10,
+            "uniform64": 1
+          },
+          "t0_Jaccard_mean": 0.6735265686637248,
+          "t0_intersection_over_128_mean": 0.8046875,
+          "task_id": 5,
+          "task_name": "push_the_plate_to_the_front_of_the_stove",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed17": 10,
+            "B128_seed17": 10,
+            "dense": 10,
+            "uniform128": 9,
+            "uniform256": 10,
+            "uniform64": 7
+          },
+          "t0_Jaccard_mean": 0.6651519008068549,
+          "t0_intersection_over_128_mean": 0.7984375,
+          "task_id": 6,
+          "task_name": "put_the_cream_cheese_in_the_bowl",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed17": 10,
+            "B128_seed17": 10,
+            "dense": 10,
+            "uniform128": 10,
+            "uniform256": 10,
+            "uniform64": 10
+          },
+          "t0_Jaccard_mean": 0.6761850137723566,
+          "t0_intersection_over_128_mean": 0.80625,
+          "task_id": 7,
+          "task_name": "turn_on_the_stove",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed17": 10,
+            "B128_seed17": 10,
+            "dense": 10,
+            "uniform128": 10,
+            "uniform256": 9,
+            "uniform64": 10
+          },
+          "t0_Jaccard_mean": 0.6593292529199559,
+          "t0_intersection_over_128_mean": 0.79453125,
+          "task_id": 8,
+          "task_name": "put_the_bowl_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed17": 10,
+            "B128_seed17": 10,
+            "dense": 10,
+            "uniform128": 10,
+            "uniform256": 10,
+            "uniform64": 6
+          },
+          "t0_Jaccard_mean": 0.6828982930213765,
+          "t0_intersection_over_128_mean": 0.8109375,
+          "task_id": 9,
+          "task_name": "put_the_wine_bottle_on_the_rack",
+          "unique_initial_states": 10
+        }
+      ],
+      "raw_ledger": {
+        "bytes": 46032080,
+        "path": "results/formal_main_v2/libero_goal/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl",
+        "sha256": "2655a5cba26480f8fc0686e424a167f41ab049a50787e8d4985502b0d2655a3c"
+      },
+      "reference_trials": 400,
+      "references": {
+        "dense": {
+          "per_task": [
+            {
+              "successes": 9,
+              "task_id": 0,
+              "trials": 10
+            },
+            {
+              "successes": 9,
+              "task_id": 1,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 2,
+              "trials": 10
+            },
+            {
+              "successes": 9,
+              "task_id": 3,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 4,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 5,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 6,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 7,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 8,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 9,
+              "trials": 10
+            }
+          ],
+          "successes": 97,
+          "training_seed": null,
+          "trials": 100
+        },
+        "uniform128": {
+          "per_task": [
+            {
+              "successes": 7,
+              "task_id": 0,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 1,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 2,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 3,
+              "trials": 10
+            },
+            {
+              "successes": 9,
+              "task_id": 4,
+              "trials": 10
+            },
+            {
+              "successes": 7,
+              "task_id": 5,
+              "trials": 10
+            },
+            {
+              "successes": 9,
+              "task_id": 6,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 7,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 8,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 9,
+              "trials": 10
+            }
+          ],
+          "successes": 92,
+          "training_seed": null,
+          "trials": 100
+        },
+        "uniform256": {
+          "per_task": [
+            {
+              "successes": 7,
+              "task_id": 0,
+              "trials": 10
+            },
+            {
+              "successes": 9,
+              "task_id": 1,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 2,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 3,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 4,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 5,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 6,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 7,
+              "trials": 10
+            },
+            {
+              "successes": 9,
+              "task_id": 8,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 9,
+              "trials": 10
+            }
+          ],
+          "successes": 95,
+          "training_seed": null,
+          "trials": 100
+        },
+        "uniform64": {
+          "per_task": [
+            {
+              "successes": 10,
+              "task_id": 0,
+              "trials": 10
+            },
+            {
+              "successes": 9,
+              "task_id": 1,
+              "trials": 10
+            },
+            {
+              "successes": 8,
+              "task_id": 2,
+              "trials": 10
+            },
+            {
+              "successes": 0,
+              "task_id": 3,
+              "trials": 10
+            },
+            {
+              "successes": 7,
+              "task_id": 4,
+              "trials": 10
+            },
+            {
+              "successes": 1,
+              "task_id": 5,
+              "trials": 10
+            },
+            {
+              "successes": 7,
+              "task_id": 6,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 7,
+              "trials": 10
+            },
+            {
+              "successes": 10,
+              "task_id": 8,
+              "trials": 10
+            },
+            {
+              "successes": 6,
+              "task_id": 9,
+              "trials": 10
+            }
+          ],
+          "successes": 68,
+          "training_seed": null,
+          "trials": 100
+        }
+      },
+      "root_review": {
+        "path": "results/formal_main_v2/downstream_reviews/3048609.json",
+        "sha256": "7e3fc5858ed27baacfb878cec8adea70e8e43df736e9f2f785eb1a189c5f31a8"
+      },
+      "seed": 17,
+      "successes": {
+        "A128_seed17": 97,
+        "B128_seed17": 98,
+        "dense": 97,
+        "uniform128": 92,
+        "uniform256": 95,
+        "uniform64": 68
+      },
+      "suite": "libero_goal",
+      "token_overlap_scope": "Only100 equal-hash paired initial observations; later divergent observations not paired.",
+      "unique_initial_states": 100,
+      "visual_tokens": 128,
+      "visual_tokens_scope": "A/B only; dense512 and uniform256/128/64 references separately recorded.",
+      "whole_suite_development_complete": false
+    },
+    {
+      "AB_trials": 200,
+      "B_minus_A_percentage_points": -1,
+      "GPU_cost_scope": "Existing allocation counted once in global Slurm total; acceptance adds no new GPU allocation.",
+      "GPU_seconds": 2019,
+      "O2A_complete": false,
+      "action_semantics_sha256": "58de9bad3ea5bb55378fe0f47cca4bf06f093970751a8860f6297e6a6217737a",
+      "completed_trials": 200,
+      "independent_review": {
+        "path": "results/formal_main_v2/downstream_reviews/Goal_seed17_23_1317_independent.json",
+        "sha256": "7cda4fb3d421242efcc9255c732a08952d4e0288d3866f0088220cd6c3e3cea9"
+      },
+      "independent_review_scope": "Exact joint independent report member selected by job_id.",
+      "initial_observation_token_Jaccard_mean": 0.7922947877706211,
+      "initial_observation_token_overlap_mean": 0.88375,
+      "job_id": "3049191",
+      "no_legacy_semantics_equivalence_claimed": true,
+      "offline_validation_diagnostics": {
+        "A": {
+          "checkpoint_sha256": "2be3f8f9938556cad8fef1bd1176ff84ce59b9a34a852438ad6a10311da0e99a",
+          "deployment_receipt_canonical_JSON_sha256": "a5e82df589666d344094afef3f33b6695f19a47c47a3c445e22c1a3fc2688ecb",
+          "deployment_receipt_raw_sha256": "9c454f70aa9ddf75292209177491642ffb891100cfea2d21d1dd5768bc16de9a",
+          "hard_validation_demonstration_L1_task_equal": 0.03000480991669945,
+          "hard_validation_teacher_L1_task_equal": 0.01835415826474745,
+          "scope": "Selected checkpoint offline hard-pruning validation diagnostic, not closed-loop action error.",
+          "selected_update": 3000,
+          "validation_ref": {
+            "path": "results/formal_main_v2/libero_goal/k128/seed23/training/A/attempts/20261019T093427_d18f0d5a6892/validation_03000.json",
+            "sha256": "ab4d256c56fff2ae59e9fd7d83721c21e6196c5387cda4d0d560894caf0f56ca"
+          },
+          "validation_tasks": 10,
+          "validation_windows": 186
+        },
+        "B": {
+          "checkpoint_sha256": "b307fab48da1bc0727f07b6c4defbfb14057c2457552e5e650a801903553a335",
+          "deployment_receipt_canonical_JSON_sha256": "a64ed132a9f07c566ef713233c564f2fde36bdd3fdde90844942159ef332523f",
+          "deployment_receipt_raw_sha256": "e27e3e8a0eb431e0d4e8bc05719dd95b5afe69c4b60ea0bdd2e913b609d5c789",
+          "hard_validation_demonstration_L1_task_equal": 0.03010214431743537,
+          "hard_validation_teacher_L1_task_equal": 0.018330537176705776,
+          "scope": "Selected checkpoint offline hard-pruning validation diagnostic, not closed-loop action error.",
+          "selected_update": 3000,
+          "validation_ref": {
+            "path": "results/formal_main_v2/libero_goal/k128/seed23/training/B/attempts/20261019T181151_cf0ae88daf0e/validation_03000.json",
+            "sha256": "f3c51dc2c392ccf6a11daa1edbe4ae54efae87ee2a99369938938fa884fb1ea9"
+          },
+          "validation_tasks": 10,
+          "validation_windows": 186
+        }
+      },
+      "paired_outcomes": {
+        "A_only": 2,
+        "B_only": 1,
+        "both_failure": 2,
+        "both_success": 95
+      },
+      "per_task": [
+        {
+          "A_success": 7,
+          "B_minus_A_pp": 10,
+          "B_success": 8,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 1,
+            "both_failure": 2,
+            "both_success": 7
+          },
+          "successes": {
+            "A128_seed23": 7,
+            "B128_seed23": 8
+          },
+          "t0_Jaccard_mean": 0.7794713054352418,
+          "t0_intersection_over_128_mean": 0.87578125,
+          "task_id": 0,
+          "task_name": "open_the_middle_drawer_of_the_cabinet",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 10
+          },
+          "t0_Jaccard_mean": 0.7897670267907664,
+          "t0_intersection_over_128_mean": 0.88203125,
+          "task_id": 1,
+          "task_name": "put_the_bowl_on_the_stove",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 10
+          },
+          "t0_Jaccard_mean": 0.797421032259783,
+          "t0_intersection_over_128_mean": 0.88671875,
+          "task_id": 2,
+          "task_name": "put_the_wine_bottle_on_top_of_the_cabinet",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": -20,
+          "B_success": 8,
+          "discordance": {
+            "A_only": 2,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 8
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 8
+          },
+          "t0_Jaccard_mean": 0.7855989859679734,
+          "t0_intersection_over_128_mean": 0.8796875,
+          "task_id": 3,
+          "task_name": "open_the_top_drawer_and_put_the_bowl_inside",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 10
+          },
+          "t0_Jaccard_mean": 0.7972296377762267,
+          "t0_intersection_over_128_mean": 0.88671875,
+          "task_id": 4,
+          "task_name": "put_the_bowl_on_top_of_the_cabinet",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 10
+          },
+          "t0_Jaccard_mean": 0.8071201072429066,
+          "t0_intersection_over_128_mean": 0.89296875,
+          "task_id": 5,
+          "task_name": "push_the_plate_to_the_front_of_the_stove",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 10
+          },
+          "t0_Jaccard_mean": 0.7917474687399002,
+          "t0_intersection_over_128_mean": 0.88359375,
+          "task_id": 6,
+          "task_name": "put_the_cream_cheese_in_the_bowl",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 10
+          },
+          "t0_Jaccard_mean": 0.7943848155244946,
+          "t0_intersection_over_128_mean": 0.88515625,
+          "task_id": 7,
+          "task_name": "turn_on_the_stove",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 10
+          },
+          "t0_Jaccard_mean": 0.7845833048037453,
+          "t0_intersection_over_128_mean": 0.87890625,
+          "task_id": 8,
+          "task_name": "put_the_bowl_on_the_plate",
+          "unique_initial_states": 10
+        },
+        {
+          "A_success": 10,
+          "B_minus_A_pp": 0,
+          "B_success": 10,
+          "discordance": {
+            "A_only": 0,
+            "B_only": 0,
+            "both_failure": 0,
+            "both_success": 10
+          },
+          "successes": {
+            "A128_seed23": 10,
+            "B128_seed23": 10
+          },
+          "t0_Jaccard_mean": 0.7956241931651701,
+          "t0_intersection_over_128_mean": 0.8859375,
+          "task_id": 9,
+          "task_name": "put_the_wine_bottle_on_the_rack",
+          "unique_initial_states": 10
+        }
+      ],
+      "raw_ledger": {
+        "bytes": 13675756,
+        "path": "results/formal_main_v2/libero_goal/downstream/development/ea4e52de3babd049/attempt01/trials.jsonl",
+        "sha256": "e40b39d32f31f01ad3197da9244afc911f926521ff6cc34bdfb9b6331366c0d7"
+      },
+      "reference_trials": 0,
+      "references": {},
+      "root_review": {
+        "path": "results/formal_main_v2/downstream_reviews/3049191.json",
+        "sha256": "56a9bf2d1145ec5adc3efdc3a1ac145ac8d59a49a00325924068e7c49f7b7feb"
+      },
+      "seed": 23,
+      "successes": {
+        "A128_seed23": 97,
+        "B128_seed23": 96
+      },
+      "suite": "libero_goal",
+      "token_overlap_scope": "Only100 equal-hash paired initial observations; later divergent observations not paired.",
+      "unique_initial_states": 100,
+      "visual_tokens": 128,
+      "visual_tokens_scope": "A/B only; dense512 and uniform256/128/64 references separately recorded.",
+      "whole_suite_development_complete": false
+    }
+  ],
+  "kind": "accepted_two_seed_Goal_development_diagnostics",
+  "missing_training_seed": 41,
+  "observation_scope": "Initial paired observations only for token overlap; validation hard-pruning L1 only for action error.",
+  "per_task_and_full_paired_trials": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_1317/Goal_terminal_independent/paired_development_states.json",
+    "sha256": "0dac8194680d5473ca746c3e10b8f0a5d46e040a2196ff7926a6f2df8f45d226"
+  },
+  "schema": "formal_main_v2",
+  "source_independent": {
+    "path": "results/formal_main_v2/downstream_reviews/Goal_seed17_23_1317_independent.json",
+    "sha256": "7cda4fb3d421242efcc9255c732a08952d4e0288d3866f0088220cd6c3e3cea9"
+  },
+  "total_trials": 800,
+  "unique_initial_states": 100
+}

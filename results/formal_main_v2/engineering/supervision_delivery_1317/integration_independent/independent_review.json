@@ -1,0 +1,190 @@
+{
+  "CPU_wall_seconds": 1.4009599685668945,
+  "Git_modified": false,
+  "Goal800_original_raw_audit_reused": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_1317/Goal_terminal_independent/independent_review.json",
+    "sha256": "7cda4fb3d421242efcc9255c732a08952d4e0288d3866f0088220cd6c3e3cea9"
+  },
+  "Goal_L1_offline_validation_only": true,
+  "Goal_token_overlap_equal_hash_t0_only": true,
+  "Goal_two_seed_descriptive_only": true,
+  "Goal_two_seed_means_percent": {
+    "A128": 97.0,
+    "B128": 97.0,
+    "B_minus_A_pp": 0.0
+  },
+  "Slurm_modified": false,
+  "audit_only_correction": "a1 incorrectly compared a reservation ref with its enclosing state consumption record. Original failure retained; a2 validates both actual schemas without altering production evidence.",
+  "blocking_findings": [],
+  "check_evidence": {
+    "bytes": 50953,
+    "path": ".local/integration_independent_1317/check_evidence.json",
+    "sha256": "f2caa2ca590b26a32e321eb39f749684ee4fbfcd91928bd6033c58eb2faf3eba"
+  },
+  "checkpoint_bytes_read": false,
+  "checks_passed": 125,
+  "compatible_development": 3400,
+  "cost_is_final": false,
+  "current_action_development": 2800,
+  "explicit_legacy_Long_equivalent": 600,
+  "final_completed": 0,
+  "final_expected": 35200,
+  "final_release": false,
+  "findings": [],
+  "kind": "independent_submission_and_integration_review",
+  "limitations": [
+    "Submission acceptance only for four new jobs; no terminal success claims.",
+    "Previously completed 800-trial full raw audit reused, not repeated.",
+    "Root integration transport proves its original lock/CAS preservation assertions executed; this audit did not capture an independent pre-integration state.",
+    "Saved scheduler snapshot used; no live GPU polling.",
+    "No final evaluation, O2A, equivalence or three-seed Goal conclusion."
+  ],
+  "new_GPU_jobs": 0,
+  "new_GPU_seconds": 0,
+  "new_consumer_runs": 0,
+  "new_planned_accepted": 0,
+  "new_planned_development": 800,
+  "new_raw_ledgers_parsed": 0,
+  "new_scheduler_queries": 0,
+  "raw_development": 4012,
+  "reviewed_arm_updates": 321000,
+  "reviewer": "/root/object64_pending_0333_audit",
+  "root_integration_executed_by_this_auditor": false,
+  "root_source_ref": {
+    "path": ".local/integrate_1317.py",
+    "sha256": "eb5e2c45e534611639238e04cbf7ca34527c1538367959b4f68f061c5f5ed58f"
+  },
+  "saved_snapshot_utc": "2026-10-20T13:51:14.392818+00:00",
+  "schema": "formal_main_v2",
+  "sealed_values_read": false,
+  "shared_Goal_references_not_seed_replicated": true,
+  "shared_state_modified": false,
+  "snapshot_GPU_slots": 8,
+  "snapshot_allocated_GPU_hours": 533.6547222222222,
+  "snapshot_allocated_GPU_seconds": 1921157,
+  "source173_R_and_S_unchanged": true,
+  "source_ref": {
+    "path": ".local/integration_independent_1317/audit_actual_a2.py",
+    "sha256": "97bc45bc175d480e8bc5f96fd2b474d77aacd5e7763865a1a6b04542a2ca8c44"
+  },
+  "status": "passed",
+  "submission_jobs": [
+    {
+      "accepted": 0,
+      "authority": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k128_seed41/submission_authorization.json",
+        "sha256": "7b8b860d709366770fb8f7f91015f49c06a66cdb03582a6f71bd1735e20f02f9"
+      },
+      "budget": 128,
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_goal_development_428eafaeb10a5ce3_attempt01.json",
+        "sha256": "42e829fb4443b15329d17eaf8e0c1023ed0e47a4b98efc388aeb1eefc064353e"
+      },
+      "job_id": "3049622",
+      "methods": [
+        "A128_seed41",
+        "B128_seed41"
+      ],
+      "no_resubmission": true,
+      "original_delay_retained": true,
+      "planned": 200,
+      "postoccupied": 5,
+      "preoccupied": 4,
+      "reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2117/libero_goal_k128_seed41_3049622_pending_reconciliation.json",
+        "sha256": "d84b55c63dcc6d23c8b512dc52715f67e6ec1a44edd2421dbed6e10218b70a08"
+      },
+      "seed": 41,
+      "suite": "libero_goal"
+    },
+    {
+      "accepted": 0,
+      "authority": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_spatial_k256_seed17/submission_authorization.json",
+        "sha256": "0ae44db2e1a47ead872d864bd5982ff6e5728048f75dee5038a7c57d2f408abe"
+      },
+      "budget": 256,
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_spatial_development_5185766bb353c8e6_attempt01.json",
+        "sha256": "7a1469b5363a998d6737b1ffd0d32cf8d7d7e7ec520f0cb4f1d94becb9fde1e5"
+      },
+      "job_id": "3049632",
+      "methods": [
+        "A256_seed17",
+        "B256_seed17"
+      ],
+      "no_resubmission": true,
+      "original_delay_retained": true,
+      "planned": 200,
+      "postoccupied": 6,
+      "preoccupied": 5,
+      "reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2117/libero_spatial_k256_seed17_3049632_pending_reconciliation.json",
+        "sha256": "7afc72d283e7066cbbbed497800091ebf89bc568b8b9d9f8d63fc5cd9577f05e"
+      },
+      "seed": 17,
+      "suite": "libero_spatial"
+    },
+    {
+      "accepted": 0,
+      "authority": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_object_k256_seed17/submission_authorization.json",
+        "sha256": "aa99dd1b65fede72a4f4143b39292b06839ca4e16cc57410461bb306f639b750"
+      },
+      "budget": 256,
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_object_development_5185766bb353c8e6_attempt01.json",
+        "sha256": "56f6e686633f00f77ab1aadfa326a71ad385823103c39c5a10f72fb284a05c32"
+      },
+      "job_id": "3049657",
+      "methods": [
+        "A256_seed17",
+        "B256_seed17"
+      ],
+      "no_resubmission": true,
+      "original_delay_retained": true,
+      "planned": 200,
+      "postoccupied": 7,
+      "preoccupied": 6,
+      "reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2117/libero_object_k256_seed17_3049657_pending_reconciliation.json",
+        "sha256": "63a9e96de512e900538211a221c8a4c86deb8234b8ab6c06ff2918ffe1b1dd02"
+      },
+      "seed": 17,
+      "suite": "libero_object"
+    },
+    {
+      "accepted": 0,
+      "authority": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k256_seed17/submission_authorization.json",
+        "sha256": "8ff3c887f80327c868c3cd4023a28c95363cd2754fce9e1c3b0ed104635f7786"
+      },
+      "budget": 256,
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_goal_development_5185766bb353c8e6_attempt01.json",
+        "sha256": "c07489c5e56cc3255b60f5eb6df34146e37e4b60fa7151cc97f8008f402b8803"
+      },
+      "job_id": "3049679",
+      "methods": [
+        "A256_seed17",
+        "B256_seed17"
+      ],
+      "no_resubmission": true,
+      "original_delay_retained": true,
+      "planned": 200,
+      "postoccupied": 8,
+      "preoccupied": 7,
+      "reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2117/libero_goal_k256_seed17_3049679_pending_reconciliation.json",
+        "sha256": "9e5ad6809adde79654a86def8248ef19dfd59c2be8dfaa2bc73bfd8051561db8"
+      },
+      "seed": 17,
+      "suite": "libero_goal"
+    }
+  ],
+  "training_complete": 64,
+  "training_total": 72,
+  "unique_Goal_initial_states": 100,
+  "unique_initial_states": 400,
+  "utc": "2026-10-20T14:01:27.541303+00:00"
+}

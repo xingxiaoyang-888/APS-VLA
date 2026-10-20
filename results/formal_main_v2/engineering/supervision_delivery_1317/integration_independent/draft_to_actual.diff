@@ -1,0 +1,28 @@
+--- unexecuted_planned
++++ actual_pinned
+@@ -4,7 +4,7 @@
+ R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+ B='results/formal_main_v2/preflight/heartbeat_20261020T2117';E='results/formal_main_v2/engineering/supervision_delivery_1317'
+ IND=E+'/Goal_terminal_independent/independent_review.json';IND_SHA='7cda4fb3d421242efcc9255c732a08952d4e0288d3866f0088220cd6c3e3cea9'
+-DISPATCH_REF={"path":"results/formal_main_v2/preflight/heartbeat_20261020T2117/dispatch_root_report.json","sha256":"NOT_YET_CREATED_DO_NOT_EXECUTE"}
++DISPATCH_REF={"path":"results/formal_main_v2/preflight/heartbeat_20261020T2117/dispatch_root_report.json","sha256":"d8408e661e9b48f3d5fe38c9bdd1458aba55125c19222a2bb0aefe06749e139a"}
+ def h(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+ def rd(rel,pin=None):
+  if pin:assert h(R/rel)==pin,rel
+@@ -48,7 +48,7 @@
+   ledger=j['raw_ledger'];assert h(R/ledger['path'])==h(P/ledger['path'])==ledger['sha256']
+   t0=j['t0_token_diagnostics'];assert t0['paired_observations']==100 and t0['all_t0_observation_hashes_equal']
+   for diag in j['offline_validation_diagnostics'].values():rd(diag['validation_ref']['path'],diag['validation_ref']['sha256'])
+-  entry=dict(job_id=jid,suite='libero_goal',seed=seed,visual_tokens=128,completed_trials=n,unique_initial_states=100,
++  entry=dict(job_id=jid,suite='libero_goal',seed=seed,visual_tokens=128,visual_tokens_scope='A/B only; dense512 and uniform256/128/64 references separately recorded.',completed_trials=n,unique_initial_states=100,
+    successes=successes,B_minus_A_percentage_points=j['B_minus_A_pp'],paired_outcomes=j['discordance'],per_task=j['per_task'],
+    root_review=ref(rootrel),independent_review=indref,independent_review_scope='Exact joint independent report member selected by job_id.',
+    raw_ledger=ledger,GPU_seconds=gpusec,GPU_cost_scope='Existing allocation counted once in global Slurm total; acceptance adds no new GPU allocation.',
+@@ -84,6 +84,7 @@
+  submissions=dispatch['submissions'];assert 0<len(submissions)<=4
+  for row in submissions:
+   jid=row['job_id'];matches=[j for j in s['registered_jobs'] if str(j['job_id'])==jid];assert len(matches)==1
++  assert row['planned_trials']==200 and row['completed_trials_accepted']==0
+   j=matches[0];assert j['suite']==row['suite'] and j['method_ids']==row['method_ids'] and row['completed_trials_accepted']==0
+   assert rd(row['authorization']['path'],row['authorization']['sha256'])
+   rec=rd(row['root_reconciliation']['path'],row['root_reconciliation']['sha256'])

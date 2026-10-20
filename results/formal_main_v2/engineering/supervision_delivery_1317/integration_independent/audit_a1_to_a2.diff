@@ -1,0 +1,26 @@
+--- a1
++++ a2
+@@ -112,7 +112,7 @@
+   dynamic={'node','exit_code','status','allocation','elapsed_seconds'}
+   test(jid+'_registry_immutable_identity',{k:v for k,v in live[0].items() if k not in dynamic}=={k:v for k,v in job.items() if k not in dynamic})
+   test(jid+'_registered_stage_token_no_duplicate',sum(j.get('stage_key')==job['stage_key'] for j in state['registered_jobs'])==1 and sum(j.get('downstream_gateway',{}).get('request_token')==token for j in state['registered_jobs'])==1)
+-  test(jid+'_reservation_one_slot_exact_consumption',reservation['reserved_slots']==1 and reservation['capacity_limit_all_GPU_modes']==8 and reservation['stage_key']==inv['stage_key'] and reservation['authorization_path']==row['authorization']['path'] and auto['downstream_reservations_consumed'][apin]==rec['exact_reservation_consumed'] and rec['exact_reservation_consumed']=={'job_id':jid,'request_token':token,'reservation':a['root_reservation']})
++  test(jid+'_reservation_one_slot_exact_consumption',reservation['reserved_slots']==1 and reservation['capacity_limit_all_GPU_modes']==8 and reservation['stage_key']==inv['stage_key'] and reservation['authorization_path']==row['authorization']['path'] and rec['exact_reservation_consumed']==a['root_reservation'] and auto['downstream_reservations_consumed'][apin]=={'job_id':jid,'request_token':token,'reservation':a['root_reservation']})
+   test(jid+'_owner_lifecycle_and_science_preserved',rec['lifecycle_lease_held'] and rec['all173_R_and_S_match'] and rec['unrelated_controller_fields_unchanged'] and not rec['final_release_authorized'] and rec['controller_owner']['owner_id']==auto['owner_id'])
+   argv=ack['actual_sbatch_argv'];wrap=argv[-1]
+   test(jid+'_single_GPU_exact_original_sbatch',argv.count('--no-requeue')==1 and '--gres=gpu:l40:1' in argv and '--comment='+token in argv and '--time=04:00:00' in argv and '--wrap'==argv[-2] and str(P/row['invocation']['path']) in wrap and row['invocation']['sha256'] in wrap and str(P/inv['wrapper']) in wrap)
+@@ -154,7 +154,7 @@
+  evidence=out('check_evidence.json',dict(schema='formal_main_v2',status='passed',checks=checks,input_refs=list(inputs.values()),state_observed_sha256=sha(stbytes),state_observation_scope='One read of atomic live state; no demand that controller mutable fields equal integration-time bytes.',dynamic_registry_fields=sorted(dynamic),saved_snapshot_utc=summ['utc'],jobs=jobchecks,document_hashes=docs,allocation_seconds=seconds))
+  report=out('independent_review.json',dict(schema='formal_main_v2',kind='independent_submission_and_integration_review',status='passed',reviewer='/root/object64_pending_0333_audit',utc=datetime.now(timezone.utc).isoformat(),
+   source_ref=dict(path=str(Path(__file__).relative_to(R)),sha256=sha(Path(__file__).read_bytes())),root_source_ref=dict(path='.local/integrate_1317.py',sha256=sha(source)),
+-  check_evidence=evidence,checks_passed=len(checks),findings=[],blocking_findings=[],
++  check_evidence=evidence,checks_passed=len(checks),findings=[],blocking_findings=[],audit_only_correction='a1 incorrectly compared a reservation ref with its enclosing state consumption record. Original failure retained; a2 validates both actual schemas without altering production evidence.',
+   submission_jobs=jobchecks,Goal800_original_raw_audit_reused=jointref,new_raw_ledgers_parsed=0,new_consumer_runs=0,new_scheduler_queries=0,new_GPU_jobs=0,new_GPU_seconds=0,
+   training_complete=64,training_total=72,reviewed_arm_updates=321000,raw_development=4012,current_action_development=2800,explicit_legacy_Long_equivalent=600,compatible_development=3400,unique_initial_states=400,unique_Goal_initial_states=100,shared_Goal_references_not_seed_replicated=True,
+   new_planned_development=800,new_planned_accepted=0,saved_snapshot_utc=summ['utc'],snapshot_GPU_slots=8,snapshot_allocated_GPU_seconds=seconds,snapshot_allocated_GPU_hours=seconds/3600,cost_is_final=False,
+@@ -172,4 +172,4 @@
+  try:main()
+  except Exception as exc:
+   failure=dict(status='failed',error_type=type(exc).__name__,error=str(exc),traceback=traceback.format_exc(),checks_completed=checks,scope='audit script and evidence check failure; no production mutation')
+-  out('failure_a1.json',failure);raise
++  out('failure_a2.json',failure);raise

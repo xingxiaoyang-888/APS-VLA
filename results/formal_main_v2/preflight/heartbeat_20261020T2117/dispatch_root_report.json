@@ -1,0 +1,220 @@
+{
+  "duplicate_stage_keys": false,
+  "exact_ACK_reconciliation_no_resubmissions": true,
+  "excluded_other_projects": true,
+  "final_release": false,
+  "new_GPU_jobs": 4,
+  "new_completed_trials": 0,
+  "new_planned_trials": 800,
+  "pending": null,
+  "pre_registered_candidate_order": [
+    "libero_goal_k128_seed41",
+    "libero_spatial_k256_seed17",
+    "libero_object_k256_seed17",
+    "libero_goal_k256_seed17"
+  ],
+  "reserved_GPU_slots": 0,
+  "schema": "formal_main_v2",
+  "scientific_settings_changed": false,
+  "state_sha256": "52bff1ee44ec64ec15adc867451e6afbbf1bab7c0f2d9861b593b073f7f53343",
+  "status": "all_selected_requests_registered_once",
+  "submissions": [
+    {
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k128_seed41/submission_authorization.json",
+        "sha256": "7b8b860d709366770fb8f7f91015f49c06a66cdb03582a6f71bd1735e20f02f9"
+      },
+      "automatic_retry": false,
+      "budget": 128,
+      "completed_trials_accepted": 0,
+      "exact_original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/7b8b860d709366770fb8f7f91015f49c06a66cdb03582a6f71bd1735e20f02f9/sbatch_result.json",
+        "sha256": "b9b00e45b9384361dd232baa58a2c810ce99862bdc48fc5b68ed3023dbeb821e"
+      },
+      "group_key": "libero_goal_k128_seed41",
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_goal_development_428eafaeb10a5ce3_attempt01.json",
+        "sha256": "42e829fb4443b15329d17eaf8e0c1023ed0e47a4b98efc388aeb1eefc064353e"
+      },
+      "job_id": "3049622",
+      "method_ids": [
+        "A128_seed41",
+        "B128_seed41"
+      ],
+      "observed_status_at_reconciliation": "RUNNING",
+      "original_accounting_delay": {
+        "path": "results/formal_main_v2/downstream_gateway/7b8b860d709366770fb8f7f91015f49c06a66cdb03582a6f71bd1735e20f02f9/failed_transaction.json",
+        "sha256": "f4849d686698a558a639f89ed2468f230d2da95f8ddfe2b3f18d267dcaa45948"
+      },
+      "planned_trials": 200,
+      "pre_execution_independent": {
+        "path": "results/formal_main_v2/engineering/supervision_delivery_1317/nonLong_plan_independent/post_readiness/post_readiness_independent_review.json",
+        "sha256": "738f91a8c772825794e8ff52a5086875aa69ba1edb1e51f02e40f31dda4b95f9"
+      },
+      "root_acceptance": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k128_seed41/root_pre_execution_check.json",
+        "sha256": "a7a1591af3252eedc412f16ed0aa282a89ffb4258f9c79db0f10e50bd725006e"
+      },
+      "root_reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2117/libero_goal_k128_seed41_3049622_pending_reconciliation.json",
+        "sha256": "d84b55c63dcc6d23c8b512dc52715f67e6ec1a44edd2421dbed6e10218b70a08"
+      },
+      "scientific_terminal_acceptance_pending": true,
+      "seed": 41,
+      "submission": {
+        "path": "results/formal_main_v2/submissions/3049622.json",
+        "sha256": "95f1f2e034dda96a6101d50101ef4a98135d91cdbcd828b60d9714ee491ce366"
+      },
+      "suite": "libero_goal",
+      "unique_initial_states_per_suite": 100
+    },
+    {
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_spatial_k256_seed17/submission_authorization.json",
+        "sha256": "0ae44db2e1a47ead872d864bd5982ff6e5728048f75dee5038a7c57d2f408abe"
+      },
+      "automatic_retry": false,
+      "budget": 256,
+      "completed_trials_accepted": 0,
+      "exact_original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/0ae44db2e1a47ead872d864bd5982ff6e5728048f75dee5038a7c57d2f408abe/sbatch_result.json",
+        "sha256": "383c288046adc8c07ac8c89541cf2ef61c3ed1709b9d1ec46087af6d007722e4"
+      },
+      "group_key": "libero_spatial_k256_seed17",
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_spatial_development_5185766bb353c8e6_attempt01.json",
+        "sha256": "7a1469b5363a998d6737b1ffd0d32cf8d7d7e7ec520f0cb4f1d94becb9fde1e5"
+      },
+      "job_id": "3049632",
+      "method_ids": [
+        "A256_seed17",
+        "B256_seed17"
+      ],
+      "observed_status_at_reconciliation": "RUNNING",
+      "original_accounting_delay": {
+        "path": "results/formal_main_v2/downstream_gateway/0ae44db2e1a47ead872d864bd5982ff6e5728048f75dee5038a7c57d2f408abe/failed_transaction.json",
+        "sha256": "4151c9970eb1967a96b42ad9c66ec66d3423a08d98472cb6023e895a27991ce0"
+      },
+      "planned_trials": 200,
+      "pre_execution_independent": {
+        "path": "results/formal_main_v2/engineering/supervision_delivery_1317/nonLong_plan_independent/post_readiness/post_readiness_independent_review.json",
+        "sha256": "738f91a8c772825794e8ff52a5086875aa69ba1edb1e51f02e40f31dda4b95f9"
+      },
+      "root_acceptance": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_spatial_k256_seed17/root_pre_execution_check.json",
+        "sha256": "6080daf7f0a569169dcc0e8bb39aab51aefc5da2c138f469677e38bebfadae88"
+      },
+      "root_reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2117/libero_spatial_k256_seed17_3049632_pending_reconciliation.json",
+        "sha256": "7afc72d283e7066cbbbed497800091ebf89bc568b8b9d9f8d63fc5cd9577f05e"
+      },
+      "scientific_terminal_acceptance_pending": true,
+      "seed": 17,
+      "submission": {
+        "path": "results/formal_main_v2/submissions/3049632.json",
+        "sha256": "e3ba2cda79eff7c1789aed494932440cef4718a525da4f229fbdfdada8a7100d"
+      },
+      "suite": "libero_spatial",
+      "unique_initial_states_per_suite": 100
+    },
+    {
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_object_k256_seed17/submission_authorization.json",
+        "sha256": "aa99dd1b65fede72a4f4143b39292b06839ca4e16cc57410461bb306f639b750"
+      },
+      "automatic_retry": false,
+      "budget": 256,
+      "completed_trials_accepted": 0,
+      "exact_original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/aa99dd1b65fede72a4f4143b39292b06839ca4e16cc57410461bb306f639b750/sbatch_result.json",
+        "sha256": "70e3aa6c326530c9be6ac64792ab04bdb2acbb54af99a6cab5a5249d3c4431ce"
+      },
+      "group_key": "libero_object_k256_seed17",
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_object_development_5185766bb353c8e6_attempt01.json",
+        "sha256": "56f6e686633f00f77ab1aadfa326a71ad385823103c39c5a10f72fb284a05c32"
+      },
+      "job_id": "3049657",
+      "method_ids": [
+        "A256_seed17",
+        "B256_seed17"
+      ],
+      "observed_status_at_reconciliation": "RUNNING",
+      "original_accounting_delay": {
+        "path": "results/formal_main_v2/downstream_gateway/aa99dd1b65fede72a4f4143b39292b06839ca4e16cc57410461bb306f639b750/failed_transaction.json",
+        "sha256": "dc034dd00449043faa41b53749c095364d2c451e686a5263d5a2f7097befb703"
+      },
+      "planned_trials": 200,
+      "pre_execution_independent": {
+        "path": "results/formal_main_v2/engineering/supervision_delivery_1317/nonLong_plan_independent/post_readiness/post_readiness_independent_review.json",
+        "sha256": "738f91a8c772825794e8ff52a5086875aa69ba1edb1e51f02e40f31dda4b95f9"
+      },
+      "root_acceptance": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_object_k256_seed17/root_pre_execution_check.json",
+        "sha256": "17e9fc5cbbd68316991def34fb32c23e29c804df1cb7cc923e04743035b95bea"
+      },
+      "root_reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2117/libero_object_k256_seed17_3049657_pending_reconciliation.json",
+        "sha256": "63a9e96de512e900538211a221c8a4c86deb8234b8ab6c06ff2918ffe1b1dd02"
+      },
+      "scientific_terminal_acceptance_pending": true,
+      "seed": 17,
+      "submission": {
+        "path": "results/formal_main_v2/submissions/3049657.json",
+        "sha256": "af8a48bec583c0123717949fbfffb6326d47f9d3879283018b461015ef2aed6a"
+      },
+      "suite": "libero_object",
+      "unique_initial_states_per_suite": 100
+    },
+    {
+      "authorization": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k256_seed17/submission_authorization.json",
+        "sha256": "8ff3c887f80327c868c3cd4023a28c95363cd2754fce9e1c3b0ed104635f7786"
+      },
+      "automatic_retry": false,
+      "budget": 256,
+      "completed_trials_accepted": 0,
+      "exact_original_ACK": {
+        "path": "results/formal_main_v2/downstream_gateway/8ff3c887f80327c868c3cd4023a28c95363cd2754fce9e1c3b0ed104635f7786/sbatch_result.json",
+        "sha256": "dd207e46294cb141ddf40f5313c972360c8423e0eae8b95167c6d367f1f36b9b"
+      },
+      "group_key": "libero_goal_k256_seed17",
+      "invocation": {
+        "path": "results/formal_main_v2/invocations/libero_goal_development_5185766bb353c8e6_attempt01.json",
+        "sha256": "c07489c5e56cc3255b60f5eb6df34146e37e4b60fa7151cc97f8008f402b8803"
+      },
+      "job_id": "3049679",
+      "method_ids": [
+        "A256_seed17",
+        "B256_seed17"
+      ],
+      "observed_status_at_reconciliation": "RUNNING",
+      "original_accounting_delay": {
+        "path": "results/formal_main_v2/downstream_gateway/8ff3c887f80327c868c3cd4023a28c95363cd2754fce9e1c3b0ed104635f7786/failed_transaction.json",
+        "sha256": "1d07a1e30f48e1c421d60ca9d41b0f68225b1613e19244f119ce70932b85035c"
+      },
+      "planned_trials": 200,
+      "pre_execution_independent": {
+        "path": "results/formal_main_v2/engineering/supervision_delivery_1317/nonLong_plan_independent/post_readiness/post_readiness_independent_review.json",
+        "sha256": "738f91a8c772825794e8ff52a5086875aa69ba1edb1e51f02e40f31dda4b95f9"
+      },
+      "root_acceptance": {
+        "path": "results/formal_main_v2/execution/nonLong_action_v1_1317/libero_goal_k256_seed17/root_pre_execution_check.json",
+        "sha256": "74d7f556e87314531a9a8ad4821c729bcb656adea6ddb6cf56ff5e4ee2b34c6c"
+      },
+      "root_reconciliation": {
+        "path": "results/formal_main_v2/preflight/heartbeat_20261020T2117/libero_goal_k256_seed17_3049679_pending_reconciliation.json",
+        "sha256": "9e5ad6809adde79654a86def8248ef19dfd59c2be8dfaa2bc73bfd8051561db8"
+      },
+      "scientific_terminal_acceptance_pending": true,
+      "seed": 17,
+      "submission": {
+        "path": "results/formal_main_v2/submissions/3049679.json",
+        "sha256": "393523da7e4f45c79f0b4f8123163ea091ee61492d813a8d2f33de47285e5c31"
+      },
+      "suite": "libero_goal",
+      "unique_initial_states_per_suite": 100
+    }
+  ],
+  "utc": "2026-10-20T13:50:50.749403+00:00"
+}
