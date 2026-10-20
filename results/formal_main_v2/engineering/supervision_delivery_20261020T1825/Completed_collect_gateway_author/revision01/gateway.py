@@ -1,0 +1,453 @@
+"""Server-only, root-authorized one-shot formal downstream submission.
+Default mode checks metadata/capacity only. No legacy refresh/submit CLI is called.
+"""
+from pathlib import Path, PurePosixPath
+from types import SimpleNamespace
+from datetime import datetime, timezone
+import argparse, copy, fcntl, hashlib, importlib.util, json, os, re, shlex, stat, sys
+sys.dont_write_bytecode=True
+R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+H=Path('/share/home/u15016/XXY_CVPR/CTI-VLA')
+S=P/'snapshots/formal_main_v2_run_564be0995e'
+ROUND='formal_main_v2';VERSION='formal-downstream-server-gateway-v2-completed-training-collect'
+OUTER_VERSION='formal-downstream-action-v1'
+STATE='results/experiment_supervisor/state.json'
+CONTROLLER='scripts/ops/formal_autonomous_training_v1/controller.py'
+CONTROLLER_SHA='acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363'
+PLANNER='scripts/ops/formal_downstream_supervisor.py'
+PLANNER_SHA='f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571'
+INVENTORY='results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+INVENTORY_SHA='5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926'
+SOURCE_SHA='dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e'
+GAP={'path':'.local/action_v4_deployment_gap_0547/gap_review.json','sha256':'ae297e4007315f9e7f3cca939547f748273eb9d7e5db1e132c48e8ede42b593c'}
+ACTIVATION={'path':'configs/experiments/formal_main_v2_autonomous_execution_activation_v2.json','sha256':'7391c3bb17c36f8b0dbce540e28714ac6f721662118ddb7338d7c0288aa0bcef'}
+STAGES=('development','collect','full','components')
+SUITES=('libero_10','libero_spatial','libero_object','libero_goal')
+PANELS={f'configs/manifests/formal_main_v2/{s}/initial_states/development.json' for s in SUITES}
+REGISTRIES={f'configs/manifests/formal_main_v2/{s}/initial_states/final_registry.json' for s in SUITES}
+RESOURCES=dict(job_name='cti-formal-downstream',account='p_p15016',qos='cpu-500_core-l40-8_card-a800-8_card',partition='L40',nodes=1,ntasks=1,cpus_per_task=7,gres='gpu:l40:1',mem='64G',time='04:00:00')
+PLAN_ARGS={'stage','source_inventory','execution_manifest','output_relative','freeze_directory','profile_panel','prior_review','collection_review','repair_record','resume','stop_after'}
+MODIFIED_INV={'version','entrypoint','wrapper','wrapper_sha256','support_files','watched_files','root_evidence_sha256'}
+ADDED_INV={'action_execution_contract','scientific_plan','scientific_plan_sha256'}
+def require(v,m):
+ if not v:raise ValueError(m)
+def canonical(v):return json.dumps(v,sort_keys=True,ensure_ascii=False,allow_nan=False,separators=(',',':')).encode()
+def sha(b):return hashlib.sha256(b).hexdigest()
+def relative(v):
+ require(isinstance(v,str) and v and '\\' not in v and ':' not in v,'noncanonical relative path')
+ p=PurePosixPath(v);require(p.parts and not p.is_absolute() and str(p)==v and '..' not in p.parts,'relative path escape')
+ require(not any('sealed' in x.lower() or x.lower() in {'test','weights','checkpoints'} for x in p.parts),'sealed/test/weight path')
+ require(not set(x.lower() for x in p.suffixes)&{'.pt','.pth','.bin','.ckpt','.safetensors','.pkl','.pickle','.init','.pruned_init'},'weight/state suffix')
+ require(p.suffix in {'.py','.pyc','.pyo'} or v in PANELS|REGISTRIES or not any(x in v.lower() for x in ('init_state','initial_state','final_state','test_state')),'state payload forbidden')
+ return p
+def no_links(p):
+ p=Path(p);require(p.is_absolute() and p==p.absolute() and '..' not in p.parts,'absolute canonical path required')
+ require(not any(x.is_symlink() for x in (p,*p.parents)),'symlink forbidden');return p
+def stable(p):
+ p=no_links(p);a=p.stat();require(stat.S_ISREG(a.st_mode),'regular file required');h=hashlib.sha256()
+ with p.open('rb') as f:
+  for block in iter(lambda:f.read(8<<20),b''):h.update(block)
+ b=p.stat();require((a.st_dev,a.st_ino,a.st_size,a.st_mtime_ns,a.st_ctime_ns)==(b.st_dev,b.st_ino,b.st_size,b.st_mtime_ns,b.st_ctime_ns),'file changed during hash')
+ return {'sha256':h.hexdigest(),'bytes':b.st_size}
+def immutable(path,raw):
+ p=no_links(path);p.parent.mkdir(parents=True,exist_ok=True)
+ with p.open('xb') as f:f.write(raw);f.flush();os.fsync(f.fileno())
+ fd=os.open(p.parent,os.O_RDONLY|os.O_DIRECTORY)
+ try:os.fsync(fd)
+ finally:os.close(fd)
+def record(path,value):immutable(path,canonical(value)+b'\n')
+def load(path,pin,name):
+ p=no_links(path);raw=p.read_bytes();require(sha(raw)==pin,'pinned source differs: '+str(p))
+ sp=importlib.util.spec_from_file_location(name,p);m=importlib.util.module_from_spec(sp);sys.modules[name]=m
+ exec(compile(raw,str(p),'exec'),m.__dict__);return m
+class Evidence:
+ def __init__(self,root):self.root=Path(root);self.hashes={}
+ def watch(self,rel,pin=None):
+  relative(rel);require(rel!=STATE,'mutable state is not immutable evidence');got=stable(self.root/rel)['sha256']
+  require(pin is None or pin==got,'SHA differs: '+rel);require(rel not in self.hashes or self.hashes[rel]==got,'evidence drift: '+rel)
+  self.hashes[rel]=got;return got
+ def read(self,rel,pin=None):
+  self.watch(rel,pin);value=json.loads((self.root/rel).read_bytes(),parse_constant=lambda x:(_ for _ in ()).throw(ValueError('nonfinite JSON')))
+  self.watch(rel,self.hashes[rel]);return value
+ def ref(self,ref):
+  require(type(ref)is dict and set(ref)=={'path','sha256'} and re.fullmatch('[0-9a-f]{64}',str(ref['sha256'])),'bad SHA reference')
+  return self.read(ref['path'],ref['sha256'])
+ def unchanged(self):
+  for rel,h in list(self.hashes.items()):self.watch(rel,h)
+def source_files(root):return {Path(__file__).resolve().relative_to(root).as_posix():sha(Path(__file__).read_bytes())}
+def intent_sha(auth):
+ a=copy.deepcopy(auth);a.pop('root_reservation',None);return sha(canonical(a))
+def validate_authorization(root,ref):
+ e=Evidence(root);a=e.ref(ref)
+ require(a.get('schema')==ROUND and a.get('kind')=='formal_downstream_single_submission_authorization' and a.get('version')==VERSION and a.get('status')=='approved_for_exactly_one_registered_downstream_submission','typed root authorization absent')
+ require(a.get('control_root')==str(R) and a.get('runtime_root')==str(P) and a.get('controller_activation')==ACTIVATION,'root/activation differs')
+ require(a.get('maximum_attempts')==1 and type(a['maximum_attempts']) is int and a.get('automatic_retry') is False and a.get('excluded_nodes')==['gpu4020'],'single request/node contract differs')
+ require(a.get('gateway_files')==source_files(root) and a.get('planner')=={'path':PLANNER,'sha256':PLANNER_SHA} and a.get('controller')=={'path':CONTROLLER,'sha256':CONTROLLER_SHA},'source closure differs')
+ require(a.get('gap_review')==GAP and a.get('final_release_authorized_by_gateway') is False,'scope differs')
+ e.ref(GAP);e.ref(ACTIVATION)
+ for name,h in {**a['gateway_files'],PLANNER:PLANNER_SHA,CONTROLLER:CONTROLLER_SHA}.items():e.watch(name,h)
+ ind=e.ref(a['independent_review'])
+ require(ind.get('schema')==ROUND and ind.get('kind')=='formal_downstream_server_gateway_independent_CPU_review' and ind.get('status')=='passed_CPU_review' and not ind.get('blockers'),'gateway independent CPU gate absent')
+ require(all(ind.get('files',{}).get(k)==h for k,h in a['gateway_files'].items()),'independent review source differs')
+ plan=e.ref(a['plan']);scientific=e.ref(a['scientific_plan']);prepared=e.ref(a['prepared_invocation'])
+ require(set(a.get('plan_arguments',{}))==PLAN_ARGS,'exact old plan arguments required')
+ require(a['plan_arguments']['stage']==plan['invocation']['stage'] and plan['invocation']['stage'] in STAGES,'stage differs')
+ ready=e.ref(a['runtime_readiness'])
+ require(ready.get('schema')==ROUND and ready.get('kind')=='formal_action_runtime_readiness' and ready.get('execution_version')==OUTER_VERSION and ready.get('status')=='passed' and ready.get('reviewed_by')=='root','action runtime remains on hold')
+ require(ready.get('scientific_settings_changed') is False and ready.get('raw_consumer_ready') is True,'new scientific raw consumer gate absent')
+ require(ready.get('effective_plan')==a['plan'] and ready.get('scientific_plan')==a['scientific_plan'] and ready.get('plan_sha256')==plan['plan_sha256'],'readiness does not bind exact effective/scientific plan')
+ action=e.ref(plan['invocation']['action_execution_contract'])
+ require(ready.get('runtime_sources')==action['files'],'readiness direct runtime source map differs')
+ require(ready.get('root_review')!=ready.get('independent_review'),'root and independent evidence must differ')
+ for field in ('root_review','independent_review'):
+  gate=e.ref(ready[field])
+  require(gate.get('status')=='passed' and gate.get('execution_version')==OUTER_VERSION and gate.get('runtime_sources')==ready['runtime_sources'] and gate.get('production_chain_complete') is True,'runtime production-chain proof absent: '+field)
+ require(set(ready.get('allowed_stages',[]))<=set(STAGES) and plan['invocation']['stage'] in ready.get('allowed_stages',[]) and ready.get('final_evaluation_enabled') is False,'readiness stage/final scope differs')
+ require(ready.get('support_files')==plan['invocation']['support_files'] and ready.get('action_execution_contract')==plan['invocation']['action_execution_contract'],'runtime contract differs')
+ require(set(ready.get('component_reviews',{}))=={'runtime','wrapper','raw_consumer'},'all new-version runtime/wrapper/consumer reviews required')
+ covered=dict(ind['files'])
+ for role,r in ready['component_reviews'].items():
+  rv=e.ref(r);require(rv.get('schema')==ROUND and rv.get('kind')=='formal_downstream_action_component_independent_CPU_review' and rv.get('component')==role and rv.get('status')=='passed_CPU_review' and not rv.get('blockers'),'component CPU proof differs: '+role)
+  for n,h in rv.get('files',{}).items():
+   require(n not in covered or covered[n]==h,'component source conflict');e.watch(n,h);covered[n]=h
+ require(all(covered.get(n)==h for n,h in ready['support_files'].items() if n.startswith('scripts/ops/formal_action_deployment_v1/')),'component reviews omit support implementation')
+ require(re.fullmatch('[1-9][0-9]*',a.get('controller_job_id','')),'controller job ID invalid')
+ reservation=e.ref(a['root_reservation'])
+ require(reservation.get('schema')==ROUND and reservation.get('kind')=='root_downstream_GPU_slot_reservation' and reservation.get('status')=='approved_for_exact_downstream_request' and type(reservation.get('reserved_slots')) is int and reservation['reserved_slots']==1,'root reservation required')
+ require(reservation.get('controller_job_id')==a['controller_job_id'] and reservation.get('capacity_limit_all_GPU_modes')==8 and reservation.get('automatic_retry') is False and reservation.get('stage_key')==plan['invocation']['stage_key'] and reservation.get('plan')==a['plan'] and reservation.get('authorization_path')==ref['path'] and reservation.get('authorization_intent_sha256')==intent_sha(a),'reservation ownership differs')
+ return a,e,plan,scientific,prepared
+
+CONTRACT='scripts/ops/formal_action_deployment_v1/contract.py'
+class FrozenPlan:
+ """Rebuild original scientific plan; validate explicit new-version envelope."""
+ def __init__(self,root,a,e,plan,scientific,prepared):
+  self.root=Path(root);self.a=a;self.e=e;self.plan=plan;self.scientific=scientific;self.prepared=prepared
+ def prepare(self,state):
+  plan=self.plan;inv=plan['invocation'];e=self.e
+  require(plan.get('schema')==ROUND and plan.get('kind')=='formal_downstream_plan' and plan.get('resources')==RESOURCES,'registered downstream resources differ')
+  require(plan['plan_sha256']==sha(canonical({k:v for k,v in plan.items() if k!='plan_sha256'})),'plan content signature differs')
+  require(inv.get('version')==OUTER_VERSION and inv.get('source_root')==str(S) and inv.get('source_sha256')==SOURCE_SHA and inv.get('stage') in STAGES,'explicit outer source/version/stage required')
+  require(inv.get('source_inventory')==str(P/INVENTORY) and inv.get('source_inventory_sha256')==INVENTORY_SHA,'frozen inventory identity differs')
+  require(inv.get('scientific_plan')==self.a['scientific_plan'] and inv.get('scientific_plan_sha256')==self.a['scientific_plan']['sha256'],'scientific plan reference differs')
+  require(type(inv.get('method_ids')) is list and inv['method_ids'] and len(set(inv['method_ids']))==len(inv['method_ids']) and all(re.fullmatch('[A-Za-z0-9_-]+',x) for x in inv['method_ids']),'method identifiers invalid')
+  require(re.fullmatch('[A-Za-z0-9_-]+',inv.get('stage_key','')),'stage key invalid')
+  for k,v in self.a['plan_arguments'].items():
+   if k not in {'stage','resume','stop_after'} and v is not None:relative(v)
+  for n,h in inv['root_evidence_sha256'].items():e.watch(n,h)
+  for n,h in plan['publish_files'].items():e.watch(n,h)
+  require(set(inv['support_files'])<=set(plan['publish_files']) and all(plan['publish_files'][n]==h for n,h in inv['support_files'].items()),'support publication is not exact')
+  inventory=e.read(INVENTORY,INVENTORY_SHA);require(len(inventory['files'])==173 and inventory['source_sha256']==SOURCE_SHA and inventory['source_root_server']==str(S),'source inventory mismatch')
+  for rel,h in inventory['files'].items():
+   e.watch(rel,h);require(inv['watched_files'].get(str(S/rel))==h,'frozen source omitted from watch')
+  # This calls only the existing pure planner with an explicit R project root.
+  planner=load(self.root/PLANNER,PLANNER_SHA,'_downstream0809_original_pure_planner')
+  rebuilt=planner.plan(SimpleNamespace(**self.a['plan_arguments']),copy.deepcopy(state),project=self.root)
+  require(rebuilt==self.scientific,'original scientific plan no longer reconstructs exactly')
+  contract_sha=inv['support_files'][CONTRACT];e.watch(CONTRACT,contract_sha)
+  contract=load(self.root/CONTRACT,contract_sha,'_downstream0809_explicit_outer_contract')
+  action=e.ref(inv['action_execution_contract'])
+  contract.validate_effective(rebuilt,plan,scientific_plan_ref=self.a['scientific_plan'],execution_contract_ref=inv['action_execution_contract'],execution_contract=action)
+  if inv['resume']:contract.validate_transition(e.ref(action['transition']),rebuilt,root=self.root,execution_contract=action)
+  expected={**inv,'registered_utc':self.prepared.get('registered_utc'),'plan_sha256':plan['plan_sha256'],'runtime_readiness':self.a['runtime_readiness']}
+  require(self.prepared==expected,'prepared invocation changes scientific fields or readiness')
+  stamp=datetime.fromisoformat(expected['registered_utc']);require(stamp.tzinfo is not None,'prepared registration timestamp must be timezone-aware')
+  prefix=contract.resume_prefix_inputs(rebuilt['invocation'])
+  invrel=relative(plan['invocation_relative']).as_posix()
+  require(PurePosixPath(invrel).parent==PurePosixPath('results/formal_main_v2/invocations') and invrel.endswith('.json'),'invocation destination invalid')
+  relative(plan['output_relative']);require(inv['run_root']==str(P/plan['output_relative']) and plan['output_relative'].startswith(f'results/{ROUND}/{inv["suite"]}/downstream/{inv["stage"]}/'),'output identity differs')
+  require(type(plan['output_must_exist']) is bool and plan['output_must_exist']==inv['resume'],'explicit output resume mode differs')
+  e.unchanged();return dict(plan=copy.deepcopy(plan),invocation=copy.deepcopy(self.prepared),invocation_bytes=(self.root/self.a['prepared_invocation']['path']).read_bytes(),prefix=prefix,inventory=inventory)
+
+def registered_comment(job):
+ # The durable submitted argv is authoritative, not a caller-invented token.
+ for key in ('downstream_gateway','autonomous_control','startup_recovery'):
+  data=job.get(key,{})
+  if data.get('actual_sbatch_argv'):
+   values=[x.split('=',1)[1] for x in data['actual_sbatch_argv'] if x.startswith('--comment=')]
+   require(len(values)==1 and values[0],'registered command comment missing/ambiguous')
+   token=data.get('request_token')
+   if token:require(values[0] in {token,'cti-auto-v1:'+token},'registered token/argv disagree')
+   return values[0]
+ return None
+def check_observed_identity(job,row,queue,terminal,*,required_token=None,corroboration=None):
+ expected=required_token or registered_comment(job)
+ require(not job.get('name') or row.get('scheduler_name')==job['name'],'registered Slurm name differs')
+ account=row.get('scheduler_comment','')
+ if queue is not None:
+  require(queue['status']==row['status'],'queue/accounting status disagreement')
+  require(not account or account==queue['comment'],'nonempty accounting comment conflicts with queue')
+  if expected:require(queue['comment']==expected,'active registered comment identity differs')
+ elif corroboration is not None:
+  require(corroboration['job_id']==str(job['job_id']) and corroboration['name']==job['name'] and corroboration['status']==row['status'],'scontrol job/name/status disagreement')
+  require(corroboration['comment']==expected and (not account or account==expected),'scontrol token identity differs')
+ elif row['status'] in terminal and required_token is None:
+  # Prior terminal jobs retain their immutable registry/provenance; absent old
+  # accounting comments cannot be used to admit a *new* submission.
+  require(not account or expected is None or account==expected,'historical nonempty accounting token differs')
+ elif expected:
+  require(False,'live registered job lacks queue token corroboration')
+def corroborate_new_job(scheduler,job,snapshot):
+ jid=str(job['job_id'])
+ if jid in snapshot['queue']:return None
+ argv=['scontrol','show','job','-o',jid];answer=scheduler.run(argv)
+ require(answer.returncode==0,'new job scontrol corroboration unavailable')
+ require(len([x for x in answer.stdout.splitlines() if x.strip()])==1,'ambiguous scontrol job response')
+ fields={}
+ for key in ('JobId','JobName','JobState','Comment'):
+  matches=re.findall(r'(?:^|\s)'+key+r'=([^\s]+)',answer.stdout)
+  require(len(matches)==1,'missing/duplicate scontrol identity field: '+key);fields[key]=matches[0]
+ require(fields['JobId']==jid,'scontrol returned another job')
+ return dict(job_id=jid,name=fields['JobName'],status=fields['JobState'],comment=fields['Comment'],argv=argv,returncode=answer.returncode,stdout=answer.stdout,stderr=answer.stderr)
+# This additional controller phase is deliberately limited to these two exact
+# fixed-observation collection plans. It does not reopen science/final release.
+COMPLETED_COLLECTION_PLANS = {
+ 'libero_spatial': {'path':'results/formal_main_v2/execution/spatial_collect_action_v1_20261020T1825/effective_plan.json','sha256':'0ed890e69b47155eb83dd388e05c68a84b635e79b596b2b0e39cd4f903a2f5b7','plan_sha256':'85933050e7ae256974c98658a835b7f1cab17fddb53e0d2b0cdd369295862787'},
+ 'libero_object': {'path':'results/formal_main_v2/execution/object_collect_action_v1_20261020T1825/effective_plan.json','sha256':'7002d950c23e3dcb76862089f428f3305d78a87e6c84ab01389fc32bfd1c6ee5','plan_sha256':'95915e8535e6b056733dabd97968ffde517ea447d3b2e28e7dd95f7ca5cad279'},
+}
+COMPLETED_EXIT_OBSERVATION={'path':'results/formal_main_v2/preflight/heartbeat_20261021T0225/initial_observation.json','sha256':'95f0af6dec82f26d3b9cd15b3b51154289c2d99c22cd08f5e412f1a1342d9573'}
+COMPLETED_ROOT_INTEGRATION={'path':'results/formal_main_v2/preflight/heartbeat_20261021T0225/Object3052166_integration.json','sha256':'dbe7bf425bfe25d926e839813ac4effe28dbeb664e87ed240de7219bcb16a704'}
+COMPLETED_WORK=R/'results/formal_main_v2/autonomous_training/run_v1'
+COMPLETED_OWNER_SHA='2ba2100d6f20e8a00f7853e193d1546b3d7c4195f174c75d54605ec504e33bc2'
+COMPLETED_OWNER_ID='6b3beba5cdeb41df9d749b0b2054d485'
+COMPLETED_CONTROLLER_ID='3034538'
+def completed_training_collect_gate(c,state,snap,a,plan,cpus):
+ inv=plan.get('invocation',{});suite=inv.get('suite');allowed=COMPLETED_COLLECTION_PLANS.get(suite)
+ require(inv.get('stage')=='collect' and allowed is not None,'completed controller only permits two exact Spatial/Object collect plans')
+ plan_ref={k:allowed[k] for k in ('path','sha256')}
+ require(a.get('plan')==plan_ref and plan.get('plan_sha256')==allowed['plan_sha256'],'completed-controller exact collect plan reference differs')
+ jid=a['controller_job_id'];ctl=state['autonomous_training_v1'];row=snap['rows'].get(jid,{})
+ require(jid==COMPLETED_CONTROLLER_ID and jid in cpus and row.get('status')=='COMPLETED' and row.get('exit_code')=='0:0' and row.get('gpus')==0 and jid not in snap['queue'],'controller is neither confirmed RUNNING CPU0 nor original successful COMPLETED CPU0')
+ require(ctl.get('owner_id')==COMPLETED_OWNER_ID and ctl.get('activation')==ACTIVATION and ctl.get('activation_sha256')==ACTIVATION['sha256'],'original completed owner/activation differs')
+ require(state.get('pending_submission') is None and ctl.get('blocked_pairs')=={} and ctl.get('occupied_job_ids')==[],'completed training has blocked/pending/occupied work')
+ expected={f'{suite}_k{k}_seed{seed}' for suite in SUITES for k in (256,128,64) for seed in (17,23,41)}
+ progress=state.get('formal_main_progress',{});pairs=ctl.get('completed_pairs',{})
+ require(progress.get('root_and_independent_completed_arms')==72 and progress.get('root_and_independent_reviewed_arm_updates')==360000 and progress.get('trained_arms')==72 and progress.get('expected_arms')==72,'root72/360000 complete training gate absent')
+ require(set(progress.get('completed_training_pairs',{}))==set(pairs)==expected and len(pairs)==36 and ctl.get('matrix_pairs')==36 and ctl.get('matrix_selectors')==72,'exact completed36 pair matrix absent')
+ require(all(x.get('decision')=='complete' and x.get('completed_by_arm')=={'A':5000,'B':5000} and x.get('selected_checkpoints_verified') is True for x in pairs.values()),'incomplete controller pair/checkpoint outcome')
+ require(ctl.get('last_result')=={'status':'training_matrix_complete','completed_pairs':36,'completed_selectors':72},'controller normal completion result absent')
+ expected_exit={'controller_job_id':jid,'exit_code':'0:0','lease_released':True,'observation':COMPLETED_EXIT_OBSERVATION,'restart_needed':False,'status':'COMPLETED','training_arms':72,'training_pairs':36}
+ require(ctl.get('root_confirmed_normal_training_exit')==expected_exit,'root-confirmed normal exit identity differs')
+ require(progress.get('test_opened') is False and progress.get('global_release_created') is False and progress.get('completed_final_trials')==0,'completed-training collect bridge cannot authorize final evaluation')
+ for job in state['registered_jobs']:
+  if job.get('experiment')==ROUND and job.get('mode')=='train':require(snap['rows'][str(job['job_id'])]['status'] in c.TERMINAL and str(job['job_id']) not in snap['queue'],'training allocation still active')
+ e=Evidence(R);observation=e.ref(COMPLETED_EXIT_OBSERVATION);integration=e.ref(COMPLETED_ROOT_INTEGRATION)
+ require(e.ref(plan_ref)==plan,'published exact collect plan differs')
+ require(observation.get('controller_training_complete_normal') is True and observation.get('lifecycle_lease_held') is False and observation.get('root_independent_complete')==72 and observation.get('root_independent_updates')==360000 and set(observation.get('root_independent_pair_keys',[]))==expected and observation.get('blocked_pairs')=={} and observation.get('pending') is None,'immutable root normal-exit observation is incomplete')
+ require(integration.get('schema')==ROUND and integration.get('status')=='Object3052166_root_and_independent_accepted' and integration.get('controller_normal_exit') is True and integration.get('training_arms')==72 and integration.get('reviewed_arm_updates')==360000 and integration.get('observation')==COMPLETED_EXIT_OBSERVATION and integration.get('global_release') is False and integration.get('final_trials')==0,'root integration does not establish normal completed training')
+ oldrow=observation['observation']['rows'][jid]
+ require(oldrow.get('status')=='COMPLETED' and oldrow.get('exit_code')=='0:0' and oldrow.get('gpus')==0 and row.get('elapsed_seconds')==oldrow.get('elapsed_seconds'),'normal controller terminal accounting differs')
+ owner_path=no_links(COMPLETED_WORK/'owner.json');lease=no_links(COMPLETED_WORK/'controller.lease.lock')
+ require(owner_path.is_file() and lease.is_file(),'existing owner/lease files required; never create/rebind')
+ require(stable(owner_path)['sha256']==COMPLETED_OWNER_SHA,'original owner bytes changed')
+ owner=json.loads(owner_path.read_bytes());require(owner==observation['controller_owner'] and owner.get('owner_id')==ctl['owner_id'] and owner.get('activation_sha256')==ACTIVATION['sha256'] and owner.get('coordinator_job_id')==jid and owner.get('lock')==str(lease) and owner.get('hostname')==row.get('node'),'original owner/lease/runtime identity differs')
+ identity=lease.stat()
+ with lease.open('rb') as f:
+  fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)
+  try:
+   require((os.fstat(f.fileno()).st_dev,os.fstat(f.fileno()).st_ino)==(identity.st_dev,identity.st_ino) and (lease.stat().st_dev,lease.stat().st_ino)==(identity.st_dev,identity.st_ino),'lifecycle lease inode changed')
+   require(stable(owner_path)['sha256']==COMPLETED_OWNER_SHA,'owner changed during lease probe')
+   e.unchanged()
+  finally:fcntl.flock(f,fcntl.LOCK_UN)
+ return dict(kind='completed_training_exact_collect_capacity_gate',controller_job_id=jid,controller_status='COMPLETED',controller_exit_code='0:0',root_arms=72,root_pairs=36,root_reviewed_updates=360000,owner_sha256=COMPLETED_OWNER_SHA,lifecycle_lease_available_measured=True,original_lock_inode_preserved=True,normal_exit_observation=COMPLETED_EXIT_OBSERVATION,root_integration=COMPLETED_ROOT_INTEGRATION,exact_collection_plan=plan_ref,read_evidence_sha256=e.hashes,controller_restarted=False,new_scientific_release=False,final_release=False)
+
+def capacity_gate(c,state,snap,a,plan):
+ require('pending_submission' in state and state['pending_submission'] is None,'unresolved pending submission')
+ jobs=state['registered_jobs'];ids=[str(j['job_id']) for j in jobs]
+ require(len(ids)==len(set(ids)) and all(re.fullmatch('[1-9][0-9]*',j) for j in ids),'registry duplicate/invalid IDs')
+ require(set(snap['rows'])==set(ids) and set(snap['queue'])<=set(ids),'all registered accounting required')
+ ctl=state.get('autonomous_training_v1',{})
+ require(ctl.get('activation')==a['controller_activation'] and ctl.get('activation_sha256')==a['controller_activation']['sha256'] and ctl.get('controller_job_id')==a['controller_job_id'],'controller state identity differs')
+ require(ctl.get('root_submission_hold') is None,'root hold active')
+ require(type(ctl.get('reserved_GPU_slots')) is int and ctl['reserved_GPU_slots']==1 and ctl.get('reservation_root_record')==a['root_reservation'],'own dedicated reservation missing')
+ caps=c.capacity(jobs,snap,a['controller_job_id'])
+ require(not caps['unknown'] and not caps['findings'],'unknown/inconsistent scheduler: '+json.dumps(caps,sort_keys=True))
+ require(len(caps['occupied'])<8,'eight GPU slots occupied')
+ cpus=[str(j['job_id']) for j in jobs if type(j.get('gpus')) is int and j['gpus']==0 and snap['rows'][str(j['job_id'])]['gpus']==0]
+ if not (a['controller_job_id'] in cpus and snap['rows'][a['controller_job_id']]['status']=='RUNNING'):
+  caps['completed_training_collect_gate']=completed_training_collect_gate(c,state,snap,a,plan,cpus)
+ for j in jobs:
+  r=snap['rows'][str(j['job_id'])]
+  check_observed_identity(j,r,snap['queue'].get(str(j['job_id'])),c.TERMINAL)
+ inv=plan['invocation'];prior=[]
+ for j in jobs:
+  if j.get('experiment')!=ROUND:continue
+  jid=str(j['job_id']);r=snap['rows'][jid]
+  overlap=(j.get('suite')==inv['suite'] and j.get('mode')==inv['stage'] and (not j.get('method_ids') or bool(set(j['method_ids'])&set(inv['method_ids']))))
+  if j.get('stage_key')==inv['stage_key'] or overlap:
+   require(r['status'] in c.TERMINAL and jid not in snap['queue'],'duplicate active/unresolved stage')
+   require(j.get('stage_key')==inv['stage_key'] and j.get('method_ids')==inv['method_ids'],'overlapping method group changed')
+   prior.append(jid)
+  if j.get('invocation')==plan['invocation_relative']:raise ValueError('invocation already registered; never repeat')
+ require(set(prior)==set(inv['prior_job_ids']) and len(prior)==len(inv['prior_job_ids']),'new/omitted downstream attempt history')
+ require((bool(prior)==bool(inv['prior_review'])) and (not prior or (inv['stage'] in {'development','final'} and inv['resume'] or inv['stage'] in {'collect','full','components'} and not inv['resume'])),'prior review/resume contract differs')
+ projection=copy.deepcopy(state)
+ for j in projection['registered_jobs']:
+  r=snap['rows'][str(j['job_id'])]
+  if j.get('experiment')==ROUND:j.update({k:r[k] for k in ('status','exit_code','elapsed_seconds','allocation','node')})
+ return caps,cpus,projection
+
+def submission_argv(bundle,token):
+ plan=bundle['plan'];inv=bundle['invocation'];h=sha(bundle['invocation_bytes'])
+ require(plan['resources']==RESOURCES and inv['wrapper'].startswith('scripts/ops/formal_action_deployment_v1/') and inv['wrapper'].endswith('/wrapper.py'),'wrapper/resource identity differs')
+ lines=['set -euo pipefail','cd '+shlex.quote(inv['source_root']),
+  'export PYTHONPATH='+shlex.quote(inv['source_root']+'/src')+' PYTHONDONTWRITEBYTECODE=1',
+  'export OMP_NUM_THREADS=7 OPENBLAS_NUM_THREADS=7 MKL_NUM_THREADS=7 TF_NUM_INTRAOP_THREADS=7 TF_NUM_INTEROP_THREADS=1',
+  'export TOKENIZERS_PARALLELISM=false MUJOCO_GL=egl LIBERO_CONFIG_PATH='+shlex.quote(str(P/'configs/libero_runtime')),
+  'exec srun '+' '.join(shlex.quote(x) for x in [str(H/'venv/bin/python'),'-B',str(P/inv['wrapper']),'--invocation',str(P/plan['invocation_relative']),'--invocation-sha256',h])]
+ return ['sbatch','--parsable','--no-requeue','--exclude=gpu4020','--comment='+token,*['--'+k.replace('_','-')+'='+str(v) for k,v in RESOURCES.items()],
+ '--chdir='+str(P),'--output='+str(P/'results/slurm/%x_%j.out'),'--error='+str(P/'results/slurm/%x_%j.err'),'--wrap','bash -lc '+shlex.quote('\n'.join(lines))]
+def parse_ack(answer,ids):
+ require(answer.returncode==0,'nonzero sbatch result; uncertain outcome')
+ m=re.fullmatch(r'([1-9][0-9]*)(?:;[A-Za-z0-9_.-]+)?\n?',answer.stdout)
+ require(m is not None,'ambiguous sbatch acknowledgement');jid=m.group(1);require(jid not in ids,'old job ID returned');return jid
+
+class NativeIO:
+ """Same-server metadata only. Never copy weights or overwrite existing bytes."""
+ def __init__(self,root):self.root=Path(root)
+ def _watch(self,bundle):
+  plan=bundle['plan'];inv=bundle['invocation']
+  watch=dict(inv['watched_files'])
+  for n,h in bundle['prefix'].items():
+   require(n not in watch or watch[n]==h,'prefix/watch SHA collision');watch[n]=h
+  publications={**plan['publish_files'],**bundle['readiness_files']}
+  for n,h in publications.items():
+   relative(n);require(n.startswith(('scripts/','configs/','results/formal_main_v2/')) and not n.startswith(('snapshots/','results/formal_main_v2/invocations/')),'publication outside explicit metadata roots');remote=str(P/n);require(remote not in watch or watch[remote]==h,'publication/watch collision');watch[remote]=h
+  return watch,publications
+ def _inputs(self,bundle,allow_missing):
+  watch,pubs=self._watch(bundle);got={};missing=[]
+  for name,h in watch.items():
+   require(isinstance(h,str) and re.fullmatch('[0-9a-f]{64}',h),'runtime SHA malformed')
+   q=Path(name);require(q.is_relative_to(S) or q.is_relative_to(P),'runtime input outside P/S')
+   base=S if q.is_relative_to(S) else P;rel=q.relative_to(base).as_posix();relative(rel);no_links(q)
+   if q.exists():
+    row=stable(q);require(row['sha256']==h,'runtime input SHA differs: '+name);got[name]=row
+   else:
+    require(allow_missing and base==P and rel in pubs and pubs[rel]==h,'runtime input missing: '+name);missing.append(rel)
+  output=no_links(P/bundle['plan']['output_relative'])
+  require(output.exists()==bundle['plan']['output_must_exist'],'runtime output existence differs')
+  if output.exists():require(output.is_dir(),'runtime output must be directory')
+  return {'checked_files':got,'missing_publications':missing,'output_exists':output.exists()}
+ def preflight(self,bundle):
+  require(not no_links(P/bundle['plan']['invocation_relative']).exists(),'runtime invocation already exists; no retry')
+  return self._inputs(bundle,True)
+ def publish(self,bundle):
+  _,pubs=self._watch(bundle)
+  for rel,h in pubs.items():
+   src=no_links(self.root/relative(rel));require(stable(src)['sha256']==h,'publication source changed')
+   dst=no_links(P/rel)
+   if dst.exists():require(stable(dst)['sha256']==h,'refuse changed existing runtime publication');continue
+   raw=src.read_bytes();require(sha(raw)==h,'publication source drift');immutable(dst,raw)
+  immutable(P/bundle['plan']['invocation_relative'],bundle['invocation_bytes'])
+  self._inputs(bundle,False)
+  require(stable(P/bundle['plan']['invocation_relative'])['sha256']==sha(bundle['invocation_bytes']),'runtime invocation publication differs')
+
+def reconcile_submission(c,jobs,snapshot,new_job,token,controller_job_id,corroboration=None):
+ ids={str(j['job_id']) for j in jobs};require(set(snapshot['rows'])==ids and set(snapshot['queue'])<=ids,'post-submit accounting incomplete')
+ caps=c.capacity(jobs,snapshot,controller_job_id);require(not caps['unknown'] and not caps['findings'],'post-submit scheduler uncertainty')
+ row=snapshot['rows'][new_job['job_id']]
+ for job in jobs:
+  jid=str(job['job_id'])
+  check_observed_identity(job,snapshot['rows'][jid],snapshot['queue'].get(jid),c.TERMINAL,required_token=token if jid==new_job['job_id'] else None,corroboration=corroboration if jid==new_job['job_id'] else None)
+ return caps
+
+def error_capture(error,name):
+ value=getattr(error,name,None)
+ if isinstance(value,bytes):return {'encoding':'hex','value':value.hex()}
+ return value
+class Gateway:
+ def __init__(self,root,controller,scheduler,science,io,authorization,authorization_ref,evidence):
+  self.root=Path(root);self.c=controller;self.scheduler=scheduler;self.science=science;self.io=io
+  self.a=authorization;self.ref=authorization_ref;self.e=evidence;self.used=False
+  self.path=self.root/STATE;self.audit=self.root/f'results/{ROUND}/downstream_gateway/{authorization_ref["sha256"]}'
+ def _cas(self,state):
+  self.c.atomic_json(self.path,state,self.expected);self.expected=self.c.file_sha(self.path)
+ def _job(self,jid,bundle,token,argv):
+  plan=bundle['plan'];inv=bundle['invocation']
+  j=dict(job_id=jid,name='cti-formal-downstream',experiment=ROUND,mode=inv['stage'],stage_key=inv['stage_key'],suite=inv['suite'],method_ids=inv['method_ids'],
+   source_root=inv['source_root'],source_sha256=inv['source_sha256'],adapter_sha256=inv['adapter_sha256'],run_root=inv['run_root'],invocation=plan['invocation_relative'],
+   invocation_sha256=sha(bundle['invocation_bytes']),execution_manifest_sha256=inv['execution_manifest_sha256'],status='SUBMITTED',gpus=1,
+   submitted_utc=inv['registered_utc'],resume=inv['resume'],prior_job_ids=inv['prior_job_ids'],source_provenance_sha256=sha(canonical(inv['source_provenance'])),
+   execution_version=inv['version'],wrapper=inv['wrapper'],wrapper_sha256=inv['wrapper_sha256'],entrypoint=inv['entrypoint'],plan_sha256=inv['plan_sha256'],
+   action_execution_contract=copy.deepcopy(inv['action_execution_contract']),scientific_plan=copy.deepcopy(inv['scientific_plan']),runtime_readiness=copy.deepcopy(inv['runtime_readiness']),
+   purpose='Root-authorized exact action-version formal downstream stage; all prior attempts/costs retained',
+   downstream_gateway=dict(version=VERSION,authorization=self.ref,plan=self.a['plan'],request_token=token,actual_sbatch_argv=argv,automatic_retry=False))
+  if 'downstream_asset_compatibility' in inv:j['downstream_asset_compatibility']=copy.deepcopy(inv['downstream_asset_compatibility'])
+  return j
+ def run(self,*,submit=False):
+  require(not self.used,'gateway instance is single use');self.used=True
+  lock=no_links(self.path.parent/'.writer.lock');require(lock.is_file(),'shared writer lock missing; never create/rebind')
+  with self.c.exclusive_lock(lock):
+   self.expected=self.c.file_sha(self.path);state=self.c.read_json(self.path)
+   require(self.c.file_sha(self.path)==self.expected,'state drift during read');baseline=copy.deepcopy(state)
+   require(not self.audit.exists(),'request audit already exists; inspect, never repeat')
+   snap=self.scheduler.observe(state['registered_jobs'])
+   caps,cpus,projection=capacity_gate(self.c,state,snap,self.a,self.science.plan)
+   bundle=self.science.prepare(projection)
+   ready=self.e.ref(self.a['runtime_readiness']);ready_files=dict(ready.get('runtime_publication_files',{}))
+   require(self.a['runtime_readiness']['path'] not in ready_files,'readiness cannot self-reference its own SHA')
+   for name,h in ready_files.items():self.e.watch(name,h)
+   ready_files[self.a['runtime_readiness']['path']]=self.a['runtime_readiness']['sha256'];bundle['readiness_files']=ready_files
+   invrel=relative(bundle['plan']['invocation_relative']).as_posix()
+   require(not no_links(self.root/invrel).exists(),'control invocation already exists; no retry')
+   live=self.io.preflight(bundle)
+   self.e.unchanged();require(state==baseline and self.c.file_sha(self.path)==self.expected,'read-only preparation changed state')
+   fresh=self.scheduler.observe(state['registered_jobs']);caps,cpus,_=capacity_gate(self.c,state,fresh,self.a,bundle['plan'])
+   token='cti-downstream-gateway-v1:'+self.ref['sha256'];argv=submission_argv(bundle,token)
+   result=dict(schema=ROUND,kind='formal_downstream_server_preflight',version=VERSION,status='read_only_checks_passed_not_submitted',
+    authorization=self.ref,plan=self.a['plan'],scientific_plan=self.a['scientific_plan'],prepared_invocation=self.a['prepared_invocation'],
+    state_sha256=self.expected,registered_jobs=baseline['registered_jobs'],scheduler_observation=fresh,capacity=caps,confirmed_CPU0=cpus,
+    invocation_relative=invrel,invocation_sha256=sha(bundle['invocation_bytes']),actual_sbatch_argv=argv,request_token=token,
+    runtime_preflight=live,read_evidence_sha256=dict(sorted(self.e.hashes.items())),legacy_refresh_called=False,scientific_settings_changed=False)
+   if not submit:return result
+   self.audit.mkdir(parents=True,exist_ok=False);record(self.audit/'preflight.json',result)
+   pending=dict(schema=ROUND,kind='formal_downstream_server_pending',version=VERSION,status='prepared_before_invocation_publication',
+    stage_key=bundle['invocation']['stage_key'],invocation=invrel,invocation_sha256=sha(bundle['invocation_bytes']),plan_sha256=bundle['plan']['plan_sha256'],
+    authorization=self.ref,request_token=token,actual_sbatch_argv=argv,requested_gpus=1,utc=bundle['invocation']['registered_utc'],automatic_retry=False,
+    audit_relative=self.audit.relative_to(self.root).as_posix())
+   state['pending_submission']=pending;self._cas(state)
+   try:
+    immutable(self.root/invrel,bundle['invocation_bytes']);self.io.publish(bundle)
+    self.e.unchanged();require(self.c.file_sha(self.path)==self.expected,'state drift before scheduler submission')
+    answer=self.scheduler.submit(argv)
+    record(self.audit/'sbatch_result.json',dict(returncode=answer.returncode,stdout=answer.stdout,stderr=answer.stderr,actual_sbatch_argv=argv))
+    jid=parse_ack(answer,{str(j['job_id']) for j in baseline['registered_jobs']})
+    pending.update(status='submitted_identifier_observed',known_job_id=jid);self._cas(state)
+    job=self._job(jid,bundle,token,argv)
+    observed=self.scheduler.observe([*baseline['registered_jobs'],job])
+    corroboration=corroborate_new_job(self.scheduler,job,observed)
+    postcaps=reconcile_submission(self.c,[*baseline['registered_jobs'],job],observed,job,token,self.a['controller_job_id'],corroboration)
+    record(self.audit/'submitted_job_observation.json',dict(job_id=jid,request_token=token,observation=observed,scontrol_corroboration=corroboration,capacity=postcaps))
+    record(self.root/f'results/{ROUND}/submissions/{jid}.json',job)
+    state['registered_jobs'].append(job);state['pending_submission']=None
+    state.setdefault('current_round_cost',{})['registered_jobs']=sum(j.get('experiment')==ROUND for j in state['registered_jobs'])
+    state['current_round_cost']['allocated_gpu_seconds']=sum(observed['rows'][str(j['job_id'])]['elapsed_seconds']*observed['rows'][str(j['job_id'])]['gpus'] for j in state['registered_jobs'] if j.get('experiment')==ROUND)
+    state['current_round_cost']['allocated_gpu_hours']=state['current_round_cost']['allocated_gpu_seconds']/3600
+    ctl=state['autonomous_training_v1'];ctl['reserved_GPU_slots']=0
+    ctl.setdefault('downstream_reservations_consumed',{})[self.ref['sha256']]=dict(job_id=jid,reservation=self.a['root_reservation'],request_token=token)
+    state.setdefault('formal_main_progress',{}).setdefault('parallel_execution',{})['registered_requested_active_GPU_jobs']=len(postcaps['occupied'])
+    require(state['registered_jobs'][:-1]==baseline['registered_jobs'],'historical registry changed')
+    before=copy.deepcopy(baseline['autonomous_training_v1']);after=copy.deepcopy(ctl)
+    for k in ('reserved_GPU_slots','downstream_reservations_consumed'):before.pop(k,None);after.pop(k,None)
+    require(before==after,'unrelated autonomous/controller field changed')
+    self._cas(state)
+    record(self.audit/'committed.json',dict(schema=ROUND,kind='formal_downstream_server_committed',status='submitted_once',job=job,
+     state_sha256=self.expected,request_token=token,reservation_consumed=True,automatic_retry=False))
+    return dict(status='submitted_once',job=job,state_sha256=self.expected)
+   except BaseException as error:
+    try:record(self.audit/'failed_transaction.json',dict(status='stopped_requires_root_reconciliation_no_retry',error_type=type(error).__name__,error=str(error),captured_stdout=error_capture(error,'stdout'),captured_stderr=error_capture(error,'stderr'),state_sha256=self.c.file_sha(self.path),automatic_retry=False))
+    except BaseException:pass
+    raise
+
+def main(argv=None):
+ p=argparse.ArgumentParser(description=__doc__)
+ p.add_argument('--authorization',required=True);p.add_argument('--authorization-sha256',required=True);p.add_argument('--gateway-sha256',required=True)
+ p.add_argument('--submit',action='store_true');p.add_argument('--root-reviewed-submit',action='store_true');a=p.parse_args(argv)
+ require(Path.cwd().resolve()==R,'server control root required')
+ require(sha(Path(__file__).read_bytes())==a.gateway_sha256,'gateway source SHA differs')
+ require(a.submit==a.root_reviewed_submit,'explicit two-part root submit confirmation required')
+ ref={'path':a.authorization,'sha256':a.authorization_sha256};auth,e,plan,scientific,prepared=validate_authorization(R,ref)
+ c=load(R/CONTROLLER,CONTROLLER_SHA,'_downstream0809_pinned_controller')
+ run=Gateway(R,c,c.Slurm(),FrozenPlan(R,auth,e,plan,scientific,prepared),NativeIO(R),auth,ref,e)
+ print(json.dumps(run.run(submit=a.submit),sort_keys=True,ensure_ascii=False))
+if __name__=='__main__':main()

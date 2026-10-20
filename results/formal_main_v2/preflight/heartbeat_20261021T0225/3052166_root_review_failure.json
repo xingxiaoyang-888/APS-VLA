@@ -1,0 +1,16 @@
+{
+  "message": "Only immutable terminal formal jobs may enter result proof",
+  "new_jobs": 0,
+  "pull": {
+    "path": "results/formal_main_v2/pulls/20261020T182913Z_b827e776a52c/receipt.json",
+    "sha256": "35879bc6609b98bdb138d887012f47585798260614eb4c4975d57366e5cede04"
+  },
+  "state_unchanged": true,
+  "status": "blocked_review",
+  "terminal_jobs_snapshot": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0225/terminal_jobs_snapshot.json",
+    "sha256": "2bbf7258311d813d592439333db358397c5da12db59d2033044f10403226d9eb"
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/review_object256s23_terminal_20261020T1825.py\", line 31, in <module>\n    result=reviewer.review(R,job=job,invocation_ref=invref,pull_ref=pr,registered_jobs=jobs,expected_contract_ref=inv['action_execution_contract'])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_object256s23_source_bridge_v1/control.py\", line 145, in review\n    result=baseline(project,**kw)\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_action_deployment_v1/reviewer.py::<explicit_object23_control>\", line 669, in review\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_action_deployment_v1/reviewer.py::<explicit_object23_control>\", line 53, in require\nValueError: Only immutable terminal formal jobs may enter result proof\n",
+  "type": "ValueError"
+}

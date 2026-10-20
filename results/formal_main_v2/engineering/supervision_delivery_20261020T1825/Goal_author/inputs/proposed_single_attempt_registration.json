@@ -1,0 +1,72 @@
+{
+  "GPU_jobs": 1,
+  "GPUs": 1,
+  "application_timeout": "Best effort because inherited reset swallows exceptions; Slurm1800-second bound required. Do not silently patch reset.",
+  "automatic_retry": false,
+  "checkpoint_identities": {
+    "A256_seed17": "756e7033ed467d50c748ff2a6290a3c9f84928c4a5a30c3304669c9e5f28d928",
+    "B256_seed17": "48cadc7b53914b87f4a7e8ef232bdcfe87bf94a1e28d8758e2db44d31e4ab2c3"
+  },
+  "counts_toward_eight_GPU_slots": true,
+  "execution_semantics": "Re-execute unchanged original closed-loop policy/environment in exact fixed identity/order prefix, stopping after58. Never force recorded actions, observations or early termination to match. Record actual divergence. This is source/order re-execution, not exact realized-trajectory replay.",
+  "fail_closed": [
+    "identity or observer semantics unproven: no submission",
+    "visible exception/corrupt trace: stop and preserve; no automatic retry",
+    "58 complete or1800seconds ends one attempt",
+    "prequery different: locate first reset/set_init/wait component divergence",
+    "prequery same/postquery different: directly supports input mutation investigation only",
+    "images differ but proprio/sim match: rendering investigation candidate, not harmlessness proof",
+    "target not reproduced: inconclusive,HOLD unchanged",
+    "all cases: original200 remains rejected; no automatic scientific retry"
+  ],
+  "fixed_scope": "Original first58 state-major A/B trial identities,29 previously used development states, no substitution based on success",
+  "hard_Slurm_wall_seconds": 1800,
+  "historical_action_replay_limitation": "Recorded actions alone omit model-call/GPU history; predict then override actions changes closed-loop semantics. Neither is adopted as exact reproduction.",
+  "historical_actual_actions_replayed": false,
+  "maximum_attempts": 1,
+  "maximum_dummy_controls": 580,
+  "maximum_policy_controls": 17400,
+  "maximum_trials": 58,
+  "observer": "New explicit reviewed observer; copy five original obs arrays/hash/dtype/shape and simulator/RNG state at reset,set_init,each dummy and t0 pre/post query. No extra policy/step/reset/render/update_observables/random/warmup/synchronization calls. Preserve returned objects and original query timer. No scientific latency inference from instrumented run.",
+  "observer_validation": "CPU mutation/RNG sentinels and AST differential prove only passive capture plus fixedstop58; bind source,checkpoint,loading order. GPU records array/RNG equality around observer. Observer changes timing/history and cannot be asserted completely non-perturbing.",
+  "original200_HOLD_unchanged": true,
+  "original_invocation": {
+    "bytes": 135749,
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/invocations/libero_goal_development_5185766bb353c8e6_attempt01.json",
+    "sha256": "c07489c5e56cc3255b60f5eb6df34146e37e4b60fa7151cc97f8008f402b8803"
+  },
+  "original_panel": {
+    "bytes": 180245,
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_goal/downstream/development/5185766bb353c8e6/attempt01/panel.json",
+    "sha256": "ce8e3d31ab8f7616c87dd4d4031af41825713907ac184c6ea5b01d9040985aa9"
+  },
+  "prefix": {
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_forensic_20261020T1644/original_prefix58.json",
+    "sha256": "1e786af6b4aafb52dba32bce1494c5e4dd4ef05c41f10cb3b9a77342c2cbcb28"
+  },
+  "repair_policy": "No repair justified yet. Reproduced-cause patch requires separately registered CPU and real-GPU validation and root approval; never weaken hash gate or retro-accept original200.",
+  "requires_root_and_independent_review_before_submission": true,
+  "same_settings": {
+    "action_chunk": 8,
+    "camera": [
+      256,
+      256
+    ],
+    "envseed": 0,
+    "max_control_steps": 300,
+    "seed": 17,
+    "suite": "libero_goal",
+    "tokens": 256,
+    "wait_steps": 10
+  },
+  "scientific_trials_accepted": 0,
+  "sealed_values_access": false,
+  "source_inventory": {
+    "bytes": 20818,
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "sha256": "5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926"
+  },
+  "status": "proposal_only_not_authorized_not_run",
+  "version": "goal-original-prefix-t0-diagnostic-draft-v1",
+  "why58": "Shortest original invocation prefix including both offending A and paired B, derived from anomaly location, not performance. Prior12-query probe omitted first56 rollouts."
+}

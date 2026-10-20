@@ -1,0 +1,60 @@
+{
+  "CPU_only_limits": "Production-chain proof verifies unchanged source, actual P metadata/wrapper and existing component GPU acceptance; no claim of newly collected data or measured latency.",
+  "actual_P_original_scientific_wrapper_verification": true,
+  "effective_plan": {
+    "path": "results/formal_main_v2/execution/spatial_collect_action_v1_20261020T1825/effective_plan.json",
+    "sha256": "0ed890e69b47155eb83dd388e05c68a84b635e79b596b2b0e39cd4f903a2f5b7"
+  },
+  "execution_version": "formal-downstream-action-v1",
+  "final_values_read": false,
+  "independent_plan_review": {
+    "path": "results/formal_main_v2/execution/spatial_collect_action_v1_20261020T1825/independent_plan_review.json",
+    "sha256": "8c14a975a6b79cf1f5fdbc497560cafd77455a22af307712465468aecb27cfc3"
+  },
+  "kind": "formal_collect_runtime_root_CPU_review",
+  "new_GPU_acceptance": false,
+  "original_collector_prepare_only": {
+    "path": ".local/spatial_object_collect_20261020T1825/Spatial/plan_v1/original_collector_prepare_only.json",
+    "sha256": "aeeb3d20847df5d72b130d22caf2222bf005216431b082a232441986a412f74a"
+  },
+  "prior_component_proofs_inherited_explicitly": {
+    "raw_consumer": {
+      "path": "results/formal_main_v2/engineering/action_deployment_candidates_0809/action_gateway_consumers_independent_0809/raw_consumer_independent_review.json",
+      "sha256": "3f815f3a48755e16e01219eb7f24c2b3fcb84e65d769d1e0a1d141a84d769479"
+    },
+    "runtime": {
+      "path": "results/formal_main_v2/engineering/action_deployment_candidates_0809/action_deployment_chain_independent_0809/runtime_component_independent_projection.json",
+      "sha256": "927cb53f1b06d01c0d49ea86449d0aeb62aa6ec6285045e6d9d6d3c4ea77abc4"
+    },
+    "wrapper": {
+      "path": "results/formal_main_v2/engineering/action_deployment_candidates_0809/action_deployment_chain_independent_0809/wrapper_component_independent_projection.json",
+      "sha256": "14bfa92531e1e895ffe0da595b508810e1454333d74db5fbcc12acb1cf1ae146"
+    }
+  },
+  "production_chain_complete": true,
+  "reviewed_by": "root",
+  "runtime_sources": {
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+    "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+    "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+    "scripts/ops/formal_action_deployment_v1/entry.py": "2cdb69923146cbffcaaec555b970d03efbce0c9b9f74e3b743a2ce67a21aae19",
+    "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_action_deployment_v1/runtime_scope.py": "6bc93fffd71981182e36857a33e7c255ce88d8f2cdab930f2779d92776b7ee53",
+    "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33"
+  },
+  "schema": "formal_main_v2",
+  "scientific_plan": {
+    "path": "results/formal_main_v2/execution/spatial_collect_action_v1_20261020T1825/scientific_plan.json",
+    "sha256": "44529fba06f45d5d9e7ca3563bafc88ad624e5af797c3162f22785b8335e63fb"
+  },
+  "scientific_success_trials_added": 0,
+  "selection_matches_frozen_development_min_index_each_task": true,
+  "source_files_173_unchanged": true,
+  "source_registration": {
+    "path": "results/formal_main_v2/execution/spatial_collect_action_v1_20261020T1825/collection_selection_registration.json",
+    "sha256": "c7c4eeebe1b4ee933f641109f5f842df29eb0c22e2b945d6da0e94ba3c3dd692"
+  },
+  "status": "passed",
+  "utc": "2026-10-20T19:15:31.407951+00:00"
+}

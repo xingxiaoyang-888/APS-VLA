@@ -1,0 +1,23 @@
+{
+  "automation": {
+    "created_at": 1791948721549,
+    "id": "cti-vla",
+    "kind": "heartbeat",
+    "name": "CTI-VLA 正式主实验监督",
+    "prompt": "继续负责 CTI-VLA formal_main_v2 主结果交付。唯一控制工作区 R=/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo，运行目录 P=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA。通过 tongji-cvpr SSH 先读 R/SERVER_WORKSPACE.md、docs/服务器工作区与GitHub同步.md、正式主实验规划、完整实验计划、实验进度、正式主实验阶段结论、最新正式下游阻塞登记、results/experiment_supervisor/state.json 及其 last_root_supervision_snapshot，按真实作业和产物推进。全部新代码、测试、日志、结果和 Git 操作只在服务器；Windows仅内存SSH，不写本机项目/临时文件/pycache/Git索引，不读取旧F盘进度。173冻结文件保持原字节。非权重 P→R→https://github.com/xingxiaoyang-888/DIWA.git，权重/checkpoint仅服务器。使用已审 server_control_transport_v1 与精确入口SHA；旧F断言helper先迁移审计。Git用 server_github_sync.py、stdin临时认证、不持久凭据，非强制推送并核对远端。本地旧副本删除曾被自动审批拒绝，不重试或声称删除。\n正式72组训练已完成5000步及原root+独立终验（360000更新）；CPU控制器3034538正常COMPLETED0:0，生命周期lease已释放，禁止为填槽重启训练控制器。先核对这一终态及最新登记；训练科学设置不变：4套件官方基座、完整合法train、256/128/64、seed17/23/41、A/B、batch8、h8/lambda0.1，无搜索。当前进入开发验收、完整测速及最终冻结准备，不重复训练或改选checkpoint。\nroot统一登记与提交，仍最多8个所有模式独立单GPU、每pair一个活动作业。可以分配子代理实现和独审，全部服务器操作。共享 .writer.lock 与CAS；先查已登记作业/产物、pending、原ACK/comment/token及来源/配置/数据/checkpoint身份，避免重复。不确定提交只按唯一原ACK补登记，不能清pending重发；FAILED/TIMEOUT/PREEMPTED/未知状态/证据损坏先有界定位，保留失败/重放成本。只管理本项目登记作业，不干预其他项目。已审训练后collect gateway仅授权其两个精确Spatial/Object计划，不能无审计泛化。新入口保留原科学guard和所有容量/身份/恢复要求。\n最新已验收开发为当前动作5400条+显式兼容Long600=6000条，400唯一开发初态；全部历史6612条仍保留，不重复计数。Spatial collect3053503和Object collect3053518各只提交一次，Slurm即时记账延迟已按原ACK补登记，禁止重复提交；先检查现有输出，完成原consumer与独立终审、非权重回存后再将各30固定观测接纳用于测速。采集与工程不计成功率分母。Long固定30观测已有验收。完整O2A与独立分项测速仍须同checkpoint和既定全局身份冻结，不能使用Spatial延迟替代其他套件。\nGoal原200条及新增科学开发仍HOLD。工程3053440已完成58条、803 GPU秒且终态证据独审通过；未复现原第57条t0差异，但动作历史27/30/33/46/57/58不同，不是精确重放，不能称原因已查明或修复，不能采纳旧200，不能自动重跑工程。先读本轮Goal终态诊断与独审，基于证据设计有界修正，不改科学设置。其余缺口：Spatial旧600保留原12条，588需准确恢复；Object旧600含一条越界动作policy_error，不能整批兼容接纳；Spatial/Object64seed23各200需本pair来源历史桥，不能套用别pair桥。保持全部原尝试。\n全部72 checkpoint、16参考身份、4套件开发收据及最终清单冻结且root全局release通过，才开放每任务40封存初态的35200最终试验。提前不得读取封存值，不据最终结果调参/重选模。报告同checkpoint完整O2A与分项计时、所有seed/尖峰/负结果；按任务内初态簇携带三seed、10000bootstrap，所有Slurm分配包括加载缓存失败只记一次。禁止旧逐token删除、分阶段重评分、C、32token、新模块、外部VLA-ACL等选择器下载训练评测。\n正常作业不在本轮实时轮询，等待后续监督。只有实质进展、失败、完成或需要用户处理时简短中文报告完成组数、并行数、GPU时和下一步；无变化或不可行动保持安静。更新服务器计划/进度/结论并同步GitHub。全部正式主结果交付后总结真实结论并停止本监督，不自动扩大实验。",
+    "rrule": "RRULE:FREQ=MINUTELY;INTERVAL=60",
+    "status": "ACTIVE",
+    "target_thread_id": "01a1363e-5ab4-7422-b655-cc2e6f5d3ea1",
+    "updated_at": 1792524761816,
+    "version": 1
+  },
+  "notification_policy_preserved": true,
+  "official_documentation": "https://developers.openai.com/training/walkthroughs/scheduled-tasks",
+  "original_toml_sha256": "422563ef326321f3d9808650fadd0cfa4cf8526444243a2db325395519be36b1",
+  "project_content_written_on_Windows": false,
+  "schedule_preserved": true,
+  "schema": "formal_main_v2",
+  "status": "existing_heartbeat_prompt_updated_after_training_complete",
+  "update_method": "Codex automation_update structured tool; existing heartbeat, no new automation",
+  "utc": "2026-10-20T19:34:35.582596+00:00"
+}

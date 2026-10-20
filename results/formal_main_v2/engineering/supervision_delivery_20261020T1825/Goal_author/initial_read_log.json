@@ -1,0 +1,21 @@
+{
+  "status": "read_only_context_loaded",
+  "server_rules_read": [
+    "SERVER_WORKSPACE.md",
+    "docs/服务器工作区与GitHub同步.md",
+    "AGENTS.md",
+    "docs/正式主实验规划.md",
+    "docs/实验进度.md",
+    "docs/正式下游阻塞登记_20261020T1418.md"
+  ],
+  "source_candidate": "results/formal_main_v2/engineering/supervision_delivery_20261020T1644/Goal_prefix58_candidate",
+  "independent_report_sha256": "24398f0dfb160bb2ee1aa3ef5cfada40427798eb867dd56f9d7479e51a8bb604",
+  "read_command_failure": {
+    "type": "FileNotFoundError",
+    "command": "rg --files <exact candidate directory>",
+    "reason": "rg unavailable on server; subsequently used pathlib bounded candidate listing",
+    "production_mutation": false
+  },
+  "GPU_calls": 0,
+  "production_state_written": false
+}

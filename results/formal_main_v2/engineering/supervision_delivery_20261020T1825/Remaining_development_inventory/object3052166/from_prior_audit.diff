@@ -1,0 +1,87 @@
+--- .local/devterminal_independent_20261020T1530/audit_terminal_a1.py
++++ audit_terminal_v1.py
+@@ -1,4 +1,4 @@
+-"""Independent CPU-only terminal audit of three completed development jobs; no final results."""
++"""Independent raw Object256seed23 development terminal audit with exact accepted source control; no other pair or stage."""
+ from pathlib import Path
+ from datetime import datetime,timezone
+ from collections import Counter
+@@ -7,17 +7,17 @@
+ R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+ P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+ S=P/'snapshots/formal_main_v2_run_564be0995e'
+-D=R/'.local/devterminal_independent_20261020T1530'
+-B='results/formal_main_v2/preflight/heartbeat_20261020T2330'
++D=R/'.local/remaining_development_inventory_20261020T1825/object3052166'
++B='results/formal_main_v2/preflight/heartbeat_20261021T0225'
+ REVIEWER='scripts/ops/formal_action_deployment_v1/reviewer.py'
+ CONSUMER='scripts/ops/formal_action_deployment_v1/consumer.py'
+ RPIN='9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd'
+ CPIN='16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034'
+ INV='results/formal_main_v2/source/formal_main_v2_run_564be0995e.json'
+ IPIN='5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926'
+-PULL='results/formal_main_v2/pulls/20261020T153411Z_ee5de4901f52/receipt.json'
+-PINNED={PULL:'d2e3853021dc69de491ac500b88492c1f062ee84dd910bc39ebae51b39599d0f',B+'/terminal_jobs_snapshot.json':'fbec27e002492f85b7922644826aad25d141977417b0257eb4aa7ac9c46093af'}
+-JOBS={'3050192': {'suite': 'libero_spatial', 'seed': 23, 'budget': 256, 'trials': 200, 'allocated': 2276, 'methods': {'A256_seed23', 'B256_seed23'}, 'root_sha': 'a911fc07e5a11ae892c87bc0439b27d2dd5e904f1cb7a1b894833a7ab45ac1bf'}, '3050205': {'suite': 'libero_spatial', 'seed': 41, 'budget': 256, 'trials': 200, 'allocated': 2353, 'methods': {'B256_seed41', 'A256_seed41'}, 'root_sha': '0de38a659371c54b5ebfe02aa13227eebacf7ae07bbedbbe22845dbe7f0459b5'}, '3050224': {'suite': 'libero_object', 'seed': 41, 'budget': 256, 'trials': 200, 'allocated': 2049, 'methods': {'B256_seed41', 'A256_seed41'}, 'root_sha': '38ca22f9dcda9f328f388af0292196ef54e2349843cb59d0596dba2bc7dc32b5'}}
++PULL='results/formal_main_v2/pulls/20261020T182913Z_b827e776a52c/receipt.json'
++PINNED={PULL:'35879bc6609b98bdb138d887012f47585798260614eb4c4975d57366e5cede04',B+'/terminal_formal_jobs_snapshot_v2.json':'18334c012a631849ba08a5e3b56ac18e2a33b9335c71e9f00ad4b23841b8cdc8'}
++JOBS={'3052166':{'suite':'libero_object','seed':23,'budget':256,'trials':200,'allocated':2165,'methods':{'A256_seed23','B256_seed23'},'root_sha':'25de882d1e6e087e2d2f15ac0c4ad1e008d176ddd425d1851b31c136047d3713'}}
+ MODEL_PINS={'libero_spatial': ('6a34ed9b4790fa889eb36406a1182d3d89ee539f7a65cb2f72d67e8326d557e7', '6d0231af0e48c5985f1ff86908f4674b84bc049b'), 'libero_object': ('33285a7643de7073e41bd2062cbbc80b4df8fddff915c0a86a13d0bbae48edce', '4c89574e1c538b6c102f43f0526d60a9d3650148'), 'libero_goal': ('85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2', 'c2d0f9fbbd82674683b397ff923168a12f6a307b')}
+ inputs={}
+ def sha(b):return hashlib.sha256(b).hexdigest()
+@@ -47,10 +47,10 @@
+ started=time.monotonic();cpu=time.process_time()
+ try:
+  for rel,pin in PINNED.items():read(R/rel,pin)
+- pull=jread(R/PULL);snap=jread(R/B/'terminal_jobs_snapshot.json')
++ pull=jread(R/PULL);snap=jread(R/B/'terminal_formal_jobs_snapshot_v2.json')
+  assert set(pull['requested_job_ids'])==set(JOBS)
+  assert pull['weights_copied'] is False and pull['sealed_initial_states_copied'] is False
+- assert pull['status']=='verified_nonweight_snapshot' and len(pull['files'])==36
++ assert pull['status']=='verified_nonweight_snapshot' and len(pull['files'])==12
+  for row in pull['files']:
+   assert row['local_path']==str(R/row['relative']) and row['path']==str(P/row['relative'])
+   a=read(R/row['relative'],row['sha256']);b=read(P/row['relative'],row['sha256'])
+@@ -58,7 +58,9 @@
+  inv=jread(R/INV,IPIN);assert len(inv['files'])==173
+  for rel,pin in inv['files'].items():read(R/rel,pin);read(S/rel,pin)
+  rv=module(REVIEWER,RPIN,'_Goal_terminal_independent_1317')
+- evidence=rv.Evidence(R);consumer=rv.load(evidence,CONSUMER,CPIN)
++ evidence=rv.Evidence(R)
++ control=module('scripts/ops/formal_object256s23_source_bridge_v1/control.py','09ae3486565e17bd2c41b09adbfaa7a6d99f38754d3e77071f77851c9ac54f6f','_Object3052166_explicit_control')
++ consumer=control.consumer_module(evidence)
+  combined={};paired_table=[];method_results={};common_states_by_suite={};common_panels={};common_t0_by_suite={};global_ids=set()
+  totals={'trials':0,'chunks':0,'executed_actions':0,'allocated_gpu_seconds':0}
+  for jid,exp in JOBS.items():
+@@ -195,8 +197,8 @@
+   completion=jread(jp/'completion.json');assert completion['events_sha256']==inputs[str(jp/'events.jsonl')]['sha256']
+   assert completion['immutable_inputs_unchanged'] and completion['runtime_restored'] and completion['errors']==[]
+   aref=job['downstream_gateway']['authorization'];auth=jread(R/aref['path'],aref['sha256']);gateway=R/'results/formal_main_v2/downstream_gateway'/aref['sha256']
+-  failure=jread(gateway/'failed_transaction.json');ack=jread(gateway/'sbatch_result.json')
+-  assert failure['error']=='post-submit accounting incomplete' and failure['automatic_retry'] is False
++  failure=jread(gateway/'failed_transaction.json') if (gateway/'failed_transaction.json').is_file() else None;ack=jread(gateway/'sbatch_result.json')
++  if failure is not None:assert failure['error']=='post-submit accounting incomplete' and failure['automatic_retry'] is False
+   assert ack['returncode']==0 and ack['stdout'].strip()==jid and auth['maximum_attempts']==1
+   combined[jid]={'status':'passed','job_id':jid,'suite':suite,'root_receipt':rootref,'source_version':'formal-downstream-action-v1',
+    'training_seed':seed,'seed':seed,'A_B_visual_tokens':budget,'methods':identities,'trials':count,'reference_trials':0,'AB_trials':200,'unique_initial_states':100,'tasks':10,'per_task':pertask,
+@@ -208,15 +210,15 @@
+      'mean_Jaccard':sum(x['Jaccard'] for x in tokenpairs)/100,'rows':tokenpairs,'scope':'AB within seed on identical pre-action t0 only; later divergent trajectories not compared.'},
+    'offline_validation_diagnostics':diagnostics,'raw_start_result_pairs_exact':True,
+    'checkpoint_hash_scope':'Actual runtime watches/chunk metadata match frozen selected receipts. No checkpoint bytes independently read.',
+-   'original_ACK_accounting_delay_preserved':True,'submission_failure_added_new_GPU_allocation':False,'new_GPU_seconds_by_this_audit':0,'scientific_final_release':False}
++   'original_ACK_accounting_delay_preserved':failure is not None,'submission_failure_added_new_GPU_allocation':False,'new_GPU_seconds_by_this_audit':0,'scientific_final_release':False}
+   totals['trials']+=count;totals['chunks']+=chunks;totals['executed_actions']+=steps;totals['allocated_gpu_seconds']+=exp['allocated']
+   del rows,finished,raw
+  evidence.unchanged()
+- assert totals['trials']==600 and totals['allocated_gpu_seconds']==6678 and len(global_ids)==600
+- assert sum(len(x) for x in common_states_by_suite.values())==200 and len(paired_table)==300
++ assert totals['trials']==200 and totals['allocated_gpu_seconds']==2165 and len(global_ids)==200
++ assert sum(len(x) for x in common_states_by_suite.values())==100 and len(paired_table)==100
+  for rel,hh in evidence.files.items():read(R/rel,hh)
+- paired=put('paired_development_states.json',{'schema':'formal_main_v2','scope':'Three jobs, 300 paired records, 200 unique states in two suites; no final results.','states':paired_table})
+- reportref=put('independent_review.json',{'schema':'formal_main_v2','kind':'independent_nonLong_action_v1_development_terminal_review','status':'passed','review_role':'independent','synthetic':False,'reviewed_utc':datetime.now(timezone.utc).isoformat(),'jobs':combined,'totals':totals,'unique_initial_states':200,'unique_initial_states_per_suite':{k:len(v) for k,v in common_states_by_suite.items()},'method_successes_out_of100':method_results,'shared_initial_panels_sha256':{k:sha(v) for k,v in common_panels.items()},'scope':'Three separately reviewed development jobs. Existing unrelated Goal256 seed17 hold and Object256 seed23 consumer blocker are not cleared here. No final evaluation, equivalence or O2A speed claim.','new_held_job_ids':[],'source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':36,'paired_states':paired,'all_inputs':dict(sorted(inputs.items())),'checkpoint_bytes_read':False,'sealed_final_values_read':False,'live_scheduler_queries':0,'new_GPU_jobs':0,'state_registry_Git_Slurm_mutations':False,'CPU_process_seconds':time.process_time()-cpu,'CPU_wall_seconds':time.monotonic()-started})
++ paired=put('paired_development_states.json',{'schema':'formal_main_v2','scope':'Only Object256seed23 job3052166:200 development trials,100 unique paired initial states; no final results.','states':paired_table})
++ reportref=put('independent_review.json',{'schema':'formal_main_v2','kind':'independent_nonLong_action_v1_development_terminal_review','status':'passed','review_role':'independent','synthetic':False,'reviewed_utc':datetime.now(timezone.utc).isoformat(),'jobs':combined,'totals':totals,'unique_initial_states':100,'unique_initial_states_per_suite':{k:len(v) for k,v in common_states_by_suite.items()},'method_successes_out_of100':method_results,'shared_initial_panels_sha256':{k:sha(v) for k,v in common_panels.items()},'scope':'Only Object256seed23 job3052166 through its exact independently accepted source-control bridge. All original failed-training allocations retained. No general bridge admission, other pair admission, final evaluation or O2A claim; all Goal scientific development remains HOLD.','new_held_job_ids':[],'source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':12,'paired_states':paired,'explicit_source_control':control.descriptor(),'all_inputs':dict(sorted(inputs.items())),'checkpoint_bytes_read':False,'sealed_final_values_read':False,'live_scheduler_queries':0,'new_GPU_jobs':0,'state_registry_Git_Slurm_mutations':False,'CPU_process_seconds':time.process_time()-cpu,'CPU_wall_seconds':time.monotonic()-started})
+  files=[]
+  for p in sorted(D.iterdir()):
+   if p.is_file() and p.name!='terminal_manifest.json':

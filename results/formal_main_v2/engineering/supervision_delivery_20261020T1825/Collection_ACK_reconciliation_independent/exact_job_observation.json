@@ -1,0 +1,45 @@
+{
+  "corroboration": null,
+  "observation": {
+    "queue": {
+      "3053503": {
+        "comment": "cti-downstream-gateway-v1:4d81461eddac21c2e847dbb374f3ef6bcc580918bc297ac30774cc2870c9f705",
+        "status": "RUNNING"
+      }
+    },
+    "raw_sacct": "3053503|RUNNING|0:0|127|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4015|cti-formal-downstream|\n",
+    "raw_squeue": "3053503|RUNNING|cti-downstream-gateway-v1:4d81461eddac21c2e847dbb374f3ef6bcc580918bc297ac30774cc2870c9f705\n",
+    "rows": {
+      "3053503": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 127,
+        "exit_code": "0:0",
+        "gpus": 1,
+        "job_id": "3053503",
+        "node": "gpu4015",
+        "scheduler_comment": "",
+        "scheduler_name": "cti-formal-downstream",
+        "status": "RUNNING"
+      }
+    }
+  },
+  "query_argv": [
+    [
+      "sacct",
+      "-n",
+      "-X",
+      "-P",
+      "-j",
+      "3053503",
+      "--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES,NodeList,JobName%128,Comment%128"
+    ],
+    [
+      "squeue",
+      "-h",
+      "-j",
+      "3053503",
+      "-o",
+      "%i|%T|%k"
+    ]
+  ]
+}

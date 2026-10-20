@@ -1,0 +1,123 @@
+{
+  "candidate_sources": {
+    "prepare_collect_authorization_20261020T1825_v2.py": "7510c461b4502c0baaa5473dbdd0bee2f5379f83f84a07d8ef307442bae64aad",
+    "prepare_collect_authorization_20261020T1825_v4.py": "e4c33873093bb5ab6bbfd69c63ec7d935c1e50cb50f07c4c67f3a8b0374ff099"
+  },
+  "exact_assertion_tests": [
+    {
+      "expected": "pass",
+      "name": "Spatial_real_matching_plan",
+      "observed": "pass"
+    },
+    {
+      "expected": "old_guard_accepts",
+      "finding": "Scoped review-binding defect corrected in v4; no production helper executed here.",
+      "name": "Spatial_old_v2_cross_suite_gap",
+      "observed": "accepted_by_exact_original_v2_pr_assertions"
+    },
+    {
+      "expected": "reject",
+      "name": "Spatial_v4_cross_suite_rejected",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Spatial_v4_reject_suite",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Spatial_v4_reject_stage",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Spatial_v4_reject_allowed_stages",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Spatial_v4_reject_plan_sha256",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Spatial_v4_reject_scientific_plan",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Spatial_v4_reject_effective_plan",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Spatial_v4_reject_action_execution_contract",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "pass",
+      "name": "Object_real_matching_plan",
+      "observed": "pass"
+    },
+    {
+      "expected": "old_guard_accepts",
+      "finding": "Scoped review-binding defect corrected in v4; no production helper executed here.",
+      "name": "Object_old_v2_cross_suite_gap",
+      "observed": "accepted_by_exact_original_v2_pr_assertions"
+    },
+    {
+      "expected": "reject",
+      "name": "Object_v4_cross_suite_rejected",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Object_v4_reject_suite",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Object_v4_reject_stage",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Object_v4_reject_allowed_stages",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Object_v4_reject_plan_sha256",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Object_v4_reject_scientific_plan",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Object_v4_reject_effective_plan",
+      "observed": "AssertionError"
+    },
+    {
+      "expected": "reject",
+      "name": "Object_v4_reject_action_execution_contract",
+      "observed": "AssertionError"
+    }
+  ],
+  "findings": [
+    {
+      "original_v2_missing_suite_plan_binding": true,
+      "status": "fixed_in_v4",
+      "v4_added_exact_suite_stage_allowedstages_semantic_planhash_three_refs": true
+    }
+  ],
+  "production_helper_executions": 0,
+  "real_GPU_calls": 0,
+  "reviewed_by": "independent",
+  "root_v4_extra_changes": "Existing root-review utc and prepared registered_utc are preserved only for idempotent write; all other bytes still checked by exclusive save.",
+  "scope": "Only typed per-suite binding and read-only verification of resulting canonical readiness; this is not a full independent review of the root publication helper.",
+  "status": "passed_scoped_binding_review"
+}

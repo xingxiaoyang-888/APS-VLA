@@ -1,0 +1,8 @@
+{
+  "cases_completed": 1,
+  "checks_completed": 26,
+  "error": "successful exact fake lifecycle completes once",
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_prefix58_independent_20261020T1825/independent_dispatch_v3.py\", line 152, in <module>\n    a=case('success');ck(a['error'] is None and a['counts']['submit']==a['counts']['release']==1 and a['state_after']['pending_submission'] is None,'successful exact fake lifecycle completes once')\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_prefix58_independent_20261020T1825/independent_dispatch_v3.py\", line 14, in ck\n    if not v:raise AssertionError(label)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: successful exact fake lifecycle completes once\n",
+  "type": "AssertionError"
+}

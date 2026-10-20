@@ -1,0 +1,142 @@
+{
+  "CPU_seconds": 1.1774094160000002,
+  "GPU_calls": 0,
+  "RUNNING_branch_preserved": true,
+  "Slurm_submissions": 0,
+  "actual_owner_and_lease_probe": true,
+  "all_other_original_AST_unchanged": true,
+  "canonical_collect_plan_files_present": {
+    "results/formal_main_v2/execution/object_collect_action_v1_20261020T1825/effective_plan.json": true,
+    "results/formal_main_v2/execution/spatial_collect_action_v1_20261020T1825/effective_plan.json": true
+  },
+  "checks": [
+    "candidate pin",
+    "only one added helper",
+    "all original classes and other functions exact AST",
+    "one completed branch only",
+    "capacity original projection exact",
+    "exact candidate plan libero_spatial",
+    "exact candidate plan libero_object",
+    "completed exact collect accepted libero_spatial",
+    "completed exact collect accepted libero_object",
+    "lifecycle lock inode retained",
+    "RUNNING original branch unchanged even other original stage",
+    "original gateway unchanged"
+  ],
+  "kind": "completed_training_collect_gateway_author_CPU",
+  "limits": "Direct new helper with author snapshot, actual pinned root exit evidence/owner and actual lease; absent exact plan files may be read through explicitly private mapping. No live all-job capacity claim or dispatch; root must perform original full gateway check with new authorization and actual canonical plans.",
+  "negative_cases": [
+    {
+      "error": "completed controller only permits two exact Spatial/Object collect plans",
+      "error_type": "ValueError",
+      "name": "scope stage development"
+    },
+    {
+      "error": "completed controller only permits two exact Spatial/Object collect plans",
+      "error_type": "ValueError",
+      "name": "scope suite libero_goal"
+    },
+    {
+      "error": "completed controller only permits two exact Spatial/Object collect plans",
+      "error_type": "ValueError",
+      "name": "scope stage full"
+    },
+    {
+      "error": "completed-controller exact collect plan reference differs",
+      "error_type": "ValueError",
+      "name": "exact plan changed"
+    },
+    {
+      "error": "controller is neither confirmed RUNNING CPU0 nor original successful COMPLETED CPU0",
+      "error_type": "ValueError",
+      "name": "abnormal controller FAILED1:0"
+    },
+    {
+      "error": "controller is neither confirmed RUNNING CPU0 nor original successful COMPLETED CPU0",
+      "error_type": "ValueError",
+      "name": "abnormal controller TIMEOUT0:0"
+    },
+    {
+      "error": "controller is neither confirmed RUNNING CPU0 nor original successful COMPLETED CPU0",
+      "error_type": "ValueError",
+      "name": "abnormal controller RUNNING0:0"
+    },
+    {
+      "error": "controller is neither confirmed RUNNING CPU0 nor original successful COMPLETED CPU0",
+      "error_type": "ValueError",
+      "name": "abnormal controller COMPLETED1:0"
+    },
+    {
+      "error": "controller is neither confirmed RUNNING CPU0 nor original successful COMPLETED CPU0",
+      "error_type": "ValueError",
+      "name": "abnormal controller UNKNOWN0:0"
+    },
+    {
+      "error": "root72/360000 complete training gate absent",
+      "error_type": "ValueError",
+      "name": "state root_and_independent_completed_arms"
+    },
+    {
+      "error": "root72/360000 complete training gate absent",
+      "error_type": "ValueError",
+      "name": "state root_and_independent_reviewed_arm_updates"
+    },
+    {
+      "error": "completed-training collect bridge cannot authorize final evaluation",
+      "error_type": "ValueError",
+      "name": "state global_release_created"
+    },
+    {
+      "error": "original completed owner/activation differs",
+      "error_type": "ValueError",
+      "name": "state owner_id"
+    },
+    {
+      "error": "completed training has blocked/pending/occupied work",
+      "error_type": "ValueError",
+      "name": "state blocked_pairs"
+    },
+    {
+      "error": "controller normal completion result absent",
+      "error_type": "ValueError",
+      "name": "state last_result"
+    },
+    {
+      "error": "completed training has blocked/pending/occupied work",
+      "error_type": "ValueError",
+      "name": "state occupied_job_ids"
+    },
+    {
+      "error": "completed training has blocked/pending/occupied work",
+      "error_type": "ValueError",
+      "name": "pending unknown"
+    },
+    {
+      "error": "exact completed36 pair matrix absent",
+      "error_type": "ValueError",
+      "name": "missing36pair"
+    },
+    {
+      "error": "incomplete controller pair/checkpoint outcome",
+      "error_type": "ValueError",
+      "name": "incomplete arm"
+    },
+    {
+      "error": "root-confirmed normal exit identity differs",
+      "error_type": "ValueError",
+      "name": "root exit unconfirmed lease"
+    },
+    {
+      "error": "[Errno 11] Resource temporarily unavailable",
+      "error_type": "BlockingIOError",
+      "name": "actual held lifecycle lease"
+    }
+  ],
+  "negative_count": 21,
+  "passed": 12,
+  "private_plan_only_mapping_explicit": true,
+  "production_state_written": false,
+  "schema": "formal_main_v2",
+  "source_sha256": "ed15b5f0f448737a56eb5fce987c2bbb40d6507c0878c234058ffed2a94ee921",
+  "status": "passed_CPU_checks"
+}

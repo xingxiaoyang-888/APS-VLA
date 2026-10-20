@@ -1,0 +1,73 @@
+--- outer_revision01/entry.py
++++ outer_revision02/entry.py
+@@ -45,12 +45,12 @@
+ def check_review(value,role,manifest_sha,config_sha):
+  fixed={'schema':'formal_main_v2','kind':'goal_prefix58_single_attempt_CPU_readiness','status':'passed','reviewed_by':role,'version':VERSION,'package_manifest_sha256':manifest_sha,'config_sha256':config_sha,'original_chain_preserved':True,'observer_gaps_fixed':True,'real_GPU_acceptance':False,'scientific_release':False}
+  require(all(value.get(k)==v for k,v in fixed.items()),'complete matching CPU-only readiness required')
+-def validate_dispatch(d,res,a,auth_sha,job):
++def validate_dispatch(d,res,a,auth_sha,job,reservation_sha):
+  fixed={'schema':'formal_main_v2','kind':'root_goal_prefix58_held_dispatch','status':'held_registered_before_release','stage_key':STAGE,'job_id':job,'authorization':{'path':str(AUTH),'sha256':auth_sha},'request_token':'cti-goal-prefix58-v2:'+auth_sha,'capacity_limit_all_GPU_modes':8,'reserved_slots':1,'maximum_attempts':1,'new_submissions':1,'no_requeue':True,'scientific_release':False,'resources':RESOURCES}
+  require(all(d.get(k)==v for k,v in fixed.items()),'exact held ACK registration must precede release')
+  require(isinstance(d.get('occupied_job_ids'),list) and len(set(d['occupied_job_ids']))==len(d['occupied_job_ids'])<=8 and job in d['occupied_job_ids'],'one registered slot within all-GPU eight limit required')
+  require(re.fullmatch('[0-9a-f]{64}',str(d.get('state_after_sha256'))),'root writer-lock/CAS snapshot identity missing')
+- require(d.get('reservation')=={'path':str(RESERVATION),'sha256':sha(RESERVATION)},'exact root reservation pin missing')
++ require(d.get('reservation')=={'path':str(RESERVATION),'sha256':reservation_sha},'exact root reservation pin missing')
+  rf={'schema':'formal_main_v2','kind':'root_goal_prefix58_GPU_slot_reservation','status':'approved_for_exact_prefix58','stage_key':STAGE,'authorization':fixed['authorization'],'reserved_slots':1,'capacity_limit_all_GPU_modes':8,'maximum_wall_seconds':1800,'automatic_retry':False,'scientific_release':False}
+  require(all(res.get(k)==v for k,v in rf.items()),'new prefix58 reservation required; old probe reservation forbidden')
+ def prepare_original():
+@@ -64,21 +64,34 @@
+   name=m['identity']['method_id'];path=Path(m['checkpoint']);require(path==Path('/share/home/u15016/XXY_CVPR/CTI-VLA/checkpoints/formal_main_v2/libero_goal/k256/seed17')/name[0]/'best.pt','exact original checkpoint path required');st=path.stat();require(sha(path)==m['identity']['checkpoint_sha256']==expected[name] and st==path.stat(),'original selected checkpoint bytes changed')
+  return inv,wrapper,ctx,legacy
+ 
++def validate_prefix(inv,legacy,prefix):
++ panelpath=Path(inv['run_root'])/'panel.json';panel=read(panelpath,'ce8e3d31ab8f7616c87dd4d4031af41825713907ac184c6ea5b01d9040985aa9')
++ require(panel['suite']=='libero_goal' and panel['split']=='development','original development panel only')
++ keys=('trial_id','state_trial_id','task_id','task_name','source_state_index','initial_state_sha256','method','environment_seed','runtime_seed')
++ with legacy.source_imports(S):
++  from cti_vla.evaluation import formal_trials
++  actual=[{k:v for k,v in formal_trials._identity(panel,state,mid).items() if k in keys} for state in panel['states'] for mid in ['A256_seed17','B256_seed17']][:58]
++ require(len(prefix)==58 and actual==[{k:row[k] for k in keys} for row in prefix],'exact first58 original identity/order required before observer creation')
++ require(len({x['state_trial_id'] for x in actual})==29 and all(x['task_id']==2 and x['source_state_index']==42 for x in actual[-2:]),'fixed prefix endpoint differs')
++ return dict(original_panel=ref(panelpath),original_fixed58_identity_order=True,unique_development_states=29)
++
+ def execute(config,auth,job,package,gate):
+  # Everything this entry owns is a fresh engineering subtree. The unchanged
+  # legacy adapter separately retains its ordinary adapter provenance journal.
+  require(not OUTPUT.exists(),'one attempt already exists; retry forbidden')
+  OUTPUT.mkdir(parents=True,exist_ok=False);outer=OUTPUT/'outer';outer.mkdir();eventpath=outer/'events.jsonl';events=[];observer=None;result=None;errors=[];restored=False;started=time.perf_counter();code=1
+  def emit(event,**fields):
+-  row=dict(seq=len(events),event=event,utc=datetime.now(timezone.utc).isoformat(),job_id=job,scientific_trials_added=0,**fields)
++  fixed=dict(seq=len(events),event=event,utc=datetime.now(timezone.utc).isoformat(),job_id=job,scientific_trials_added=0)
++  require(all(k not in fixed or fixed[k]==v for k,v in fields.items()),'event field collides with outer identity')
++  row=dict(fields);row.update(fixed)
+   with eventpath.open('a',encoding='utf-8') as f:json.dump(row,f,sort_keys=True,ensure_ascii=False,allow_nan=False);f.write('\n');f.flush();os.fsync(f.fileno())
+   events.append(row)
+  inv=wrapper=ctx=legacy=None;original_run=original_code=None
+  try:
+   inv,wrapper,ctx,legacy=prepare_original();require(not list((P/'results/formal_main_v2/adapter_invocations').glob(job+'_*')),'prior adapter invocation for this job forbids retry')
+-  original_run=legacy.run;original_code=original_run.__code__;runtime=ctx['runtime'];contract=ctx['execution_contract'];original=ctx['original_plan'];prefix=read(P/PKG/'prefix58.json',PREFIX_SHA)['rows'];ob=load(P/PKG/'observer_v3.py','g58_passive_observer',package['files'][PKG+'/observer_v3.py']);ad=load(P/PKG/'ast_observer_v2.py','g58_ast_observer',package['files'][PKG+'/ast_observer_v2.py']);observer=ob.PassiveObserver(OUTPUT/'observer',prefix)
++  original_run=legacy.run;original_code=original_run.__code__;runtime=ctx['runtime'];contract=ctx['execution_contract'];original=ctx['original_plan'];prefix=read(P/PKG/'prefix58.json',PREFIX_SHA)['rows'];prefix_proof=validate_prefix(inv,legacy,prefix);ob=load(P/PKG/'observer_v3.py','g58_passive_observer',package['files'][PKG+'/observer_v3.py']);ad=load(P/PKG/'ast_observer_v2.py','g58_ast_observer',package['files'][PKG+'/ast_observer_v2.py']);observer=ob.PassiveObserver(OUTPUT/'observer',prefix)
+   a=copy.deepcopy(ctx['args']);before_args=copy.deepcopy(vars(a));a.output=OUTPUT/'original_run';a.stop_after=58;require({k for k in vars(a) if vars(a)[k]!=before_args[k]}=={'output','stop_after'},'only engineering output and stop58 may change')
+-  emit('engineering_start',version=VERSION,authorization_sha256=gate['auth_sha'],package_manifest_sha256=gate['manifest_sha'],original_invocation=ref(ORIGINAL),environment={k:os.environ.get(k) for k in list(THREADS)+['CUDA_VISIBLE_DEVICES','SLURM_JOB_ID','SLURMD_NODENAME']},original_argument_changes={'output':str(a.output),'stop_after':58},original_adapter_run_code_sha256=legacy.code_sha(original_run),original_actions_forced=False)
++  emit('engineering_start',version=VERSION,authorization_sha256=gate['auth_sha'],package_manifest_sha256=gate['manifest_sha'],original_invocation=ref(ORIGINAL),environment={k:os.environ.get(k) for k in list(THREADS)+['CUDA_VISIBLE_DEVICES','SLURM_JOB_ID','SLURMD_NODENAME']},original_argument_changes={'output':str(a.output),'stop_after':58},prefix_identity_proof=prefix_proof,original_adapter_run_code_sha256=legacy.code_sha(original_run),original_actions_forced=False)
+   def runtime_emit(event,**fields):
+    emit(event,**fields)
+    if event in ('asset_metadata_compat_load_start','asset_metadata_compat_load_complete','deployment_base_load_start','deployment_base_load_complete','goal_component_load_start','goal_component_load_complete'):
+@@ -94,7 +107,7 @@
+   finish=observer.finish();require(finish['original_prefix_trials']==58 and finish['scientific_trials_added']==0,'incomplete engineering prefix')
+   emit('engineering_prefix_returned',runtime_proof=proof,observer_finish=finish);code=0
+  except BaseException as error:
+-  errors.append(dict(error_type=type(error).__name__,error=str(error)));traceback.print_exception(type(error),error,error.__traceback__)
++  errors.append(dict(error_type=type(error).__name__,error=str(error),traceback=traceback.format_exc()));traceback.print_exception(type(error),error,error.__traceback__)
+  finally:
+   if legacy is not None and (legacy.run is not original_run or original_run.__code__ is not original_code):code=1;errors.append(dict(error_type='BindingIntegrity',error='original legacy run changed'))
+   if inv is not None:
+@@ -116,7 +129,7 @@
+  auth=read(AUTH,args.authorization_sha256);validate_authorization(auth,sha(CONFIG),manifest_sha,sha(ENTRY))
+  for role in ('root','independent'):
+   review=auth[role+'_review'];path=BASE/(role+'_readiness.json');require(review.get('path')==str(path),'exact new review path required');require_path(path,path);check_review(read(path,review.get('sha256')),role,manifest_sha,sha(CONFIG))
+- require_path(DISPATCH,DISPATCH);require_path(RESERVATION,RESERVATION);dispatch=read(DISPATCH);reservation=read(RESERVATION);validate_dispatch(dispatch,reservation,auth,args.authorization_sha256,job)
++ require_path(DISPATCH,DISPATCH);require_path(RESERVATION,RESERVATION);dispatch=read(DISPATCH);reservation=read(RESERVATION);validate_dispatch(dispatch,reservation,auth,args.authorization_sha256,job,sha(RESERVATION))
+  # Original method/stage locks are shared with the scientific wrapper, while
+  # the new output directory is an independent one-shot claim for this attempt.
+  inv=read(ORIGINAL,ISHA)

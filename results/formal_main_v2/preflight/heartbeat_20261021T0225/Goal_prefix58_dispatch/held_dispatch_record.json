@@ -1,0 +1,37 @@
+{
+  "authorization": {
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_prefix58_20261020T1825/root_authorization.json",
+    "sha256": "195e064794973fbc533dfc6c51afd7ec3fbb942734753c1d7f1a7b9c81687a75"
+  },
+  "capacity_limit_all_GPU_modes": 8,
+  "job_id": "3053440",
+  "kind": "root_goal_prefix58_held_dispatch",
+  "maximum_attempts": 1,
+  "new_submissions": 1,
+  "no_requeue": true,
+  "occupied_job_ids": [
+    "3053440"
+  ],
+  "request_token": "cti-goal-prefix58-v2:195e064794973fbc533dfc6c51afd7ec3fbb942734753c1d7f1a7b9c81687a75",
+  "reservation": {
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_prefix58_20261020T1825/reservation.json",
+    "sha256": "15e6bfa81cfa12938e2d339c75e7b1a1825eaba5aa30e32cdfb7cf1fd594c395"
+  },
+  "reserved_slots": 1,
+  "resources": {
+    "cpus_per_task": 7,
+    "excluded_nodes": [
+      "gpu4020"
+    ],
+    "gres": "gpu:l40:1",
+    "mem": "64G",
+    "no_requeue": true,
+    "partition": "L40",
+    "wall_seconds": 1800
+  },
+  "schema": "formal_main_v2",
+  "scientific_release": false,
+  "stage_key": "goal_prefix58_20261020T1825",
+  "state_after_sha256": "648debbc7542a00c7cada157f6b6665fe01ad49c5b1e8d8d1b733827ed8bf83c",
+  "status": "held_registered_before_release"
+}

@@ -1,0 +1,129 @@
+{
+  "approved_operation_conditions": [
+    "Bind this audit SHA and require current 731 staged-name set and all 13 original blob SHA/bytes and status A to match before mutating index.",
+    "Do not rerun v3 or the archived source helpers. Keep all 13 server originals at their existing paths and byte-identical.",
+    "Archive only the 13 exact files under their original canonical R-relative paths. No absolute paths, path aliases, duplicates, links, traversal or extra members. Read back each regular member and verify original bytes, SHA256 and size.",
+    "Remove only these 13 added entries from the Git index; preserve all other staged evidence. No source deletion, state change or guard modification.",
+    "Keep original git_required_files.json as failure history. Build separate final required list that retains all other required entries and binds archive, per-member manifest and audit evidence.",
+    "Use archive, manifest and delivery filenames that the unchanged lexical guard accepts; no weakening, renamed payload claims or unchecked expansion.",
+    "Run the original pinned stage guard against the final exact index including frozen173 checks; archive validation does not waive those checks."
+  ],
+  "file_count": 13,
+  "files": [
+    {
+      "bytes": 1059,
+      "classification": "completed_server_transport_metadata",
+      "path": "results/formal_main_v2/control_transport/archive_sealed_packages_20261020T1825.jsonl",
+      "sha256": "4a85808e5e25ef6615804b5031cf5981439562649d1c890003e8fddb917895dc"
+    },
+    {
+      "bytes": 1071,
+      "classification": "completed_server_transport_metadata",
+      "path": "results/formal_main_v2/control_transport/sealed_packages_archive_part2_20261020T1825.jsonl",
+      "sha256": "d5ce0180c68008a3cf26bd51d5f4e9265f820833718f3eca14180345724ac79d"
+    },
+    {
+      "bytes": 1071,
+      "classification": "completed_server_transport_metadata",
+      "path": "results/formal_main_v2/control_transport/sealed_packages_archive_part3_20261020T1825.jsonl",
+      "sha256": "e241dbfd1c552726f117f390d64ed1cdfe09c573aba67e8ef421c7d449b1c8bf"
+    },
+    {
+      "bytes": 3828,
+      "classification": "audited_nonweight_package_copy_source_not_executed_here",
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1825/root_helpers/archive_sealed_packages_20261020T1825.py",
+      "sha256": "ee5f802031a736fc695071e811df41a6fe013bfeef67863bbc484e15c2f188cc"
+    },
+    {
+      "bytes": 3539,
+      "classification": "audited_nonweight_package_copy_source_not_executed_here",
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1825/root_helpers/archive_sealed_packages_part2_20261020T1825.py",
+      "sha256": "87e0ca256d05f7e5f9816dd34221ce84c66df0816d6f7383c0e90c96f2e21d30"
+    },
+    {
+      "bytes": 3356,
+      "classification": "audited_nonweight_package_copy_source_not_executed_here",
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1825/root_helpers/archive_sealed_packages_part3_20261020T1825.py",
+      "sha256": "bc9a91155c94480a44c89f801db024f813d3caa0423d308f12e36bef660b15e9"
+    },
+    {
+      "bytes": 3828,
+      "classification": "audited_nonweight_package_copy_source_not_executed_here",
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0225/root_operations/archive_sealed_packages_20261020T1825.py",
+      "sha256": "ee5f802031a736fc695071e811df41a6fe013bfeef67863bbc484e15c2f188cc"
+    },
+    {
+      "bytes": 3539,
+      "classification": "audited_nonweight_package_copy_source_not_executed_here",
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0225/root_operations/archive_sealed_packages_part2_20261020T1825.py",
+      "sha256": "87e0ca256d05f7e5f9816dd34221ce84c66df0816d6f7383c0e90c96f2e21d30"
+    },
+    {
+      "bytes": 3356,
+      "classification": "audited_nonweight_package_copy_source_not_executed_here",
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0225/root_operations/archive_sealed_packages_part3_20261020T1825.py",
+      "sha256": "bc9a91155c94480a44c89f801db024f813d3caa0423d308f12e36bef660b15e9"
+    },
+    {
+      "bytes": 141252,
+      "classification": "nonweight_audit_package_copy_manifest_metadata",
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0225/sealed_packages_archive.json",
+      "sha256": "4ee4615a38712267c93222fa767a0df90f9cdbf1cc020b7b5349fd6a8995e4a4"
+    },
+    {
+      "bytes": 26235,
+      "classification": "nonweight_audit_package_copy_manifest_metadata",
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0225/sealed_packages_archive_Goal_terminal.json",
+      "sha256": "69890b9366986b908bb2c9018c3c0415503cb63ed9f06845626ada4da4b85106"
+    },
+    {
+      "bytes": 32620,
+      "classification": "nonweight_audit_package_copy_manifest_metadata",
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0225/sealed_packages_archive_part2.json",
+      "sha256": "750b03453cfda53e8c7d7fcc9079fe21e655d6343ef7443a331a318433fb5c34"
+    },
+    {
+      "bytes": 30328,
+      "classification": "nonweight_audit_package_copy_manifest_metadata",
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0225/sealed_packages_archive_part3.json",
+      "sha256": "5668c5a94de3c7be817a223d9875af391b58900ef6011e2b25b4afbe7ee525df"
+    }
+  ],
+  "findings": {
+    "all_index_status_A": true,
+    "all_staged_bytes_equal_server_originals": true,
+    "copy_manifest_receipts": 4,
+    "no_final_initial_state_values_in_reviewed_files": true,
+    "no_test_data_in_reviewed_files": true,
+    "no_weight_payload_in_reviewed_files": true,
+    "path_component_sealed_refers_to_immutable_audit_package_delivery": true,
+    "source_files": 6,
+    "transport_logs": 3
+  },
+  "original_guard": {
+    "path": "scripts/ops/check_nonweight_archive_stage.py",
+    "sha256": "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6"
+  },
+  "read_only_boundaries": {
+    "GPU_jobs": 0,
+    "Slurm_writes": 0,
+    "canonical_files_written": false,
+    "index_unchanged": true,
+    "original_source_helpers_executed": false,
+    "state_unchanged": true
+  },
+  "risks_and_limits": [
+    "Approval describes the concrete 13 text files, not all payloads referenced in their manifests. Existing payload reviews remain authoritative.",
+    "Archived original paths cease to be directly indexed Git files; reproducibility requires committed archive plus exact-member manifest and retained server originals.",
+    "The original stage guard cannot independently inspect arbitrary tar members; root must retain exact member readback proof. Any differing input, new member, non-A status or missing required evidence must stop delivery."
+  ],
+  "schema": "formal_main_v2",
+  "scope": "Only these exact 13 newly staged text metadata/source files; no blanket exemption for sealed/test paths.",
+  "snapshot": {
+    "path": ".local/git_metadata_audit_20261020T1825/staged_snapshot.json",
+    "sha256": "dccca8bc47effa97bc9c87aca024e6558ade9ffbcea4026aff3e28e4c01a37da"
+  },
+  "status": "approved_bounded_lossless_metadata_archive",
+  "total_original_bytes": 255082,
+  "utc": "2026-10-20T19:45:48.494979+00:00"
+}

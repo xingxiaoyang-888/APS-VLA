@@ -1,0 +1,23 @@
+--- outer_revision02/entry.py
++++ outer_revision03/entry.py
+@@ -42,6 +42,11 @@
+  require(all(a.get(k)==v for k,v in fixed.items()),'new exact Goal prefix58 root authorization required')
+  require(set(a)==set(fixed)|{'root_review','independent_review'},'unexpected authorization fields')
+  require(a['root_review']!=a['independent_review'],'root and independent review must differ')
++ for role in ('root','independent'):validate_review_ref(a[role+'_review'],role)
++def validate_review_ref(value,role):
++ require(role in ('root','independent') and isinstance(value,dict) and set(value)=={'path','sha256'},'readiness reference must contain exactly path and SHA')
++ require(value['path']==str(BASE/(role+'_readiness.json')) and isinstance(value['sha256'],str) and re.fullmatch('[0-9a-f]{64}',value['sha256']),'exact new readiness path and 64-hex SHA required before target I/O')
++ return value
+ def check_review(value,role,manifest_sha,config_sha):
+  fixed={'schema':'formal_main_v2','kind':'goal_prefix58_single_attempt_CPU_readiness','status':'passed','reviewed_by':role,'version':VERSION,'package_manifest_sha256':manifest_sha,'config_sha256':config_sha,'original_chain_preserved':True,'observer_gaps_fixed':True,'real_GPU_acceptance':False,'scientific_release':False}
+  require(all(value.get(k)==v for k,v in fixed.items()),'complete matching CPU-only readiness required')
+@@ -128,7 +133,7 @@
+  for path,pin in package['files'].items():require_path(P/path,P/path);require(sha(P/path)==pin,'package bytes changed before GPU')
+  auth=read(AUTH,args.authorization_sha256);validate_authorization(auth,sha(CONFIG),manifest_sha,sha(ENTRY))
+  for role in ('root','independent'):
+-  review=auth[role+'_review'];path=BASE/(role+'_readiness.json');require(review.get('path')==str(path),'exact new review path required');require_path(path,path);check_review(read(path,review.get('sha256')),role,manifest_sha,sha(CONFIG))
++  review=validate_review_ref(auth[role+'_review'],role);path=BASE/(role+'_readiness.json');require_path(path,path);check_review(read(path,review['sha256']),role,manifest_sha,sha(CONFIG))
+  require_path(DISPATCH,DISPATCH);require_path(RESERVATION,RESERVATION);dispatch=read(DISPATCH);reservation=read(RESERVATION);validate_dispatch(dispatch,reservation,auth,args.authorization_sha256,job,sha(RESERVATION))
+  # Original method/stage locks are shared with the scientific wrapper, while
+  # the new output directory is an independent one-shot claim for this attempt.

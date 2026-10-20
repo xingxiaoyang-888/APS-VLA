@@ -1,0 +1,1017 @@
+{
+  "CPU_seconds": 1.6368603369999999,
+  "checks": [
+    {
+      "name": "source pin ind_g58_ast",
+      "passed": true
+    },
+    {
+      "name": "source pin ind_g58_observer",
+      "passed": true
+    },
+    {
+      "name": "source pin ind_g58_old_ast",
+      "passed": true
+    },
+    {
+      "name": "source pin ind_g58_old_observer",
+      "passed": true
+    },
+    {
+      "name": "candidate manifest pin",
+      "passed": true
+    },
+    {
+      "name": "original prefix pin",
+      "passed": true
+    },
+    {
+      "name": "both exact original and instrumented ASTs unchanged",
+      "passed": true
+    },
+    {
+      "name": "all scientific call expressions/order identical after projection",
+      "passed": true
+    },
+    {
+      "name": "normalization whitelist matches exact pinned old layouts",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode sideeffect_arg",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode sideeffect_arg",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode sideeffect_keyword",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode sideeffect_keyword",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode sideeffect_stararg",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode sideeffect_stararg",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode sideeffect_doublekw",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode sideeffect_doublekw",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode duplicate",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode duplicate",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode omit",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode omit",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode move",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode move",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode phase",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode phase",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted episode method",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode method",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects episode reset_return",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials sideeffect_arg",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials sideeffect_arg",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials sideeffect_keyword",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials sideeffect_keyword",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials sideeffect_stararg",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials sideeffect_stararg",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials sideeffect_doublekw",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials sideeffect_doublekw",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials duplicate",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials duplicate",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials omit",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials omit",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials move",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials move",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials phase",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials phase",
+      "passed": true
+    },
+    {
+      "name": "old gap demonstrably accepted trials method",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials method",
+      "passed": true
+    },
+    {
+      "name": "exact layout rejects trials reset_return",
+      "passed": true
+    },
+    {
+      "name": "unregistered raw source",
+      "passed": true
+    },
+    {
+      "name": "initial guard global_rng_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained global_rng_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "no retry global_rng_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "initial guard global_rng_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained global_rng_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "no retry global_rng_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "initial guard global_rng_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained global_rng_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "no retry global_rng_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "initial guard global_rng_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained global_rng_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "no retry global_rng_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "initial guard object_guard_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained object_guard_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "no retry object_guard_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "initial guard object_guard_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained object_guard_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "no retry object_guard_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "initial guard object_guard_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained object_guard_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "no retry object_guard_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "initial guard object_guard_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained object_guard_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "no retry object_guard_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "initial guard passive_environment_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained passive_environment_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "no retry passive_environment_RuntimeError",
+      "passed": true
+    },
+    {
+      "name": "initial guard passive_environment_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained passive_environment_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "no retry passive_environment_KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "initial guard passive_environment_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained passive_environment_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "no retry passive_environment_SystemExit",
+      "passed": true
+    },
+    {
+      "name": "initial guard passive_environment_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "initial latched and retained passive_environment_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "no retry passive_environment_ObserverAbort",
+      "passed": true
+    },
+    {
+      "name": "old reader raises ordinary error",
+      "passed": true
+    },
+    {
+      "name": "old reader did not latch unlike repair",
+      "passed": true
+    },
+    {
+      "name": "abort recorder OSError",
+      "passed": true
+    },
+    {
+      "name": "in-memory abort retained OSError",
+      "passed": true
+    },
+    {
+      "name": "abort recorder KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "in-memory abort retained KeyboardInterrupt",
+      "passed": true
+    },
+    {
+      "name": "abort recorder SystemExit",
+      "passed": true
+    },
+    {
+      "name": "in-memory abort retained SystemExit",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation qpos",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved qpos",
+      "passed": true
+    },
+    {
+      "name": "late retry qpos",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation qvel",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved qvel",
+      "passed": true
+    },
+    {
+      "name": "late retry qvel",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation act",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved act",
+      "passed": true
+    },
+    {
+      "name": "late retry act",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation ctrl",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved ctrl",
+      "passed": true
+    },
+    {
+      "name": "late retry ctrl",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation qacc_warmstart",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved qacc_warmstart",
+      "passed": true
+    },
+    {
+      "name": "late retry qacc_warmstart",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation mocap_pos",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved mocap_pos",
+      "passed": true
+    },
+    {
+      "name": "late retry mocap_pos",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation mocap_quat",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved mocap_quat",
+      "passed": true
+    },
+    {
+      "name": "late retry mocap_quat",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation sim_time",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved sim_time",
+      "passed": true
+    },
+    {
+      "name": "late retry sim_time",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation env_scalar",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved env_scalar",
+      "passed": true
+    },
+    {
+      "name": "late retry env_scalar",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation env_RandomState",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved env_RandomState",
+      "passed": true
+    },
+    {
+      "name": "late retry env_RandomState",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation env_Generator",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved env_Generator",
+      "passed": true
+    },
+    {
+      "name": "late retry env_Generator",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation observation",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved observation",
+      "passed": true
+    },
+    {
+      "name": "late retry observation",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation global_numpy",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved global_numpy",
+      "passed": true
+    },
+    {
+      "name": "late retry global_numpy",
+      "passed": true
+    },
+    {
+      "name": "journal exit mutation global_python",
+      "passed": true
+    },
+    {
+      "name": "late abort preserved global_python",
+      "passed": true
+    },
+    {
+      "name": "late retry global_python",
+      "passed": true
+    },
+    {
+      "name": "old final environment RNG gap demonstrated",
+      "passed": true
+    },
+    {
+      "name": "source pin ind_g58_action_context",
+      "passed": true
+    }
+  ],
+  "error": "'/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py' is not in the subpath of '/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo' OR one path is relative and the other is absolute.",
+  "error_type": "ValueError",
+  "negative_cases": [
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode sideeffect_arg",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode sideeffect_keyword",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode sideeffect_stararg",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode sideeffect_doublekw",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode duplicate",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode omit",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode move",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode phase",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode method",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects episode reset_return",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials sideeffect_arg",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials sideeffect_keyword",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials sideeffect_stararg",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials sideeffect_doublekw",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials duplicate",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials omit",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials move",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials phase",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials method",
+      "rejected": true
+    },
+    {
+      "error": "observer layout/arguments are outside the exact versioned whitelist",
+      "error_type": "ValueError",
+      "name": "exact layout rejects trials reset_return",
+      "rejected": true
+    },
+    {
+      "error": "unregistered run_episode source",
+      "error_type": "ValueError",
+      "name": "unregistered raw source",
+      "rejected": true
+    },
+    {
+      "error": "injected initial global_rng_RuntimeError",
+      "error_type": "ObserverAbort",
+      "name": "initial guard global_rng_RuntimeError",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry global_rng_RuntimeError",
+      "rejected": true
+    },
+    {
+      "error": "injected initial global_rng_KeyboardInterrupt",
+      "error_type": "ObserverAbort",
+      "name": "initial guard global_rng_KeyboardInterrupt",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry global_rng_KeyboardInterrupt",
+      "rejected": true
+    },
+    {
+      "error": "injected initial global_rng_SystemExit",
+      "error_type": "ObserverAbort",
+      "name": "initial guard global_rng_SystemExit",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry global_rng_SystemExit",
+      "rejected": true
+    },
+    {
+      "error": "injected initial global_rng_ObserverAbort",
+      "error_type": "ObserverAbort",
+      "name": "initial guard global_rng_ObserverAbort",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry global_rng_ObserverAbort",
+      "rejected": true
+    },
+    {
+      "error": "injected initial object_guard_RuntimeError",
+      "error_type": "ObserverAbort",
+      "name": "initial guard object_guard_RuntimeError",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry object_guard_RuntimeError",
+      "rejected": true
+    },
+    {
+      "error": "injected initial object_guard_KeyboardInterrupt",
+      "error_type": "ObserverAbort",
+      "name": "initial guard object_guard_KeyboardInterrupt",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry object_guard_KeyboardInterrupt",
+      "rejected": true
+    },
+    {
+      "error": "injected initial object_guard_SystemExit",
+      "error_type": "ObserverAbort",
+      "name": "initial guard object_guard_SystemExit",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry object_guard_SystemExit",
+      "rejected": true
+    },
+    {
+      "error": "injected initial object_guard_ObserverAbort",
+      "error_type": "ObserverAbort",
+      "name": "initial guard object_guard_ObserverAbort",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry object_guard_ObserverAbort",
+      "rejected": true
+    },
+    {
+      "error": "injected initial passive_environment_RuntimeError",
+      "error_type": "ObserverAbort",
+      "name": "initial guard passive_environment_RuntimeError",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry passive_environment_RuntimeError",
+      "rejected": true
+    },
+    {
+      "error": "injected initial passive_environment_KeyboardInterrupt",
+      "error_type": "ObserverAbort",
+      "name": "initial guard passive_environment_KeyboardInterrupt",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry passive_environment_KeyboardInterrupt",
+      "rejected": true
+    },
+    {
+      "error": "injected initial passive_environment_SystemExit",
+      "error_type": "ObserverAbort",
+      "name": "initial guard passive_environment_SystemExit",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry passive_environment_SystemExit",
+      "rejected": true
+    },
+    {
+      "error": "injected initial passive_environment_ObserverAbort",
+      "error_type": "ObserverAbort",
+      "name": "initial guard passive_environment_ObserverAbort",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "no retry passive_environment_ObserverAbort",
+      "rejected": true
+    },
+    {
+      "error": "old initial gap",
+      "error_type": "RuntimeError",
+      "name": "old reader raises ordinary error",
+      "rejected": true
+    },
+    {
+      "error": "initial failing read",
+      "error_type": "ObserverAbort",
+      "name": "abort recorder OSError",
+      "rejected": true
+    },
+    {
+      "error": "initial failing read",
+      "error_type": "ObserverAbort",
+      "name": "abort recorder KeyboardInterrupt",
+      "rejected": true
+    },
+    {
+      "error": "initial failing read",
+      "error_type": "ObserverAbort",
+      "name": "abort recorder SystemExit",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation qpos",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry qpos",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation qvel",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry qvel",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation act",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry act",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation ctrl",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry ctrl",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation qacc_warmstart",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry qacc_warmstart",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation mocap_pos",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry mocap_pos",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation mocap_quat",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry mocap_quat",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation sim_time",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry sim_time",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation env_scalar",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry env_scalar",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation env_RandomState",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry env_RandomState",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed passive simulator or environment RNG state",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation env_Generator",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry env_Generator",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed inputs",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation observation",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry observation",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed RNG",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation global_numpy",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry global_numpy",
+      "rejected": true
+    },
+    {
+      "error": "observer journal write changed RNG",
+      "error_type": "ObserverAbort",
+      "name": "journal exit mutation global_python",
+      "rejected": true
+    },
+    {
+      "error": "observer is failed; no retry",
+      "error_type": "ObserverAbort",
+      "name": "late retry global_python",
+      "rejected": true
+    }
+  ],
+  "status": "independent_CPU_harness_failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_prefix58_independent_20261020T1825/independent_cpu_v1.py\", line 188, in <module>\n    try:main()\n        ^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_prefix58_independent_20261020T1825/independent_cpu_v1.py\", line 146, in main\n    adapter=load(P/'results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py','ind_g58_action_context','b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185')\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_prefix58_independent_20261020T1825/independent_cpu_v1.py\", line 18, in load\n    ck('source pin '+name,h(p)==pin);sources.append(ref(p));spec=importlib.util.spec_from_file_location(name,p);m=importlib.util.module_from_spec(spec);sys.modules[name]=m;spec.loader.exec_module(m);return m\n                                                    ^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_prefix58_independent_20261020T1825/independent_cpu_v1.py\", line 9, in ref\n    def ref(p):return dict(path=Path(p).relative_to(R).as_posix(),sha256=h(p),bytes=Path(p).stat().st_size)\n                                ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/apps/anaconda3/lib/python3.11/pathlib.py\", line 730, in relative_to\n    raise ValueError(\"{!r} is not in the subpath of {!r}\"\nValueError: '/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py' is not in the subpath of '/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo' OR one path is relative and the other is absolute.\n"
+}

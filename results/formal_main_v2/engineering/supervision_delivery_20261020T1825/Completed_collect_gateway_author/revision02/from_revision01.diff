@@ -1,0 +1,11 @@
+--- revision01/gateway.py
++++ revision02/gateway.py
+@@ -219,7 +219,7 @@
+  jid=a['controller_job_id'];ctl=state['autonomous_training_v1'];row=snap['rows'].get(jid,{})
+  require(jid==COMPLETED_CONTROLLER_ID and jid in cpus and row.get('status')=='COMPLETED' and row.get('exit_code')=='0:0' and row.get('gpus')==0 and jid not in snap['queue'],'controller is neither confirmed RUNNING CPU0 nor original successful COMPLETED CPU0')
+  require(ctl.get('owner_id')==COMPLETED_OWNER_ID and ctl.get('activation')==ACTIVATION and ctl.get('activation_sha256')==ACTIVATION['sha256'],'original completed owner/activation differs')
+- require(state.get('pending_submission') is None and ctl.get('blocked_pairs')=={} and ctl.get('occupied_job_ids')==[],'completed training has blocked/pending/occupied work')
++ require(state.get('pending_submission') is None and ctl.get('blocked_pairs')=={},'completed training has blocked/pending work')
+  expected={f'{suite}_k{k}_seed{seed}' for suite in SUITES for k in (256,128,64) for seed in (17,23,41)}
+  progress=state.get('formal_main_progress',{});pairs=ctl.get('completed_pairs',{})
+  require(progress.get('root_and_independent_completed_arms')==72 and progress.get('root_and_independent_reviewed_arm_updates')==360000 and progress.get('trained_arms')==72 and progress.get('expected_arms')==72,'root72/360000 complete training gate absent')
