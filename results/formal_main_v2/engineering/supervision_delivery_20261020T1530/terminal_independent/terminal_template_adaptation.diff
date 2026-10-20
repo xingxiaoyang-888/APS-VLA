@@ -1,0 +1,49 @@
+--- .local/devterminal_independent_20261020T1418/audit_terminal_a1.py
+
++++ audit_terminal_a1.py
+
+@@ -1,2 +1,2 @@
+
+-"""Independent CPU-only terminal audit of five completed development jobs; sixth Goal256 held separately."""
++"""Independent CPU-only terminal audit of three completed development jobs; no final results."""
+ from pathlib import Path
+@@ -9,4 +9,4 @@
+
+ S=P/'snapshots/formal_main_v2_run_564be0995e'
+-D=R/'.local/devterminal_independent_20261020T1418'
+-B='results/formal_main_v2/preflight/heartbeat_20261020T2218'
++D=R/'.local/devterminal_independent_20261020T1530'
++B='results/formal_main_v2/preflight/heartbeat_20261020T2330'
+ REVIEWER='scripts/ops/formal_action_deployment_v1/reviewer.py'
+@@ -17,5 +17,5 @@
+
+ IPIN='5baef5e7adc942b9d9c58eb7afe3faf69417f4d7939791997876652238a12926'
+-PULL='results/formal_main_v2/pulls/20261020T142621Z_02800e667ffb/receipt.json'
+-PINNED={'results/formal_main_v2/pulls/20261020T142621Z_02800e667ffb/receipt.json': '20139adbe331ea4d217e7011f22b4e3d6e008f6c59e87ff1d00a0735ef290493', 'results/formal_main_v2/preflight/heartbeat_20261020T2218/initial_observation.json': 'cf139e4279216a82e81eddeafe7430c2794a94f1643bb3466b64ec5c8d285f76', 'results/formal_main_v2/preflight/heartbeat_20261020T2218/terminal_jobs_snapshot.json': '4417ed6bc2d89611d6507d1ad2cabc544c89faa8b1eb0340cca563706322ba1a'}
+-JOBS={'3049132': {'suite': 'libero_spatial', 'seed': 41, 'budget': 128, 'trials': 200, 'allocated': 2315, 'methods': {'B128_seed41', 'A128_seed41'}, 'root_sha': 'd705c821e83b0bc9121102c62fc6aeb4917b490b1a8b22a647f7851f03b75910'}, '3049172': {'suite': 'libero_object', 'seed': 41, 'budget': 128, 'trials': 200, 'allocated': 2213, 'methods': {'B128_seed41', 'A128_seed41'}, 'root_sha': '2aba593e2014ee9996083a35dc3185376e81af49e4896141fd78e1fe068bf138'}, '3049622': {'suite': 'libero_goal', 'seed': 41, 'budget': 128, 'trials': 200, 'allocated': 2039, 'methods': {'B128_seed41', 'A128_seed41'}, 'root_sha': 'ffc074a3cc374a7d348488bdac0ac28c5575865630dd551ba97858a841671c23'}, '3049632': {'suite': 'libero_spatial', 'seed': 17, 'budget': 256, 'trials': 200, 'allocated': 2351, 'methods': {'A256_seed17', 'B256_seed17'}, 'root_sha': 'a07278ca96d6c6c461283b590ba09e1c9acd9427bac40a7380a8f244a64ee56b'}, '3049657': {'suite': 'libero_object', 'seed': 17, 'budget': 256, 'trials': 200, 'allocated': 2198, 'methods': {'A256_seed17', 'B256_seed17'}, 'root_sha': '3c063f479ae499d57aa38ae6682141abfbcc3f3c5a66291a0c450fd42e66fbec'}}
++PULL='results/formal_main_v2/pulls/20261020T153411Z_ee5de4901f52/receipt.json'
++PINNED={PULL:'d2e3853021dc69de491ac500b88492c1f062ee84dd910bc39ebae51b39599d0f',B+'/terminal_jobs_snapshot.json':'fbec27e002492f85b7922644826aad25d141977417b0257eb4aa7ac9c46093af'}
++JOBS={'3050192': {'suite': 'libero_spatial', 'seed': 23, 'budget': 256, 'trials': 200, 'allocated': 2276, 'methods': {'A256_seed23', 'B256_seed23'}, 'root_sha': 'a911fc07e5a11ae892c87bc0439b27d2dd5e904f1cb7a1b894833a7ab45ac1bf'}, '3050205': {'suite': 'libero_spatial', 'seed': 41, 'budget': 256, 'trials': 200, 'allocated': 2353, 'methods': {'B256_seed41', 'A256_seed41'}, 'root_sha': '0de38a659371c54b5ebfe02aa13227eebacf7ae07bbedbbe22845dbe7f0459b5'}, '3050224': {'suite': 'libero_object', 'seed': 41, 'budget': 256, 'trials': 200, 'allocated': 2049, 'methods': {'B256_seed41', 'A256_seed41'}, 'root_sha': '38ca22f9dcda9f328f388af0292196ef54e2349843cb59d0596dba2bc7dc32b5'}}
+ MODEL_PINS={'libero_spatial': ('6a34ed9b4790fa889eb36406a1182d3d89ee539f7a65cb2f72d67e8326d557e7', '6d0231af0e48c5985f1ff86908f4674b84bc049b'), 'libero_object': ('33285a7643de7073e41bd2062cbbc80b4df8fddff915c0a86a13d0bbae48edce', '4c89574e1c538b6c102f43f0526d60a9d3650148'), 'libero_goal': ('85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2', 'c2d0f9fbbd82674683b397ff923168a12f6a307b')}
+@@ -50,5 +50,5 @@
+
+  pull=jread(R/PULL);snap=jread(R/B/'terminal_jobs_snapshot.json')
+- assert set(pull['requested_job_ids'])==set(JOBS)|{'3049679'}
++ assert set(pull['requested_job_ids'])==set(JOBS)
+  assert pull['weights_copied'] is False and pull['sealed_initial_states_copied'] is False
+- assert pull['status']=='verified_nonweight_snapshot' and len(pull['files'])==72
++ assert pull['status']=='verified_nonweight_snapshot' and len(pull['files'])==36
+  for row in pull['files']:
+@@ -214,7 +214,7 @@
+
+  evidence.unchanged()
+- assert totals['trials']==1000 and totals['allocated_gpu_seconds']==11116 and len(global_ids)==1000
+- assert sum(len(x) for x in common_states_by_suite.values())==300 and len(paired_table)==500
++ assert totals['trials']==600 and totals['allocated_gpu_seconds']==6678 and len(global_ids)==600
++ assert sum(len(x) for x in common_states_by_suite.values())==200 and len(paired_table)==300
+  for rel,hh in evidence.files.items():read(R/rel,hh)
+- paired=put('paired_development_states.json',{'schema':'formal_main_v2','scope':'Five jobs, 500 paired records,300unique states in3suites; no final results.','states':paired_table})
+- reportref=put('independent_review.json',{'schema':'formal_main_v2','kind':'independent_nonLong_action_v1_development_terminal_review','status':'passed','review_role':'independent','synthetic':False,'reviewed_utc':datetime.now(timezone.utc).isoformat(),'jobs':combined,'totals':totals,'unique_initial_states':300,'unique_initial_states_per_suite':{k:len(v) for k,v in common_states_by_suite.items()},'method_successes_out_of100':method_results,'shared_initial_panels_sha256':{k:sha(v) for k,v in common_panels.items()},'scope':'Five separately reviewed development jobs. Goal256s17 job3049679 excluded and held for mismatched initial observation; its artifacts were copied and retained but not accepted. No final evaluation, equivalence or O2A speed claim.','held_job_ids':['3049679'],'source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':72,'paired_states':paired,'all_inputs':dict(sorted(inputs.items())),'checkpoint_bytes_read':False,'sealed_final_values_read':False,'live_scheduler_queries':0,'new_GPU_jobs':0,'state_registry_Git_Slurm_mutations':False,'CPU_process_seconds':time.process_time()-cpu,'CPU_wall_seconds':time.monotonic()-started})
++ paired=put('paired_development_states.json',{'schema':'formal_main_v2','scope':'Three jobs, 300 paired records, 200 unique states in two suites; no final results.','states':paired_table})
++ reportref=put('independent_review.json',{'schema':'formal_main_v2','kind':'independent_nonLong_action_v1_development_terminal_review','status':'passed','review_role':'independent','synthetic':False,'reviewed_utc':datetime.now(timezone.utc).isoformat(),'jobs':combined,'totals':totals,'unique_initial_states':200,'unique_initial_states_per_suite':{k:len(v) for k,v in common_states_by_suite.items()},'method_successes_out_of100':method_results,'shared_initial_panels_sha256':{k:sha(v) for k,v in common_panels.items()},'scope':'Three separately reviewed development jobs. Existing unrelated Goal256 seed17 hold and Object256 seed23 consumer blocker are not cleared here. No final evaluation, equivalence or O2A speed claim.','new_held_job_ids':[],'source173_R_and_S_unchanged':True,'verified_pull_files_R_P_equal':36,'paired_states':paired,'all_inputs':dict(sorted(inputs.items())),'checkpoint_bytes_read':False,'sealed_final_values_read':False,'live_scheduler_queries':0,'new_GPU_jobs':0,'state_registry_Git_Slurm_mutations':False,'CPU_process_seconds':time.process_time()-cpu,'CPU_wall_seconds':time.monotonic()-started})
+  files=[]

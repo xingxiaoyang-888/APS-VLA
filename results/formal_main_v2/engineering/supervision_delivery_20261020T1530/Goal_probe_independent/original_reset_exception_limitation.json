@@ -1,0 +1,22 @@
+{
+  "findings": [
+    {
+      "exception": "ValueError",
+      "returned": {
+        "synthetic_success_after_swallowed_exception": true
+      },
+      "underlying_reset_calls": 2
+    },
+    {
+      "exception": "TimeoutError",
+      "returned": {
+        "synthetic_success_after_swallowed_exception": true
+      },
+      "underlying_reset_calls": 2
+    }
+  ],
+  "implication": "12 means external reset calls; internal retries and 28min SIGALRM exit are not guaranteed. Slurm 30min --no-requeue is hard allocation boundary.",
+  "reset_source_sha256": "2880cad5b3fe46ea105816f42798faf4c22e16839098b679ebcad7b51acfdbd0",
+  "status": "confirmed_limitation",
+  "synthetic_only": true
+}

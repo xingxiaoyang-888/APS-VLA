@@ -1,0 +1,90 @@
+{
+  "canonical_mutations_performed_by_this_agent": false,
+  "compact_summary": {
+    "173_source_files_R_and_actual_frozen_snapshot": true,
+    "archive_raw_bytes": 180480556,
+    "archive_raw_logs": 3,
+    "archive_verification": "independent streamed byte equality to retained raw originals; existing archive not recreated",
+    "arms": {
+      "A": {
+        "best_sha256": "a87257995de0999051f27648d87d95e7f1d35ed8e186501cfadb66bc28d01a95",
+        "completed_updates": 5000,
+        "earliest_selected_update": 4500,
+        "replayed_or_uncommitted_samples": 0,
+        "sample_uses": 40000,
+        "selected_expert_l1": 0.04320741907589966,
+        "selected_teacher_l1": 0.03514096573438673,
+        "unique_windows": 33859
+      },
+      "B": {
+        "best_sha256": "8fcd5db722e5e8bc3f7c877eaa931da418afb7ba8022291744757c1950c57244",
+        "completed_updates": 5000,
+        "earliest_selected_update": 2000,
+        "replayed_or_uncommitted_samples": 0,
+        "sample_uses": 40000,
+        "selected_expert_l1": 0.04372269712181555,
+        "selected_teacher_l1": 0.035440760347992185,
+        "unique_windows": 33859
+      }
+    },
+    "epoch_equivalent_per_arm": 1.1813697982811069,
+    "fresh_attempts_per_arm": 1,
+    "prior_failed_pair_attempts": 0,
+    "repeated_window_uses_per_arm": 6141,
+    "same_AB_initialization_order": true,
+    "validation_nodes_per_arm": 11
+  },
+  "execution_requirement": "root only; original reviewer through pinned server_control_transport_v1 with shared writer lock; no blind legacy CLI invocation",
+  "independent_review": {
+    "bytes": 169567,
+    "path": ".local/goal64s17_terminal_20261020T1530/3043762_independent_review.json",
+    "sha256": "97a69fda379c85a6c07b56c78cddc134004359076cb2ce12b5703b73c73f5cee"
+  },
+  "integration_delta": {
+    "completed_by_arm": {
+      "A": 5000,
+      "B": 5000
+    },
+    "cost_ledger_already_includes_job": true,
+    "do_not_add_cost_again": true,
+    "final_release_authorized": false,
+    "if_current_training_count_still_64_result_66": true,
+    "new_completed_pairs": 1,
+    "new_completed_training_groups": 2,
+    "new_final_trials": 0,
+    "new_reviewed_arm_updates": 10000,
+    "success_rate_or_development_trial_increment": 0,
+    "unique_allocation_GPU_seconds": 60721
+  },
+  "job_id": "3043762",
+  "kind": "private_terminal_training_delivery",
+  "limitations": [
+    "This was a single fresh attempt per arm, with no cross-job restore. All 50-update commits and final resume hashes were checked; inherited Goal F03/source supplies restoration qualification. Optimizer/RNG tensors were not independently deserialized.",
+    "Submitted 48h argv is bound as submission evidence, not re-labelled as a fresh scheduler TimeLimit observation.",
+    "Selected update/metric are independently reconstructed from raw validation plus deployment metadata; the machine byte probe does not assert these validation fields."
+  ],
+  "original_review_call": {
+    "callable": "review",
+    "job_id": "3043762",
+    "pull_receipt": "results/formal_main_v2/pulls/20261020T144744Z_f346c6655778/receipt.json",
+    "root": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+    "source_inventory": "results/formal_main_v2/source/formal_main_v2_run_564be0995e.json",
+    "verify_server_resume": true
+  },
+  "reviewer": {
+    "bytes": 49678,
+    "path": "scripts/review_formal_segment.py",
+    "sha256": "566408f7f72bd3d878204175573a9c08b01db67be69358ed4a8ac2d0e0603790"
+  },
+  "root_terminal": {
+    "bytes": 1001,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T2330/3043762_root_terminal.json",
+    "sha256": "2578d8fc501c78a59dffc22db9087dfbde33569717bf00d48fece3b3222c757c"
+  },
+  "sealed_values_accessed": false,
+  "seed": 17,
+  "state_or_Git_or_Slurm_mutations": false,
+  "status": "ready_for_root_integration",
+  "suite": "libero_goal",
+  "visual_tokens": 64
+}

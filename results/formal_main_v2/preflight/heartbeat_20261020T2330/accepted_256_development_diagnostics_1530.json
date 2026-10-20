@@ -1,0 +1,87 @@
+{
+  "Spatial_paired_matrix": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1530/terminal_independent/Spatial256_paired_matrix.json",
+    "sha256": "c84e77d62d85b50465f53b0b0ec00b964013664ca67c0a18b84ac5b02de213c5"
+  },
+  "accepted_jobs_GPU_seconds": 6678,
+  "action_error_scope": "Selected checkpoint offline hard validation teacher/demo L1, not closed-loop action error.",
+  "costs_already_in_global_Slurm_total": true,
+  "development_only": true,
+  "final_results": false,
+  "full_seed_task_tokens_offline_validation": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1530/terminal_independent/development_statistics.json",
+    "sha256": "3ea06d35c1f8f92a30a46449212080c3d952f08e2d1a8f633b568e75d760648a"
+  },
+  "kind": "accepted_256_development_diagnostics",
+  "new_trials": 600,
+  "no_equivalence_or_O2A_claim": true,
+  "root_bootstrap_provenance": "Root reran the archived independent algorithm; deterministic output identity does not claim a separately invented algorithm.",
+  "root_bootstrap_recomputation": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261020T2330/Spatial256_root_bootstrap_recomputation.json",
+    "sha256": "30b0e47cf98498d48a84abb119eec376529f4b78c2de0a47fc1db9a66c50a8ba"
+  },
+  "schema": "formal_main_v2",
+  "suites": {
+    "libero_object": {
+      "available_seeds": [
+        17,
+        41
+      ],
+      "bootstrap_computed": false,
+      "means_percent": {
+        "A": 97.5,
+        "B": 98.5,
+        "B_minus_A_pp": 1.0000000000000009
+      },
+      "missing_seeds": [
+        23
+      ],
+      "seed_sample_SD_pp": {
+        "A": 0.7071067811865481,
+        "B": 0.7071067811865481,
+        "B_minus_A": 0.0
+      },
+      "trial_count": 400,
+      "unique_initial_states": 100
+    },
+    "libero_spatial": {
+      "available_seeds": [
+        17,
+        23,
+        41
+      ],
+      "bootstrap_computed": true,
+      "bootstrap_interval95_pp": {
+        "A": [
+          95.66666666666667,
+          99.66666666666667
+        ],
+        "B": [
+          96.66666666666667,
+          99.66666666666667
+        ],
+        "B_minus_A": [
+          -0.6666666666666667,
+          1.3333333333333335
+        ]
+      },
+      "means_percent": {
+        "A": 98.0,
+        "B": 98.33333333333334,
+        "B_minus_A_pp": 0.3333333333333336
+      },
+      "missing_seeds": [],
+      "seed_sample_SD_pp": {
+        "A": 1.0000000000000009,
+        "B": 1.1547005383792524,
+        "B_minus_A": 2.0816659994661344
+      },
+      "trial_count": 600,
+      "unique_initial_states": 100
+    }
+  },
+  "terminal_review": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T1530/terminal_independent/independent_review.json",
+    "sha256": "bc6ec59ace7431daa18056a2f64352be3f909d902644c5b0a0c546249bf879d8"
+  }
+}

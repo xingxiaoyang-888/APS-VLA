@@ -1,0 +1,72 @@
+{
+  "RNG": "numpy.default_rng PCG64, int64 draws [10000,10,10]",
+  "algorithm": "Average all3seed outcomes within each initial-state cluster, resample10clusters within each fixedtask, mean across10tasks, paired A/B; quantile method linear.",
+  "all_inputs": {
+    ".local/devterminal_independent_20261020T1530/Spatial256_paired_matrix.json": "c84e77d62d85b50465f53b0b0ec00b964013664ca67c0a18b84ac5b02de213c5",
+    ".local/devterminal_independent_20261020T1530/development_statistics.json": "3ea06d35c1f8f92a30a46449212080c3d952f08e2d1a8f633b568e75d760648a",
+    "results/formal_main_v2/libero_spatial/downstream/development/460db0e9701de590/attempt01/trials.jsonl": "9e800d1383fd339e66dfc1cb6fde04f379e7e4431e75c55c1c690f05e49946f8",
+    "results/formal_main_v2/libero_spatial/downstream/development/5185766bb353c8e6/attempt01/trials.jsonl": "1b73a7303201534d76735a6316b946d6b84931664b5ead2566311ec976d81163",
+    "results/formal_main_v2/libero_spatial/downstream/development/b0a59115666b5afa/attempt01/trials.jsonl": "1c15e16aab211055e123019178a975487e33c3da9016fc283904d6a29252159c"
+  },
+  "bootstrap_interval95_pp": {
+    "A": [
+      95.66666666666666,
+      99.66666666666666
+    ],
+    "B": [
+      96.66666666666666,
+      99.66666666666666
+    ],
+    "B_minus_A": [
+      -0.6666666666666666,
+      1.3333333333333333
+    ]
+  },
+  "bootstrap_repeats": 10000,
+  "bootstrap_seed": 20261016,
+  "kind": "raw_ledger_Spatial256_bootstrap_recomputation",
+  "means_percent": {
+    "A": 98.0,
+    "B": 98.33333333333333,
+    "B_minus_A_pp": 0.33333333333333337
+  },
+  "method_trials": 600,
+  "new_GPU_jobs": 0,
+  "paired_matrix": {
+    "bytes": 40806,
+    "path": ".local/devterminal_independent_20261020T1530/Spatial256_paired_matrix.json",
+    "sha256": "c84e77d62d85b50465f53b0b0ec00b964013664ca67c0a18b84ac5b02de213c5"
+  },
+  "per_seed_B_minus_A_CI95_pp": [
+    [
+      0.0,
+      3.0
+    ],
+    [
+      -5.0,
+      0.0
+    ],
+    [
+      0.0,
+      5.0
+    ]
+  ],
+  "root_signoff_claimed": false,
+  "sealed_final_values_read": false,
+  "seed_sample_SD_pp": {
+    "A": 1.0,
+    "B": 1.1547005383792517,
+    "B_minus_A": 2.081665999466133
+  },
+  "seeds": [
+    17,
+    23,
+    41
+  ],
+  "statistics_ref": {
+    "path": ".local/devterminal_independent_20261020T1530/development_statistics.json",
+    "sha256": "3ea06d35c1f8f92a30a46449212080c3d952f08e2d1a8f633b568e75d760648a"
+  },
+  "status": "passed",
+  "unique_initial_states": 100
+}

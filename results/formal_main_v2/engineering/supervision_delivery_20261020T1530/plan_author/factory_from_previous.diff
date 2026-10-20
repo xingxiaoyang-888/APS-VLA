@@ -1,0 +1,50 @@
+--- .local/nonLong_development_plans_20261020T1418/revision02/build_manifests_v1.py
+
++++ build_manifests_v1.py
+
+@@ -1,8 +1,8 @@
+
+-"""Read-only source/complete-pair checks and original factory for three dev-only candidates."""
++"""Read-only source/complete-pair checks and original factory for four dev-only candidates."""
+ import contextlib,hashlib,importlib.util,io,json,os,sys,traceback
+ from pathlib import Path
+-R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');D=R/'.local/nonLong_development_plans_20261020T1418/revision02'
+-STATE='results/formal_main_v2/preflight/heartbeat_20261020T2218/state_before.json';STATE_SHA='0e3de8ff0795473adc5168a2ce5f421035cc1a4a5f2e18dfa3a70ac06d76eab3'
++R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');D=R/'.local/nonLong64_development_plans_20261020T1530'
++STATE='.local/nonLong64_development_plans_20261020T1530/state_source.json';STATE_SHA='86d2c2ad011cbb52c7367cc93703f67ad6449bb74548fd9a98955244c7658355'
+ HELPER='scripts/formal_execution_manifests.py';HELPER_SHA='614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89'
+-GROUPS=[('libero_spatial', 256, 23, '3034604', '809bd0e648ece4a335431f5e8314649c8b7b5ca36b179231f4c8702af68d5c98', 'results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k256_seed23_independent.json', '9276d3727c0702ac8358a1404c7fc45b37d62c5c27358841239313c33eb7e6c8'), ('libero_spatial', 256, 41, '3034611', 'aeeb152272e355a91f3419121a52a38343cfe5a2e79923eefc2cecec10772835', 'results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k256_seed41_independent.json', '1743fc2a975cedecdfad4a591d611464ec1a24ba3f1c97ee3e3e7a7aba70445d'), ('libero_object', 256, 41, '3034570', '373c593c00752655b94cd02d51789716e292d78310149753b475532daf78c545', 'results/formal_main_v2/libero_object/k256/seed41/training/segment_reviews/3034570_independent.json', 'b1e96f4b174b7b7208ac1bf90312cc0d88b04c64823784c46538187a9ff58ec5')]
++GROUPS=[('libero_spatial', 64, 17, '3034616', 'ac7fbc4642ae077b0fa7f251aabdedbe880a4b6ef15b31b8be17d8587f3be10a', 'results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k64_seed17_independent.json', 'fcb1399cdb1c1caf24ae99186110b0bcae2f58290c8c87f9a478e7e7f100197f'), ('libero_spatial', 64, 41, '3034689', '613b0245d29ce9b2349063bc9ca32ef3fde6f21c05c8a9f9380de41617ab1cc4', 'results/formal_main_v2/engineering/completed_pairs_independent_0547/libero_spatial_k64_seed41_independent.json', '6ef35840966f673c6c8f6a6789f32b848ed2eca5bec2b0b2411f12cc4bde3e77'), ('libero_object', 64, 17, '3037054', 'b7e528439916fd881668ca2d2960735a8aa751b05e198fff6e15cccb68ec1756', 'results/formal_main_v2/libero_object/k64/seed17/training/segment_reviews/3037054_independent.json', 'f14b26c65a7a337dd629d2ae87ca10d94e9ad31d96dffcfb0e6cbf39188fefd7'), ('libero_object', 64, 41, '3037535', 'd2836fab19c5c11cd1baba1a102ec7e677ebab781091f2b2bcb103f35825ddf8', 'results/formal_main_v2/libero_object/k64/seed41/training/segment_reviews/3037535_independent.json', 'a1643466dd8bbe032261c195c8ebef6ef214c373d82ab4ede6829450a1623301')]
+ sys.dont_write_bytecode=True;sys.path[:0]=[str(R/'src'),str(R/'scripts')]
+@@ -30,4 +30,4 @@
+
+  sb=read(STATE,STATE_SHA);s=json.loads(sb);out('state_at_planning.json',sb);assert s.get('pending_submission') is None
+- b=read(HELPER,HELPER_SHA);spec=importlib.util.spec_from_file_location('nonLong20261020T1418_r2_factory',R/HELPER);h=importlib.util.module_from_spec(spec);sys.modules[spec.name]=h;exec(compile(b,str(R/HELPER),'exec'),h.__dict__)
+- plans=[];checks=[]
++ b=read(HELPER,HELPER_SHA);spec=importlib.util.spec_from_file_location('nonLong6420261020T1530_factory',R/HELPER);h=importlib.util.module_from_spec(spec);sys.modules[spec.name]=h;exec(compile(b,str(R/HELPER),'exec'),h.__dict__)
++ plans=[];checks=[];skipped=[]
+  for suite,budget,seed,jid,rsha,irpath,isha in GROUPS:
+@@ -47,3 +47,9 @@
+
+   matches=[j for j in s['registered_jobs'] if j.get('suite')==suite and j.get('mode')=='development' and set(j.get('method_ids',[]))&set(methods)]
+-  assert not matches,'Already registered development methods '+str(matches)
++  artifacts=[]
++  for scanroot in (R,Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')):
++   for candidate in (scanroot/f'results/formal_main_v2/{suite}/downstream/development').glob('*/attempt*/config.json'):
++    prior=json.loads(candidate.read_bytes());ids={m['identity']['method_id'] for m in prior['manifest']['methods']}
++    if ids&set(methods):artifacts.append({'path':str(candidate),'sha256':shab(candidate.read_bytes())})
++  if matches or artifacts:
++   skipped.append({'pair':pair,'registered_job_ids':[str(j['job_id']) for j in matches],'existing_artifacts':artifacts,'reason':'Never duplicate any registered or existing development method output.'});continue
+   arms={}
+@@ -61,6 +67,6 @@
+
+   mr=ref(str((D/name).relative_to(R)));er=ref(str((D/(name+'.evidence.json')).relative_to(R)));m=json.loads(read(mr['path']));assert [x['identity']['method_id'] for x in m['methods']]==methods
+-  plans.append(dict(suite=suite,budget=budget,seed=seed,method_ids=methods,expected_trials=200,candidate=mr,evidence=er,canonical_path='results/formal_main_v2/execution/nonLong_action_v1_20261020T1418/'+name))
+-  checks.append(dict(suite=suite,budget=budget,seed=seed,root_review=ref(base+'/segment_reviews/'+jid+'.json'),independent_review=ref(irpath),training_summary=ref(base+'/training_summary.json'),completed_arms=arms,terminal_root_adoption=root_adoption,existing_development_method_matches=[],actual_weight_bytes_read=False))
+- out('training_and_duplicate_checks.json',dict(status='source_metadata_checks_passed_not_development_readiness',state=ref(str((D/'state_at_planning.json').relative_to(R))),pairs=checks))
+- index=out('execution_manifest_candidates.json',dict(schema='formal_main_v2',status='candidate_pending_root_publication',plans=plans,total_trials=600,final_enabled=False,production_modified=False))
++  plans.append(dict(suite=suite,budget=budget,seed=seed,method_ids=methods,expected_trials=200,candidate=mr,evidence=er,canonical_path='results/formal_main_v2/execution/nonLong_action_v1_20261020T1530/'+name))
++  checks.append(dict(suite=suite,budget=budget,seed=seed,root_review=ref(base+'/segment_reviews/'+jid+'.json'),independent_review=ref(irpath),training_summary=ref(base+'/training_summary.json'),completed_arms=arms,terminal_root_adoption=root_adoption,existing_development_method_matches=[],existing_R_P_development_artifacts=[],actual_weight_bytes_read=False))
++ out('training_and_duplicate_checks.json',dict(status='source_metadata_checks_passed_not_development_readiness',state=ref(str((D/'state_at_planning.json').relative_to(R))),pairs=checks,skipped=skipped))
++ index=out('execution_manifest_candidates.json',dict(schema='formal_main_v2',status='candidate_pending_root_publication',plans=plans,total_trials=200*len(plans),skipped=skipped,final_enabled=False,production_modified=False))
+  print(json.dumps({'status':'candidates_ready_for_root_publication','index':index,'plans':plans}))

@@ -1,0 +1,57 @@
+{
+  "CPU_wall_seconds": 17.3988320492208,
+  "GPU_seconds_added": 0,
+  "Slurm_submissions": 0,
+  "actual_GPU_runtime": false,
+  "checks": [
+    {
+      "GPU_runtime_executed": false,
+      "entrypoint": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/server/run_formal_downstream.py",
+      "name": "exact_original_P_wrapper_metadata_verify",
+      "passed": true
+    },
+    {
+      "model_or_environment_loaded": false,
+      "name": "actual_P_runtime_scope_metadata",
+      "passed": true
+    },
+    {
+      "error": "Exact path/SHA reference required",
+      "name": "missing_actual_root_readiness_fails_closed",
+      "passed": true
+    },
+    {
+      "name": "versioned_planner_rebuild_same_snapshot_identical",
+      "passed": true
+    }
+  ],
+  "methods": [
+    "A256_seed23",
+    "B256_seed23"
+  ],
+  "new_P_action_wrapper_root_readiness": false,
+  "old_P_wrapper_verify": true,
+  "planned_development_trials": 200,
+  "remaining": [
+    "Independent source bridge and control binding review",
+    "Canonical root bridge admission/publication",
+    "Versioned gateway exact re-plan and terminal consumer same explicit bridge",
+    "Actual final checkpoint byte identities checked by original runtime",
+    "True per-plan root/independent readiness and locked fresh duplicate/capacity checks"
+  ],
+  "root_release": false,
+  "schema": "formal_main_v2",
+  "scientific_plan": {
+    "path": ".local/object256s23_consumer_candidate_20261020T1530/runtime_check01/scientific_plan.json",
+    "sha256": "35fa639e5232c39430818805279bc2dca6ac205043f944b0641a15340efc2bae"
+  },
+  "source173_R_and_S_unchanged": true,
+  "state_Git_writes": false,
+  "state_snapshot": {
+    "path": ".local/object256s23_consumer_candidate_20261020T1530/runtime_check01/author_state_snapshot.json",
+    "sha256": "303d0e953ef966fa53787f46b19152f697c2d211640a7f3f8813754776d05430"
+  },
+  "status": "CPU_P_metadata_passed_not_GPU_or_root_admitted",
+  "unique_initial_states": 100,
+  "weights_or_sealed_states_read": false
+}

@@ -1,0 +1,16 @@
+{
+  "fixture": {
+    "bytes": 295,
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_independent_20261020T1530/independent_deadline/summary.json",
+    "sha256": "c0dec3cd6a60cec57647f4c902df9c20b1c9bf89bb05faf0d4798851d2a0f39f"
+  },
+  "interpretation": "Intentional deadline interrupted archive writing. Incomplete archives are retained engineering failure artifacts, not usable complete observations. Original candidate remained unmodified.",
+  "kind": "verbatim_warning_transcribed_from_tool_output",
+  "original_report": {
+    "bytes": 174575,
+    "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_t0_probe_independent_20261020T1530/independent_review.json",
+    "sha256": "5bc162507638c25d3ee2d116c87343637aa85c6c84de7ec52e20e41b2cb69e12"
+  },
+  "source": "audit_v1 transport terminal response",
+  "warning": "Exception ignored in: <function ZipFile.__del__ at 0x1536e76d3240>\nTraceback (most recent call last):\n  File \"/share/apps/anaconda3/lib/python3.11/zipfile.py\", line 1874, in __del__\n    self.close()\n  File \"/share/apps/anaconda3/lib/python3.11/zipfile.py\", line 1891, in close\n    self.fp.seek(self.start_dir)\nValueError: seek of closed file\n"
+}
