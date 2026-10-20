@@ -1,0 +1,10 @@
+{
+  "status": "bounded_independent_CPU_audit_correction",
+  "original_script_sha256": "9c8aa6143fba5f2fdd09e16beb595df5fdf1a6809565877a54aaa699bbe0568b",
+  "corrected_script_sha256": "0046c4454ee1358f3287cf1f15e432bf491c38194dc97689a91c28ab01a81d26",
+  "reason": "The original postprocess_actions is -np.sign(2*physical_gripper-1), which has three outputs including signed zero at 0.5. The extra independent binary-only assertion was too restrictive. One original Object predicted gripper is exactly0.5 and records-0.0. Retain the byte-level queue check and accept the exact source three-valued output. No action/status, scientific gate or selection changed.",
+  "source": "src/cti_vla/evaluation/libero_runtime.py",
+  "source_sha256": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781",
+  "all_CPU_failure_receipts_retained": true,
+  "new_GPU_jobs": 0
+}

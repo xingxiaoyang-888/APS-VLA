@@ -1,0 +1,146 @@
+{
+  "CPU_wall_seconds": 2.8462446285411716,
+  "GPU_submission_authorized": false,
+  "accepted_scientific_trials_added": 0,
+  "all_original_allocation_GPU_seconds": 6713,
+  "all_original_allocations": [
+    {
+      "elapsed_seconds": 386,
+      "exit_code": "0:0",
+      "gpus": 1,
+      "job_id": "3021394",
+      "raw_status": "COMPLETED",
+      "status": "COMPLETED"
+    },
+    {
+      "elapsed_seconds": 1401,
+      "exit_code": "0:0",
+      "gpus": 1,
+      "job_id": "3021603",
+      "raw_status": "COMPLETED",
+      "status": "COMPLETED"
+    },
+    {
+      "elapsed_seconds": 4926,
+      "exit_code": "0:0",
+      "gpus": 1,
+      "job_id": "3021844",
+      "raw_status": "COMPLETED",
+      "status": "COMPLETED"
+    }
+  ],
+  "candidate_next_gate": [
+    "Independently establish genuine old whole-chain review and current target source/controller equivalence for exactly599 complete rows without outcome filtering.",
+    "Retain the one objectively different exception as invalid-under-target-semantics, never silently drop or relabel it; register any replacement as an explicitly linked same-state/method attempt.",
+    "Before any GPU replacement, require fixed target source/checkpoint/config identity, passive action tracing, duplicate protection and a complete paired development assembly with original100 states."
+  ],
+  "completed_raw_candidates": 599,
+  "evidence_sha256": {
+    "results/formal_main_v2/downstream_reviews/3021844.json": "004a810edd7f097bbeec755315beed11bbfa86640a78ffd75ef0ff78a769ee37",
+    "results/formal_main_v2/engineering/formal_main_v2_action_execution_compat_gpu_v3/source/action_adapter.py": "b8a1632e1a67d75d56f3866345b07634b8efae4fc4c1f2928feea64cb3728185",
+    "results/formal_main_v2/libero_object/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl": "d93ad5a4eb4ae3edb7a9b20e640a72fe4971ca0e4eeb62eea71acc4d71a257d1",
+    "src/cti_vla/evaluation/libero_runtime.py": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781"
+  },
+  "exception": {
+    "adopted": false,
+    "candidate_only": true,
+    "chunks": 7,
+    "error": "environment action outside normalized controller [-1, 1] range",
+    "exact_offending_axis_value_recoverable": false,
+    "executed_float64le_sha256": "de3c48c6e2dfdda4acfb5cb9e63607d849d26c9609d99c3d02a7f2afa7e4770c",
+    "existing_controller_clip_byte_inactive": true,
+    "initial_state_sha256": "85fbef5e8e439507095dea71a26e5af94291e1a451e2e698c1baded3cfebc062",
+    "method": "dense",
+    "new_semantics_outcome_unknown": true,
+    "original_job_id": "3021844",
+    "original_queue_exact": true,
+    "recorded_actions": 56,
+    "recorded_policy_calls": 8,
+    "rejected_eighth_chunk_recorded": false,
+    "result": {
+      "byte_offset": 50238794,
+      "bytes": 44183,
+      "line": 1073,
+      "sha256": "d7f134683c6e01c8667731c6ca6807290d91d7816d28197f48232de9bc271eb0"
+    },
+    "retained_chunks_float64le_sha256": "de3c48c6e2dfdda4acfb5cb9e63607d849d26c9609d99c3d02a7f2afa7e4770c",
+    "retained_chunks_max_abs": 1.0,
+    "retained_policy_chunks": 7,
+    "source_state_index": 49,
+    "start": {
+      "byte_offset": 50238056,
+      "bytes": 738,
+      "line": 1072,
+      "sha256": "6533a08978eb006c39304bcf97829e3cfd0eef2145be3418c8d8bb02adf49c51"
+    },
+    "state_trial_id": "libero_object:pick_up_the_chocolate_pudding_and_place_it_in_the_basket:state-0049:env-0",
+    "status": "policy_error",
+    "success": false,
+    "task_id": 8,
+    "task_name": "pick_up_the_chocolate_pudding_and_place_it_in_the_basket",
+    "trial_id": "libero_object:pick_up_the_chocolate_pudding_and_place_it_in_the_basket:state-0049:env-0:dense"
+  },
+  "final_release": false,
+  "kind": "root_bounded_Object_legacy_raw_diagnostic",
+  "limits": [
+    "599 raw checks alone do not establish full historical model/controller identity or old/new runtime equivalence. Root and independent acceptance remain required.",
+    "No new inference, environment replay, compatibility adoption, selective success denominator or latency reuse.",
+    "The old600 raw ledger stays immutable, including its false policy-error result and all6713 GPU seconds.",
+    "A new exact exception lineage would need its own engineering-reviewed execution plan; ordinary --resume cannot rerun this ID because the old ledger marks policy_error terminal."
+  ],
+  "new_GPU_seconds": 0,
+  "new_scientific_trials": 0,
+  "original_results": 600,
+  "per_method_completed_only": {
+    "A128_seed17": {
+      "actions": 13651,
+      "chunks": 1749,
+      "completed": 100,
+      "successes": 98
+    },
+    "B128_seed17": {
+      "actions": 13989,
+      "chunks": 1790,
+      "completed": 100,
+      "successes": 96
+    },
+    "dense": {
+      "actions": 13301,
+      "chunks": 1703,
+      "completed": 99,
+      "successes": 98
+    },
+    "uniform128": {
+      "actions": 15224,
+      "chunks": 1942,
+      "completed": 100,
+      "successes": 86
+    },
+    "uniform256": {
+      "actions": 14438,
+      "chunks": 1846,
+      "completed": 100,
+      "successes": 93
+    },
+    "uniform64": {
+      "actions": 21342,
+      "chunks": 2690,
+      "completed": 100,
+      "successes": 49
+    }
+  },
+  "per_trial": {
+    "path": ".local/object599_diagnostic_20261020T2054/per_trial_raw_audit.json",
+    "sha256": "ee1e120a0fee0fafa02d6ebd58331d066f5ceb55790673fbfa2ba912e3ccfb8f"
+  },
+  "policy_error_attempts_preserved": 1,
+  "production_reuse_authorized": false,
+  "recorded_t0_mismatches": 0,
+  "retained_actions": 92001,
+  "retained_chunks": 11727,
+  "schema": "formal_main_v2",
+  "source_finding": "The unique legacy range guard raises before appending query8 to chunks; the receipt binds its message and phase. All retained chunks are finite/in-range and existing controller clipping leaves their float64 bytes unchanged. The actual rejected chunk bytes and new-runtime outcome are absent, not inferred.",
+  "status": "raw_boundary_audited_not_compatibility_admitted",
+  "suite": "libero_object",
+  "unique_initial_states": 100
+}

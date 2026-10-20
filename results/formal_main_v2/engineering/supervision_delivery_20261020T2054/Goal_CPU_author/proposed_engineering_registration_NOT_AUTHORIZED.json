@@ -1,0 +1,83 @@
+{
+  "GPUs": 1,
+  "action_chunk": 8,
+  "automatic_retry": false,
+  "continue_criteria": [
+    "complete58 with29 exact prequery pairs",
+    "all actual queries have matching before/after input identities and bytes",
+    "all original resets/wait/step/policy calls, hashes, action chunks and selected checkpoint identities unchanged by recorder except declared timing perturbation",
+    "recorded execution counts and all58 original trial statuses pass; zero dropped failures, zero retries",
+    "root and independent terminal evidence audit including complete Slurm cost"
+  ],
+  "counts_toward_eight_slots": true,
+  "environment_seed": 0,
+  "final_release": false,
+  "gate_rules": [
+    "For A before first predict: persist five original component bytes/dtype/shape and instruction UTF-8 identity; store by complete state identity, excluding method.",
+    "For B before first predict: persist its inputs, compare all five components byte-for-byte plus instruction; mismatch halts before B predict. A ledger remains and B start is retained, with explicit incomplete attempt sidecar.",
+    "All queries: persist before/after raw components and enforce observation object identity/bytes unchanged at boundaries.",
+    "Returned original action chunks are copied to sidecar. Executed controls are logged after the unchanged env.step and increment; observer never clips/reorders/overrides them.",
+    "Original policy Exception is retained as original policy_error row; gate halts at trial_end, so formal_trials cannot proceed to the next trial.",
+    "Gate failures use BaseException outside original Exception-only catches, close env in original finally, restore code bindings and emit outer failure/partial receipt. No fake completed result is synthesized."
+  ],
+  "hard_Slurm_wall_seconds": 1800,
+  "interpretation_limits": [
+    "A passing new engineering attempt does not identify or repair the old mismatch.",
+    "Historical before-query arrays are unavailable; changed old histories cannot be reconstructed by this gate.",
+    "Boundary equality cannot detect a mutation reverted before return or invisible simulator/GPU state.",
+    "Copies and disk writes perturb wall time and potentially realized execution scheduling; these are not full O2A or component latency samples.",
+    "No automatic acceptance/replacement of old200 or launch of new Goal science follows a pass; require explicit typed invalid-attempt lineage and separate source/consumer/runtime admission."
+  ],
+  "kind": "proposed_Goal_before_policy_input_gate_engineering",
+  "max_control_steps": 300,
+  "maximum_attempts": 1,
+  "maximum_dummy_actions": 580,
+  "maximum_policy_controls": 17400,
+  "maximum_trials": 58,
+  "method_ids": [
+    "A256_seed17",
+    "B256_seed17"
+  ],
+  "new_Goal_science_HOLD": true,
+  "no_requeue": true,
+  "not_provided": [
+    "production_entrypoint",
+    "Slurm_script",
+    "root_submission_authorization",
+    "root_runtime_readiness",
+    "independent_runtime_readiness",
+    "reservation",
+    "submission_ACK"
+  ],
+  "old200_HOLD": true,
+  "parent_design": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0349/Goal_next_bounded_diagnostic_design.json",
+    "sha256": "9bf7cd2039ce329debe9f126f05f45f97ce95e381cf0494e571e277002fd20e3"
+  },
+  "prerequisites": [
+    "independent audit of candidate source, full AST hooks, exact original-call projection, CPU evidence and fail-stop/partial-record contract",
+    "root integration into fresh bounded engineering package, full existing action/assets/source/manifest/checkpoint guards retained",
+    "new package and config hashes bound to precise P prepare/verify proof and independent review",
+    "root unique one-shot registration, writer lock/CAS, capacity reservation and no duplicate or ambiguous pending submit"
+  ],
+  "purpose": "Validate that a new attempt has equal method-independent before-policy t0 inputs and that inference preserves current inputs; never diagnose the missing historical bytes by assumption.",
+  "schema": "formal_main_v2",
+  "scientific_trials_added": 0,
+  "scope": "Same immutable original first58 identities,29 existing development states, state-major A then B; no state/result selection. Re-execution does not claim identical prior realized history.",
+  "seed": 17,
+  "status": "draft_not_submittable_not_registered_no_GPU_authority",
+  "stop_after_trials": 58,
+  "stop_criteria": [
+    "any identity/source/config/checkpoint drift or unproven wrapper binding",
+    "any prequery t0 mismatch, postquery input mutation, missing capture, changed observer RNG/sim/input, I/O failure or duplicate trial",
+    "any policy/environment/cleanup error; FAILED/TIMEOUT/PREEMPTED/unknown state; no auto retry",
+    "partial or unverifiable ledger/capture; preserve all partial evidence and costs"
+  ],
+  "suite": "libero_goal",
+  "tokens": 256,
+  "unchanged_checkpoints": {
+    "A256_seed17": "756e7033ed467d50c748ff2a6290a3c9f84928c4a5a30c3304669c9e5f28d928",
+    "B256_seed17": "48cadc7b53914b87f4a7e8ef232bdcfe87bf94a1e28d8758e2db44d31e4ab2c3"
+  },
+  "wait_steps": 10
+}

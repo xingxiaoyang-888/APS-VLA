@@ -1,0 +1,90 @@
+{
+  "accepted_new_trials": 0,
+  "completed_trials": 200,
+  "cost": {
+    "all_attempt_gpu_seconds": 2283,
+    "allocations": [
+      {
+        "elapsed_seconds": 2283,
+        "exit_code": "0:0",
+        "gpus": 1,
+        "job_id": "3053875",
+        "raw_status": null,
+        "status": "COMPLETED"
+      }
+    ],
+    "current_gpu_seconds": 2283,
+    "scope": "Every registered allocation counted once, including model loading, warmup, failures and idle/setup time; not only timed calls"
+  },
+  "final_release": false,
+  "full_consumer_rebuilt": true,
+  "job_id": "3053875",
+  "kind": "root_existing_k64seed23_terminal_review",
+  "new_GPU_jobs": 0,
+  "pull": {
+    "path": "results/formal_main_v2/pulls/20261020T211406Z_efbe8fd6aa39/receipt.json",
+    "sha256": "0b27260c5f58720177b0aa275ac28d1af5e3578a197c674a5b20259297c0c33a"
+  },
+  "root_review": {
+    "path": "results/formal_main_v2/downstream_reviews/3053875.json",
+    "sha256": "ee00999e50f845b88f22c45f8d5164d232fd1b53ae1f9cf588bdb0aa8ea4da43"
+  },
+  "schema": "formal_main_v2",
+  "snapshot": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0454/terminal_3053875/terminal_jobs_snapshot.json",
+    "sha256": "06ea1bdef46650fcf1b08c514c1706a0028efb70b505bbbfd54ed10630b8579a"
+  },
+  "source_control": {
+    "all_pair_GPU_seconds": 42480,
+    "bridge_sha256": "678b6c57fbf6e188eced6d42bfa158862c1f185bced034027e535a4316804c87",
+    "failed_job_id": "3028522",
+    "files": {
+      "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+      "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+      "scripts/ops/formal_action_deployment_v1/gateway.py": "8f247fc1e2b8c8ed2fded79286390dd548392c74d28105df332beb3b8d13173a",
+      "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+      "scripts/ops/formal_asset_downstream_review.py": "6d9af87498c76cc71459d5441e66eff2a2bde9aa063479519a4d628f44a7d699",
+      "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+      "scripts/ops/formal_spatial64s23_source_bridge_v1/bridge_v2.py": "678b6c57fbf6e188eced6d42bfa158862c1f185bced034027e535a4316804c87",
+      "scripts/ops/formal_spatial64s23_source_bridge_v1/control.py": "edab3f3917b57daf1867134bc8179a73673bfc4a1e61bfda5118d76fd64458f3",
+      "scripts/ops/formal_spatial64s23_source_bridge_v1/policy_v1.json": "b4d18e84600de25dc193149903492cdda16df11d76e35a9d702c14ca0054b557"
+    },
+    "new_scientific_authority": false,
+    "policy_sha256": "b4d18e84600de25dc193149903492cdda16df11d76e35a9d702c14ca0054b557",
+    "retained_failed_GPU_seconds": 73,
+    "scope": {
+      "method_ids": [
+        "A64_seed23",
+        "B64_seed23"
+      ],
+      "seed": 23,
+      "stage": "development",
+      "suite": "libero_spatial",
+      "tokens": 64,
+      "trials": 200
+    },
+    "successful_job_ids": [
+      "3024716",
+      "3025205",
+      "3043399",
+      "3044479"
+    ],
+    "version": "formal-spatial64s23-source-control-v1"
+  },
+  "source_pins": {
+    "scripts/ops/formal_action_deployment_posttraining_k64s23_v1/gateway.py": "873d0145f8d3ed51e916f39e1e36cb0251d10777a6f98429621f526d37a2c7bb",
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_autonomous_training_v1/controller.py": "acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363",
+    "scripts/ops/formal_object64s23_source_bridge_v1/control.py": "cf1058afd83073e0ef30c977e88c34f124f56adcfe9487b837ecaedaf6578767",
+    "scripts/ops/formal_spatial64s23_source_bridge_v1/control.py": "edab3f3917b57daf1867134bc8179a73673bfc4a1e61bfda5118d76fd64458f3",
+    "scripts/pull_formal_results.py": "b1b141ddb75fd8641d6f5e7f68dbfea462e1fe907ced2f2a98338a1145d77061"
+  },
+  "state_unchanged": true,
+  "status": "root_and_original_consumer_passed_independent_pending",
+  "successes": {
+    "A64_seed23": 96,
+    "B64_seed23": 97
+  },
+  "suite": "libero_spatial",
+  "unique_development_initial_states": 100
+}

@@ -1,0 +1,27 @@
+{
+  "status": "blocked_independent_audit",
+  "exception": "ValueError",
+  "message": "binary inverted gripper commands",
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/k64_terminal_independent_20261020T2054/audit_terminal_v2.py\", line 199, in <module>\n    try:main()\n        ^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/k64_terminal_independent_20261020T2054/audit_terminal_v2.py\", line 188, in main\n    rawproof=raw(rr,manifest,run,jid,t);off=offline(rr,manifest,jid,t)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/k64_terminal_independent_20261020T2054/audit_terminal_v2.py\", line 137, in raw\n    valid_indices(meta['retained_indices']);require(set(np.unique(env[:,-1])).issubset({-1.0,1.0}),'binary inverted gripper commands')\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/k64_terminal_independent_20261020T2054/audit_terminal_v2.py\", line 27, in require\n    if not ok:raise ValueError(message)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: binary inverted gripper commands\n",
+  "checks_completed": [
+    "3053894 root terminal transaction complete but independent acceptance not presumed",
+    "3053894 actual root scientific scope",
+    "3053894 same one original terminal allocation and no prior attempts",
+    "3053894 exact Slurm terminal and GPU seconds",
+    "3053894 GPU allocation counted once",
+    "3053894 original pinned invocation",
+    "3053894 exact own-pair source bridge, no foreign substitution",
+    "3053894 failed training history and cost preserved without recount",
+    "173 frozen source entries",
+    "3053894 all pulled output file SHAs and original P raw bytes match",
+    "3053894 exact science/environment configuration",
+    "3053894 actual panel equals preregistered development panel",
+    "3053894 fixed 100 development states and all ten tasks",
+    "3053894 unique initial state identities",
+    "3053894 one invocation and exact 200 start/result pairs",
+    "3053894 raw run signature exact"
+  ],
+  "new_GPU_jobs": 0,
+  "state_written": false,
+  "automatic_retry": false
+}
