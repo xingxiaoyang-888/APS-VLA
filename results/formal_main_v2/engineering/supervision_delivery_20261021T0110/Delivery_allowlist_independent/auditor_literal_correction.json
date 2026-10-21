@@ -1,0 +1,10 @@
+{
+  "experiment_changes": false,
+  "failed_check": "new_failure_receipt_does_not_overwrite_old_source_receipt",
+  "failed_entrypoint_sha256": "0df81d9c963ed2a2e0d6fc0825ec534ee87834be0fd4f7e3550a56736e135b2a",
+  "failed_transport": "results/formal_main_v2/control_transport/delivery_allowlist_independent_20261021T0110.jsonl",
+  "original_source_preserved": true,
+  "reason": "The static search omitted the leading slash in the filename literal inside B concatenation. Source v5 was correct and unchanged; v2 searches the exact save(B+path) prefix.",
+  "reviewed_root_source_changed": false,
+  "status": "auditor_literal_assertion_correction_only"
+}

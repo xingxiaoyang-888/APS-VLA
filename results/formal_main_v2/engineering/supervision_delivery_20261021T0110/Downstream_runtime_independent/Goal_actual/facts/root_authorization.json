@@ -1,0 +1,53 @@
+{
+  "automatic_retry": false,
+  "config_sha256": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae",
+  "counts_against_8_GPU_slots": true,
+  "dispatch_record_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_full200_20261021T0110/held_dispatch_record.json",
+  "entrypoint_sha256": "1b640f36962c1278b4a40af634ac4cb0793e7baf00840dd40e5fbeaf4c1ade15",
+  "independent_review": {
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_full200_20261021T0110/independent_readiness.json",
+    "sha256": "e3f11199241a6082f36c3556c0698e7c8b8043d2bc1f4256e2bc3da037549259"
+  },
+  "kind": "root_goal_full200_single_attempt_authorization",
+  "maximum_attempts": 1,
+  "maximum_gpu_jobs": 1,
+  "maximum_total_control_steps": 60000,
+  "maximum_total_policy_queries": 7600,
+  "maximum_trials": 200,
+  "maximum_wall_seconds": 7200,
+  "new_Goal_science_HOLD": true,
+  "original_goal200_HOLD": true,
+  "package_manifest_sha256": "2767f20cdd3b862138f590d65563e1bad844cfe14e6fe41aecf2854fc4f0baec",
+  "policy_watchdog_seconds": 60.0,
+  "raw_observation_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_full200_20261021T0110/attempt01",
+  "reservation_path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_full200_20261021T0110/reservation.json",
+  "resources": {
+    "cpus_per_task": 7,
+    "excluded_nodes": [
+      "gpu4020"
+    ],
+    "gres": "gpu:l40:1",
+    "mem": "64G",
+    "no_requeue": true,
+    "partition": "L40",
+    "wall_seconds": 7200
+  },
+  "reviewed_by": "root",
+  "root_fixed_design": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0758/Goal_prospective_root_decision.json",
+    "sha256": "06911f2ba90ffa9e7df233e0793c0989e0d15edf260b18a2fa2fb963ef0912d7"
+  },
+  "root_review": {
+    "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_full200_20261021T0110/root_readiness.json",
+    "sha256": "63ab286d10449886c0986e0c0b0d42cb7f49c211dd9eb124284254d967855f2b"
+  },
+  "root_storage_decision": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_blob_storage_root_decision.json",
+    "sha256": "7542920320810275798d8fa7ebf2cd85d7b8b4f60ead315638a261b6ecef44de"
+  },
+  "schema": "formal_main_v2",
+  "scientific_release": false,
+  "stage_key": "goal_full200_20261021T0110",
+  "status": "approved",
+  "version": "goal-full200-prospective-single-attempt-v1"
+}

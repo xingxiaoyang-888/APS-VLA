@@ -1,0 +1,43 @@
+{
+  "GPU_submission_authorized": false,
+  "base_design": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0758/Goal_prospective_root_decision.json",
+    "sha256": "06911f2ba90ffa9e7df233e0793c0989e0d15edf260b18a2fa2fb963ef0912d7"
+  },
+  "capacity_observation": {
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo": {
+      "available_bytes": 901226135552,
+      "filesystem_block_bytes": 4096,
+      "known_local_write_permissions": true
+    },
+    "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA": {
+      "available_bytes": 8074260480,
+      "filesystem_block_bytes": 4096,
+      "known_local_write_permissions": true
+    }
+  },
+  "capacity_scope": "statvfs availability only; node permissions/quota/write failure remain runtime fail-closed checks, not an asserted unlimited quota",
+  "final_release": false,
+  "kind": "root_fixed_Goal_raw_observation_storage_choice",
+  "mapped_content": "Only five current observation components as content-addressed development blobs; sim/RNG/control/ledger metadata retain P exact attempt root",
+  "metadata_runtime_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/engineering/goal_full200_20261021T0110/attempt01",
+  "new_GPU_jobs": [],
+  "no_legacy_deletion_or_move": true,
+  "requirements": [
+    "Separate conservative upper bounds for P metadata and R observation blobs",
+    "Actual P static verification plus compute-node pre-execution realpath owner writable capacity and exclusive fresh output checks",
+    "Any capacity or write exception terminates attempt and preserves raw prefix/cost; no silent record drop or automatic retry",
+    "Only exact allowlisted nonweight volumes published to Git; no loose bin glob add"
+  ],
+  "reuse_existing_output_allowed": false,
+  "root_observation_blob_directory": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_full200_20261021T0110/attempt01",
+  "schema": "formal_main_v2",
+  "scientific_trials_added": 0,
+  "state_unchanged": true,
+  "status": "engineering_mapping_adopted_runtime_and_GPU_HOLD",
+  "symlinks_allowed": false,
+  "target_created": false,
+  "unchanged_raw_content_and_capture_timing": true,
+  "unchanged_science": true,
+  "utc": "2026-10-21T01:20:08.071926+00:00"
+}

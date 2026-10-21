@@ -1,0 +1,79 @@
+{
+  "Slurm_commands": 0,
+  "actual_P_verified": false,
+  "actual_install_performed": false,
+  "checks": [
+    "shared_writer_lock",
+    "CAS_state_before",
+    "pending_and_reservation",
+    "source173",
+    "no_overwrite",
+    "actual_P_verify",
+    "root_authorization_validator",
+    "actual_entry_readiness_validator",
+    "admission_stdout_builder",
+    "no_GPU_scientific_authorization"
+  ],
+  "entrypoint": ".local/integrate_goal_full200_20261021T0110_v3.py",
+  "entrypoint_sha256": "1c27de743e7862aef6a618f937ac0a356b993c834ebb1b5a4cc3c90224627f7b",
+  "fixed_blocker": "Runtime install map uses path; dispatcher map continues destination.",
+  "install_file_count": 13,
+  "install_files": [
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/ast_gate_v2.py",
+      "sha256": "a6674a47067ffaab2eddd6b4841127a088987e0e9dbaca018a63c671abb1f487"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/ast_observer_v2.py",
+      "sha256": "e88222ea96c290019b2ec838ff68fe25a9f94d115ae996d92735e18e4cf0800e"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/config.json",
+      "sha256": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/consumer.py",
+      "sha256": "c12a6a5b99c4e34ff19f535a4725fecd9fcabc70ba1f37dc2c6c32c979ad3c4b"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/entry.py",
+      "sha256": "1b640f36962c1278b4a40af634ac4cb0793e7baf00840dd40e5fbeaf4c1ade15"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/observer_v3.py",
+      "sha256": "bd60cb3b97db443f0953d53cd0a7e0719f437807716bda0ef462610495572f23"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/paired_input_gate_v1.py",
+      "sha256": "c5ead7c8b0442d2d0f110257c118a7bfb958c43557175864040a8773f5245efa"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/run.slurm",
+      "sha256": "68b4d7eb5804b7816425f10ab7a9b51f7bccdc7eba846675d94a47fc7462f780"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/specification.json",
+      "sha256": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/storage.py",
+      "sha256": "61ffc7702ca9ce2c9f12419017416b3bf8fea852049844310d5b10f4a9c7ea37"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_gate_v1/package_manifest.json",
+      "sha256": "2767f20cdd3b862138f590d65563e1bad844cfe14e6fe41aecf2854fc4f0baec"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_dispatch_v1/dispatch.py",
+      "sha256": "8d3e282946c300f072a13c1b4a658f92b3e25cfb3130a0ad63ab186fe6386b3c"
+    },
+    {
+      "destination": "scripts/ops/formal_goal_full200_dispatch_v1/scope.json",
+      "sha256": "4843bd1e878be583597ddf9740fb543f96444b5b0d7b08ae69786fe7978d4df3"
+    }
+  ],
+  "previous_unexecuted_helper_sha256": "8b7a2f0202222eb759507cba9a691a03aec02bf692eaa1dbf2b51115285d0b01",
+  "requires_root_current_state_CAS": true,
+  "root_authorization_written": false,
+  "status": "passed_static_contract_only"
+}

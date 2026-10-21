@@ -1,0 +1,592 @@
+{
+  "Slurm_submitted": false,
+  "actual_live_projection_sha256": "a6099a9d38684cca5f45a198ff664e8bec470a3b662f5da898284dfbf8183017",
+  "actual_live_state_sha256": "40e7b58265a49ef61b8a02a793d3ce96c22bb84c93eae14a0b6bcf196ffd221a",
+  "actual_new_P_entry_verified": false,
+  "actual_occupied_GPU_jobs": [],
+  "actual_old599_reconstruction_sha256": "df5053bf3fe3813844f73a7547977969bcdcf700586b3fff1c3d2c1d33e353e0",
+  "actual_registered_jobs": 301,
+  "canonical_gateway_installed": false,
+  "final_values_read": false,
+  "installed_old10_sources_verified": true,
+  "kind": "Object_single_error_native_gateway_CPU_report",
+  "negative": [
+    {
+      "check": "repeat existing output/audit rejected",
+      "error": "prior audit or invocation",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops publish",
+      "error": "publish",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after publish",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops submit",
+      "error": "submit",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after submit",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops fact_sbatch_result.json",
+      "error": "fact_sbatch_result.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after fact_sbatch_result.json",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops actual_held",
+      "error": "actual_held",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after actual_held",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops observe_new",
+      "error": "observe_new",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after observe_new",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops fact_registered_held.json",
+      "error": "fact_registered_held.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after fact_registered_held.json",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops fact_release_attempt.json",
+      "error": "fact_release_attempt.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after fact_release_attempt.json",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops release_before_effect",
+      "error": "release_before_effect",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after release_before_effect",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops release_after_effect",
+      "error": "release_after_effect",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after release_after_effect",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops fact_release_result.json",
+      "error": "fact_release_result.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after fact_release_result.json",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops actual_released",
+      "error": "actual_released",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after actual_released",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops committed",
+      "error": "committed",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after committed",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops cas_before_1",
+      "error": "cas_before_1",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after cas_before_1",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops cas_before_2",
+      "error": "cas_before_2",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after cas_before_2",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops cas_before_3",
+      "error": "cas_before_3",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after cas_before_3",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "lost original ACK setup",
+      "error": "submit",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "cannot invent missing original ACK",
+      "error": "original ACK absent; unknown outcome remains HOLD, never resubmit",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "saved ACK unresolved held setup",
+      "error": "actual_held",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "registered held crash setup",
+      "error": "fact_registered_held.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "release uncertainty before effect setup",
+      "error": "release_before_effect",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "unknown release stillheld not resent",
+      "error": "held/released state incompatible; no resend",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "release lost response setup",
+      "error": "release_after_effect",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "ACK tampering fixture",
+      "error": "actual_held",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "saved original argv mismatch",
+      "error": "original ACK argv differs",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "registered identity tamper fixture",
+      "error": "fact_registered_held.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "registered source drift cannot be reconciled by ACK alone",
+      "error": "registered original identity/argv/source drift",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "transaction instance single use",
+      "error": "single-use transaction",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 1, 'stdout': '9900001\\n'}",
+      "error": "sbatch uncertain nonzero result",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 0, 'stdout': ''}",
+      "error": "missing/ambiguous/old original ACK",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 0, 'stdout': '9900001\\n9900002\\n'}",
+      "error": "missing/ambiguous/old original ACK",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 0, 'stdout': 'Submitted batch job 9900001'}",
+      "error": "missing/ambiguous/old original ACK",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 0, 'stdout': '3021394\\n'}",
+      "error": "missing/ambiguous/old original ACK",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects cost",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects status",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects name",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects token",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects GPU",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects missing",
+      "error": "terminal confirmation missing allocation",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "unknown actual state refuses live projection",
+      "error": "unknown actual scheduler state",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "missing original accounting refuses projection",
+      "error": "missing registered allocation",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "squeue error never treated as empty queue",
+      "error": "squeue failed: Invalid job id specified",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "active queue disappearance stops projection",
+      "error": "active accounting/queue race or missing live job; retry read-only only",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "foreign active queue ID refuses projection",
+      "error": "unexpected queue row",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation root_submission_hold",
+      "error": "root submission hold",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation reserved_GPU_slots",
+      "error": "all modes/reservations exceed8",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation blocked_pairs",
+      "error": "controller completion differs",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation controller_job_id",
+      "error": "controller completion differs",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "science matrix/sealed gate test_opened",
+      "error": "final must remain sealed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "science matrix/sealed gate completed_final_trials",
+      "error": "final must remain sealed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "science matrix/sealed gate global_release_created",
+      "error": "final must remain sealed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "science matrix/sealed gate root_and_independent_completed_arms",
+      "error": "root72 completion absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "missing accounting cannot normalize",
+      "error": "all registered accounting required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "old cost/failure identity status",
+      "error": "unknown/stale allocation blocks",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "old cost/failure identity exit_code",
+      "error": "unknown/stale allocation blocks",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "old cost/failure identity elapsed_seconds",
+      "error": "original allocation/cost changed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "old cost/failure identity gpus",
+      "error": "original allocation/cost changed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "duplicate actual register ID",
+      "error": "duplicate/invalid registry ID",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation JobId",
+      "error": "actual active Slurm identity differs JobId",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation JobName",
+      "error": "actual active Slurm identity differs JobName",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Comment",
+      "error": "actual active Slurm identity differs Comment",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Account",
+      "error": "actual active Slurm identity differs Account",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Partition",
+      "error": "actual active Slurm identity differs Partition",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation StdOut",
+      "error": "actual active Slurm identity differs StdOut",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Requeue",
+      "error": "actual held/new Slurm resource differs Requeue",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation TimeLimit",
+      "error": "actual held/new Slurm resource differs TimeLimit",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation ExcNodeList",
+      "error": "actual held/new Slurm resource differs ExcNodeList",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation NumCPUs",
+      "error": "actual held/new Slurm resource differs NumCPUs",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation MinMemoryNode",
+      "error": "actual held/new Slurm resource differs MinMemoryNode",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Command",
+      "error": "actual held/new Slurm resource differs Command",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation WorkDir",
+      "error": "actual held/new Slurm resource differs WorkDir",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Restarts",
+      "error": "actual held/new Slurm resource differs Restarts",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation QOS",
+      "error": "actual held/new Slurm resource differs QOS",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation TresPerNode",
+      "error": "one registered requested GPU required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation JobState",
+      "error": "must remain held before registration/release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Reason",
+      "error": "must remain held before registration/release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "cannot register already-running unexpected initial submission RUNNING",
+      "error": "must remain held before registration/release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "cannot register already-running unexpected initial submission COMPLETED",
+      "error": "must remain held before registration/release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "duplicate scontrol key",
+      "error": "duplicate scontrol field",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "multiple scontrol jobs",
+      "error": "single actual scontrol row required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "path traversal and sealed",
+      "error": "unsafe relative path",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "sealed payload",
+      "error": "restricted path",
+      "error_type": "ValueError"
+    }
+  ],
+  "negative_count": 97,
+  "new_GPU_seconds": 0,
+  "new_scientific_trials": 0,
+  "old_production_sources": {
+    "scripts/ops/formal_object_single_error_v1/adoption.py": "0692069e416b895bd667042c5d24f6f708037664d3ca168a294356e77011a8f3",
+    "scripts/ops/formal_object_single_error_v1/constants.py": "5c1bfbcd41cd25e6769018cabef19c2f8f66d7b364fb8f7069aa209a4f21f68f",
+    "scripts/ops/formal_object_single_error_v1/entry.py": "75553c3207815065c17951b9337b6221a9c3118fb917313f78859c5118958b94",
+    "scripts/ops/formal_object_single_error_v1/execution.py": "ff5b1e290d6841f55a8e7e8565ba82a612d7bc94223beadbea417f9787798319",
+    "scripts/ops/formal_object_single_error_v1/fixed.py": "6766626cf072e9cff149e85a785ea8e8231f30cd8cd555ac4b2c14a8ed8a5bc2",
+    "scripts/ops/formal_object_single_error_v1/gateway_contract.py": "480b4932cf7d053647d8f92617cf0c10516b0242b81db98d7e7bfb88945a4060",
+    "scripts/ops/formal_object_single_error_v1/iterator.py": "24bc113599469ce6c95c66a9b9fc49f3f3f5261e10c08ab4e37b4a93ca8d597e",
+    "scripts/ops/formal_object_single_error_v1/reviewer.py": "c0aa1fc3d7c1607032897d7eede009bb989753daf58911d2b3351b4df7a030a2",
+    "scripts/ops/formal_object_single_error_v1/scope.json": "2d63670412abc28d3217242151ebf82f309ea93c1bb0e90478d817cf58d4a7b4",
+    "scripts/ops/formal_object_single_error_v1/wrapper.py": "8a0e511abb5fc65ad7e5fa89e5d47021076a6d77f495f0cfaca15f3687805e63"
+  },
+  "ordinary_resume": false,
+  "original_GPU_seconds": 6713,
+  "positive": [
+    "one held submission and one release",
+    "historical row preserved and pending only cleared after release evidence",
+    "durable pending before submit and registration before release",
+    "common supervisor original comment/name preserved",
+    "repeat did not resubmit",
+    "durable pending retained publish",
+    "no repeat sbatch publish",
+    "durable pending retained submit",
+    "no repeat sbatch submit",
+    "durable pending retained fact_sbatch_result.json",
+    "no repeat sbatch fact_sbatch_result.json",
+    "durable pending retained actual_held",
+    "no repeat sbatch actual_held",
+    "durable pending retained observe_new",
+    "no repeat sbatch observe_new",
+    "durable pending retained fact_registered_held.json",
+    "no repeat sbatch fact_registered_held.json",
+    "durable pending retained fact_release_attempt.json",
+    "no repeat sbatch fact_release_attempt.json",
+    "durable pending retained release_before_effect",
+    "no repeat sbatch release_before_effect",
+    "durable pending retained release_after_effect",
+    "no repeat sbatch release_after_effect",
+    "durable pending retained fact_release_result.json",
+    "no repeat sbatch fact_release_result.json",
+    "durable pending retained actual_released",
+    "no repeat sbatch actual_released",
+    "durable pending retained committed",
+    "no repeat sbatch committed",
+    "durable pending retained cas_before_1",
+    "no repeat sbatch cas_before_1",
+    "durable pending retained cas_before_2",
+    "no repeat sbatch cas_before_2",
+    "durable pending retained cas_before_3",
+    "no repeat sbatch cas_before_3",
+    "unknown ACK never resubmitted/released",
+    "unique saved original ACK can register held and release once",
+    "registered-before-release crash reconciles without resubmission",
+    "release not resent when actual state held",
+    "lost release response reconciles actual live state without resend",
+    "read-only transaction no state/file/Slurm mutation",
+    "incomplete prior row blocks mode",
+    "incomplete prior row blocks logical_trial_id",
+    "incomplete prior row blocks stage_key",
+    "incomplete prior row blocks invocation",
+    "incomplete prior row blocks run_root",
+    "incomplete prior row blocks linked_failure_sha256",
+    "incomplete prior row blocks name",
+    "incomplete prior row blocks slurm_comment",
+    "exact held/requeue/resources/entry argv",
+    "stale registry terminal requires two full actual rows without rewriting original registry",
+    "actual live IDs alone feed live queue query",
+    "real all-mode projection rebuilt from saved registered identities and actual Slurm rows",
+    "real released lease measured without changing owner/inode",
+    "all registered raw sacct rows independently reparsed",
+    "actual full terminal rows stable across two saved queries",
+    "exact held original ACK identity valid",
+    "real599 adoption reconstructed with all original identities/costs",
+    "actual staged metadata objects rebuild full original100/six scientific guard without publishing",
+    "no actual invocation published by CPU tests /share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+    "no actual invocation published by CPU tests /ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+    "source immutable during tests"
+  ],
+  "positive_count": 62,
+  "production_admitted": false,
+  "retained_failures_and_negative_outcomes": true,
+  "schema": "formal_main_v2",
+  "source173_verified": true,
+  "source_files": {
+    "build.py": "a7f08f90a44ba7eac2b8193e597beced79afbe73f1283ef2fd82f40b83519207",
+    "gateway.py": "9a6f8503cd2e4b2538787e4afd51304bdbfe99c03749b7f445e4cd5b531e2408",
+    "run.slurm": "5a461d65f443145143730b3e83967c5de3ae9f126e402021d9219bc41504ec31"
+  },
+  "status": "passed_CPU_gateway_candidate"
+}

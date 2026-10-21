@@ -1,0 +1,16 @@
+{
+  "original_source": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_full200_author_20261021T0110_v2/cpu_consumer_v2.py",
+  "original_sha256": "e3b69e649e99ba5ed587b2919da833697a59b7298a9c1401d162cc90c6710cc4",
+  "derived_sha256": "eb2c7c4c4ebed1c9e16cded170fba5ba0dd79e300bc59b1c916fe751a26e4316",
+  "replacements": [
+    [
+      "D=Path(__file__).parent;R=D.parents[1];OLD=R/'.local/goal_full200_author_20261021T0110';K=D/'package'",
+      "D=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_full200_author_20261021T0110_v2');R=D.parents[1];OLD=R/'.local/goal_full200_author_20261021T0110';K=D/'package'"
+    ],
+    [
+      "O=D/'CPU_consumer_v2';O.mkdir(exist_ok=False);checks=[];rejections=0;positive=0",
+      "O=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/downstream_runtime_independent_20261021T0110/Goal_full200/v2/CPU_replay');O.mkdir(exist_ok=False);checks=[];rejections=0;positive=0"
+    ]
+  ],
+  "scope": "Only __file__ location and private output path; functions, predicates, actual author package and original CPU raw inputs unchanged. No production assertions derived beyond original explicitly declared CPU fixture test."
+}

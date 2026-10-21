@@ -1,0 +1,177 @@
+{
+  "GPU_execution_authorized": false,
+  "Git_operations": 0,
+  "P_written": false,
+  "Slurm_queries": 0,
+  "actual_P_verified": false,
+  "all_query_raw_five_components_required": true,
+  "author_delivery_manifest": {
+    "bytes": 4975,
+    "path": ".local/goal_full200_author_20261021T0110_v2/delivery_manifest.json",
+    "sha256": "e55ba41e0ea407821035784ce1659cfeac07c5ac732334195f943440ed831613"
+  },
+  "blockers": [],
+  "config": {
+    "bytes": 2367,
+    "path": ".local/goal_full200_author_20261021T0110_v2/package/config.json",
+    "sha256": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae"
+  },
+  "config_sha256": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae",
+  "final_sealed": true,
+  "independent_replayed_tests": [
+    {
+      "bytes": 9040,
+      "check_count": 86,
+      "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/CPU_full200_v3/report.json",
+      "rejects": null,
+      "scope": "source/CPU fixture; real old metadata where explicitly identified; no new200 GPU terminal",
+      "sha256": "bd84c5ce79db95b2a630679612b0dfb76136cd5e0f2535b19528e32b8e3bce67"
+    },
+    {
+      "bytes": 109437,
+      "check_count": 872,
+      "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/CPU_outer_v3/report.json",
+      "rejects": 275,
+      "scope": "source/CPU fixture; real old metadata where explicitly identified; no new200 GPU terminal",
+      "sha256": "0f4a8c389f3449c45adddc1e064e98c22ffa7ebae83d3a16ec6400fe2b81e579"
+    },
+    {
+      "bytes": 2596,
+      "check_count": 22,
+      "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/CPU_consumer_v2/report.json",
+      "rejects": 15,
+      "scope": "source/CPU fixture; real old metadata where explicitly identified; no new200 GPU terminal",
+      "sha256": "708cb004a498f1e647e40517ac718258a20281529867d0bbdb50dd345d516b9c"
+    },
+    {
+      "bytes": 14812,
+      "check_count": 74,
+      "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/v2/CPU_replay/report.json",
+      "rejects": 56,
+      "scope": "source/CPU fixture; real old metadata where explicitly identified; no new200 GPU terminal",
+      "sha256": "cb1bd049ec3b37addea3aa0614f857e5124971f0ca680b16b5c5e050ed84da11"
+    },
+    {
+      "bytes": 37618,
+      "check_count": 123,
+      "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/v2/independent_checks.json",
+      "rejects": 24,
+      "scope": "source/CPU fixture; real old metadata where explicitly identified; no new200 GPU terminal",
+      "sha256": "e9e51e7e7692be7b9dea2fa3264f818a583f316612ad50c23406df7ff09420f8"
+    }
+  ],
+  "install_files": {
+    "bytes": 2692,
+    "path": ".local/goal_full200_author_20261021T0110_v2/install_files.json",
+    "sha256": "e14f1a42447ac05758f6f55559136353de05205f780849461b72add3ab3e9846"
+  },
+  "kind": "Goal_full200_v2_independent_source_CPU_review",
+  "limitations": [
+    "CPU fixture adaptation explicitly changes CPU marker assertion and two image dimensions; synthetic loader records are labelled and not actual GPU evidence. The production function rejects unmodified CPU arrays.",
+    "The 86 original-loop and 872 outer/source checks are inherited from this independent audit against exactly unchanged runtime sources, not rerun as new actual P acceptance.",
+    "Original old58 complete metadata chain demonstrates historical identities only. The new fixed200 full terminal does not yet exist.",
+    "Equal executed commands do not prove intermediate simulator state/RNG equality; old missing q9 arrays cannot be reconstructed and old200 is not admitted."
+  ],
+  "new_GPU_submissions": 0,
+  "new_scientific_trials": 0,
+  "old200_HOLD": true,
+  "original_counterexample_now_rejected": true,
+  "original_v1_counterexample": {
+    "bytes": 1120,
+    "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/counterexample_v1/blocker.json",
+    "sha256": "371b76c3e4144b45bbc6a28a9e90e6f3d995808b0c400300abb158c6e7e5ba8a"
+  },
+  "other_consumer_AST_unchanged": true,
+  "package_files": {
+    "scripts/ops/formal_goal_full200_gate_v1/ast_gate_v2.py": "a6674a47067ffaab2eddd6b4841127a088987e0e9dbaca018a63c671abb1f487",
+    "scripts/ops/formal_goal_full200_gate_v1/ast_observer_v2.py": "e88222ea96c290019b2ec838ff68fe25a9f94d115ae996d92735e18e4cf0800e",
+    "scripts/ops/formal_goal_full200_gate_v1/config.json": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae",
+    "scripts/ops/formal_goal_full200_gate_v1/consumer.py": "c12a6a5b99c4e34ff19f535a4725fecd9fcabc70ba1f37dc2c6c32c979ad3c4b",
+    "scripts/ops/formal_goal_full200_gate_v1/entry.py": "1b640f36962c1278b4a40af634ac4cb0793e7baf00840dd40e5fbeaf4c1ade15",
+    "scripts/ops/formal_goal_full200_gate_v1/observer_v3.py": "bd60cb3b97db443f0953d53cd0a7e0719f437807716bda0ef462610495572f23",
+    "scripts/ops/formal_goal_full200_gate_v1/paired_input_gate_v1.py": "c5ead7c8b0442d2d0f110257c118a7bfb958c43557175864040a8773f5245efa",
+    "scripts/ops/formal_goal_full200_gate_v1/run.slurm": "68b4d7eb5804b7816425f10ab7a9b51f7bccdc7eba846675d94a47fc7462f780",
+    "scripts/ops/formal_goal_full200_gate_v1/specification.json": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad",
+    "scripts/ops/formal_goal_full200_gate_v1/storage.py": "61ffc7702ca9ce2c9f12419017416b3bf8fea852049844310d5b10f4a9c7ea37"
+  },
+  "package_manifest": {
+    "bytes": 1500,
+    "path": ".local/goal_full200_author_20261021T0110_v2/package/package_manifest.json",
+    "sha256": "2767f20cdd3b862138f590d65563e1bad844cfe14e6fe41aecf2854fc4f0baec"
+  },
+  "package_manifest_sha256": "2767f20cdd3b862138f590d65563e1bad844cfe14e6fe41aecf2854fc4f0baec",
+  "previous_version_rejected": {
+    "bytes": 1955,
+    "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/v1_independent_review.json",
+    "sha256": "3b950e0b91deef0dbd47786dbfaa5dd63bb4b500c7895da039946d19db3880c5"
+  },
+  "production_admitted": false,
+  "production_ready": false,
+  "production_sources": {
+    "scripts/ops/formal_goal_full200_gate_v1/ast_gate_v2.py": "a6674a47067ffaab2eddd6b4841127a088987e0e9dbaca018a63c671abb1f487",
+    "scripts/ops/formal_goal_full200_gate_v1/ast_observer_v2.py": "e88222ea96c290019b2ec838ff68fe25a9f94d115ae996d92735e18e4cf0800e",
+    "scripts/ops/formal_goal_full200_gate_v1/config.json": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae",
+    "scripts/ops/formal_goal_full200_gate_v1/consumer.py": "c12a6a5b99c4e34ff19f535a4725fecd9fcabc70ba1f37dc2c6c32c979ad3c4b",
+    "scripts/ops/formal_goal_full200_gate_v1/entry.py": "1b640f36962c1278b4a40af634ac4cb0793e7baf00840dd40e5fbeaf4c1ade15",
+    "scripts/ops/formal_goal_full200_gate_v1/observer_v3.py": "bd60cb3b97db443f0953d53cd0a7e0719f437807716bda0ef462610495572f23",
+    "scripts/ops/formal_goal_full200_gate_v1/paired_input_gate_v1.py": "c5ead7c8b0442d2d0f110257c118a7bfb958c43557175864040a8773f5245efa",
+    "scripts/ops/formal_goal_full200_gate_v1/run.slurm": "68b4d7eb5804b7816425f10ab7a9b51f7bccdc7eba846675d94a47fc7462f780",
+    "scripts/ops/formal_goal_full200_gate_v1/specification.json": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad",
+    "scripts/ops/formal_goal_full200_gate_v1/storage.py": "61ffc7702ca9ce2c9f12419017416b3bf8fea852049844310d5b10f4a9c7ea37"
+  },
+  "real_GPU_acceptance": false,
+  "remaining_production_gates": [
+    "Root exact immutable R/P publication of the 11-file package and source-only installation verification.",
+    "Actual canonical P metadata/identity/storage verification and exact root authorization; available disk is not proof of quota.",
+    "Separately audited native atomic held-ACK/CAS/all-mode8/same-Goal dispatcher and compute-node fresh storage ownership/exclusive claim.",
+    "Exactly one prospective fixed200 execution; any input gate/policy_error/storage exception halts while retaining originals and cost.",
+    "Future actual raw200 typed original consumer plus root and independent terminal review before new scientific adoption. Old200 remains HOLD; final global release is separate."
+  ],
+  "reviewed_by": "independent",
+  "schema": "formal_main_v2",
+  "scope": "source_CPU_only",
+  "source173_verified": true,
+  "source_and_real_old_loader_verification": {
+    "bytes": 1498,
+    "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/v2/source_and_historical_loader_verification.json",
+    "sha256": "6c3b3df41ccdccaa31a2b37c17d3eb3befee6487f234d1747de204f9b146a3d9"
+  },
+  "source_delta": {
+    "bytes": 717,
+    "path": ".local/goal_full200_author_20261021T0110_v2/source_delta.json",
+    "sha256": "bb6ecb59d6ec585c067067e8b672a4735e07bdb423406c3dc1e687cadb122130"
+  },
+  "state_written": false,
+  "status": "passed",
+  "storage": {
+    "P_required_bytes": 5157355520,
+    "RAW_required_bytes": 9345375040,
+    "all_original_blobs_preserved_no_truncation": true,
+    "available_bytes_not_quota": true,
+    "capacity_and_write_exceptions_fail_closed": true,
+    "raw_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_full200_20261021T0110/attempt01",
+    "requires_compute_node_fresh_capacity_owner_and_exclusive_claim": true
+  },
+  "unchanged_runtime_source_count": 9,
+  "unchanged_scientific_scope": {
+    "final_states_opened": false,
+    "methods": [
+      "A256_seed17",
+      "B256_seed17"
+    ],
+    "original_200_HOLD": true,
+    "policy_control_steps_bound": 60000,
+    "query_bound": 7600,
+    "single_attempt": true,
+    "trial_count": 200,
+    "unique_development_initial_states": 100,
+    "warmup_steps_separate": 2000
+  },
+  "v2_independent_rebuild": {
+    "bytes": 37618,
+    "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/v2/independent_checks.json",
+    "sha256": "e9e51e7e7692be7b9dea2fa3264f818a583f316612ad50c23406df7ff09420f8"
+  },
+  "version": "goal-full200-prospective-single-attempt-v1",
+  "whole_capture_and_gate_order_verified": true
+}

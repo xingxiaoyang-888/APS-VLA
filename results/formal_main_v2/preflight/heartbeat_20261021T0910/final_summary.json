@@ -1,0 +1,657 @@
+{
+  "Goal_bounded_CPU_diagnostic": {
+    "additional1000_HOLD": true,
+    "author_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic/delivery_manifest_v3_original.json",
+      "sha256": "25ca8079785f3409d35be85e7a62044ec20e6674b1c36ffbefcc66056a66ed18"
+    },
+    "cause_identified": false,
+    "checks": 2068,
+    "classifier_cases": 14,
+    "design_negative": 30,
+    "design_positive": 1,
+    "independent_design_negative": 20,
+    "independent_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic_independent/delivery_manifest_original.json",
+      "sha256": "52991b019aacd2534fb13081db0d85e13fefe19d9655177eec07679e5135d7a3"
+    },
+    "independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic_independent/final_independent_review.json",
+      "sha256": "1f33da03cb3a1680ead9d090d12889dc334534008cac67f0ed169a10596da901"
+    },
+    "independent_status": "passed",
+    "maximum_attempts": 1,
+    "maximum_control_steps": 60000,
+    "maximum_policy_queries": 7600,
+    "maximum_trials": 200,
+    "metadata_errata_and_old_validator_gaps_retained": true,
+    "mismatch_pair_in_original200": {
+      "ordinals": [
+        57,
+        58
+      ],
+      "source_state_index": 42,
+      "task_id": 2
+    },
+    "new_GPU_jobs": [],
+    "old200_HOLD": true,
+    "old200_mismatch_distinct_from_engineering_trace_divergence": true,
+    "original_author_evidence_checks": 1235,
+    "policy_call_ordinal": 10,
+    "production_ready": false,
+    "prospective_specification": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic/prospective_full200_specification.json",
+      "sha256": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad"
+    },
+    "query_index": 9,
+    "query_index_zero_based": true,
+    "root_design_decision": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0758/Goal_prospective_root_decision.json",
+      "sha256": "06911f2ba90ffa9e7df233e0793c0989e0d15edf260b18a2fa2fb963ef0912d7"
+    },
+    "step": 72,
+    "two_engineering_trace_difference": {
+      "ordinal": 30,
+      "source_state_index": 12,
+      "task_id": 1
+    }
+  },
+  "Goal_full200": {
+    "authorization": {
+      "bytes": 2507,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/root_authorization.json",
+      "sha256": "07a265e02fd283603b1ec4c7e555d75d00318e821c824f02dbf419988987dc5b"
+    },
+    "automatic_retry": false,
+    "dispatch_admission": {
+      "bytes": 3495,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_admission.json",
+      "sha256": "7b6b64397f96175e1184c956766739ab8261bcfa71cd0faef0f7e275e85381a5"
+    },
+    "dispatch_entrypoint_sha256": "8d3e282946c300f072a13c1b4a658f92b3e25cfb3130a0ad63ab186fe6386b3c",
+    "final_states_opened": false,
+    "job_id": "3054717",
+    "maximum_attempts": 1,
+    "maximum_control_steps": 60000,
+    "maximum_policy_queries": 7600,
+    "maximum_trials": 200,
+    "new_attempt_acceptance_requires_raw_terminal_review": true,
+    "new_development_accepted": 0,
+    "old200_adopted": false,
+    "old_cause_explained": false,
+    "original_ACK": {
+      "bytes": 1010,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_attempt01/sbatch_result.json",
+      "sha256": "50a20e43a29ad77d8354152f052905a34d91304e446d19537b98be289424a73a"
+    },
+    "original_control_loop_preserved": true,
+    "original_release": {
+      "bytes": 81,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_attempt01/release_result.json",
+      "sha256": "833cb4646d4ffe597cea4efe393ca18c1c03e7a3149eb82e9f9d7bd7435ccce7"
+    },
+    "package_manifest_sha256": "2767f20cdd3b862138f590d65563e1bad844cfe14e6fe41aecf2854fc4f0baec",
+    "raw_observation_root": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_full200_20261021T0110/attempt01",
+    "remaining1000_scientific_HOLD": true,
+    "root_runtime_verification": {
+      "bytes": 3735,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_actual_P_capture.json",
+      "sha256": "28fe306af50f2fc9e31be87c74c725e940ca477ac7e58caa183ab2d37d032e4b"
+    },
+    "runtime_entrypoint_sha256": "1b640f36962c1278b4a40af634ac4cb0793e7baf00840dd40e5fbeaf4c1ade15",
+    "status": "one_prospective_fixed200_attempt_registered",
+    "unique_original_development_states": 100
+  },
+  "Goal_original200_and_new_science_HOLD": true,
+  "Goal_original200_and_remaining1000_HOLD": true,
+  "Goal_paired_input_engineering": {
+    "GPU_seconds": 840,
+    "acceptance": {
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0653/Goal_terminal_acceptance.json",
+      "sha256": "0ce97bb4913eb17d8b7a5dd81f05b16e60de62d60445d6b304033fff8670d49e"
+    },
+    "accepted_prefix_trials": 58,
+    "executed_steps": 7302,
+    "job_id": "3054127",
+    "nonweight_archive": {
+      "path": "results/formal_main_v2/engineering/goal_paired_input_gate_20261020T2156/attempt01/observer/blob_archive_manifest.json",
+      "sha256": "471ce3a437018859550bba77c6b456b6c5fa8ca52477a41dc6bbf551a7e58be8"
+    },
+    "old200_adopted": false,
+    "old_cause_identified": false,
+    "old_failure_repaired": false,
+    "paired_inputs": 29,
+    "queries": 940,
+    "scientific_trials_added": 0,
+    "status": "root_and_independent_engineering_only_accepted",
+    "terminal_evidence_reviewed": true
+  },
+  "O2A_released": false,
+  "Object599": {
+    "adoption_table": {
+      "path": "results/formal_main_v2/execution/object_single_error_v1/legacy599_adoption_rows.jsonl",
+      "sha256": "ac792e8d88f251f097f3f0e110e6c32aa45dbacd103404c0189b3bebf56ccb5e"
+    },
+    "all_original_GPU_seconds": 6713,
+    "independent_compatibility_passed": true,
+    "independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2253/Object599_independent/independent_review.json",
+      "sha256": "62c0a39784953b14f061ae7d161813f5e4bbfa5c8db39297e7047327b28463f7"
+    },
+    "legacy599_root_adopted": true,
+    "new_trial_accepted": false,
+    "normal_trials": 599,
+    "original_policy_error_retained": true,
+    "production_adopted": false,
+    "production_runtime_installed": true,
+    "retained_original_trials": 600,
+    "root_adoption": {
+      "path": "results/formal_main_v2/execution/object_single_error_v1/root_legacy_adoption.json",
+      "sha256": "c431646cbac00f461177e95361fb8d31d66c78bcfbbfc2b5c766edb8eabd6d24"
+    },
+    "single_failure_CPU_candidate_author_negative_tests": 74,
+    "single_failure_CPU_candidate_author_positive_tests": 24,
+    "single_failure_CPU_candidate_independent_review_completed": true,
+    "single_failure_CPU_candidate_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2253/Object_single_error_candidate/delivery_manifest_original.json",
+      "sha256": "fd5af505956b76add76fbd2e2ad3d8fff4f5910ae6e8cdf9e95d662d20b2dec7"
+    },
+    "single_failure_GPU_authorized": true,
+    "single_failure_job_id": "3054409",
+    "single_failure_repair_CPU_candidate_private": ".local/object_single_error_candidate_20261020T2253",
+    "single_failure_status_at_last_observation": "COMPLETED",
+    "whole600_production_adopted": false
+  },
+  "Object_single_error_CPU_review": {
+    "author_negative_checks": 74,
+    "author_positive_checks": 24,
+    "canonical599_adoption_independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_independent/canonical599_adoption_addendum.json",
+      "sha256": "d9d6de64311c45639a40a028e75a2697ac5cb605b892e881c50e81ab4b4e5ecf"
+    },
+    "independent_checks": 5472,
+    "independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_independent/independent_review.json",
+      "sha256": "7aefd070fe5e437c7e8c0636db7301efeb9bd5cb0484665921b70aad5d6c6481"
+    },
+    "independent_status": "passed_CPU_candidate_only_with_production_blockers",
+    "legacy599_not_new_runtime_trials": true,
+    "legacy_adoption_checks": 31550,
+    "legacy_adoption_negative_outcomes_retained": 79,
+    "production_ready": false,
+    "supplementary_boundary_tests": 16
+  },
+  "Object_single_error_linked_attempt": {
+    "authorization": {
+      "bytes": 3661,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/submission_authorization.json",
+      "sha256": "c4554b5032284526495a973f3ca58ab054dc907595d34520eeec0852dd92842d"
+    },
+    "automatic_retry": false,
+    "elapsed_GPU_seconds_at_last_observation": 326,
+    "invocation": {
+      "bytes": 2251,
+      "path": "results/formal_main_v2/invocations/object_single_error_task08_state0049_dense_attempt01.json",
+      "sha256": "b7e8469b22a82838594a15208cc1f11d294d5950c5c2cd97c2ab7eb20688bf20"
+    },
+    "job_id": "3054409",
+    "new_trial_accepted": false,
+    "old599_legacy_adopted": true,
+    "old_policy_error_retained": true,
+    "original_ACK": {
+      "bytes": 925,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/sbatch_result.json",
+      "sha256": "ba4916ca823bf5d2f61bedc1fba3fc6b856a167f4496be7fd74a78257288728b"
+    },
+    "original_ACK_reconciliation": {
+      "bytes": 237224,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/reconciled_release.json",
+      "sha256": "e687ede154fc4213a34a40773994317e2f795d70facb304705065548f5dff7b5"
+    },
+    "original_release": {
+      "bytes": 81,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/release_result.json",
+      "sha256": "7410fea67d62cf3116568ed4a96240746e49584e9864e800c02d2047de75674d"
+    },
+    "original_three_allocation_GPU_seconds": 6713,
+    "scientific_terminal_not_yet_accepted": true,
+    "status_at_last_observation": "COMPLETED"
+  },
+  "Object_single_error_production_candidate": {
+    "CPU_report_scope": "Object_single_error_production_candidate_independent_review",
+    "actual_P_verified": false,
+    "author_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production/delivery_manifest_original.json",
+      "sha256": "c7e40a9cb8474862da58fe0b4cc822d2b32f3cfcbbbfcd2d920e634eddf12485"
+    },
+    "derived_loop_provenance_distinct_required": true,
+    "independent_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production_independent/delivery_manifest_original.json",
+      "sha256": "bf5247dee86033df0edbc22f3b88c649977037e77d50f8d18af6de4b1818df4e"
+    },
+    "independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production_independent/independent_review.json",
+      "sha256": "bdf8af2bdfe21954047a6b6209f0a4f3beac73ecb260df4bff33b69b5fa58baa"
+    },
+    "independent_status": "passed_CPU_candidate_with_production_HOLD",
+    "native_submit_implemented": false,
+    "new_GPU_jobs": [],
+    "original_frozen_loop_preserved_required": true,
+    "production_ready": false,
+    "raw_consumer_required": true,
+    "remaining_production_gates": [
+      "No native atomic Slurm gateway. Future root gateway must derive registered_projection from actual state.registered_jobs, query all project modes and exact name/comment/account/partition/output, probe real lifecycle lease, and reconcile original pending/token/ACK under the shared writer lock and CAS. Pure CPU projections are not live capacity evidence.",
+      "Canonical R/P publication and the exact new plan/root repair/complete source admission have not occurred; the new actual-P --verify has not run. Passing the original P wrapper is not new-entry verification.",
+      "A separately independently reviewed exact native gateway and root readiness are required before one new immutable invocation or GPU submission.",
+      "No new single-trial GPU raw exists. Future real registered allocation, complete pull allowlist, original adapter lifecycle, action/iterator journals, raw report, full costs, original consumer and separate independent terminal review must close before accepting the new result. This is a future validation gate, not an asserted current CPU defect."
+    ],
+    "runtime_installed": false
+  },
+  "Spatial588": {
+    "complete_mixed_panel_trials": 600,
+    "completed_new_trials_accepted": 588,
+    "cost_GPU_seconds": 7030,
+    "current_allocation_GPU_seconds": 6635,
+    "final_release": false,
+    "independent_review": {
+      "bytes": 2039500,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Downstream_runtime_independent/Spatial_terminal/independent_review.json",
+      "sha256": "6c3bb9e368d738d547017f4abfd4d3e2f504ab85c79b0ce9dc788ca8e4a13c34"
+    },
+    "job_id": "3054201",
+    "legacy_compatible_trials": 12,
+    "origin_breakdown": {
+      "3022743": {
+        "completed_trials": 12,
+        "methods": {
+          "A128_seed17": {
+            "completed_trials": 2,
+            "successes": 2
+          },
+          "B128_seed17": {
+            "completed_trials": 2,
+            "successes": 2
+          },
+          "dense": {
+            "completed_trials": 2,
+            "successes": 2
+          },
+          "uniform128": {
+            "completed_trials": 2,
+            "successes": 2
+          },
+          "uniform256": {
+            "completed_trials": 2,
+            "successes": 2
+          },
+          "uniform64": {
+            "completed_trials": 2,
+            "successes": 2
+          }
+        },
+        "origin": "legacy_compatible",
+        "source_job_id": "3022743",
+        "unique_initial_states": 2
+      },
+      "3054201": {
+        "completed_trials": 588,
+        "methods": {
+          "A128_seed17": {
+            "completed_trials": 98,
+            "successes": 93
+          },
+          "B128_seed17": {
+            "completed_trials": 98,
+            "successes": 95
+          },
+          "dense": {
+            "completed_trials": 98,
+            "successes": 96
+          },
+          "uniform128": {
+            "completed_trials": 98,
+            "successes": 85
+          },
+          "uniform256": {
+            "completed_trials": 98,
+            "successes": 94
+          },
+          "uniform64": {
+            "completed_trials": 98,
+            "successes": 58
+          }
+        },
+        "origin": "current_action",
+        "source_job_id": "3054201",
+        "unique_initial_states": 98
+      }
+    },
+    "profiling_authorized": false,
+    "root_acceptance": {
+      "bytes": 14027,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Spatial3054201_root_acceptance.json",
+      "sha256": "cc9abb12970f0d46fcd2eccb4cde7454834cb8e2f8e6c89b3621a29522bc6ff4"
+    },
+    "root_and_independent_terminal_accepted": true,
+    "status_at_last_observation": "COMPLETED"
+  },
+  "accepted_count_basis": "7000 complete development-batch rows =6388 current+600 compatible Long+12 compatible Spatial. Object599 adopted legacy rows remain separate pending the one linked correction and typed whole600 terminal review. Historical7600 is the retained historical acceptance catalog, not the current full-batch denominator.",
+  "accepted_fixed_observations_including_Long": 90,
+  "active_registered_GPU_jobs": [
+    "3054717"
+  ],
+  "actual_running_allocated_GPUs": 0,
+  "all_historical_accepted_development_trials": 7600,
+  "all_project_writes_server_only": true,
+  "allocated_GPU_hours": 553.4063888888888,
+  "allocated_GPU_seconds": 1992263,
+  "capacity": {
+    "findings": [],
+    "occupied": [
+      "3054717"
+    ],
+    "unknown": []
+  },
+  "compatible_development_trials": 7000,
+  "compatible_legacy_Long_trials": 600,
+  "compatible_legacy_Spatial_trials": 12,
+  "controller_completed_normally": true,
+  "controller_lease_released": true,
+  "controller_restarted": false,
+  "cost_basis": {
+    "bytes": 279765,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/latest_actual_operation_observation.json",
+    "sha256": "e74210cf407e119e1f8a838bf822194b00f1d5a26b24301145d3f499bfa3559d"
+  },
+  "cost_final_for_current_registered_set": false,
+  "cost_observed_utc": "2026-10-21T02:45:54.933817+00:00",
+  "current_action_development_trials": 6388,
+  "development_k64_statistics": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0556/Spatial_Object64_three_seed_development_statistics.json",
+    "sha256": "d327e603eb76790d1dd30f4f6cdd9b5364121343eb01cd65298cf31c1959926d"
+  },
+  "development_k64_statistics_independent": {
+    "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2156/K64_stats_independent/independent_statistics_review.json",
+    "sha256": "78ba5ea4017802ef24a4fe0c6db1f067e0cecd6825e882b9ede3b541f751610b"
+  },
+  "engineering_evidence_manifests": {
+    "0": {
+      "bytes": 303448,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_attempt01/post_release_observation.json",
+      "sha256": "88e68958535098af680ed0c8e2ee5a6fcce88d372a99c2fdcc2d8963f4507b93"
+    },
+    "1": {
+      "bytes": 5063260,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/final_state_before.json",
+      "sha256": "2e53569c6435abd3fc9d1d9898d33938205c4ddef916938ac4b6af632202f104"
+    },
+    "10": {
+      "bytes": 9993,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/actual_P_verification.json",
+      "sha256": "d5627a16185519e663a8d990cee0433f4056e7481ce7c3803331173e8a5b4c0a"
+    },
+    "11": {
+      "bytes": 6348,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/runtime_readiness.json",
+      "sha256": "5f59aaf26541db801e28f0b62905ad28cb5739a7974244f2f6b23cf88d3caa82"
+    },
+    "12": {
+      "bytes": 3661,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/submission_authorization.json",
+      "sha256": "c4554b5032284526495a973f3ca58ab054dc907595d34520eeec0852dd92842d"
+    },
+    "13": {
+      "bytes": 2251,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/prepared_invocation.json",
+      "sha256": "b7e8469b22a82838594a15208cc1f11d294d5950c5c2cd97c2ab7eb20688bf20"
+    },
+    "14": {
+      "bytes": 925,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/sbatch_result.json",
+      "sha256": "ba4916ca823bf5d2f61bedc1fba3fc6b856a167f4496be7fd74a78257288728b"
+    },
+    "15": {
+      "bytes": 270,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/release_attempt.json",
+      "sha256": "32f30a544508e8781ba46957815afc2e12030ce308a52fb66bb84f611df98073"
+    },
+    "16": {
+      "bytes": 81,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/release_result.json",
+      "sha256": "7410fea67d62cf3116568ed4a96240746e49584e9864e800c02d2047de75674d"
+    },
+    "17": {
+      "bytes": 237224,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/reconciled_release.json",
+      "sha256": "e687ede154fc4213a34a40773994317e2f795d70facb304705065548f5dff7b5"
+    },
+    "18": {
+      "bytes": 178,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/committed.json",
+      "sha256": "3f80ee590115f84edd2a4003d75d5bc17acf37a279c8e2eb287b838371bd28b9"
+    },
+    "19": {
+      "bytes": 2507,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/root_authorization.json",
+      "sha256": "07a265e02fd283603b1ec4c7e555d75d00318e821c824f02dbf419988987dc5b"
+    },
+    "2": {
+      "bytes": 14027,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Spatial3054201_root_acceptance.json",
+      "sha256": "cc9abb12970f0d46fcd2eccb4cde7454834cb8e2f8e6c89b3621a29522bc6ff4"
+    },
+    "20": {
+      "bytes": 5847,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/root_readiness.json",
+      "sha256": "63ab286d10449886c0986e0c0b0d42cb7f49c211dd9eb124284254d967855f2b"
+    },
+    "21": {
+      "bytes": 5085,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/independent_readiness.json",
+      "sha256": "e3f11199241a6082f36c3556c0698e7c8b8043d2bc1f4256e2bc3da037549259"
+    },
+    "22": {
+      "bytes": 3495,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_admission.json",
+      "sha256": "7b6b64397f96175e1184c956766739ab8261bcfa71cd0faef0f7e275e85381a5"
+    },
+    "23": {
+      "bytes": 1010,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_attempt01/sbatch_result.json",
+      "sha256": "50a20e43a29ad77d8354152f052905a34d91304e446d19537b98be289424a73a"
+    },
+    "24": {
+      "bytes": 290,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_attempt01/release_attempt.json",
+      "sha256": "e893dae69c538aa5d6ad01b37fe7fa176ed46e0aef98257d339e6aa4c36710b2"
+    },
+    "25": {
+      "bytes": 81,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_attempt01/release_result.json",
+      "sha256": "833cb4646d4ffe597cea4efe393ca18c1c03e7a3149eb82e9f9d7bd7435ccce7"
+    },
+    "26": {
+      "bytes": 178,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_attempt01/committed.json",
+      "sha256": "2dc2533380c38b22f2697471e30d0c4f37b11a82bf5b2c9b0e1e82c5e945e183"
+    },
+    "27": {
+      "bytes": 3620,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/held_dispatch_record.json",
+      "sha256": "47dc4866ac0cf3ae61fcbba113a27f68952412332ffc4bfbfdc116b3bf604384"
+    },
+    "28": {
+      "bytes": 515,
+      "path": "results/formal_main_v2/engineering/goal_full200_20261021T0110/reservation.json",
+      "sha256": "6f4619f0066715d58cb32974e5e48d114c889fdfd0ba6ab869b53b75101664f1"
+    },
+    "29": {
+      "bytes": 5721,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Downstream_runtime_independent_Goal_dispatch_manifest_archive.json",
+      "sha256": "0cf682189dde88bef6590497172aa4dae583ee50eb2a0299b2895ac15c95240b"
+    },
+    "3": {
+      "bytes": 668,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Spatial3054201_acceptance_transaction.json",
+      "sha256": "5ac3e4dbbd778d31f086e62ba2dab21160886af50bb0dd0f70d3ed5fd7196ed1"
+    },
+    "30": {
+      "bytes": 2542,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Downstream_runtime_independent/Goal_dispatch_manifest_original.json",
+      "sha256": "3a1009ef54557373a0590d97bdd22e5e0a1321153d2f7644d5824eaaf1a2f932"
+    },
+    "31": {
+      "bytes": 20103,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Downstream_runtime_independent_Goal_full200_manifest_archive.json",
+      "sha256": "161693a60ced86365b786c8dea1d12c0a1428f548b951e65dc6784d27a8f9ed0"
+    },
+    "32": {
+      "bytes": 10682,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Downstream_runtime_independent/Goal_full200_manifest_original.json",
+      "sha256": "738f4f054fd2e4387e2f4cbfb34d232befb8237b182722fc3cf0558b7558d7de"
+    },
+    "33": {
+      "bytes": 541,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Downstream_runtime_independent_Object_gateway_manifest_archive.json",
+      "sha256": "262432b4094a7c26743907218a92136eb94b87fc5371d80426b20e4e485e670e"
+    },
+    "34": {
+      "bytes": 1499,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Downstream_runtime_independent/Object_gateway_manifest_original.json",
+      "sha256": "c787f039684ced52b9325ee592b0ec2de2d6b3f5384a69cd2ec476cf831b3109"
+    },
+    "35": {
+      "bytes": 11775,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Downstream_runtime_independent_Object_transaction_manifest_archive.json",
+      "sha256": "61d01e6c79292276da2bb00d101abc24a93eda31730f7c82816fa5a7611de152"
+    },
+    "36": {
+      "bytes": 4984,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Downstream_runtime_independent/Object_transaction_manifest_original.json",
+      "sha256": "8fff4503b06c084d780b1537ae5b81ca09748b890f944a783b4dfc882dba3dd9"
+    },
+    "37": {
+      "bytes": 545,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Downstream_runtime_independent_Spatial_terminal_manifest_archive.json",
+      "sha256": "12a66bd04add6c0abfb9ce5c3d41e5d7567061ef069ba7d9cd3b20c80dbe73da"
+    },
+    "38": {
+      "bytes": 2396,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Downstream_runtime_independent/Spatial_terminal_manifest_original.json",
+      "sha256": "f28860aa977de770b7cbd1ec9e55f48ca319cac9fdbda6e74979d3df9f57a3fc"
+    },
+    "39": {
+      "bytes": 493,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_full200_delivery_manifest_archive.json",
+      "sha256": "d1a1965e32171414e9e8aea3fd2ca9aca0a3cad4b1f11a7b67978231310b8010"
+    },
+    "4": {
+      "bytes": 2470,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_source_publication.json",
+      "sha256": "da0604b6d7a56b41fee618eeb2bf15a3e6b6f1c93d84f7c0e61318903843676b"
+    },
+    "40": {
+      "bytes": 10841,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Goal_full200/delivery_manifest_original.json",
+      "sha256": "56c590f04b514de9bd3a4dcde0fcba93aa7dafe7f739f651c1ee97a1e99b0f53"
+    },
+    "41": {
+      "bytes": 503,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_full200_dispatch_delivery_manifest_archive.json",
+      "sha256": "4e7cd3eb9671665c4fe2a2c5b60bd18c10a551017c56be2faf9db5a9cd4cc71d"
+    },
+    "42": {
+      "bytes": 8309,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Goal_full200_dispatch/delivery_manifest_original.json",
+      "sha256": "d3d9cfca965d9af267c424431ecaa3a465bbf39366c5eac9d3c105c3fd6d0a80"
+    },
+    "43": {
+      "bytes": 6404,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_full200_dispatch_v2_delivery_manifest_archive.json",
+      "sha256": "c64d5d7b4d5a3fe819e8942ef6e69ec68d739039b354f529b35eb539a1bba6c5"
+    },
+    "44": {
+      "bytes": 3764,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Goal_full200_dispatch_v2/delivery_manifest_original.json",
+      "sha256": "797026fc869be61ff200cd2998449e54a5b5aa26bb2b5912bd836c773a8c1287"
+    },
+    "45": {
+      "bytes": 498,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_full200_v2_delivery_manifest_archive.json",
+      "sha256": "4f8e0a0c2dd0fbc471fddaff882c1a6951e4f8d244785043a1217898dc0542e4"
+    },
+    "46": {
+      "bytes": 4975,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Goal_full200_v2/delivery_manifest_original.json",
+      "sha256": "e55ba41e0ea407821035784ce1659cfeac07c5ac732334195f943440ed831613"
+    },
+    "47": {
+      "bytes": 515,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Object_single_error_gateway_delivery_manifest_archive.json",
+      "sha256": "57395cc6e2b0aa4ccb80e377387b9365f37bf06488fe120c3452430de90c51a4"
+    },
+    "48": {
+      "bytes": 6907,
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0110/Object_single_error_gateway/delivery_manifest_original.json",
+      "sha256": "7b0aa2781ca22773b2bfe624a51a42a19d0878638d4bf4d4e1c4c6b02fa2d95d"
+    },
+    "5": {
+      "bytes": 3735,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_actual_P_capture.json",
+      "sha256": "28fe306af50f2fc9e31be87c74c725e940ca477ac7e58caa183ab2d37d032e4b"
+    },
+    "6": {
+      "bytes": 1212,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_root_authorization_receipt.json",
+      "sha256": "8793e8513b3063fee71c5a4a4bf025a301bb521cd60d52927a4f8440b27736a8"
+    },
+    "7": {
+      "bytes": 556,
+      "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Goal_dispatch_admission_receipt.json",
+      "sha256": "195fa78d1b4c62459b5be60a295b7692d7138a5d26c3ecf3cee88a0550dcde47"
+    },
+    "8": {
+      "bytes": 4841,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/root_legacy_adoption.json",
+      "sha256": "c431646cbac00f461177e95361fb8d31d66c78bcfbbfc2b5c766edb8eabd6d24"
+    },
+    "9": {
+      "bytes": 521380,
+      "path": "results/formal_main_v2/execution/object_single_error_v1/legacy599_adoption_rows.jsonl",
+      "sha256": "ac792e8d88f251f097f3f0e110e6c32aa45dbacd103404c0189b3bebf56ccb5e"
+    }
+  },
+  "final_sealed": true,
+  "final_total": 35200,
+  "final_trials": 0,
+  "frozen_source_files_unchanged": 173,
+  "global_release": false,
+  "kind": "root_supervision_delivery",
+  "new_GPU_jobs": [
+    "3054409",
+    "3054717"
+  ],
+  "new_development_accepted": 588,
+  "new_unique_initial_states": 0,
+  "newly_accounted_GPU_seconds": 4767,
+  "next_actions": [
+    "按原ACK检查Object3054409和Goal3054717后续终态，不重复提交；正常运行交下次监督。",
+    "Object新单条须原始记录+原类型consumer与独立终审，再与legacy599构成完整600来源视图；原policy_error保留。",
+    "Goal固定200须完整原始输入/动作与原consumer及独立终验，按精确allowlist归档开发blob；旧200和另1000仍HOLD。",
+    "全部88身份、四套件完整开发收据及最终清单冻结后再开放完整O2A；最终35200仍等待root全局release。"
+  ],
+  "planned_development_trials": 8800,
+  "previous_snapshot": {
+    "bytes": 16775,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0758/final_summary.json",
+    "sha256": "75b5126b931377d3122a66f7ef5b7fd77d5655fd065d0fd6b95927797ed7ad76"
+  },
+  "registered_formal_allocations": 273,
+  "root_completed_arms": 72,
+  "root_completed_pairs": 36,
+  "root_reviewed_arm_updates": 360000,
+  "schema": "formal_main_v2",
+  "training_finished": true,
+  "unique_development_initial_states": 400,
+  "utc": "2026-10-21T02:53:43.268966+00:00"
+}

@@ -1,0 +1,1056 @@
+{
+  "actual_P_new_package_verified": false,
+  "dispatch_sha256": "8d3e282946c300f072a13c1b4a658f92b3e25cfb3130a0ad63ab186fe6386b3c",
+  "kind": "Goal_full200_atomic_dispatch_CPU",
+  "negative": [
+    {
+      "check": "repeat existing output/audit rejected",
+      "error": "prior audit or invocation",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops publish",
+      "error": "publish",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after publish",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops submit",
+      "error": "submit",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after submit",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops fact_sbatch_result.json",
+      "error": "fact_sbatch_result.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after fact_sbatch_result.json",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops actual_held",
+      "error": "actual_held",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after actual_held",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops observe_new",
+      "error": "observe_new",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after observe_new",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops fact_registered_held.json",
+      "error": "fact_registered_held.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after fact_registered_held.json",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops fact_release_attempt.json",
+      "error": "fact_release_attempt.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after fact_release_attempt.json",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops release_before_effect",
+      "error": "release_before_effect",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after release_before_effect",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops release_after_effect",
+      "error": "release_after_effect",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after release_after_effect",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops fact_release_result.json",
+      "error": "fact_release_result.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after fact_release_result.json",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops actual_released",
+      "error": "actual_released",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after actual_released",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops dispatch_proof",
+      "error": "dispatch_proof",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after dispatch_proof",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops committed",
+      "error": "committed",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after committed",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops cas_before_1",
+      "error": "cas_before_1",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after cas_before_1",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops cas_before_2",
+      "error": "cas_before_2",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after cas_before_2",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "BaseException stops cas_before_3",
+      "error": "cas_before_3",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "no new submit after cas_before_3",
+      "error": "unresolved pending; never clear/retry",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "lost original ACK setup",
+      "error": "submit",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "cannot invent missing original ACK",
+      "error": "original ACK absent; unknown outcome remains HOLD, never resubmit",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "saved ACK unresolved held setup",
+      "error": "actual_held",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "registered held crash setup",
+      "error": "fact_registered_held.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "release uncertainty before effect setup",
+      "error": "release_before_effect",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "unknown release stillheld not resent",
+      "error": "held/released state incompatible; no resend",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "release lost response setup",
+      "error": "release_after_effect",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "ACK tampering fixture",
+      "error": "actual_held",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "saved original argv mismatch",
+      "error": "original ACK argv differs",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "registered identity tamper fixture",
+      "error": "fact_registered_held.json",
+      "error_type": "Interruption"
+    },
+    {
+      "check": "registered source drift cannot be reconciled by ACK alone",
+      "error": "registered original identity/argv/source drift",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "transaction instance single use",
+      "error": "single-use transaction",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 1, 'stdout': '9900001\\n'}",
+      "error": "sbatch uncertain nonzero result",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 0, 'stdout': ''}",
+      "error": "missing/ambiguous/old original ACK",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 0, 'stdout': '9900001\\n9900002\\n'}",
+      "error": "missing/ambiguous/old original ACK",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 0, 'stdout': 'Submitted batch job 9900001'}",
+      "error": "missing/ambiguous/old original ACK",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "ambiguous/nonzero/old ACK rejected {'returncode': 0, 'stdout': '3053440\\n'}",
+      "error": "missing/ambiguous/old original ACK",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "nested autonomous unknown ACK refuses before submission",
+      "error": "unresolved autonomous pending blocks transaction",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects cost",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects status",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects name",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects token",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects GPU",
+      "error": "terminal changed between complete accounting observations",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "second complete terminal confirmation rejects missing",
+      "error": "terminal confirmation missing allocation",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "unknown actual state refuses live projection",
+      "error": "unknown actual scheduler state",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "missing original accounting refuses projection",
+      "error": "missing registered allocation",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "squeue error never treated as empty queue",
+      "error": "squeue failed: Invalid job id specified",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "active queue disappearance stops projection",
+      "error": "active accounting/queue race or missing live job; retry read-only only",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "foreign active queue ID refuses projection",
+      "error": "unexpected queue row",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation schema",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation kind",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation status",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation reviewed_by",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation version",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation stage_key",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation pair_id",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation method_ids",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation maximum_trials",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation unique_development_states",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation maximum_control_steps",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation maximum_policy_queries",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation maximum_attempts",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation automatic_retry",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation original200_HOLD",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation other_Goal1000_HOLD",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation final_allowed",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation package_manifest_sha256",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation scope_sha256",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation resources",
+      "error": "exact root dispatch scope absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root exact scope mutation prepared_utc",
+      "error": "Invalid isoformat string: 'wrong'",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root preparation requires explicit timezone 2026-10-21T01:10:00",
+      "error": "explicit UTC root preparation timestamp required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root preparation requires explicit timezone not-a-date",
+      "error": "Invalid isoformat string: 'not-a-date'",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "root preparation requires explicit timezone None",
+      "error": "explicit UTC root preparation timestamp required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "existing ACK metadata cannot authorize new path False",
+      "error": "existing ACK metadata may only reconcile, never submit or prepare new work",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "existing ACK metadata cannot authorize new path True",
+      "error": "existing ACK metadata may only reconcile, never submit or prepare new work",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "existing ACK metadata rejects changed full200 identity original_fixed200_identity_order",
+      "error": "existing ACK full scientific identity missing",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "existing ACK metadata rejects changed full200 identity unique_development_states",
+      "error": "existing ACK full scientific identity missing",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "existing ACK metadata rejects changed original design status",
+      "error": "original root design drift",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "existing ACK metadata rejects changed original design GPU_execution_authorized",
+      "error": "original root design drift",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "existing ACK metadata refuses noncanonical entry",
+      "error": "exact published metadata module required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real consumer rejects initial pending registration as terminal",
+      "error": "clean single-GPU terminal required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered status",
+      "error": "clean single-GPU terminal required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered exit_code",
+      "error": "clean single-GPU terminal required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered gpus",
+      "error": "clean single-GPU terminal required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered elapsed_seconds",
+      "error": "allocation seconds required once",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered job_id",
+      "error": "exact original ACK required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered stage_key",
+      "error": "exact full200 job scope",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered run_root",
+      "error": "exact full200 job scope",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered suite",
+      "error": "exact full200 job scope",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "real original terminal consumer rejects registered mode",
+      "error": "exact full200 job scope",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation pending_submission",
+      "error": "unresolved autonomous pending blocks exact correction",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation root_submission_hold",
+      "error": "root submission hold",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation reserved_GPU_slots",
+      "error": "all modes/reservations exceed8",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation blocked_pairs",
+      "error": "controller completion differs",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual state controller/reservation controller_job_id",
+      "error": "controller completion differs",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "foreign root pending blocks projection",
+      "error": "unresolved/foreign root pending blocks projection",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "science matrix/sealed gate test_opened",
+      "error": "final must remain sealed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "science matrix/sealed gate completed_final_trials",
+      "error": "final must remain sealed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "science matrix/sealed gate global_release_created",
+      "error": "final must remain sealed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "science matrix/sealed gate root_and_independent_completed_arms",
+      "error": "root72 completion absent",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "missing accounting cannot normalize",
+      "error": "all registered accounting required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "old cost/failure identity status",
+      "error": "unknown/stale allocation blocks",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "old cost/failure identity exit_code",
+      "error": "unknown/stale allocation blocks",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "old cost/failure identity elapsed_seconds",
+      "error": "original allocation/cost changed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "old cost/failure identity gpus",
+      "error": "original allocation/cost changed",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "duplicate actual register ID",
+      "error": "duplicate/invalid registry ID",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation JobId",
+      "error": "actual active Slurm identity differs JobId",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation JobName",
+      "error": "actual active Slurm identity differs JobName",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Comment",
+      "error": "actual active Slurm identity differs Comment",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Account",
+      "error": "actual active Slurm identity differs Account",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Partition",
+      "error": "actual active Slurm identity differs Partition",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation StdOut",
+      "error": "actual active Slurm identity differs StdOut",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Requeue",
+      "error": "actual new Goal held identity differs Requeue",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation TimeLimit",
+      "error": "actual new Goal held identity differs TimeLimit",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation ExcNodeList",
+      "error": "actual new Goal held identity differs ExcNodeList",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation NumCPUs",
+      "error": "actual new Goal held identity differs NumCPUs",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation MinMemoryNode",
+      "error": "actual new Goal held identity differs MinMemoryNode",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Command",
+      "error": "actual new Goal held identity differs Command",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation WorkDir",
+      "error": "actual new Goal held identity differs WorkDir",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Restarts",
+      "error": "actual new Goal held identity differs Restarts",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation QOS",
+      "error": "actual new Goal held identity differs QOS",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation TresPerNode",
+      "error": "one registered requested GPU required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation JobState",
+      "error": "must remain held before root registration",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "held identity mutation Reason",
+      "error": "must remain held before root registration",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "cannot register already-running unexpected initial submission RUNNING",
+      "error": "must remain held before root registration",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "cannot register already-running unexpected initial submission COMPLETED",
+      "error": "must remain held before root registration",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "duplicate scontrol key",
+      "error": "duplicate scontrol field",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "multiple scontrol jobs",
+      "error": "single actual scontrol row required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "path traversal and sealed",
+      "error": "unsafe relative path",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "sealed payload",
+      "error": "restricted path",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "Goal occupied exclusion pair_id",
+      "error": "same pair or Goal allocation occupied",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "Goal occupied exclusion suite",
+      "error": "same pair or Goal allocation occupied",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "Goal occupied exclusion run_root",
+      "error": "same pair or Goal allocation occupied",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "no ninth slot with allmode pending requested GPUs 8",
+      "error": "all modes/reservations exceed8",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "no ninth slot with allmode pending requested GPUs 9",
+      "error": "unknown/stale allocation blocks",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "own pending identity mutation kind",
+      "error": "unresolved/foreign root pending blocks projection",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "own pending identity mutation stage_key",
+      "error": "unresolved/foreign root pending blocks projection",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "own pending identity mutation logical_trial_id",
+      "error": "unresolved/foreign root pending blocks projection",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "own pending identity mutation known_job_id",
+      "error": "unresolved/foreign root pending blocks projection",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual full200 runtime scope rejects maximum_trials58",
+      "error": "exact prospective200 scope/resource configuration required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual full200 runtime scope rejects maximum_trials1000",
+      "error": "exact prospective200 scope/resource configuration required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual full200 runtime scope rejects unique_development_states40",
+      "error": "exact prospective200 scope/resource configuration required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual full200 runtime scope rejects maximum_total_control_steps60001",
+      "error": "exact prospective200 scope/resource configuration required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual full200 runtime scope rejects maximum_total_policy_queries7601",
+      "error": "exact prospective200 scope/resource configuration required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual full200 runtime scope rejects method_ids['A256_seed17']",
+      "error": "exact prospective200 scope/resource configuration required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual full200 runtime scope rejects final_evaluation_enabledTrue",
+      "error": "exact prospective200 scope/resource configuration required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual full200 runtime scope rejects automatic_retryTrue",
+      "error": "exact prospective200 scope/resource configuration required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects schema",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects kind",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects status",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects stage_key",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects job_id",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects authorization",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects request_token",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects capacity_limit_all_GPU_modes",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects reserved_slots",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects maximum_attempts",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects new_submissions",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects no_requeue",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects scientific_release",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects resources",
+      "error": "exact held ACK registration must precede release",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects occupied_job_ids",
+      "error": "one registered slot within all-GPU eight limit required",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects state_after_sha256",
+      "error": "root writer-lock/CAS snapshot identity missing",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual held dispatch consumer rejects reservation",
+      "error": "exact root reservation pin missing",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects schema",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects kind",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects status",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects stage_key",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects authorization",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects reserved_slots",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects capacity_limit_all_GPU_modes",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects maximum_wall_seconds",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects automatic_retry",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    },
+    {
+      "check": "actual reservation consumer rejects scientific_release",
+      "error": "new full200 reservation required; old probe reservation forbidden",
+      "error_type": "ValueError"
+    }
+  ],
+  "negative_count": 187,
+  "new_GPU_seconds": 0,
+  "new_Slurm_queries": 0,
+  "new_Slurm_submissions": 0,
+  "new_scientific_trials": 0,
+  "old_Object_package_not_written_by_dispatch_tests": true,
+  "original_saved_projection": {
+    "path": ".local/goal_full200_dispatch_20261021T0110_v2/saved_real_observation.json",
+    "sha256": "fe3f6ddcfed37091433460ae5e9bec8cd12822586c9447a65ac16bdf77db47ca",
+    "state_sha256": "40e7b58265a49ef61b8a02a793d3ce96c22bb84c93eae14a0b6bcf196ffd221a",
+    "utc": "2026-10-21T01:34:10.590090+00:00"
+  },
+  "positive": [
+    "one held submission and one release",
+    "historical row preserved and pending only cleared after release evidence",
+    "durable pending before submit and registration before release",
+    "common supervisor original comment/name preserved",
+    "repeat did not resubmit",
+    "durable pending retained publish",
+    "no repeat sbatch publish",
+    "durable pending retained submit",
+    "no repeat sbatch submit",
+    "durable pending retained fact_sbatch_result.json",
+    "no repeat sbatch fact_sbatch_result.json",
+    "durable pending retained actual_held",
+    "no repeat sbatch actual_held",
+    "durable pending retained observe_new",
+    "no repeat sbatch observe_new",
+    "durable pending retained fact_registered_held.json",
+    "no repeat sbatch fact_registered_held.json",
+    "durable pending retained fact_release_attempt.json",
+    "no repeat sbatch fact_release_attempt.json",
+    "durable pending retained release_before_effect",
+    "no repeat sbatch release_before_effect",
+    "durable pending retained release_after_effect",
+    "no repeat sbatch release_after_effect",
+    "durable pending retained fact_release_result.json",
+    "no repeat sbatch fact_release_result.json",
+    "durable pending retained actual_released",
+    "no repeat sbatch actual_released",
+    "durable pending retained dispatch_proof",
+    "no repeat sbatch dispatch_proof",
+    "durable pending retained committed",
+    "no repeat sbatch committed",
+    "durable pending retained cas_before_1",
+    "no repeat sbatch cas_before_1",
+    "durable pending retained cas_before_2",
+    "no repeat sbatch cas_before_2",
+    "durable pending retained cas_before_3",
+    "no repeat sbatch cas_before_3",
+    "unknown ACK never resubmitted/released",
+    "unique saved original ACK can register held and release once",
+    "registered-before-release crash reconciles without resubmission",
+    "release not resent when actual state held",
+    "lost release response reconciles actual live state without resend",
+    "read-only transaction no state/file/Slurm mutation",
+    "incomplete prior row blocks mode",
+    "incomplete prior row blocks logical_trial_id",
+    "incomplete prior row blocks stage_key",
+    "incomplete prior row blocks invocation",
+    "incomplete prior row blocks run_root",
+    "incomplete prior row blocks name",
+    "incomplete prior row blocks slurm_comment",
+    "nested pending creates no allocation",
+    "exact held/requeue/resources/entry argv",
+    "stale registry terminal requires two full actual rows without rewriting original registry",
+    "actual live IDs alone feed live queue query",
+    "exact root bounded admission field validator",
+    "root admission builder compiles and emits JSON only",
+    "existing-ACK new-path refusal has no scheduler mutation False",
+    "existing-ACK new-path refusal has no scheduler mutation True",
+    "CPU-only original-helper call structure uses truthful existing ACK source-only status",
+    "existing ACK original config/design/complete-prefix helper order retained",
+    "native registration uses unchanged original consumer schema plus typed stage identity",
+    "real unchanged consumer accepts native registration with explicitly synthetic future accounting fixture only",
+    "native development registration still duplicate-protected by typed exact scope",
+    "other historical development rows are not mislabeled this prospective attempt",
+    "partial same-attempt identity blocks repeat goal_dispatch_mode",
+    "partial same-attempt identity blocks repeat stage_key",
+    "partial same-attempt identity blocks repeat logical_trial_id",
+    "partial same-attempt identity blocks repeat invocation",
+    "partial same-attempt identity blocks repeat run_root",
+    "partial same-attempt identity blocks repeat name",
+    "real all-mode projection rebuilt from saved registered identities and actual Slurm rows",
+    "real released lease measured without changing owner/inode",
+    "all registered raw sacct rows independently reparsed",
+    "actual full terminal rows stable across two saved queries",
+    "exact held original ACK identity valid",
+    "seven pending0GPU requested allocations leave exactly eighth slot",
+    "only exact held own pending can reconcile before release",
+    "actual prospective entry full200 config guard called",
+    "new held dispatch/reservation directly accepted by actual entry metadata validator",
+    "old two Goal engineering allocations803+840 retained once",
+    "exact final runtime v2 manifest is the dispatcher literal pin",
+    "exact full10 final runtime closure in frozen scope",
+    "scope preserves one fixed200/100 and all other HOLDs",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/ast_gate_v2.py",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/ast_observer_v2.py",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/config.json",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/consumer.py",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/entry.py",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/observer_v3.py",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/paired_input_gate_v1.py",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/run.slurm",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/specification.json",
+    "real candidate runtime file SHA scripts/ops/formal_goal_full200_gate_v1/storage.py",
+    "real full200 source scientific bound"
+  ],
+  "positive_count": 94,
+  "production_admitted": false,
+  "runtime_package_manifest_sha256": "2767f20cdd3b862138f590d65563e1bad844cfe14e6fe41aecf2854fc4f0baec",
+  "schema": "formal_main_v2",
+  "source173_not_written_by_dispatch_tests": true,
+  "status": "passed_CPU_dispatch_candidate"
+}

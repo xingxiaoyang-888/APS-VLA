@@ -1,0 +1,74 @@
+{
+  "actual_P_verified": false,
+  "all_query_input_integrity_gate": true,
+  "blockers": [],
+  "config": {
+    "bytes": 2367,
+    "path": ".local/goal_full200_author_20261021T0110_v2/package/config.json",
+    "sha256": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae"
+  },
+  "config_sha256": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae",
+  "final_sealed": true,
+  "full200_bound_tests_passed": true,
+  "independent_full_review": {
+    "bytes": 9991,
+    "path": ".local/downstream_runtime_independent_20261021T0110/Goal_full200/final_independent_review.json",
+    "sha256": "ad163d3e4dd8d323a3d994d9a070b597920458906af54092b65dc5d91f1ea8f0"
+  },
+  "kind": "goal_full200_single_attempt_CPU_readiness",
+  "new_GPU_submissions": 0,
+  "observer_gaps_fixed": true,
+  "old200_HOLD": true,
+  "original_chain_preserved": true,
+  "original_policy_error_retained_then_halt": true,
+  "original_typed_raw_consumer_ready": true,
+  "package_files": {
+    "scripts/ops/formal_goal_full200_gate_v1/ast_gate_v2.py": "a6674a47067ffaab2eddd6b4841127a088987e0e9dbaca018a63c671abb1f487",
+    "scripts/ops/formal_goal_full200_gate_v1/ast_observer_v2.py": "e88222ea96c290019b2ec838ff68fe25a9f94d115ae996d92735e18e4cf0800e",
+    "scripts/ops/formal_goal_full200_gate_v1/config.json": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae",
+    "scripts/ops/formal_goal_full200_gate_v1/consumer.py": "c12a6a5b99c4e34ff19f535a4725fecd9fcabc70ba1f37dc2c6c32c979ad3c4b",
+    "scripts/ops/formal_goal_full200_gate_v1/entry.py": "1b640f36962c1278b4a40af634ac4cb0793e7baf00840dd40e5fbeaf4c1ade15",
+    "scripts/ops/formal_goal_full200_gate_v1/observer_v3.py": "bd60cb3b97db443f0953d53cd0a7e0719f437807716bda0ef462610495572f23",
+    "scripts/ops/formal_goal_full200_gate_v1/paired_input_gate_v1.py": "c5ead7c8b0442d2d0f110257c118a7bfb958c43557175864040a8773f5245efa",
+    "scripts/ops/formal_goal_full200_gate_v1/run.slurm": "68b4d7eb5804b7816425f10ab7a9b51f7bccdc7eba846675d94a47fc7462f780",
+    "scripts/ops/formal_goal_full200_gate_v1/specification.json": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad",
+    "scripts/ops/formal_goal_full200_gate_v1/storage.py": "61ffc7702ca9ce2c9f12419017416b3bf8fea852049844310d5b10f4a9c7ea37"
+  },
+  "package_manifest": {
+    "bytes": 1500,
+    "path": ".local/goal_full200_author_20261021T0110_v2/package/package_manifest.json",
+    "sha256": "2767f20cdd3b862138f590d65563e1bad844cfe14e6fe41aecf2854fc4f0baec"
+  },
+  "package_manifest_sha256": "2767f20cdd3b862138f590d65563e1bad844cfe14e6fe41aecf2854fc4f0baec",
+  "paired_input_gate_CPU_passed": true,
+  "pre_policy_pair_equality_gate": true,
+  "production_admitted": false,
+  "production_ready": false,
+  "production_sources": {
+    "scripts/ops/formal_goal_full200_gate_v1/ast_gate_v2.py": "a6674a47067ffaab2eddd6b4841127a088987e0e9dbaca018a63c671abb1f487",
+    "scripts/ops/formal_goal_full200_gate_v1/ast_observer_v2.py": "e88222ea96c290019b2ec838ff68fe25a9f94d115ae996d92735e18e4cf0800e",
+    "scripts/ops/formal_goal_full200_gate_v1/config.json": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae",
+    "scripts/ops/formal_goal_full200_gate_v1/consumer.py": "c12a6a5b99c4e34ff19f535a4725fecd9fcabc70ba1f37dc2c6c32c979ad3c4b",
+    "scripts/ops/formal_goal_full200_gate_v1/entry.py": "1b640f36962c1278b4a40af634ac4cb0793e7baf00840dd40e5fbeaf4c1ade15",
+    "scripts/ops/formal_goal_full200_gate_v1/observer_v3.py": "bd60cb3b97db443f0953d53cd0a7e0719f437807716bda0ef462610495572f23",
+    "scripts/ops/formal_goal_full200_gate_v1/paired_input_gate_v1.py": "c5ead7c8b0442d2d0f110257c118a7bfb958c43557175864040a8773f5245efa",
+    "scripts/ops/formal_goal_full200_gate_v1/run.slurm": "68b4d7eb5804b7816425f10ab7a9b51f7bccdc7eba846675d94a47fc7462f780",
+    "scripts/ops/formal_goal_full200_gate_v1/specification.json": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad",
+    "scripts/ops/formal_goal_full200_gate_v1/storage.py": "61ffc7702ca9ce2c9f12419017416b3bf8fea852049844310d5b10f4a9c7ea37"
+  },
+  "real_GPU_acceptance": false,
+  "remaining_production_gates": [
+    "Root exact immutable R/P publication of the 11-file package and source-only installation verification.",
+    "Actual canonical P metadata/identity/storage verification and exact root authorization; available disk is not proof of quota.",
+    "Separately audited native atomic held-ACK/CAS/all-mode8/same-Goal dispatcher and compute-node fresh storage ownership/exclusive claim.",
+    "Exactly one prospective fixed200 execution; any input gate/policy_error/storage exception halts while retaining originals and cost.",
+    "Future actual raw200 typed original consumer plus root and independent terminal review before new scientific adoption. Old200 remains HOLD; final global release is separate."
+  ],
+  "reviewed_by": "independent",
+  "schema": "formal_main_v2",
+  "scientific_release": false,
+  "scope": "source_CPU_only",
+  "status": "passed",
+  "two_root_storage_contract_verified": true,
+  "version": "goal-full200-prospective-single-attempt-v1"
+}

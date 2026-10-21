@@ -1,0 +1,145 @@
+{
+  "accepted_new_trials": 0,
+  "completed_trials": 600,
+  "cost": {
+    "all_attempt_gpu_seconds": 7030,
+    "allocations": [
+      {
+        "elapsed_seconds": 393,
+        "exit_code": "0:0",
+        "gpus": 1,
+        "job_id": "3022743",
+        "raw_status": "COMPLETED",
+        "status": "COMPLETED"
+      },
+      {
+        "elapsed_seconds": 2,
+        "exit_code": "1:0",
+        "gpus": 1,
+        "job_id": "3042529",
+        "raw_status": "FAILED",
+        "status": "FAILED"
+      },
+      {
+        "elapsed_seconds": 6635,
+        "exit_code": "0:0",
+        "gpus": 1,
+        "job_id": "3054201",
+        "raw_status": "COMPLETED",
+        "status": "COMPLETED"
+      }
+    ],
+    "current_gpu_seconds": 6635,
+    "scope": "Every registered allocation counted once, including model loading, warmup, failures and idle/setup time; not only timed calls",
+    "typed_predispatch_history": {
+      "all_prior_job_ids": [
+        "3022743",
+        "3042529"
+      ],
+      "control_sources": {
+        "scripts/formal_execution_manifests.py": "614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89",
+        "scripts/ops/formal_action_deployment_v1/consumer.py": "16c574cb2ab05f8493547e8174b685c78273d00577df4788f3d601b1e2d6d034",
+        "scripts/ops/formal_action_deployment_v1/contract.py": "efe07d29bf572e48bce3a97b25794984c9093f5525941bbb1cc8ab1587d67f19",
+        "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+        "scripts/ops/formal_action_deployment_v1/wrapper.py": "d00a3a7c749f0ee2a83d9b0cdd0ee9560bf2cea4b0de8dc02c568b2ca0947f33",
+        "scripts/ops/formal_downstream_supervisor.py": "f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571",
+        "scripts/ops/formal_spatial588_predispatch_v1/compatibility.py": "97773b017ae379dca050006bfbc255e68fe2d9e17924c90204a22bf0b102a5af",
+        "scripts/ops/formal_spatial588_predispatch_v1/compatibility_proof.json": "c2b46372be33cfe35c53643211b602102652d3662fb74a58553142a6e6a944f2",
+        "scripts/ops/formal_spatial588_predispatch_v1/control.py": "e2e7c3fe7f6dcf4f63b4550c3f5bc8ec50a05aaf462b38ed961ce356cc414683",
+        "scripts/ops/formal_spatial588_predispatch_v1/evidence.json": "32d5571969e4ed3e206e0757741e700d9f24975fd17b2217ba3c6f02b9393117",
+        "scripts/ops/formal_spatial588_predispatch_v1/historical_identity.json": "9980917fedc08fc39bb2b5eed1b2d522ef956eadf8e4e8ee8c55297332a4c9aa",
+        "scripts/ops/formal_spatial588_predispatch_v1/independent_diagnosis.json": "6260bb423a9c988cbddc2428c9ea996d89ae5c2ab449995509b6d3e09956d4f8",
+        "scripts/ops/formal_spatial588_predispatch_v1/installed_package_members.json": "a0512c95f29f406c211a2222ffdc2d7eb564d93f8ffbab75a6746d54ef560a39",
+        "scripts/ops/formal_spatial588_predispatch_v1/per_chunk_compatibility.jsonl": "6a4baaacfd9889f8c838265250e657c6e042e419f9fb19368501b16488a5a355",
+        "scripts/ops/formal_spatial588_predispatch_v1/per_trial_compatibility.jsonl": "178515bb60cdcd4ebce483b5e52dc2b4e74ea4a7ba83fa5ee08a552f1a58ab63",
+        "scripts/ops/formal_spatial588_predispatch_v1/phase1_manifest.json": "20d8ee977e9735592660025acd4769c74935963f419d582f5c32fe74000ae5d3",
+        "scripts/ops/formal_spatial588_predispatch_v1/policy.json": "7341ba48d9c1a70557f8a883af40ac13b34caabe407fac2b9947fefc08fc9e87",
+        "scripts/ops/formal_spatial588_predispatch_v1/raw_failure_snapshot.json": "c6edba01e9dc7706dfc978701b06baab91462eff0d8e6940a665d3656adf364c",
+        "scripts/ops/formal_spatial588_predispatch_v1/report.json": "508c0b52dc2bde07b8d7a5fdfa2e7e56c3b515cdc4688fe57eefc653db95cbd5",
+        "scripts/review_formal_downstream.py": "753edb55ce21fd43f85499e136a7e52093ecf9feaeafadf0f01cece8fa267202",
+        "scripts/server/run_formal_downstream.py": "f47a2606f6de8733eef35c3a3ba6e4a39cc920ed126a3cb60a139600bd457e24"
+      },
+      "executed_prior_job_ids": [
+        "3022743"
+      ],
+      "failed_ledger_invocation_fabricated": false,
+      "kind": "typed_predispatch_attempt_history",
+      "ordinary_failure_review_fabricated": false,
+      "predispatch_failed_job_ids": [
+        "3042529"
+      ],
+      "predispatch_failure_GPU_seconds": 2,
+      "prefix_ledger": {
+        "bytes": 592887,
+        "path": "results/formal_main_v2/libero_spatial/downstream/development/8c843c1d4ee8383c/attempt01/trials.jsonl",
+        "sha256": "3a175dbc5dd7a23cd2c3c8385cb6ff3c525f09d4e607ff32a69a10869672a2f9"
+      },
+      "prefix_review": {
+        "path": "results/formal_main_v2/downstream_reviews/3022743.json",
+        "sha256": "9e14b86a1e556c53ef1cbd8c7bdc1733c3d5eb744f62ffee8df9395645816650"
+      },
+      "prior_GPU_seconds": 395,
+      "raw_failure_snapshot": {
+        "path": "scripts/ops/formal_spatial588_predispatch_v1/raw_failure_snapshot.json",
+        "sha256": "c6edba01e9dc7706dfc978701b06baab91462eff0d8e6940a665d3656adf364c"
+      },
+      "schema": "formal_main_v2",
+      "scientific_settings_changed": false,
+      "scope": {
+        "expected_trials": 600,
+        "method_ids": [
+          "dense",
+          "uniform256",
+          "uniform128",
+          "uniform64",
+          "A128_seed17",
+          "B128_seed17"
+        ],
+        "remaining_trials": 588,
+        "retained_prefix_trials": 12,
+        "stage": "development",
+        "stage_key": "libero_spatial_development_8c843c1d4ee8383c",
+        "suite": "libero_spatial"
+      },
+      "version": "formal-spatial588-predispatch-history-v1"
+    }
+  },
+  "current_wrapper_trials": 588,
+  "final_release": false,
+  "job_id": "3054201",
+  "legacy_compatible_trials": 12,
+  "metadata_correction": "raw_status rebuilt from exact saved raw_sacct State columns; original consumer unchanged; reuse original verified pull",
+  "new_GPU_jobs": [],
+  "prior_failed_root_transaction": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Spatial3054201_terminal/failure.json",
+  "profiling_authorized": false,
+  "pull": {
+    "path": "results/formal_main_v2/pulls/20261021T013702Z_1056842ddda1/receipt.json",
+    "sha256": "ca9d4e64b02abde022ecb6ac83c4653be0c0882485bd0f73478f69570f3e8a60"
+  },
+  "root_review": {
+    "path": "results/formal_main_v2/downstream_reviews/3054201.json",
+    "sha256": "c4452ea92281151bf485f41777257392edf008e48f6268c78be9cfc17f115b92"
+  },
+  "schema": "formal_main_v2",
+  "snapshot": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T0910/Spatial3054201_terminal_v2/terminal_jobs_snapshot.json",
+    "sha256": "f66c616b5c14ca3d47f9ae83730473e168c112d8e74dfb8aa463d3ebf81e1d06"
+  },
+  "source_pins": {
+    "scripts/ops/formal_action_deployment_v1/reviewer.py": "9107560ef95eabf8e22a452d8dfb23ca552a85cfd3fc55f35cb38795475f65fd",
+    "scripts/ops/formal_autonomous_training_v1/controller.py": "acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363",
+    "scripts/ops/formal_spatial588_predispatch_v1/control.py": "e2e7c3fe7f6dcf4f63b4550c3f5bc8ec50a05aaf462b38ed961ce356cc414683",
+    "scripts/pull_formal_results.py": "b1b141ddb75fd8641d6f5e7f68dbfea462e1fe907ced2f2a98338a1145d77061"
+  },
+  "state_unchanged": true,
+  "status": "root_and_typed_consumer_passed_independent_pending",
+  "successes": {
+    "A128_seed17": 95,
+    "B128_seed17": 97,
+    "dense": 98,
+    "uniform128": 87,
+    "uniform256": 96,
+    "uniform64": 60
+  },
+  "unique_initial_states": 100
+}

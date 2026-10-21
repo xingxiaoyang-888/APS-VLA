@@ -1,0 +1,38 @@
+"""Exact one-shot Goal full200 held dispatch. No generic experiment submission."""
+from pathlib import Path,PurePosixPath
+from datetime import datetime,timezone
+from contextlib import contextmanager
+import argparse,copy,fcntl,hashlib,importlib.util,json,os,re,stat,subprocess,sys
+sys.dont_write_bytecode=True
+R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+P=Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+H=R.parent
+S=P/'snapshots/formal_main_v2_run_564be0995e'
+BASE='scripts/ops/formal_goal_full200_dispatch_v1'
+PROD='scripts/ops/formal_goal_full200_gate_v1'
+STAGE='goal_full200_20261021T0110'
+X='results/formal_main_v2/engineering/'+STAGE
+AUTH=X+'/root_authorization.json';INV=AUTH
+ADMISSION=X+'/dispatch_admission.json'
+OUT=X+'/attempt01'
+RAW='results/formal_main_v2/raw_runtime/'+STAGE+'/attempt01'
+RESERVATION=X+'/reservation.json'
+DISPATCH=X+'/held_dispatch_record.json'
+STATE='results/experiment_supervisor/state.json'
+EXPERIMENT='formal_main_v2'
+VERSION='goal-full200-held-atomic-dispatch-v1'
+NAME='cti-goal-full200'
+MODE='goal_full200_prospective'
+PAIR='5b1bc1ab99e1bfa1545ef8270ca3fbe8364349ab462f8a64fb4858eb15576e1e'
+CELL='Goal_full200_original100_A256_B256_seed17'
+SOURCE='dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e'
+OLD_IDS=['3053440','3054127'];OLD_SECONDS=[803,840]
+OWNER='results/formal_main_v2/autonomous_training/run_v1/owner.json'
+OWNER_SHA='2ba2100d6f20e8a00f7853e193d1546b3d7c4195f174c75d54605ec504e33bc2'
+LEASE='results/formal_main_v2/autonomous_training/run_v1/controller.lease.lock'
+CONTROLLER='scripts/ops/formal_autonomous_training_v1/controller.py'
+CONTROLLER_SHA='acf2f41826dbae34ece3ce73e56eb3b2779ff96d45b64cc7fdbd4d92da848363'
+RESOURCES=dict(job_name=NAME,account='p_p15016',qos='cpu-500_core-l40-8_card-a800-8_card',partition='L40',nodes=1,ntasks=1,cpus_per_task=7,gres='gpu:l40:1',mem='64G',time='02:00:00')
+RUNTIME_RESOURCES=dict(partition='L40',gres='gpu:l40:1',cpus_per_task=7,mem='64G',wall_seconds=7200,no_requeue=True,excluded_nodes=['gpu4020'])
+RUNTIME_MANIFEST_SHA='RUNTIME_MANIFEST_PENDING_FINAL_PIN'
+SCOPE_SHA='SCOPE_PENDING_FINAL_PIN'
