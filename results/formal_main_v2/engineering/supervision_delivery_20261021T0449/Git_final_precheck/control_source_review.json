@@ -1,0 +1,866 @@
+{
+  "exact_missing_current_staged_sources": [
+    {
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/scope_bootstrap.py",
+      "sha256": "9ff5d967b8e058c5aff977fdbfac8abdcab741603fdd025d1ba8058d762c38d4",
+      "trace": "results/formal_main_v2/control_transport/goal_remaining5_identity_independent_20261021T0449.jsonl"
+    },
+    {
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/scope_bootstrap_v2.py",
+      "sha256": "f37d20dc0e319893b3489c402516368d8808307955124fadfa023038e78c0e69",
+      "trace": "results/formal_main_v2/control_transport/goal_remaining5_identity_independent_v2_20261021T0449.jsonl"
+    }
+  ],
+  "finish_not_executed_by_reviewer": true,
+  "finish_source": {
+    "bytes": 9285,
+    "path": ".local/finish_delivery_20261021T0449_v2.py",
+    "sha256": "c2e24fb9991381826561aecfa198b05309ac0d4ba83bab9431d8e9d6c942e3bb"
+  },
+  "mandatory_finish_exact_source_refs": [
+    {
+      "bytes": 6358,
+      "path": ".local/goal_remaining5_independent_20261021T0449/scope_bootstrap.py",
+      "sha256": "9ff5d967b8e058c5aff977fdbfac8abdcab741603fdd025d1ba8058d762c38d4"
+    },
+    {
+      "bytes": 7442,
+      "path": ".local/goal_remaining5_independent_20261021T0449/scope_bootstrap_v2.py",
+      "sha256": "f37d20dc0e319893b3489c402516368d8808307955124fadfa023038e78c0e69"
+    }
+  ],
+  "new_small_archived_packages": [
+    {
+      "files": 7,
+      "manifest": {
+        "bytes": 1596,
+        "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_ACK_independent/delivery_manifest_original.json",
+        "sha256": "496077f29e8c36635b0abc983fc2b14e00d2fc7a9bcf9644611c36dec963b063"
+      },
+      "package": "Goal_ACK_independent"
+    },
+    {
+      "files": 5,
+      "manifest": {
+        "bytes": 1238,
+        "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_authorization_helper_independent/delivery_manifest_original.json",
+        "sha256": "2206fddb7bfdd1f06b1648cc7f8366a2b457f63f511363651eea06d3e36c7779"
+      },
+      "package": "Goal_authorization_helper_independent"
+    },
+    {
+      "files": 8,
+      "manifest": {
+        "bytes": 1650,
+        "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_fixed30_design/delivery_manifest_original.json",
+        "sha256": "7100bf88f63840006fb726b9447cdc7414e5500d96f365904a57c270c5c4ebc9"
+      },
+      "package": "Goal_fixed30_design"
+    },
+    {
+      "files": 5,
+      "manifest": {
+        "bytes": 1324,
+        "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_published_interface_independent/delivery_manifest_original.json",
+        "sha256": "d05b2fd96eec3e5e3f8db9e20835c32b6e360a45e8879097ee2a181489421050"
+      },
+      "package": "Goal_published_interface_independent"
+    }
+  ],
+  "pairs": [
+    {
+      "authorization_sha256": "357b9592cdaec98f5fb66df88b98fba912015adf07bce7d55fe5dcd1f12cc9c9",
+      "first_failure_retained": true,
+      "job_id": "3057505",
+      "original_ACK": {
+        "bytes": 1123,
+        "path": "results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k256_seed23/dispatch_attempt01/sbatch_result.json",
+        "sha256": "5a56c5a014cb0310e31845f24fdad225dc69b6c2c9401114d7a1031819ea826c"
+      },
+      "pair_key": "libero_goal_k256_seed23",
+      "raw_results_read": false,
+      "release_count_in_inherited_review": 1,
+      "same_token_and_source": true
+    },
+    {
+      "authorization_sha256": "5c5f8e49aa00394827c350c8517c04767de9b38048c2490d18ad6044bf9fd29a",
+      "first_failure_retained": true,
+      "job_id": "3057510",
+      "original_ACK": {
+        "bytes": 1123,
+        "path": "results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k256_seed41/dispatch_attempt01/sbatch_result.json",
+        "sha256": "d1bd9e19d5c2b4ae6cb34c19b8611a04eb99106e9ddc25a7314e3956101bb337"
+      },
+      "pair_key": "libero_goal_k256_seed41",
+      "raw_results_read": false,
+      "release_count_in_inherited_review": 1,
+      "same_token_and_source": true
+    },
+    {
+      "authorization_sha256": "891eb04cc8ef8f4ef06b5e2d25f163e0a7536d7f9abc4be572b6b6c8d791978d",
+      "first_failure_retained": true,
+      "job_id": "3057515",
+      "original_ACK": {
+        "bytes": 1118,
+        "path": "results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k64_seed17/dispatch_attempt01/sbatch_result.json",
+        "sha256": "afcd015c66edd9703996ad4c23ac8980aaa4ef8dc8d24a885430ed6ea3f5197f"
+      },
+      "pair_key": "libero_goal_k64_seed17",
+      "raw_results_read": false,
+      "release_count_in_inherited_review": 1,
+      "same_token_and_source": true
+    },
+    {
+      "authorization_sha256": "ba5c5e7a515853c297ce81cf2aca59c01d14b23548a890aaf97d6109027f7691",
+      "first_failure_retained": true,
+      "job_id": "3057526",
+      "original_ACK": {
+        "bytes": 1118,
+        "path": "results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k64_seed23/dispatch_attempt01/sbatch_result.json",
+        "sha256": "dfd5062d190f7348b61f596e513e72eae2c8354de596ee48383173369efba224"
+      },
+      "pair_key": "libero_goal_k64_seed23",
+      "raw_results_read": false,
+      "release_count_in_inherited_review": 1,
+      "same_token_and_source": true
+    },
+    {
+      "authorization_sha256": "6444277b12710a73f894fa0c709f193f64bf02c2143d1dfc4bed41f9354ff1c6",
+      "first_failure_retained": true,
+      "job_id": "3057533",
+      "original_ACK": {
+        "bytes": 1118,
+        "path": "results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k64_seed41/dispatch_attempt01/sbatch_result.json",
+        "sha256": "c79118652bb8ee67619ae24f2581a8693557f45046e731981fcdfadfe4f9f68c"
+      },
+      "pair_key": "libero_goal_k64_seed41",
+      "raw_results_read": false,
+      "release_count_in_inherited_review": 1,
+      "same_token_and_source": true
+    }
+  ],
+  "trace_count": 78,
+  "traces": [
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/archive_goal_plans_20261021T0449.py"
+      ],
+      "entrypoint": ".local/archive_goal_plans_20261021T0449.py",
+      "entrypoint_sha256": "4d7baae0691be00cf2aa205a606e2a46285245c2644cf649c504a26b1c99ef76",
+      "path": "results/formal_main_v2/control_transport/archive_goal_plans_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/archive_goal_runtime_20261021T0449.py"
+      ],
+      "entrypoint": ".local/archive_goal_runtime_20261021T0449.py",
+      "entrypoint_sha256": "4a9a21fb76540c274517318975fae0b10acbbb5ed79b44afba4a9769ea79cbfa",
+      "path": "results/formal_main_v2/control_transport/archive_goal_runtime_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/authorize_goal_remaining5_20261021T0449.py"
+      ],
+      "entrypoint": ".local/authorize_goal_remaining5_20261021T0449.py",
+      "entrypoint_sha256": "9f4670a47d49c3f744ce79d7fbcac82aca53a1b611ff10d7b52cb384a8fbc7ce",
+      "path": "results/formal_main_v2/control_transport/authorize_goal_remaining5_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/build_goal_remaining5_dispatch_20261021T0449.py"
+      ],
+      "entrypoint": ".local/build_goal_remaining5_dispatch_20261021T0449.py",
+      "entrypoint_sha256": "3b2a3813209fbe21c5b56667312ee50930765262bae148e16df3ba681ffc1ebe",
+      "path": "results/formal_main_v2/control_transport/build_goal_remaining5_dispatch_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/complete_goal_method_metadata_20261021T0449.py"
+      ],
+      "entrypoint": ".local/complete_goal_method_metadata_20261021T0449.py",
+      "entrypoint_sha256": "147641bbb46ae868c79e173159a4caf8c6913b09c6c8b5376731f40ed030d815",
+      "path": "results/formal_main_v2/control_transport/complete_goal_method_metadata_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/freeze_goal_remaining5_scope_20261021T0449.py"
+      ],
+      "entrypoint": ".local/freeze_goal_remaining5_scope_20261021T0449.py",
+      "entrypoint_sha256": "dc833c1a529ef888c21a476fdc17b74746ba8cd9f1b74e72b64ad8b0d384206b",
+      "path": "results/formal_main_v2/control_transport/freeze_goal_remaining5_scope_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Git_static_precheck/precheck_v2.py"
+      ],
+      "entrypoint": ".local/git_stage_precheck_20261021T0449/precheck_v2.py",
+      "entrypoint_sha256": "b7933d2ab708535b319964d3b42fa11b82204e71c0196308bbd51c9f9583c8ac",
+      "path": "results/formal_main_v2/control_transport/git_stage_precheck_20261021T0449_v2.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Git_static_precheck/freeze_delivery.py"
+      ],
+      "entrypoint": ".local/git_stage_precheck_20261021T0449/freeze_delivery.py",
+      "entrypoint_sha256": "bc5c722fac16a908b8bf8f4935d77f683f06c5ebb9ea8879dfbd87162be0ab27",
+      "path": "results/formal_main_v2/control_transport/git_stage_precheck_freeze_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_fixed30_design/build_design_v1.py"
+      ],
+      "entrypoint": ".local/goal30_fixed_observation_design_20261021T0449/build_design_v1.py",
+      "entrypoint_sha256": "b8eb2dee7aea78518b83b0c633a0fe8f6b12aa17a844c79c6366c3beedfebf58",
+      "path": "results/formal_main_v2/control_transport/goal30_design_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_final_interfaces_v5.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_final_interfaces_v5.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/replay/cpu_final_interfaces_v5.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_final_interfaces_v5.py",
+      "entrypoint_sha256": "76fecbb4317c0e23d7f06988f45a806217183efa4a326ae6ca426e0d3d211e15",
+      "path": "results/formal_main_v2/control_transport/goal_r5_final_interfaces_v5_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/fix_ACK_and_encoding_v4.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/fix_ACK_and_encoding_v4.py",
+      "entrypoint_sha256": "3346835f803e847d1b80cd680749155a9aaf069b52ead0ee4c2865fe4773a97f",
+      "path": "results/formal_main_v2/control_transport/goal_r5_fix_ACK_encoding_v4_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/freeze_delivery_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/freeze_delivery_v1.py",
+      "entrypoint_sha256": "39be14ad7df09e97db7c1f46e459bea670a5aa70b397adae859bb77a1ac93d03",
+      "path": "results/formal_main_v2/control_transport/goal_r5_freeze_delivery_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/freeze_package_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/freeze_package_v1.py",
+      "entrypoint_sha256": "7925e2f1a110b0b8d0c59fc32a6d3b5e0831e254c27322b29e50e0c60110f02f",
+      "path": "results/formal_main_v2/control_transport/goal_r5_freeze_package_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/fix_scope_preimport_v5.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/fix_scope_preimport_v5.py",
+      "entrypoint_sha256": "daca4d97739dadc8026203a5b502035abf447eba42d34d1f94f707839b79a32c",
+      "path": "results/formal_main_v2/control_transport/goal_r5_scope_preimport_v5_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/verify_saved.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/verify_saved.py",
+      "entrypoint_sha256": "d931e893a18eef2ea0037eb325dcbc21ecfc9032fe18316c335464d5e5f0a936",
+      "path": "results/formal_main_v2/control_transport/goal_r5_verify_frozen_delivery_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_ACK_independent/audit_transactions.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_ACK_independent_20261021T0449/audit_transactions.py",
+      "entrypoint_sha256": "8885a380506026f5077d8013096aa1c199bcdfc1f013ded0f4137955b2bcdefc",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_ACK_independent_0449.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_ACK_independent/audit_transactions_v2.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_ACK_independent_20261021T0449/audit_transactions_v2.py",
+      "entrypoint_sha256": "802fb9b8b21a740e30a09150ccb7e428eeb0ac97903cb6ed62458b7c7d141941",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_ACK_independent_v2_0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_authorization_helper_independent/check_helper.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_authorization_helper_review_20261021T0449/check_helper.py",
+      "entrypoint_sha256": "b7a2cf9dd2c25f662c7858b95a5efc5592965ba32037a37ed89049c2824bba5e",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_authorization_helper_review_0449.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_authorization_helper_independent/check_helper_v2.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_authorization_helper_review_20261021T0449/check_helper_v2.py",
+      "entrypoint_sha256": "0df8903531910a20c05277e9adf2d3eab76af13d604eba30844305085bf3673c",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_authorization_helper_review_v2_0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/bind_plans_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/bind_plans_v1.py",
+      "entrypoint_sha256": "5fd93c2ea6d9752cb32f1112ac2b71c7fdf1c9419098c4c049d958f6ea5c7f80",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_bind_plans_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/build_cpu_tests_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/build_cpu_tests_v1.py",
+      "entrypoint_sha256": "d46edadd6d43d066b5c3a310e96b6d1ce8582d5a78b214a489d276b805374224",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_build_cpu_tests_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_plan_independent/audit.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/plans_canonical/audit.py",
+      "entrypoint_sha256": "904eb8e348b55e3ccc5935d64aa1bf558027b3cc5b4cc80be9d2fc23c84431f6",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_canonical_independent_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/build_consumer_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/build_consumer_v1.py",
+      "entrypoint_sha256": "89a0be0c5efb265bc4660da9f4ad0deca035ae021529200409e18a6ec983e7ca",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_consumer_build_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/build_core_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/build_core_v1.py",
+      "entrypoint_sha256": "dd0f12956f11c270c0bfeea5b645c97016790b1f5258d92867d592ae1f454f2e",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_core_build_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_libero_goal_k256_seed41_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_libero_goal_k256_seed41_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_libero_goal_k256_seed41_v1.py",
+      "entrypoint_sha256": "a3c9b31a30c1a5730e52702c3e14681cb3f615ff7c46d641ee152bca2aad88d9",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_cpu_256_seed41_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_libero_goal_k256_seed23_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_libero_goal_k256_seed23_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_libero_goal_k256_seed23_v1.py",
+      "entrypoint_sha256": "13de383756cb868498c8c72233cdf8b038c3aa1599e9cee357e5ea0306b2cf42",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_cpu_256s23_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_libero_goal_k64_seed17_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_libero_goal_k64_seed17_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_libero_goal_k64_seed17_v1.py",
+      "entrypoint_sha256": "9f51ceb59a4f7788fa84ca9a6872372c2496ab87dbd673c830ff41789d6e43ae",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_cpu_64_seed17_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_libero_goal_k64_seed23_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_libero_goal_k64_seed23_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_libero_goal_k64_seed23_v1.py",
+      "entrypoint_sha256": "067737e67368a99fd8a4378610dbf5a949b1d6bac78a2cc0e6b9d6d51e679fdb",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_cpu_64_seed23_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_libero_goal_k64_seed41_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_libero_goal_k64_seed41_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_libero_goal_k64_seed41_v1.py",
+      "entrypoint_sha256": "98c1abd55330e455738ac3213902cf490a4814b9babd43cb3a67163ef18eaed5",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_cpu_64_seed41_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/verify_cpu_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_dispatch_20261021T0449/verify_cpu_v1.py",
+      "entrypoint_sha256": "bf79a933072311c1fcabc1b799ab28111e8fc20a82fe76ed3e766fa02c5bbf96",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_dispatch_CPU_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/verify_cpu_v2.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_dispatch_20261021T0449/verify_cpu_v2.py",
+      "entrypoint_sha256": "909bcf3886936f9f0bcee162a829263bb97376f34876006acf5773465756a454",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_dispatch_CPU_v2_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/verify_cpu_v3.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_dispatch_20261021T0449/verify_cpu_v3.py",
+      "entrypoint_sha256": "753f030bd8f670e3caf6bbf8fa5e5ad3e90c44e824a0438eb02b4fb6f185b1af",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_dispatch_CPU_v3_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/build_entry_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/build_entry_v1.py",
+      "entrypoint_sha256": "3e51abfe518735ef2d08767ffa870c6bdde471602a80389d0f9e1dfd9f888286",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_entry_build_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/fix_fresh_panel_v3.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/fix_fresh_panel_v3.py",
+      "entrypoint_sha256": "0bf8d05930e0fbb8b9a62dca183aa327ba852283f233b78a86731653e693b945",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_fresh_panel_v3_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_independent/verify_admission.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_gateway_independent_20261021T0449/verify_admission.py",
+      "entrypoint_sha256": "48d4a8793b17388a426d128c5042efceaf2d4b4f28be85d89afd8d37c6dfe2b3",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_gateway_independent_admission_0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_independent/verify_control.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_gateway_independent_20261021T0449/verify_control.py",
+      "entrypoint_sha256": "a350e508db21986b485e5f260c3411898102ebb3b96a825f4e40feaee8401aa0",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_gateway_independent_control_0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_independent/verify_control_v3.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_gateway_independent_20261021T0449/verify_control_v3.py",
+      "entrypoint_sha256": "59cc51d889e237751a3a06f8c472a25148fb189ba947f05498a7b6ce7bdc62b4",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_gateway_independent_control_v3_0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_independent/verify_cross_interface.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_gateway_independent_20261021T0449/verify_cross_interface.py",
+      "entrypoint_sha256": "fda40ae1f4ca46ef68801be0f13a0e9a32d565a2b8d356650045ca8dd8d70795",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_gateway_independent_cross_0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_independent/finalize.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_gateway_independent_20261021T0449/finalize.py",
+      "entrypoint_sha256": "2a4ff2dd173fdc4616e9b9d2eed053962538ae4214169b7ddf9c65c4380065ec",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_gateway_independent_finalize_0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/harden_metadata_v2.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/harden_metadata_v2.py",
+      "entrypoint_sha256": "d1a34fe2b1d95a88b0c2dbc6fd4b08464a16c5e8af661ced2e6a447d5ccac551",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_harden_metadata_v2_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/scope_bootstrap.py",
+      "entrypoint_sha256": "9ff5d967b8e058c5aff977fdbfac8abdcab741603fdd025d1ba8058d762c38d4",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_identity_independent_20261021T0449.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/scope_bootstrap_v2.py",
+      "entrypoint_sha256": "f37d20dc0e319893b3489c402516368d8808307955124fadfa023038e78c0e69",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_identity_independent_v2_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_interfaces_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_interfaces_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/replay/cpu_interfaces_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_interfaces_v1.py",
+      "entrypoint_sha256": "89687238bc3f81ca6a40c2fe96eaab7119c7728713ca541a7985721ed573f18f",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_interfaces_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_metadata_independent/audit.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/metadata_post_review/audit.py",
+      "entrypoint_sha256": "ef873e96bb111fff2154d8675a35cc6932ad14094f3580333e32135d417fd25b",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_metadata_independent_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_outer_v2.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_outer_v2.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/replay/cpu_outer_v2.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_outer_v2.py",
+      "entrypoint_sha256": "7662ddc55c01d07b05929d559c7ae068b8ead26de6a9fd26f5b74f97cd4d3cdc",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_outer_v2_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_plans_author/build_plans.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_plans_20261021T0449/build_plans.py",
+      "entrypoint_sha256": "1f7a16e038e8340579aedb98b21021aadc65867307f55f8dbdef7edb84e15a52",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_plans_0449_build.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_plans_author/v2/build_plans.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_plans_20261021T0449/v2/build_plans.py",
+      "entrypoint_sha256": "3d84ce954a5d6b3d74cbe430518b12bdba93fe25bc17631bf743cc75698b6ffa",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_plans_0449_build_v2.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_plans_author/finalize.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_plans_20261021T0449/finalize.py",
+      "entrypoint_sha256": "7b52d39b9e72a4ad593fbdda58adb76191ae22e75696455ac01c8944b6474084",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_plans_0449_finalize.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_plans_author/probe_original.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_plans_20261021T0449/probe_original.py",
+      "entrypoint_sha256": "3cfff9b9207ece733198c87b10fb1636ef21e152efe59c572b459b6247836f12",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_plans_0449_probe.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_plans_author/v2/test_plans_v2.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_plans_20261021T0449/v2/test_plans_v2.py",
+      "entrypoint_sha256": "06056dfc8c9eb348286f3ae811e581a035160ad5eaa616497d097e0d651265b7",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_plans_0449_tests_v2.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_plans_author/v2/test_plans_v3.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_plans_20261021T0449/v2/test_plans_v3.py",
+      "entrypoint_sha256": "9334c30153740ace4ab445f1edf2c2e080bb8c7b94cc7f567febaf9586dc8369",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_plans_0449_tests_v3.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_published_interface_independent/check_published.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_published_integration_20261021T0449/check_published.py",
+      "entrypoint_sha256": "a5f03c3c37c3194dc3419df01fe627f41457fe3677573279e8d1de9e24916e33",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_published_integration_0449.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_published_interface_independent/check_published_v2.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_published_integration_20261021T0449/check_published_v2.py",
+      "entrypoint_sha256": "3817d03aae1c579ab699b6e2a90bb30bf2f829db7c82bcf19f09b46e1c524c3a",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_published_integration_v2_0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/cpu_raw_consumer_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/original_test_sources/cpu_raw_consumer_v1.py",
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/replay/cpu_raw_consumer_v1.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/cpu_raw_consumer_v1.py",
+      "entrypoint_sha256": "f6c9369c0befd1bbe02c604845ec244c0625968d84f4c2381088967e858f3daa",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_raw_consumer_v1_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/archive_cpu.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/runtime_source_CPU/archive_cpu.py",
+      "entrypoint_sha256": "3297e96926f981a0ff22e68cdc1313b53021fd641f44dce72aa4cac763b5268a",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_runtime_archive_final_independent_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/archive_cpu.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/runtime_source_CPU/archive_cpu.py",
+      "entrypoint_sha256": "3297e96926f981a0ff22e68cdc1313b53021fd641f44dce72aa4cac763b5268a",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_runtime_archive_partial_independent_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_author/verify_saved.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_runtime_20261021T0449/verify_saved.py",
+      "entrypoint_sha256": "d931e893a18eef2ea0037eb325dcbc21ecfc9032fe18316c335464d5e5f0a936",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_runtime_author_bytes_independent_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/independent_edges.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/runtime_source_CPU/independent_edges.py",
+      "entrypoint_sha256": "16f3a448183578fde1b7528b2eae29954e2a0763c434f1a865208ff5976f4c96",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_runtime_edges_independent_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/finalize.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/runtime_source_CPU/finalize.py",
+      "entrypoint_sha256": "a576013f6885bd5f894e6aabf4cd389ac223112fd723aa9197a6af4f648274f7",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_runtime_final_independent_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_runtime_independent/replay.py"
+      ],
+      "entrypoint": ".local/goal_remaining5_independent_20261021T0449/runtime_source_CPU/replay.py",
+      "entrypoint_sha256": "87511401d34cac5bcd6bb4fa4d8a65b52ffea056470295447f7e1f73431b832d",
+      "path": "results/formal_main_v2/control_transport/goal_remaining5_runtime_independent_replay_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/integrate_goal_remaining5_20261021T0449.py"
+      ],
+      "entrypoint": ".local/integrate_goal_remaining5_20261021T0449.py",
+      "entrypoint_sha256": "38351487752e47ef204b321212df90025f860db5fecebdd686d05888708cdb27",
+      "path": "results/formal_main_v2/control_transport/integrate_goal_remaining5_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/observe_20261021T0449.py"
+      ],
+      "entrypoint": ".local/observe_20261021T0449.py",
+      "entrypoint_sha256": "cb73446e16a333e2fd6d6294ce1469e7129d74535669198ff6511f5c9ab9210b",
+      "path": "results/formal_main_v2/control_transport/observe_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/observe_goal_dispatch_20261021T0449.py"
+      ],
+      "entrypoint": ".local/observe_goal_dispatch_20261021T0449.py",
+      "entrypoint_sha256": "603587cb977bf9ec52008e7789a040c3a0cc93233d09c1f468f10542ca8bf944",
+      "path": "results/formal_main_v2/control_transport/observe_goal_dispatch_20261021T0449_v2.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/prepare_goal_remaining5_20261021T0449.py"
+      ],
+      "entrypoint": ".local/prepare_goal_remaining5_20261021T0449.py",
+      "entrypoint_sha256": "b78a39631a8a86207eedfceb53fa90ca266a7200418e819829ee42a2a0f67be5",
+      "path": "results/formal_main_v2/control_transport/prepare_goal_remaining5_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/publish_goal_remaining5_design_20261021T0449.py"
+      ],
+      "entrypoint": ".local/publish_goal_remaining5_design_20261021T0449.py",
+      "entrypoint_sha256": "353fa769d9687b9727a247fbf348001d40d44b40d45b668d9a87e9bb126a5822",
+      "path": "results/formal_main_v2/control_transport/publish_goal_remaining5_design_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/publish_goal_remaining5_plans_20261021T0449.py"
+      ],
+      "entrypoint": ".local/publish_goal_remaining5_plans_20261021T0449.py",
+      "entrypoint_sha256": "a4382a6e99f9774592849148c2f4da8b883d4a5de8ec06b606b18e0c7a90a216",
+      "path": "results/formal_main_v2/control_transport/publish_goal_remaining5_plans_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/publish_goal_remaining5_runtime_20261021T0449.py"
+      ],
+      "entrypoint": ".local/publish_goal_remaining5_runtime_20261021T0449.py",
+      "entrypoint_sha256": "5eb3b8d12a65c9a80542d9eeb529f83281d2d8e9a8c0b8adaa5d92a96ce630ef",
+      "path": "results/formal_main_v2/control_transport/publish_goal_remaining5_runtime_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/preflight/heartbeat_20261021T1249/root_operations/publish_goal_remaining5_storage_20261021T0449.py"
+      ],
+      "entrypoint": ".local/publish_goal_remaining5_storage_20261021T0449.py",
+      "entrypoint_sha256": "082ba5bc08d0cd5ea0bde014cd5b5075dfd54055474974248430eee88ce4f9b6",
+      "path": "results/formal_main_v2/control_transport/publish_goal_remaining5_storage_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/reconcile_goal_r5_k256s23_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/reconcile_goal_r5_k256s41_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/reconcile_goal_r5_k64s17_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/reconcile_goal_r5_k64s23_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/reconcile_goal_r5_k64s41_20261021T0449.jsonl",
+      "returncode": 0
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/submit_goal_r5_k256s23_20261021T0449.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/submit_goal_r5_k256s41_20261021T0449.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/submit_goal_r5_k64s17_20261021T0449.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/submit_goal_r5_k64s23_20261021T0449.jsonl",
+      "returncode": 1
+    },
+    {
+      "delivered_source_paths": [
+        "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_gateway_root_author/gateway_v3.py",
+        "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py"
+      ],
+      "entrypoint": "scripts/ops/formal_goal_remaining5_dispatch_v1/gateway.py",
+      "entrypoint_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+      "path": "results/formal_main_v2/control_transport/submit_goal_r5_k64s41_20261021T0449.jsonl",
+      "returncode": 1
+    }
+  ]
+}

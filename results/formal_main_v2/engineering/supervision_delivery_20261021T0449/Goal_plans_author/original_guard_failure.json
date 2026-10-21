@@ -1,0 +1,15 @@
+{
+  "GPU_cost_added": 0,
+  "cause": "Registered terminal Goal3054717 lacked method_ids; the original planner correctly treats absent method IDs as potential overlap.",
+  "correction": "Root added exactly method_ids=[A256_seed17,B256_seed17] from actual accepted evidence. Author did not change state, delete/filter jobs or alter the planner.",
+  "entrypoint_sha256": "1f7a16e038e8340579aedb98b21021aadc65867307f55f8dbdef7edb84e15a52",
+  "error": "Another registered stage overlaps these method/state instances",
+  "kind": "Goal_remaining5_original_plan_guard_failure",
+  "root_correction": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1249/method_ids_metadata_receipt.json",
+    "sha256": "7120074bd1ee53f2ce363c496a51de51fbeac91558c902e2d6f9da7323ad6819"
+  },
+  "schema": "formal_main_v2",
+  "state_sha256": "54ee7389fe300b4ec553998d91b9bf727ca3231c2066e35a86716559a3c1406d",
+  "status": "retained_CPU_failure"
+}

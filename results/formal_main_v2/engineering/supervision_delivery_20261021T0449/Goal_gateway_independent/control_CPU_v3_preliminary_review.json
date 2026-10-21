@@ -1,0 +1,999 @@
+{
+  "GPU_execution_authorized": false,
+  "actual_scheduler_queries": 0,
+  "author_replay": {
+    "positive": 302,
+    "rejections": 383,
+    "report_sha256": "8310acd290ae6c7e879c6dc08e34cdc4c1674e188d38e52b6b51db65ea4476d3"
+  },
+  "author_test_sha256": "753f030bd8f670e3caf6bbf8fa5e5ad3e90c44e824a0438eb02b4fb6f185b1af",
+  "blockers": [
+    "final exact five-pair runtime manifest/scope not yet supplied",
+    "actual admission/entry/consumer cross-interface with final runtime not yet independently rebuilt",
+    "canonical actual-P publication/verification and production root readiness remain future work"
+  ],
+  "findings": [],
+  "independent_negative_count": 152,
+  "independent_positive_count": 202,
+  "kind": "Goal_remaining5_atomic_dispatch_independent_control_CPU_preliminary",
+  "negative": [
+    {
+      "check": "libero_goal_k256_seed23 duplicate scheduler fields",
+      "error": "duplicate scontrol field",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 root pending blocks",
+      "error": "unresolved pending; never clear/retry",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 existing reservation blocks",
+      "error": "other reserved work blocks this exact attempt",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 reconcile-only metadata cannot submit",
+      "error": "existing ACK metadata may only reconcile, never submit or prepare new work",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 boundary fact_preflight.json",
+      "error": "fact_preflight.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed23 preserved failed fact blocks retry fact_preflight.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 boundary fact_pending.json",
+      "error": "fact_pending.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed23 preserved failed fact blocks retry fact_pending.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 boundary cas_before_0",
+      "error": "cas_before_0",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed23 preserved failed fact blocks retry cas_before_0",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 save unique ACK",
+      "error": "actual_held",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed23 ACK cannot reconcile libero_goal_k256_seed41",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 ACK cannot reconcile libero_goal_k64_seed17",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 ACK cannot reconcile libero_goal_k64_seed23",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 ACK cannot reconcile libero_goal_k64_seed41",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 pending tamper submission_token",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 pending tamper invocation_sha256",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 pending tamper known_job_id",
+      "error": "pending ACK ID differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 pending tamper authorization",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 pending tamper actual_sbatch_argv",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 before release effect",
+      "error": "release_before_effect",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed23 still-held after release intent remains HOLD",
+      "error": "held state incompatible; no resend",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 duplicate scheduler fields",
+      "error": "duplicate scontrol field",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 root pending blocks",
+      "error": "unresolved pending; never clear/retry",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 existing reservation blocks",
+      "error": "other reserved work blocks this exact attempt",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 reconcile-only metadata cannot submit",
+      "error": "existing ACK metadata may only reconcile, never submit or prepare new work",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 boundary fact_preflight.json",
+      "error": "fact_preflight.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed41 preserved failed fact blocks retry fact_preflight.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 boundary fact_pending.json",
+      "error": "fact_pending.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed41 preserved failed fact blocks retry fact_pending.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 boundary cas_before_0",
+      "error": "cas_before_0",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed41 preserved failed fact blocks retry cas_before_0",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 save unique ACK",
+      "error": "actual_held",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed41 ACK cannot reconcile libero_goal_k256_seed23",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 ACK cannot reconcile libero_goal_k64_seed17",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 ACK cannot reconcile libero_goal_k64_seed23",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 ACK cannot reconcile libero_goal_k64_seed41",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 pending tamper submission_token",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 pending tamper invocation_sha256",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 pending tamper known_job_id",
+      "error": "pending ACK ID differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 pending tamper authorization",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 pending tamper actual_sbatch_argv",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 before release effect",
+      "error": "release_before_effect",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k256_seed41 still-held after release intent remains HOLD",
+      "error": "held state incompatible; no resend",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 duplicate scheduler fields",
+      "error": "duplicate scontrol field",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 root pending blocks",
+      "error": "unresolved pending; never clear/retry",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 existing reservation blocks",
+      "error": "other reserved work blocks this exact attempt",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 reconcile-only metadata cannot submit",
+      "error": "existing ACK metadata may only reconcile, never submit or prepare new work",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 boundary fact_preflight.json",
+      "error": "fact_preflight.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed17 preserved failed fact blocks retry fact_preflight.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 boundary fact_pending.json",
+      "error": "fact_pending.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed17 preserved failed fact blocks retry fact_pending.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 boundary cas_before_0",
+      "error": "cas_before_0",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed17 preserved failed fact blocks retry cas_before_0",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 save unique ACK",
+      "error": "actual_held",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed17 ACK cannot reconcile libero_goal_k256_seed23",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 ACK cannot reconcile libero_goal_k256_seed41",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 ACK cannot reconcile libero_goal_k64_seed23",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 ACK cannot reconcile libero_goal_k64_seed41",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 pending tamper submission_token",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 pending tamper invocation_sha256",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 pending tamper known_job_id",
+      "error": "pending ACK ID differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 pending tamper authorization",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 pending tamper actual_sbatch_argv",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 before release effect",
+      "error": "release_before_effect",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed17 still-held after release intent remains HOLD",
+      "error": "held state incompatible; no resend",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 duplicate scheduler fields",
+      "error": "duplicate scontrol field",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 root pending blocks",
+      "error": "unresolved pending; never clear/retry",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 existing reservation blocks",
+      "error": "other reserved work blocks this exact attempt",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 reconcile-only metadata cannot submit",
+      "error": "existing ACK metadata may only reconcile, never submit or prepare new work",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 boundary fact_preflight.json",
+      "error": "fact_preflight.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed23 preserved failed fact blocks retry fact_preflight.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 boundary fact_pending.json",
+      "error": "fact_pending.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed23 preserved failed fact blocks retry fact_pending.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 boundary cas_before_0",
+      "error": "cas_before_0",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed23 preserved failed fact blocks retry cas_before_0",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 save unique ACK",
+      "error": "actual_held",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed23 ACK cannot reconcile libero_goal_k256_seed23",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 ACK cannot reconcile libero_goal_k256_seed41",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 ACK cannot reconcile libero_goal_k64_seed17",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 ACK cannot reconcile libero_goal_k64_seed41",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 pending tamper submission_token",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 pending tamper invocation_sha256",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 pending tamper known_job_id",
+      "error": "pending ACK ID differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 pending tamper authorization",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 pending tamper actual_sbatch_argv",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 before release effect",
+      "error": "release_before_effect",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed23 still-held after release intent remains HOLD",
+      "error": "held state incompatible; no resend",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 duplicate scheduler fields",
+      "error": "duplicate scontrol field",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 root pending blocks",
+      "error": "unresolved pending; never clear/retry",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 existing reservation blocks",
+      "error": "other reserved work blocks this exact attempt",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 reconcile-only metadata cannot submit",
+      "error": "existing ACK metadata may only reconcile, never submit or prepare new work",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 boundary fact_preflight.json",
+      "error": "fact_preflight.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed41 preserved failed fact blocks retry fact_preflight.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 boundary fact_pending.json",
+      "error": "fact_pending.json",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed41 preserved failed fact blocks retry fact_pending.json",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 boundary cas_before_0",
+      "error": "cas_before_0",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed41 preserved failed fact blocks retry cas_before_0",
+      "error": "prior attempt evidence",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 save unique ACK",
+      "error": "actual_held",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed41 ACK cannot reconcile libero_goal_k256_seed23",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 ACK cannot reconcile libero_goal_k256_seed41",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 ACK cannot reconcile libero_goal_k64_seed17",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 ACK cannot reconcile libero_goal_k64_seed23",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 pending tamper submission_token",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 pending tamper invocation_sha256",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 pending tamper known_job_id",
+      "error": "pending ACK ID differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 pending tamper authorization",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 pending tamper actual_sbatch_argv",
+      "error": "exact original pending required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 before release effect",
+      "error": "release_before_effect",
+      "type": "Interrupt"
+    },
+    {
+      "check": "libero_goal_k64_seed41 still-held after release intent remains HOLD",
+      "error": "held state incompatible; no resend",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 reject accounting missing",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 reject accounting extra",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 reject accounting unknown",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 reject accounting oldcost",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 reject accounting oldexit",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 reject accounting oldGPU",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 duplicate registered ID",
+      "error": "duplicate/invalid registry ID",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 reject accounting missing",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 reject accounting extra",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 reject accounting unknown",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 reject accounting oldcost",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 reject accounting oldexit",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 reject accounting oldGPU",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 duplicate registered ID",
+      "error": "duplicate/invalid registry ID",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 reject accounting missing",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 reject accounting extra",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 reject accounting unknown",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 reject accounting oldcost",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 reject accounting oldexit",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 reject accounting oldGPU",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 duplicate registered ID",
+      "error": "duplicate/invalid registry ID",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 reject accounting missing",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 reject accounting extra",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 reject accounting unknown",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 reject accounting oldcost",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 reject accounting oldexit",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 reject accounting oldGPU",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 duplicate registered ID",
+      "error": "duplicate/invalid registry ID",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 reject accounting missing",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 reject accounting extra",
+      "error": "all registered accounting required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 reject accounting unknown",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 reject accounting oldcost",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 reject accounting oldexit",
+      "error": "unknown/stale allocation blocks",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 reject accounting oldGPU",
+      "error": "original allocation/cost changed",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 duplicate registered ID",
+      "error": "duplicate/invalid registry ID",
+      "type": "ValueError"
+    },
+    {
+      "check": "observe rejects changed terminal duration",
+      "error": "terminal changed between complete accounting observations",
+      "type": "ValueError"
+    },
+    {
+      "check": "observe rejects missing second allocation",
+      "error": "terminal confirmation missing allocation",
+      "type": "ValueError"
+    },
+    {
+      "check": "observe rejects failed confirmation",
+      "error": "terminal confirmation sacct failed: fixture-error",
+      "type": "ValueError"
+    },
+    {
+      "check": "observe rejects Invalid job id is not empty queue",
+      "error": "squeue failed: fixture-error",
+      "type": "ValueError"
+    },
+    {
+      "check": "observe rejects live accounting absent queue",
+      "error": "active accounting/queue race or missing live job; retry read-only only",
+      "type": "ValueError"
+    },
+    {
+      "check": "observe rejects duplicate queue row",
+      "error": "unexpected queue row",
+      "type": "ValueError"
+    },
+    {
+      "check": "observe rejects unknown scheduler state",
+      "error": "unknown actual scheduler state",
+      "type": "ValueError"
+    }
+  ],
+  "new_GPU_submissions": 0,
+  "positive": [
+    "libero_goal_k256_seed23 fragment duplicate 0 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 0 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 0 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 1 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 1 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 1 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 2 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 2 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 2 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 3 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 3 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 3 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 4 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 4 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 4 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 5 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 5 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 5 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 6 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 6 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 6 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 7 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 7 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 7 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 8 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 8 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 8 UNKNOWN",
+    "libero_goal_k256_seed23 fragment duplicate 9 FAILED",
+    "libero_goal_k256_seed23 fragment duplicate 9 COMPLETED",
+    "libero_goal_k256_seed23 fragment duplicate 9 UNKNOWN",
+    "libero_goal_k256_seed23 same pair cross mode blocks",
+    "libero_goal_k256_seed23 unknown Goal pair blocks",
+    "libero_goal_k256_seed23 pending has no allocation",
+    "libero_goal_k256_seed23 reservation has no allocation",
+    "libero_goal_k256_seed23 failed initial persistence no sbatch fact_preflight.json",
+    "libero_goal_k256_seed23 failed initial persistence no sbatch fact_pending.json",
+    "libero_goal_k256_seed23 failed initial persistence no sbatch cas_before_0",
+    "libero_goal_k256_seed23 neither release nor submit repeated",
+    "libero_goal_k256_seed41 fragment duplicate 0 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 0 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 0 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 1 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 1 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 1 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 2 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 2 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 2 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 3 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 3 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 3 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 4 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 4 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 4 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 5 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 5 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 5 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 6 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 6 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 6 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 7 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 7 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 7 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 8 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 8 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 8 UNKNOWN",
+    "libero_goal_k256_seed41 fragment duplicate 9 FAILED",
+    "libero_goal_k256_seed41 fragment duplicate 9 COMPLETED",
+    "libero_goal_k256_seed41 fragment duplicate 9 UNKNOWN",
+    "libero_goal_k256_seed41 same pair cross mode blocks",
+    "libero_goal_k256_seed41 unknown Goal pair blocks",
+    "libero_goal_k256_seed41 pending has no allocation",
+    "libero_goal_k256_seed41 reservation has no allocation",
+    "libero_goal_k256_seed41 failed initial persistence no sbatch fact_preflight.json",
+    "libero_goal_k256_seed41 failed initial persistence no sbatch fact_pending.json",
+    "libero_goal_k256_seed41 failed initial persistence no sbatch cas_before_0",
+    "libero_goal_k256_seed41 neither release nor submit repeated",
+    "libero_goal_k64_seed17 fragment duplicate 0 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 0 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 0 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 1 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 1 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 1 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 2 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 2 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 2 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 3 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 3 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 3 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 4 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 4 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 4 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 5 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 5 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 5 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 6 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 6 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 6 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 7 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 7 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 7 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 8 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 8 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 8 UNKNOWN",
+    "libero_goal_k64_seed17 fragment duplicate 9 FAILED",
+    "libero_goal_k64_seed17 fragment duplicate 9 COMPLETED",
+    "libero_goal_k64_seed17 fragment duplicate 9 UNKNOWN",
+    "libero_goal_k64_seed17 same pair cross mode blocks",
+    "libero_goal_k64_seed17 unknown Goal pair blocks",
+    "libero_goal_k64_seed17 pending has no allocation",
+    "libero_goal_k64_seed17 reservation has no allocation",
+    "libero_goal_k64_seed17 failed initial persistence no sbatch fact_preflight.json",
+    "libero_goal_k64_seed17 failed initial persistence no sbatch fact_pending.json",
+    "libero_goal_k64_seed17 failed initial persistence no sbatch cas_before_0",
+    "libero_goal_k64_seed17 neither release nor submit repeated",
+    "libero_goal_k64_seed23 fragment duplicate 0 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 0 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 0 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 1 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 1 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 1 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 2 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 2 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 2 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 3 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 3 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 3 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 4 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 4 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 4 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 5 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 5 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 5 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 6 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 6 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 6 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 7 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 7 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 7 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 8 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 8 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 8 UNKNOWN",
+    "libero_goal_k64_seed23 fragment duplicate 9 FAILED",
+    "libero_goal_k64_seed23 fragment duplicate 9 COMPLETED",
+    "libero_goal_k64_seed23 fragment duplicate 9 UNKNOWN",
+    "libero_goal_k64_seed23 same pair cross mode blocks",
+    "libero_goal_k64_seed23 unknown Goal pair blocks",
+    "libero_goal_k64_seed23 pending has no allocation",
+    "libero_goal_k64_seed23 reservation has no allocation",
+    "libero_goal_k64_seed23 failed initial persistence no sbatch fact_preflight.json",
+    "libero_goal_k64_seed23 failed initial persistence no sbatch fact_pending.json",
+    "libero_goal_k64_seed23 failed initial persistence no sbatch cas_before_0",
+    "libero_goal_k64_seed23 neither release nor submit repeated",
+    "libero_goal_k64_seed41 fragment duplicate 0 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 0 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 0 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 1 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 1 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 1 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 2 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 2 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 2 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 3 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 3 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 3 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 4 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 4 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 4 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 5 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 5 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 5 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 6 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 6 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 6 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 7 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 7 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 7 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 8 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 8 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 8 UNKNOWN",
+    "libero_goal_k64_seed41 fragment duplicate 9 FAILED",
+    "libero_goal_k64_seed41 fragment duplicate 9 COMPLETED",
+    "libero_goal_k64_seed41 fragment duplicate 9 UNKNOWN",
+    "libero_goal_k64_seed41 same pair cross mode blocks",
+    "libero_goal_k64_seed41 unknown Goal pair blocks",
+    "libero_goal_k64_seed41 pending has no allocation",
+    "libero_goal_k64_seed41 reservation has no allocation",
+    "libero_goal_k64_seed41 failed initial persistence no sbatch fact_preflight.json",
+    "libero_goal_k64_seed41 failed initial persistence no sbatch fact_pending.json",
+    "libero_goal_k64_seed41 failed initial persistence no sbatch cas_before_0",
+    "libero_goal_k64_seed41 neither release nor submit repeated",
+    "saved real sacct rows reconstruct",
+    "all 303 allocation rows / 273 formal",
+    "libero_goal_k256_seed23 all-mode saved cost exact",
+    "libero_goal_k256_seed41 all-mode saved cost exact",
+    "libero_goal_k64_seed17 all-mode saved cost exact",
+    "libero_goal_k64_seed23 all-mode saved cost exact",
+    "libero_goal_k64_seed41 all-mode saved cost exact",
+    "stale status requires two complete consistent snapshots",
+    "live exact queue retained",
+    "source unchanged gateway_v3.py",
+    "source unchanged verify_cpu_v3.py",
+    "source unchanged CPU_report_v3.json"
+  ],
+  "production_admitted": false,
+  "reviewed_by": "spatial588_recovery_author_2054_independent_gateway_only",
+  "schema": "formal_main_v2",
+  "scope": [
+    "libero_goal_k256_seed23",
+    "libero_goal_k256_seed41",
+    "libero_goal_k64_seed17",
+    "libero_goal_k64_seed23",
+    "libero_goal_k64_seed41"
+  ],
+  "scope_fixture_not_production": true,
+  "source_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+  "status": "passed_control_transaction_CPU_pending_runtime_binding"
+}

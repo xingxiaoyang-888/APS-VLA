@@ -1,0 +1,958 @@
+{
+  "actual_P_verified": false,
+  "actual_native_admission_executed": false,
+  "callbacks": [
+    {
+      "CPU_stub": true,
+      "must_be_fresh": true,
+      "pair": "libero_goal_k256_seed23"
+    },
+    {
+      "CPU_stub": true,
+      "must_be_fresh": true,
+      "pair": "libero_goal_k256_seed41"
+    },
+    {
+      "CPU_stub": true,
+      "must_be_fresh": true,
+      "pair": "libero_goal_k64_seed17"
+    },
+    {
+      "CPU_stub": true,
+      "must_be_fresh": true,
+      "pair": "libero_goal_k64_seed23"
+    },
+    {
+      "CPU_stub": true,
+      "must_be_fresh": true,
+      "pair": "libero_goal_k64_seed41"
+    }
+  ],
+  "canonical_or_P_files_written": false,
+  "kind": "Goal_remaining5_atomic_admission_independent_CPU_fixture",
+  "negative": [
+    {
+      "check": "libero_goal_k256_seed23 missing root field schema",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field kind",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field status",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field reviewed_by",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field version",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field stage_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field pair_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field pair_id",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field method_ids",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field training_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field runtime_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field environment_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field maximum_trials",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field unique_development_states",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field maximum_control_steps",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field maximum_policy_queries",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field maximum_attempts",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field automatic_retry",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field original200_HOLD",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field final_allowed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field package_manifest_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field scope_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 missing root field resources",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad source/reference runtime_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad source/reference dispatch_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad source/reference authorization",
+      "error": "exact typed reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 mismatching P authorization",
+      "error": "authorization R/P differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad runtime_independent_review blockers",
+      "error": "independent runtime source review missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad dispatch_independent_review blockers",
+      "error": "new dispatcher independent proof missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad actual_P_verification returncode",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad actual_P_verification argv",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad actual_P_verification runtime_files",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 bad actual_P_verification stdout",
+      "error": "actual P verification is source/identity/capacity only",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 real entry rejects authorization root_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 real entry rejects authorization independent_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed23 real entry rejects authorization original_invocation",
+      "error": "exact genuine prepared invocation reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field schema",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field kind",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field status",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field reviewed_by",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field version",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field stage_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field pair_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field pair_id",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field method_ids",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field training_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field runtime_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field environment_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field maximum_trials",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field unique_development_states",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field maximum_control_steps",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field maximum_policy_queries",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field maximum_attempts",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field automatic_retry",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field original200_HOLD",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field final_allowed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field package_manifest_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field scope_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 missing root field resources",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad source/reference runtime_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad source/reference dispatch_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad source/reference authorization",
+      "error": "exact typed reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 mismatching P authorization",
+      "error": "authorization R/P differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad runtime_independent_review blockers",
+      "error": "independent runtime source review missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad dispatch_independent_review blockers",
+      "error": "new dispatcher independent proof missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad actual_P_verification returncode",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad actual_P_verification argv",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad actual_P_verification runtime_files",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 bad actual_P_verification stdout",
+      "error": "actual P verification is source/identity/capacity only",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 real entry rejects authorization root_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 real entry rejects authorization independent_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k256_seed41 real entry rejects authorization original_invocation",
+      "error": "exact genuine prepared invocation reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field schema",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field kind",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field status",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field reviewed_by",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field version",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field stage_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field pair_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field pair_id",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field method_ids",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field training_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field runtime_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field environment_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field maximum_trials",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field unique_development_states",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field maximum_control_steps",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field maximum_policy_queries",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field maximum_attempts",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field automatic_retry",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field original200_HOLD",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field final_allowed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field package_manifest_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field scope_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 missing root field resources",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad source/reference runtime_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad source/reference dispatch_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad source/reference authorization",
+      "error": "exact typed reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 mismatching P authorization",
+      "error": "authorization R/P differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad runtime_independent_review blockers",
+      "error": "independent runtime source review missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad dispatch_independent_review blockers",
+      "error": "new dispatcher independent proof missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad actual_P_verification returncode",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad actual_P_verification argv",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad actual_P_verification runtime_files",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 bad actual_P_verification stdout",
+      "error": "actual P verification is source/identity/capacity only",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 real entry rejects authorization root_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 real entry rejects authorization independent_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed17 real entry rejects authorization original_invocation",
+      "error": "exact genuine prepared invocation reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field schema",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field kind",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field status",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field reviewed_by",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field version",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field stage_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field pair_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field pair_id",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field method_ids",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field training_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field runtime_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field environment_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field maximum_trials",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field unique_development_states",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field maximum_control_steps",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field maximum_policy_queries",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field maximum_attempts",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field automatic_retry",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field original200_HOLD",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field final_allowed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field package_manifest_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field scope_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 missing root field resources",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad source/reference runtime_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad source/reference dispatch_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad source/reference authorization",
+      "error": "exact typed reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 mismatching P authorization",
+      "error": "authorization R/P differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad runtime_independent_review blockers",
+      "error": "independent runtime source review missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad dispatch_independent_review blockers",
+      "error": "new dispatcher independent proof missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad actual_P_verification returncode",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad actual_P_verification argv",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad actual_P_verification runtime_files",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 bad actual_P_verification stdout",
+      "error": "actual P verification is source/identity/capacity only",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 real entry rejects authorization root_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 real entry rejects authorization independent_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed23 real entry rejects authorization original_invocation",
+      "error": "exact genuine prepared invocation reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field schema",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field kind",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field status",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field reviewed_by",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field version",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field stage_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field pair_key",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field pair_id",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field method_ids",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field training_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field runtime_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field environment_seed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field maximum_trials",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field unique_development_states",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field maximum_control_steps",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field maximum_policy_queries",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field maximum_attempts",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field automatic_retry",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field original200_HOLD",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field final_allowed",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field package_manifest_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field scope_sha256",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 missing root field resources",
+      "error": "exact root dispatch scope absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad source/reference runtime_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad source/reference dispatch_files",
+      "error": "root source closures differ",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad source/reference authorization",
+      "error": "exact typed reference required",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 mismatching P authorization",
+      "error": "authorization R/P differs",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad runtime_independent_review blockers",
+      "error": "independent runtime source review missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad dispatch_independent_review blockers",
+      "error": "new dispatcher independent proof missing",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad actual_P_verification returncode",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad actual_P_verification argv",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad actual_P_verification runtime_files",
+      "error": "exact actual P process absent",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 bad actual_P_verification stdout",
+      "error": "actual P verification is source/identity/capacity only",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 real entry rejects authorization root_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 real entry rejects authorization independent_review",
+      "error": "readiness reference must contain exactly path and SHA",
+      "type": "ValueError"
+    },
+    {
+      "check": "libero_goal_k64_seed41 real entry rejects authorization original_invocation",
+      "error": "exact genuine prepared invocation reference required",
+      "type": "ValueError"
+    }
+  ],
+  "negative_count": 180,
+  "new_GPU_submissions": 0,
+  "package_manifest_sha256": "200dcef220601fd26565bb48106856612853739f486f8374ef91a4967e60692f",
+  "positive": [
+    "libero_goal_k256_seed23 actual admission function complete structural CPU traversal",
+    "libero_goal_k256_seed23 deterministic original authorization token",
+    "libero_goal_k256_seed41 actual admission function complete structural CPU traversal",
+    "libero_goal_k256_seed41 deterministic original authorization token",
+    "libero_goal_k64_seed17 actual admission function complete structural CPU traversal",
+    "libero_goal_k64_seed17 deterministic original authorization token",
+    "libero_goal_k64_seed23 actual admission function complete structural CPU traversal",
+    "libero_goal_k64_seed23 deterministic original authorization token",
+    "libero_goal_k64_seed41 actual admission function complete structural CPU traversal",
+    "libero_goal_k64_seed41 deterministic original authorization token"
+  ],
+  "positive_count": 10,
+  "production_admitted": false,
+  "schema": "formal_main_v2",
+  "scope_sha256": "f44e8cf97e0a9456782ea57ffeb4c4f39e47058b51c320b3947c73bd1a6cf27b",
+  "source_sha256": "45003c082efc508249e9ba41aac15639be7c4188d9517ee1717e71f563448f9b",
+  "state_written": false,
+  "status": "passed",
+  "strict_scope": "readiness/root/independent/actual-P result values are memory-only fixtures exercising source and ABI validation; no real receipt or actual_P pass created"
+}

@@ -1,0 +1,161 @@
+{
+  "Goal_fixed30_design": {
+    "bytes": 32430,
+    "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_fixed30_design/Goal_fixed30_design.json",
+    "sha256": "eaf63772f9a58bda0384cf4554fab881875a0ccf6e7ba41e6c14d37c98e9af44"
+  },
+  "Goal_fixed30_observations_complete": false,
+  "Goal_old200_HOLD": true,
+  "Goal_prospective200": {
+    "bytes": 4208,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1134/Goal3054717_root_acceptance.json",
+    "sha256": "24adf17380a37cce4c65172dc7d806c2574166b8d29281768708e21d36d73ae3"
+  },
+  "Goal_remaining1000_HOLD": false,
+  "Goal_remaining1000_acceptance_pending": true,
+  "Goal_remaining5_submissions": {
+    "bytes": 14567,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1249/Goal_remaining5_submissions_root_receipt.json",
+    "sha256": "6e998ddf4cc4fdd7c24f547cc8ea0e45e7642b0140517cecb6d09ef92ab08489"
+  },
+  "O2A_released": false,
+  "Object_linked_single_error_and600": {
+    "bytes": 2193,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1134/Object3054409_root_acceptance.json",
+    "sha256": "b004ba592130b9377a24fcb4ee738a78b47683aa4bb0d5227d2d05348a272692"
+  },
+  "accepted_count_basis": "7800 full-batch rows =6589 current +600 compatible Long +12 compatible Spatial +599 compatible Object. Original Object policy_error retained outside logical denominator; linked new attempt counted once.",
+  "accepted_fixed_observations_including_Long": 90,
+  "active_registered_GPU_jobs": [
+    "3057505",
+    "3057510",
+    "3057515",
+    "3057526",
+    "3057533"
+  ],
+  "actual_running_allocated_GPUs": 5,
+  "all_historical_catalog_development_rows": 7801,
+  "all_project_writes_server_only": true,
+  "allocated_GPU_hours": 554.2783333333333,
+  "allocated_GPU_seconds": 1995402,
+  "capacity": {
+    "active_pairs": {},
+    "findings": [],
+    "occupied": [
+      "3057505",
+      "3057510",
+      "3057515",
+      "3057526",
+      "3057533"
+    ],
+    "unknown": []
+  },
+  "compatible_development_trials": 7800,
+  "compatible_legacy_Long_trials": 600,
+  "compatible_legacy_Object_trials": 599,
+  "compatible_legacy_Spatial_trials": 12,
+  "controller_completed_normally": true,
+  "controller_lease_released": true,
+  "controller_restarted": false,
+  "cost_basis": {
+    "bytes": 235548,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1249/post_dispatch_observation.json",
+    "sha256": "2bfccdc44ce0fd488be0d50bc76092aa071c07517d8ae9dccee2160e5bb6fcd2"
+  },
+  "cost_final_for_current_registered_set": false,
+  "cost_observed_utc": "2026-10-21T06:11:40.947358+00:00",
+  "current_action_development_trials": 6589,
+  "final_sealed": true,
+  "final_total": 35200,
+  "final_trials": 0,
+  "frozen_source_files_unchanged": 173,
+  "global_release": false,
+  "historical_catalog_basis": "6388 prior current +201 new current +1212 retained historical rows; includes original Object policy_error. Not current complete-panel denominator. Old Goal200 and engineering attempts separately retained.",
+  "kind": "root_supervision_delivery",
+  "new_GPU_jobs": [
+    "3057505",
+    "3057510",
+    "3057515",
+    "3057526",
+    "3057533"
+  ],
+  "new_complete_batch_rows_accepted": 0,
+  "new_current_development_trials_accepted": 0,
+  "new_legacy_rows_entering_complete_batch_view": 0,
+  "new_unique_initial_states": 0,
+  "newly_accounted_GPU_seconds": 934,
+  "next_actions": [
+    "按原5个ACK核终态，逐pair由新typed consumer完整复建200条、双根原始输入/动作与原consumer，再独立终审和精确非权重归档；不重复提交或自动重跑。",
+    "完成Goal自身固定30开发观测的新精确采集计划/入口/独审/actualP/单次提交门槛；原90观测不重采。",
+    "全部72checkpoint、16参考身份、四套件完整开发收据及最终清单冻结后再做同checkpoint完整O2A与分项计时；root全局release前35200最终试验保持封存。"
+  ],
+  "per_suite": {
+    "libero_10": {
+      "complete": 2200,
+      "current": 1600,
+      "legacy": 600
+    },
+    "libero_goal": {
+      "complete": 1200,
+      "current": 1200,
+      "legacy": 0
+    },
+    "libero_object": {
+      "complete": 2200,
+      "current": 1601,
+      "legacy": 599
+    },
+    "libero_spatial": {
+      "complete": 2200,
+      "current": 2188,
+      "legacy": 12
+    }
+  },
+  "planned_development_trials": 8800,
+  "previous_snapshot": {
+    "bytes": 4600,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1134/final_summary.json",
+    "sha256": "35a12c33d2bf81331e96aad4fe2879ae06fa7269a518fc14933fea8dc65aac02"
+  },
+  "registered_formal_allocations": 278,
+  "remaining_scientific_pairs": [
+    {
+      "budget": 256,
+      "seed": 23,
+      "suite": "libero_goal",
+      "trials": 200
+    },
+    {
+      "budget": 256,
+      "seed": 41,
+      "suite": "libero_goal",
+      "trials": 200
+    },
+    {
+      "budget": 64,
+      "seed": 17,
+      "suite": "libero_goal",
+      "trials": 200
+    },
+    {
+      "budget": 64,
+      "seed": 23,
+      "suite": "libero_goal",
+      "trials": 200
+    },
+    {
+      "budget": 64,
+      "seed": 41,
+      "suite": "libero_goal",
+      "trials": 200
+    }
+  ],
+  "root_completed_arms": 72,
+  "root_completed_pairs": 36,
+  "root_reviewed_arm_updates": 360000,
+  "schema": "formal_main_v2",
+  "source_state_before_sha256": "58e4ff5cd74c07c667a942119d2ed2de80059efb294ad8f21d192cdbe14bdac7",
+  "training_finished": true,
+  "unique_development_initial_states": 400,
+  "utc": "2026-10-21T06:21:16.286020+00:00"
+}

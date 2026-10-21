@@ -1,0 +1,149 @@
+{
+  "CPU_check_count": 1365,
+  "actual_GPU_runtime_verified": false,
+  "actual_P_verified": false,
+  "blockers": [],
+  "checks_count_source": "immutable saved checks array lengths, no appended self-write check",
+  "explicit_rejections_in_nonloop_suites": 846,
+  "final_release": false,
+  "kind": "goal_remaining5_runtime_author_readiness",
+  "new_GPU_submissions": 0,
+  "new_scientific_results": 0,
+  "original200_HOLD": true,
+  "original_package_unchanged": true,
+  "package_files": {
+    "scripts/ops/formal_goal_remaining5_gate_v1/ast_gate_v2.py": "bc0bdbe06419f049c249eb728e3228090504823ce8ef0d14cf3223575d5a0bdd",
+    "scripts/ops/formal_goal_remaining5_gate_v1/ast_observer_v2.py": "e88222ea96c290019b2ec838ff68fe25a9f94d115ae996d92735e18e4cf0800e",
+    "scripts/ops/formal_goal_remaining5_gate_v1/consumer.py": "b6e3b4ff0a887dc9ee304a24d470b90aa2aaf099b86d433b569d14ba8791cf85",
+    "scripts/ops/formal_goal_remaining5_gate_v1/entry.py": "b6704f4c7847d40c9072902152cec8771e4f013fda63c1bb4207504e3aa99e30",
+    "scripts/ops/formal_goal_remaining5_gate_v1/observer_v3.py": "bd60cb3b97db443f0953d53cd0a7e0719f437807716bda0ef462610495572f23",
+    "scripts/ops/formal_goal_remaining5_gate_v1/paired_input_gate_v1.py": "34f38516af57ed6393df3c318842517ab5fd529b883054a6b5c7e2b60f68591a",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k256_seed23/config.json": "a4696bddc3a4624ebbacb542f2879c450521a9d9691d0916697f83b666e2bcde",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k256_seed23/specification.json": "0eb09c9a3c5b91e45110ba17da688764c31454af8e7dd3ea58d3105688b737fe",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k256_seed41/config.json": "bc964b407f0670beb3fedf769c68f9cda76d80887c7bdf4c7ba9e39cfa2cd0da",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k256_seed41/specification.json": "a2315d2b5a4b031066ef65669259009aa261821eede7dea8d753c9d317eba8e1",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k64_seed17/config.json": "60c041928089fa28ccb4b48be434df5c3ef8860806ab425afe15dacddb780422",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k64_seed17/specification.json": "85dd7469b676f4573da5e8e6e1e043bd4ad39b59713880c88579bc2ece14b879",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k64_seed23/config.json": "6181d6e6a99e928d1e7bd5f712d6159de46776d986f14bc5b28a8fb5429b87e0",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k64_seed23/specification.json": "cb2cedde6a5bfd100ea01266479c1778137aebe54ac769beaf49409052cd40cf",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k64_seed41/config.json": "c9e223e3dcbe6f2d0624c575e95aff4e9c595fc717bf83919a1e7b098cfdb734",
+    "scripts/ops/formal_goal_remaining5_gate_v1/pairs/libero_goal_k64_seed41/specification.json": "eaa4ec9b38755d67f9d3f20f090101f0d2bfd2fe2f5383908d3a8d696cfc1c27",
+    "scripts/ops/formal_goal_remaining5_gate_v1/registry.json": "41faf2c2d6ad22b527df4ca8a737687ee9667c50142156a2c96db3b0e18c6553",
+    "scripts/ops/formal_goal_remaining5_gate_v1/run.slurm": "832cd8a410fdf0610d9765e1aa926abc5f57495ba278a8db5d1b9e1ff01926a9",
+    "scripts/ops/formal_goal_remaining5_gate_v1/scope.py": "f0a9b1d2be86ad62260c0b083822273a1089bc3cb98e4946fe0ba18e167b718b",
+    "scripts/ops/formal_goal_remaining5_gate_v1/storage.py": "ff1f0d483aff97ec89e0ea05cd8b0f8add8e9efa8fabd9865661ed0af3335c4d"
+  },
+  "package_manifest": {
+    "bytes": 4087,
+    "path": "package/package_manifest.json",
+    "sha256": "200dcef220601fd26565bb48106856612853739f486f8374ef91a4967e60692f"
+  },
+  "package_manifest_sha256": "200dcef220601fd26565bb48106856612853739f486f8374ef91a4967e60692f",
+  "pair_keys": [
+    "libero_goal_k256_seed23",
+    "libero_goal_k256_seed41",
+    "libero_goal_k64_seed17",
+    "libero_goal_k64_seed23",
+    "libero_goal_k64_seed41"
+  ],
+  "preserved_pre_freeze_corrections": [
+    "Fresh original input panel replaces missing historical output panel dependency.",
+    "ACK-only metadata result has exact reconcile schema and does not re-admit capacity.",
+    "Outer/completion/parent guards bound exactly written encoding including indent/newline.",
+    "Entry and consumer pre-import pin scope source.",
+    "Parent gateway v2 missing pair keys was external and was not fixed by weakening this runtime."
+  ],
+  "production_blockers": [
+    "Different-agent final source/CPU audit and root source readiness required.",
+    "Actual published R/P closure, genuine prepared invocation, original wrapper/checkpoint identity and all-five capacity checks required.",
+    "Separate exact-five dispatcher shared-lock/CAS/held ACK/root single-attempt authorization required.",
+    "Each new real raw terminal must pass full original/typed consumer reconstruction, independent review and root acceptance."
+  ],
+  "production_installed": false,
+  "reports": [
+    {
+      "bytes": 14083,
+      "check_count": 146,
+      "path": "cpu_reports/CPU_consumer_remaining5_v1.json",
+      "rejections": 135,
+      "sha256": "67a4c614e64e5d12bc0e43355391b5ef3d470a5745cd46a924b9dd14b1dff1f4",
+      "status": "passed_CPU_raw_reconstruction_only"
+    },
+    {
+      "bytes": 3649,
+      "check_count": 36,
+      "path": "cpu_reports/CPU_final_interfaces_v5.json",
+      "rejections": 8,
+      "sha256": "280da9c5c213621084ebb991316f3315eacd6d5e6041df2150f6801441367b72",
+      "status": "passed_CPU_final_bounded_interface_corrections"
+    },
+    {
+      "bytes": 74987,
+      "check_count": 721,
+      "path": "cpu_reports/CPU_interfaces_v1.json",
+      "rejections": 696,
+      "sha256": "0976ff5b093d1334ecc77a375a0bcbfd3fb1a888bc395b0a42b1689cedffb6ab",
+      "status": "passed_CPU_interfaces_and_capacity_only"
+    },
+    {
+      "bytes": 9040,
+      "check_count": 86,
+      "path": "cpu_reports/CPU_libero_goal_k256_seed23.json",
+      "rejections": null,
+      "sha256": "bd84c5ce79db95b2a630679612b0dfb76136cd5e0f2535b19528e32b8e3bce67",
+      "status": "passed_CPU_source_candidate_only"
+    },
+    {
+      "bytes": 9040,
+      "check_count": 86,
+      "path": "cpu_reports/CPU_libero_goal_k256_seed41.json",
+      "rejections": null,
+      "sha256": "bd84c5ce79db95b2a630679612b0dfb76136cd5e0f2535b19528e32b8e3bce67",
+      "status": "passed_CPU_source_candidate_only"
+    },
+    {
+      "bytes": 9040,
+      "check_count": 86,
+      "path": "cpu_reports/CPU_libero_goal_k64_seed17.json",
+      "rejections": null,
+      "sha256": "bd84c5ce79db95b2a630679612b0dfb76136cd5e0f2535b19528e32b8e3bce67",
+      "status": "passed_CPU_source_candidate_only"
+    },
+    {
+      "bytes": 9040,
+      "check_count": 86,
+      "path": "cpu_reports/CPU_libero_goal_k64_seed23.json",
+      "rejections": null,
+      "sha256": "bd84c5ce79db95b2a630679612b0dfb76136cd5e0f2535b19528e32b8e3bce67",
+      "status": "passed_CPU_source_candidate_only"
+    },
+    {
+      "bytes": 9040,
+      "check_count": 86,
+      "path": "cpu_reports/CPU_libero_goal_k64_seed41.json",
+      "rejections": null,
+      "sha256": "bd84c5ce79db95b2a630679612b0dfb76136cd5e0f2535b19528e32b8e3bce67",
+      "status": "passed_CPU_source_candidate_only"
+    },
+    {
+      "bytes": 2809,
+      "check_count": 32,
+      "path": "cpu_reports/CPU_outer_v2.json",
+      "rejections": 7,
+      "sha256": "717f14f60042601ad5fe8facc08a52ebfce7a3a8102dce9ab159a0090402bf9d",
+      "status": "passed_CPU_outer_bounded_metadata_only"
+    }
+  ],
+  "reviewed_by": "author",
+  "root_fixed_design": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1249/Goal_remaining5_root_design_decision.json",
+    "sha256": "728ba315807e6f17990e548b969d31c1721e5f080fc5de10ef8b530918b492fd"
+  },
+  "root_storage_decision": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1249/Goal_remaining5_storage_root_decision.json",
+    "sha256": "0f3f291473ad57e9d06f1c213310890801aa20a84e2f4b8ea7c5c656a97d1fd7"
+  },
+  "schema": "formal_main_v2",
+  "source173_verified_by_all_five_CPU_loops": true,
+  "status": "passed_author_CPU_candidate_only_pending_independent_and_actual_P"
+}

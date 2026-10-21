@@ -1,0 +1,24 @@
+{
+  "job_id": "3054717",
+  "kind": "root_exact_terminal_job_method_metadata_completion",
+  "no_Slurm_calls": true,
+  "only_added_field": {
+    "method_ids": [
+      "A256_seed17",
+      "B256_seed17"
+    ]
+  },
+  "original_registration_without_field_retained": "results/formal_main_v2/preflight/heartbeat_20261021T1249/method_ids_supervisor_snapshot_before.json",
+  "root_reviewed": true,
+  "schema": "formal_main_v2",
+  "scientific_results_changed": false,
+  "source_refs": {
+    "results/formal_main_v2/engineering/goal_full200_20261021T0110/dispatch_admission.json": "7b6b64397f96175e1184c956766739ab8261bcfa71cd0faef0f7e275e85381a5",
+    "results/formal_main_v2/engineering/supervision_delivery_20261021T0334/Goal_independent/independent_terminal_review.json": "9f89cee7420fa4c4185370b22a4c52c70cd536048b9bd366d5e70095a044e223",
+    "results/formal_main_v2/preflight/heartbeat_20261021T1134/Goal3054717_root_acceptance.json": "24adf17380a37cce4c65172dc7d806c2574166b8d29281768708e21d36d73ae3",
+    "scripts/ops/formal_goal_full200_gate_v1/config.json": "29bb0fb84ff2dab826a53d5d8170d7ad0347f193f72ddfedc310f05e2a3d3bae",
+    "scripts/ops/formal_goal_full200_gate_v1/specification.json": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad"
+  },
+  "state_before_sha256": "54ee7389fe300b4ec553998d91b9bf727ca3231c2066e35a86716559a3c1406d",
+  "why": "Original planner conservatively rejects missing methods as ambiguous overlap; populate only existing terminal job exact methods from original configuration, authorization and accepted raw results."
+}

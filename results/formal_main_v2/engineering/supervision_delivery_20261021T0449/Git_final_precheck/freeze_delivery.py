@@ -1,0 +1,37 @@
+from pathlib import Path
+import json,hashlib
+R=Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo');D=R/'.local/git_final_precheck_20261021T0449'
+def sha(b):return hashlib.sha256(b).hexdigest()
+def put(name,data):
+ with (D/name).open('xb') as f:f.write(data)
+def enc(v):return (json.dumps(v,sort_keys=True,ensure_ascii=False,indent=2)+'\n').encode()
+report=json.loads((D/'independent_stage_precheck.json').read_bytes())
+assert sha((D/'independent_stage_precheck.json').read_bytes())=='ebf3be65adb15a1a875c52c9529c8e7e4cb9fd880b111ae152f88efabb746e38'
+assert report['status']=='passed_exact713_index_with_explicit_finish_v2_source_completion' and report['blockers']==[] and report['check_count']==len(report['checks'])==6922
+text="""# 本轮最终 Git 暂存范围独审
+
+实际只读审核6922项通过，713个暂存文件精确等于原required_v1的710项，加required本身、原index guard收据和whitespace收据。全部路径/SHA/bytes与工作文件和index一致；唯一无大小写别名、无required自指；173冻结源在R/index保持原字节。index/state/summary全程固定，未写index、state、canonical或P。
+
+精确继承前次2352项范围检查、19个CPU tar及7770成员证明，并核全部继承文件和压缩包原SHA均已暂存；未重跑科学CPU/GPU测试或解包。新归档包的manifest/source_map与私有原文件逐字节核。所有真实raw_runtime、observer/blobs（含rng.json）、生产attempt01结果、Slurm/runtime日志、权重和封存值均不在本次新增暂存集。19个ignored路径恰为经审CPU tar，实际ignore规则匹配。
+
+5个唯一原ACK 3057505/3057510/3057515/3057526/3057533的140份固定提交元数据、5次首次记账延迟失败、每job一次登记/release和原token/comment/source闭合，且78份控制trace均已结束。只读保存观察；未重新查询Slurm或读取任何健康作业raw。开发验收仍7800（6589current），本轮新验收0，oldGoal200及final/O2A门槛不变，1995402GPU秒仅保存时刻在运下界。
+
+当前713 index尚缺两份原identity控制入口源码，不能称控制源全闭包已完成。已核其真实原字节：
+- scope_bootstrap.py：9ff5d967b8e058c5aff977fdbfac8abdcab741603fdd025d1ba8058d762c38d4，6358B。
+- scope_bootstrap_v2.py：f37d20dc0e319893b3489c402516368d8808307955124fadfa023038e78c0e69，7442B。
+
+仅对精确finish_delivery_20261021T0449_v2.py（c2e24fb9991381826561aecfa198b05309ac0d4ba83bab9431d8e9d6c942e3bb）作限定静态通过：它将在同锁/index/state/summary门槛下把这两文件原字节复制至Goal_identity_entry_sources，保留首次失败，新增source_map与required_v2，再跑原guard/173/非权重归档和最终暂存集合/whitespace校验后才能commit。未执行该收尾入口，不预称commit或push完成。
+
+push入口6c4c54551f36440e2525b48c3d77eb99b7331a1c8b8dfe036160099e9550ac32限定核了固定state/summary/HEAD、stdin临时认证、已审server_github_sync、非force及远端HEAD确认；未来执行结果不在本报告范围。
+
+本报告是Git内容与来源交付审计，不是作者对本人runtime的独立科学审核。runtime和真实ACK独审只按其精确原报告继承，全部未来科学终验仍待原consumer及不同代理。
+"""
+put('README.md',text.encode())
+files=[]
+for p in sorted(D.iterdir()):
+ assert p.is_file() and not p.is_symlink() and p.name!='delivery_manifest.json'
+ b=p.read_bytes();files.append(dict(path=p.name,sha256=sha(b),bytes=len(b)))
+assert len(files)==6
+manifest=dict(schema='formal_main_v2',kind='final_Git_stage_precheck_delivery',source_root=str(D),file_count=len(files),files=files,report_sha256=sha((D/'independent_stage_precheck.json').read_bytes()),status='frozen_exact713_index_and_bounded_finish_v2_review',required_source_additions_pending=2,Git_index_writes=0,state_writes=0,GPU_submissions=0,scientific_terminal_review_rerun=False,final_release=False)
+put('delivery_manifest.json',enc(manifest))
+print(json.dumps(dict(manifest=str((D/'delivery_manifest.json').relative_to(R)),manifest_sha256=sha((D/'delivery_manifest.json').read_bytes()),file_count=len(files),report_sha256=manifest['report_sha256']),sort_keys=True))

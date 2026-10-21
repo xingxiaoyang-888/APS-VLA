@@ -1,0 +1,1 @@
+Static-only exact root authorization helper review. The first checker AST accessor failed before reviewing all fields; its original source and transport failure are preserved. No helper execution, publication, scheduler query or GPU action was performed by the reviewer. The final runtime/gateway validators and native read-only admission remain real execution requirements.

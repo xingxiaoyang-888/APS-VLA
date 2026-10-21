@@ -1,0 +1,737 @@
+{
+  "GPU_submission_authorized": false,
+  "O2A_or_components_authorized": false,
+  "actual_observations_collected": 0,
+  "all_allocated_seconds_count_once": true,
+  "automatic_retry": false,
+  "dense_trajectories": 10,
+  "development_panel": {
+    "bytes": 180245,
+    "path": "configs/manifests/formal_main_v2/libero_goal/initial_states/development.json",
+    "sha256": "ce8e3d31ab8f7616c87dd4d4031af41825713907ac184c6ea5b01d9040985aa9"
+  },
+  "environment": {
+    "action_chunk": 8,
+    "environment_seed": 0,
+    "max_control_steps": 300,
+    "query_watchdog_seconds": 60,
+    "runtime_seed": 17,
+    "wait_steps": 10
+  },
+  "expected_observations": 30,
+  "final_release": false,
+  "global_freeze_replaced_by_collection": false,
+  "kind": "Goal_fixed30_collection_design",
+  "maximum_attempts_proposed": 1,
+  "maximum_policy_control_steps": 3000,
+  "maximum_policy_queries": 380,
+  "maximum_wait_steps": 100,
+  "method_ids": [
+    "dense"
+  ],
+  "minimum_actual_control_observations_per_trajectory": 3,
+  "mode": "collect",
+  "new_success_trials": 0,
+  "new_unique_scientific_initial_states": 0,
+  "observation_slots": [
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task00:state0007:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:open_the_middle_drawer_of_the_cabinet:state-0007:env-0:first",
+      "slot_ordinal": 1,
+      "state": {
+        "initial_state_sha256": "e4253766e9f2de70597dc839e261240d142a7074d248b3369e28cafd0d8c36fb",
+        "source_file": "open_the_middle_drawer_of_the_cabinet.pruned_init",
+        "source_state_index": 7,
+        "task_id": 0,
+        "task_name": "open_the_middle_drawer_of_the_cabinet",
+        "trial_id": "libero_goal:open_the_middle_drawer_of_the_cabinet:state-0007:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task00:state0007:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:open_the_middle_drawer_of_the_cabinet:state-0007:env-0:middle",
+      "slot_ordinal": 2,
+      "state": {
+        "initial_state_sha256": "e4253766e9f2de70597dc839e261240d142a7074d248b3369e28cafd0d8c36fb",
+        "source_file": "open_the_middle_drawer_of_the_cabinet.pruned_init",
+        "source_state_index": 7,
+        "task_id": 0,
+        "task_name": "open_the_middle_drawer_of_the_cabinet",
+        "trial_id": "libero_goal:open_the_middle_drawer_of_the_cabinet:state-0007:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task00:state0007:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:open_the_middle_drawer_of_the_cabinet:state-0007:env-0:last",
+      "slot_ordinal": 3,
+      "state": {
+        "initial_state_sha256": "e4253766e9f2de70597dc839e261240d142a7074d248b3369e28cafd0d8c36fb",
+        "source_file": "open_the_middle_drawer_of_the_cabinet.pruned_init",
+        "source_state_index": 7,
+        "task_id": 0,
+        "task_name": "open_the_middle_drawer_of_the_cabinet",
+        "trial_id": "libero_goal:open_the_middle_drawer_of_the_cabinet:state-0007:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task01:state0002:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:put_the_bowl_on_the_stove:state-0002:env-0:first",
+      "slot_ordinal": 4,
+      "state": {
+        "initial_state_sha256": "30540d56c7dd1617e209cc019e30449ab932f88b841cde1018f71b97b8915ec2",
+        "source_file": "put_the_bowl_on_the_stove.pruned_init",
+        "source_state_index": 2,
+        "task_id": 1,
+        "task_name": "put_the_bowl_on_the_stove",
+        "trial_id": "libero_goal:put_the_bowl_on_the_stove:state-0002:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task01:state0002:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:put_the_bowl_on_the_stove:state-0002:env-0:middle",
+      "slot_ordinal": 5,
+      "state": {
+        "initial_state_sha256": "30540d56c7dd1617e209cc019e30449ab932f88b841cde1018f71b97b8915ec2",
+        "source_file": "put_the_bowl_on_the_stove.pruned_init",
+        "source_state_index": 2,
+        "task_id": 1,
+        "task_name": "put_the_bowl_on_the_stove",
+        "trial_id": "libero_goal:put_the_bowl_on_the_stove:state-0002:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task01:state0002:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:put_the_bowl_on_the_stove:state-0002:env-0:last",
+      "slot_ordinal": 6,
+      "state": {
+        "initial_state_sha256": "30540d56c7dd1617e209cc019e30449ab932f88b841cde1018f71b97b8915ec2",
+        "source_file": "put_the_bowl_on_the_stove.pruned_init",
+        "source_state_index": 2,
+        "task_id": 1,
+        "task_name": "put_the_bowl_on_the_stove",
+        "trial_id": "libero_goal:put_the_bowl_on_the_stove:state-0002:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task02:state0003:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0003:env-0:first",
+      "slot_ordinal": 7,
+      "state": {
+        "initial_state_sha256": "64163a59ff4d80b1a9e6963c98f1e2b89791e295a0593d501c32ef88a9db400e",
+        "source_file": "put_the_wine_bottle_on_top_of_the_cabinet.pruned_init",
+        "source_state_index": 3,
+        "task_id": 2,
+        "task_name": "put_the_wine_bottle_on_top_of_the_cabinet",
+        "trial_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0003:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task02:state0003:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0003:env-0:middle",
+      "slot_ordinal": 8,
+      "state": {
+        "initial_state_sha256": "64163a59ff4d80b1a9e6963c98f1e2b89791e295a0593d501c32ef88a9db400e",
+        "source_file": "put_the_wine_bottle_on_top_of_the_cabinet.pruned_init",
+        "source_state_index": 3,
+        "task_id": 2,
+        "task_name": "put_the_wine_bottle_on_top_of_the_cabinet",
+        "trial_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0003:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task02:state0003:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0003:env-0:last",
+      "slot_ordinal": 9,
+      "state": {
+        "initial_state_sha256": "64163a59ff4d80b1a9e6963c98f1e2b89791e295a0593d501c32ef88a9db400e",
+        "source_file": "put_the_wine_bottle_on_top_of_the_cabinet.pruned_init",
+        "source_state_index": 3,
+        "task_id": 2,
+        "task_name": "put_the_wine_bottle_on_top_of_the_cabinet",
+        "trial_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0003:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task03:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:open_the_top_drawer_and_put_the_bowl_inside:state-0004:env-0:first",
+      "slot_ordinal": 10,
+      "state": {
+        "initial_state_sha256": "a960bfc8233605271cf3b8c748774f123e20886b45196fab9fb11e0d5c78d41b",
+        "source_file": "open_the_top_drawer_and_put_the_bowl_inside.pruned_init",
+        "source_state_index": 4,
+        "task_id": 3,
+        "task_name": "open_the_top_drawer_and_put_the_bowl_inside",
+        "trial_id": "libero_goal:open_the_top_drawer_and_put_the_bowl_inside:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task03:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:open_the_top_drawer_and_put_the_bowl_inside:state-0004:env-0:middle",
+      "slot_ordinal": 11,
+      "state": {
+        "initial_state_sha256": "a960bfc8233605271cf3b8c748774f123e20886b45196fab9fb11e0d5c78d41b",
+        "source_file": "open_the_top_drawer_and_put_the_bowl_inside.pruned_init",
+        "source_state_index": 4,
+        "task_id": 3,
+        "task_name": "open_the_top_drawer_and_put_the_bowl_inside",
+        "trial_id": "libero_goal:open_the_top_drawer_and_put_the_bowl_inside:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task03:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:open_the_top_drawer_and_put_the_bowl_inside:state-0004:env-0:last",
+      "slot_ordinal": 12,
+      "state": {
+        "initial_state_sha256": "a960bfc8233605271cf3b8c748774f123e20886b45196fab9fb11e0d5c78d41b",
+        "source_file": "open_the_top_drawer_and_put_the_bowl_inside.pruned_init",
+        "source_state_index": 4,
+        "task_id": 3,
+        "task_name": "open_the_top_drawer_and_put_the_bowl_inside",
+        "trial_id": "libero_goal:open_the_top_drawer_and_put_the_bowl_inside:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task04:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:put_the_bowl_on_top_of_the_cabinet:state-0004:env-0:first",
+      "slot_ordinal": 13,
+      "state": {
+        "initial_state_sha256": "fa5ae4971d21d39b8303383b15107a8feea86d55c1a3472354edbeac77f7bed8",
+        "source_file": "put_the_bowl_on_top_of_the_cabinet.pruned_init",
+        "source_state_index": 4,
+        "task_id": 4,
+        "task_name": "put_the_bowl_on_top_of_the_cabinet",
+        "trial_id": "libero_goal:put_the_bowl_on_top_of_the_cabinet:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task04:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:put_the_bowl_on_top_of_the_cabinet:state-0004:env-0:middle",
+      "slot_ordinal": 14,
+      "state": {
+        "initial_state_sha256": "fa5ae4971d21d39b8303383b15107a8feea86d55c1a3472354edbeac77f7bed8",
+        "source_file": "put_the_bowl_on_top_of_the_cabinet.pruned_init",
+        "source_state_index": 4,
+        "task_id": 4,
+        "task_name": "put_the_bowl_on_top_of_the_cabinet",
+        "trial_id": "libero_goal:put_the_bowl_on_top_of_the_cabinet:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task04:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:put_the_bowl_on_top_of_the_cabinet:state-0004:env-0:last",
+      "slot_ordinal": 15,
+      "state": {
+        "initial_state_sha256": "fa5ae4971d21d39b8303383b15107a8feea86d55c1a3472354edbeac77f7bed8",
+        "source_file": "put_the_bowl_on_top_of_the_cabinet.pruned_init",
+        "source_state_index": 4,
+        "task_id": 4,
+        "task_name": "put_the_bowl_on_top_of_the_cabinet",
+        "trial_id": "libero_goal:put_the_bowl_on_top_of_the_cabinet:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task05:state0001:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:push_the_plate_to_the_front_of_the_stove:state-0001:env-0:first",
+      "slot_ordinal": 16,
+      "state": {
+        "initial_state_sha256": "a42943553abf7db83cb220da6f6021daf86cb53034b42922a4f25d4c9c427927",
+        "source_file": "push_the_plate_to_the_front_of_the_stove.pruned_init",
+        "source_state_index": 1,
+        "task_id": 5,
+        "task_name": "push_the_plate_to_the_front_of_the_stove",
+        "trial_id": "libero_goal:push_the_plate_to_the_front_of_the_stove:state-0001:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task05:state0001:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:push_the_plate_to_the_front_of_the_stove:state-0001:env-0:middle",
+      "slot_ordinal": 17,
+      "state": {
+        "initial_state_sha256": "a42943553abf7db83cb220da6f6021daf86cb53034b42922a4f25d4c9c427927",
+        "source_file": "push_the_plate_to_the_front_of_the_stove.pruned_init",
+        "source_state_index": 1,
+        "task_id": 5,
+        "task_name": "push_the_plate_to_the_front_of_the_stove",
+        "trial_id": "libero_goal:push_the_plate_to_the_front_of_the_stove:state-0001:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task05:state0001:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:push_the_plate_to_the_front_of_the_stove:state-0001:env-0:last",
+      "slot_ordinal": 18,
+      "state": {
+        "initial_state_sha256": "a42943553abf7db83cb220da6f6021daf86cb53034b42922a4f25d4c9c427927",
+        "source_file": "push_the_plate_to_the_front_of_the_stove.pruned_init",
+        "source_state_index": 1,
+        "task_id": 5,
+        "task_name": "push_the_plate_to_the_front_of_the_stove",
+        "trial_id": "libero_goal:push_the_plate_to_the_front_of_the_stove:state-0001:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task06:state0010:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:put_the_cream_cheese_in_the_bowl:state-0010:env-0:first",
+      "slot_ordinal": 19,
+      "state": {
+        "initial_state_sha256": "ef2502b0eedb6f05e3dfcbd952645d3aca570ca735d1ccf12c8864a4e25864e8",
+        "source_file": "put_the_cream_cheese_in_the_bowl.pruned_init",
+        "source_state_index": 10,
+        "task_id": 6,
+        "task_name": "put_the_cream_cheese_in_the_bowl",
+        "trial_id": "libero_goal:put_the_cream_cheese_in_the_bowl:state-0010:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task06:state0010:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:put_the_cream_cheese_in_the_bowl:state-0010:env-0:middle",
+      "slot_ordinal": 20,
+      "state": {
+        "initial_state_sha256": "ef2502b0eedb6f05e3dfcbd952645d3aca570ca735d1ccf12c8864a4e25864e8",
+        "source_file": "put_the_cream_cheese_in_the_bowl.pruned_init",
+        "source_state_index": 10,
+        "task_id": 6,
+        "task_name": "put_the_cream_cheese_in_the_bowl",
+        "trial_id": "libero_goal:put_the_cream_cheese_in_the_bowl:state-0010:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task06:state0010:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:put_the_cream_cheese_in_the_bowl:state-0010:env-0:last",
+      "slot_ordinal": 21,
+      "state": {
+        "initial_state_sha256": "ef2502b0eedb6f05e3dfcbd952645d3aca570ca735d1ccf12c8864a4e25864e8",
+        "source_file": "put_the_cream_cheese_in_the_bowl.pruned_init",
+        "source_state_index": 10,
+        "task_id": 6,
+        "task_name": "put_the_cream_cheese_in_the_bowl",
+        "trial_id": "libero_goal:put_the_cream_cheese_in_the_bowl:state-0010:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task07:state0001:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:turn_on_the_stove:state-0001:env-0:first",
+      "slot_ordinal": 22,
+      "state": {
+        "initial_state_sha256": "2505026c9f347f582506c7a2c0168b9f7d42df92622f93b176f55651f850ce7f",
+        "source_file": "turn_on_the_stove.pruned_init",
+        "source_state_index": 1,
+        "task_id": 7,
+        "task_name": "turn_on_the_stove",
+        "trial_id": "libero_goal:turn_on_the_stove:state-0001:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task07:state0001:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:turn_on_the_stove:state-0001:env-0:middle",
+      "slot_ordinal": 23,
+      "state": {
+        "initial_state_sha256": "2505026c9f347f582506c7a2c0168b9f7d42df92622f93b176f55651f850ce7f",
+        "source_file": "turn_on_the_stove.pruned_init",
+        "source_state_index": 1,
+        "task_id": 7,
+        "task_name": "turn_on_the_stove",
+        "trial_id": "libero_goal:turn_on_the_stove:state-0001:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task07:state0001:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:turn_on_the_stove:state-0001:env-0:last",
+      "slot_ordinal": 24,
+      "state": {
+        "initial_state_sha256": "2505026c9f347f582506c7a2c0168b9f7d42df92622f93b176f55651f850ce7f",
+        "source_file": "turn_on_the_stove.pruned_init",
+        "source_state_index": 1,
+        "task_id": 7,
+        "task_name": "turn_on_the_stove",
+        "trial_id": "libero_goal:turn_on_the_stove:state-0001:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task08:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:put_the_bowl_on_the_plate:state-0004:env-0:first",
+      "slot_ordinal": 25,
+      "state": {
+        "initial_state_sha256": "e0ed7d999461bcc9b7973f6e818a370724e6ed413de2af5e8aa66719acc06b2e",
+        "source_file": "put_the_bowl_on_the_plate.pruned_init",
+        "source_state_index": 4,
+        "task_id": 8,
+        "task_name": "put_the_bowl_on_the_plate",
+        "trial_id": "libero_goal:put_the_bowl_on_the_plate:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task08:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:put_the_bowl_on_the_plate:state-0004:env-0:middle",
+      "slot_ordinal": 26,
+      "state": {
+        "initial_state_sha256": "e0ed7d999461bcc9b7973f6e818a370724e6ed413de2af5e8aa66719acc06b2e",
+        "source_file": "put_the_bowl_on_the_plate.pruned_init",
+        "source_state_index": 4,
+        "task_id": 8,
+        "task_name": "put_the_bowl_on_the_plate",
+        "trial_id": "libero_goal:put_the_bowl_on_the_plate:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task08:state0004:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:put_the_bowl_on_the_plate:state-0004:env-0:last",
+      "slot_ordinal": 27,
+      "state": {
+        "initial_state_sha256": "e0ed7d999461bcc9b7973f6e818a370724e6ed413de2af5e8aa66719acc06b2e",
+        "source_file": "put_the_bowl_on_the_plate.pruned_init",
+        "source_state_index": 4,
+        "task_id": 8,
+        "task_name": "put_the_bowl_on_the_plate",
+        "trial_id": "libero_goal:put_the_bowl_on_the_plate:state-0004:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task09:state0009:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "0",
+      "phase": "first",
+      "slot_id": "libero_goal:put_the_wine_bottle_on_the_rack:state-0009:env-0:first",
+      "slot_ordinal": 28,
+      "state": {
+        "initial_state_sha256": "c529d95f2aec5baf4e1beeea4addc650218d9f7c2da32d0fb5e3e832f446daaf",
+        "source_file": "put_the_wine_bottle_on_the_rack.pruned_init",
+        "source_state_index": 9,
+        "task_id": 9,
+        "task_name": "put_the_wine_bottle_on_the_rack",
+        "trial_id": "libero_goal:put_the_wine_bottle_on_the_rack:state-0009:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task09:state0009:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "floor((N-1)/2)",
+      "phase": "middle",
+      "slot_id": "libero_goal:put_the_wine_bottle_on_the_rack:state-0009:env-0:middle",
+      "slot_ordinal": 29,
+      "state": {
+        "initial_state_sha256": "c529d95f2aec5baf4e1beeea4addc650218d9f7c2da32d0fb5e3e832f446daaf",
+        "source_file": "put_the_wine_bottle_on_the_rack.pruned_init",
+        "source_state_index": 9,
+        "task_id": 9,
+        "task_name": "put_the_wine_bottle_on_the_rack",
+        "trial_id": "libero_goal:put_the_wine_bottle_on_the_rack:state-0009:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    },
+    {
+      "actual_control_steps_N": null,
+      "actual_npz_sha256": null,
+      "actual_observation_id_template": "task09:state0009:step<selected_control_step:04d>",
+      "actual_observation_sha256": null,
+      "control_step_expression": "N-1",
+      "phase": "last",
+      "slot_id": "libero_goal:put_the_wine_bottle_on_the_rack:state-0009:env-0:last",
+      "slot_ordinal": 30,
+      "state": {
+        "initial_state_sha256": "c529d95f2aec5baf4e1beeea4addc650218d9f7c2da32d0fb5e3e832f446daaf",
+        "source_file": "put_the_wine_bottle_on_the_rack.pruned_init",
+        "source_state_index": 9,
+        "task_id": 9,
+        "task_name": "put_the_wine_bottle_on_the_rack",
+        "trial_id": "libero_goal:put_the_wine_bottle_on_the_rack:state-0009:env-0"
+      },
+      "status": "planned_registered_rule_not_collected"
+    }
+  ],
+  "official_base": {
+    "asset_manifest": {
+      "bytes": 4093,
+      "path": "configs/assets/openvla_oft_libero_goal.json",
+      "sha256": "6aaef6cd88a3968a13591fc196a3498c1780c7aab7a5e782a53c1967911a0ed5"
+    },
+    "frozen_model_sha256": "85703124930f24771cd4d04a4e88309710fcfc230e4891a1e6578d7ec14a45a2",
+    "inherited_root_acceptance": {
+      "bytes": 75543,
+      "path": "results/formal_main_v2/libero_goal/acceptance/root_review.json",
+      "sha256": "d994d25717d59f3b709944f3e8b2582c173ebd14febb853f49e5eec61ce8dddc"
+    },
+    "input_acceptance": {
+      "bytes": 12119,
+      "path": "results/formal_main_v2/libero_goal/acceptance/attempt03/input_acceptance.json",
+      "sha256": "a25927ec8a25e1bc72cb87fb963216223ea8307a830699f0bee87c583fe92cb0"
+    },
+    "repository": "moojink/openvla-7b-oft-finetuned-libero-goal",
+    "revision": "c2d0f9fbbd82674683b397ff923168a12f6a307b",
+    "strict_compatibility_manifest": {
+      "bytes": 3914,
+      "path": "configs/assets/formal_main_v2_strict/libero_goal.json",
+      "sha256": "e55eac83f28854318524ba87fc6554c7a9708b328700232c055deb66a72e0d6c"
+    }
+  },
+  "originalGoal200_HOLD": true,
+  "phase_rule": "0,floor((N-1)/2),N-1 among all actual post-wait per-control-step pre-action observations; distinct; no padding",
+  "registered_rule_source": {
+    "bytes": 32563,
+    "path": "src/cti_vla/evaluation/formal_profiling.py",
+    "sha256": "56f9fec509a67b5687393e4d020f26722ee16f237df27261bbf38c1437278a80"
+  },
+  "replacement_or_padding_allowed": false,
+  "schema": "formal_main_v2",
+  "sealed_values_read": false,
+  "selected_state_rule": "lowest source_index development state each task; one fixed dense collection trajectory",
+  "selected_states": [
+    {
+      "initial_state_sha256": "e4253766e9f2de70597dc839e261240d142a7074d248b3369e28cafd0d8c36fb",
+      "source_file": "open_the_middle_drawer_of_the_cabinet.pruned_init",
+      "source_state_index": 7,
+      "task_id": 0,
+      "task_name": "open_the_middle_drawer_of_the_cabinet",
+      "trial_id": "libero_goal:open_the_middle_drawer_of_the_cabinet:state-0007:env-0"
+    },
+    {
+      "initial_state_sha256": "30540d56c7dd1617e209cc019e30449ab932f88b841cde1018f71b97b8915ec2",
+      "source_file": "put_the_bowl_on_the_stove.pruned_init",
+      "source_state_index": 2,
+      "task_id": 1,
+      "task_name": "put_the_bowl_on_the_stove",
+      "trial_id": "libero_goal:put_the_bowl_on_the_stove:state-0002:env-0"
+    },
+    {
+      "initial_state_sha256": "64163a59ff4d80b1a9e6963c98f1e2b89791e295a0593d501c32ef88a9db400e",
+      "source_file": "put_the_wine_bottle_on_top_of_the_cabinet.pruned_init",
+      "source_state_index": 3,
+      "task_id": 2,
+      "task_name": "put_the_wine_bottle_on_top_of_the_cabinet",
+      "trial_id": "libero_goal:put_the_wine_bottle_on_top_of_the_cabinet:state-0003:env-0"
+    },
+    {
+      "initial_state_sha256": "a960bfc8233605271cf3b8c748774f123e20886b45196fab9fb11e0d5c78d41b",
+      "source_file": "open_the_top_drawer_and_put_the_bowl_inside.pruned_init",
+      "source_state_index": 4,
+      "task_id": 3,
+      "task_name": "open_the_top_drawer_and_put_the_bowl_inside",
+      "trial_id": "libero_goal:open_the_top_drawer_and_put_the_bowl_inside:state-0004:env-0"
+    },
+    {
+      "initial_state_sha256": "fa5ae4971d21d39b8303383b15107a8feea86d55c1a3472354edbeac77f7bed8",
+      "source_file": "put_the_bowl_on_top_of_the_cabinet.pruned_init",
+      "source_state_index": 4,
+      "task_id": 4,
+      "task_name": "put_the_bowl_on_top_of_the_cabinet",
+      "trial_id": "libero_goal:put_the_bowl_on_top_of_the_cabinet:state-0004:env-0"
+    },
+    {
+      "initial_state_sha256": "a42943553abf7db83cb220da6f6021daf86cb53034b42922a4f25d4c9c427927",
+      "source_file": "push_the_plate_to_the_front_of_the_stove.pruned_init",
+      "source_state_index": 1,
+      "task_id": 5,
+      "task_name": "push_the_plate_to_the_front_of_the_stove",
+      "trial_id": "libero_goal:push_the_plate_to_the_front_of_the_stove:state-0001:env-0"
+    },
+    {
+      "initial_state_sha256": "ef2502b0eedb6f05e3dfcbd952645d3aca570ca735d1ccf12c8864a4e25864e8",
+      "source_file": "put_the_cream_cheese_in_the_bowl.pruned_init",
+      "source_state_index": 10,
+      "task_id": 6,
+      "task_name": "put_the_cream_cheese_in_the_bowl",
+      "trial_id": "libero_goal:put_the_cream_cheese_in_the_bowl:state-0010:env-0"
+    },
+    {
+      "initial_state_sha256": "2505026c9f347f582506c7a2c0168b9f7d42df92622f93b176f55651f850ce7f",
+      "source_file": "turn_on_the_stove.pruned_init",
+      "source_state_index": 1,
+      "task_id": 7,
+      "task_name": "turn_on_the_stove",
+      "trial_id": "libero_goal:turn_on_the_stove:state-0001:env-0"
+    },
+    {
+      "initial_state_sha256": "e0ed7d999461bcc9b7973f6e818a370724e6ed413de2af5e8aa66719acc06b2e",
+      "source_file": "put_the_bowl_on_the_plate.pruned_init",
+      "source_state_index": 4,
+      "task_id": 8,
+      "task_name": "put_the_bowl_on_the_plate",
+      "trial_id": "libero_goal:put_the_bowl_on_the_plate:state-0004:env-0"
+    },
+    {
+      "initial_state_sha256": "c529d95f2aec5baf4e1beeea4addc650218d9f7c2da32d0fb5e3e832f446daaf",
+      "source_file": "put_the_wine_bottle_on_the_rack.pruned_init",
+      "source_state_index": 9,
+      "task_id": 9,
+      "task_name": "put_the_wine_bottle_on_the_rack",
+      "trial_id": "libero_goal:put_the_wine_bottle_on_the_rack:state-0009:env-0"
+    }
+  ],
+  "selection_authority": {
+    "bytes": 26636,
+    "path": "configs/experiments/formal_main_v2.json",
+    "sha256": "a3f35d8e96d701c1a9ebadc2ad02259372cf6c91da6c9cb8d57c231892cf6ff9"
+  },
+  "single_GPU_job_proposed": 1,
+  "status": "fixed_selection_CPU_design_execution_HOLD",
+  "success_based_selection": false,
+  "suite": "libero_goal",
+  "visual_tokens": 512,
+  "weights_read_or_deserialized_this_design": false
+}

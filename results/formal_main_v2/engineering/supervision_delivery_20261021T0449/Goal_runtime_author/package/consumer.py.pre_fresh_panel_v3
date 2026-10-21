@@ -1,0 +1,426 @@
+"""Typed prospective Goal full200 terminal reconstruction, read-only.
+Original runtime_inputs, adapters (one explicit typed-parent read location),
+trajectory action-v1 validator and full rollout/summarize are applied intact.
+This is a new execution version, never a fabricated old whole-chain review.
+"""
+from pathlib import Path, PurePosixPath
+import ast, copy, hashlib, importlib.util, json, re, sys, types
+P = Path('/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA')
+R = Path('/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo')
+PKG = 'scripts/ops/formal_goal_remaining5_gate_v1'
+VERSION = 'goal-remaining5-prospective-single-attempt-v1'
+PINS = {'scripts/review_formal_downstream.py': '753edb55ce21fd43f85499e136a7e52093ecf9feaeafadf0f01cece8fa267202', 'scripts/ops/formal_downstream_supervisor.py': 'f24acea144fb53e8e72981d86f901af03769131d5e2534648eaee6277d88f571', 'scripts/formal_execution_manifests.py': '614a5e71e0802ca42e3358c32dce2f025e55191324c26eb571929444b4595c89', 'scripts/analyze_formal.py': '7f9573877f8a3662bd06dae9362823fd478283ed14cc86a6c3763f6fb4f682f1', 'scripts/ops/formal_evaluation_adapter.py': 'b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd'}
+
+def _scope():
+    p=Path(__file__).parent/'scope.py'
+    spec=importlib.util.spec_from_file_location('_goal_remaining5_consumer_scope',p)
+    m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
+scope=_scope()
+def require_path_identity(path):
+    require(path.is_absolute() and path.resolve()==path and not any(x.is_symlink() for x in [path,*path.parents]),'canonical physical path required')
+def validate_raw_inventory(ctx,rows):
+    require(type(rows) is list and rows and len({r['path'] for r in rows})==len(rows),'unique complete R raw inventory')
+    files={}
+    for row in rows:
+        path=Path(row['path']);require_path_identity(path)
+        require(ctx.RAW in path.parents and path.is_file() and type(row['bytes']) is int and row['bytes']>=0,'only own physical R raw attempt')
+        rel=path.relative_to(ctx.RAW).as_posix()
+        allowed=(rel in ('claim.json','runtime.stdout','runtime.stderr','observer/events.jsonl','observer/gate.jsonl') or re.fullmatch('[0-9a-f]{64}[.]bin',rel) or re.fullmatch('observer/blobs/[0-9a-f]{64}(?:[.]bin|[.]rng[.]json)',rel))
+        require(allowed,'unknown physical raw artifact')
+        h=hashlib.sha256()
+        with path.open('rb') as stream:
+            for chunk in iter(lambda:stream.read(8<<20),b''):h.update(chunk)
+        require(h.hexdigest()==row['sha256'] and path.stat().st_size==row['bytes'],'actual R raw bytes differ')
+        files[str(path)]={'sha256':row['sha256'],'bytes':row['bytes']}
+    require({str(p) for p in ctx.RAW.rglob('*') if p.is_file()}==set(files),'complete R inventory without omitted physical artifacts')
+    for rel in ('claim.json','runtime.stdout','runtime.stderr','observer/events.jsonl','observer/gate.jsonl'):require(str(ctx.RAW/rel) in files,'missing R evidence')
+    return files
+def require(ok, msg):
+    if not ok:
+        raise ValueError(msg)
+
+def digest(b):
+    return hashlib.sha256(b).hexdigest()
+
+def canonical(value):
+    return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':'), allow_nan=False).encode()
+
+def strict(b):
+
+    def pairs(rows):
+        d = {}
+        for k, v in rows:
+            require(k not in d, 'duplicate JSON key')
+            d[k] = v
+        return d
+    return json.loads(b, object_pairs_hook=pairs, parse_constant=lambda x: (_ for _ in ()).throw(ValueError('nonfinite JSON')))
+
+def load(path, name, pin):
+    b = Path(path).read_bytes()
+    require(digest(b) == pin, 'implementation SHA changed')
+    s = importlib.util.spec_from_file_location(name, path)
+    m = importlib.util.module_from_spec(s)
+    sys.modules[name] = m
+    s.loader.exec_module(m)
+    return m
+
+def jsonl(path):
+    b = Path(path).read_bytes()
+    require(b.endswith(b'\n'), 'incomplete JSONL tail')
+    rows = [strict(x) for x in b.splitlines()]
+    require(all((type(x) is dict for x in rows)), 'JSONL objects only')
+    return rows
+
+def validate_job(ctx, job, dispatch):
+    require(type(job) is dict and job.get('status') == 'COMPLETED' and (job.get('exit_code') == '0:0') and (job.get('gpus') == 1), 'clean single-GPU terminal required')
+    require(type(job.get('elapsed_seconds')) is int and job['elapsed_seconds'] >= 0, 'allocation seconds required once')
+    require(job.get('job_id') == dispatch.get('job_id') and re.fullmatch('[1-9][0-9]*', str(job['job_id'])), 'exact original ACK required')
+    require(job.get('method_ids')==ctx.methods,'registered exact pair method IDs required')
+    require(job.get('stage_key') == ctx.stage_key and job.get('run_root') == str(P / ctx.RUN) and (job.get('suite') == 'libero_goal') and (job.get('mode') == 'development'), 'exact full200 job scope')
+
+def read_blob(ctx, ref, *, observation, output_root, read_refs):
+    require(type(ref) is dict and type(ref.get('bytes')) is int and (ref['bytes'] >= 0) and re.fullmatch('[0-9a-f]{64}', str(ref.get('sha256'))), 'typed blob reference')
+    if observation:
+        require(ref.get('storage') == 'root_approved_raw_observations', 'raw observation storage kind')
+        path = Path(ref['path'])
+        require(path.parent == ctx.RAW and path.name == ref['sha256'] + '.bin', 'only fixed new raw observation root')
+    else:
+        require(ref.get('storage') == 'attempt_local', 'local blob storage kind')
+        p = PurePosixPath(ref['path'])
+        require(len(p.parts) == 2 and p.parts[0] == 'blobs' and p.name.startswith(ref['sha256'] + '.'), 'local observer blob reference')
+        path = output_root / 'observer' / p
+    require(path.resolve() == path and (not any((p.is_symlink() for p in [path, *path.parents]))), 'blob canonical path')
+    raw = path.read_bytes()
+    require(len(raw) == ref['bytes'] and digest(raw) == ref['sha256'], 'raw blob bytes/size changed')
+    read_refs[str(path)] = {'sha256': digest(raw), 'bytes': len(raw)}
+    return raw
+
+def reconstruct_gate(ctx, project, rows, *, specification, job_id):
+    """Rebuild all raw observation phases and the complete original trial chain.
+ v2 closes the independent empty-array counterexample without changing runtime.
+ """
+    import numpy as np
+    root = ctx.RAW
+    read_refs = {}
+    events = jsonl(root / 'observer/events.jsonl')
+    gate = jsonl(root / 'observer/gate.jsonl')
+    keys = ('agentview_image', 'robot0_eye_in_hand_image', 'robot0_eef_pos', 'robot0_eef_quat', 'robot0_gripper_qpos')
+    identity_keys = ('trial_id', 'state_trial_id', 'task_id', 'task_name', 'source_state_index', 'initial_state_sha256', 'method')
+    obs_phases = {'reset_after', 'set_init_before', 'set_init_after', 'wait_before', 'wait_after', 't0_query_before', 't0_query_after', 'query_before', 'query_after'}
+    plain_phases = {'trial_begin_before_reseed', 'reseed_after', 'factory_before', 'factory_after', 'reset_before', 'original_runner_returned'}
+    loader_phases = ['existing_loader_event:' + x for x in ('asset_metadata_compat_load_start', 'asset_metadata_compat_load_complete', 'deployment_base_load_start', 'goal_component_load_start', 'goal_component_load_complete', 'goal_component_load_start', 'goal_component_load_complete', 'deployment_base_load_complete')]
+    captures = [r for r in events if 'phase' in r]
+    require(len(captures) <= 21032 and (not any((r.get('event') == 'observer_abort' for r in events))), 'observer abort/bound')
+    require(len(specification['rows']) == 200 and len({r['trial_id'] for r in specification['rows']}) == 200, 'fixed200 unique specification')
+    expected = {r['trial_id']: {k: r[k] for k in identity_keys} for r in specification['rows']}
+    completed = [r for r in rows if r.get('event') == 'result']
+    require(len(completed) == 200 and all((r['status'] == 'completed' for r in completed)), 'whole200 completed records required; policy_error never admitted')
+    require([{k: r[k] for k in identity_keys} for r in completed] == list(expected.values()), 'full200 original identity/order exact')
+    for r in completed:
+        require(type(r['control_steps']) is int and 1 <= r['control_steps'] <= 300 and (type(r['policy_calls']) is int) and (r['policy_calls'] == (r['control_steps'] + 7) // 8) and (type(r['wait_steps']) is int) and (r['wait_steps'] == 10), 'pertrial original300/chunk8/warmup10 bounds')
+        require(len(r['chunks']) == r['policy_calls'] and len(r['executed_actions']) == r['control_steps'], 'pertrial raw chunk and executed counts')
+    require(sum((r['control_steps'] for r in completed)) <= 60000 and sum((r['policy_calls'] for r in completed)) <= 7600 and (sum((r['wait_steps'] for r in completed)) == 2000), 'control/query/warmup counts distinct')
+    capidx = {}
+    raw_signatures = {}
+    for i, e in enumerate(captures, 1):
+        require(type(e['event_index']) is int and e['event_index'] == i and (len(canonical(e)) <= 16384), 'capture sequence/size')
+        require(e.get('invariants') == {'object_identity_and_bytes_unchanged': True, 'passive_sim_and_environment_rng_unchanged': True, 'global_rng_unchanged': True}, 'passive capture invariant missing')
+        phase = e['phase']
+        require(phase in obs_phases | plain_phases | set(loader_phases), 'unknown capture phase')
+        arrays = e['observation_arrays']
+        require(type(arrays) is dict, 'observation arrays must be a mapping')
+        if phase in obs_phases:
+            require(set(arrays) == set(keys) and 'observation_missing' not in e, 'required observation phase has all five raw arrays')
+            expected_schema = {'agentview_image': ('uint8', [256, 256, 3], 196608), 'robot0_eye_in_hand_image': ('uint8', [256, 256, 3], 196608), 'robot0_eef_pos': ('float64', [3], 24), 'robot0_eef_quat': ('float64', [4], 32), 'robot0_gripper_qpos': ('float64', [2], 16)}
+            require(all(((arrays[k]['dtype'], arrays[k]['shape'], arrays[k]['bytes']) == v for k, v in expected_schema.items())), 'exact actual five-component storage schema')
+            aggregate = hashlib.sha256()
+            components = {}
+            for key in keys:
+                a = arrays[key]
+                raw = read_blob(ctx, a['blob'], observation=True, output_root=root, read_refs=read_refs)
+                require(type(a['bytes']) is int and a['bytes'] == len(raw) and (a['sha256'] == digest(raw)) and (len(raw) == int(np.prod(a['shape'])) * np.dtype(a['dtype']).itemsize), 'array dtype/shape/byte metadata')
+                aggregate.update(key.encode())
+                aggregate.update(a['dtype'].encode())
+                aggregate.update(str(tuple(a['shape'])).encode())
+                aggregate.update(raw)
+                components[key] = {'dtype': str(np.dtype(a['dtype'])), 'shape': a['shape'], 'bytes': len(raw), 'sha256': digest(raw)}
+            require(aggregate.hexdigest() == e['observation_sha256'], 'five-component aggregate reconstruction')
+            raw_signatures[i] = components
+        else:
+            require(arrays == {} and e.get('observation_missing') == 'no returned observation exists at this marker' and ('observation_sha256' not in e), 'non-observation marker cannot claim unbacked observation bytes/hash')
+        require(sum((v['bytes'] for v in e.get('sim_array_blobs', {}).values())) <= 8192, 'sim byte bound')
+        for v in e.get('sim_array_blobs', {}).values():
+            read_blob(ctx, v, observation=False, output_root=root, read_refs=read_refs)
+        rb = read_blob(ctx, e['global_rng'], observation=False, output_root=root, read_refs=read_refs)
+        require(len(rb) <= 65536, 'RNG bound')
+        capidx[i] = e
+    prefix = []
+    pos = 0
+    while pos < len(events) and events[pos].get('phase', '').startswith('existing_loader_event:'):
+        prefix.append(events[pos]['phase'])
+        e = events[pos]
+        require(e['trial_identity'] is None and e['ordinal'] is None and (e['control_step'] is None) and (e['wait_steps'] is None), 'loader capture outside all trials')
+        pos += 1
+    require(prefix == loader_phases, 'complete original loader capture sequence')
+    trialcaps = {}
+    trial_end_count = 0
+    for ordinal, row in enumerate(completed, 1):
+        ident = expected[row['trial_id']]
+        shape = [(x, None, None) for x in ('trial_begin_before_reseed', 'reseed_after', 'factory_before', 'factory_after', 'reset_before', 'reset_after', 'set_init_before', 'set_init_after')]
+        for wait in range(10):
+            shape.extend([('wait_before', None, wait), ('wait_after', None, wait + 1)])
+        for qi in range(row['policy_calls']):
+            shape.extend([('t0_query_before' if qi == 0 else 'query_before', 8 * qi, None), ('t0_query_after' if qi == 0 else 'query_after', 8 * qi, None)])
+        observed = []
+        for phase, step, wait in shape:
+            require(pos < len(events), 'missing capture chain tail')
+            e = events[pos]
+            pos += 1
+            require(e.get('phase') == phase and e.get('trial_identity') == ident and (type(e.get('ordinal')) is int) and (e['ordinal'] == ordinal) and (e.get('control_step') == step) and (e.get('wait_steps') == wait), 'complete original capture phase/order/identity/counters')
+            require((step is None or type(e['control_step']) is int) and (wait is None or type(e['wait_steps']) is int), 'capture counter strict integer')
+            observed.append(e)
+        trialcaps[row['trial_id']] = observed
+        require(pos < len(events), 'missing original trial-end witness')
+        end = events[pos]
+        pos += 1
+        require(end.get('event') == 'trial_end' and 'phase' not in end and (end.get('trial_identity') == ident) and (type(end.get('ordinal')) is int) and (end['ordinal'] == ordinal) and (end.get('status') == row['status']) and (end.get('success_not_used_for_admission') is True) and (end.get('scientific_trials_added') == 0), 'one original trial-end witness in order')
+        require(all((type(end.get(k)) is int and end[k] == row[k] for k in ('control_steps', 'policy_calls', 'wait_steps'))), 'trial-end counts bound to original ledger')
+        before, after = observed[28:30]
+        require(end['t0_hashes'] == {'t0_query_before': before['observation_sha256'], 't0_query_after': after['observation_sha256']} and after['observation_sha256'] == row['chunks'][0]['observation_sha256'], 'trial-end t0 exact original bytes')
+        trial_end_count += 1
+    require(pos + 1 == len(events), 'unknown/extra event or missing final return')
+    last = events[pos]
+    require(last.get('phase') == 'original_runner_returned' and last['trial_identity'] is None and (last['ordinal'] is None) and (last['control_step'] is None) and (last['wait_steps'] is None), 'single original return after all200')
+    require(gate[0]['event'] == 'paired_input_gate_open' and gate[-1]['event'] == 'paired_input_gate_finished' and (not any((x['event'] == 'paired_input_gate_abort' for x in gate))), 'complete single gate attempt')
+    require(gate[0]['pair_key']==ctx.pair_key and gate[0]['prefix_sha256']==ctx.spec_sha,'exact new pair raw gate identity')
+    require(gate[0]['CPU_fixture_enabled'] is False and gate[0]['runtime_context'] == 'real_environment_engineering', 'CPU fixture forbidden')
+    require(len(gate) <= 68032 and all((len(canonical(x)) <= 16384 for x in gate)), 'gate storage bound')
+    queries = [e for e in gate if e['event'] == 'query_integrity_passed']
+    steps = [e for e in gate if e['event'] == 'policy_step_executed']
+    pairs = [e for e in gate if e['event'] == 't0_pair_gate']
+    require(len(pairs) == 200 and len(queries) == sum((r['policy_calls'] for r in completed)) <= 7600 and (len(steps) == sum((r['control_steps'] for r in completed)) <= 60000), 'event totals equal original raw ledger')
+    expected_gate = []
+    for ordinal, row in enumerate(completed, 1):
+        expected_gate.append(('t0_pair_gate', ordinal, None, row['trial_id']))
+        for step in range(row['control_steps']):
+            if step % 8 == 0:
+                expected_gate.append(('query_integrity_passed', ordinal, step, row['trial_id']))
+            expected_gate.append(('policy_step_executed', ordinal, step, row['trial_id']))
+    require([(e['event'], e.get('ordinal'), e.get('control_step'), e.get('trial_identity', {}).get('trial_id')) for e in gate[1:-1]] == expected_gate, 'complete ordered gate chain; no duplicate, foreign or missing witness')
+    for e in gate[1:-1]:
+        require(e['trial_identity'] == expected[e['trial_identity']['trial_id']] and type(e['ordinal']) is int and (e.get('scientific_trials_added') == 0), 'gate full immutable trial identity')
+    bytrial = {r['trial_id']: r for r in completed}
+    baselines = {}
+    matched = set()
+    pair_by_trial = {}
+    for e in pairs:
+        t = e['trial_identity']
+        cap = capidx[e['capture_event_index']]
+        require(cap is trialcaps[t['trial_id']][28] and cap['phase'] == 't0_query_before' and (cap['trial_identity'] == t), 'pair is exact before first query')
+        instruction = bytes.fromhex(e['instruction_utf8_hex'])
+        instruction.decode('utf-8')
+        sig = {'components': raw_signatures[cap['event_index']], 'instruction_utf8_sha256': digest(instruction)}
+        require(sig == e['content'], 'pair content and instruction rebuilt from raw bytes')
+        pair_by_trial[t['trial_id']] = e
+        state = t['state_trial_id']
+        if t['method'] == ctx.methods[0]:
+            require(state not in baselines and e['pairing'] == 'baseline_recorded_before_first_policy', 'unique A baseline')
+            baselines[state] = sig
+        else:
+            require(t['method'] == ctx.methods[1] and state in baselines and (state not in matched) and (e['pairing'] == 'exact_before_policy_pair_passed') and (sig == baselines[state]), 'exact preB five-array and instruction pair')
+            matched.add(state)
+    require(len(baselines) == len(matched) == 100, 'all100 pairs')
+    qseen = {tid: 0 for tid in bytrial}
+    sseen = {tid: 0 for tid in bytrial}
+    for e in queries:
+        tid = e['trial_identity']['trial_id']
+        row = bytrial[tid]
+        qi = qseen[tid]
+        require(type(e['control_step']) is int and e['control_step'] == 8 * qi and (qi < len(row['chunks'])), 'query original cadence')
+        after = capidx[e['capture_event_index']]
+        before = capidx[e['capture_event_index'] - 1]
+        require(before is trialcaps[tid][28 + 2 * qi] and after is trialcaps[tid][29 + 2 * qi] and (after['trial_identity'] == before['trial_identity'] == e['trial_identity']), 'query exact original before/after witnesses')
+        require(set(before['observation_arrays']) == set(after['observation_arrays']) == set(keys), 'every query pre/post raw five components required')
+        for key in keys:
+            require(before['observation_arrays'][key] == after['observation_arrays'][key], 'query input byte/identity metadata unchanged')
+        instruction = bytes.fromhex(e['instruction_utf8_hex'])
+        instruction.decode('utf-8')
+        sig_before = {'components': raw_signatures[before['event_index']], 'instruction_utf8_sha256': digest(instruction)}
+        sig_after = {'components': raw_signatures[after['event_index']], 'instruction_utf8_sha256': digest(instruction)}
+        require(sig_before == sig_after == e['content'], 'every query content rebuilt from complete raw before and after')
+        pair = pair_by_trial[tid]
+        require(e['instruction_utf8_hex'] == pair['instruction_utf8_hex'], 'original instruction unchanged throughout trial')
+        if qi == 0:
+            require(e['content'] == pair['content'], 't0 query exactly follows paired prequery')
+        ident = e['input_identity_before']
+        require(type(ident) is dict and set(ident) == {'mapping_id', 'components'} and (type(ident['mapping_id']) is int) and (ident['mapping_id'] > 0) and (set(ident['components']) == set(keys)), 'query mapping and allfive object identities')
+        require(all((type(v) is dict and set(v) == {'id', 'pointer'} and all((type(n) is int and n > 0 for n in v.values())) for v in ident['components'].values())) and ident == e['input_identity_after'], 'prepost exact mapping/array pointers')
+        c = row['chunks'][qi]
+        require(len(canonical(c['metadata'])) <= 32768, 'original chunk metadata storage bound')
+        require(c['observation_sha256'] == after['observation_sha256'], 'ledger postpolicy hash')
+        for name in ('normalized_actions', 'environment_actions'):
+            meta = e['returned_actions'][name]
+            raw = bytes.fromhex(meta['bytes_hex'])
+            require(digest(raw) == meta['sha256'] and len(raw) == meta['bytes'], 'returned actions raw')
+            arr = np.frombuffer(raw, dtype=np.dtype(meta['dtype'])).reshape(meta['shape'])
+            require(arr.shape == (8, 7) and np.isfinite(arr).all() and np.array_equal(arr, np.asarray(c[name])), 'unchanged returned chunk values')
+        qseen[tid] += 1
+    for e in steps:
+        tid = e['trial_identity']['trial_id']
+        i = sseen[tid]
+        require(type(e['control_step']) is int and e['control_step'] == i, 'step order')
+        a = e['action']
+        raw = bytes.fromhex(a['bytes_hex'])
+        require(digest(raw) == a['sha256'] and len(raw) == a['bytes'], 'step raw bytes')
+        arr = np.frombuffer(raw, dtype=np.dtype(a['dtype'])).reshape(a['shape'])
+        require(arr.shape == (7,) and np.isfinite(arr).all() and np.array_equal(arr, np.asarray(bytrial[tid]['executed_actions'][i])), 'original action unchanged')
+        sseen[tid] += 1
+    require(all((qseen[k] == v['policy_calls'] and sseen[k] == v['control_steps'] for k, v in bytrial.items())), 'pertrial exact queries/actions')
+    end = gate[-1]
+    require(end['exact_paired_t0_checks'] == 100 and end['all_query_checks'] == len(queries) and (end['executed_policy_steps_recorded'] == len(steps)) and (end['original_prefix_trials'] == 200) and (end['observer_events'] == len(captures)), 'finish totals exact')
+    require(end['event_sha256'] == digest(b''.join((canonical(e) + b'\n' for e in events))), 'gate footer binds complete raw event bytes')
+    return {'trials': 200, 'paired_t0_checks': 100, 'queries': len(queries), 'control_steps': len(steps), 'warmup_steps': 2000, 'complete_trial_end_witnesses': trial_end_count, 'complete_observation_phase_raw_rebuilt': True, 'all_query_content_rebuilt_from_before_and_after_raw': True, 'raw_blob_refs': read_refs, 'old200_HOLD': True, 'final_release': False}
+
+def review_terminal(project, terminal_ref):
+    """Typed root terminal manifest contains exact pulled artifacts + unique ACK."""
+    project = Path(project).resolve()
+    require(project == R, 'terminal only in control R after exact pull')
+    own = project / PKG / 'consumer.py'
+    require(Path(__file__).resolve() == own, 'exact canonical typed consumer required')
+    reviewer_path = project / 'scripts/ops/formal_action_deployment_v1/reviewer.py'
+    terminal_path=project/terminal_ref['path']
+    require(digest(terminal_path.read_bytes())==terminal_ref['sha256'],'exact terminal reference')
+    rawterminal=strict(terminal_path.read_bytes())
+    ctx=scope.context(rawterminal['pair_key'])
+    original=project/ctx.ORIGINAL.relative_to(P)
+    require_path_identity(original)
+    # Exact future prepared invocation is pinned by this pair root authorization.
+    authpath=project/ctx.AUTH.relative_to(P)
+    authraw=strict(authpath.read_bytes())
+    require(authraw['original_invocation']=={'path':str(ctx.ORIGINAL),'sha256':digest(original.read_bytes())},'own exact prepared science lineage')
+    effective=strict((project/ctx.plans['effective_plan']['path']).read_bytes())
+    require(digest((project/ctx.plans['effective_plan']['path']).read_bytes())==ctx.plans['effective_plan']['sha256'],'own effective plan pin')
+    inv = strict(original.read_bytes())
+    contract = strict((project / inv['action_execution_contract']['path']).read_bytes())
+    require(digest((project / inv['action_execution_contract']['path']).read_bytes()) == inv['action_execution_contract']['sha256'], 'original runtime contract identity')
+    rv = load(reviewer_path, 'goal200_original_reviewer', contract['files']['scripts/ops/formal_action_deployment_v1/reviewer.py'])
+    ev = rv.Evidence(project)
+    terminal = ev.read_ref(terminal_ref)
+    require(terminal.get('kind') == 'goal_remaining5_typed_terminal_manifest' and terminal.get('execution_version') == VERSION and (terminal.get('status') == 'complete_nonweight_pull') and (terminal.get('weights_copied') is False) and (terminal.get('sealed_values_read') is False), 'new typed terminal envelope only')
+    package = ev.read(PKG + '/package_manifest.json')
+    require(ev.watch(PKG + '/package_manifest.json') == terminal['package_manifest_sha256'], 'terminal package identity')
+    for name, h in package['files'].items():
+        require(ev.watch(name) == h, 'new package changed')
+    entry = rv.load(ev, PKG + '/entry.py', package['files'][PKG + '/entry.py'])
+    configrel=ctx.CONFIG.relative_to(P).as_posix()
+    config=ev.read(configrel)
+    entry.validate_config(ctx,config)
+    auth = ev.read_ref(terminal['authorization'])
+    entry.validate_authorization(ctx,auth, ev.watch(configrel), terminal['package_manifest_sha256'], ev.watch(PKG + '/entry.py'))
+    dispatch = ev.read_ref(terminal['dispatch'])
+    reservation = ev.read_ref(terminal['reservation'])
+    job = terminal['job']
+    validate_job(ctx, job, dispatch)
+    entry.validate_dispatch(ctx,dispatch, reservation, auth, terminal['authorization']['sha256'], job['job_id'], terminal['reservation']['sha256'])
+    for role in ('root', 'independent'):
+        ref = auth[role + '_review']
+        rel = Path(ref['path']).relative_to(P).as_posix()
+        value = ev.read_ref({'path': rel, 'sha256': ref['sha256']})
+        entry.check_review(ctx,value, role, terminal['package_manifest_sha256'], ev.watch(configrel))
+    require(terminal['pair_key']==ctx.pair_key and terminal['authorization']['path']==ctx.AUTH.relative_to(P).as_posix() and terminal['dispatch']['path']==ctx.DISPATCH.relative_to(P).as_posix() and terminal['reservation']['path']==ctx.RESERVATION.relative_to(P).as_posix(),'exact pair terminal control refs')
+    require({k:inv[k] for k in effective['invocation']}==effective['invocation'],'prepared original plan reconstructed')
+    inventory = terminal['artifacts']
+    require(type(inventory) is list and len({x['path'] for x in inventory}) == len(inventory), 'complete unique pull artifacts')
+    files = {}
+    for row in inventory:
+        require(row['path'].startswith(ctx.OUT+'/') and '/observer/' not in row['path'],'only P scientific/outer metadata, never fake observer relocation')
+        require(ev.watch(row['path'])==row['sha256'] and ev.path(row['path']).stat().st_size==row['bytes'],'pulled P metadata changed')
+        files[row['path']]=row['sha256']
+    for name in ['outer/completion.json','outer/events.jsonl','outer/typed_parent.json','original_run/config.json','original_run/panel.json','original_run/trials.jsonl','original_run/closed_loop_report.json']:
+        require(ctx.OUT+'/'+name in files,'missing actual scientific metadata: '+name)
+    rawfiles=validate_raw_inventory(ctx,terminal['raw_artifacts'])
+    complete = ev.read(ctx.OUT + '/outer/completion.json')
+    outer = rv.lines(ev, ctx.OUT + '/outer/events.jsonl')
+    parent = ev.read(ctx.OUT + '/outer/typed_parent.json')
+    require(complete.get('status') == 'returned_200_prospective_pending_terminal_review' and complete.get('exit_code') == 0 and (complete.get('errors') == []) and (complete.get('original_runtime_restored') is True) and (complete.get('observer_failed') is False), 'failed or partial cannot be terminal passed')
+    require(complete['job_id'] == job['job_id'] and complete['authorization_sha256'] == terminal['authorization']['sha256'] and (complete['package_manifest_sha256'] == terminal['package_manifest_sha256']) and (complete['raw_observation_root'] == str(ctx.RAW)), 'outer exact job/source/raw binding')
+    rawclaim = strict((ctx.RAW / 'claim.json').read_bytes())
+    require(rawclaim == complete['raw_observation_claim'] and rawclaim['job_id'] == job['job_id'] and (rawclaim['path'] == str(ctx.RAW)), 'exact exclusive actual-node raw claim')
+    require(complete['raw_event_sha256'] == files[ctx.OUT + '/outer/events.jsonl'] and parent['kind'] == 'goal_remaining5_typed_parent_receipt' and (parent['execution_version'] == VERSION) and (parent['source_completion_sha256'] == files[ctx.OUT + '/outer/completion.json']), 'typed parent exact new outer binding')
+    require(all((e['seq'] == i and e['job_id'] == job['job_id'] for i, e in enumerate(outer))) and outer[0]['event'] == 'engineering_start' and (outer[-1]['event'] == 'engineering_prefix_returned'), 'one complete outer lifecycle')
+    bounded=[e for e in outer if e['event']=='bounded_adapter_metadata_restored']
+    require(len(bounded)==1 and bounded[0]['original_run_source_unchanged'] is True and bounded[0]['storage']['publish_calls']==1 and 1<=bounded[0]['storage']['append_calls']<=1024,'original adapter metadata writer guards restored once')
+    require(all(type(n) is int and 0<=n<=4194304 for n in bounded[0]['storage']['paths'].values()),'actual adapter file bounds')
+    starts = [e for e in outer if e['event'] == 'prefix_observer_scope_enter']
+    ends = [e for e in outer if e['event'] == 'prefix_observer_scope_exit']
+    require(len(starts) == len(ends) == 1 and ends[0]['bindings_intact'] and ends[0]['bindings_restored'], 'exact observer AST lifecycle')
+    astmod = rv.load(ev, PKG + '/ast_gate_v2.py', package['files'][PKG + '/ast_gate_v2.py'])
+    raw = ev.path('src/cti_vla/evaluation/libero_runtime.py').read_bytes()
+    traw = ev.path('src/cti_vla/evaluation/formal_trials.py').read_bytes()
+    _, _, rp = astmod.derive_run(raw)
+    _, _, tp = astmod.base.derive_trials(traw)
+    require(starts[0]['proof']['run_episode'] == rp and starts[0]['proof']['trial_loop'] == tp, 'actual AST proof exact source derivation')
+    for n, h in PINS.items():
+        require(ev.watch(n) == h, 'original scientific consumer source')
+    for n, h in inv['support_files'].items():
+        require(ev.watch(n) == h, 'original support changed')
+    for n, h in inv['watched_files'].items():
+        require(ev.watch(Path(n).relative_to(P).as_posix()) == h, 'original immutable input changed')
+    for n, h in inv['root_evidence_sha256'].items():
+        require(ev.watch(n) == h, 'root original input evidence changed')
+    old = rv.load(ev, 'scripts/review_formal_downstream.py', PINS['scripts/review_formal_downstream.py'])
+    scheduler = rv.load(ev, 'scripts/ops/formal_downstream_supervisor.py', PINS['scripts/ops/formal_downstream_supervisor.py'])
+    runtime = rv.load(ev, 'scripts/ops/formal_action_deployment_v1/runtime_scope.py', contract['files']['scripts/ops/formal_action_deployment_v1/runtime_scope.py'])
+    runtime.validate_contract(contract['runtime_contract'], project_root=project, source_root=Path(inv['source_root']))
+    assets, _ = rv.checked_asset_identities(ev, runtime, contract, inv)
+    runtimeproof = runtime.verify_runtime_events(outer, contract['runtime_contract'], expected_asset_identities=assets)
+    require(runtimeproof['all_source_and_binding_contexts_restored'] and runtimeproof['original_base_loads'] == 1 and (runtimeproof['synthetic_input'] is False), 'complete actual source/runtime chain')
+    opt = old.options(inv)
+    registration = ev.read('configs/experiments/formal_main_v2.json')
+    manifest = ev.read(Path(inv['execution_manifest']).relative_to(P).as_posix())
+    panel = ev.read(Path(inv['run_root']).relative_to(P).as_posix() + '/panel.json')
+    source_inventory = ev.read(Path(inv['source_inventory']).relative_to(P).as_posix())
+    sys.path.insert(0, str(project / 'src'))
+    from cti_vla.training.formal_future import formal_source_hashes
+    scientific_config = ev.read(ctx.RUN + '/config.json')
+    projection = {**inv, 'resume': False, 'run_root': str(P / ctx.RUN), 'wrapper_sha256': ev.watch(PKG + '/entry.py')}
+    value = {'invocation': projection, 'opt': opt, 'registration': registration, 'suite': 'libero_goal', 'manifest': manifest, 'inventory': source_inventory, 'sources': formal_source_hashes(project), 'development': panel, 'methods': [ctx.methods[0], ctx.methods[1]], 'output': ctx.RUN}
+    value['checkpoint'] = old.runtime_inputs(ev, scheduler, value, scientific_config)
+    rawold = ev.path('scripts/review_formal_downstream.py').read_text()
+    tree = ast.parse(rawold)
+    node = next((n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'adapters'))
+    derived = copy.deepcopy(node)
+    target = next((n for n in derived.body if isinstance(n, ast.Assign) and isinstance(n.targets[0], ast.Name) and (n.targets[0].id == 'wrapper')))
+    original_expr = copy.deepcopy(target.value)
+    target.value = ast.parse('evidence.read(' + repr(ctx.OUT + '/outer/typed_parent.json') + ')', mode='eval').body
+    ast.fix_missing_locations(derived)
+    ns = dict(old.__dict__)
+    exec(compile(ast.Module(body=[derived], type_ignores=[]), str(old.__file__) + '::<explicit-Goal-typed-parent>', 'exec'), ns)
+    adapter = ns['adapters'](ev, scheduler, value, job, scientific_config, files)
+    require(adapter['frozen_trial_loop_code_sha256'] == starts[0]['proof']['observer_trial_code_sha256'], 'original adapter records exact derived trial code')
+    require(adapter['status'] == 'returned' and adapter['before_ledger_raw'] == {'bytes': 0, 'sha256': hashlib.sha256(b'').hexdigest()}, 'new fresh ledger; no fake old completion prefix')
+    analyzer = rv.load(ev, 'scripts/analyze_formal.py', PINS['scripts/analyze_formal.py'])
+    trajectory, trajectory_proof = rv.trajectory_validator(old, analyzer, runtime)
+    result = rv.clone(old.rollout, trajectory=trajectory)(ev, scheduler, value, job, scientific_config, adapter)
+    require(result['scientific_complete'] and result['completed_trials'] == 200 and (result['expected_trials'] == 200) and (result['raw_invocation_job_ids'] == [job['job_id']]) and (result['unfinished_attempts_unknown_cost'] == 0), 'complete exactly one fresh200 original consumer')
+    specrel=ctx.SPEC.relative_to(P).as_posix()
+    spec = ev.read(specrel)
+    require(ev.watch(specrel) == ctx.spec_sha, 'fixed200 specification')
+    rawproof = reconstruct_gate(ctx, project, rv.lines(ev, ctx.RUN + '/trials.jsonl'), specification=spec, job_id=job['job_id'])
+    require(parent['wall_seconds'] <= job['elapsed_seconds'] + 1 and complete['wall_seconds'] <= job['elapsed_seconds'] + 1, 'whole wall within actual allocation')
+    for path, v in rawproof['raw_blob_refs'].items():
+        data = Path(path).read_bytes()
+        require(digest(data) == v['sha256'] and len(data) == v['bytes'], 'raw blob changed during reconstruction')
+    require(set(rawproof['raw_blob_refs']).issubset(set(rawfiles)), 'every reconstructed physical blob inventoried')
+    validate_raw_inventory(ctx,terminal['raw_artifacts'])
+    ev.unchanged()
+    return {'schema': 'formal_main_v2', 'kind': 'goal_remaining5_typed_terminal_review', 'status': 'passed_pending_root_and_independent_acceptance', 'execution_version': VERSION, 'pair_key':ctx.pair_key,'terminal_ref': terminal_ref, 'job_id': job['job_id'], 'full_original_scientific_consumer_reconstruction': result, 'explicit_adapter_parent_path_derivation': {'original_source_sha256': PINS['scripts/review_formal_downstream.py'], 'original_AST_sha256': digest(ast.dump(node, include_attributes=False).encode()), 'derived_AST_sha256': digest(ast.dump(derived, include_attributes=False).encode()), 'only_parent_read_relocated_to_actual_typed_receipt': True}, 'raw_gate': rawproof, 'runtime': runtimeproof, 'trajectory_validator': trajectory_proof, 'allocation_gpu_seconds': job['elapsed_seconds'], 'allocation_count': 1, 'all_prior_allocations_retained_not_added_again': True, 'original200_HOLD': True, 'old_cause_identified': False, 'scientific_trials_accepted_by_this_function': 0, 'final_release': False, 'physical_raw_artifacts':rawfiles,'evidence_sha256': ev.files}
+
+def consume(project, reference):
+    p = Path(project) / reference['path']
+    require(p.resolve() == p and p.is_file() and (digest(p.read_bytes()) == reference['sha256']), 'typed saved review pin')
+    saved = strict(p.read_bytes())
+    require(saved.get('kind') == 'goal_remaining5_typed_terminal_review', 'no legacy/CPU review substitute')
+    rebuilt = review_terminal(project, saved['terminal_ref'])
+    require(saved == rebuilt, 'typed terminal review does not rebuild exactly')
+    return rebuilt

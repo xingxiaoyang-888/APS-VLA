@@ -1,0 +1,102 @@
+{
+  "GPU_execution_authorized": false,
+  "action_chunk": 8,
+  "actual_P_verification_required": true,
+  "aggregate_storage_and_exact_ACK_admission_required": true,
+  "automatic_retry": false,
+  "created_utc": "2026-10-21T05:22:26.442199+00:00",
+  "design": {
+    "bytes": 116758,
+    "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0334/Goal_remaining5_design/design.json",
+    "sha256": "5c813e3a6e9429cc46ed9ab52a5543d0cf6302c5e5c1819efd11a501a2fb4e8e"
+  },
+  "environment_seed": 0,
+  "final_release": false,
+  "fixed_panel": {
+    "bytes": 180245,
+    "path": "configs/manifests/formal_main_v2/libero_goal/initial_states/development.json",
+    "sha256": "ce8e3d31ab8f7616c87dd4d4031af41825713907ac184c6ea5b01d9040985aa9"
+  },
+  "full_original_consumer_required": true,
+  "independent_identity_baseline": {
+    "bytes": 173659,
+    "path": "results/formal_main_v2/engineering/supervision_delivery_20261021T0449/Goal_identity_baseline/identity_baseline_original.json",
+    "sha256": "03e0c271f04ca728eece824926c3c9650dcb793d3bc24952070cb7e35a445a5b"
+  },
+  "kind": "root_Goal_remaining5_fixed_design",
+  "max_control_steps": 300,
+  "maximum_attempts_per_pair": 1,
+  "maximum_control_steps_per_pair": 60000,
+  "maximum_queries_per_pair": 7600,
+  "maximum_total_trials": 1000,
+  "maximum_trials_per_pair": 200,
+  "new_entry_AST_and_input_gate_and_CPU_independent_required": true,
+  "new_submissions": 0,
+  "original200_HOLD": true,
+  "pairs": [
+    {
+      "budget": 256,
+      "method_ids": [
+        "A256_seed23",
+        "B256_seed23"
+      ],
+      "pair_id": "9ad90de70f1e3fa7581efde098ef8953427ccbfd034c6eaf686cd791f4689032",
+      "pair_key": "libero_goal_k256_seed23",
+      "seed": 23
+    },
+    {
+      "budget": 256,
+      "method_ids": [
+        "A256_seed41",
+        "B256_seed41"
+      ],
+      "pair_id": "bc06dd35931c05b180758f46e9f39cec50b632b20a33b4ebfc0d2f2cc7614954",
+      "pair_key": "libero_goal_k256_seed41",
+      "seed": 41
+    },
+    {
+      "budget": 64,
+      "method_ids": [
+        "A64_seed17",
+        "B64_seed17"
+      ],
+      "pair_id": "ad5f40d8b25cba3280e85d8c05712fd6aa749f26277e015b7eaec3b405e6b8bd",
+      "pair_key": "libero_goal_k64_seed17",
+      "seed": 17
+    },
+    {
+      "budget": 64,
+      "method_ids": [
+        "A64_seed23",
+        "B64_seed23"
+      ],
+      "pair_id": "7a6254a2e2de33e4f09a072654ea08121b51c3a4e84bfb837fee13ebb3586ce9",
+      "pair_key": "libero_goal_k64_seed23",
+      "seed": 23
+    },
+    {
+      "budget": 64,
+      "method_ids": [
+        "A64_seed41",
+        "B64_seed41"
+      ],
+      "pair_id": "8336a896242eeabff2afbd37462b83a0321f016974a27a70d83ac47949f0243d",
+      "pair_key": "libero_goal_k64_seed41",
+      "seed": 41
+    }
+  ],
+  "previous_full200_acceptance": {
+    "bytes": 4208,
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1134/Goal3054717_root_acceptance.json",
+    "sha256": "24adf17380a37cce4c65172dc7d806c2574166b8d29281768708e21d36d73ae3"
+  },
+  "reviewed_by": "root",
+  "runtime_seed": 17,
+  "schema": "formal_main_v2",
+  "scientific_results_added": 0,
+  "selected_checkpoint_identity_not_changed": true,
+  "state_sha256": "54ee7389fe300b4ec553998d91b9bf727ca3231c2066e35a86716559a3c1406d",
+  "status": "fixed_five_design_adopted_runtime_and_GPU_HOLD",
+  "unique_development_states_per_pair": 100,
+  "wait_steps": 10
+}

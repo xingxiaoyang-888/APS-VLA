@@ -1,0 +1,124 @@
+{
+  "GPU_execution_authorized": false,
+  "actual_disk_reservation": false,
+  "aggregate_P_required_bytes": 5689999360,
+  "aggregate_R_required_bytes": 104725907520,
+  "all_five_budget_conservative_even_if_already_consumed": true,
+  "bootstrap_log_budget": "additional conservative 4 GiB per pair, not a daemon-enforced quota",
+  "created_utc": "2026-10-21T05:24:50.813476+00:00",
+  "deletion_or_moving_existing_artifacts": false,
+  "design": {
+    "path": "results/formal_main_v2/preflight/heartbeat_20261021T1249/Goal_remaining5_root_design_decision.json",
+    "sha256": "728ba315807e6f17990e548b969d31c1721e5f080fc5de10ef8b530918b492fd"
+  },
+  "exact_five_pair_keys": [
+    "libero_goal_k256_seed23",
+    "libero_goal_k256_seed41",
+    "libero_goal_k64_seed17",
+    "libero_goal_k64_seed23",
+    "libero_goal_k64_seed41"
+  ],
+  "explicit_runtime_file_limit_bytes": 2147483648,
+  "final_release": false,
+  "formula_version": "goal-remaining5-dual-root-budget-v1",
+  "independent_complete_storage_source_audit_required": true,
+  "kind": "root_Goal_remaining5_dual_root_storage_design",
+  "layout": {
+    "P": "original_run scientific ledger/config/panel/report and bounded outer metadata only",
+    "R": "raw five-component observations, observer events/gate logs/passive sim/RNG payload, exclusive runtime.stdout/runtime.stderr; separate scheduler bootstrap logs"
+  },
+  "measured_free_bytes": {
+    "P": {
+      "free_bytes": 7928197120,
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA",
+      "quota_checked": false,
+      "st_dev": 47
+    },
+    "R": {
+      "free_bytes": 894288838656,
+      "path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo",
+      "quota_checked": false,
+      "st_dev": 46
+    }
+  },
+  "new_GPU_jobs": 0,
+  "no_dedup_credit": true,
+  "original200_HOLD": true,
+  "original_control_loop_numeric_and_action_semantics_unchanged_required": true,
+  "per_login_and_compute_aggregate_check": true,
+  "per_pair": {
+    "P_margin_bytes": 134217728,
+    "P_parts": {
+      "adapter_pair": 16777216,
+      "cleanup": 13107200,
+      "config_panel": 16777216,
+      "outer": 67108864,
+      "report_old_and_tmp": 33554432,
+      "results": 838860800,
+      "terminal": 16777216,
+      "trial_start": 819200
+    },
+    "P_required_bytes": 1137999872,
+    "P_upper_bytes": 1003782144,
+    "R_margin_bytes": 1073741824,
+    "R_parts": {
+      "capture_events": 344588288,
+      "gate_events": 1114636288,
+      "logs": 8589934592,
+      "observations": 8271633216,
+      "rng": 1378353152,
+      "sim": 172294144
+    },
+    "R_required_bytes": 20945181504,
+    "R_upper_bytes": 19871439680
+  },
+  "quota_verified": false,
+  "raw_claim": "exact unique per-pair directory; no symlink, no reuse, no overwrite",
+  "reviewed_by": "root",
+  "roots": [
+    {
+      "P_output": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k256_seed23/attempt01",
+      "R_bootstrap_stderr": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k256s23_%j.err",
+      "R_bootstrap_stdout": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k256s23_%j.out",
+      "R_raw": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_remaining5_v1/libero_goal_k256_seed23/attempt01",
+      "pair_key": "libero_goal_k256_seed23"
+    },
+    {
+      "P_output": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k256_seed41/attempt01",
+      "R_bootstrap_stderr": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k256s41_%j.err",
+      "R_bootstrap_stdout": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k256s41_%j.out",
+      "R_raw": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_remaining5_v1/libero_goal_k256_seed41/attempt01",
+      "pair_key": "libero_goal_k256_seed41"
+    },
+    {
+      "P_output": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k64_seed17/attempt01",
+      "R_bootstrap_stderr": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k64s17_%j.err",
+      "R_bootstrap_stdout": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k64s17_%j.out",
+      "R_raw": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_remaining5_v1/libero_goal_k64_seed17/attempt01",
+      "pair_key": "libero_goal_k64_seed17"
+    },
+    {
+      "P_output": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k64_seed23/attempt01",
+      "R_bootstrap_stderr": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k64s23_%j.err",
+      "R_bootstrap_stdout": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k64s23_%j.out",
+      "R_raw": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_remaining5_v1/libero_goal_k64_seed23/attempt01",
+      "pair_key": "libero_goal_k64_seed23"
+    },
+    {
+      "P_output": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/execution/goal_remaining5_v1/libero_goal_k64_seed41/attempt01",
+      "R_bootstrap_stderr": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k64s41_%j.err",
+      "R_bootstrap_stdout": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti-goal-r5-k64s41_%j.out",
+      "R_raw": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/raw_runtime/goal_remaining5_v1/libero_goal_k64_seed41/attempt01",
+      "pair_key": "libero_goal_k64_seed41"
+    }
+  ],
+  "runtime_file_limit_scope": "entry process own direct ordinary file writes after distinct O_EXCL stdout/stderr setup; not Slurm daemon bootstrap",
+  "same_device_requires_sum": true,
+  "schema": "formal_main_v2",
+  "scientific_release": false,
+  "source_AST_reverse_projection_and_bounded_serialization_audit_required": true,
+  "source_runtime_verification_completed": false,
+  "space_can_change": true,
+  "state_sha256": "d795f666c630ba196f9eba8aae8d5cbed879e10fd596fc95d37c745f281948ba",
+  "status": "layout_and_budget_design_approved_pending_source_GPU_gate"
+}
