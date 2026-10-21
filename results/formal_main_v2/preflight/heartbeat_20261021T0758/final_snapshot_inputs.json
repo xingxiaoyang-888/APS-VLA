@@ -1,0 +1,151 @@
+{
+  "Goal_bounded_CPU_diagnostic": {
+    "additional1000_HOLD": true,
+    "author_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic/delivery_manifest_v3_original.json",
+      "sha256": "25ca8079785f3409d35be85e7a62044ec20e6674b1c36ffbefcc66056a66ed18"
+    },
+    "cause_identified": false,
+    "checks": 2068,
+    "classifier_cases": 14,
+    "design_negative": 30,
+    "design_positive": 1,
+    "independent_design_negative": 20,
+    "independent_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic_independent/delivery_manifest_original.json",
+      "sha256": "52991b019aacd2534fb13081db0d85e13fefe19d9655177eec07679e5135d7a3"
+    },
+    "independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic_independent/final_independent_review.json",
+      "sha256": "1f33da03cb3a1680ead9d090d12889dc334534008cac67f0ed169a10596da901"
+    },
+    "independent_status": "passed",
+    "maximum_attempts": 1,
+    "maximum_control_steps": 60000,
+    "maximum_policy_queries": 7600,
+    "maximum_trials": 200,
+    "metadata_errata_and_old_validator_gaps_retained": true,
+    "mismatch_pair_in_original200": {
+      "ordinals": [
+        57,
+        58
+      ],
+      "source_state_index": 42,
+      "task_id": 2
+    },
+    "new_GPU_jobs": [],
+    "old200_HOLD": true,
+    "old200_mismatch_distinct_from_engineering_trace_divergence": true,
+    "original_author_evidence_checks": 1235,
+    "policy_call_ordinal": 10,
+    "production_ready": false,
+    "prospective_specification": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic/prospective_full200_specification.json",
+      "sha256": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad"
+    },
+    "query_index": 9,
+    "query_index_zero_based": true,
+    "step": 72,
+    "two_engineering_trace_difference": {
+      "ordinal": 30,
+      "source_state_index": 12,
+      "task_id": 1
+    }
+  },
+  "Object_single_error_CPU_review": {
+    "author_negative_checks": 74,
+    "author_positive_checks": 24,
+    "canonical599_adoption_independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_independent/canonical599_adoption_addendum.json",
+      "sha256": "d9d6de64311c45639a40a028e75a2697ac5cb605b892e881c50e81ab4b4e5ecf"
+    },
+    "independent_checks": 5472,
+    "independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_independent/independent_review.json",
+      "sha256": "7aefd070fe5e437c7e8c0636db7301efeb9bd5cb0484665921b70aad5d6c6481"
+    },
+    "independent_status": "passed_CPU_candidate_only_with_production_blockers",
+    "legacy599_not_new_runtime_trials": true,
+    "legacy_adoption_checks": 31550,
+    "legacy_adoption_negative_outcomes_retained": 79,
+    "production_ready": false,
+    "supplementary_boundary_tests": 16
+  },
+  "Object_single_error_production_candidate": {
+    "CPU_report_scope": "Object_single_error_production_candidate_independent_review",
+    "actual_P_verified": false,
+    "author_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production/delivery_manifest_original.json",
+      "sha256": "c7e40a9cb8474862da58fe0b4cc822d2b32f3cfcbbbfcd2d920e634eddf12485"
+    },
+    "derived_loop_provenance_distinct_required": true,
+    "independent_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production_independent/delivery_manifest_original.json",
+      "sha256": "bf5247dee86033df0edbc22f3b88c649977037e77d50f8d18af6de4b1818df4e"
+    },
+    "independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production_independent/independent_review.json",
+      "sha256": "bdf8af2bdfe21954047a6b6209f0a4f3beac73ecb260df4bff33b69b5fa58baa"
+    },
+    "independent_status": "passed_CPU_candidate_with_production_HOLD",
+    "native_submit_implemented": false,
+    "new_GPU_jobs": [],
+    "original_frozen_loop_preserved_required": true,
+    "production_ready": false,
+    "raw_consumer_required": true,
+    "remaining_production_gates": [
+      "No native atomic Slurm gateway. Future root gateway must derive registered_projection from actual state.registered_jobs, query all project modes and exact name/comment/account/partition/output, probe real lifecycle lease, and reconcile original pending/token/ACK under the shared writer lock and CAS. Pure CPU projections are not live capacity evidence.",
+      "Canonical R/P publication and the exact new plan/root repair/complete source admission have not occurred; the new actual-P --verify has not run. Passing the original P wrapper is not new-entry verification.",
+      "A separately independently reviewed exact native gateway and root readiness are required before one new immutable invocation or GPU submission.",
+      "No new single-trial GPU raw exists. Future real registered allocation, complete pull allowlist, original adapter lifecycle, action/iterator journals, raw report, full costs, original consumer and separate independent terminal review must close before accepting the new result. This is a future validation gate, not an asserted current CPU defect."
+    ],
+    "runtime_installed": false
+  },
+  "blocker_details_markdown": "## Object：历史采用与新尝试分开\n\nroot以逐条原始字节引用建立599条兼容采用表，另一个代理按原始start/result、动作队列与控制器clip重建复核31550项；520成功、79普通任务失败全部保留。原3分配6713 GPU秒已计账，不在此重复相加。原唯一policy_error仍保留，拒绝的chunk字节未知，不能推断其值或新的结果。完整600的typed视图未生成，599旧条目不写成新ledger，也未计入current增量。\n\n原24正74拒CPU包独审5472项及16边界例；本轮进一步形成新typed入口、原始记录reviewer/consumer和只读gateway guard候选。生产候选实际审核范围以本轮汇总所链接的独立报告为准，不能用CPU布尔收据冒充真实终验。原冻结循环和单cell派生循环必须分别标识；仍没有canonical/P安装、新真实repair/plan/invocation、actual P --verify和原子Slurm submit。下一轮补齐这些精确门槛后，才允许原失败同初态同方法的一次完整新尝试；从初态起，不从第8查询恢复，不普通resume跳过terminal失败，不按结果自动重试。保留六方法/100初态完整验证，不缩为单cell来放宽guard。\n\n## Goal：旧采样时序与新数据验收\n\n真实源明确：旧ledger五分量哈希采于predict_chunk返回后。query index8/step64与index9/step72界定的是post-policy日志区间；index9是零基索引，即第10次策略调用。旧非零query的pre/post原始数组与中间sim/controller/RNG信息不足，前72环境指令相同不证明中间隐藏状态相同。固定13候选不匹配只排除这13项，不能归因图像、proprio、RNG、模拟器或policy mutation。\n\n旧200的t0不一致是ordinal57/58、task2/source42；两次58工程中的唯一轨迹差异是ordinal30、task1/source12，两件事不能混为因果。新的全query输入门控工程通过不证明旧200可采用或旧原因已修复。\n\n作者实际检查数组1235项与原整数1234的差异、独审原1751数组与1750整数差异、旧设计validator的9项漏检均保留。修正版31文件不改实际200身份表，作者1正30拒、不同代理额外20拒通过；最终独审不可变检查数组2068项、14分类例通过，仅CPU/设计。\n\nroot选择固定一次完整200的新数据验收方案，原100开发初态×原A/B256seed17原顺序，保持所有checkpoint/预算/seed/控制循环，200条/60000控制步/7600query上限。普通任务失败全部计入，旧200整批保留且不接纳，不挑旧成功或失败重跑。此处只有设计选择；生产全200被动门控、AST/异常fail-closed、实际P身份/储存容量、原consumer、同锁CAS单ACK门槛须先实现并独审，再另行root授权唯一输出及一次GPU尝试。当前没有新输出、token、job、实际P通过或科学结果。未来新200通过只证明这份新数据满足协议，不能据此查明旧原因或开放final；另1000 Goal开发仍HOLD。\n\n## Spatial、计时与最终结果\n\n3054201仅在UTC2026-10-21T00:03:34观测一次，其Slurm状态为RUNNING；运行中raw报告计数未单独归档，不能由live_observation重建，本轮不引用该未归档计数。原12 legacy和其后588 current尚未组成终验批次。正常运行不本轮轮询、不重复submit。等待后续监督按原类型reviewer/consumer、独立终审及非权重回存后计数；原3022743的393秒和3042529前置失败2秒保留，后者没有执行invocation不补造。\n\n训练72/72组已完成，不重训、不重新选checkpoint。完整开发批次仍6400/8800，400唯一初态；本轮0新增科学试验、0新GPU提交。271唯一分配1987496 GPU秒为上述时刻下界，之后按同一分配更新，不把CPU或旧工程成本重复累加。Long/Spatial/Object固定观测仍90，不重复采集；正式O2A/分项计时及35200封存最终评测均等待原全局身份与开发收据门槛。全部当前工程证据不是论文主表结果。\n",
+  "evidence": {
+    "Goal_CPU_final_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic_independent/final_independent_review.json",
+      "sha256": "1f33da03cb3a1680ead9d090d12889dc334534008cac67f0ed169a10596da901"
+    },
+    "Goal_author_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic/delivery_manifest_v3_original.json",
+      "sha256": "25ca8079785f3409d35be85e7a62044ec20e6674b1c36ffbefcc66056a66ed18"
+    },
+    "Goal_independent_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic_independent/delivery_manifest_original.json",
+      "sha256": "52991b019aacd2534fb13081db0d85e13fefe19d9655177eec07679e5135d7a3"
+    },
+    "Goal_specification": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Goal_bounded_diagnostic/prospective_full200_specification.json",
+      "sha256": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad"
+    },
+    "Object599_addendum": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_independent/canonical599_adoption_addendum.json",
+      "sha256": "d9d6de64311c45639a40a028e75a2697ac5cb605b892e881c50e81ab4b4e5ecf"
+    },
+    "Object_CPU_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_independent/delivery_manifest_original.json",
+      "sha256": "78303859a448333984ce888f8b2f192c273dc8aff41cc8b0ae003a983e79e134"
+    },
+    "Object_CPU_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_independent/independent_review.json",
+      "sha256": "7aefd070fe5e437c7e8c0636db7301efeb9bd5cb0484665921b70aad5d6c6481"
+    },
+    "Object_production_author_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production/delivery_manifest_original.json",
+      "sha256": "c7e40a9cb8474862da58fe0b4cc822d2b32f3cfcbbbfcd2d920e634eddf12485"
+    },
+    "Object_production_independent_manifest": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production_independent/delivery_manifest_original.json",
+      "sha256": "bf5247dee86033df0edbc22f3b88c649977037e77d50f8d18af6de4b1818df4e"
+    },
+    "Object_production_independent_review": {
+      "path": "results/formal_main_v2/engineering/supervision_delivery_20261020T2358/Object_single_error_production_independent/independent_review.json",
+      "sha256": "bdf8af2bdfe21954047a6b6209f0a4f3beac73ecb260df4bff33b69b5fa58baa"
+    }
+  },
+  "kind": "root_CPU_delivery_inputs",
+  "new_GPU_jobs": [],
+  "new_scientific_trials": 0,
+  "runtime_installed": false
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "formal_main_v2",
+  "kind": "fixed_bounded_CPU_evidence_diagnostic",
+  "fixed_ordinal": 30,
+  "trial_id": "libero_goal:put_the_bowl_on_the_stove:state-0012:env-0:B256_seed17",
+  "old_job": "3053440",
+  "new_job": "3054127",
+  "read_scope": "two original fixed58 ledgers; ordinal30 raw new11 query pairs and oldt0; pinned existing reviews/source; five critical q9 archive members",
+  "finite_hypotheses": {
+    "whole_queries": [
+      8,
+      9,
+      10
+    ],
+    "single_component_from_queries": [
+      8,
+      10
+    ],
+    "base_query": 9,
+    "components": [
+      "agentview_image",
+      "robot0_eye_in_hand_image",
+      "robot0_eef_pos",
+      "robot0_eef_quat",
+      "robot0_gripper_qpos"
+    ],
+    "total": 13
+  },
+  "stop_rule": "one fixed CPU evidence pass; fail closed on missing identity/hash/coverage; no Slurm or environment/model execution; publish all positive and negative cases",
+  "scientific_trials_added": 0,
+  "new_GPU_jobs": 0,
+  "original200_HOLD": true,
+  "new_Goal_science_HOLD": true,
+  "independent_review_required": true
+}

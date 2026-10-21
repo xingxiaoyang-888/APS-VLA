@@ -1,0 +1,123 @@
+{
+  "actual_specification_sha256": "ed0b59bd1acbdab34658f5599f4969aa745e596348bf25d230a38c978aa652ad",
+  "all_scientific_specification_values_unchanged": true,
+  "author_positives_reproduced": 1,
+  "author_rejections_reproduced": 30,
+  "bounds": {
+    "attempts": 1,
+    "control_steps": 60000,
+    "panel_sha256": "ce8e3d31ab8f7616c87dd4d4031af41825713907ac184c6ea5b01d9040985aa9",
+    "policy_queries": 7600,
+    "row_count": 200,
+    "rows_sha256": "3dd29c25e2cb92c39a520622c4c3a6800ac399b99883c2c370fa52ef96f965a6",
+    "stop_after_trials": 200,
+    "unique_states": 100,
+    "watchdog_seconds": 60.0
+  },
+  "independent_rejections": [
+    {
+      "case": "old_gap_max_control_steps",
+      "reason": "control step bound changed",
+      "rejected": true
+    },
+    {
+      "case": "old_gap_max_policy_queries",
+      "reason": "query bound changed",
+      "rejected": true
+    },
+    {
+      "case": "old_gap_stop_after",
+      "reason": "trial stop bound changed",
+      "rejected": true
+    },
+    {
+      "case": "old_gap_watchdog",
+      "reason": "original watchdog changed",
+      "rejected": true
+    },
+    {
+      "case": "old_gap_rows_signature",
+      "reason": "ordered identity signature changed",
+      "rejected": true
+    },
+    {
+      "case": "old_gap_panel_sha",
+      "reason": "original panel SHA changed",
+      "rejected": true
+    },
+    {
+      "case": "old_gap_pass_criteria",
+      "reason": "any remaining frozen prospective protocol field changed",
+      "rejected": true
+    },
+    {
+      "case": "old_gap_fail_criteria",
+      "reason": "any remaining frozen prospective protocol field changed",
+      "rejected": true
+    },
+    {
+      "case": "old_gap_retrospective_no_auto",
+      "reason": "any remaining frozen prospective protocol field changed",
+      "rejected": true
+    },
+    {
+      "case": "fractional_query_bound",
+      "reason": "query bound changed",
+      "rejected": true
+    },
+    {
+      "case": "float_trial_stop",
+      "reason": "trial stop bound changed",
+      "rejected": true
+    },
+    {
+      "case": "gate_order_changed",
+      "reason": "missing/duplicate/reordered root/capacity/identity/terminal gate",
+      "rejected": true
+    },
+    {
+      "case": "duplicate_gate",
+      "reason": "missing/duplicate/reordered root/capacity/identity/terminal gate",
+      "rejected": true
+    },
+    {
+      "case": "missing_panel_hash",
+      "reason": "'panel_sha256'",
+      "rejected": true
+    },
+    {
+      "case": "unregistered_extra_field",
+      "reason": "any remaining frozen prospective protocol field changed",
+      "rejected": true
+    },
+    {
+      "case": "old200_auto_adopt",
+      "reason": "any remaining frozen prospective protocol field changed",
+      "rejected": true
+    },
+    {
+      "case": "trial_initial_state_sha_changed",
+      "reason": "fixed complete200 identities/order changed",
+      "rejected": true
+    },
+    {
+      "case": "method_seed_changed",
+      "reason": "frozen science changed",
+      "rejected": true
+    },
+    {
+      "case": "max_new_attempts2",
+      "reason": "duplicate or blind replay path",
+      "rejected": true
+    },
+    {
+      "case": "release_after_CPU_only",
+      "reason": "CPU artifact used as permission",
+      "rejected": true
+    }
+  ],
+  "old_nine_counterexamples_now_rejected": true,
+  "production_contract": false,
+  "source_sha256": "c8f64e3ee1f4c6d07aa12e7afd2ecd75847c391987fddecdf1d14e25be96e8bf",
+  "stdout": "{\"status\": \"CPU_design_only\", \"row_count\": 200, \"states\": 100, \"max_control_steps\": 60000, \"max_queries\": 7600, \"negative_tests\": 30, \"rows_signature\": \"3dd29c25e2cb92c39a520622c4c3a6800ac399b99883c2c370fa52ef96f965a6\"}\n"
+}

@@ -1,0 +1,33 @@
+{
+  "action_step_line": 344,
+  "function_source": "def _observation_hash(observation: Mapping[str, Any]) -> str:\n    digest = hashlib.sha256()\n    for name in (\"agentview_image\", \"robot0_eye_in_hand_image\", \"robot0_eef_pos\", \"robot0_eef_quat\", \"robot0_gripper_qpos\"):\n        value = np.ascontiguousarray(observation[name])\n        digest.update(name.encode() + str(value.dtype).encode() + str(value.shape).encode() + value.tobytes())\n    return digest.hexdigest()",
+  "hash_covers": [
+    "agentview_image",
+    "robot0_eye_in_hand_image",
+    "robot0_eef_pos",
+    "robot0_eef_quat",
+    "robot0_gripper_qpos"
+  ],
+  "hash_does_not_cover": [
+    "instruction",
+    "simulator hidden state",
+    "controller internal state",
+    "global or environment RNG",
+    "wall-clock",
+    "renderer hidden state",
+    "preprocessed tensor",
+    "model activations"
+  ],
+  "hash_includes_each": [
+    "name UTF8",
+    "dtype string",
+    "shape tuple string",
+    "C-order raw bytes"
+  ],
+  "hash_line": 337,
+  "new_pre_post_identity_and_bytes_verified": true,
+  "old_nonzero_hash_sampling": "after predict_chunk returns, before next env.step",
+  "old_pre_policy_values_at_step64_and72_recorded": false,
+  "predict_line": 329,
+  "source_sha256": "2fc1bacbd1268a36f2e31451c70a650be4f8d0c8f6803e7c8b2a3d45f701c781"
+}

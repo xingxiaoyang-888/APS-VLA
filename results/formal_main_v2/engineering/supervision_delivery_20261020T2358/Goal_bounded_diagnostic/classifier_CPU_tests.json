@@ -1,0 +1,132 @@
+{
+  "kind": "synthetic logical classifier tests, not experiment evidence",
+  "no_raw_sources_mutated": true,
+  "scientific_release": false,
+  "test_count": 14,
+  "tests": [
+    {
+      "expected": "post_observation_difference_origin_unresolved",
+      "name": "real_missing_old_pre",
+      "passed": true,
+      "result": {
+        "decision": "post_observation_difference_origin_unresolved",
+        "equal_commands_before_boundary": true,
+        "intermediate_simulator_or_rng_equality_proved": false,
+        "old200_adopted": false,
+        "old_pre_policy_equality_proved": false,
+        "root_cause_identified": false,
+        "scientific_release": false
+      }
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_integrity",
+      "passed": true,
+      "reason": "untrusted integrity"
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_identity_same",
+      "passed": true,
+      "reason": "untrusted identity_same"
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_schema_same",
+      "passed": true,
+      "reason": "untrusted schema_same"
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_old_sampling",
+      "passed": true,
+      "reason": "unknown capture timing"
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_new_sampling",
+      "passed": true,
+      "reason": "unknown capture timing"
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_new_post",
+      "passed": true,
+      "reason": "new input mutation"
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_old_pre_available",
+      "passed": true,
+      "reason": "missing availability"
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_old_pre",
+      "passed": true,
+      "reason": "unproven old pre supplied"
+    },
+    {
+      "expected_rejection": true,
+      "name": "reject_claimed_old_pre_without_bytes",
+      "passed": true,
+      "reason": "claimed capture missing"
+    },
+    {
+      "expected": "no_logged_post_observation_difference",
+      "name": "same_post_does_not_prove_old_pre",
+      "passed": true,
+      "result": {
+        "decision": "no_logged_post_observation_difference",
+        "equal_commands_before_boundary": true,
+        "intermediate_simulator_or_rng_equality_proved": false,
+        "old200_adopted": false,
+        "old_pre_policy_equality_proved": false,
+        "root_cause_identified": false,
+        "scientific_release": false
+      }
+    },
+    {
+      "expected": "pre_policy_input_difference_observed",
+      "name": "synthetic_world_A_pre_existing_difference",
+      "passed": true,
+      "result": {
+        "decision": "pre_policy_input_difference_observed",
+        "equal_commands_before_boundary": true,
+        "intermediate_simulator_or_rng_equality_proved": false,
+        "old200_adopted": false,
+        "old_pre_policy_equality_proved": false,
+        "root_cause_identified": false,
+        "scientific_release": false
+      }
+    },
+    {
+      "expected": "old_observation_changed_within_policy_interval",
+      "name": "synthetic_world_B_old_policy_interval_change",
+      "passed": true,
+      "result": {
+        "decision": "old_observation_changed_within_policy_interval",
+        "equal_commands_before_boundary": true,
+        "intermediate_simulator_or_rng_equality_proved": false,
+        "old200_adopted": false,
+        "old_pre_policy_equality_proved": true,
+        "root_cause_identified": false,
+        "scientific_release": false
+      }
+    },
+    {
+      "expected": "post_observation_difference_origin_unresolved",
+      "name": "unequal_actions_does_not_imply_a_cause",
+      "passed": true,
+      "result": {
+        "decision": "post_observation_difference_origin_unresolved",
+        "equal_commands_before_boundary": false,
+        "intermediate_simulator_or_rng_equality_proved": false,
+        "old200_adopted": false,
+        "old_pre_policy_equality_proved": false,
+        "root_cause_identified": false,
+        "scientific_release": false
+      }
+    }
+  ]
+}

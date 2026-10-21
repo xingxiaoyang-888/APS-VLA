@@ -1,0 +1,58 @@
+{
+  "automatic_engineering_rerun_authorized": false,
+  "missing": [
+    {
+      "effect": "Cannot classify pre-existing input divergence versus old within-policy input change; cannot identify differing image/proprio component.",
+      "evidence": "old3053440 query9/step72 five raw observation arrays immediately before and after predict_chunk"
+    },
+    {
+      "effect": "Equal commands and t0 recorded state do not imply same intermediate dynamics; no causal localization to physics, rendering, scheduler, RNG, or controller.",
+      "evidence": "old3053440 intermediate simulator/hidden controller/RNG/renderer state at step64 and72 (and intra-eight-step trace)"
+    },
+    {
+      "effect": "Raw five-array posthash does not cover all actual policy input/transforms; same source/config supports identity but not a captured all-input equality proof.",
+      "evidence": "old nonzero query instruction raw bytes/preprocessed tensors and contemporaneous per-component pre/post metadata"
+    },
+    {
+      "effect": "Observer guards prove recorded values unchanged during capture only; different observation frequency perturbs time and is not causal proof.",
+      "evidence": "controlled causal contrast for recorder overhead versus unrecorded nondeterminism"
+    }
+  ],
+  "propositions": [
+    {
+      "claim": "Different logged environment commands before step72 caused first divergence",
+      "decision": "excluded_as_logged_command_value_difference",
+      "scope": "Commands0..71 are equal; hidden controllers/physics responding differently remains unresolved."
+    },
+    {
+      "claim": "Frozen five-array hash schema or recorded source/config differed",
+      "decision": "excluded_within_verified_pins",
+      "scope": "Same config and active original loop identity, same five-field schema; not proof of every unlogged hardware state."
+    },
+    {
+      "claim": "New3054127 policy mutated observed inputs within the selected11 queries",
+      "decision": "excluded_for_recorded_inputs_in_new_attempt",
+      "scope": "Raw pre/post arrays and gate receipts match; not retrospective proof for3053440 or old200."
+    },
+    {
+      "claim": "Old step72 input was already different before inference",
+      "decision": "unresolved",
+      "missing_evidence": "old3053440 query9/step72 five raw observation arrays immediately before and after predict_chunk"
+    },
+    {
+      "claim": "Old inference modified input and created its posthash difference",
+      "decision": "unresolved",
+      "missing_evidence": "old3053440 query9/step72 five raw observation arrays immediately before and after predict_chunk"
+    },
+    {
+      "claim": "Image-only, proprio-only, simulator, RNG, controller, renderer, timing cause",
+      "decision": "unresolved",
+      "missing_evidence": "old3053440 query9/step72 five raw observation arrays immediately before and after predict_chunk; old3053440 intermediate simulator/hidden controller/RNG/renderer state at step64 and72 (and intra-eight-step trace)"
+    },
+    {
+      "claim": "Same terminal success repairs the discrepancy or permits old200",
+      "decision": "not_a_valid_admission_rule",
+      "scope": "No outcome is used to choose diagnosis identity, admit results, or release science."
+    }
+  ]
+}

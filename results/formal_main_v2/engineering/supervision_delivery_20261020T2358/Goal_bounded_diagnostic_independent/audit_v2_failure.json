@@ -1,0 +1,19 @@
+{
+  "checks": [
+    {
+      "check": "regular:/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_bounded_diagnostic_independent_20261020T2358/independent_review_v1.json",
+      "passed": true
+    },
+    {
+      "check": "SHA:/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_bounded_diagnostic_independent_20261020T2358/independent_review_v1.json",
+      "passed": true
+    },
+    {
+      "check": "new_private:audit_v2_failure.json",
+      "passed": true
+    }
+  ],
+  "error": "previous_actual_evidence_review_scope",
+  "production_ready": false,
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_bounded_diagnostic_independent_20261020T2358/audit_v2_contract.py\", line 32, in <module>\n    ck(prev['checks_passed']==1751 and prev['old_hash_post_policy_verified'] and prev['old200_HOLD'] and not prev['production_ready'],'previous_actual_evidence_review_scope')\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_bounded_diagnostic_independent_20261020T2358/audit_v2_contract.py\", line 8, in ck\n    if not b:raise AssertionError(label)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: previous_actual_evidence_review_scope\n"
+}

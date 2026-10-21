@@ -1,0 +1,126 @@
+{
+  "actual_snapshot_verified": false,
+  "blockers": [],
+  "check_count": 19,
+  "checks": [
+    {
+      "check": "prior72_static_checks_exact",
+      "passed": true
+    },
+    {
+      "check": "pin:.local/final_snapshot_20261020T2358_v4.py",
+      "passed": true
+    },
+    {
+      "check": "pin:.local/final_snapshot_20261020T2358_v5.py",
+      "passed": true
+    },
+    {
+      "check": "pin:.local/prepare_inputs_20261020T2358_v1.py",
+      "passed": true
+    },
+    {
+      "check": "pin:.local/prepare_inputs_20261020T2358_v2.py",
+      "passed": true
+    },
+    {
+      "check": "pin:.local/deliver_20261020T2358_v4.py",
+      "passed": true
+    },
+    {
+      "check": "pin:.local/deliver_20261020T2358_v5.py",
+      "passed": true
+    },
+    {
+      "check": "snapshot_v5_only_withdraws_unarchived_progress_value",
+      "passed": true
+    },
+    {
+      "check": "inputs_v2_only_withdraws_unarchived_progress_value",
+      "passed": true
+    },
+    {
+      "check": "delivery_v5_only_adds_four_source_versions_to_exact_archive",
+      "passed": true
+    },
+    {
+      "check": "no_unarchived_raw_count_claim:snapshot",
+      "passed": true
+    },
+    {
+      "check": "no_new_Slurm_calls:snapshot",
+      "passed": true
+    },
+    {
+      "check": "same_shared_lock:snapshot",
+      "passed": true
+    },
+    {
+      "check": "no_unarchived_raw_count_claim:inputs",
+      "passed": true
+    },
+    {
+      "check": "no_new_Slurm_calls:inputs",
+      "passed": true
+    },
+    {
+      "check": "same_shared_lock:inputs",
+      "passed": true
+    },
+    {
+      "check": "no_unarchived_raw_count_claim:delivery",
+      "passed": true
+    },
+    {
+      "check": "no_new_Slurm_calls:delivery",
+      "passed": true
+    },
+    {
+      "check": "same_shared_lock:delivery",
+      "passed": true
+    }
+  ],
+  "future_Git_verified": false,
+  "kind": "root_final_delivery_static_delta_independent_review",
+  "new_GPU_submissions": 0,
+  "prior_static_review": {
+    "check_count": 72,
+    "path": ".local/delivery_independent_20261020T2358/static_review_v6.json",
+    "sha256": "bc6988f3a4053fa4066ee4dd761ca8b13e98292d502a4ab1b71ef7d21a07ae3b"
+  },
+  "schema": "formal_main_v2",
+  "scope": "Exact append-only v5/v2 deltas to previously reviewed helpers; unarchived 204/600 claim withdrawn, existing Slurm evidence preserved, no new polling. Actual state/inputs/summary and future Git are not yet verified.",
+  "source_refs": [
+    {
+      "bytes": 14084,
+      "path": ".local/final_snapshot_20261020T2358_v4.py",
+      "sha256": "0bf4af47d39b94fb4bccce5f54a58d46d34f1bd1f748e2ee93f63cef067d1609"
+    },
+    {
+      "bytes": 14187,
+      "path": ".local/final_snapshot_20261020T2358_v5.py",
+      "sha256": "23f00b8ca94f92fcf5b34a5c13be9c66ab26c0c707ea6a444ab2d429d84b0b45"
+    },
+    {
+      "bytes": 10296,
+      "path": ".local/prepare_inputs_20261020T2358_v1.py",
+      "sha256": "1a880c44c17347945f9b8b09468c2826b8424341defd5dcc4236918f6e32ac13"
+    },
+    {
+      "bytes": 10406,
+      "path": ".local/prepare_inputs_20261020T2358_v2.py",
+      "sha256": "06d92eacbd722df3619731b9643e8f4687bb4631bc702c9a63e7489e3644a2ca"
+    },
+    {
+      "bytes": 10420,
+      "path": ".local/deliver_20261020T2358_v4.py",
+      "sha256": "c843e21b112b743263df195754753a22728b25ae81ff599755ec41843acf6c23"
+    },
+    {
+      "bytes": 10589,
+      "path": ".local/deliver_20261020T2358_v5.py",
+      "sha256": "7b3ddbf5a83d692567d282da3e2f4e681f72cb5a1a9f742a974d3feef0ccd4da"
+    }
+  ],
+  "status": "passed_static_review_actual_snapshot_pending"
+}

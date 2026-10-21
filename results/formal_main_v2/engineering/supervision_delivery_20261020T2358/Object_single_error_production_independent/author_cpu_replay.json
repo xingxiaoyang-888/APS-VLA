@@ -1,0 +1,26 @@
+{
+  "GPU_submitted": false,
+  "author_manifest_sha256": "c7e40a9cb8474862da58fe0b4cc822d2b32f3cfcbbbfcd2d920e634eddf12485",
+  "candidate_changed": false,
+  "candidate_execution": "verify_saved CPU-only; no entry.main or run",
+  "command": [
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/venv/bin/python",
+    "-B",
+    "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/server_control_transport_v1/run_server_control.py",
+    "--bundle-manifest-sha256",
+    "3726e3249403e3afa1d4fd1688b9f08ec9d85087812efdf297d393382c18b149",
+    "--entrypoint",
+    ".local/object_single_error_production_20261020T2358/verify_saved.py",
+    "--entrypoint-sha256",
+    "c45cfccd6de079e7f4e9938791635e7108a551fdb586f3e3d826aea98bff0bc5",
+    "--audit-relative",
+    "results/formal_main_v2/control_transport/object_production_independent_replay_20261020T2358_01.jsonl"
+  ],
+  "elapsed_seconds": 44.58933029230684,
+  "returncode": 0,
+  "state_after": "a0d4d98f112adc082a04789c764d8c6006a2133cb61834f4b0e2097f5b64fb10",
+  "state_before": "a0d4d98f112adc082a04789c764d8c6006a2133cb61834f4b0e2097f5b64fb10",
+  "status": "passed",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "8d728c70fbc186683d69e48ddff7ae61a46addf6ab062a81e1a6e89cf91a980c"
+}
