@@ -1,0 +1,55 @@
+{
+  "analysis_projection_sha256": "28972a53a01b3bf21e7c2194fe8b7fd31106fd49ed47290beb1a4f871d363513",
+  "bounded_fix_recommendation": "Retain original pulled_candidate and all its full600/source/adapter/accounting guards. Add an explicit typed Object3054409 journal supplement consuming exactly these four already terminal-pulled rows against before/after inventory, job_ids, path, bytes, R/P SHA and identity/completion pin relationships. Do not accept arbitrary extra paths or a caller passed flag. Canonical source remains unchanged until root separately reviews a new precise metadata-only consumer bridge; no GPU rerun.",
+  "canonical_modified": false,
+  "error": "consumed actual runtime/raw file absent from complete terminal pull",
+  "error_type": "ValueError",
+  "exact_missing_typed_journal_members": [
+    {
+      "bytes": 11097,
+      "excluded_by_legacy_candidate_required_set": true,
+      "path": "results/formal_main_v2/object_single_error_invocations/3054409/identity.json",
+      "present_in_complete_pull": true,
+      "sha256": "a14952078ee5f92ae24d2b23721e0d03e6e39216e80408365b2a7202fb4c336d"
+    },
+    {
+      "bytes": 2549,
+      "excluded_by_legacy_candidate_required_set": true,
+      "path": "results/formal_main_v2/object_single_error_invocations/3054409/completion.json",
+      "present_in_complete_pull": true,
+      "sha256": "3fd481e5d668493e632cd6d13b6d61e89be0fc13935ceaa0c59e4ba52b2ef0ec"
+    },
+    {
+      "bytes": 82644,
+      "excluded_by_legacy_candidate_required_set": true,
+      "path": "results/formal_main_v2/object_single_error_invocations/3054409/action_events.jsonl",
+      "present_in_complete_pull": true,
+      "sha256": "8d40ed3c6498afb6ccd1977f2e6c47ad99705d6b7da310a54db825082ae69ac6"
+    },
+    {
+      "bytes": 12434,
+      "excluded_by_legacy_candidate_required_set": true,
+      "path": "results/formal_main_v2/object_single_error_invocations/3054409/iterator_events.jsonl",
+      "present_in_complete_pull": true,
+      "sha256": "c9427297ac267597f3a8445ea2c40f04d436d664e091b932d8d41e129230e86d"
+    }
+  ],
+  "job_id": "3054409",
+  "kind": "Object3054409_S_preload_original_full_review_attempt",
+  "legacy_candidate_verified_files": 9,
+  "new_GPU_submissions": 0,
+  "new_Slurm_queries": 0,
+  "pull_receipt": "results/formal_main_v2/pulls/terminal_object_20261021T0334/receipt.json",
+  "pull_sha256": "1ab834c09cc562f4fce9224bf98bc6c80d31dbaadcb6a3381c877c1395aad710",
+  "reviewed_by": "independent",
+  "reviewer_sha256": "c0aa1fc3d7c1607032897d7eede009bb989753daf58911d2b3351b4df7a030a2",
+  "schema": "formal_main_v2",
+  "scientific_acceptance": false,
+  "source_origin_diagnosis_sha256": "2b620847b450513c634f20aebaca026530e59c223d3a0e2b296a756cafc56025",
+  "state_after": "bd3df44300cf38e719a3387dc2de1ed8ffdf268e7a4fb792160c17c48b9632aa",
+  "state_before": "bd3df44300cf38e719a3387dc2de1ed8ffdf268e7a4fb792160c17c48b9632aa",
+  "status": "original_review_still_blocked",
+  "terminal_pull_real_file_count": 13,
+  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/object_terminal_independent_20261021T0334/diagnose_original_review.py\", line 33, in <module>\n    result=Q.review('3054409',pull,project=R,state=projection)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_object_single_error_v1/reviewer.py\", line 228, in review\n    F.require(candidate['files'].get(path)==h,'consumed actual runtime/raw file absent from complete terminal pull')\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/scripts/ops/formal_object_single_error_v1/fixed.py\", line 53, in require\n    if not ok:raise ValueError(message)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: consumed actual runtime/raw file absent from complete terminal pull\n",
+  "utc": "2026-10-21T03:51:03.975760+00:00"
+}

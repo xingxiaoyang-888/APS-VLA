@@ -1,0 +1,133 @@
+{
+  "GPU_submissions": 0,
+  "Git_writes": false,
+  "Slurm_queries": 0,
+  "blockers": [],
+  "check_count": 22,
+  "checks": [
+    {
+      "name": "exact_source:.local/finish_delivery_20261021T0334.py",
+      "passed": true
+    },
+    {
+      "name": "exact_source:.local/finish_delivery_20261021T0334_v2.py",
+      "passed": true
+    },
+    {
+      "name": "exact_source:.local/push_delivery_20261021T0334.py",
+      "passed": true
+    },
+    {
+      "name": "exact_source:scripts/ops/server_github_sync.py",
+      "passed": true
+    },
+    {
+      "name": "exact_source:scripts/ops/check_nonweight_archive_stage.py",
+      "passed": true
+    },
+    {
+      "name": "finish_v2_only_actual_precheck_filename_and_preserved_v1",
+      "passed": true
+    },
+    {
+      "name": "finish_shared_lock_HEAD_state_summary_index_guards",
+      "passed": true
+    },
+    {
+      "name": "finish_actual_independent_reviews_required",
+      "passed": true
+    },
+    {
+      "name": "required_v1_exact_no_duplicate_and_index_bytes",
+      "passed": true
+    },
+    {
+      "name": "exact_package_manifest_member_SHA_bytes_and_path",
+      "passed": true
+    },
+    {
+      "name": "new_publication_exclusive_and_no_symlinks",
+      "passed": true
+    },
+    {
+      "name": "stage_trace_must_completed_unchanged",
+      "passed": true
+    },
+    {
+      "name": "finish_exact_manifest_additions_lexical_no_force",
+      "passed": true
+    },
+    {
+      "name": "finish_preserves_original_archive_and173_guard",
+      "passed": true
+    },
+    {
+      "name": "finish_last_exact_expected_set_and_bytes",
+      "passed": true
+    },
+    {
+      "name": "finish_scope_commit_only_no_push_slurm",
+      "passed": true
+    },
+    {
+      "name": "push_exact_state_summary_HEAD_emptyindex_and_lock",
+      "passed": true
+    },
+    {
+      "name": "push_stdin_ephemeral_auth_and_exact_helper",
+      "passed": true
+    },
+    {
+      "name": "push_result_exact_remote_match_not_future_claim",
+      "passed": true
+    },
+    {
+      "name": "sync_exact_authorized_GitHub_repository_and_memory_auth",
+      "passed": true
+    },
+    {
+      "name": "sync_nonforce_ancestry_and_remote_after_verified",
+      "passed": true
+    },
+    {
+      "name": "sync_error_redacts_secret_and_disables_trace",
+      "passed": true
+    }
+  ],
+  "credentials_read": false,
+  "future_commit_or_push_verified": false,
+  "kind": "bounded_finish_and_push_source_review",
+  "reviewed_by": "independent",
+  "schema": "formal_main_v2",
+  "scope": "Read exact sources and bounded v1-v2 diff. Finish may append only frozen audit packages and exact operational evidence after actual index audit; original guard and 173 checks repeat before commit. Push uses stdin memory auth, non-force ancestry and remote HEAD verification. No production entry executed by this audit.",
+  "sources": [
+    {
+      "bytes": 8182,
+      "path": ".local/finish_delivery_20261021T0334.py",
+      "sha256": "3f21f06b7337ac1546705d625fee070c1bb31a69a0fd3777931c16a704a5b6db"
+    },
+    {
+      "bytes": 8234,
+      "path": ".local/finish_delivery_20261021T0334_v2.py",
+      "sha256": "c77938fedc0f73c1e46ce0fd72f3701a3119ce128ab8615de951e3eb458f70c8"
+    },
+    {
+      "bytes": 2404,
+      "path": ".local/push_delivery_20261021T0334.py",
+      "sha256": "8dc5ce27b5641810a4b447cd2e457b7a754979e56c6e4464ed2ae4a11c6e9545"
+    },
+    {
+      "bytes": 1997,
+      "path": "scripts/ops/server_github_sync.py",
+      "sha256": "218bf59be0f28ed145a38ed4196cf02b5a6134fcf8a4531abf127f838cc5f729"
+    },
+    {
+      "bytes": 20083,
+      "path": "scripts/ops/check_nonweight_archive_stage.py",
+      "sha256": "ebe5d25ff5850fe37e73cec551332ccd2b446aa3c4bbb0e38b6b83ce7a6775f6"
+    }
+  ],
+  "state_writes": false,
+  "status": "passed_source_review_only",
+  "utc": "2026-10-21T04:30:49.832249+00:00"
+}

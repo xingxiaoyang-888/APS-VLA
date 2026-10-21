@@ -1,0 +1,336 @@
+{
+  "actual_positive_original9_plus4": true,
+  "actual_runtime_interpretation_unchanged": true,
+  "bridge_sha256": "191745c8b7bcd82a165849ce8680a990da4f5de53d3204f9cdbb51f598cc7e49",
+  "canonical_changes": false,
+  "fixtures_scope": "In-memory semantic guard isolation only, no production ledger/pull modifications or synthetic evidence acceptance.",
+  "kind": "Object3054409_exact_four_journal_bridge_independent_tests",
+  "negative_count": 46,
+  "negative_tests": [
+    {
+      "error": "only original completed Object single correction",
+      "name": "different_job",
+      "original_guard_calls": 0,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "only original completed Object single correction",
+      "name": "different_pull_path",
+      "original_guard_calls": 0,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "independent original guard sentinel",
+      "name": "original_guard_failure_propagates_before_supplement",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact unique 13-file pull",
+      "name": "missing_journal",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact unique 13-file pull",
+      "name": "extra_journal",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact unique 13-file pull",
+      "name": "duplicate_journal",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact unique 13-file pull",
+      "name": "duplicate_conflicting_journal",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact unique 13-file pull",
+      "name": "missing_inventory_journal",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact unique 13-file pull",
+      "name": "extra_inventory_journal",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "stable actual source inventory",
+      "name": "before_after_inventory_changed",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "stable actual source inventory",
+      "name": "inventory_digest_mismatch",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "nine original files plus four specific journals only",
+      "name": "original_projection_only8",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "nine original files plus four specific journals only",
+      "name": "original_projection_overlaps_typed_journal",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "nine original files plus four specific journals only",
+      "name": "original_projection_unknown_ninth_file",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "action_events.jsonl:job_ids:['3054410']",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "action_events.jsonl:job_ids:['3054409', '3054409']",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "action_events.jsonl:path:'/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/object_single_error_invocations/3054409/action_events.jsonl.other'",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "action_events.jsonl:bytes:82645",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "action_events.jsonl:sha256:'0000000000000000000000000000000000000000000000000000000000000000'",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "journal actually copied and checked",
+      "name": "action_events.jsonl:unverified_action",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "completion.json:job_ids:['3054410']",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "completion.json:job_ids:['3054409', '3054409']",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "completion.json:path:'/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/object_single_error_invocations/3054409/completion.json.other'",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "completion.json:bytes:2550",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "completion.json:sha256:'0000000000000000000000000000000000000000000000000000000000000000'",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "journal actually copied and checked",
+      "name": "completion.json:unverified_action",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "identity.json:job_ids:['3054410']",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "identity.json:job_ids:['3054409', '3054409']",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "identity.json:path:'/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/object_single_error_invocations/3054409/identity.json.other'",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "identity.json:bytes:11098",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "identity.json:sha256:'0000000000000000000000000000000000000000000000000000000000000000'",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "journal actually copied and checked",
+      "name": "identity.json:unverified_action",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "iterator_events.jsonl:job_ids:['3054410']",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "iterator_events.jsonl:job_ids:['3054409', '3054409']",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "iterator_events.jsonl:path:'/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/object_single_error_invocations/3054409/iterator_events.jsonl.other'",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "iterator_events.jsonl:bytes:12435",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact journal transfer/identity/size",
+      "name": "iterator_events.jsonl:sha256:'0000000000000000000000000000000000000000000000000000000000000000'",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "journal actually copied and checked",
+      "name": "iterator_events.jsonl:unverified_action",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact completed allocation",
+      "name": "accounting_before:status",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact completed allocation",
+      "name": "accounting_before:exit_code",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact completed allocation",
+      "name": "accounting_before:elapsed_seconds",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact completed allocation",
+      "name": "accounting_before:gpus",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact completed allocation",
+      "name": "accounting_after:status",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact completed allocation",
+      "name": "accounting_after:exit_code",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact completed allocation",
+      "name": "accounting_after:elapsed_seconds",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    },
+    {
+      "error": "exact completed allocation",
+      "name": "accounting_after:gpus",
+      "original_guard_calls": 1,
+      "passed": true,
+      "synthetic_metadata_view_only": true
+    }
+  ],
+  "positive_checks": 2,
+  "schema": "formal_main_v2",
+  "status": "passed"
+}

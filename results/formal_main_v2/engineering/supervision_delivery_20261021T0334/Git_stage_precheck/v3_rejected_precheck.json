@@ -1,0 +1,16 @@
+{
+  "actual_15522_passive": {
+    "bin": 15515,
+    "rng_json": 7
+  },
+  "additional_guard": "seven .rng.json paths also fail later /observer/blobs/ exclusion",
+  "entrypoint": {
+    "path": ".local/stage_delivery_20261021T0334_v3.py",
+    "sha256": "39eb510bf1bd023efc817e9936074e6c81f6833480463ffe20fdff039abffc51"
+  },
+  "failing_assertion": "len(exact_pulled)==26 and len(loose_blob_exclusions)==15522",
+  "stage_was_executed": false,
+  "status": "rejected_actual_receipt_shape",
+  "v3_exact_pulled_would_be": 33,
+  "v3_excluded_would_be": 15515
+}

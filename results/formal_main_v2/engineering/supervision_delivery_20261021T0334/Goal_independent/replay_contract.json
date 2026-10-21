@@ -1,0 +1,42 @@
+{
+  "Slurm_queries": false,
+  "consumer_arguments": [
+    "--review",
+    "results/formal_main_v2/preflight/heartbeat_20261021T1134/Goal_terminal_review.json",
+    "--review-sha256",
+    "96de85c4c3954d8176461950f53bb6fb6dc6dd441454401a3d8fe5364bb9e18b",
+    "--terminal",
+    "results/formal_main_v2/preflight/heartbeat_20261021T1134/Goal_terminal_manifest.json",
+    "--terminal-sha256",
+    "aceeb30cd6285ebe0680aabb1015ce420a9b671831b9ed172d3b5a6c6f1de1ab",
+    "--pull",
+    "results/formal_main_v2/pulls/terminal_goal_20261021T0334/receipt.json",
+    "--pull-sha256",
+    "06fb8a97f8c48aa24aa041b8d34e3f41c53320f08bbd0f136b53ccfa5e85d738"
+  ],
+  "final_sealed": true,
+  "kind": "Goal3054717_independent_replay_contract",
+  "old200_HOLD": true,
+  "other1000_HOLD": true,
+  "preserved_unexecuted_v1": "consume_and_review.py was prepared before root instructed S/src import precedence. It was never executed. V2 adds only that sys.path precedence; original canonical consumer is unmodified.",
+  "purpose": "Reconstruct existing terminal evidence only. No new trials or counters are created.",
+  "replay_steps": [
+    "Create a new private server directory under R/.local without overwriting this frozen audit.",
+    "Copy the two exact source scripts into that fresh private directory. The scripts use their own parent directory only for new audit outputs.",
+    "Run rebuild_raw.py with approved server_control_transport_v1 and its exact entry SHA; it reads immutable actual P metadata/passive blobs and R five-component blobs.",
+    "Run consume_and_review_v2.py using the exact six arguments listed here, once, through the same approved transport with a fresh audit journal. It uses S/src for the original runtime import.",
+    "Compare raw_reconstruction.json, raw_blob_allowlist.json, raw_query_coverage.json and canonical_consumer_reconstruction.json with their frozen originals. Final report raw_independent_report.path intentionally records the new private replay directory."
+  ],
+  "scientific_execution": false,
+  "source173_must_match_transport": true,
+  "source_scripts": [
+    {
+      "path": "rebuild_raw.py",
+      "sha256": "69dce3290c3542d2da29baa6bb59c643c97dea07f2b1c4e1272ff5e8f4345330"
+    },
+    {
+      "path": "consume_and_review_v2.py",
+      "sha256": "70b2ffd4859e2ce5e8f0500661cf32c30f14d681fc6bd1a94bada1c67949534f"
+    }
+  ]
+}

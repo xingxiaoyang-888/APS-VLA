@@ -1,0 +1,151 @@
+{
+  "checks": [
+    {
+      "expected": "pass",
+      "name": "valid_two_real_passive_blob_bytes",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "wrong_part_sha",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "wrong_part_bytes",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "duplicate_indices",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "out_of_range",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "wrong_count",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "wrong_raw_total",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "bool_index",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "wrong_restored_sha",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "wrong_restored_bytes",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "extra_entry",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "missing_entry",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "swapped_order",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "tar_symlink",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "wrong_mode",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "wrong_mtime",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "traversal_member",
+      "passed": true
+    },
+    {
+      "exception_type": "ReadError",
+      "expected": "reject",
+      "name": "corrupt_gzip",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "unsafe_path_absolute",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "unsafe_path_parent",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "unsafe_path_backslash",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "unsafe_path_empty",
+      "passed": true
+    },
+    {
+      "exception_type": "ValueError",
+      "expected": "reject",
+      "name": "unsafe_path_dot",
+      "passed": true
+    }
+  ],
+  "fixtures": "Two already-recorded passive development blobs; tar structural/corruption tests only, no simulator/model/inference.",
+  "kind": "Goal3054717_archive_integrity_verifier_CPU_tests",
+  "negative_count": 22,
+  "new_GPU_jobs": 0,
+  "new_trials": 0,
+  "positive_count": 1,
+  "schema": "formal_main_v2",
+  "scientific_admission": false,
+  "source_sha256": "e466661b2899ce289947867c2b44eeb280fd34a2ee15f48c7bb20721a3fea2d3",
+  "status": "passed"
+}

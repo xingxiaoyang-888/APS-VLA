@@ -1,0 +1,580 @@
+{
+  "accounting_after": {
+    "jobs": {
+      "3054409": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 326,
+        "exit_code": "0:0",
+        "gpus": 1,
+        "job_id": "3054409",
+        "node": "gpu4008",
+        "scheduler_comment": "",
+        "scheduler_name": "cti_object_linked_t8s49d1",
+        "status": "COMPLETED"
+      }
+    },
+    "real_observation": {
+      "initial_raw_sacct": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n",
+      "queries": [
+        {
+          "argv": [
+            "sacct",
+            "-n",
+            "-X",
+            "-P",
+            "-j",
+            "3054409",
+            "--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES,NodeList,JobName%128,Comment%128"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n"
+        },
+        {
+          "argv": [
+            "sacct",
+            "-n",
+            "-X",
+            "-P",
+            "-j",
+            "3054409",
+            "--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES,NodeList,JobName%128,Comment%128"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n"
+        }
+      ],
+      "queue": {},
+      "raw_sacct": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n",
+      "raw_squeue": "",
+      "rows": {
+        "3054409": {
+          "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+          "elapsed_seconds": 326,
+          "exit_code": "0:0",
+          "gpus": 1,
+          "job_id": "3054409",
+          "node": "gpu4008",
+          "scheduler_comment": "",
+          "scheduler_name": "cti_object_linked_t8s49d1",
+          "status": "COMPLETED"
+        }
+      },
+      "terminal_confirmation": {
+        "all_initial_terminal_rows_confirmed": [
+          "3054409"
+        ],
+        "raw_sacct": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n",
+        "stale_registry_terminal_ids": [
+          "3054409"
+        ]
+      }
+    }
+  },
+  "accounting_before": {
+    "jobs": {
+      "3054409": {
+        "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+        "elapsed_seconds": 326,
+        "exit_code": "0:0",
+        "gpus": 1,
+        "job_id": "3054409",
+        "node": "gpu4008",
+        "scheduler_comment": "",
+        "scheduler_name": "cti_object_linked_t8s49d1",
+        "status": "COMPLETED"
+      }
+    },
+    "real_observation": {
+      "initial_raw_sacct": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n",
+      "queries": [
+        {
+          "argv": [
+            "sacct",
+            "-n",
+            "-X",
+            "-P",
+            "-j",
+            "3054409",
+            "--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES,NodeList,JobName%128,Comment%128"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n"
+        },
+        {
+          "argv": [
+            "sacct",
+            "-n",
+            "-X",
+            "-P",
+            "-j",
+            "3054409",
+            "--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES,NodeList,JobName%128,Comment%128"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n"
+        }
+      ],
+      "queue": {},
+      "raw_sacct": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n",
+      "raw_squeue": "",
+      "rows": {
+        "3054409": {
+          "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+          "elapsed_seconds": 326,
+          "exit_code": "0:0",
+          "gpus": 1,
+          "job_id": "3054409",
+          "node": "gpu4008",
+          "scheduler_comment": "",
+          "scheduler_name": "cti_object_linked_t8s49d1",
+          "status": "COMPLETED"
+        }
+      },
+      "terminal_confirmation": {
+        "all_initial_terminal_rows_confirmed": [
+          "3054409"
+        ],
+        "raw_sacct": "3054409|COMPLETED|0:0|326|billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1|gpu4008|cti_object_linked_t8s49d1|\n",
+        "stale_registry_terminal_ids": [
+          "3054409"
+        ]
+      }
+    }
+  },
+  "completed_utc": "2026-10-21T03:47:36.926431+00:00",
+  "excluded": [
+    {
+      "job_id": "3054409",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/.evaluation.lock",
+      "reason": "unregistered_nonweight_extension"
+    }
+  ],
+  "files": [
+    {
+      "action": "downloaded_verified",
+      "bytes": 2653,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/job_receipts/3054409.json",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/job_receipts/3054409.json",
+      "relative": "results/formal_main_v2/job_receipts/3054409.json",
+      "sha256": "c4352d3c03fbc924e44c730c854035bccc69adc64216d6ca0aa139b7815e115f"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 4396,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/adapter_invocations/3054409_d58ca7f8e2db45c093dfa23c56c05fd1.json",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/adapter_invocations/3054409_d58ca7f8e2db45c093dfa23c56c05fd1.json",
+      "relative": "results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/adapter_invocations/3054409_d58ca7f8e2db45c093dfa23c56c05fd1.json",
+      "sha256": "744d679c0fa7e20d684fefbbddd19b2fab89490c4ea2b40dcece2cd630d591ba"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 5656,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/adapter_invocations/3054409_d58ca7f8e2db45c093dfa23c56c05fd1.jsonl",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/adapter_invocations/3054409_d58ca7f8e2db45c093dfa23c56c05fd1.jsonl",
+      "relative": "results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/adapter_invocations/3054409_d58ca7f8e2db45c093dfa23c56c05fd1.jsonl",
+      "sha256": "3bad1e10c8721df9935d3fb76af0afd4bdafe3b508360f7dbef45456424e76bf"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 29150,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/closed_loop_report.json",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/closed_loop_report.json",
+      "relative": "results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/closed_loop_report.json",
+      "sha256": "f9df08f6cc4dd9ccf6676931d5c7c3a5c3aefd4805140f689c30da70044d09a1"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 19335,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/config.json",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/config.json",
+      "relative": "results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/config.json",
+      "sha256": "ccbb680ade2c6cab783568ea34f2fd3d3ae9abb69a62e7088f53d7150dad27a5"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 238727,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/panel.json",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/panel.json",
+      "relative": "results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/panel.json",
+      "sha256": "6b7e6dd9fb5b6351ee47c7bb30eab911e7c144d700cd88f7e5162641738b2d6a"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 118056,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/trials.jsonl",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/trials.jsonl",
+      "relative": "results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01/trials.jsonl",
+      "sha256": "ec9feefaa0bcdc2ea7514e9f5bea2bb01f828a1a2003ac7f20422f46cd663ece"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 82644,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/object_single_error_invocations/3054409/action_events.jsonl",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/object_single_error_invocations/3054409/action_events.jsonl",
+      "relative": "results/formal_main_v2/object_single_error_invocations/3054409/action_events.jsonl",
+      "sha256": "8d40ed3c6498afb6ccd1977f2e6c47ad99705d6b7da310a54db825082ae69ac6"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 2549,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/object_single_error_invocations/3054409/completion.json",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/object_single_error_invocations/3054409/completion.json",
+      "relative": "results/formal_main_v2/object_single_error_invocations/3054409/completion.json",
+      "sha256": "3fd481e5d668493e632cd6d13b6d61e89be0fc13935ceaa0c59e4ba52b2ef0ec"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 11097,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/object_single_error_invocations/3054409/identity.json",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/object_single_error_invocations/3054409/identity.json",
+      "relative": "results/formal_main_v2/object_single_error_invocations/3054409/identity.json",
+      "sha256": "a14952078ee5f92ae24d2b23721e0d03e6e39216e80408365b2a7202fb4c336d"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 12434,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/formal_main_v2/object_single_error_invocations/3054409/iterator_events.jsonl",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/object_single_error_invocations/3054409/iterator_events.jsonl",
+      "relative": "results/formal_main_v2/object_single_error_invocations/3054409/iterator_events.jsonl",
+      "sha256": "c9427297ac267597f3a8445ea2c40f04d436d664e091b932d8d41e129230e86d"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 1798,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti_object_linked_t8s49d1_3054409.err",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_3054409.err",
+      "relative": "results/slurm/cti_object_linked_t8s49d1_3054409.err",
+      "sha256": "0dc74ff8d5e49f516012156d0382c2465356b7b00cd8ce49fdc79ac60b5e043d"
+    },
+    {
+      "action": "downloaded_verified",
+      "bytes": 206,
+      "job_ids": [
+        "3054409"
+      ],
+      "local_path": "/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/results/slurm/cti_object_linked_t8s49d1_3054409.out",
+      "path": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_3054409.out",
+      "relative": "results/slurm/cti_object_linked_t8s49d1_3054409.out",
+      "sha256": "1dfb87489570e2bd3b7e419db6321fc89f9a3fcb89a7e242f5e9c7eeee6f867b"
+    }
+  ],
+  "final_evidence": true,
+  "inventory_sha256": "b6b3b842b8a6118ad77324160199f3b2f98bbfab140f511425c74d7f9d4a8406",
+  "kind": "nonweight_pull",
+  "missing": [],
+  "registered_jobs": [
+    {
+      "ACK_reconciled_by_token_comment": true,
+      "account": "p_p15016",
+      "adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "automatic_retry": false,
+      "downstream_gateway": {
+        "actual_sbatch_argv": [
+          "sbatch",
+          "--hold",
+          "--parsable",
+          "--no-requeue",
+          "--exclude=gpu4020",
+          "--comment=cti-object-single-error:f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+          "--job-name=cti_object_linked_t8s49d1",
+          "--account=p_p15016",
+          "--qos=cpu-500_core-l40-8_card-a800-8_card",
+          "--partition=L40",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=7",
+          "--gres=gpu:l40:1",
+          "--mem=64G",
+          "--time=00:30:00",
+          "--chdir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+          "--output=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.out",
+          "--error=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.err",
+          "--export=ALL",
+          "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_object_single_error_gateway_v1/run.slurm",
+          "b7e8469b22a82838594a15208cc1f11d294d5950c5c2cd97c2ab7eb20688bf20"
+        ],
+        "authorization": {
+          "bytes": 3661,
+          "path": "results/formal_main_v2/execution/object_single_error_v1/submission_authorization.json",
+          "sha256": "c4554b5032284526495a973f3ca58ab054dc907595d34520eeec0852dd92842d"
+        },
+        "automatic_retry": false,
+        "request_token": "cti-object-single-error:f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+        "version": "object-single-error-atomic-gateway-v1"
+      },
+      "elapsed_seconds": 67,
+      "execution_manifest_sha256": "34062573869c7b947fbd3c37b09da476bec673e8e16fc4ea49c6ce8c5932db5a",
+      "execution_version": "object-single-error-linked-v1",
+      "exit_code": "0:0",
+      "experiment": "formal_main_v2",
+      "final_states_opened": false,
+      "gpus": 1,
+      "invocation": "results/formal_main_v2/invocations/object_single_error_task08_state0049_dense_attempt01.json",
+      "invocation_sha256": "b7e8469b22a82838594a15208cc1f11d294d5950c5c2cd97c2ab7eb20688bf20",
+      "job_id": "3054409",
+      "job_name": "cti_object_linked_t8s49d1",
+      "linked_failure_sha256": "d7f134683c6e01c8667731c6ca6807290d91d7816d28197f48232de9bc271eb0",
+      "logical_trial_id": "libero_object:pick_up_the_chocolate_pudding_and_place_it_in_the_basket:state-0049:env-0:dense",
+      "maximum_attempts": 1,
+      "method_ids": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64",
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "mode": "object_single_error_linked",
+      "name": "cti_object_linked_t8s49d1",
+      "node": "gpu4008",
+      "object_single_error_gateway": {
+        "actual_sbatch_argv": [
+          "sbatch",
+          "--hold",
+          "--parsable",
+          "--no-requeue",
+          "--exclude=gpu4020",
+          "--comment=cti-object-single-error:f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+          "--job-name=cti_object_linked_t8s49d1",
+          "--account=p_p15016",
+          "--qos=cpu-500_core-l40-8_card-a800-8_card",
+          "--partition=L40",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=7",
+          "--gres=gpu:l40:1",
+          "--mem=64G",
+          "--time=00:30:00",
+          "--chdir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+          "--output=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.out",
+          "--error=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.err",
+          "--export=ALL",
+          "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_object_single_error_gateway_v1/run.slurm",
+          "b7e8469b22a82838594a15208cc1f11d294d5950c5c2cd97c2ab7eb20688bf20"
+        ],
+        "authorization": {
+          "bytes": 3661,
+          "path": "results/formal_main_v2/execution/object_single_error_v1/submission_authorization.json",
+          "sha256": "c4554b5032284526495a973f3ca58ab054dc907595d34520eeec0852dd92842d"
+        },
+        "automatic_retry": false,
+        "original_ACK_fact": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/sbatch_result.json",
+        "request_token": "f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+        "version": "object-single-error-atomic-gateway-v1"
+      },
+      "ordinary_resume": false,
+      "original_GPU_seconds": 6713,
+      "original_job_ids": [
+        "3021394",
+        "3021603",
+        "3021844"
+      ],
+      "original_sbatch_ACK": "3054409\n",
+      "pair_id": "c39b5da58df0b9e0e0e3e5de896906460bc4db2ec7d02b89f9254f04f1a2fb1a",
+      "partition": "L40",
+      "plan_sha256": "0f84bfaa652de7b79a2c58324ea53f9ea85565a3ea2169b05fcb269827b1e43f",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01",
+      "runtime_readiness": {
+        "bytes": 6348,
+        "path": "results/formal_main_v2/execution/object_single_error_v1/runtime_readiness.json",
+        "sha256": "5f59aaf26541db801e28f0b62905ad28cb5739a7974244f2f6b23cf88d3caa82"
+      },
+      "slurm_comment": "cti-object-single-error:f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+      "slurm_output": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.out",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "stage_key": "object_single_error_task08_state0049_dense_attempt01",
+      "status": "RUNNING",
+      "submission_token": "f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+      "submitted_utc": "2026-10-21T02:02:19.030447+00:00",
+      "suite": "libero_object",
+      "wrapper": "scripts/ops/formal_object_single_error_v1/entry.py",
+      "wrapper_sha256": "75553c3207815065c17951b9337b6221a9c3118fb917313f78859c5118958b94"
+    }
+  ],
+  "requested_job_ids": [
+    "3054409"
+  ],
+  "schema": "formal_main_v2",
+  "scientific_completion_inferred": false,
+  "sealed_initial_states_copied": false,
+  "selected_jobs": [
+    {
+      "ACK_reconciled_by_token_comment": true,
+      "account": "p_p15016",
+      "active_overlapping_job_ids": [],
+      "adapter_sha256": "b54dc0d87cbc10c639b0cf59475011f7a68809999862c14ebf02393e96764acd",
+      "allocation": "billing=7,cpu=7,gres/gpu:l40=1,gres/gpu=1,mem=64G,node=1",
+      "automatic_retry": false,
+      "downstream_gateway": {
+        "actual_sbatch_argv": [
+          "sbatch",
+          "--hold",
+          "--parsable",
+          "--no-requeue",
+          "--exclude=gpu4020",
+          "--comment=cti-object-single-error:f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+          "--job-name=cti_object_linked_t8s49d1",
+          "--account=p_p15016",
+          "--qos=cpu-500_core-l40-8_card-a800-8_card",
+          "--partition=L40",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=7",
+          "--gres=gpu:l40:1",
+          "--mem=64G",
+          "--time=00:30:00",
+          "--chdir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+          "--output=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.out",
+          "--error=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.err",
+          "--export=ALL",
+          "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_object_single_error_gateway_v1/run.slurm",
+          "b7e8469b22a82838594a15208cc1f11d294d5950c5c2cd97c2ab7eb20688bf20"
+        ],
+        "authorization": {
+          "bytes": 3661,
+          "path": "results/formal_main_v2/execution/object_single_error_v1/submission_authorization.json",
+          "sha256": "c4554b5032284526495a973f3ca58ab054dc907595d34520eeec0852dd92842d"
+        },
+        "automatic_retry": false,
+        "request_token": "cti-object-single-error:f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+        "version": "object-single-error-atomic-gateway-v1"
+      },
+      "elapsed_seconds": 67,
+      "execution_manifest_sha256": "34062573869c7b947fbd3c37b09da476bec673e8e16fc4ea49c6ce8c5932db5a",
+      "execution_version": "object-single-error-linked-v1",
+      "exit_code": "0:0",
+      "experiment": "formal_main_v2",
+      "final_states_opened": false,
+      "gpus": 1,
+      "include_run_root": true,
+      "invocation": "results/formal_main_v2/invocations/object_single_error_task08_state0049_dense_attempt01.json",
+      "invocation_sha256": "b7e8469b22a82838594a15208cc1f11d294d5950c5c2cd97c2ab7eb20688bf20",
+      "job_id": "3054409",
+      "job_name": "cti_object_linked_t8s49d1",
+      "linked_failure_sha256": "d7f134683c6e01c8667731c6ca6807290d91d7816d28197f48232de9bc271eb0",
+      "logical_trial_id": "libero_object:pick_up_the_chocolate_pudding_and_place_it_in_the_basket:state-0049:env-0:dense",
+      "maximum_attempts": 1,
+      "method_ids": [
+        "dense",
+        "uniform256",
+        "uniform128",
+        "uniform64",
+        "A128_seed17",
+        "B128_seed17"
+      ],
+      "mode": "object_single_error_linked",
+      "name": "cti_object_linked_t8s49d1",
+      "node": "gpu4008",
+      "object_single_error_gateway": {
+        "actual_sbatch_argv": [
+          "sbatch",
+          "--hold",
+          "--parsable",
+          "--no-requeue",
+          "--exclude=gpu4020",
+          "--comment=cti-object-single-error:f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+          "--job-name=cti_object_linked_t8s49d1",
+          "--account=p_p15016",
+          "--qos=cpu-500_core-l40-8_card-a800-8_card",
+          "--partition=L40",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=7",
+          "--gres=gpu:l40:1",
+          "--mem=64G",
+          "--time=00:30:00",
+          "--chdir=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+          "--output=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.out",
+          "--error=/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.err",
+          "--export=ALL",
+          "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/scripts/ops/formal_object_single_error_gateway_v1/run.slurm",
+          "b7e8469b22a82838594a15208cc1f11d294d5950c5c2cd97c2ab7eb20688bf20"
+        ],
+        "authorization": {
+          "bytes": 3661,
+          "path": "results/formal_main_v2/execution/object_single_error_v1/submission_authorization.json",
+          "sha256": "c4554b5032284526495a973f3ca58ab054dc907595d34520eeec0852dd92842d"
+        },
+        "automatic_retry": false,
+        "original_ACK_fact": "results/formal_main_v2/execution/object_single_error_v1/gateway_attempt01/sbatch_result.json",
+        "request_token": "f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+        "version": "object-single-error-atomic-gateway-v1"
+      },
+      "ordinary_resume": false,
+      "original_GPU_seconds": 6713,
+      "original_job_ids": [
+        "3021394",
+        "3021603",
+        "3021844"
+      ],
+      "original_sbatch_ACK": "3054409\n",
+      "pair_id": "c39b5da58df0b9e0e0e3e5de896906460bc4db2ec7d02b89f9254f04f1a2fb1a",
+      "partition": "L40",
+      "plan_sha256": "0f84bfaa652de7b79a2c58324ea53f9ea85565a3ea2169b05fcb269827b1e43f",
+      "run_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/formal_main_v2/libero_object/downstream/linked_policy_error_correction/task08_state0049_dense/attempt01",
+      "runtime_readiness": {
+        "bytes": 6348,
+        "path": "results/formal_main_v2/execution/object_single_error_v1/runtime_readiness.json",
+        "sha256": "5f59aaf26541db801e28f0b62905ad28cb5739a7974244f2f6b23cf88d3caa82"
+      },
+      "slurm_comment": "cti-object-single-error:f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+      "slurm_output": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/results/slurm/cti_object_linked_t8s49d1_%j.out",
+      "source_root": "/ssdfs/datahome/u15016/XXY_CVPR/CTI-VLA/snapshots/formal_main_v2_run_564be0995e",
+      "source_sha256": "dd3e5450e80b8e1f05a78acf6a05daf393f7362420fd8e87a8e6f5ec03feb61e",
+      "stage_key": "object_single_error_task08_state0049_dense_attempt01",
+      "status": "RUNNING",
+      "submission_token": "f0a1cf77a5061b2f66f31e20ea1e1d1a1be89f61a6550ff0497f96f01ca59a12",
+      "submitted_utc": "2026-10-21T02:02:19.030447+00:00",
+      "suite": "libero_object",
+      "wrapper": "scripts/ops/formal_object_single_error_v1/entry.py",
+      "wrapper_sha256": "75553c3207815065c17951b9337b6221a9c3118fb917313f78859c5118958b94"
+    }
+  ],
+  "skipped": [],
+  "started_utc": "2026-10-21T03:47:36.926371+00:00",
+  "status": "verified_nonweight_snapshot",
+  "supervisor_state_sha256": "bd3df44300cf38e719a3387dc2de1ed8ffdf268e7a4fb792160c17c48b9632aa",
+  "weights_copied": false
+}
