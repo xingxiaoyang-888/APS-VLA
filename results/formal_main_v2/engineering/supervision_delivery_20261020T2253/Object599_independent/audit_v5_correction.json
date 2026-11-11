@@ -1,9 +1,0 @@
-{
-  "kind": "independent_audit_inspect_newline_correction",
-  "previous_script_sha256": "288b4ad7332b8d46d445d11b9b5f24544e504a897388bf7363d81128a0fe4715",
-  "new_script_sha256": "ee452993cc981d6c6f04d9c1d72612310ef10a7eea88f3349a9e24650b7b8136",
-  "reason": "Pinned robosuite wheel Python files use CRLF, while inspect.getsource captures universal-newline LF. Recheck exact pinned full-file bytes, exact method text after CRLF-to-LF only, and whole method AST parsed inside a class to retain docstring indentation. All4 actual Object controller method captures independently satisfy both checks.",
-  "prior_audits_and_failures_retained": true,
-  "scientific_evidence_modified": false,
-  "GPU_seconds": 0
-}

@@ -1,8 +1,0 @@
-{
-  "kind": "independent_audit_source_format_correction",
-  "previous_script_sha256": "73286279ef0650610ce374148e3a57db809c650c81d3817c8c81e18fde3104b7",
-  "new_script_sha256": "288b4ad7332b8d46d445d11b9b5f24544e504a897388bf7363d81128a0fe4715",
-  "reason": "textwrap.dedent applied to captured class-method source also altered indentation inside docstring literals, causing a false AST mismatch. Require exact captured inspect-source bytes equal the original full-file method line slice; no normalization and no scientific guard is weakened.",
-  "prior_failure_and_sources_retained": true,
-  "GPU_seconds": 0
-}

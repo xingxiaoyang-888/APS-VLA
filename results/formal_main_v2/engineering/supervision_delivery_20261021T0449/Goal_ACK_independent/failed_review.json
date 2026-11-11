@@ -1,7 +1,0 @@
-{
-  "checks_so_far": 1538,
-  "error": "'pending_submission'",
-  "error_type": "KeyError",
-  "status": "failed",
-  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_remaining5_ACK_independent_20261021T0449/audit_transactions.py\", line 186, in <module>\n    try:main()\n        ^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_remaining5_ACK_independent_20261021T0449/audit_transactions.py\", line 165, in main\n    need(final['pending_submission'] is None and final['autonomous_training_v1']['reserved_GPU_slots']==0 and final['autonomous_training_v1']['pending_submission'] is None,'both pending clear after real commits; reserve0')\n                                                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nKeyError: 'pending_submission'\n"
-}

@@ -1,8 +1,0 @@
-{
-  "scope": "CPU candidate implementation only; no experiment mutation",
-  "source_sha256": "ea6d1bea0f8bb8467b4ca18f54ef7a4cb1f476c0bd6faa1e311d79f18c2400db",
-  "log_sha256": "323bad448ca1484f99f2d77030440c65fedd54cd7e99ac8e37afc56c7497f851",
-  "reason": "Expected adapter_end.status=completed incorrectly. Raw original protocol uses returned plus runner_status=incomplete for first5 segments and completed for3019954.",
-  "correction": "Assert exact original returned state and partial/final scientific status; additionally canonical run_config signature cross-check",
-  "new_GPU_seconds": 0
-}

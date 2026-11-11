@@ -1,1 +1,0 @@
-非权重开发观测完整交付。tar.gz只含288个arrays/相对路径NPZ，单文件小于100MiB，流式解包后每个原SHA和长度均通过。原NPZ保留P，未修改任何JSONL归档器或绕过断言。此私有包可由root精确复制并提交GitHub，作者未改state/docs/Git、未提交GPU。原Goal200科学HOLD不变；归档不增加科学试验。

@@ -1,9 +1,0 @@
-{
-  "checks_completed": 529,
-  "error": "AssertionError('all-five-ACKs-previously-independently-reconstructed')",
-  "index_sha256": "7b84527592221abab8dffc3096a623432c8d92560c89f57dc04cc5b13046f6a6",
-  "no_state_or_index_writes": true,
-  "state_sha256": "0621504d45ef43e44f6d46c01d0a8c4d0c9acdfdd29d05df9101d75979fc5d6e",
-  "status": "review_failed",
-  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_remaining5_Delivery_independent_20261021T0449/audit_delivery.py\", line 166, in <module>\n    need(ackreview['real_submissions_verified']==ackreview['original_ACK_reconciliations_verified']==ackreview['real_release_attempts_verified']==5 and ackreview['checks']==1574,'all-five-ACKs-previously-independently-reconstructed')\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_remaining5_Delivery_independent_20261021T0449/audit_delivery.py\", line 23, in need\n    if not v:raise AssertionError(n)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: all-five-ACKs-previously-independently-reconstructed\n"
-}

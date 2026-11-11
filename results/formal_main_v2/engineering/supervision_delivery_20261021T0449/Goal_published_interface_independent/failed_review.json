@@ -1,9 +1,0 @@
-{
-  "GPU_execution_authorized": false,
-  "checks_so_far": 1842,
-  "error": "'Namespace' object has no attribute 'seed'",
-  "exception": "AttributeError",
-  "schema": "formal_main_v2",
-  "status": "failed",
-  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_remaining5_published_integration_20261021T0449/check_published.py\", line 163, in <module>\n    try:main()\n        ^^^^^^\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_remaining5_published_integration_20261021T0449/check_published.py\", line 134, in main\n    a=ctx['args'];need(a.seed==17 and a.environment_seed==0 and not a.resume and not a.prepare_only,'original runtime/environment seeds and fresh scope '+key)\n                       ^^^^^^\nAttributeError: 'Namespace' object has no attribute 'seed'\n"
-}

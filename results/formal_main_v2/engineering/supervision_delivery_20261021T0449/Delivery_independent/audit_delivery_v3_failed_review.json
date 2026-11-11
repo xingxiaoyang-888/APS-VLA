@@ -1,9 +1,0 @@
-{
-  "checks_completed": 36121,
-  "error": "AssertionError('19-explicit-CPU-archives-only')",
-  "index_sha256": "7b84527592221abab8dffc3096a623432c8d92560c89f57dc04cc5b13046f6a6",
-  "no_state_or_index_writes": true,
-  "state_sha256": "0621504d45ef43e44f6d46c01d0a8c4d0c9acdfdd29d05df9101d75979fc5d6e",
-  "status": "review_failed",
-  "traceback": "Traceback (most recent call last):\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_remaining5_Delivery_independent_20261021T0449/audit_delivery_v3.py\", line 290, in <module>\n    need(len(tarpaths)==19 and all(n.startswith(E+'/') and '/archives/CPU_' in n for n in tarpaths),'19-explicit-CPU-archives-only')\n  File \"/share/home/u15016/XXY_CVPR/CTI-VLA/control_repo/.local/goal_remaining5_Delivery_independent_20261021T0449/audit_delivery_v3.py\", line 23, in need\n    if not v:raise AssertionError(n)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 19-explicit-CPU-archives-only\n"
-}

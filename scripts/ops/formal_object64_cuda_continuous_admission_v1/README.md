@@ -1,9 +1,0 @@
-# Object64 seed23 一次连续续跑入口
-
-仅适用于原失败3028468与恢复3044017，A/B各500步、样本游标4000。失败69秒及恢复5141秒共5210 GPU秒保留。授权见 configs/experiments/formal_main_v2_object64_cuda_continuous_3044017_v1.json。
-
-部署和训练科学源不变；原Object metadata wrapper，5000步全程调度、val0及每500共11次验证。继续前由原训练器完整校验并恢复optimizer、RNG及游标。48小时分配、169200秒正常软时限、每50步checkpoint，不以这次控制修正改变实验规模。
-
-默认只读；root实际提交必须通过已审server_control_transport_v1、确切gateway及授权SHA，显式 --submit --root-reviewed-submit。提交前完整已登记作业、owner/lease、单pair活动、pending、保留预约及最多8 GPU均须现场通过。此历史失败pair仍保留controller blocked记录，不因新授权清空或自动重试。不确定提交保留pending并按原ACK/token对账，禁止删除pending或盲重发。
-
-本轮作者55项与独审15项CPU检查，root已重建真实非权重证据及两resume字节哈希。记录在 results/formal_main_v2/preflight/heartbeat_20261020T1038/Object64_continuous_publication.json。当前没有新GPU提交或最终评测release；正常作业不做本轮内实时轮询。

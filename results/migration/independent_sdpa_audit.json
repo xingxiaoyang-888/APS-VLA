@@ -1,9 +1,0 @@
-{
-  "kind": "independent_pinned_source_attention_probe",
-  "source": "https://raw.githubusercontent.com/moojink/transformers-openvla-oft/bc339d9ad707454c0c115970db43c260067c61ab/src/transformers/models/llama/modeling_llama.py",
-  "method_sha256": "46e487c53cd67d3ffbbf9f0274d6c855c214b03e8169bb4b9258dd1e2d7948e1",
-  "probe": "zero Q/K, identity V/O, triangular input mask; each query must average all three value tokens",
-  "bidirectional_probe_passed": true,
-  "max_abs_error": 0.0,
-  "limitations": "Tests the pinned forward method with stubbed projection/RoPE, not installed GPU runtime or model weights."
-}

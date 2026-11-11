@@ -1,9 +1,0 @@
-# Spatial 原12条兼容证明（作者阶段）
-
-仅针对3022743在固定Spatial600开发面板中真实执行的12条，122个完整chunk、917个控制动作；含所有未执行chunk尾部。原root partial gate、源/配置/基座/选模checkpoint、初态、安装链与当前动作AST均逐项核对。当前仅CPU作者证明通过，尚须独立审查与root显式接纳。没有重放新的模拟器轨迹，也不将旧12标成当前wrapper产生。
-
-控制器身份为有来源支撑的历史推断：旧成功安装/实际导入日志/原LIBERO整包校验，加全部1058个已安装成员与wheel字节一致，稳定inode的ctime/mtime早于旧Spatial作业；不是补造旧实例capture。RNG依据固定逐trial reseed、原环境工厂与唯一纯numpy范围分支删除的AST不变，加CPU回放无Python/NumPy随机消耗；未伪造旧RNG dump。
-
-prove_spatial12.py首轮生成；verify_saved.py通过同一已审transport精确SHA运行可完整复核已有结果，不覆写证据。所有源码/结果均在本私有目录。a1/a2/a3/a4为保留的作者脚本接口失败，分别误将原consumer附加verified_files字段等同原root整个dict、误用manifest.stage、先由helper导入canonical模块而后要求S路径、误写robosuite warning路径；改为真实schema和同原字节的源导入，没有降低科学条件。四次CPU失败及最终成功transport日志单独登记，GPU成本0。
-
-下一阶段仅可为原600清单剩余588建立：typed所有Slurm尝试[3022743,3042529]与已执行ledger历史[3022743]分离；3042529仍FAILED1:0、2GPU秒、无child/adapter/ledger，绝不伪造。接纳12必须绑定本逐trial证明、独审与root；终验保留12旧来源+588当前来源，并按原current-only gate额外消费兼容映射。

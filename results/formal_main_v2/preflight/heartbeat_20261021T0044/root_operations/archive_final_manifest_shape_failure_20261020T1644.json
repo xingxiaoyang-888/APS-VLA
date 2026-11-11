@@ -1,9 +1,0 @@
-{
-  "status": "bounded_archive_reader_schema_fix",
-  "initial_source_sha256": "f58d57e7250c784041f08eda10fbd45fc05a790c2f8e5cb1c5e3d5310adb8ceb",
-  "cause": "Author list uses package-relative path and explicit R-relative source; old archive reader assumed R-relative path.",
-  "failed_before_copy_or_receipt": true,
-  "new_GPU": 0,
-  "fix": "Require exact source == root/path and retain hash,size,containment,no-extra-file checks; original evidence unchanged.",
-  "diagnostic_python3_failure": "OS Python lacks Path.is_relative_to; actual transport continues using registered venv Python."
-}

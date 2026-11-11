@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "F:\CTI-VLA\.local\legacy_audit_independent_0626\check.py", line 353, in <module>
-    main()
-  File "F:\CTI-VLA\.local\legacy_audit_independent_0626\check.py", line 281, in main
-    values = inspect_record(row, identities[row["method"]], horizon)
-  File "F:\CTI-VLA\.local\legacy_audit_independent_0626\check.py", line 123, in inspect_record
-    check(md[key] == ident[key], "chunk/manifest identity: " + key)
-KeyError: 'training_seed'

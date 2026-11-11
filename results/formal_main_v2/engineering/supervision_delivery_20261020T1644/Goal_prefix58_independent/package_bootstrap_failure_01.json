@@ -1,7 +1,0 @@
-{
-  "GPU_seconds": 0,
-  "cause": "Auditor outer and inner source text both used triple single quotes. Entire stdin failed to parse; no packager source or artifact was written.",
-  "correction": "Change bootstrap outer delimiter to triple double quotes and script module docstring to a single-line quoted string. No reviewed candidate changed.",
-  "error": "SyntaxError: unterminated triple-quoted string literal (detected at line 58)",
-  "stage": "in-memory SSH Python source bootstrap before any candidate file creation"
-}
