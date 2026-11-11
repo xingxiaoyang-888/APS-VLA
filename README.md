@@ -14,7 +14,9 @@
 - **RoboCasa365.** We evaluate π0.5 and XR-1 on seen atomic, seen composite and unseen composite tasks. Results below average the 256- and 128-token budgets.
 - **Real robots.** We evaluate five tasks on dual-arm THESEUS-S1 and UR5 platforms, with 40 trials per task and policy.
 
-The code in this release covers the OpenVLA-OFT/LIBERO implementation. See the [training objective](src/cti_vla/training/future_auxiliary.py), [deployment code](src/cti_vla/evaluation/formal_runtime.py) and [experiment configurations](configs/experiments/formal_main_v2). [Setup and tests](docs/setup.md).
+## Quick start
+
+To run the OpenVLA-OFT/LIBERO implementation, follow the [setup and testing guide](docs/setup.md). It lists the training, rollout evaluation and latency profiling entry points. See also the [training objective](src/cti_vla/training/future_auxiliary.py), [deployment code](src/cti_vla/evaluation/formal_runtime.py) and [experiment configurations](configs/experiments/formal_main_v2).
 
 ## Results
 
@@ -42,3 +44,22 @@ The code in this release covers the OpenVLA-OFT/LIBERO implementation. See the [
 |---|---:|---:|---:|
 | π0.5 | 60.00 | 137.25 | 1.00× |
 | π0.5 + APS-VLA | 61.00 | 93.25 | 1.47× |
+
+## Cite APS-VLA
+
+<details>
+<summary>BibTeX</summary>
+
+```bibtex
+@misc{xing2026apsvlaactionguidedfutureawaretoken,
+  title={APS-VLA: Action-Guided and Future-Aware Token Pruning for Efficient Vision-Language-Action Models},
+  author={Xiaoyang Xing and Chun-Mei Feng and Anthony Cohn and Xiaoliang Gong and Asoke Nandi},
+  year={2026},
+  eprint={2611.13030},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI},
+  url={https://arxiv.org/abs/2611.13030},
+}
+```
+
+</details>
